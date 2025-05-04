@@ -3,181 +3,181 @@ export const expenseCategories = [
     id: 'home',
     name: 'Home',
     subcategories: [
-      { id: 'electricity-heating', name: 'Electricity and heating' },
-      { id: 'pets', name: 'Pets' },
-      { id: 'streaming-internet-phone', name: 'Streaming services, internet and phone' },
-      { id: 'house-cleaning', name: 'House cleaning' },
-      { id: 'rent-monthly-fee', name: 'Rent and monthly fee' },
-      { id: 'interior-decoration', name: 'Interior decoration and furnishing' },
-      { id: 'mortgage', name: 'Mortgage' },
-      { id: 'home-improvements', name: 'Home improvements and renovation' },
-      { id: 'holiday-home', name: 'Holiday home' },
-      { id: 'water-garbage', name: 'Water and garbage collection' },
-      { id: 'gardening', name: 'Gardening' },
-      { id: 'home-alarm', name: 'Home alarm' },
-      { id: 'other-household', name: 'Other household services' }
+      { id: 'electricity-heating' },
+      { id: 'pets' },
+      { id: 'streaming-internet-phone' },
+      { id: 'house-cleaning' },
+      { id: 'rent-monthly-fee' },
+      { id: 'interior-decoration' },
+      { id: 'mortgage' },
+      { id: 'home-improvements' },
+      { id: 'holiday-home' },
+      { id: 'water-garbage' },
+      { id: 'gardening' },
+      { id: 'home-alarm' },
+      { id: 'other-household' }
     ]
   },
   {
     id: 'car-transportation',
     name: 'Car and transportation',
     subcategories: [
-      { id: 'charging', name: 'Charging' },
-      { id: 'parking', name: 'Parking' },
-      { id: 'fuel', name: 'Fuel' },
-      { id: 'car-service', name: 'Car service' },
-      { id: 'taxi', name: 'Taxi' },
-      { id: 'public-transportation', name: 'Public transportation' },
-      { id: 'car-cleaning', name: 'Car cleaning' },
-      { id: 'car-loan-lease', name: 'Car loan and car lease' },
-      { id: 'motorcycle', name: 'Motorcycle' },
-      { id: 'other-transportation', name: 'Other car and transportation' }
+      { id: 'charging' },
+      { id: 'parking' },
+      { id: 'fuel' },
+      { id: 'car-service' },
+      { id: 'taxi' },
+      { id: 'public-transportation' },
+      { id: 'car-cleaning' },
+      { id: 'car-loan-lease' },
+      { id: 'motorcycle' },
+      { id: 'other-transportation' }
     ]
   },
   {
     id: 'leisure',
     name: 'Leisure time',
     subcategories: [
-      { id: 'association-memberships', name: 'Association memberships' },
-      { id: 'golfing', name: 'Golfing' },
-      { id: 'hunting', name: 'Hunting' },
-      { id: 'hiking-outdoor', name: 'Hiking and outdoor activities' },
-      { id: 'arts-crafts', name: 'Arts and crafts' },
-      { id: 'dancing', name: 'Dancing' },
-      { id: 'skiing-winter', name: 'Skiing and winter sports' },
-      { id: 'horseback-riding', name: 'Horseback riding' },
-      { id: 'biking', name: 'Biking' },
-      { id: 'photographing', name: 'Photographing' },
-      { id: 'music-instruments', name: 'Music and instruments' },
-      { id: 'parties-celebrations', name: 'Parties and celebrations' },
-      { id: 'charities', name: 'Charities' },
-      { id: 'movies-events', name: 'Movies, theaters and events' },
-      { id: 'lotteries-betting', name: 'Lotteries and betting' },
-      { id: 'bars-nightclubs', name: 'Bars, pubs and nightclubs' }
+      { id: 'association-memberships' },
+      { id: 'golfing' },
+      { id: 'hunting' },
+      { id: 'hiking-outdoor' },
+      { id: 'arts-crafts' },
+      { id: 'dancing' },
+      { id: 'skiing-winter' },
+      { id: 'horseback-riding' },
+      { id: 'biking' },
+      { id: 'photographing' },
+      { id: 'music-instruments' },
+      { id: 'parties-celebrations' },
+      { id: 'charities' },
+      { id: 'movies-events' },
+      { id: 'lotteries-betting' },
+      { id: 'bars-nightclubs' }
     ]
   },
   {
     id: 'shopping-services',
     name: 'Shopping and services',
     subcategories: [
-      { id: 'flowers-decor', name: 'Flowers and minor home decorating items' },
-      { id: 'electronics', name: 'Home electronics' },
-      { id: 'books-games', name: 'Books and games' },
-      { id: 'music-apps', name: 'Music and apps' },
-      { id: 'subscriptions-media', name: 'Subscriptions and media' },
-      { id: 'clothes-shoes', name: 'Clothes and shoes' },
-      { id: 'dry-clean-tailor', name: 'Dry clean and tailor' },
-      { id: 'jewelry-accessories', name: 'Jewelery and accessories' },
-      { id: 'tobacco', name: 'Tobacco' },
-      { id: 'alcohol', name: 'Alcohol' },
-      { id: 'gifts', name: 'Gifts' },
-      { id: 'shopping-other', name: 'Shopping and Services, other' }
+      { id: 'flowers-decor' },
+      { id: 'electronics' },
+      { id: 'books-games' },
+      { id: 'music-apps' },
+      { id: 'subscriptions-media' },
+      { id: 'clothes-shoes' },
+      { id: 'dry-clean-tailor' },
+      { id: 'jewelry-accessories' },
+      { id: 'tobacco' },
+      { id: 'alcohol' },
+      { id: 'gifts' },
+      { id: 'shopping-other' }
     ]
   },
   {
     id: 'loans-tax-fees',
     name: 'Loans, tax and fees',
     subcategories: [
-      { id: 'late-fees', name: 'Late fees and charges' },
-      { id: 'bank-fees', name: 'Bank and service fees' },
-      { id: 'private-loans', name: 'Private loans' },
-      { id: 'tax-payments', name: 'Tax payments' },
-      { id: 'other-loans-fees', name: 'Other loans, taxes and fees' }
+      { id: 'late-fees' },
+      { id: 'bank-fees' },
+      { id: 'private-loans' },
+      { id: 'tax-payments' },
+      { id: 'other-loans-fees' }
     ]
   },
   {
     id: 'health-beauty',
     name: 'Health and beauty',
     subcategories: [
-      { id: 'pharmacy', name: 'Pharmacy' },
-      { id: 'healthcare', name: 'Healthcare' },
-      { id: 'sports-exercise', name: 'Sports and exercise' },
-      { id: 'spa-massage', name: 'Spa and massage' },
-      { id: 'beauty-products', name: 'Beauty products' },
-      { id: 'hairdresser', name: 'Hairdresser' },
-      { id: 'optician', name: 'Optician' },
-      { id: 'other-health-beauty', name: 'Other health and beauty' }
+      { id: 'pharmacy' },
+      { id: 'healthcare' },
+      { id: 'sports-exercise' },
+      { id: 'spa-massage' },
+      { id: 'beauty-products' },
+      { id: 'hairdresser' },
+      { id: 'optician' },
+      { id: 'other-health-beauty' }
     ]
   },
   {
     id: 'children',
     name: 'Children',
     subcategories: [
-      { id: 'babysitting', name: 'Babysitting' },
-      { id: 'children-clothing', name: 'Children\'s clothing' },
-      { id: 'children-toys', name: 'Children\'s toys' },
-      { id: 'allowance', name: 'Weekly and monthly allowance' },
-      { id: 'children-activities', name: 'Children\'s activities' },
-      { id: 'childcare-products', name: 'Childcare products' },
-      { id: 'alimony', name: 'Alimony' },
-      { id: 'preschool-after-school', name: 'Preschool and after school center' },
-      { id: 'children-other', name: 'Children, other' }
+      { id: 'babysitting' },
+      { id: 'children-clothing' },
+      { id: 'children-toys' },
+      { id: 'allowance' },
+      { id: 'children-activities' },
+      { id: 'childcare-products' },
+      { id: 'alimony' },
+      { id: 'preschool-after-school' },
+      { id: 'children-other' }
     ]
   },
   {
     id: 'uncategorized',
     name: 'Uncategorised expenses',
     subcategories: [
-      { id: 'cash-withdrawals', name: 'Cash withdrawals' },
-      { id: 'swish', name: 'Swish' },
-      { id: 'uncategorized-transfers', name: 'Uncategorised transfers' },
-      { id: 'uncategorized-other', name: 'Uncategorised expenses other' },
-      { id: 'uncategorized-credit-card', name: 'Uncategorised credit card purchases' }
+      { id: 'cash-withdrawals' },
+      { id: 'swish' },
+      { id: 'uncategorized-transfers' },
+      { id: 'uncategorized-other' },
+      { id: 'uncategorized-credit-card' }
     ]
   },
   {
     id: 'insurance',
     name: 'Insurance',
     subcategories: [
-      { id: 'household-insurance', name: 'Household insurance' },
-      { id: 'car-insurance', name: 'Car insurance' },
-      { id: 'life-health-insurance', name: 'Life and health insurance' },
-      { id: 'income-insurance', name: 'A-kassa and/or income insurance' },
-      { id: 'accident-insurance', name: 'Accident insurance' },
-      { id: 'insurance-other', name: 'Insurance other' }
+      { id: 'household-insurance' },
+      { id: 'car-insurance' },
+      { id: 'life-health-insurance' },
+      { id: 'income-insurance' },
+      { id: 'accident-insurance' },
+      { id: 'insurance-other' }
     ]
   },
   {
     id: 'savings-investments',
     name: 'Savings and investments',
     subcategories: [
-      { id: 'savings-buffer', name: 'Savings buffer' },
-      { id: 'pension-savings', name: 'Pension savings' },
-      { id: 'securities-funds', name: 'Securities and fund savings' },
-      { id: 'savings-children', name: 'Savings children' },
-      { id: 'savings-other', name: 'Savings other' }
+      { id: 'savings-buffer' },
+      { id: 'pension-savings' },
+      { id: 'securities-funds' },
+      { id: 'savings-children' },
+      { id: 'savings-other' }
     ]
   },
   {
     id: 'vacation-traveling',
     name: 'Vacation and travelling',
     subcategories: [
-      { id: 'vacation-transport', name: 'Planes, trains and cars on vacation' },
-      { id: 'hotels-accommodation', name: 'Hotels and accomodation' },
-      { id: 'vacation-entertainment', name: 'Entertainment on vacation' },
-      { id: 'vacation-food', name: 'Vacation food and living expenses' },
-      { id: 'vacation-other', name: 'Vacation and travelling other' }
+      { id: 'vacation-transport' },
+      { id: 'hotels-accommodation' },
+      { id: 'vacation-entertainment' },
+      { id: 'vacation-food' },
+      { id: 'vacation-other' }
     ]
   },
   {
     id: 'education',
     name: 'Education',
     subcategories: [
-      { id: 'student-loan', name: 'Student loan' },
-      { id: 'education-fees', name: 'Education fees' },
-      { id: 'educational-equipment', name: 'Educational equipment' },
-      { id: 'education-other', name: 'Education other' }
+      { id: 'student-loan' },
+      { id: 'education-fees' },
+      { id: 'educational-equipment' },
+      { id: 'education-other' }
     ]
   },
   {
     id: 'food',
     name: 'Food',
     subcategories: [
-      { id: 'groceries', name: 'Groceries' },
-      { id: 'fast-food', name: 'Fast food' },
-      { id: 'candy-kiosks', name: 'Candy, ice cream and kiosks' },
-      { id: 'restaurants-cafes', name: 'Restaurants and cafes' },
-      { id: 'food-other', name: 'Other foods' }
+      { id: 'groceries' },
+      { id: 'fast-food' },
+      { id: 'candy-kiosks' },
+      { id: 'restaurants-cafes' },
+      { id: 'food-other' }
     ]
   }
 ] as const
