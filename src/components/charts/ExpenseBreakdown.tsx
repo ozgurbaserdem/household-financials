@@ -5,6 +5,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recha
 import { formatCurrency } from '@/lib/calculations'
 import { expenseCategories } from '@/data/expenseCategories'
 import type { ExpensesByCategory } from '@/lib/types'
+import { PieChart as PieChartIcon } from 'lucide-react'
 
 interface ExpenseBreakdownProps {
   expenses: ExpensesByCategory
@@ -39,12 +40,13 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
 
   if (chartData.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Expense Breakdown</CardTitle>
+      <Card className='shadow-lg rounded-2xl border border-gray-200'>
+        <CardHeader className='flex flex-row items-center gap-3 pb-2'>
+          <PieChartIcon className='w-7 h-7 text-blue-600' />
+          <CardTitle className='text-2xl font-bold text-gray-900'>Expense Breakdown</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex h-[300px] items-center justify-center text-muted-foreground">
+          <div className='flex h-[300px] items-center justify-center text-muted-foreground'>
             No expenses to display
           </div>
         </CardContent>
@@ -53,25 +55,27 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Expense Breakdown</CardTitle>
+    <Card className='shadow-lg rounded-2xl border border-gray-200'>
+      <CardHeader className='flex flex-row items-center gap-3 pb-2'>
+        <PieChartIcon className='w-7 h-7 text-blue-600' />
+        <CardTitle className='text-2xl font-bold text-gray-900'>Expense Breakdown</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className='h-[300px]'>
+          <ResponsiveContainer width='100%' height='100%'>
             <PieChart>
               <Pie
                 data={chartData}
-                cx="50%"
-                cy="50%"
+                cx='50%'
+                cy='50%'
                 labelLine={false}
                 outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name, percent }) => 
+                fill='#8884d8'
+                dataKey='value'
+                label={({ name, percent }) =>
                   `${name} (${(percent * 100).toFixed(0)}%)`
                 }
+                isAnimationActive={true}
               >
                 {chartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
@@ -82,10 +86,18 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
                 contentStyle={{
                   backgroundColor: 'hsl(var(--background))',
                   border: '1px solid hsl(var(--border))',
-                  borderRadius: '0.5rem'
+                  borderRadius: '0.5rem',
+                  color: '#222',
                 }}
               />
-              <Legend />
+              <Legend
+                iconType='circle'
+                wrapperStyle={{
+                  paddingTop: 12,
+                  fontSize: 14,
+                  color: '#555',
+                }}
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>

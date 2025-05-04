@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { expenseCategories } from '@/data/expenseCategories'
 import { formatCurrency } from '@/lib/calculations'
 import type { ExpensesByCategory } from '@/lib/types'
+import { List } from 'lucide-react'
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory
@@ -37,35 +38,36 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Expense Categories</CardTitle>
+    <Card className='shadow-lg rounded-2xl border border-gray-200'>
+      <CardHeader className='flex flex-row items-center gap-3 pb-2'>
+        <List className='w-7 h-7 text-blue-600' />
+        <CardTitle className='text-2xl font-bold text-gray-900'>Expense Categories</CardTitle>
       </CardHeader>
       <CardContent>
         <Accordion
-          type="multiple"
+          type='multiple'
           value={expandedCategories}
           onValueChange={setExpandedCategories}
-          className="space-y-4"
+          className='space-y-4'
         >
           {expenseCategories.map(category => {
             const categoryTotal = calculateCategoryTotal(category.id)
             return (
-              <AccordionItem key={category.id} value={category.id}>
-                <AccordionTrigger className="flex items-center justify-between">
-                  <span className="truncate flex-1">{category.name}</span>
-                  <span className="text-sm text-muted-foreground text-right w-24 flex-shrink-0">
+              <AccordionItem key={category.id} value={category.id} className='rounded-lg border border-gray-100 bg-gray-50 shadow-sm'>
+                <AccordionTrigger className='flex items-center justify-between px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors'>
+                  <span className='truncate flex-1 font-medium text-gray-800'>{category.name}</span>
+                  <span className='text-sm text-muted-foreground text-right w-24 flex-shrink-0'>
                     {formatCurrency(categoryTotal)}
                   </span>
                 </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-4 p-4">
+                <AccordionContent className='transition-all duration-200'>
+                  <div className='space-y-4 p-4'>
                     {category.subcategories.map(subcategory => (
-                      <div key={subcategory.id} className="flex items-center justify-between gap-4">
-                        <label className="text-sm">{subcategory.name}</label>
+                      <div key={subcategory.id} className='flex items-center justify-between gap-4'>
+                        <label className='text-sm text-gray-700'>{subcategory.name}</label>
                         <Input
-                          type="number"
-                          className="w-32"
+                          type='number'
+                          className='w-32 bg-white border border-gray-200 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 transition-all duration-150'
                           value={expenses[category.id]?.[subcategory.id] || 0}
                           onChange={e => handleExpenseChange(category.id, subcategory.id, e.target.value)}
                         />
@@ -78,10 +80,10 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
           })}
         </Accordion>
 
-        <div className="mt-6 border-t pt-4">
-          <div className="flex items-center justify-between">
-            <span className="font-medium">Total Expenses</span>
-            <span className="text-lg font-semibold">
+        <div className='mt-6 border-t pt-4'>
+          <div className='flex items-center justify-between'>
+            <span className='font-medium text-gray-800'>Total Expenses</span>
+            <span className='text-lg font-semibold text-blue-700'>
               {formatCurrency(calculateGrandTotal())}
             </span>
           </div>

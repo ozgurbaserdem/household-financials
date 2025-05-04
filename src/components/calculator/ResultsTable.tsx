@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { formatCurrency, formatPercentage } from '@/lib/calculations'
 import type { CalculationResult } from '@/lib/types'
+import { BarChart3 } from 'lucide-react'
 
 interface ResultsTableProps {
   results: CalculationResult[]
@@ -12,26 +13,27 @@ interface ResultsTableProps {
 
 export function ResultsTable({ results, totalIncome }: ResultsTableProps) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Calculation Results</CardTitle>
+    <Card className='shadow-lg rounded-2xl border border-gray-200'>
+      <CardHeader className='flex flex-row items-center gap-3 pb-2'>
+        <BarChart3 className='w-7 h-7 text-blue-600' />
+        <CardTitle className='text-2xl font-bold text-gray-900'>Calculation Results</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
+        <div className='overflow-x-auto'>
+          <Table className='min-w-full text-sm'>
+            <TableHeader className='bg-gray-50 sticky top-0 z-10'>
               <TableRow>
-                <TableHead>Interest Rate</TableHead>
-                <TableHead>Amortization</TableHead>
-                <TableHead>Housing Cost</TableHead>
-                <TableHead>Total Expenses</TableHead>
-                <TableHead>Total Income</TableHead>
-                <TableHead>Remaining Savings</TableHead>
+                <TableHead className='font-semibold text-gray-700'>Interest Rate</TableHead>
+                <TableHead className='font-semibold text-gray-700'>Amortization</TableHead>
+                <TableHead className='font-semibold text-gray-700'>Housing Cost</TableHead>
+                <TableHead className='font-semibold text-gray-700'>Total Expenses</TableHead>
+                <TableHead className='font-semibold text-gray-700'>Total Income</TableHead>
+                <TableHead className='font-semibold text-gray-700'>Remaining Savings</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {results.map((result, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} className='hover:bg-blue-50/40 transition-colors'>
                   <TableCell>{formatPercentage(result.interestRate)}</TableCell>
                   <TableCell>{formatPercentage(result.amortizationRate)}</TableCell>
                   <TableCell>{formatCurrency(result.totalHousingCost)}</TableCell>
@@ -40,8 +42,8 @@ export function ResultsTable({ results, totalIncome }: ResultsTableProps) {
                   <TableCell
                     className={
                       result.remainingSavings >= 0
-                        ? 'text-green-600'
-                        : 'text-red-600'
+                        ? 'text-green-600 font-bold'
+                        : 'text-red-600 font-bold'
                     }
                   >
                     {formatCurrency(result.remainingSavings)}

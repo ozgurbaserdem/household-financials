@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { CalculatorState } from '@/lib/types'
 import { calculateNetIncome } from '@/lib/calculations'
+import { Calculator } from 'lucide-react'
 
 const formSchema = z.object({
 	loanAmount: z.number().min(0),
@@ -53,145 +54,149 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 	}
 
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Loan Parameters</CardTitle>
+		<Card className='shadow-lg rounded-2xl border border-gray-200'>
+			<CardHeader className='flex flex-row items-center gap-3 pb-2'>
+				<Calculator className='w-7 h-7 text-blue-600' />
+				<CardTitle className='text-2xl font-bold text-gray-900'>Loan Parameters</CardTitle>
 			</CardHeader>
 
 			<CardContent>
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-						<FormField
-							control={form.control}
-							name="loanAmount"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Loan Amount (SEK)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={e => field.onChange(Number(e.target.value))}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+					<form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
+						<div className='grid grid-cols-1 gap-6'>
+							<FormField
+								control={form.control}
+								name='loanAmount'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className='text-gray-700'>Loan Amount (SEK)</FormLabel>
+										<FormControl>
+											<Input
+												type='number'
+												{...field}
+												onChange={e => field.onChange(Number(e.target.value))}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 
-						<div className="space-y-2">
-							<FormLabel>Interest Rates (%)</FormLabel>
-							<div className="flex flex-wrap gap-4">
-								{[2.5, 3, 3.5, 4, 4.5].map(rate => (
-									<FormField
-										key={rate}
-										control={form.control}
-										name="interestRates"
-										render={({ field }) => (
-											<FormItem className="flex items-center space-x-2">
-												<FormControl>
-													<Checkbox
-														checked={field.value.includes(rate)}
-														onCheckedChange={(checked: boolean) => {
-															const newValue = checked
-																? [...field.value, rate]
-																: field.value.filter((r: number) => r !== rate)
-															field.onChange(newValue)
-														}}
-													/>
-												</FormControl>
-												<FormLabel className="text-sm">{rate}%</FormLabel>
-											</FormItem>
-										)}
-									/>
-								))}
+							<div className='bg-gray-50 rounded-lg p-4'>
+								<FormLabel className='text-gray-700 mb-2 block'>Interest Rates (%)</FormLabel>
+								<div className='flex flex-wrap gap-4'>
+									{[2.5, 3, 3.5, 4, 4.5].map(rate => (
+										<FormField
+											key={rate}
+											control={form.control}
+											name='interestRates'
+											render={({ field }) => (
+												<FormItem className='flex items-center space-x-2'>
+													<FormControl>
+														<Checkbox
+															checked={field.value.includes(rate)}
+															onCheckedChange={(checked: boolean) => {
+																const newValue = checked
+																	? [...field.value, rate]
+																	: field.value.filter((r: number) => r !== rate)
+																field.onChange(newValue)
+															}}
+														/>
+													</FormControl>
+													<FormLabel className='text-sm'>{rate}%</FormLabel>
+												</FormItem>
+											)}
+										/>
+									))}
+								</div>
 							</div>
-						</div>
 
-						<div className="space-y-2">
-							<FormLabel>Amortization Rates (%)</FormLabel>
-							<div className="flex flex-wrap gap-4">
-								{[1, 2, 3, 4, 5].map(rate => (
-									<FormField
-										key={rate}
-										control={form.control}
-										name="amortizationRates"
-										render={({ field }) => (
-											<FormItem className="flex items-center space-x-2">
-												<FormControl>
-													<Checkbox
-														checked={field.value.includes(rate)}
-														onCheckedChange={(checked: boolean) => {
-															const newValue = checked
-																? [...field.value, rate]
-																: field.value.filter((r: number) => r !== rate)
-															field.onChange(newValue)
-														}}
-													/>
-												</FormControl>
-												<FormLabel className="text-sm">{rate}%</FormLabel>
-											</FormItem>
-										)}
-									/>
-								))}
+							<div className='bg-gray-50 rounded-lg p-4'>
+								<FormLabel className='text-gray-700 mb-2 block'>Amortization Rates (%)</FormLabel>
+								<div className='flex flex-wrap gap-4'>
+									{[1, 2, 3, 4, 5].map(rate => (
+										<FormField
+											key={rate}
+											control={form.control}
+											name='amortizationRates'
+											render={({ field }) => (
+												<FormItem className='flex items-center space-x-2'>
+													<FormControl>
+														<Checkbox
+															checked={field.value.includes(rate)}
+															onCheckedChange={(checked: boolean) => {
+																const newValue = checked
+																	? [...field.value, rate]
+																	: field.value.filter((r: number) => r !== rate)
+																field.onChange(newValue)
+															}}
+														/>
+													</FormControl>
+													<FormLabel className='text-sm'>{rate}%</FormLabel>
+												</FormItem>
+											)}
+										/>
+									))}
+								</div>
 							</div>
+
+							<FormField
+								control={form.control}
+								name='income1'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className='text-gray-700'>Income 1 (SEK)</FormLabel>
+										<FormControl>
+											<Input
+												type='number'
+												{...field}
+												onChange={e => field.onChange(Number(e.target.value))}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name='income2'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className='text-gray-700'>Income 2 (SEK)</FormLabel>
+										<FormControl>
+											<Input
+												type='number'
+												{...field}
+												onChange={e => field.onChange(Number(e.target.value))}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name='runningCosts'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className='text-gray-700'>Running Costs (SEK)</FormLabel>
+										<FormControl>
+											<Input
+												type='number'
+												{...field}
+												onChange={e => field.onChange(Number(e.target.value))}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 						</div>
-
-						<FormField
-							control={form.control}
-							name="income1"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Income 1 (SEK)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={e => field.onChange(Number(e.target.value))}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name="income2"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Income 2 (SEK)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={e => field.onChange(Number(e.target.value))}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name="runningCosts"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Running Costs (SEK)</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											{...field}
-											onChange={e => field.onChange(Number(e.target.value))}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<Button type="submit">Calculate</Button>
+						<Button type='submit' className='w-full mt-4 text-lg py-3 rounded-xl shadow-lg hover:scale-[1.03] active:scale-95 transition-transform'>
+							Calculate
+						</Button>
 					</form>
 				</Form>
 			</CardContent>
