@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Ignore guides and cursor folders
+guides/
+.cursor/
+
+# If you specifically want to ignore certain files in .cursor
+.cursor/rules
+
+# Or if you want to ignore all of .cursor
+.cursor/
