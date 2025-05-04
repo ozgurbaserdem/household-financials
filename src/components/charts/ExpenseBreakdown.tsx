@@ -6,6 +6,7 @@ import { formatCurrency } from '@/lib/calculations'
 import { expenseCategories } from '@/data/expenseCategories'
 import type { ExpensesByCategory } from '@/lib/types'
 import { PieChart as PieChartIcon } from 'lucide-react'
+import React from 'react'
 
 interface ExpenseBreakdownProps {
   expenses: ExpensesByCategory
@@ -22,6 +23,23 @@ const COLORS = [
   '#82CA9D', '#FFC658', '#FF7C43', '#A4DE6C', '#D0ED57',
   '#FFB6C1', '#87CEEB', '#DDA0DD', '#F0E68C', '#98FB98'
 ]
+
+const CustomTooltip = ({
+	payload,
+}: {
+	payload?: { value: number, name: string }[]
+}) => {
+	if (!payload || !payload.length) return null
+	return (
+		<div
+			className='rounded-md px-3 py-2 shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900'
+		>
+			<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
+				{payload[0].name}: {formatCurrency(payload[0].value)}
+			</p>
+		</div>
+	)
+}
 
 export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
   const chartData: ChartData[] = expenseCategories
@@ -81,18 +99,7 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip
-                formatter={(value: number) => formatCurrency(value)}
-                contentStyle={{
-                  backgroundColor: 'hsl(var(--background), 1)',
-                  border: '1px solid hsl(var(--border), 1)',
-                  borderRadius: '0.5rem',
-                  color: 'var(--tw-prose-body, #222)',
-                }}
-                wrapperStyle={{
-                  color: 'inherit',
-                }}
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Legend
                 iconType='circle'
                 wrapperStyle={{

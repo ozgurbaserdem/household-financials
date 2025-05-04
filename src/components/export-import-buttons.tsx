@@ -32,10 +32,26 @@ function ExportImportButtons ({ state, onImport }: ExportImportButtonsProps) {
 
 	return (
 		<div className='flex gap-2'>
-			<Button type='button' onClick={handleExport}>
+			<Button 
+				type='button' 
+				onClick={handleExport}
+				variant='outline'
+				className='
+					bg-white hover:bg-gray-100 text-black
+					dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
+				'
+			>
 				Export CSV
 			</Button>
-			<Button type='button' onClick={handleImportClick}>
+			<Button 
+				type='button' 
+				onClick={handleImportClick}
+				variant='outline'
+				className='
+					bg-white hover:bg-gray-100 text-black
+					dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
+				'
+			>
 				Import CSV
 			</Button>
 			<input
@@ -49,4 +65,4 @@ function ExportImportButtons ({ state, onImport }: ExportImportButtonsProps) {
 	)
 }
 
-export default ExportImportButtons 
+export default ExportImportButtons
