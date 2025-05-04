@@ -12,6 +12,7 @@ import type { CalculatorState } from '@/lib/types'
 import { calculateNetIncome } from '@/lib/calculations'
 import { Calculator } from 'lucide-react'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const formSchema = z.object({
 	loanAmount: z.number().min(0),
@@ -47,6 +48,8 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 		}
 	})
 
+	const { t } = useTranslation()
+
 	// Reset form when values prop changes (e.g. after import)
 	useEffect(() => {
 		if (values) {
@@ -75,7 +78,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 		<Card className='shadow-lg rounded-2xl border border-gray-200'>
 			<CardHeader className='flex flex-row items-center gap-3 pb-2'>
 				<Calculator className='w-7 h-7 text-blue-600' />
-				<CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>Loan Parameters</CardTitle>
+				<CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>{t('loan_parameters.title')}</CardTitle>
 			</CardHeader>
 
 			<CardContent>
@@ -87,7 +90,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 								name='loanAmount'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className='text-gray-700 dark:text-gray-300'>Loan Amount (SEK)</FormLabel>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.loan_amount')}</FormLabel>
 										<FormControl>
 											<Input
 												type='number'
@@ -102,7 +105,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 							/>
 
 							<div className='bg-gray-50 dark:bg-gray-800 rounded-lg p-4'>
-								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>Interest Rates (%)</FormLabel>
+								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>{t('loan_parameters.interest_rates')}</FormLabel>
 								<div className='flex flex-wrap gap-4'>
 									{[2.5, 3, 3.5, 4, 4.5].map(rate => (
 										<FormField
@@ -131,7 +134,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 							</div>
 
 							<div className='bg-gray-50 dark:bg-gray-800 rounded-lg p-4'>
-								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>Amortization Rates (%)</FormLabel>
+								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>{t('loan_parameters.amortization_rates')}</FormLabel>
 								<div className='flex flex-wrap gap-4'>
 									{[1, 2, 3, 4, 5].map(rate => (
 										<FormField
@@ -164,7 +167,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 								name='income1'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className='text-gray-700 dark:text-gray-300'>Income 1 (SEK)</FormLabel>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.income1')}</FormLabel>
 										<FormControl>
 											<Input
 												type='number'
@@ -183,7 +186,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 								name='income2'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className='text-gray-700 dark:text-gray-300'>Income 2 (SEK)</FormLabel>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.income2')}</FormLabel>
 										<FormControl>
 											<Input
 												type='number'
@@ -202,7 +205,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 								name='runningCosts'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className='text-gray-700 dark:text-gray-300'>Running Costs (SEK)</FormLabel>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.running_costs')}</FormLabel>
 										<FormControl>
 											<Input
 												type='number'

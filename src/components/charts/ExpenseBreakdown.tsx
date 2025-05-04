@@ -7,6 +7,7 @@ import { expenseCategories } from '@/data/expenseCategories'
 import type { ExpensesByCategory } from '@/lib/types'
 import { PieChart as PieChartIcon } from 'lucide-react'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface ExpenseBreakdownProps {
   expenses: ExpensesByCategory
@@ -42,6 +43,8 @@ const CustomTooltip = ({
 }
 
 export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
+  const { t } = useTranslation()
+
   const chartData: ChartData[] = expenseCategories
     .map(category => {
       const categoryTotal = Object.values(expenses[category.id] || {}).reduce(
@@ -61,11 +64,13 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
       <Card className='shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900'>
         <CardHeader className='flex flex-row items-center gap-3 pb-2 dark:bg-gray-900'>
           <PieChartIcon className='w-7 h-7 text-blue-600' />
-          <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>Expense Breakdown</CardTitle>
+          <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+            {t('expense_breakdown.title')}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className='flex h-[300px] items-center justify-center text-muted-foreground dark:text-gray-400'>
-            No expenses to display
+            {t('expense_breakdown.no_expenses')}
           </div>
         </CardContent>
       </Card>
@@ -76,7 +81,9 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
     <Card className='shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900'>
       <CardHeader className='flex flex-row items-center gap-3 pb-2 dark:bg-gray-900'>
         <PieChartIcon className='w-7 h-7 text-blue-600' />
-        <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>Expense Breakdown</CardTitle>
+        <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+          {t('expense_breakdown.title')}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className='h-[300px]'>

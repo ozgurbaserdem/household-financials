@@ -5,29 +5,34 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { formatCurrency, formatPercentage } from '@/lib/calculations'
 import type { CalculationResult } from '@/lib/types'
 import { BarChart3 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface ResultsTableProps {
   results: CalculationResult[]
 }
 
 export function ResultsTable({ results }: ResultsTableProps) {
+  const { t } = useTranslation()
+
   return (
     <Card className='shadow-lg rounded-2xl border border-gray-200'>
       <CardHeader className='flex flex-row items-center gap-3 pb-2'>
         <BarChart3 className='w-7 h-7 text-blue-600' />
-        <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>Calculation Results</CardTitle>
+        <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+          {t('results.title')}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className='overflow-x-auto'>
           <Table className='min-w-full text-sm'>
             <TableHeader className='bg-gray-50 dark:bg-gray-800 sticky top-0 z-10'>
               <TableRow>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Interest Rate</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Amortization</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Housing Cost</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Total Expenses</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Total Income</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Remaining Savings</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.interest_rate')}</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.amortization')}</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.housing_cost')}</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.total_expenses')}</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.total_income')}</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.remaining_savings')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
