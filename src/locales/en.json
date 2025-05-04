@@ -6,7 +6,8 @@
 		"amortization_rates": "Amortization Rates (%)",
 		"income1": "Income 1 (SEK)",
 		"income2": "Income 2 (SEK)",
-		"running_costs": "Running Costs (SEK)"
+		"running_costs": "Running Costs (SEK)",
+		"calculate": "Calculate"
 	},
 	"expense_categories": {
 		"title": "Expense Categories",
@@ -170,5 +171,8 @@
 	"export_import": {
 		"export_csv": "Export CSV",
 		"import_csv": "Import CSV"
+	},
+	"app": {
+		"title": "Plånkan"
 	}
 } 

@@ -8,8 +8,8 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Financial Calculator',
-  description: 'A comprehensive financial calculator application',
+  title: 'Plånkan',
+  description: 'A comprehensive house hold economy application',
 }
 
 export default function RootLayout({

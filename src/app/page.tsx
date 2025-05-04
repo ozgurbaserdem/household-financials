@@ -10,6 +10,7 @@ import { calculateLoanScenarios } from '@/lib/calculations'
 import { DEFAULT_EXPENSES } from '@/data/expenseCategories'
 import type { CalculatorState, ExpensesByCategory } from '@/lib/types'
 import ExportImportButtons from '@/components/export-import-buttons'
+import { useTranslation } from 'react-i18next'
 
 function getFormValuesFromState(state: CalculatorState) {
 	return {
@@ -71,11 +72,13 @@ export default function Home() {
 		setResults(calculateLoanScenarios(merged))
 	}
 
+	const { t } = useTranslation()
+
 	return (
 		<main className='min-h-screen bg-gray-100 dark:bg-gray-950 flex flex-col items-center'>
 			<div className='w-full max-w-7xl px-4 py-10'>
 				<h1 className='text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-10 text-center tracking-tight'>
-					Financial Calculator
+					{t('app.title')}
 				</h1>
 				<div className='mb-6 flex justify-end'>
 					<ExportImportButtons

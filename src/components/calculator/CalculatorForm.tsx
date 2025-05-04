@@ -107,7 +107,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 							<div className='bg-gray-50 dark:bg-gray-800 rounded-lg p-4'>
 								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>{t('loan_parameters.interest_rates')}</FormLabel>
 								<div className='flex flex-wrap gap-4'>
-									{[2.5, 3, 3.5, 4, 4.5].map(rate => (
+									{[1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6].map(rate => (
 										<FormField
 											key={rate}
 											control={form.control}
@@ -219,8 +219,15 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 								)}
 							/>
 						</div>
-						<Button type='submit' className='w-full mt-4 text-lg py-3 rounded-xl shadow-lg hover:scale-[1.03] active:scale-95 transition-transform'>
-							Calculate
+						<Button
+							type='submit'
+							variant='outline'
+							className='
+								bg-white hover:bg-gray-100 text-black
+								dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
+							'
+						>
+							{t('loan_parameters.calculate')}
 						</Button>
 					</form>
 				</Form>
