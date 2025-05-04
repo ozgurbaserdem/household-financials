@@ -19,11 +19,8 @@ interface ChartData {
   color: string
 }
 
-const COLORS = [
-  '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8',
-  '#82CA9D', '#FFC658', '#FF7C43', '#A4DE6C', '#D0ED57',
-  '#FFB6C1', '#87CEEB', '#DDA0DD', '#F0E68C', '#98FB98'
-]
+const getColor = (index: number, total: number) =>
+	`hsl(${(index * 360) / total}, 70%, 60%)`
 
 const CustomTooltip = ({
 	payload,
@@ -46,15 +43,15 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
   const { t } = useTranslation()
 
   const chartData: ChartData[] = expenseCategories
-    .map(category => {
+    .map((category, idx) => {
       const categoryTotal = Object.values(expenses[category.id] || {}).reduce(
         (sum, amount) => sum + amount,
         0
       )
       return {
-        name: category.name,
+        name: t(`expense_categories.${category.id}.name`),
         value: categoryTotal,
-        color: COLORS[expenseCategories.indexOf(category) % COLORS.length]
+        color: getColor(idx, expenseCategories.length)
       }
     })
     .filter(data => data.value > 0)
@@ -97,9 +94,6 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
                 outerRadius={80}
                 fill='#8884d8'
                 dataKey='value'
-                label={({ name, percent }) =>
-                  `${name} (${(percent * 100).toFixed(0)}%)`
-                }
                 isAnimationActive={true}
               >
                 {chartData.map((entry, index) => (
