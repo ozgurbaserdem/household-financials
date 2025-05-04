@@ -40,7 +40,7 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
   }
 
   return (
-    <Card className='shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900'>
+    <Card className='shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 w-full'>
       <CardHeader className='flex flex-row items-center gap-3 pb-2'>
         <List className='w-7 h-7 text-blue-600' />
         <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
@@ -52,14 +52,14 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
           type='multiple'
           value={expandedCategories}
           onValueChange={setExpandedCategories}
-          className='space-y-4'
+          className='space-y-4 w-full'
         >
           {expenseCategories.map(category => {
             const categoryTotal = calculateCategoryTotal(category.id)
             return (
               <AccordionItem key={category.id} value={category.id} className='rounded-lg border border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'>
                 <AccordionTrigger className='flex items-center justify-between px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors'>
-                  <span className='truncate flex-1 font-medium text-gray-800 dark:text-gray-100'>
+                  <span className='font-medium text-gray-800 dark:text-gray-100 truncate whitespace-normal sm:truncate flex-1'>
                     {t(`expense_categories.${category.id}.name`)}
                   </span>
                   <span className='text-sm text-gray-500 dark:text-gray-300 text-right w-24 flex-shrink-0'>
@@ -108,7 +108,7 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
         </Accordion>
 
         <div className='mt-6 border-t border-gray-200 dark:border-gray-700 pt-4'>
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center justify-between flex-wrap gap-2'>
             <span className='font-medium text-gray-800 dark:text-gray-100'>
               {t('expense_categories.total_expenses')}
             </span>
