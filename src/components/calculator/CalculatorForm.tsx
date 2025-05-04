@@ -104,7 +104,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 								)}
 							/>
 
-							<div className='bg-gray-50 dark:bg-gray-800 rounded-lg p-4'>
+							<div className='bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4'>
 								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>{t('loan_parameters.interest_rates')}</FormLabel>
 								<div className='flex flex-wrap gap-4'>
 									{[1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6].map(rate => (
@@ -133,7 +133,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 								</div>
 							</div>
 
-							<div className='bg-gray-50 dark:bg-gray-800 rounded-lg p-4'>
+							<div className='bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4'>
 								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>{t('loan_parameters.amortization_rates')}</FormLabel>
 								<div className='flex flex-wrap gap-4'>
 									{[1, 2, 3, 4, 5].map(rate => (

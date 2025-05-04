@@ -11,6 +11,7 @@ import { DEFAULT_EXPENSES } from '@/data/expenseCategories'
 import type { CalculatorState, ExpensesByCategory } from '@/lib/types'
 import ExportImportButtons from '@/components/export-import-buttons'
 import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 function getFormValuesFromState(state: CalculatorState) {
 	return {
@@ -80,14 +81,16 @@ export default function Home() {
 				<h1 className='text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-6 sm:mb-10 text-center tracking-tight'>
 					{t('app.title')}
 				</h1>
-				<div className='grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 mb-6'>
+				<div className='mb-6 flex flex-col sm:flex-row justify-end items-end gap-2'>
 					<ExportImportButtons
 						state={calculatorState}
 						onImport={handleImport}
 					/>
+					<LanguageSwitcher />
 				</div>
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8'>
-				<section className='col-span-2 md:col-span-1 w-full bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-200 dark:border-gray-700'>						<CalculatorForm
+					<section className='col-span-2 md:col-span-1 w-full bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-200 dark:border-gray-700'>
+						<CalculatorForm
 							onSubmit={handleFormSubmit}
 							values={getFormValuesFromState(calculatorState)}
 						/>

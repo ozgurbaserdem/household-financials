@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import ClientI18nProvider from '@/components/ClientI18nProvider'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +22,6 @@ export default function RootLayout({
         <ClientI18nProvider>
           <Providers>
             {children}
-            <LanguageSwitcher />
           </Providers>
         </ClientI18nProvider>
       </body>
