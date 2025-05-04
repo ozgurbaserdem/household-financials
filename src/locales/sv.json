@@ -166,7 +166,13 @@
 		"housing_cost": "Boendekostnad",
 		"total_expenses": "Totala utgifter",
 		"total_income": "Total inkomst",
-		"remaining_savings": "Kvar att spara"
+		"remaining_savings": "Kvar att spara",
+		"interest_rate_tooltip": "Räntesatsen som används för lånescenariot.",
+		"amortization_tooltip": "Amorteringssatsen som används för lånescenariot.",
+		"housing_cost_tooltip": "Summa av amortering, räntebetalningar och driftskostnader.",
+		"total_expenses_tooltip": "Alla månatliga utgifter inklusive boende och övriga kategorier.",
+		"total_income_tooltip": "Total nettoinkomst efter skatt för alla sökande.",
+		"remaining_savings_tooltip": "Hur mycket som är kvar efter att alla utgifter är betalda."
 	},
 	"export_import": {
 		"export_csv": "Exportera CSV",

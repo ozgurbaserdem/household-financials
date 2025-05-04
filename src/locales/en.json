@@ -166,7 +166,13 @@
 		"housing_cost": "Housing Cost",
 		"total_expenses": "Total Expenses",
 		"total_income": "Total Income",
-		"remaining_savings": "Remaining Savings"
+		"remaining_savings": "Remaining Savings",
+		"interest_rate_tooltip": "The interest rate used for the loan scenario.",
+		"amortization_tooltip": "The amortization rate used for the loan scenario.",
+		"housing_cost_tooltip": "Sum of amortization, interest payments, and running costs.",
+		"total_expenses_tooltip": "All monthly expenses including housing and other categories.",
+		"total_income_tooltip": "Total net income after tax for all applicants.",
+		"remaining_savings_tooltip": "How much is left after all expenses are paid."
 	},
 	"export_import": {
 		"export_csv": "Export CSV",

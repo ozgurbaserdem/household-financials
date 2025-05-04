@@ -6,6 +6,7 @@ import { formatCurrency, formatPercentage } from '@/lib/calculations'
 import type { CalculationResult } from '@/lib/types'
 import { BarChart3 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 interface ResultsTableProps {
   results: CalculationResult[]
@@ -27,12 +28,78 @@ export function ResultsTable({ results }: ResultsTableProps) {
           <Table className='min-w-full text-sm'>
             <TableHeader className='bg-gray-50 dark:bg-gray-800 sticky top-0 z-10'>
               <TableRow>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.interest_rate')}</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.amortization')}</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.housing_cost')}</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.total_expenses')}</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.total_income')}</TableHead>
-                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>{t('results.remaining_savings')}</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span>{t('results.interest_rate')}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {t('results.interest_rate_tooltip')}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span>{t('results.amortization')}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {t('results.amortization_tooltip')}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span>{t('results.housing_cost')}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {t('results.housing_cost_tooltip')}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span>{t('results.total_expenses')}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {t('results.total_expenses_tooltip')}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span>{t('results.total_income')}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {t('results.total_income_tooltip')}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span>{t('results.remaining_savings')}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {t('results.remaining_savings_tooltip')}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

@@ -81,7 +81,7 @@ export default function Home() {
 				<h1 className='text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-6 sm:mb-10 text-center tracking-tight'>
 					{t('app.title')}
 				</h1>
-				<div className='mb-6 flex flex-col sm:flex-row justify-end items-end gap-2'>
+				<div className='mb-6 flex flex-row sm:flex-row justify-end items-end gap-2'>
 					<ExportImportButtons
 						state={calculatorState}
 						onImport={handleImport}
