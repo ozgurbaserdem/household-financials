@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import type { CalculatorState } from '@/lib/types'
 import { calculateNetIncome } from '@/lib/calculations'
 import { Calculator } from 'lucide-react'
+import { useEffect } from 'react'
 
 const formSchema = z.object({
 	loanAmount: z.number().min(0),
@@ -22,10 +23,18 @@ const formSchema = z.object({
 })
 
 interface CalculatorFormProps {
-	onSubmit: (state: CalculatorState) => void
+	onSubmit: (state: Partial<CalculatorState>) => void
+	values?: {
+		loanAmount: number
+		interestRates: number[]
+		amortizationRates: number[]
+		income1: number
+		income2: number
+		runningCosts: number
+	}
 }
 
-export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
+export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -38,6 +47,13 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 		}
 	})
 
+	// Reset form when values prop changes (e.g. after import)
+	useEffect(() => {
+		if (values) {
+			form.reset(values)
+		}
+	}, [values, form])
+
 	const handleSubmit = (values: z.infer<typeof formSchema>) => {
 		const netIncome1 = calculateNetIncome(values.income1)
 		const netIncome2 = calculateNetIncome(values.income2)
@@ -47,9 +63,11 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 				interestRates: values.interestRates,
 				amortizationRates: values.amortizationRates
 			},
-			totalIncome: netIncome1 + netIncome2,
-			runningCosts: values.runningCosts,
-			expenses: {} // This will be filled by the parent component
+			income1: netIncome1,
+			income2: netIncome2,
+			grossIncome1: values.income1,
+			grossIncome2: values.income2,
+			runningCosts: values.runningCosts
 		})
 	}
 

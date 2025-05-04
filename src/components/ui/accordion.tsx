@@ -25,7 +25,6 @@ function AccordionItem({
         // Dark mode
         "dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100",
         // Remove border on last item
-        "last:border-b-0",
         className
       )}
       {...props}

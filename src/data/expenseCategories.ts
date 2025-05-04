@@ -186,133 +186,133 @@ export type ExpenseCategory = typeof expenseCategories[number]
 export type ExpenseSubcategory = ExpenseCategory['subcategories'][number]
 
 export const DEFAULT_EXPENSES: Record<string, Record<string, number>> = {
-  home: {
-    'electricity-heating': 0,
-    'pets': 0,
-    'streaming-internet-phone': 0,
-    'house-cleaning': 0,
-    'rent-monthly-fee': 0,
-    'interior-decoration': 0,
-    'mortgage': 0,
-    'home-improvements': 0,
-    'holiday-home': 0,
-    'water-garbage': 0,
-    'gardening': 0,
-    'home-alarm': 0,
-    'other-household': 0
-  },
-  'car-transportation': {
-    'charging': 0,
-    'parking': 0,
-    'fuel': 0,
-    'car-service': 0,
-    'taxi': 0,
-    'public-transportation': 0,
-    'car-cleaning': 0,
-    'car-loan-lease': 0,
-    'motorcycle': 0,
-    'other-transportation': 0
-  },
-  leisure: {
-    'association-memberships': 0,
-    'golfing': 0,
-    'hunting': 0,
-    'hiking-outdoor': 0,
-    'arts-crafts': 0,
-    'dancing': 0,
-    'skiing-winter': 0,
-    'horseback-riding': 0,
-    'biking': 0,
-    'photographing': 0,
-    'music-instruments': 0,
-    'parties-celebrations': 0,
-    'charities': 0,
-    'movies-events': 0,
-    'lotteries-betting': 0,
-    'bars-nightclubs': 0
-  },
-  'shopping-services': {
-    'flowers-decor': 0,
-    'electronics': 0,
-    'books-games': 0,
-    'music-apps': 0,
-    'subscriptions-media': 0,
-    'clothes-shoes': 0,
-    'dry-clean-tailor': 0,
-    'jewelry-accessories': 0,
-    'tobacco': 0,
-    'alcohol': 0,
-    'gifts': 0,
-    'shopping-other': 0
-  },
-  'loans-tax-fees': {
-    'late-fees': 0,
-    'bank-fees': 0,
-    'private-loans': 0,
-    'tax-payments': 0,
-    'other-loans-fees': 0
-  },
-  'health-beauty': {
-    'pharmacy': 0,
-    'healthcare': 0,
-    'sports-exercise': 0,
-    'spa-massage': 0,
-    'beauty-products': 0,
-    'hairdresser': 0,
-    'optician': 0,
-    'other-health-beauty': 0
-  },
-  children: {
-    'babysitting': 0,
-    'children-clothing': 0,
-    'children-toys': 0,
-    'allowance': 0,
-    'children-activities': 0,
-    'childcare-products': 0,
-    'alimony': 0,
-    'preschool-after-school': 0,
-    'children-other': 0
-  },
-  uncategorized: {
-    'cash-withdrawals': 0,
-    'swish': 0,
-    'uncategorized-transfers': 0,
-    'uncategorized-other': 0,
-    'uncategorized-credit-card': 0
-  },
-  insurance: {
-    'household-insurance': 0,
-    'car-insurance': 0,
-    'life-health-insurance': 0,
-    'income-insurance': 0,
-    'accident-insurance': 0,
-    'insurance-other': 0
-  },
-  'savings-investments': {
-    'savings-buffer': 0,
-    'pension-savings': 0,
-    'securities-funds': 0,
-    'savings-children': 0,
-    'savings-other': 0
-  },
-  'vacation-traveling': {
-    'vacation-transport': 0,
-    'hotels-accommodation': 0,
-    'vacation-entertainment': 0,
-    'vacation-food': 0,
-    'vacation-other': 0
-  },
-  education: {
-    'student-loan': 0,
-    'education-fees': 0,
-    'educational-equipment': 0,
-    'education-other': 0
-  },
-  food: {
-    'groceries': 0,
-    'fast-food': 0,
-    'candy-kiosks': 0,
-    'restaurants-cafes': 0,
-    'food-other': 0
-  }
-} 
+	'home': {
+		'electricity-heating': 0,
+		'pets': 0,
+		'streaming-internet-phone': 0,
+		'house-cleaning': 0,
+		'rent-monthly-fee': 0,
+		'interior-decoration': 0,
+		'mortgage': 0,
+		'home-improvements': 0,
+		'holiday-home': 0,
+		'water-garbage': 0,
+		'gardening': 0,
+		'home-alarm': 0,
+		'other-household': 0
+	},
+	'car-transportation': {
+		'charging': 0,
+		'parking': 0,
+		'fuel': 0,
+		'car-service': 0,
+		'taxi': 0,
+		'public-transportation': 0,
+		'car-cleaning': 0,
+		'car-loan-lease': 0,
+		'motorcycle': 0,
+		'other-transportation': 0
+	},
+	'leisure': {
+		'association-memberships': 0,
+		'golfing': 0,
+		'hunting': 0,
+		'hiking-outdoor': 0,
+		'arts-crafts': 0,
+		'dancing': 0,
+		'skiing-winter': 0,
+		'horseback-riding': 0,
+		'biking': 0,
+		'photographing': 0,
+		'music-instruments': 0,
+		'parties-celebrations': 0,
+		'charities': 0,
+		'movies-events': 0,
+		'lotteries-betting': 0,
+		'bars-nightclubs': 0
+	},
+	'shopping-services': {
+		'flowers-decor': 0,
+		'electronics': 0,
+		'books-games': 0,
+		'music-apps': 0,
+		'subscriptions-media': 0,
+		'clothes-shoes': 0,
+		'dry-clean-tailor': 0,
+		'jewelry-accessories': 0,
+		'tobacco': 0,
+		'alcohol': 0,
+		'gifts': 0,
+		'shopping-other': 0
+	},
+	'loans-tax-fees': {
+		'late-fees': 0,
+		'bank-fees': 0,
+		'private-loans': 0,
+		'tax-payments': 0,
+		'other-loans-fees': 0
+	},
+	'health-beauty': {
+		'pharmacy': 0,
+		'healthcare': 0,
+		'sports-exercise': 0,
+		'spa-massage': 0,
+		'beauty-products': 0,
+		'hairdresser': 0,
+		'optician': 0,
+		'other-health-beauty': 0
+	},
+	'children': {
+		'babysitting': 0,
+		'children-clothing': 0,
+		'children-toys': 0,
+		'allowance': 0,
+		'children-activities': 0,
+		'childcare-products': 0,
+		'alimony': 0,
+		'preschool-after-school': 0,
+		'children-other': 0
+	},
+	'uncategorized': {
+		'cash-withdrawals': 0,
+		'swish': 0,
+		'uncategorized-transfers': 0,
+		'uncategorized-other': 0,
+		'uncategorized-credit-card': 0
+	},
+	'insurance': {
+		'household-insurance': 0,
+		'car-insurance': 0,
+		'life-health-insurance': 0,
+		'income-insurance': 0,
+		'accident-insurance': 0,
+		'insurance-other': 0
+	},
+	'savings-investments': {
+		'savings-buffer': 0,
+		'pension-savings': 0,
+		'securities-funds': 0,
+		'savings-children': 0,
+		'savings-other': 0
+	},
+	'vacation-traveling': {
+		'vacation-transport': 0,
+		'hotels-accommodation': 0,
+		'vacation-entertainment': 0,
+		'vacation-food': 0,
+		'vacation-other': 0
+	},
+	'education': {
+		'student-loan': 0,
+		'education-fees': 0,
+		'educational-equipment': 0,
+		'education-other': 0
+	},
+	'food': {
+		'groceries': 0,
+		'fast-food': 0,
+		'candy-kiosks': 0,
+		'restaurants-cafes': 0,
+		'food-other': 0
+	}
+}

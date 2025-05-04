@@ -28,11 +28,16 @@ export interface CalculationResult {
   totalHousingCost: number
   totalExpenses: number
   remainingSavings: number
+  income1: number
+  income2: number
 }
 
 export interface CalculatorState {
   loanParameters: LoanParameters
-  totalIncome: number
+  income1: number
+  income2: number
+  grossIncome1: number
+  grossIncome2: number
   runningCosts: number
   expenses: ExpensesByCategory
 }

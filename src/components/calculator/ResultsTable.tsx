@@ -8,10 +8,9 @@ import { BarChart3 } from 'lucide-react'
 
 interface ResultsTableProps {
   results: CalculationResult[]
-  totalIncome: number
 }
 
-export function ResultsTable({ results, totalIncome }: ResultsTableProps) {
+export function ResultsTable({ results }: ResultsTableProps) {
   return (
     <Card className='shadow-lg rounded-2xl border border-gray-200'>
       <CardHeader className='flex flex-row items-center gap-3 pb-2'>
@@ -32,24 +31,27 @@ export function ResultsTable({ results, totalIncome }: ResultsTableProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {results.map((result, index) => (
-                <TableRow key={index} className='hover:bg-blue-50/40 transition-colors'>
-                  <TableCell>{formatPercentage(result.interestRate)}</TableCell>
-                  <TableCell>{formatPercentage(result.amortizationRate)}</TableCell>
-                  <TableCell>{formatCurrency(result.totalHousingCost)}</TableCell>
-                  <TableCell>{formatCurrency(result.totalExpenses)}</TableCell>
-                  <TableCell>{formatCurrency(totalIncome)}</TableCell>
-                  <TableCell
-                    className={
-                      result.remainingSavings >= 0
-                        ? 'text-green-600 font-bold'
-                        : 'text-red-600 font-bold'
-                    }
-                  >
-                    {formatCurrency(result.remainingSavings)}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {results.map((result, index) => {
+                const totalIncome = result.income1 + result.income2
+                return (
+                  <TableRow key={index} className='hover:bg-blue-50/40 transition-colors'>
+                    <TableCell>{formatPercentage(result.interestRate)}</TableCell>
+                    <TableCell>{formatPercentage(result.amortizationRate)}</TableCell>
+                    <TableCell>{formatCurrency(result.totalHousingCost)}</TableCell>
+                    <TableCell>{formatCurrency(result.totalExpenses)}</TableCell>
+                    <TableCell>{formatCurrency(totalIncome)}</TableCell>
+                    <TableCell
+                      className={
+                        result.remainingSavings >= 0
+                          ? 'text-green-600 font-bold'
+                          : 'text-red-600 font-bold'
+                      }
+                    >
+                      {formatCurrency(result.remainingSavings)}
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
             </TableBody>
           </Table>
         </div>
