@@ -53,7 +53,7 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
           {expenseCategories.map(category => {
             const categoryTotal = calculateCategoryTotal(category.id)
             return (
-              <AccordionItem key={category.id} value={category.id} className='rounded-lg border border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'>
+              <AccordionItem key={category.id} value={category.id} className='rounded-lg border border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'>
                 <AccordionTrigger className='flex items-center justify-between px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors'>
                   <span className='truncate flex-1 font-medium text-gray-800 dark:text-gray-100'>{category.name}</span>
                   <span className='text-sm text-gray-500 dark:text-gray-300 text-right w-24 flex-shrink-0'>
@@ -63,8 +63,27 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
                 <AccordionContent className='transition-all duration-200'>
                   <div className='space-y-4 p-4'>
                     {category.subcategories.map(subcategory => (
-                      <div key={subcategory.id} className='flex items-center justify-between gap-4'>
-                        <label className='text-sm text-gray-700 dark:text-gray-300'>{subcategory.name}</label>
+                      <div
+                        key={subcategory.id}
+                        className='
+                          flex items-center justify-between gap-4
+                          py-2 px-2 rounded-md group
+                          even:bg-gray-50 odd:bg-white
+                          dark:even:bg-gray-900 dark:odd:bg-gray-800
+                          transition-colors
+                          focus-within:bg-blue-100 dark:focus-within:bg-blue-900/20 focus-within:ring-2 focus-within:ring-blue-500
+                          hover:bg-blue-50 dark:hover:bg-blue-900/10
+                        '
+                      >
+                        <label
+                          className='
+                            text-sm text-gray-700 dark:text-gray-300
+                            group-focus-within:text-blue-400 group-hover:text-blue-300
+                            transition-colors
+                          '
+                        >
+                          {subcategory.name}
+                        </label>
                         <Input
                           type='number'
                           min={0}
