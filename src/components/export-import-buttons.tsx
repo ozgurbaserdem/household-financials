@@ -44,6 +44,7 @@ function ExportImportButtons ({ state, onImport }: ExportImportButtonsProps) {
 					bg-white hover:bg-gray-100 text-black
 					dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
 				'
+                suppressHydrationWarning
 			>
 				{t('export_import.export_csv')}
 			</Button>
@@ -55,6 +56,7 @@ function ExportImportButtons ({ state, onImport }: ExportImportButtonsProps) {
 					bg-white hover:bg-gray-100 text-black
 					dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
 				'
+                suppressHydrationWarning
 			>
 				{t('export_import.import_csv')}
 			</Button>
