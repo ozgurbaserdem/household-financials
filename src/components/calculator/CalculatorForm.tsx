@@ -78,7 +78,13 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 		<Card className='shadow-lg rounded-2xl border border-gray-200'>
 			<CardHeader className='flex flex-row items-center gap-3 pb-2'>
 				<Calculator className='w-7 h-7 text-blue-600' />
-				<CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>{t('loan_parameters.title')}</CardTitle>
+				<CardTitle
+					className='text-2xl font-bold text-gray-900 dark:text-gray-100'
+					tabIndex={0}
+					aria-label={t('loan_parameters.title_aria')}
+				>
+					{t('loan_parameters.title')}
+				</CardTitle>
 			</CardHeader>
 
 			<CardContent>
@@ -96,6 +102,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 												type='number'
 												min={0}
 												{...field}
+												aria-label={t('loan_parameters.loan_amount_aria')}
 												onChange={e => field.onChange(Number(e.target.value))}
 											/>
 										</FormControl>
@@ -106,7 +113,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 
 							<div className='bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4'>
 								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>{t('loan_parameters.interest_rates')}</FormLabel>
-								<div className='flex flex-wrap gap-4'>
+								<div className='flex flex-wrap gap-4' aria-label={t('loan_parameters.interest_rates_aria')}>
 									{[1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6].map(rate => (
 										<FormField
 											key={rate}
@@ -117,6 +124,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 													<FormControl>
 														<Checkbox
 															checked={field.value.includes(rate)}
+															aria-label={`${rate}%`}
 															onCheckedChange={(checked: boolean) => {
 																const newValue = checked
 																	? [...field.value, rate]
@@ -135,7 +143,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 
 							<div className='bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4'>
 								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>{t('loan_parameters.amortization_rates')}</FormLabel>
-								<div className='flex flex-wrap gap-4'>
+								<div className='flex flex-wrap gap-4' aria-label={t('loan_parameters.amortization_rates_aria')}>
 									{[1, 2, 3, 4, 5].map(rate => (
 										<FormField
 											key={rate}
@@ -146,6 +154,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 													<FormControl>
 														<Checkbox
 															checked={field.value.includes(rate)}
+															aria-label={`${rate}%`}
 															onCheckedChange={(checked: boolean) => {
 																const newValue = checked
 																	? [...field.value, rate]
@@ -173,6 +182,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 												type='number'
 												min={0}
 												{...field}
+												aria-label={t('loan_parameters.income1_aria')}
 												onChange={e => field.onChange(Number(e.target.value))}
 											/>
 										</FormControl>
@@ -192,6 +202,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 												type='number'
 												min={0}
 												{...field}
+												aria-label={t('loan_parameters.income2_aria')}
 												onChange={e => field.onChange(Number(e.target.value))}
 											/>
 										</FormControl>
@@ -211,6 +222,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 												type='number'
 												min={0}
 												{...field}
+												aria-label={t('loan_parameters.running_costs_aria')}
 												onChange={e => field.onChange(Number(e.target.value))}
 											/>
 										</FormControl>
@@ -222,6 +234,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 						<Button
 							type='submit'
 							variant='outline'
+							aria-label={t('loan_parameters.calculate_aria')}
 							className='
 								bg-white hover:bg-gray-100 text-black
 								dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white

@@ -7,7 +7,15 @@
 		"income1": "Inkomst 1 (SEK)",
 		"income2": "Inkomst 2 (SEK)",
 		"running_costs": "Driftskostnader (SEK)",
-		"calculate": "Beräkna"
+		"calculate": "Beräkna",
+		"title_aria": "Avsnitt för låneparametrar",
+		"loan_amount_aria": "Lånebelopp i SEK",
+		"interest_rates_aria": "Välj en eller flera räntesatser",
+		"amortization_rates_aria": "Välj en eller flera amorteringssatser",
+		"income1_aria": "Månatlig bruttoinkomst för sökande 1 i SEK",
+		"income2_aria": "Månatlig bruttoinkomst för sökande 2 i SEK",
+		"running_costs_aria": "Månatliga driftskostnader i SEK",
+		"calculate_aria": "Beräkna lånescenarier"
 	},
 	"expense_categories": {
 		"title": "Utgiftskategorier",
@@ -153,6 +161,11 @@
 			"candy-kiosks": "Godis, glass och kiosker",
 			"restaurants-cafes": "Restauranger och caféer",
 			"food-other": "Mat, övrigt"
+		},
+		"aria": {
+			"title": "Utgiftskategorier sektion",
+			"category": "Utgiftskategori: {{category}}",
+			"subcategory_input": "Inmatning för {{subcategory}} i {{category}}"
 		}
 	},
 	"expense_breakdown": {
@@ -167,12 +180,12 @@
 		"total_expenses": "Totala utgifter",
 		"total_income": "Total inkomst",
 		"remaining_savings": "Kvar att spara",
-		"interest_rate_tooltip": "Räntesatsen som används för lånescenariot.",
-		"amortization_tooltip": "Amorteringssatsen som används för lånescenariot.",
-		"housing_cost_tooltip": "Summa av amortering, räntebetalningar och driftskostnader.",
-		"total_expenses_tooltip": "Alla månatliga utgifter inklusive boende och övriga kategorier.",
-		"total_income_tooltip": "Total nettoinkomst efter skatt för alla sökande.",
-		"remaining_savings_tooltip": "Hur mycket som är kvar efter att alla utgifter är betalda."
+		"interest_rate_tooltip": "Räntesatsen som används för låneberäkningen.",
+		"amortization_tooltip": "Amorteringssatsen som används för låneberäkningen.",
+		"housing_cost_tooltip": "Summa av amorteringar, räntebetalningar och driftskostnader.",
+		"total_expenses_tooltip": "Alla månatliga utgifter, inklusive boende och övriga kategorier.",
+		"total_income_tooltip": "Total nettoinkomst efter skatt för alla inkomsttagare.",
+		"remaining_savings_tooltip": "Överskott eller underskott efter alla kostnader och skatter."
 	},
 	"export_import": {
 		"export_csv": "Exportera CSV",

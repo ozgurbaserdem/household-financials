@@ -40,10 +40,17 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
   }
 
   return (
-    <Card className='shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 w-full'>
+    <Card
+      className='shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 w-full'
+      aria-label={t('expense_categories.aria.title')}
+    >
       <CardHeader className='flex flex-row items-center gap-3 pb-2'>
         <List className='w-7 h-7 text-blue-600' />
-        <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+        <CardTitle
+          className='text-2xl font-bold text-gray-900 dark:text-gray-100'
+          tabIndex={0}
+          aria-label={t('expense_categories.aria.title')}
+        >
           {t('expense_categories.title')}
         </CardTitle>
       </CardHeader>
@@ -57,7 +64,14 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
           {expenseCategories.map(category => {
             const categoryTotal = calculateCategoryTotal(category.id)
             return (
-              <AccordionItem key={category.id} value={category.id} className='rounded-lg border border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'>
+              <AccordionItem
+                key={category.id}
+                value={category.id}
+                className='rounded-lg border border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'
+                aria-label={t('expense_categories.aria.category', {
+                  category: t(`expense_categories.${category.id}.name`)
+                })}
+              >
                 <AccordionTrigger className='flex items-center justify-between px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors'>
                   <span className='font-medium text-gray-800 dark:text-gray-100 truncate whitespace-normal sm:truncate flex-1'>
                     {t(`expense_categories.${category.id}.name`)}
@@ -87,16 +101,22 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
                             group-focus-within:text-blue-400 group-hover:text-blue-300
                             transition-colors
                           '
+                          htmlFor={`${category.id}-${subcategory.id}-input`}
                         >
                           {t(`expense_categories.${category.id}.${subcategory.id}`)}
                         </label>
                         <Input
+                          id={`${category.id}-${subcategory.id}-input`}
                           type='number'
                           min={0}
                           className='w-32 bg-white border border-gray-200 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 transition-all duration-150 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 dark:placeholder-gray-500'
                           value={expenses[category.id]?.[subcategory.id] || 0}
                           onChange={e => handleExpenseChange(category.id, subcategory.id, e.target.value)}
                           onFocus={e => e.target.select()}
+                          aria-label={t('expense_categories.aria.subcategory_input', {
+                            subcategory: t(`expense_categories.${category.id}.${subcategory.id}`),
+                            category: t(`expense_categories.${category.id}.name`)
+                          })}
                         />
                       </div>
                     ))}

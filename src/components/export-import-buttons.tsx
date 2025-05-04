@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useRef } from 'react'
 import { exportToCsv } from '@/lib/export-to-csv'
 import { importFromCsv } from '@/lib/import-from-csv'
