@@ -16,19 +16,19 @@ export function ResultsTable({ results, totalIncome }: ResultsTableProps) {
     <Card className='shadow-lg rounded-2xl border border-gray-200'>
       <CardHeader className='flex flex-row items-center gap-3 pb-2'>
         <BarChart3 className='w-7 h-7 text-blue-600' />
-        <CardTitle className='text-2xl font-bold text-gray-900'>Calculation Results</CardTitle>
+        <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>Calculation Results</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='overflow-x-auto'>
           <Table className='min-w-full text-sm'>
-            <TableHeader className='bg-gray-50 sticky top-0 z-10'>
+            <TableHeader className='bg-gray-50 dark:bg-gray-800 sticky top-0 z-10'>
               <TableRow>
-                <TableHead className='font-semibold text-gray-700'>Interest Rate</TableHead>
-                <TableHead className='font-semibold text-gray-700'>Amortization</TableHead>
-                <TableHead className='font-semibold text-gray-700'>Housing Cost</TableHead>
-                <TableHead className='font-semibold text-gray-700'>Total Expenses</TableHead>
-                <TableHead className='font-semibold text-gray-700'>Total Income</TableHead>
-                <TableHead className='font-semibold text-gray-700'>Remaining Savings</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Interest Rate</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Amortization</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Housing Cost</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Total Expenses</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Total Income</TableHead>
+                <TableHead className='font-semibold text-gray-700 dark:text-gray-200'>Remaining Savings</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

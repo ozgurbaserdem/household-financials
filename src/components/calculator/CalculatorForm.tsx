@@ -57,7 +57,7 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 		<Card className='shadow-lg rounded-2xl border border-gray-200'>
 			<CardHeader className='flex flex-row items-center gap-3 pb-2'>
 				<Calculator className='w-7 h-7 text-blue-600' />
-				<CardTitle className='text-2xl font-bold text-gray-900'>Loan Parameters</CardTitle>
+				<CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>Loan Parameters</CardTitle>
 			</CardHeader>
 
 			<CardContent>
@@ -69,10 +69,11 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 								name='loanAmount'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className='text-gray-700'>Loan Amount (SEK)</FormLabel>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>Loan Amount (SEK)</FormLabel>
 										<FormControl>
 											<Input
 												type='number'
+												min={0}
 												{...field}
 												onChange={e => field.onChange(Number(e.target.value))}
 											/>
@@ -82,8 +83,8 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 								)}
 							/>
 
-							<div className='bg-gray-50 rounded-lg p-4'>
-								<FormLabel className='text-gray-700 mb-2 block'>Interest Rates (%)</FormLabel>
+							<div className='bg-gray-50 dark:bg-gray-800 rounded-lg p-4'>
+								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>Interest Rates (%)</FormLabel>
 								<div className='flex flex-wrap gap-4'>
 									{[2.5, 3, 3.5, 4, 4.5].map(rate => (
 										<FormField
@@ -103,7 +104,7 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 															}}
 														/>
 													</FormControl>
-													<FormLabel className='text-sm'>{rate}%</FormLabel>
+													<FormLabel className='text-sm text-gray-700 dark:text-gray-300'>{rate}%</FormLabel>
 												</FormItem>
 											)}
 										/>
@@ -111,8 +112,8 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 								</div>
 							</div>
 
-							<div className='bg-gray-50 rounded-lg p-4'>
-								<FormLabel className='text-gray-700 mb-2 block'>Amortization Rates (%)</FormLabel>
+							<div className='bg-gray-50 dark:bg-gray-800 rounded-lg p-4'>
+								<FormLabel className='text-gray-700 dark:text-gray-300 mb-2 block'>Amortization Rates (%)</FormLabel>
 								<div className='flex flex-wrap gap-4'>
 									{[1, 2, 3, 4, 5].map(rate => (
 										<FormField
@@ -132,7 +133,7 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 															}}
 														/>
 													</FormControl>
-													<FormLabel className='text-sm'>{rate}%</FormLabel>
+													<FormLabel className='text-sm text-gray-700 dark:text-gray-300'>{rate}%</FormLabel>
 												</FormItem>
 											)}
 										/>
@@ -145,10 +146,11 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 								name='income1'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className='text-gray-700'>Income 1 (SEK)</FormLabel>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>Income 1 (SEK)</FormLabel>
 										<FormControl>
 											<Input
 												type='number'
+												min={0}
 												{...field}
 												onChange={e => field.onChange(Number(e.target.value))}
 											/>
@@ -163,10 +165,11 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 								name='income2'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className='text-gray-700'>Income 2 (SEK)</FormLabel>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>Income 2 (SEK)</FormLabel>
 										<FormControl>
 											<Input
 												type='number'
+												min={0}
 												{...field}
 												onChange={e => field.onChange(Number(e.target.value))}
 											/>
@@ -181,10 +184,11 @@ export function CalculatorForm({ onSubmit }: CalculatorFormProps) {
 								name='runningCosts'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className='text-gray-700'>Running Costs (SEK)</FormLabel>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>Running Costs (SEK)</FormLabel>
 										<FormControl>
 											<Input
 												type='number'
+												min={0}
 												{...field}
 												onChange={e => field.onChange(Number(e.target.value))}
 											/>

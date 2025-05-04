@@ -45,25 +45,25 @@ export default function Home() {
 	}
 
 	return (
-		<main className='min-h-screen bg-gray-100 flex flex-col items-center'>
+		<main className='min-h-screen bg-gray-100 dark:bg-gray-950 flex flex-col items-center'>
 			<div className='w-full max-w-7xl px-4 py-10'>
-				<h1 className='text-5xl font-extrabold text-gray-900 mb-10 text-center tracking-tight'>
+				<h1 className='text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-10 text-center tracking-tight'>
 					Financial Calculator
 				</h1>
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-					<section className='col-span-1 bg-white rounded-2xl shadow-lg p-8 border border-gray-200'>
+					<section className='col-span-1 bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-gray-700'>
 						<CalculatorForm onSubmit={handleFormSubmit} />
 					</section>
 					<section className='col-span-2 flex flex-col gap-8'>
-						<div className='bg-white rounded-2xl shadow-lg p-8 border border-gray-200'>
+						<div className='bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-gray-700'>
 							<ResultsTable results={results} totalIncome={calculatorState.totalIncome} />
 						</div>
-						<div className='bg-white rounded-2xl shadow-lg p-8 border border-gray-200'>
+						<div className='bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-gray-700'>
 							<ExpenseBreakdown expenses={calculatorState.expenses} />
 						</div>
 					</section>
 				</div>
-				<section className='mt-10 bg-white rounded-2xl shadow-lg p-8 border border-gray-200'>
+				<section className='mt-10 bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-gray-700'>
 					<ExpenseCategories
 						expenses={calculatorState.expenses}
 						onChange={handleExpensesChange}

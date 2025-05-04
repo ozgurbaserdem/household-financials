@@ -38,10 +38,10 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
   }
 
   return (
-    <Card className='shadow-lg rounded-2xl border border-gray-200'>
+    <Card className='shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900'>
       <CardHeader className='flex flex-row items-center gap-3 pb-2'>
         <List className='w-7 h-7 text-blue-600' />
-        <CardTitle className='text-2xl font-bold text-gray-900'>Expense Categories</CardTitle>
+        <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>Expense Categories</CardTitle>
       </CardHeader>
       <CardContent>
         <Accordion
@@ -53,10 +53,10 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
           {expenseCategories.map(category => {
             const categoryTotal = calculateCategoryTotal(category.id)
             return (
-              <AccordionItem key={category.id} value={category.id} className='rounded-lg border border-gray-100 bg-gray-50 shadow-sm'>
-                <AccordionTrigger className='flex items-center justify-between px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors'>
-                  <span className='truncate flex-1 font-medium text-gray-800'>{category.name}</span>
-                  <span className='text-sm text-muted-foreground text-right w-24 flex-shrink-0'>
+              <AccordionItem key={category.id} value={category.id} className='rounded-lg border border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'>
+                <AccordionTrigger className='flex items-center justify-between px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors'>
+                  <span className='truncate flex-1 font-medium text-gray-800 dark:text-gray-100'>{category.name}</span>
+                  <span className='text-sm text-gray-500 dark:text-gray-300 text-right w-24 flex-shrink-0'>
                     {formatCurrency(categoryTotal)}
                   </span>
                 </AccordionTrigger>
@@ -64,12 +64,14 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
                   <div className='space-y-4 p-4'>
                     {category.subcategories.map(subcategory => (
                       <div key={subcategory.id} className='flex items-center justify-between gap-4'>
-                        <label className='text-sm text-gray-700'>{subcategory.name}</label>
+                        <label className='text-sm text-gray-700 dark:text-gray-300'>{subcategory.name}</label>
                         <Input
                           type='number'
-                          className='w-32 bg-white border border-gray-200 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 transition-all duration-150'
+                          min={0}
+                          className='w-32 bg-white border border-gray-200 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 transition-all duration-150 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 dark:placeholder-gray-500'
                           value={expenses[category.id]?.[subcategory.id] || 0}
                           onChange={e => handleExpenseChange(category.id, subcategory.id, e.target.value)}
+                          onFocus={e => e.target.select()}
                         />
                       </div>
                     ))}
@@ -80,10 +82,10 @@ export function ExpenseCategories({ expenses, onChange }: ExpenseCategoriesProps
           })}
         </Accordion>
 
-        <div className='mt-6 border-t pt-4'>
+        <div className='mt-6 border-t border-gray-200 dark:border-gray-700 pt-4'>
           <div className='flex items-center justify-between'>
-            <span className='font-medium text-gray-800'>Total Expenses</span>
-            <span className='text-lg font-semibold text-blue-700'>
+            <span className='font-medium text-gray-800 dark:text-gray-100'>Total Expenses</span>
+            <span className='text-lg font-semibold text-blue-700 dark:text-blue-400'>
               {formatCurrency(calculateGrandTotal())}
             </span>
           </div>

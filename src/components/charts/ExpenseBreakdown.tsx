@@ -40,13 +40,13 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
 
   if (chartData.length === 0) {
     return (
-      <Card className='shadow-lg rounded-2xl border border-gray-200'>
-        <CardHeader className='flex flex-row items-center gap-3 pb-2'>
+      <Card className='shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900'>
+        <CardHeader className='flex flex-row items-center gap-3 pb-2 dark:bg-gray-900'>
           <PieChartIcon className='w-7 h-7 text-blue-600' />
-          <CardTitle className='text-2xl font-bold text-gray-900'>Expense Breakdown</CardTitle>
+          <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>Expense Breakdown</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className='flex h-[300px] items-center justify-center text-muted-foreground'>
+          <div className='flex h-[300px] items-center justify-center text-muted-foreground dark:text-gray-400'>
             No expenses to display
           </div>
         </CardContent>
@@ -55,10 +55,10 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
   }
 
   return (
-    <Card className='shadow-lg rounded-2xl border border-gray-200'>
-      <CardHeader className='flex flex-row items-center gap-3 pb-2'>
+    <Card className='shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900'>
+      <CardHeader className='flex flex-row items-center gap-3 pb-2 dark:bg-gray-900'>
         <PieChartIcon className='w-7 h-7 text-blue-600' />
-        <CardTitle className='text-2xl font-bold text-gray-900'>Expense Breakdown</CardTitle>
+        <CardTitle className='text-2xl font-bold text-gray-900 dark:text-gray-100'>Expense Breakdown</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='h-[300px]'>
@@ -84,10 +84,13 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
               <Tooltip
                 formatter={(value: number) => formatCurrency(value)}
                 contentStyle={{
-                  backgroundColor: 'hsl(var(--background))',
-                  border: '1px solid hsl(var(--border))',
+                  backgroundColor: 'hsl(var(--background), 1)',
+                  border: '1px solid hsl(var(--border), 1)',
                   borderRadius: '0.5rem',
-                  color: '#222',
+                  color: 'var(--tw-prose-body, #222)',
+                }}
+                wrapperStyle={{
+                  color: 'inherit',
                 }}
               />
               <Legend
@@ -95,7 +98,7 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
                 wrapperStyle={{
                   paddingTop: 12,
                   fontSize: 14,
-                  color: '#555',
+                  color: 'var(--tw-prose-body, #555)',
                 }}
               />
             </PieChart>
