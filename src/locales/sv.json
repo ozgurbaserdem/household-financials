@@ -19,7 +19,9 @@
 		"income3_aria": "Månatlig brutto sidoinkomst för sökande 1 i SEK (utan avdrag)",
 		"income4_aria": "Månatlig brutto sidoinkomst för sökande 2 i SEK (utan avdrag)",
 		"running_costs_aria": "Månatliga driftskostnader i SEK",
-		"calculate_aria": "Beräkna lånescenarier"
+		"calculate_aria": "Beräkna lånescenarier",
+		"add_extra_incomes": "Lägg till sidoinkomster"
+
 	},
 	"expense_categories": {
 		"title": "Utgiftskategorier",

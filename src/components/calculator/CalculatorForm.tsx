@@ -10,8 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { CalculatorState } from '@/lib/types'
 import { calculateNetIncome, calculateNetIncomeSecond } from '@/lib/calculations'
-import { Calculator } from 'lucide-react'
-import { useEffect } from 'react'
+import { Calculator, ChevronDown, ChevronRight } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const formSchema = z.object({
@@ -40,6 +40,7 @@ interface CalculatorFormProps {
 }
 
 export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
+	const [showExtraIncomes, setShowExtraIncomes] = useState(false)
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -223,45 +224,63 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 								)}
 							/>
 
-							<FormField
-								control={form.control}
-								name='income3'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.income3')}</FormLabel>
-										<FormControl>
-											<Input
-												type='number'
-												min={0}
-												{...field}
-												aria-label={t('loan_parameters.income3_aria')}
-												onChange={e => field.onChange(Number(e.target.value))}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
+							{/* Collapsible extra incomes */}
+							<div>
+								<button
+									type='button'
+									className='flex items-center gap-2 text-sm text-blue-600 hover:underline focus:outline-none'
+									onClick={() => setShowExtraIncomes(v => !v)}
+									aria-expanded={showExtraIncomes}
+									aria-controls='extra-incomes-section'
+								>
+									{showExtraIncomes
+										? <ChevronDown className='w-5 h-5' />
+										: <ChevronRight className='w-5 h-5' />}
+									{t('loan_parameters.add_extra_incomes')}
+								</button>
+								{showExtraIncomes && (
+									<div id='extra-incomes-section' className='mt-4 space-y-6'>
+										<FormField
+											control={form.control}
+											name='income3'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.income3')}</FormLabel>
+													<FormControl>
+														<Input
+															type='number'
+															min={0}
+															{...field}
+															aria-label={t('loan_parameters.income3_aria')}
+															onChange={e => field.onChange(Number(e.target.value))}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name='income4'
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.income4')}</FormLabel>
+													<FormControl>
+														<Input
+															type='number'
+															min={0}
+															{...field}
+															aria-label={t('loan_parameters.income4_aria')}
+															onChange={e => field.onChange(Number(e.target.value))}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 								)}
-							/>
-
-							<FormField
-								control={form.control}
-								name='income4'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.income4')}</FormLabel>
-										<FormControl>
-											<Input
-												type='number'
-												min={0}
-												{...field}
-												aria-label={t('loan_parameters.income4_aria')}
-												onChange={e => field.onChange(Number(e.target.value))}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
+							</div>
 
 							<FormField
 								control={form.control}

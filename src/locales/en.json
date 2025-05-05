@@ -19,7 +19,8 @@
 		"income3_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
 		"income4_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)",
 		"running_costs_aria": "Monthly running costs in SEK",
-		"calculate_aria": "Calculate loan scenarios"
+		"calculate_aria": "Calculate loan scenarios",
+		"add_extra_incomes": "Add secondary incomes"
 	},
 	"expense_categories": {
 		"title": "Expense Categories",
