@@ -20,6 +20,8 @@ function getFormValuesFromState(state: CalculatorState) {
 		amortizationRates: state.loanParameters.amortizationRates,
 		income1: state.grossIncome1 ?? state.income1,
 		income2: state.grossIncome2 ?? state.income2,
+		income3: state.grossIncome3 ?? state.income3,
+		income4: state.grossIncome4 ?? state.income4,
 		runningCosts: state.runningCosts
 	}
 }
@@ -32,8 +34,12 @@ export default function Home() {
 		},
 		income1: 30000,
 		income2: 30000,
+		income3: 0,
+		income4: 0,
 		grossIncome1: 30000,
 		grossIncome2: 30000,
+		grossIncome3: 0,
+		grossIncome4: 0,
 		runningCosts: 5000,
 		expenses: DEFAULT_EXPENSES
 	})
@@ -59,13 +65,16 @@ export default function Home() {
 	}
 
 	const handleImport = (imported: Partial<CalculatorState>) => {
-		// Merge imported state, fallback to current for missing fields
 		const merged: CalculatorState = {
 			loanParameters: imported.loanParameters ?? calculatorState.loanParameters,
 			income1: imported.income1 ?? calculatorState.income1,
 			income2: imported.income2 ?? calculatorState.income2,
+			income3: imported.income3 ?? calculatorState.income3,
+			income4: imported.income4 ?? calculatorState.income4,
 			grossIncome1: imported.grossIncome1 ?? calculatorState.grossIncome1,
 			grossIncome2: imported.grossIncome2 ?? calculatorState.grossIncome2,
+			grossIncome3: imported.grossIncome3 ?? calculatorState.grossIncome3,
+			grossIncome4: imported.grossIncome4 ?? calculatorState.grossIncome4,
 			runningCosts: imported.runningCosts ?? calculatorState.runningCosts,
 			expenses: imported.expenses ?? calculatorState.expenses
 		}

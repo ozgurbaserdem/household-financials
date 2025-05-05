@@ -30,14 +30,20 @@ export interface CalculationResult {
   remainingSavings: number
   income1: number
   income2: number
+  income3: number
+  income4: number
 }
 
 export interface CalculatorState {
   loanParameters: LoanParameters
   income1: number
   income2: number
+  income3: number
+  income4: number
   grossIncome1: number
   grossIncome2: number
+  grossIncome3: number
+  grossIncome4: number
   runningCosts: number
   expenses: ExpensesByCategory
 }

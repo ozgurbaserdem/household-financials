@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { CalculatorState } from '@/lib/types'
-import { calculateNetIncome } from '@/lib/calculations'
+import { calculateNetIncome, calculateNetIncomeSecond } from '@/lib/calculations'
 import { Calculator } from 'lucide-react'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -20,6 +20,8 @@ const formSchema = z.object({
 	amortizationRates: z.array(z.number()),
 	income1: z.number().min(0),
 	income2: z.number().min(0),
+	income3: z.number().min(0),
+	income4: z.number().min(0),
 	runningCosts: z.number().min(0)
 })
 
@@ -31,6 +33,8 @@ interface CalculatorFormProps {
 		amortizationRates: number[]
 		income1: number
 		income2: number
+		income3: number
+		income4: number
 		runningCosts: number
 	}
 }
@@ -44,6 +48,8 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 			amortizationRates: [2],
 			income1: 0,
 			income2: 0,
+			income3: 0,
+			income4: 0,
 			runningCosts: 0
 		}
 	})
@@ -60,6 +66,8 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 	const handleSubmit = (values: z.infer<typeof formSchema>) => {
 		const netIncome1 = calculateNetIncome(values.income1)
 		const netIncome2 = calculateNetIncome(values.income2)
+		const netIncome3 = calculateNetIncomeSecond(values.income3)
+		const netIncome4 = calculateNetIncomeSecond(values.income4)
 		onSubmit({
 			loanParameters: {
 				amount: values.loanAmount,
@@ -68,8 +76,12 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 			},
 			income1: netIncome1,
 			income2: netIncome2,
+			income3: netIncome3,
+			income4: netIncome4,
 			grossIncome1: values.income1,
 			grossIncome2: values.income2,
+			grossIncome3: values.income3,
+			grossIncome4: values.income4,
 			runningCosts: values.runningCosts
 		})
 	}
@@ -203,6 +215,46 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 												min={0}
 												{...field}
 												aria-label={t('loan_parameters.income2_aria')}
+												onChange={e => field.onChange(Number(e.target.value))}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name='income3'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.income3')}</FormLabel>
+										<FormControl>
+											<Input
+												type='number'
+												min={0}
+												{...field}
+												aria-label={t('loan_parameters.income3_aria')}
+												onChange={e => field.onChange(Number(e.target.value))}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name='income4'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className='text-gray-700 dark:text-gray-300'>{t('loan_parameters.income4')}</FormLabel>
+										<FormControl>
+											<Input
+												type='number'
+												min={0}
+												{...field}
+												aria-label={t('loan_parameters.income4_aria')}
 												onChange={e => field.onChange(Number(e.target.value))}
 											/>
 										</FormControl>

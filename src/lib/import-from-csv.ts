@@ -1,6 +1,6 @@
 import type { CalculatorState, ExpensesByCategory } from './types'
 import { expenseCategories } from '@/data/expenseCategories'
-import { calculateNetIncome } from './calculations'
+import { calculateNetIncome, calculateNetIncomeSecond } from './calculations'
 
 function unflattenExpenses (flat: Record<string, string | number>): ExpensesByCategory {
 	const result: ExpensesByCategory = {}
@@ -33,8 +33,10 @@ export function importFromCsv (
 			const interestRatesRaw = flat.interestRates ?? flat.interestRate ?? ''
 			const amortizationRatesRaw = flat.amortizationRates ?? flat.amortizationRate ?? ''
 
-			const grossIncome1 = Number(flat.income1)
-			const grossIncome2 = Number(flat.income2)
+			const grossIncome1 = Number(flat.grossIncome1 ?? flat.income1)
+			const grossIncome2 = Number(flat.grossIncome2 ?? flat.income2)
+			const grossIncome3 = Number(flat.grossIncome3 ?? flat.income3)
+			const grossIncome4 = Number(flat.grossIncome4 ?? flat.income4)
 
 			const state: Partial<CalculatorState> = {
 				loanParameters: {
@@ -44,8 +46,12 @@ export function importFromCsv (
 				},
 				grossIncome1,
 				grossIncome2,
+				grossIncome3,
+				grossIncome4,
 				income1: calculateNetIncome(grossIncome1),
 				income2: calculateNetIncome(grossIncome2),
+				income3: calculateNetIncomeSecond(grossIncome3),
+				income4: calculateNetIncomeSecond(grossIncome4),
 				runningCosts: Number(flat.runningCosts),
 				expenses: unflattenExpenses(flat)
 			}

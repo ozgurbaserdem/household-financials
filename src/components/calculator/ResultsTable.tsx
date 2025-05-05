@@ -45,7 +45,7 @@ const HEAD_CELLS: HeadCell[] = [
 	{
 		key: 'total_income',
 		tooltipKey: 'total_income_tooltip',
-		render: result => formatCurrency(result.income1 + result.income2),
+		render: result => formatCurrency(result.income1 + result.income2 + (result.income3 ?? 0) + (result.income4 ?? 0)),
 	},
 	{
 		key: 'remaining_savings',

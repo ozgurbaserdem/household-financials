@@ -1,8 +1,8 @@
 import type { CalculatorState, CalculationResult, ExpensesByCategory } from './types'
 
 export function calculateLoanScenarios(state: CalculatorState): CalculationResult[] {
-  const { loanParameters, income1, income2, runningCosts, expenses } = state
-  const totalIncome = income1 + income2
+  const { loanParameters, income1, income2, income3, income4, runningCosts, expenses } = state
+  const totalIncome = income1 + income2 + income3 + income4
   const { amount, interestRates, amortizationRates } = loanParameters
 
   // Calculate sum of all other expenses (from categories)
@@ -27,7 +27,9 @@ export function calculateLoanScenarios(state: CalculatorState): CalculationResul
         totalExpenses,
         remainingSavings,
         income1,
-        income2
+        income2,
+        income3,
+        income4
       })
     }
   }
@@ -78,7 +80,7 @@ export function calculateNetIncome(gross: number): number {
   const statligSkatt = 0.20
   const statligSkattThreshold = 53592 // kr/month for 2025
   const grundavdrag = 3000 // basic deduction per month (approx)
-  const jobbskatteavdrag = 2500 // job tax deduction per month (approx)
+  const jobbskatteavdrag = 3100 // job tax deduction per month (approx)
 
   const taxable = Math.max(0, gross - grundavdrag)
   let tax = taxable * kommunalskatt
@@ -90,5 +92,13 @@ export function calculateNetIncome(gross: number): number {
   // Apply jobbskatteavdrag (cannot reduce tax below zero)
   tax = Math.max(0, tax - jobbskatteavdrag)
 
+  return gross - tax
+}
+
+export function calculateNetIncomeSecond(gross: number): number {
+  const kommunalskatt = 0.33 // higher tax, no deductions
+  const taxable = Math.max(0, gross)
+  const tax = taxable * kommunalskatt
+  console.log('tax', tax)
   return gross - tax
 } 

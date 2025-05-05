@@ -21,6 +21,12 @@ export function exportToCsv (state: CalculatorState) {
 		'amortizationRates',
 		'income1',
 		'income2',
+		'income3',
+		'income4',
+		'grossIncome1',
+		'grossIncome2',
+		'grossIncome3',
+		'grossIncome4',
 		'runningCosts',
 		...Object.keys(flatExpenses)
 	]
@@ -30,6 +36,12 @@ export function exportToCsv (state: CalculatorState) {
 		loanParameters.amortizationRates.join('|'),
 		state.grossIncome1 ?? state.income1,
 		state.grossIncome2 ?? state.income2,
+		state.grossIncome3 ?? state.income3,
+		state.grossIncome4 ?? state.income4,
+		state.grossIncome1 ?? state.income1,
+		state.grossIncome2 ?? state.income2,
+		state.grossIncome3 ?? state.income3,
+		state.grossIncome4 ?? state.income4,
 		runningCosts,
 		...Object.values(flatExpenses)
 	]
