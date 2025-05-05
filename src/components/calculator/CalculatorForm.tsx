@@ -225,17 +225,20 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 							/>
 
 							{/* Collapsible extra incomes */}
-							<div>
+							<div className='
+		bg-gray-50 dark:bg-gray-900
+		border border-gray-200 dark:border-gray-700
+		rounded-md p-0 mb-2
+	'>
 								<Button
 									type='button'
-									variant='outline'
 									onClick={() => setShowExtraIncomes(v => !v)}
 									aria-expanded={showExtraIncomes}
 									aria-controls='extra-incomes-section'
 									className='
 										bg-white hover:bg-gray-100 text-black
 										dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
-										w-full flex items-center gap-2 justify-start pl-4
+										w-full flex items-center gap-2 justify-start
 									'
 								>
 									{showExtraIncomes
