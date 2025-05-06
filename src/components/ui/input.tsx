@@ -18,6 +18,8 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         "focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-200 dark:focus-visible:border-blue-400 dark:focus-visible:ring-blue-900/40",
         // Invalid
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        // No spinner for number inputs
+        type === 'number' ? 'no-spinner' : '',
         className
       )}
       {...props}

@@ -90,7 +90,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 	return (
 		<Card className='shadow-lg rounded-2xl border border-gray-200'>
 			<CardHeader className='flex flex-row items-center gap-3 pb-2'>
-				<Calculator className='w-7 h-7 text-blue-600' />
+				<Calculator className="w-7 h-7 text-blue-600 dark:text-blue-400" />
 				<CardTitle
 					className='text-2xl font-bold text-gray-900 dark:text-gray-100'
 					tabIndex={0}

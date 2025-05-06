@@ -78,7 +78,7 @@ function AccordionContent({
       )}
       {...props}
     >
-      <div className={cn("pt-0 pb-4", className)}>{children}</div>
+      <div className={cn("pt-0 rounded-b-lg", className)}>{children}</div>
     </AccordionPrimitive.Content>
   )
 }
