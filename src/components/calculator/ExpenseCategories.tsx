@@ -13,7 +13,7 @@ import { expenseCategories } from "@/data/expenseCategories";
 import { formatCurrency } from "@/lib/calculations";
 import type { ExpensesByCategory } from "@/lib/types";
 import { List } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory;
@@ -24,7 +24,7 @@ export function ExpenseCategories({
   expenses,
   onChange,
 }: ExpenseCategoriesProps) {
-  const { t } = useTranslation();
+  const t = useTranslations("expense_categories");
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
 
   const handleExpenseChange = (
@@ -60,16 +60,16 @@ export function ExpenseCategories({
   return (
     <Card
       className="shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 w-full"
-      aria-label={t("expense_categories.aria.title")}
+      aria-label={t("aria.title")}
     >
       <CardHeader className="flex flex-row items-center gap-3 pb-2">
         <List className="w-7 h-7 text-blue-600 dark:text-blue-400" />
         <CardTitle
           className="text-2xl font-bold text-gray-900 dark:text-gray-100"
           tabIndex={0}
-          aria-label={t("expense_categories.aria.title")}
+          aria-label={t("aria.title")}
         >
-          {t("expense_categories.title")}
+          {t("title")}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -86,9 +86,7 @@ export function ExpenseCategories({
                 key={category.id}
                 value={category.id}
                 className="rounded-lg border border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900"
-                aria-label={t("expense_categories.aria.category", {
-                  category: t(`expense_categories.${category.id}.name`),
-                })}
+                aria-label={`${t(`${category.id}.name`)} category`}
               >
                 <AccordionTrigger
                   className={`flex items-center justify-between px-4 py-3 rounded-t-lg ${
@@ -98,7 +96,7 @@ export function ExpenseCategories({
                   } hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors`}
                 >
                   <span className="font-medium text-gray-800 dark:text-gray-100 truncate whitespace-normal sm:truncate flex-1">
-                    {t(`expense_categories.${category.id}.name`)}
+                    {t(`${category.id}.name`)}
                   </span>
                   <span className="text-sm text-gray-500 dark:text-gray-300 text-right w-24 flex-shrink-0">
                     {formatCurrency(categoryTotal)}
@@ -135,9 +133,7 @@ export function ExpenseCategories({
                           "
                           htmlFor={`${category.id}-${subcategory.id}-input`}
                         >
-                          {t(
-                            `expense_categories.${category.id}.${subcategory.id}`
-                          )}
+                          {t(`${category.id}.${subcategory.id}`)}
                         </label>
                         <Input
                           id={`${category.id}-${subcategory.id}-input`}
@@ -153,17 +149,9 @@ export function ExpenseCategories({
                             )
                           }
                           onFocus={(e) => e.target.select()}
-                          aria-label={t(
-                            "expense_categories.aria.subcategory_input",
-                            {
-                              subcategory: t(
-                                `expense_categories.${category.id}.${subcategory.id}`
-                              ),
-                              category: t(
-                                `expense_categories.${category.id}.name`
-                              ),
-                            }
-                          )}
+                          aria-label={`${t(
+                            `${category.id}.${subcategory.id}`
+                          )} in ${t(`${category.id}.name`)}`}
                         />
                       </div>
                     ))}
@@ -177,7 +165,7 @@ export function ExpenseCategories({
         <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <span className="font-medium text-gray-800 dark:text-gray-100">
-              {t("expense_categories.total_expenses")}
+              {t("total_expenses")}
             </span>
             <span className="text-lg font-semibold text-red-600 dark:text-red-400">
               {formatCurrency(calculateGrandTotal())}

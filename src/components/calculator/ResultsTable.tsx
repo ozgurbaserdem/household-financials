@@ -12,7 +12,7 @@ import {
 import { formatCurrency, formatPercentage } from "@/lib/calculations";
 import type { CalculationResult } from "@/lib/types";
 import { BarChart3 } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import {
   Tooltip,
   TooltipContent,
@@ -74,7 +74,7 @@ const HEAD_CELLS: HeadCell[] = [
 ];
 
 function ResultsTableHead() {
-  const { t } = useTranslation();
+  const t = useTranslations("results");
   return (
     <TableHeader className="bg-gray-50 dark:bg-gray-800 sticky top-0 z-10">
       <TableRow>
@@ -88,11 +88,9 @@ function ResultsTableHead() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span>{t(`results.${cell.key}`)}</span>
+                  <span>{t(cell.key)}</span>
                 </TooltipTrigger>
-                <TooltipContent>
-                  {t(`results.${cell.tooltipKey}`)}
-                </TooltipContent>
+                <TooltipContent>{t(cell.tooltipKey)}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </TableHead>
@@ -124,14 +122,14 @@ function ResultsTableRow({ result }: { result: CalculationResult }) {
 }
 
 export function ResultsTable({ results }: ResultsTableProps) {
-  const { t } = useTranslation();
+  const t = useTranslations("results");
 
   return (
     <Card className="shadow-lg rounded-2xl border border-gray-200">
       <CardHeader className="flex flex-row items-center gap-3 pb-2">
         <BarChart3 className="w-7 h-7 ttext-blue-600 dark:text-blue-400" />
         <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {t("results.title")}
+          {t("title")}
         </CardTitle>
       </CardHeader>
       <CardContent>

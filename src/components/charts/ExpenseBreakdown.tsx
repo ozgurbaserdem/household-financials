@@ -12,9 +12,9 @@ import {
 import { formatCurrency } from "@/lib/calculations";
 import { expenseCategories } from "@/data/expenseCategories";
 import type { ExpensesByCategory } from "@/lib/types";
-import { PieChart as PieChartIcon } from "lucide-react";
+import { PieChartIcon } from "lucide-react";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 interface ExpenseBreakdownProps {
   expenses: ExpensesByCategory;
@@ -45,7 +45,8 @@ const CustomTooltip = ({
 };
 
 export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
-  const { t } = useTranslation();
+  const t = useTranslations("expense_categories");
+  const expenseBreakdownT = useTranslations("expense_breakdown");
 
   const chartData: ChartData[] = expenseCategories
     .map((category, idx) => {
@@ -54,7 +55,7 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
         0
       );
       return {
-        name: t(`expense_categories.${category.id}.name`),
+        name: t(`${category.id}.name`),
         value: categoryTotal,
         color: getColor(idx, expenseCategories.length),
       };
@@ -67,12 +68,12 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
         <CardHeader className="flex flex-row items-center gap-3 pb-2 dark:bg-gray-900">
           <PieChartIcon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
           <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-            {t("expense_breakdown.title")}
+            {expenseBreakdownT("title")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex h-[300px] items-center justify-center text-muted-foreground dark:text-gray-400">
-            {t("expense_breakdown.no_expenses")}
+            {expenseBreakdownT("no_expenses")}
           </div>
         </CardContent>
       </Card>
@@ -84,7 +85,7 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
       <CardHeader className="flex flex-row items-center gap-3 pb-2 dark:bg-gray-900">
         <PieChartIcon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
         <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {t("expense_breakdown.title")}
+          {expenseBreakdownT("title")}
         </CardTitle>
       </CardHeader>
       <CardContent>

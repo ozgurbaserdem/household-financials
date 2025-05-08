@@ -1,31 +1,41 @@
-'use client'
-import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
+"use client";
+import { useRouter, usePathname } from "@/i18n/navigation";
+import { Button } from "@/components/ui/button";
+import { useLocale } from "next-intl";
 
 export default function LanguageSwitcher() {
-	const { i18n } = useTranslation()
-	const current = i18n.language.startsWith('sv') ? 'sv' : 'en'
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
 
-	return (
-		<div className='flex gap-2'>
-			<Button
-				type='button'
-				onClick={() => i18n.changeLanguage('sv')}
-				aria-label='Byt till svenska'
-				className={`rounded p-2 border ${current === 'sv' ? 'border-blue-500' : 'border-transparent'} bg-white dark:bg-gray-900`}
-                suppressHydrationWarning
-			>
-				<span className='text-2xl'>🇸🇪</span>
-			</Button>
-			<Button
-				type='button'
-				onClick={() => i18n.changeLanguage('en')}
-				aria-label='Switch to English'
-				className={`rounded p-2 border ${current === 'en' ? 'border-blue-500' : 'border-transparent'} bg-white dark:bg-gray-900`}
-                suppressHydrationWarning
-			>
-				<span className='text-2xl'>🇬🇧</span>
-			</Button>
-		</div>
-	)
+  const handleChangeLanguage = (newLocale: "sv" | "en") => {
+    router.push(pathname, { locale: newLocale });
+  };
+
+  return (
+    <div className="flex gap-2">
+      <Button
+        type="button"
+        onClick={() => handleChangeLanguage("sv")}
+        aria-label="Byt till svenska"
+        className={`rounded p-2 border ${
+          locale === "sv" ? "border-blue-500" : "border-transparent"
+        } bg-white dark:bg-gray-900`}
+        suppressHydrationWarning
+      >
+        <span className="text-2xl">🇸🇪</span>
+      </Button>
+      <Button
+        type="button"
+        onClick={() => handleChangeLanguage("en")}
+        aria-label="Switch to English"
+        className={`rounded p-2 border ${
+          locale === "en" ? "border-blue-500" : "border-transparent"
+        } bg-white dark:bg-gray-900`}
+        suppressHydrationWarning
+      >
+        <span className="text-2xl">🇬🇧</span>
+      </Button>
+    </div>
+  );
 }

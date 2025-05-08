@@ -1,0 +1,207 @@
+{
+  "loan_parameters": {
+    "title": "Loan Parameters",
+    "loan_amount": "Loan Amount (SEK)",
+    "interest_rates": "Interest Rates (%)",
+    "amortization_rates": "Amortization Rates (%)",
+    "income1": "Income 1 (SEK)",
+    "income2": "Income 2 (SEK)",
+    "income3": "Income 3 (SEK, secondary)",
+    "income4": "Income 4 (SEK, secondary)",
+    "running_costs": "Running Costs (SEK)",
+    "calculate": "Calculate",
+    "title_aria": "Loan Parameters section",
+    "loan_amount_aria": "Loan amount in SEK",
+    "interest_rates_aria": "Select one or more interest rates",
+    "amortization_rates_aria": "Select one or more amortization rates",
+    "income1_aria": "Monthly gross income for applicant 1 in SEK",
+    "income2_aria": "Monthly gross income for applicant 2 in SEK",
+    "income3_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
+    "income4_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)",
+    "running_costs_aria": "Monthly running costs in SEK",
+    "calculate_aria": "Calculate loan scenarios",
+    "add_extra_incomes": "Add secondary incomes"
+  },
+  "expense_categories": {
+    "title": "Expense Categories",
+    "total_expenses": "Total Expenses",
+    "home": {
+      "name": "Home",
+      "electricity-heating": "Electricity and heating",
+      "pets": "Pets",
+      "streaming-internet-phone": "Streaming services, internet and phone",
+      "house-cleaning": "House cleaning",
+      "rent-monthly-fee": "Rent and monthly fee",
+      "interior-decoration": "Interior decoration and furnishing",
+      "mortgage": "Mortgage",
+      "home-improvements": "Home improvements and renovation",
+      "holiday-home": "Holiday home",
+      "water-garbage": "Water and garbage collection",
+      "gardening": "Gardening",
+      "home-alarm": "Home alarm",
+      "other-household": "Other household services"
+    },
+    "car-transportation": {
+      "name": "Car and transportation",
+      "charging": "Charging",
+      "parking": "Parking",
+      "fuel": "Fuel",
+      "car-service": "Car service",
+      "taxi": "Taxi",
+      "public-transportation": "Public transportation",
+      "car-cleaning": "Car cleaning",
+      "car-loan-lease": "Car loan and car lease",
+      "motorcycle": "Motorcycle",
+      "other-transportation": "Other car and transportation"
+    },
+    "leisure": {
+      "name": "Leisure time",
+      "association-memberships": "Association memberships",
+      "golfing": "Golfing",
+      "hunting": "Hunting",
+      "hiking-outdoor": "Hiking and outdoor activities",
+      "arts-crafts": "Arts and crafts",
+      "dancing": "Dancing",
+      "skiing-winter": "Skiing and winter sports",
+      "horseback-riding": "Horseback riding",
+      "biking": "Biking",
+      "photographing": "Photographing",
+      "music-instruments": "Music and instruments",
+      "parties-celebrations": "Parties and celebrations",
+      "charities": "Charities",
+      "movies-events": "Movies, theaters and events",
+      "lotteries-betting": "Lotteries and betting",
+      "bars-nightclubs": "Bars, pubs and nightclubs"
+    },
+    "shopping-services": {
+      "name": "Shopping and services",
+      "flowers-decor": "Flowers and minor home decorating items",
+      "electronics": "Home electronics",
+      "books-games": "Books and games",
+      "music-apps": "Music and apps",
+      "subscriptions-media": "Subscriptions and media",
+      "clothes-shoes": "Clothes and shoes",
+      "dry-clean-tailor": "Dry clean and tailor",
+      "jewelry-accessories": "Jewelery and accessories",
+      "tobacco": "Tobacco",
+      "alcohol": "Alcohol",
+      "gifts": "Gifts",
+      "shopping-other": "Shopping and Services, other"
+    },
+    "loans-tax-fees": {
+      "name": "Loans, tax and fees",
+      "late-fees": "Late fees and charges",
+      "bank-fees": "Bank and service fees",
+      "private-loans": "Private loans",
+      "tax-payments": "Tax payments",
+      "other-loans-fees": "Other loans, taxes and fees"
+    },
+    "health-beauty": {
+      "name": "Health and beauty",
+      "pharmacy": "Pharmacy",
+      "healthcare": "Healthcare",
+      "sports-exercise": "Sports and exercise",
+      "spa-massage": "Spa and massage",
+      "beauty-products": "Beauty products",
+      "hairdresser": "Hairdresser",
+      "optician": "Optician",
+      "other-health-beauty": "Other health and beauty"
+    },
+    "children": {
+      "name": "Children",
+      "babysitting": "Babysitting",
+      "children-clothing": "Children's clothing",
+      "children-toys": "Children's toys",
+      "allowance": "Weekly and monthly allowance",
+      "children-activities": "Children's activities",
+      "childcare-products": "Childcare products",
+      "alimony": "Alimony",
+      "preschool-after-school": "Preschool and after school center",
+      "children-other": "Children, other"
+    },
+    "uncategorized": {
+      "name": "Uncategorised expenses",
+      "cash-withdrawals": "Cash withdrawals",
+      "swish": "Swish",
+      "uncategorized-transfers": "Uncategorised transfers",
+      "uncategorized-other": "Uncategorised expenses other",
+      "uncategorized-credit-card": "Uncategorised credit card purchases"
+    },
+    "insurance": {
+      "name": "Insurance",
+      "household-insurance": "Household insurance",
+      "car-insurance": "Car insurance",
+      "life-health-insurance": "Life and health insurance",
+      "income-insurance": "A-kassa and/or income insurance",
+      "accident-insurance": "Accident insurance",
+      "insurance-other": "Insurance other"
+    },
+    "savings-investments": {
+      "name": "Savings and investments",
+      "savings-buffer": "Savings buffer",
+      "pension-savings": "Pension savings",
+      "securities-funds": "Securities and fund savings",
+      "savings-children": "Savings children",
+      "savings-other": "Savings other"
+    },
+    "vacation-traveling": {
+      "name": "Vacation and travelling",
+      "vacation-transport": "Planes, trains and cars on vacation",
+      "hotels-accommodation": "Hotels and accomodation",
+      "vacation-entertainment": "Entertainment on vacation",
+      "vacation-food": "Vacation food and living expenses",
+      "vacation-other": "Vacation and travelling other"
+    },
+    "education": {
+      "name": "Education",
+      "student-loan": "Student loan",
+      "education-fees": "Education fees",
+      "educational-equipment": "Educational equipment",
+      "education-other": "Education other"
+    },
+    "food": {
+      "name": "Food",
+      "groceries": "Groceries",
+      "fast-food": "Fast food",
+      "candy-kiosks": "Candy, ice cream and kiosks",
+      "restaurants-cafes": "Restaurants and cafes",
+      "food-other": "Other foods"
+    },
+    "aria": {
+      "title": "Expense Categories section",
+      "category": "Expense category: {{category}}",
+      "subcategory_input": "Input for {{subcategory}} in {{category}}"
+    }
+  },
+  "expense_breakdown": {
+    "title": "Expense Breakdown",
+    "no_expenses": "No expenses to display"
+  },
+  "results": {
+    "title": "Calculation Results",
+    "interest_rate": "Interest Rate",
+    "amortization": "Amortization",
+    "housing_cost": "Housing Cost",
+    "total_expenses": "Total Expenses",
+    "total_income": "Total Income",
+    "remaining_savings": "Remaining Savings",
+    "interest_rate_tooltip": "The interest rate used for the loan calculation.",
+    "amortization_tooltip": "The amortization rate used for the loan calculation.",
+    "housing_cost_tooltip": "Sum of amortizations, interest payments, and running costs.",
+    "total_expenses_tooltip": "All monthly expenses, including housing and other categories.",
+    "total_income_tooltip": "Total net income after taxes for all income earners.",
+    "remaining_savings_tooltip": "Surplus or deficit after all costs and taxes are deducted."
+  },
+  "export_import": {
+    "export_csv": "Export CSV",
+    "import_csv": "Import CSV"
+  },
+  "app": {
+    "title": "Plånkan"
+  },
+  "not_found": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist.",
+    "back_home": "Go back home"
+  }
+}
