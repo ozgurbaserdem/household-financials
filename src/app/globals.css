@@ -1,19 +1,20 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* Hide number input spinners for Chrome, Safari, Edge, Opera */
-input[type='number'].no-spinner::-webkit-inner-spin-button,
-input[type='number'].no-spinner::-webkit-outer-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
+input[type="number"].no-spinner::-webkit-inner-spin-button,
+input[type="number"].no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* Hide number input spinners for Firefox */
-input[type='number'].no-spinner {
-	-moz-appearance: textfield;
+input[type="number"].no-spinner {
+  -moz-appearance: textfield;
 }
 
-@media (prefers-color-scheme: dark) {
-    html {
-      color-scheme: dark;
-    }
+/* @media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
   }
+} */

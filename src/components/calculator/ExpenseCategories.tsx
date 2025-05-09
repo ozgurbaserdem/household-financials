@@ -14,6 +14,8 @@ import { formatCurrency } from "@/lib/calculations";
 import type { ExpensesByCategory } from "@/lib/types";
 import { List } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Box } from "@/components/ui/box";
+import { Text } from "@/components/ui/text";
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory;
@@ -95,17 +97,17 @@ export function ExpenseCategories({
                       : "rounded-b-lg"
                   } hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors`}
                 >
-                  <span className="font-medium text-gray-800 dark:text-gray-100 truncate whitespace-normal sm:truncate flex-1">
+                  <Text className="font-medium text-gray-800 dark:text-gray-100 truncate whitespace-normal sm:truncate flex-1">
                     {t(`${category.id}.name`)}
-                  </span>
-                  <span className="text-sm text-gray-500 dark:text-gray-300 text-right w-24 flex-shrink-0">
+                  </Text>
+                  <Text className="text-sm text-gray-500 dark:text-gray-300 text-right w-24 flex-shrink-0">
                     {formatCurrency(categoryTotal)}
-                  </span>
+                  </Text>
                 </AccordionTrigger>
                 <AccordionContent className="transition-all duration-200">
-                  <div className="space-y-4 px-4 pb-0">
+                  <Box className="space-y-4 px-4 pb-0">
                     {category.subcategories.map((subcategory) => (
-                      <div
+                      <Box
                         key={subcategory.id}
                         className={`
                           flex items-center justify-between gap-4
@@ -153,25 +155,25 @@ export function ExpenseCategories({
                             `${category.id}.${subcategory.id}`
                           )} in ${t(`${category.id}.name`)}`}
                         />
-                      </div>
+                      </Box>
                     ))}
-                  </div>
+                  </Box>
                 </AccordionContent>
               </AccordionItem>
             );
           })}
         </Accordion>
 
-        <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <span className="font-medium text-gray-800 dark:text-gray-100">
+        <Box className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+          <Box className="flex items-center justify-between flex-wrap gap-2">
+            <Text className="font-medium text-gray-800 dark:text-gray-100">
               {t("total_expenses")}
-            </span>
-            <span className="text-lg font-semibold text-red-600 dark:text-red-400">
+            </Text>
+            <Text className="text-lg font-semibold text-red-600 dark:text-red-400">
               {formatCurrency(calculateGrandTotal())}
-            </span>
-          </div>
-        </div>
+            </Text>
+          </Box>
+        </Box>
       </CardContent>
     </Card>
   );

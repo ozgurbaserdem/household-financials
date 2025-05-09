@@ -6,6 +6,7 @@ import { importFromCsv } from "@/lib/import-from-csv";
 import type { CalculatorState } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import { Box } from "@/components/ui/box";
 
 interface ExportImportButtonsProps {
   state: CalculatorState;
@@ -33,7 +34,7 @@ function ExportImportButtons({ state, onImport }: ExportImportButtonsProps) {
   }
 
   return (
-    <div className="flex gap-2">
+    <Box className="flex gap-2">
       <Button
         type="button"
         onClick={handleExport}
@@ -65,7 +66,7 @@ function ExportImportButtons({ state, onImport }: ExportImportButtonsProps) {
         style={{ display: "none" }}
         onChange={handleFileChange}
       />
-    </div>
+    </Box>
   );
 }
 

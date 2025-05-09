@@ -15,6 +15,7 @@ import type { ExpensesByCategory } from "@/lib/types";
 import { PieChartIcon } from "lucide-react";
 import React from "react";
 import { useTranslations } from "next-intl";
+import { Box } from "@/components/ui/box";
 
 interface ExpenseBreakdownProps {
   expenses: ExpensesByCategory;
@@ -36,11 +37,11 @@ const CustomTooltip = ({
 }) => {
   if (!payload || !payload.length) return null;
   return (
-    <div className="rounded-md px-3 py-2 shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+    <Box className="rounded-md px-3 py-2 shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
       <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
         {payload[0].name}: {formatCurrency(payload[0].value)}
       </p>
-    </div>
+    </Box>
   );
 };
 
@@ -72,9 +73,9 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex h-[300px] items-center justify-center text-muted-foreground dark:text-gray-400">
+          <Box className="flex h-[300px] items-center justify-center text-muted-foreground dark:text-gray-400">
             {expenseBreakdownT("no_expenses")}
-          </div>
+          </Box>
         </CardContent>
       </Card>
     );
@@ -89,7 +90,7 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px]">
+        <Box className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -117,7 +118,7 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
               />
             </PieChart>
           </ResponsiveContainer>
-        </div>
+        </Box>
       </CardContent>
     </Card>
   );

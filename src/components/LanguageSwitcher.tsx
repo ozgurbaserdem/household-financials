@@ -2,6 +2,8 @@
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "next-intl";
+import { Box } from "@/components/ui/box";
+import { Text } from "@/components/ui/text";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
@@ -13,7 +15,7 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex gap-2">
+    <Box className="flex gap-2">
       <Button
         type="button"
         onClick={() => handleChangeLanguage("sv")}
@@ -23,7 +25,7 @@ export default function LanguageSwitcher() {
         } bg-white dark:bg-gray-900`}
         suppressHydrationWarning
       >
-        <span className="text-2xl">🇸🇪</span>
+        <Text className="text-2xl">🇸🇪</Text>
       </Button>
       <Button
         type="button"
@@ -34,8 +36,8 @@ export default function LanguageSwitcher() {
         } bg-white dark:bg-gray-900`}
         suppressHydrationWarning
       >
-        <span className="text-2xl">🇬🇧</span>
+        <Text className="text-2xl">🇬🇧</Text>
       </Button>
-    </div>
+    </Box>
   );
 }

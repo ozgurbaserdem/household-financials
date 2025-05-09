@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/tooltip";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Box } from "@/components/ui/box";
+import { Text } from "@/components/ui/text";
 
 interface ResultsTableProps {
   results: CalculationResult[];
@@ -88,7 +90,7 @@ function ResultsTableHead() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span>{t(cell.key)}</span>
+                  <Text>{t(cell.key)}</Text>
                 </TooltipTrigger>
                 <TooltipContent>{t(cell.tooltipKey)}</TooltipContent>
               </Tooltip>
@@ -127,13 +129,13 @@ export function ResultsTable({ results }: ResultsTableProps) {
   return (
     <Card className="shadow-lg rounded-2xl border border-gray-200">
       <CardHeader className="flex flex-row items-center gap-3 pb-2">
-        <BarChart3 className="w-7 h-7 ttext-blue-600 dark:text-blue-400" />
+        <BarChart3 className="w-7 h-7 text-blue-600 dark:text-blue-400" />
         <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
           {t("title")}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
+        <Box className="overflow-x-auto">
           <Table className="min-w-full text-sm">
             <ResultsTableHead />
             <TableBody>
@@ -142,7 +144,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
               ))}
             </TableBody>
           </Table>
-        </div>
+        </Box>
       </CardContent>
     </Card>
   );

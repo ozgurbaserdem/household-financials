@@ -23,6 +23,7 @@ import {
 import { Calculator, ChevronDown, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Box } from "@/components/ui/box";
 
 const formSchema = z.object({
   loanAmount: z.number().min(0),
@@ -116,7 +117,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-6"
           >
-            <div className="grid grid-cols-1 gap-6">
+            <Box className="grid grid-cols-1 gap-6">
               <FormField
                 control={form.control}
                 name="loanAmount"
@@ -139,11 +140,11 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                 )}
               />
 
-              <div className="bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4">
+              <Box className="bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4">
                 <FormLabel className="text-gray-700 dark:text-gray-300 mb-2 block">
                   {t("interest_rates")}
                 </FormLabel>
-                <div
+                <Box
                   className="flex flex-wrap gap-4"
                   aria-label={t("interest_rates_aria")}
                 >
@@ -175,14 +176,14 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                       )}
                     />
                   ))}
-                </div>
-              </div>
+                </Box>
+              </Box>
 
-              <div className="bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4">
+              <Box className="bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4">
                 <FormLabel className="text-gray-700 dark:text-gray-300 mb-2 block">
                   {t("amortization_rates")}
                 </FormLabel>
-                <div
+                <Box
                   className="flex flex-wrap gap-4"
                   aria-label={t("amortization_rates_aria")}
                 >
@@ -214,8 +215,8 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                       )}
                     />
                   ))}
-                </div>
-              </div>
+                </Box>
+              </Box>
 
               <FormField
                 control={form.control}
@@ -262,7 +263,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
               />
 
               {/* Collapsible extra incomes */}
-              <div
+              <Box
                 className="
 		bg-gray-50 dark:bg-gray-900
 		border border-gray-200 dark:border-gray-700
@@ -289,7 +290,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                   {t("add_extra_incomes")}
                 </Button>
                 {showExtraIncomes && (
-                  <div id="extra-incomes-section" className="mt-4 space-y-6">
+                  <Box id="extra-incomes-section" className="mt-4 space-y-6">
                     <FormField
                       control={form.control}
                       name="income3"
@@ -336,9 +337,9 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                         </FormItem>
                       )}
                     />
-                  </div>
+                  </Box>
                 )}
-              </div>
+              </Box>
 
               <FormField
                 control={form.control}
@@ -361,7 +362,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                   </FormItem>
                 )}
               />
-            </div>
+            </Box>
             <Button
               type="submit"
               variant="outline"
