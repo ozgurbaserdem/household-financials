@@ -4,40 +4,41 @@ import { Button } from "@/components/ui/button";
 import { useLocale } from "next-intl";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
+import { useEffect, useState } from "react";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
+  const [mounted, setMounted] = useState(false);
 
-  const handleChangeLanguage = (newLocale: "sv" | "en") => {
+  // After mounting, we can safely show the language switcher
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  const toggleLanguage = () => {
+    const newLocale = locale === "sv" ? "en" : "sv";
     router.push(pathname, { locale: newLocale });
   };
 
   return (
-    <Box className="flex gap-2">
-      <Button
-        type="button"
-        onClick={() => handleChangeLanguage("sv")}
-        aria-label="Byt till svenska"
-        className={`rounded p-2 border ${
-          locale === "sv" ? "border-blue-500" : "border-transparent"
-        } bg-white dark:bg-gray-900`}
-        suppressHydrationWarning
-      >
-        <Text className="text-2xl">🇸🇪</Text>
-      </Button>
-      <Button
-        type="button"
-        onClick={() => handleChangeLanguage("en")}
-        aria-label="Switch to English"
-        className={`rounded p-2 border ${
-          locale === "en" ? "border-blue-500" : "border-transparent"
-        } bg-white dark:bg-gray-900`}
-        suppressHydrationWarning
-      >
-        <Text className="text-2xl">🇬🇧</Text>
-      </Button>
-    </Box>
+    <Button
+      variant="outline"
+      onClick={toggleLanguage}
+      className="relative h-9 w-16 flex items-center justify-center"
+      aria-label={locale === "sv" ? "Switch to English" : "Byt till svenska"}
+    >
+      <Box className="flex items-center justify-center">
+        <Text className="mr-1 text-sm font-medium">
+          {locale === "sv" ? "SV" : "EN"}
+        </Text>
+        <Text className="text-xl">{locale === "sv" ? "🇸🇪" : "🇬🇧"}</Text>
+      </Box>
+    </Button>
   );
 }

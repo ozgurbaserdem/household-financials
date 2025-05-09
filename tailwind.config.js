@@ -8,7 +8,11 @@ module.exports = {
   ],
   darkMode: "selector",
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-space-grotesk)"],
+      },
+    },
   },
   plugins: [],
 };

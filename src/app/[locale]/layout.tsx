@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "../globals.css";
 import { Providers } from "../providers";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
@@ -8,7 +8,12 @@ import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 
-const inter = Inter({ subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-space-grotesk",
+});
 
 export async function generateMetadata({
   params,
@@ -50,7 +55,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={spaceGrotesk.className}>
         <NextIntlClientProvider
           locale={locale}
           messages={messages}

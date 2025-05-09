@@ -99,11 +99,11 @@ export default function Home({
 
   return (
     <Main className="min-h-screen bg-gray-100 dark:bg-gray-950 flex flex-col items-center">
-      <Box className="w-full max-w-7xl px-2 sm:px-4 py-6 sm:py-10">
+      <Box className="w-full max-w-7xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-6 sm:mb-10 text-center tracking-tight">
           {t("app.title")}
         </h1>
-        <Box className="mb-6 flex flex-row sm:flex-row justify-end items-end gap-2">
+        <Box className="mb-5 flex flex-wrap justify-end items-end gap-2">
           <ExportImportButtons
             state={calculatorState}
             onImport={handleImport}
@@ -111,14 +111,14 @@ export default function Home({
           <LanguageSwitcher />
           <ThemeSwitcher />
         </Box>
-        <Box className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
-          <Section className="col-span-2 md:col-span-1 w-full bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-200 dark:border-gray-700">
+        <Box className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-8">
+          <Section className="col-span-1 md:col-span-2 w-full bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-200 dark:border-gray-700">
             <CalculatorForm
               onSubmit={handleFormSubmit}
               values={getFormValuesFromState(calculatorState)}
             />
           </Section>
-          <Section className="col-span-2 flex flex-col gap-4 sm:gap-8">
+          <Section className="col-span-1 md:col-span-3 flex flex-col gap-4 sm:gap-8">
             <Box className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-200 dark:border-gray-700 w-full">
               <ResultsTable results={results} />
             </Box>

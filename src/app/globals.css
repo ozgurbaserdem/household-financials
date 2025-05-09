@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  --font-space-grotesk: "Space Grotesk", sans-serif;
+}
+
 /* Hide number input spinners for Chrome, Safari, Edge, Opera */
 input[type="number"].no-spinner::-webkit-inner-spin-button,
 input[type="number"].no-spinner::-webkit-outer-spin-button {
