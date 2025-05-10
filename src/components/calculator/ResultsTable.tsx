@@ -77,7 +77,7 @@ const HEAD_CELLS: HeadCell[] = [
   },
 ];
 
-function MobileResultCard({
+function ResultCard({
   result,
   showTooltips,
 }: {
@@ -99,7 +99,7 @@ function MobileResultCard({
 
   return (
     <Box className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-3">
-      <Box className="grid grid-cols-3 gap-x-6 gap-y-2">
+      <Box className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
         {gridOrder.map((key, idx) => {
           const cell = HEAD_CELLS.find((c) => c.key === key);
           if (!cell) return null;
@@ -175,7 +175,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
         {/* Responsive grid of cards for all screen sizes, 2 per row on desktop */}
         <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {results.map((result, index) => (
-            <MobileResultCard
+            <ResultCard
               key={index}
               result={result}
               showTooltips={index === 0}
