@@ -12,7 +12,7 @@ declare const messages: {
     "income3": "Inkomst 3 (SEK, sidoinkomst)",
     "income4": "Inkomst 4 (SEK, sidoinkomst)",
     "running_costs": "Driftskostnader (SEK)",
-    "calculate": "Beräkna",
+    "save": "Spara",
     "title_aria": "Avsnitt för låneparametrar",
     "loan_amount_aria": "Lånebelopp i SEK",
     "interest_rates_aria": "Välj en eller flera räntesatser",
@@ -22,7 +22,7 @@ declare const messages: {
     "income3_aria": "Månatlig brutto sidoinkomst för sökande 1 i SEK (utan avdrag)",
     "income4_aria": "Månatlig brutto sidoinkomst för sökande 2 i SEK (utan avdrag)",
     "running_costs_aria": "Månatliga driftskostnader i SEK",
-    "calculate_aria": "Beräkna lånescenarier",
+    "calculate_aria": "Spara lånescenarier",
     "add_extra_incomes": "Lägg till sidoinkomster"
   },
   "expense_categories": {
@@ -206,12 +206,27 @@ declare const messages: {
     "import_csv": "Importera CSV"
   },
   "app": {
-    "title": "Min ekonomi"
+    "title": "Min ekonomi",
+    "calculate": "Beräkna"
   },
   "not_found": {
     "title": "Sidan kunde inte hittas",
     "description": "Sidan du letar efter finns inte.",
     "back_home": "Tillbaka till startsidan"
+  },
+  "income": {
+    "title": "Inkomster",
+    "income1": "Inkomst 1 (SEK)",
+    "income2": "Inkomst 2 (SEK)",
+    "income3": "Inkomst 3 (SEK)",
+    "income4": "Inkomst 4 (SEK)",
+    "add_extra_incomes": "Lägg till sidoinkomster",
+    "title_aria": "Inkomstsektion",
+    "income1_aria": "Månatlig bruttoinkomst för sökande 1 i SEK",
+    "income2_aria": "Månatlig bruttoinkomst för sökande 2 i SEK",
+    "income3_aria": "Månatlig brutto sidoinkomst för sökande 1 i SEK (utan avdrag)",
+    "income4_aria": "Månatlig brutto sidoinkomst för sökande 2 i SEK (utan avdrag)",
+    "save": "Spara"
   }
 };
 export default messages;

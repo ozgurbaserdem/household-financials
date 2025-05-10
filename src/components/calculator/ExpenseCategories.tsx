@@ -162,7 +162,7 @@ export function ExpenseCategories({
             <Text className="font-medium text-gray-800 dark:text-gray-100">
               {t("total_expenses")}
             </Text>
-            <Text className="text-lg font-semibold text-red-600 dark:text-red-400">
+            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {formatCurrency(calculateGrandTotal())}
             </Text>
           </Box>

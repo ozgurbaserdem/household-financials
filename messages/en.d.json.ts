@@ -9,10 +9,10 @@ declare const messages: {
     "amortization_rates": "Amortization Rates (%)",
     "income1": "Income 1 (SEK)",
     "income2": "Income 2 (SEK)",
-    "income3": "Income 3 (SEK, secondary)",
-    "income4": "Income 4 (SEK, secondary)",
+    "income3": "Income 3 (SEK)",
+    "income4": "Income 4 (SEK)",
     "running_costs": "Running Costs (SEK)",
-    "calculate": "Calculate",
+    "save": "Save",
     "title_aria": "Loan Parameters section",
     "loan_amount_aria": "Loan amount in SEK",
     "interest_rates_aria": "Select one or more interest rates",
@@ -22,7 +22,7 @@ declare const messages: {
     "income3_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
     "income4_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)",
     "running_costs_aria": "Monthly running costs in SEK",
-    "calculate_aria": "Calculate loan scenarios",
+    "calculate_aria": "Save loan scenarios",
     "add_extra_incomes": "Add secondary incomes"
   },
   "expense_categories": {
@@ -206,12 +206,27 @@ declare const messages: {
     "import_csv": "Import CSV"
   },
   "app": {
-    "title": "Min ekonomi"
+    "title": "Min ekonomi",
+    "calculate": "Calculate"
   },
   "not_found": {
     "title": "Page not found",
     "description": "The page you are looking for does not exist.",
     "back_home": "Go back home"
+  },
+  "income": {
+    "title": "Incomes",
+    "income1": "Income 1 (SEK)",
+    "income2": "Income 2 (SEK)",
+    "income3": "Income 3 (SEK, secondary)",
+    "income4": "Income 4 (SEK, secondary)",
+    "add_extra_incomes": "Add secondary incomes",
+    "title_aria": "Income section",
+    "income1_aria": "Monthly gross income for applicant 1 in SEK",
+    "income2_aria": "Monthly gross income for applicant 2 in SEK",
+    "income3_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
+    "income4_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)",
+    "save": "Save"
   }
 };
 export default messages;

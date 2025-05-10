@@ -3,11 +3,11 @@ export const expenseCategories = [
     id: "home",
     name: "Home",
     subcategories: [
+      { id: "rent-monthly-fee" },
       { id: "electricity-heating" },
       { id: "pets" },
       { id: "streaming-internet-phone" },
       { id: "house-cleaning" },
-      { id: "rent-monthly-fee" },
       { id: "interior-decoration" },
       { id: "mortgage" },
       { id: "home-improvements" },
@@ -187,11 +187,11 @@ export type ExpenseSubcategory = ExpenseCategory["subcategories"][number];
 
 export const DEFAULT_EXPENSES: Record<string, Record<string, number>> = {
   home: {
+    "rent-monthly-fee": 0,
     "electricity-heating": 0,
     pets: 0,
     "streaming-internet-phone": 0,
     "house-cleaning": 0,
-    "rent-monthly-fee": 0,
     "interior-decoration": 0,
     mortgage: 0,
     "home-improvements": 0,

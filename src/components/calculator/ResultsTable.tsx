@@ -1,14 +1,6 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { formatCurrency, formatPercentage } from "@/lib/calculations";
 import type { CalculationResult } from "@/lib/types";
 import { BarChart3 } from "lucide-react";
@@ -82,78 +74,84 @@ const HEAD_CELLS: HeadCell[] = [
   },
 ];
 
-function ResultsTableHead() {
+function MobileResultCard({
+  result,
+  showTooltips,
+}: {
+  result: CalculationResult;
+  showTooltips: boolean;
+}) {
   const t = useTranslations("results");
-  return (
-    <TableHeader className="bg-gray-50 dark:bg-gray-800 sticky top-0 z-10">
-      <TableRow>
-        {HEAD_CELLS.map((cell) => (
-          <TableHead
-            key={cell.key}
-            className={`font-semibold text-gray-700 dark:text-gray-200 ${
-              cell.className ?? ""
-            }`}
-          >
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Text>{t(cell.key)}</Text>
-                </TooltipTrigger>
-                <TooltipContent>{t(cell.tooltipKey)}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </TableHead>
-        ))}
-      </TableRow>
-    </TableHeader>
-  );
-}
+  const gridOrder = [
+    "interest_rate",
+    "amortization",
+    "housing_cost",
+    "total_expenses",
+    "total_income",
+    "remaining_savings",
+  ];
 
-function ResultsTableRow({ result }: { result: CalculationResult }) {
-  return (
-    <TableRow className="hover:bg-blue-50/40 transition-colors font-semibold">
-      {HEAD_CELLS.map((cell) => (
-        <TableCell
-          key={cell.key}
-          className={cn(
-            cell.className,
-            cell.key === "remaining_savings" && {
-              "text-green-600 font-bold": result.remainingSavings >= 0,
-              "text-red-600 font-bold": result.remainingSavings < 0,
-            }
-          )}
-        >
-          {cell.render ? cell.render(result) : null}
-        </TableCell>
-      ))}
-    </TableRow>
-  );
-}
-
-function MobileResultCard({ result }: { result: CalculationResult }) {
-  const t = useTranslations("results");
+  // Tooltip open state for click (only for first card)
+  const [openIndex, setOpenIndex] = React.useState<number | null>(null);
 
   return (
-    <Box className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-3">
-      <Box className="grid grid-cols-2 gap-3">
-        {HEAD_CELLS.map((cell) => (
-          <Box key={cell.key} className="flex flex-col">
-            <Text className="text-sm text-gray-500 dark:text-gray-400">
-              {t(cell.key)}
-            </Text>
-            <Text
-              className={cn(
-                "font-medium",
-                cell.key === "remaining_savings" && {
-                  "text-green-600 font-bold": result.remainingSavings >= 0,
-                  "text-red-600 font-bold": result.remainingSavings < 0,
-                }
+    <Box className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-3">
+      <Box className="grid grid-cols-3 gap-x-6 gap-y-2">
+        {gridOrder.map((key, idx) => {
+          const cell = HEAD_CELLS.find((c) => c.key === key);
+          if (!cell) return null;
+          return (
+            <Box key={cell.key} className="flex flex-col">
+              {showTooltips ? (
+                <TooltipProvider>
+                  <Tooltip
+                    open={openIndex === idx}
+                    onOpenChange={(o) => setOpenIndex(o ? idx : null)}
+                  >
+                    <TooltipTrigger asChild>
+                      <Text
+                        className="text-sm text-gray-500 dark:text-gray-400 cursor-help"
+                        tabIndex={0}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenIndex(openIndex === idx ? null : idx);
+                        }}
+                        onMouseLeave={() => setOpenIndex(null)}
+                        onBlur={() => setOpenIndex(null)}
+                      >
+                        {t(cell.key)}
+                      </Text>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      align="center"
+                      sideOffset={-12}
+                      className={`w-48 ${idx === 0 ? "translate-x-[-70px]" : "translate-x-[-40px]"}`}
+                    >
+                      {t(cell.tooltipKey)}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <Text className="text-sm text-gray-500 dark:text-gray-400">
+                  {t(cell.key)}
+                </Text>
               )}
-            >
-              {cell.render ? cell.render(result) : null}
-            </Text>
-          </Box>
-        ))}
+              <Text
+                className={cn(
+                  "font-medium",
+                  cell.key === "remaining_savings" && {
+                    "text-green-600 dark:text-green-400 font-bold":
+                      result.remainingSavings >= 0,
+                    "text-red-600 dark:text-red-400 font-bold":
+                      result.remainingSavings < 0,
+                  }
+                )}
+              >
+                {cell.render ? cell.render(result) : null}
+              </Text>
+            </Box>
+          );
+        })}
       </Box>
     </Box>
   );
@@ -171,23 +169,15 @@ export function ResultsTable({ results }: ResultsTableProps) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {/* Mobile view - card layout */}
-        <Box className="md:hidden space-y-4">
+        {/* Responsive grid of cards for all screen sizes, 2 per row on desktop */}
+        <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {results.map((result, index) => (
-            <MobileResultCard key={index} result={result} />
+            <MobileResultCard
+              key={index}
+              result={result}
+              showTooltips={index === 0}
+            />
           ))}
-        </Box>
-
-        {/* Desktop view - table layout */}
-        <Box className="hidden md:block overflow-x-auto">
-          <Table className="w-full text-sm">
-            <ResultsTableHead />
-            <TableBody>
-              {results.map((result, index) => (
-                <ResultsTableRow key={index} result={result} />
-              ))}
-            </TableBody>
-          </Table>
         </Box>
       </CardContent>
     </Card>
