@@ -217,12 +217,18 @@
     "income2": "Inkomst 2 (SEK)",
     "income3": "Inkomst 3 (SEK)",
     "income4": "Inkomst 4 (SEK)",
+    "child_benefits": "Barnbidrag (SEK)",
+    "other_benefits": "Övriga bidrag (SEK)",
+    "other_incomes": "Övriga inkomster (SEK)",
     "add_extra_incomes": "Lägg till sidoinkomster",
     "title_aria": "Inkomstsektion",
     "income1_aria": "Månatlig bruttoinkomst för sökande 1 i SEK",
     "income2_aria": "Månatlig bruttoinkomst för sökande 2 i SEK",
     "income3_aria": "Månatlig brutto sidoinkomst för sökande 1 i SEK (utan avdrag)",
     "income4_aria": "Månatlig brutto sidoinkomst för sökande 2 i SEK (utan avdrag)",
+    "child_benefits_aria": "Månatligt barnbidrag i SEK",
+    "other_benefits_aria": "Månatliga övriga bidrag i SEK",
+    "other_incomes_aria": "Månatliga övriga inkomster i SEK",
     "save": "Spara"
   }
 }

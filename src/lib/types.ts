@@ -32,6 +32,9 @@ export interface CalculationResult {
   income2: number;
   income3: number;
   income4: number;
+  childBenefits: number;
+  otherBenefits: number;
+  otherIncomes: number;
 }
 
 export interface CalculatorState {
@@ -44,6 +47,9 @@ export interface CalculatorState {
   grossIncome2: number;
   grossIncome3: number;
   grossIncome4: number;
+  childBenefits: number;
+  otherBenefits: number;
+  otherIncomes: number;
   runningCosts: number;
   expenses: ExpensesByCategory;
 }

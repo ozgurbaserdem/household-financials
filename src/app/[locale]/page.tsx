@@ -42,6 +42,9 @@ export default function Home({
     grossIncome2: 30000,
     grossIncome3: 0,
     grossIncome4: 0,
+    childBenefits: 0,
+    otherBenefits: 0,
+    otherIncomes: 0,
     runningCosts: 5000,
     expenses: DEFAULT_EXPENSES,
   });
@@ -94,6 +97,9 @@ export default function Home({
       grossIncome2: imported.grossIncome2 ?? calculatorState.grossIncome2,
       grossIncome3: imported.grossIncome3 ?? calculatorState.grossIncome3,
       grossIncome4: imported.grossIncome4 ?? calculatorState.grossIncome4,
+      childBenefits: imported.childBenefits ?? calculatorState.childBenefits,
+      otherBenefits: imported.otherBenefits ?? calculatorState.otherBenefits,
+      otherIncomes: imported.otherIncomes ?? calculatorState.otherIncomes,
       runningCosts: imported.runningCosts ?? calculatorState.runningCosts,
       expenses: imported.expenses ?? calculatorState.expenses,
       // These will be set on calculate
@@ -127,6 +133,9 @@ export default function Home({
                   income2: calculatorState.grossIncome2,
                   income3: calculatorState.grossIncome3,
                   income4: calculatorState.grossIncome4,
+                  childBenefits: calculatorState.childBenefits,
+                  otherBenefits: calculatorState.otherBenefits,
+                  otherIncomes: calculatorState.otherIncomes,
                 }}
               />
             </Section>

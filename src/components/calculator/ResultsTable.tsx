@@ -61,7 +61,10 @@ const HEAD_CELLS: HeadCell[] = [
         result.income1 +
           result.income2 +
           (result.income3 ?? 0) +
-          (result.income4 ?? 0)
+          (result.income4 ?? 0) +
+          (result.childBenefits ?? 0) +
+          (result.otherBenefits ?? 0) +
+          (result.otherIncomes ?? 0)
       ),
     priority: 5,
   },

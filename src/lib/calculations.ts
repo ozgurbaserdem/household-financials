@@ -13,6 +13,9 @@ export function calculateLoanScenarios(
     income2,
     income3,
     income4,
+    childBenefits,
+    otherBenefits,
+    otherIncomes,
     runningCosts,
     expenses,
   } = state;
@@ -53,6 +56,9 @@ export function calculateLoanScenarios(
         income2,
         income3,
         income4,
+        childBenefits,
+        otherBenefits,
+        otherIncomes,
       });
     }
   }

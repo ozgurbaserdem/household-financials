@@ -42,6 +42,9 @@ export function importFromCsv(
       const grossIncome2 = Number(flat.grossIncome2 ?? flat.income2);
       const grossIncome3 = Number(flat.grossIncome3 ?? flat.income3);
       const grossIncome4 = Number(flat.grossIncome4 ?? flat.income4);
+      const childBenefits = Number(flat.childBenefits ?? 0);
+      const otherBenefits = Number(flat.otherBenefits ?? 0);
+      const otherIncomes = Number(flat.otherIncomes ?? 0);
 
       const state: Partial<CalculatorState> = {
         loanParameters: {
@@ -61,6 +64,9 @@ export function importFromCsv(
         income2: calculateNetIncome(grossIncome2),
         income3: calculateNetIncomeSecond(grossIncome3),
         income4: calculateNetIncomeSecond(grossIncome4),
+        childBenefits,
+        otherBenefits,
+        otherIncomes,
         runningCosts: Number(flat.runningCosts),
         expenses: unflattenExpenses(flat),
       };

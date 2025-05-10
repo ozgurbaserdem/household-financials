@@ -27,6 +27,9 @@ export function exportToCsv(state: CalculatorState) {
     "grossIncome2",
     "grossIncome3",
     "grossIncome4",
+    "childBenefits",
+    "otherBenefits",
+    "otherIncomes",
     "runningCosts",
     ...Object.keys(flatExpenses),
   ];
@@ -42,6 +45,9 @@ export function exportToCsv(state: CalculatorState) {
     state.grossIncome2 ?? state.income2,
     state.grossIncome3 ?? state.income3,
     state.grossIncome4 ?? state.income4,
+    state.childBenefits ?? 0,
+    state.otherBenefits ?? 0,
+    state.otherIncomes ?? 0,
     runningCosts,
     ...Object.values(flatExpenses),
   ];

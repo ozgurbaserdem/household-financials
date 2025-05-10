@@ -25,6 +25,9 @@ const formSchema = z.object({
   income2: z.number().min(0),
   income3: z.number().min(0),
   income4: z.number().min(0),
+  childBenefits: z.number().min(0),
+  otherBenefits: z.number().min(0),
+  otherIncomes: z.number().min(0),
 });
 
 interface IncomeFormProps {
@@ -34,6 +37,9 @@ interface IncomeFormProps {
     income2: number;
     income3: number;
     income4: number;
+    childBenefits: number;
+    otherBenefits: number;
+    otherIncomes: number;
   };
 }
 
@@ -46,6 +52,9 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
       income2: 0,
       income3: 0,
       income4: 0,
+      childBenefits: 0,
+      otherBenefits: 0,
+      otherIncomes: 0,
     },
   });
 
@@ -76,6 +85,9 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                 income2: values.income2,
                 income3: values.income3,
                 income4: values.income4,
+                childBenefits: values.childBenefits,
+                otherBenefits: values.otherBenefits,
+                otherIncomes: values.otherIncomes,
                 grossIncome1: values.income1,
                 grossIncome2: values.income2,
                 grossIncome3: values.income3,
@@ -107,6 +119,9 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                               income2: values.income2,
                               income3: values.income3,
                               income4: values.income4,
+                              childBenefits: values.childBenefits,
+                              otherBenefits: values.otherBenefits,
+                              otherIncomes: values.otherIncomes,
                               grossIncome1: values.income1,
                               grossIncome2: values.income2,
                               grossIncome3: values.income3,
@@ -144,6 +159,9 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                               income2: values.income2,
                               income3: values.income3,
                               income4: values.income4,
+                              childBenefits: values.childBenefits,
+                              otherBenefits: values.otherBenefits,
+                              otherIncomes: values.otherIncomes,
                               grossIncome1: values.income1,
                               grossIncome2: values.income2,
                               grossIncome3: values.income3,
@@ -192,9 +210,14 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                 <div
                   className={`transition-all duration-300 ease-in-out overflow-hidden ${showExtraIncomes ? "max-h-96 opacity-100 mt-2" : "max-h-0 opacity-0 mt-0"}`}
                 >
-                  <Box id="extra-incomes-section" className="space-y-6">
+                  <Box
+                    id="extra-incomes-section"
+                    className="space-y-6"
+                    aria-hidden={!showExtraIncomes}
+                  >
                     <FormField
                       control={form.control}
+                      aria-hidden={!showExtraIncomes}
                       name="income3"
                       render={({ field }) => (
                         <FormItem>
@@ -203,6 +226,8 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                           </FormLabel>
                           <FormControl>
                             <Input
+                              aria-hidden={!showExtraIncomes}
+                              tabIndex={showExtraIncomes ? 0 : -1}
                               type="number"
                               min={0}
                               {...field}
@@ -218,6 +243,9 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                                     income2: values.income2,
                                     income3: values.income3,
                                     income4: values.income4,
+                                    childBenefits: values.childBenefits,
+                                    otherBenefits: values.otherBenefits,
+                                    otherIncomes: values.otherIncomes,
                                     grossIncome1: values.income1,
                                     grossIncome2: values.income2,
                                     grossIncome3: values.income3,
@@ -234,6 +262,7 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                     <FormField
                       control={form.control}
                       name="income4"
+                      aria-hidden={!showExtraIncomes}
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="calculator-form-label">
@@ -241,6 +270,8 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                           </FormLabel>
                           <FormControl>
                             <Input
+                              aria-hidden={!showExtraIncomes}
+                              tabIndex={showExtraIncomes ? 0 : -1}
                               type="number"
                               min={0}
                               {...field}
@@ -256,6 +287,9 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                                     income2: values.income2,
                                     income3: values.income3,
                                     income4: values.income4,
+                                    childBenefits: values.childBenefits,
+                                    otherBenefits: values.otherBenefits,
+                                    otherIncomes: values.otherIncomes,
                                     grossIncome1: values.income1,
                                     grossIncome2: values.income2,
                                     grossIncome3: values.income3,
@@ -271,6 +305,135 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                     />
                   </Box>
                 </div>
+              </Box>
+
+              {/* Additional Income Fields */}
+              <Box className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="childBenefits"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="calculator-form-label">
+                        {t("child_benefits")}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={0}
+                          {...field}
+                          aria-label={t("child_benefits_aria")}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                          onBlur={() => {
+                            if (form.formState.dirtyFields["childBenefits"]) {
+                              const values = form.getValues();
+                              onSubmit({
+                                income1: values.income1,
+                                income2: values.income2,
+                                income3: values.income3,
+                                income4: values.income4,
+                                childBenefits: values.childBenefits,
+                                otherBenefits: values.otherBenefits,
+                                otherIncomes: values.otherIncomes,
+                                grossIncome1: values.income1,
+                                grossIncome2: values.income2,
+                                grossIncome3: values.income3,
+                                grossIncome4: values.income4,
+                              });
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="otherBenefits"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="calculator-form-label">
+                        {t("other_benefits")}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={0}
+                          {...field}
+                          aria-label={t("other_benefits_aria")}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                          onBlur={() => {
+                            if (form.formState.dirtyFields["otherBenefits"]) {
+                              const values = form.getValues();
+                              onSubmit({
+                                income1: values.income1,
+                                income2: values.income2,
+                                income3: values.income3,
+                                income4: values.income4,
+                                childBenefits: values.childBenefits,
+                                otherBenefits: values.otherBenefits,
+                                otherIncomes: values.otherIncomes,
+                                grossIncome1: values.income1,
+                                grossIncome2: values.income2,
+                                grossIncome3: values.income3,
+                                grossIncome4: values.income4,
+                              });
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="otherIncomes"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="calculator-form-label">
+                        {t("other_incomes")}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={0}
+                          {...field}
+                          aria-label={t("other_incomes_aria")}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                          onBlur={() => {
+                            if (form.formState.dirtyFields["otherIncomes"]) {
+                              const values = form.getValues();
+                              onSubmit({
+                                income1: values.income1,
+                                income2: values.income2,
+                                income3: values.income3,
+                                income4: values.income4,
+                                childBenefits: values.childBenefits,
+                                otherBenefits: values.otherBenefits,
+                                otherIncomes: values.otherIncomes,
+                                grossIncome1: values.income1,
+                                grossIncome2: values.income2,
+                                grossIncome3: values.income3,
+                                grossIncome4: values.income4,
+                              });
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </Box>
             </Box>
           </form>

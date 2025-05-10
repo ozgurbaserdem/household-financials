@@ -28,6 +28,9 @@ const formSchema = z.object({
   income2: z.number().min(0),
   income3: z.number().min(0),
   income4: z.number().min(0),
+  childBenefits: z.number().min(0),
+  otherBenefits: z.number().min(0),
+  otherIncomes: z.number().min(0),
   runningCosts: z.number().min(0),
 });
 
@@ -52,6 +55,9 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
       income2: 0,
       income3: 0,
       income4: 0,
+      childBenefits: 0,
+      otherBenefits: 0,
+      otherIncomes: 0,
       runningCosts: values?.runningCosts ?? 0,
     },
   });
@@ -69,6 +75,9 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
         income2: 0,
         income3: 0,
         income4: 0,
+        childBenefits: 0,
+        otherBenefits: 0,
+        otherIncomes: 0,
         runningCosts: values.runningCosts,
       });
     }
