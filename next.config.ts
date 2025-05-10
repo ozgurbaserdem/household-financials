@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   },
   assetPrefix: isProd ? `/${repoName}/` : "",
   basePath: isProd ? `/${repoName}` : "",
-  output: "export",
+  output: isProd ? "export" : undefined,
   // This ensures the app works with GitHub Pages
   trailingSlash: true,
 };

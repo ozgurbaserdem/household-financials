@@ -275,7 +275,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                   className={`
                     bg-white hover:bg-gray-100 text-black
                     dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
-                    w-full flex items-center gap-2 justify-start shadow-none
+                    ${showExtraIncomes ? "w-[calc(100%+1rem)] -mx-2" : "w-full"} flex items-center gap-2 justify-start shadow-none
                     p-2
                     `}
                 >

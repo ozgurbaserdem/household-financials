@@ -28,7 +28,7 @@ input[type="number"].no-spinner {
   }
 
   .card-main-primary {
-    @apply shadow-lg rounded-2xl border border-gray-200 dark:border-gray-800 dark:bg-gray-900;
+    @apply shadow-lg rounded-2xl border border-gray-200 dark:border-gray-900 dark:bg-gray-900;
   }
 
   .card-header-primary {
@@ -48,6 +48,6 @@ input[type="number"].no-spinner {
   }
 
   .section-card {
-    @apply bg-white dark:bg-gray-900 rounded-2xl shadow-lg dark:shadow-gray-800/60 w-full border-none;
+    @apply bg-white dark:bg-gray-900 rounded-xl shadow-lg dark:shadow-gray-800/70 w-full border-none;
   }
 }
