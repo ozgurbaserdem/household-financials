@@ -166,7 +166,9 @@ export function ResultsTable({ results }: ResultsTableProps) {
     <Card>
       <CardHeader>
         <BarChart3 className="icon-primary" />
-        <CardTitle>{t("title")}</CardTitle>
+        <CardTitle tabIndex={0} aria-label={t("aria.title")}>
+          {t("title")}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         {/* Mobile view - card layout */}

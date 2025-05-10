@@ -48,7 +48,7 @@ input[type="number"].no-spinner {
   }
 
   .section-card {
-    @apply bg-white dark:bg-gray-900 rounded-2xl shadow-lg dark:shadow-gray-800/50 w-full border-none;
+    @apply bg-white dark:bg-gray-900 rounded-2xl shadow-lg dark:shadow-gray-800/60 w-full border-none;
   }
 }
 

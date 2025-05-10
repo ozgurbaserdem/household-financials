@@ -9,7 +9,7 @@ import { ExpenseBreakdown } from "@/components/charts/ExpenseBreakdown";
 import { calculateLoanScenarios } from "@/lib/calculations";
 import { DEFAULT_EXPENSES } from "@/data/expenseCategories";
 import type { CalculatorState, ExpensesByCategory } from "@/lib/types";
-import ExportImportButtons from "@/components/export-import-buttons";
+import ExportImportButtons from "@/components/ExportImportButtons";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Main } from "@/components/ui/main";

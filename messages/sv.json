@@ -175,10 +175,16 @@
   },
   "expense_breakdown": {
     "title": "Utgiftsfördelning",
+    "aria": {
+      "title": "Utgiftsfördelning sektion"
+    },
     "no_expenses": "Inga utgifter att visa"
   },
   "results": {
     "title": "Beräkningsresultat",
+    "aria": {
+      "title": "Beräkningsresultat sektion"
+    },
     "interest_rate": "Ränta",
     "amortization": "Amortering",
     "housing_cost": "Boendekostnad",

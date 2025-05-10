@@ -261,7 +261,6 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
               {/* Collapsible extra incomes */}
               <Box
                 className={`
-                          bg-gray-50 dark:bg-gray-900 
                           border border-gray-200 dark:border-gray-700 
                           rounded-md mb-2
                           transition-all duration-300 ease-in-out

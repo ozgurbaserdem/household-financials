@@ -68,7 +68,9 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
       <Card>
         <CardHeader>
           <PieChartIcon className="icon-primary" />
-          <CardTitle>{expenseBreakdownT("title")}</CardTitle>
+          <CardTitle tabIndex={0} aria-label={expenseBreakdownT("aria.title")}>
+            {expenseBreakdownT("title")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Box className="flex h-[300px] items-center justify-center text-muted-foreground dark:text-gray-400">
@@ -83,7 +85,9 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
     <Card>
       <CardHeader>
         <PieChartIcon className="icon-primary" />
-        <CardTitle>{expenseBreakdownT("title")}</CardTitle>
+        <CardTitle tabIndex={0} aria-label={expenseBreakdownT("aria.title")}>
+          {expenseBreakdownT("title")}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Box className="h-[300px]">

@@ -175,10 +175,16 @@
   },
   "expense_breakdown": {
     "title": "Expense Breakdown",
+    "aria": {
+      "title": "Expense Breakdown section"
+    },
     "no_expenses": "No expenses to display"
   },
   "results": {
     "title": "Calculation Results",
+    "aria": {
+      "title": "Calculation Results section"
+    },
     "interest_rate": "Interest Rate",
     "amortization": "Amortization",
     "housing_cost": "Housing Cost",
