@@ -15,6 +15,11 @@ const eslintConfig = [
     "next/typescript",
     "plugin:prettier/recommended"
   ),
+  {
+    rules: {
+      "react/jsx-curly-spacing": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

@@ -112,22 +112,22 @@ export default function Home({
           <ThemeSwitcher />
         </Box>
         <Box className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-8">
-          <Section className="col-span-1 md:col-span-2 w-full bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-200 dark:border-gray-700">
+          <Section className="col-span-1 md:col-span-2 section-card">
             <CalculatorForm
               onSubmit={handleFormSubmit}
               values={getFormValuesFromState(calculatorState)}
             />
           </Section>
-          <Section className="col-span-1 md:col-span-3 flex flex-col gap-4 sm:gap-8">
-            <Box className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-200 dark:border-gray-700 w-full">
+          <Section className="col-span-1 md:col-span-3 flex flex-col gap-4 sm:gap-8 ">
+            <Box className="section-card">
               <ResultsTable results={results} />
             </Box>
-            <Box className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-200 dark:border-gray-700 w-full">
+            <Box className="section-card">
               <ExpenseBreakdown expenses={calculatorState.expenses} />
             </Box>
           </Section>
         </Box>
-        <Section className="mt-6 sm:mt-10 bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-200 dark:border-gray-700 w-full">
+        <Section className="mt-6 sm:mt-8 section-card">
           <ExpenseCategories
             expenses={calculatorState.expenses}
             onChange={handleExpensesChange}

@@ -291,11 +291,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                 </Button>
 
                 <div
-                  className={`
-      transition-all duration-300 ease-in-out
-      overflow-hidden
-      ${showExtraIncomes ? "max-h-96 opacity-100 mt-2" : "max-h-0 opacity-0 mt-0"}
-    `}
+                  className={`transition-all duration-300 ease-in-out overflow-hidden ${showExtraIncomes ? "max-h-96 opacity-100 mt-2" : "max-h-0 opacity-0 mt-0"}`}
                 >
                   <Box id="extra-incomes-section" className="space-y-6">
                     <FormField
