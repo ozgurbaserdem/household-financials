@@ -10,7 +10,8 @@
     "format": "prettier --write \"src/**/*.{js,ts,tsx,jsx,json,md}\"",
     "test": "vitest",
     "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "prepare": "husky"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.2",
@@ -60,10 +61,17 @@
     "eslint-config-next": "15.3.1",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.0",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
+    "lint-staged": "^15.5.2",
     "prettier": "^3.5.3",
     "tw-animate-css": "^1.2.9",
     "typescript": "^5",
     "vitest": "^3.1.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm test"
+    ]
   }
 }
