@@ -60,17 +60,10 @@ export function ExpenseCategories({
   };
 
   return (
-    <Card
-      className="shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 w-full"
-      aria-label={t("aria.title")}
-    >
-      <CardHeader className="flex flex-row items-center gap-3 pb-2">
-        <List className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-        <CardTitle
-          className="text-2xl font-bold text-gray-900 dark:text-gray-100"
-          tabIndex={0}
-          aria-label={t("aria.title")}
-        >
+    <Card aria-label={t("aria.title")}>
+      <CardHeader>
+        <List className="icon-primary" />
+        <CardTitle tabIndex={0} aria-label={t("aria.title")}>
           {t("title")}
         </CardTitle>
       </CardHeader>

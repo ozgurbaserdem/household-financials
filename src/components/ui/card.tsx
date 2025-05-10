@@ -9,12 +9,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <Box
       data-slot="card"
       className={cn(
-        // Light mode
-        "bg-white text-gray-900 border-gray-200",
-        // Dark mode
-        "dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700",
-        // Shared
-        "flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        "flex flex-col gap-6 rounded-xl border py-6 shadow-sm card-main-primary",
         className
       )}
       {...props}
@@ -26,10 +21,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <Box
       data-slot="card-header"
-      className={cn(
-        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
-        className
-      )}
+      className={cn("@container/card-header card-header-primary", className)}
       {...props}
     />
   );
@@ -39,7 +31,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <Box
       data-slot="card-title"
-      className={cn("leading-none font-semibold", className)}
+      className={cn("leading-none font-semibold card-title-primary", className)}
       {...props}
     />
   );

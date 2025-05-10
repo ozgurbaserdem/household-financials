@@ -1,18 +1,18 @@
 export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('sv-SE', {
-    style: 'currency',
-    currency: 'SEK'
-  }).format(amount)
-}
+  return new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+  }).format(amount);
+};
 
 export const formatPercentage = (value: number): string => {
-  return new Intl.NumberFormat('sv-SE', {
-    style: 'percent',
+  return new Intl.NumberFormat("sv-SE", {
+    style: "percent",
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(value / 100)
-}
+    maximumFractionDigits: 2,
+  }).format(value / 100);
+};
 
 export const formatNumber = (value: number): string => {
-  return new Intl.NumberFormat('sv-SE').format(value)
-} 
+  return new Intl.NumberFormat("sv-SE").format(value);
+};

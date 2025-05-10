@@ -17,6 +17,37 @@ input[type="number"].no-spinner {
   -moz-appearance: textfield;
 }
 
+/* Custom classes */
+@layer components {
+  .icon-primary {
+    @apply w-7 h-7 text-blue-600 dark:text-blue-400;
+  }
+
+  .card-title-primary {
+    @apply text-2xl font-bold text-gray-900 dark:text-gray-100;
+  }
+
+  .card-main-primary {
+    @apply shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900;
+  }
+
+  .card-header-primary {
+    @apply flex flex-row items-center gap-3 pb-2 dark:bg-gray-900 px-6;
+  }
+
+  .calculator-form-box {
+    @apply dark:bg-gray-900 border border-gray-700 dark:border-gray-500 rounded-lg p-4;
+  }
+
+  .calculator-form-box-form-label {
+    @apply text-gray-700 dark:text-gray-300 mb-2 block pb-1 text-lg;
+  }
+
+  .calculator-form-label {
+    @apply text-gray-700 dark:text-gray-300 mb-2 block text-lg;
+  }
+}
+
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

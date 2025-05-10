@@ -20,7 +20,7 @@ import {
   calculateNetIncome,
   calculateNetIncomeSecond,
 } from "@/lib/calculations";
-import { Calculator, ChevronDown, ChevronRight } from "lucide-react";
+import { Calculator, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
@@ -99,14 +99,10 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
   };
 
   return (
-    <Card className="shadow-lg rounded-2xl border border-gray-200">
-      <CardHeader className="flex flex-row items-center gap-3 pb-2">
-        <Calculator className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-        <CardTitle
-          className="text-2xl font-bold text-gray-900 dark:text-gray-100"
-          tabIndex={0}
-          aria-label={t("title_aria")}
-        >
+    <Card>
+      <CardHeader>
+        <Calculator className="icon-primary" />
+        <CardTitle tabIndex={0} aria-label={t("title_aria")}>
           {t("title")}
         </CardTitle>
       </CardHeader>
@@ -123,7 +119,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                 name="loanAmount"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-700 dark:text-gray-300">
+                    <FormLabel className="calculator-form-label">
                       {t("loan_amount")}
                     </FormLabel>
                     <FormControl>
@@ -140,8 +136,8 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                 )}
               />
 
-              <Box className="bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4">
-                <FormLabel className="text-gray-700 dark:text-gray-300 mb-2 block">
+              <Box className="calculator-form-box">
+                <FormLabel className="calculator-form-box-form-label">
                   {t("interest_rates")}
                 </FormLabel>
                 <Box
@@ -179,8 +175,8 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                 </Box>
               </Box>
 
-              <Box className="bg-gray-50 dark:bg-gray-900 border border-gray-700 rounded-lg p-4">
-                <FormLabel className="text-gray-700 dark:text-gray-300 mb-2 block">
+              <Box className="calculator-form-box">
+                <FormLabel className="calculator-form-box-form-label">
                   {t("amortization_rates")}
                 </FormLabel>
                 <Box
@@ -223,7 +219,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                 name="income1"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-700 dark:text-gray-300">
+                    <FormLabel className="calculator-form-label">
                       {t("income1")}
                     </FormLabel>
                     <FormControl>
@@ -245,7 +241,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                 name="income2"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-700 dark:text-gray-300">
+                    <FormLabel className="calculator-form-label">
                       {t("income2")}
                     </FormLabel>
                     <FormControl>
@@ -264,39 +260,50 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
 
               {/* Collapsible extra incomes */}
               <Box
-                className="
-		bg-gray-50 dark:bg-gray-900
-		border border-gray-200 dark:border-gray-700
-		rounded-md p-0 mb-2
-	"
+                className={`
+                          bg-gray-50 dark:bg-gray-900 
+                          border border-gray-200 dark:border-gray-700 
+                          rounded-md mb-2
+                          transition-all duration-300 ease-in-out
+                          ${showExtraIncomes ? "px-2 pb-2" : "p-0"}
+                        `}
               >
                 <Button
                   type="button"
                   onClick={() => setShowExtraIncomes((v) => !v)}
                   aria-expanded={showExtraIncomes}
                   aria-controls="extra-incomes-section"
-                  className="
-										bg-white hover:bg-gray-100 text-black
-										dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
-										w-full flex items-center gap-2 justify-start 		shadow-none
-
-									"
+                  className={`
+                    bg-white hover:bg-gray-100 text-black
+                    dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
+                    w-full flex items-center gap-2 justify-start shadow-none
+                    p-2
+                    `}
                 >
-                  {showExtraIncomes ? (
-                    <ChevronDown className="w-4 h-4" />
-                  ) : (
+                  <div
+                    className={`transform transition-transform duration-300 ${
+                      showExtraIncomes ? "rotate-90" : "rotate-0"
+                    }`}
+                  >
                     <ChevronRight className="w-4 h-4" />
-                  )}
+                  </div>
                   {t("add_extra_incomes")}
                 </Button>
-                {showExtraIncomes && (
-                  <Box id="extra-incomes-section" className="mt-4 space-y-6">
+
+                <div
+                  className={`
+      transition-all duration-300 ease-in-out
+      overflow-hidden
+      ${showExtraIncomes ? "max-h-96 opacity-100 mt-2" : "max-h-0 opacity-0 mt-0"}
+    `}
+                >
+                  <Box id="extra-incomes-section" className="space-y-6">
                     <FormField
                       control={form.control}
                       name="income3"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-gray-700 dark:text-gray-300">
+                          <FormLabel className="calculator-form-label">
                             {t("income3")}
                           </FormLabel>
                           <FormControl>
@@ -319,7 +326,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                       name="income4"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-gray-700 dark:text-gray-300">
+                          <FormLabel className="calculator-form-label">
                             {t("income4")}
                           </FormLabel>
                           <FormControl>
@@ -338,7 +345,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                       )}
                     />
                   </Box>
-                )}
+                </div>
               </Box>
 
               <FormField
@@ -346,7 +353,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
                 name="runningCosts"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-700 dark:text-gray-300">
+                    <FormLabel className="calculator-form-label">
                       {t("running_costs")}
                     </FormLabel>
                     <FormControl>
@@ -367,10 +374,7 @@ export function CalculatorForm({ onSubmit, values }: CalculatorFormProps) {
               type="submit"
               variant="outline"
               aria-label={t("calculate_aria")}
-              className="
-								bg-white hover:bg-gray-100 text-black
-								dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
-							"
+              className="bg-white hover:bg-gray-100 text-black dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white"
             >
               {t("calculate")}
             </Button>

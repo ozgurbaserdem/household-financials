@@ -65,12 +65,10 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
 
   if (chartData.length === 0) {
     return (
-      <Card className="shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-        <CardHeader className="flex flex-row items-center gap-3 pb-2 dark:bg-gray-900">
-          <PieChartIcon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-          <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-            {expenseBreakdownT("title")}
-          </CardTitle>
+      <Card>
+        <CardHeader>
+          <PieChartIcon className="icon-primary" />
+          <CardTitle>{expenseBreakdownT("title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <Box className="flex h-[300px] items-center justify-center text-muted-foreground dark:text-gray-400">
@@ -82,12 +80,10 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
   }
 
   return (
-    <Card className="shadow-lg rounded-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-      <CardHeader className="flex flex-row items-center gap-3 pb-2 dark:bg-gray-900">
-        <PieChartIcon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-        <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {expenseBreakdownT("title")}
-        </CardTitle>
+    <Card>
+      <CardHeader>
+        <PieChartIcon className="icon-primary" />
+        <CardTitle>{expenseBreakdownT("title")}</CardTitle>
       </CardHeader>
       <CardContent>
         <Box className="h-[300px]">

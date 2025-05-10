@@ -111,7 +111,7 @@ function ResultsTableHead() {
 
 function ResultsTableRow({ result }: { result: CalculationResult }) {
   return (
-    <TableRow className="hover:bg-blue-50/40 transition-colors">
+    <TableRow className="hover:bg-blue-50/40 transition-colors font-semibold">
       {HEAD_CELLS.map((cell) => (
         <TableCell
           key={cell.key}
@@ -163,12 +163,10 @@ export function ResultsTable({ results }: ResultsTableProps) {
   const t = useTranslations("results");
 
   return (
-    <Card className="shadow-lg rounded-2xl border border-gray-200">
-      <CardHeader className="flex flex-row items-center gap-3 pb-2">
-        <BarChart3 className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-        <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {t("title")}
-        </CardTitle>
+    <Card>
+      <CardHeader>
+        <BarChart3 className="icon-primary" />
+        <CardTitle>{t("title")}</CardTitle>
       </CardHeader>
       <CardContent>
         {/* Mobile view - card layout */}
