@@ -26,12 +26,20 @@ export function calculateLoanScenarios(
 
   for (const interestRate of interestRates) {
     for (const amortizationRate of amortizationRates) {
-      const monthlyInterest = (amount * (interestRate / 100)) / 12;
-      const monthlyAmortization = (amount * (amortizationRate / 100)) / 12;
-      const totalHousingCost =
-        monthlyInterest + monthlyAmortization + runningCosts;
-      const totalExpenses = totalHousingCost + totalOtherExpenses;
-      const remainingSavings = totalIncome - totalExpenses;
+      // Fix: Round the calculations to 2 decimal places
+      const monthlyInterest = Number(
+        ((amount * (interestRate / 100)) / 12).toFixed(2)
+      );
+      const monthlyAmortization = Number(
+        ((amount * (amortizationRate / 100)) / 12).toFixed(2)
+      );
+      const totalHousingCost = Number(
+        (monthlyInterest + monthlyAmortization + runningCosts).toFixed(2)
+      );
+      const totalExpenses = Number(
+        (totalHousingCost + totalOtherExpenses).toFixed(2)
+      );
+      const remainingSavings = Number((totalIncome - totalExpenses).toFixed(2));
 
       scenarios.push({
         interestRate,
@@ -114,6 +122,6 @@ export function calculateNetIncomeSecond(gross: number): number {
   const kommunalskatt = 0.33; // higher tax, no deductions
   const taxable = Math.max(0, gross);
   const tax = taxable * kommunalskatt;
-  console.log("tax", tax);
+
   return gross - tax;
 }
