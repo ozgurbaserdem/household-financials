@@ -22,7 +22,9 @@ export function calculateLoanScenarios(
   const { amount, interestRates, amortizationRates } = loanParameters;
 
   // Calculate sum of all other expenses (from categories)
-  const totalOtherExpenses = calculateTotalExpenses(expenses);
+  const selectedHousingExpenses = calculateSelectedHousingExpenses(expenses);
+  const totalOtherExpenses =
+    calculateTotalExpenses(expenses) - selectedHousingExpenses;
 
   const scenarios: CalculationResult[] = [];
 
@@ -35,9 +37,13 @@ export function calculateLoanScenarios(
       const monthlyAmortization = Number(
         ((amount * (amortizationRate / 100)) / 12).toFixed(2)
       );
-      // Only use totalOtherExpenses for total costs
+      // Add selected housing expenses to total housing cost
       const totalHousingCost = Number(
-        (monthlyInterest + monthlyAmortization).toFixed(2)
+        (
+          monthlyInterest +
+          monthlyAmortization +
+          selectedHousingExpenses
+        ).toFixed(2)
       );
       const totalExpenses = Number(
         (totalHousingCost + totalOtherExpenses).toFixed(2)
@@ -130,4 +136,20 @@ export function calculateNetIncomeSecond(gross: number): number {
   const tax = taxable * kommunalskatt;
 
   return gross - tax;
+}
+
+export function calculateSelectedHousingExpenses(
+  expenses: ExpensesByCategory
+): number {
+  const pairs: [string, string][] = [
+    ["home", "rent-monthly-fee"],
+    ["home", "electricity-heating"],
+    ["home", "mortgage"],
+    ["home", "water-garbage"],
+  ];
+  let sum = 0;
+  for (const [cat, sub] of pairs) {
+    sum += expenses[cat]?.[sub] ?? 0;
+  }
+  return sum;
 }

@@ -7,23 +7,10 @@ declare const messages: {
     "loan_amount": "Loan Amount (SEK)",
     "interest_rates": "Interest Rates (%)",
     "amortization_rates": "Amortization Rates (%)",
-    "income1": "Income 1 (SEK)",
-    "income2": "Income 2 (SEK)",
-    "income3": "Income 3 (SEK)",
-    "income4": "Income 4 (SEK)",
-    "running_costs": "Running Costs (SEK)",
-    "save": "Save",
     "title_aria": "Loan Parameters section",
     "loan_amount_aria": "Loan amount in SEK",
     "interest_rates_aria": "Select one or more interest rates",
-    "amortization_rates_aria": "Select one or more amortization rates",
-    "income1_aria": "Monthly gross income for applicant 1 in SEK",
-    "income2_aria": "Monthly gross income for applicant 2 in SEK",
-    "income3_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
-    "income4_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)",
-    "running_costs_aria": "Monthly running costs in SEK",
-    "calculate_aria": "Save loan scenarios",
-    "add_extra_incomes": "Add secondary incomes"
+    "amortization_rates_aria": "Select one or more amortization rates"
   },
   "expense_categories": {
     "title": "Expense Categories",
@@ -196,7 +183,7 @@ declare const messages: {
     "remaining_savings": "Remaining Savings",
     "interest_rate_tooltip": "The interest rate used for the loan calculation.",
     "amortization_tooltip": "The amortization rate used for the loan calculation.",
-    "housing_cost_tooltip": "Sum of amortizations, interest payments, and running costs.",
+    "housing_cost_tooltip": "Sum of amortizations, interest payments, rent/monthly fee, electricity/heating, mortgage, and water/garbage.",
     "total_expenses_tooltip": "All monthly expenses, including housing and other categories.",
     "total_income_tooltip": "Total net income after taxes for all income earners.",
     "remaining_savings_tooltip": "Surplus or deficit after all costs and taxes are deducted."
