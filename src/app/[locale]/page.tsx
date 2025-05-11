@@ -87,7 +87,23 @@ export default function Home({
       expenses,
     };
     setCalculatorState(newState);
-    setResults(calculateLoanScenarios(newState));
+
+    // Recalculate net income
+    const netIncome1 = calculateNetIncome(newState.grossIncome1 ?? 0);
+    const netIncome2 = calculateNetIncome(newState.grossIncome2 ?? 0);
+    const netIncome3 = calculateNetIncomeSecond(newState.grossIncome3 ?? 0);
+    const netIncome4 = calculateNetIncomeSecond(newState.grossIncome4 ?? 0);
+
+    // Update results with new net income
+    setResults(
+      calculateLoanScenarios({
+        ...newState,
+        income1: netIncome1,
+        income2: netIncome2,
+        income3: netIncome3,
+        income4: netIncome4,
+      })
+    );
   };
 
   const handleImport = (imported: Partial<CalculatorState>) => {
