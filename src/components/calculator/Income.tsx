@@ -19,6 +19,7 @@ import { BadgeDollarSign, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const formSchema = z.object({
   income1: z.number().min(0),
@@ -45,6 +46,7 @@ interface IncomeFormProps {
 
 export function Income({ onSubmit, values }: IncomeFormProps) {
   const [showExtraIncomes, setShowExtraIncomes] = useState(false);
+  const [numberOfAdults, setNumberOfAdults] = useState<"1" | "2">("1");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,6 +68,24 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
       form.reset(values);
     }
   }, [values, form]);
+
+  // Handle number of adults change
+  const handleAdultsChange = (value: "1" | "2") => {
+    setNumberOfAdults(value);
+    if (value === "1") {
+      // Clear income2 and income4 when switching to 1 adult
+      form.setValue("income2", 0);
+      form.setValue("income4", 0);
+      const currentValues = form.getValues();
+      onSubmit({
+        ...currentValues,
+        income2: 0,
+        income4: 0,
+        grossIncome2: 0,
+        grossIncome4: 0,
+      });
+    }
+  };
 
   return (
     <Card>
@@ -96,6 +116,44 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
             })}
           >
             <Box className="grid grid-cols-1 gap-6">
+              {/* Number of adults radio group with accessible fieldset/legend */}
+              <fieldset>
+                <legend
+                  id="adults-group-label"
+                  className="calculator-form-label"
+                  aria-label={t("number_of_adults_full")}
+                >
+                  {t("number_of_adults")}
+                </legend>
+                <FormControl>
+                  <RadioGroup
+                    aria-labelledby="adults-group-label"
+                    value={numberOfAdults}
+                    onValueChange={(value: string) =>
+                      handleAdultsChange(value as "1" | "2")
+                    }
+                    className="flex gap-4"
+                  >
+                    <FormItem className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value="1" />
+                      </FormControl>
+                      <FormLabel className="font-normal">
+                        {t("one_adult")}
+                      </FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value="2" />
+                      </FormControl>
+                      <FormLabel className="font-normal">
+                        {t("two_adults")}
+                      </FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+              </fieldset>
+
               <FormField
                 control={form.control}
                 name="income1"
@@ -140,7 +198,7 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                 control={form.control}
                 name="income2"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className={numberOfAdults === "1" ? "hidden" : ""}>
                     <FormLabel className="calculator-form-label">
                       {t("income2")}
                     </FormLabel>
@@ -262,16 +320,15 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
                     <FormField
                       control={form.control}
                       name="income4"
-                      aria-hidden={!showExtraIncomes}
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem
+                          className={numberOfAdults === "1" ? "hidden" : ""}
+                        >
                           <FormLabel className="calculator-form-label">
                             {t("income4")}
                           </FormLabel>
                           <FormControl>
                             <Input
-                              aria-hidden={!showExtraIncomes}
-                              tabIndex={showExtraIncomes ? 0 : -1}
                               type="number"
                               min={0}
                               {...field}

@@ -232,7 +232,11 @@ declare const messages: {
     "child_benefits_aria": "Månatligt barnbidrag i SEK",
     "other_benefits_aria": "Månatliga övriga bidrag i SEK",
     "other_incomes_aria": "Månatliga övriga inkomster i SEK",
-    "save": "Spara"
+    "save": "Spara",
+    "number_of_adults": "Antal vuxna i hushållet",
+    "one_adult": "1 vuxen",
+    "two_adults": "2 vuxna",
+    "number_of_adults_full": "Välj antal vuxna i hushållet"
   }
 };
 export default messages;

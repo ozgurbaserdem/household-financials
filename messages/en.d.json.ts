@@ -232,7 +232,11 @@ declare const messages: {
     "child_benefits_aria": "Monthly child benefits in SEK",
     "other_benefits_aria": "Monthly other benefits in SEK",
     "other_incomes_aria": "Monthly other incomes in SEK",
-    "save": "Save"
+    "save": "Save",
+    "number_of_adults": "Number of adults in the household",
+    "one_adult": "1 adult",
+    "two_adults": "2 adults",
+    "number_of_adults_full": "Select number of adults in the household"
   }
 };
 export default messages;
