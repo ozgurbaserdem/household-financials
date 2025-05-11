@@ -67,7 +67,6 @@ export function importFromCsv(
         childBenefits,
         otherBenefits,
         otherIncomes,
-        runningCosts: Number(flat.runningCosts),
         expenses: unflattenExpenses(flat),
       };
       onSuccess(state);

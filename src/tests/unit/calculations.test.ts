@@ -26,7 +26,9 @@ describe("Financial Calculations", () => {
         grossIncome2: 25000,
         grossIncome3: 0,
         grossIncome4: 0,
-        runningCosts: 2000,
+        childBenefits: 0,
+        otherBenefits: 0,
+        otherIncomes: 0,
         expenses: {},
       };
 
@@ -38,13 +40,16 @@ describe("Financial Calculations", () => {
         amortizationRate: 2,
         monthlyInterest: 2916.67,
         monthlyAmortization: 1666.67,
-        totalHousingCost: 6583.34,
-        totalExpenses: 6583.34,
-        remainingSavings: 48416.66,
+        totalHousingCost: 4583.34,
+        totalExpenses: 4583.34,
+        remainingSavings: 50416.66,
         income1: 30000,
         income2: 25000,
         income3: 0,
         income4: 0,
+        childBenefits: 0,
+        otherBenefits: 0,
+        otherIncomes: 0,
       });
     });
 
@@ -63,7 +68,9 @@ describe("Financial Calculations", () => {
         grossIncome2: 25000,
         grossIncome3: 0,
         grossIncome4: 0,
-        runningCosts: 2000,
+        childBenefits: 0,
+        otherBenefits: 0,
+        otherIncomes: 0,
         expenses: {},
       };
 

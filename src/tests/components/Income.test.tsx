@@ -9,6 +9,11 @@ class ResizeObserverMock {
   disconnect() {}
 }
 
+// Mock next-intl
+vi.mock("next-intl", () => ({
+  useTranslations: vi.fn(() => (key: string) => key),
+}));
+
 describe("Income", () => {
   const mockOnSubmit = vi.fn();
 
@@ -18,14 +23,11 @@ describe("Income", () => {
     window.ResizeObserver = ResizeObserverMock;
   });
 
-  it("renders all form fields initially", () => {
+  it("renders all form fields and radio buttons", () => {
     render(<Income onSubmit={mockOnSubmit} />);
-
-    // Check if radio buttons are present
+    expect(screen.getByLabelText(/number_of_adults$/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/one_adult/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/two_adults/i)).toBeInTheDocument();
-
-    // Check if all income fields are present
     expect(screen.getByLabelText(/income1_aria/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/income2_aria/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/income3_aria/i)).toBeInTheDocument();
@@ -143,58 +145,54 @@ describe("Income", () => {
 
   it("handles form submission with valid data", async () => {
     render(<Income onSubmit={mockOnSubmit} />);
+    fireEvent.change(screen.getByLabelText(/income1_aria/i), {
+      target: { value: "30000" },
+    });
+    fireEvent.change(screen.getByLabelText(/income2_aria/i), {
+      target: { value: "25000" },
+    });
+    fireEvent.change(screen.getByLabelText(/income3_aria/i), {
+      target: { value: "20000" },
+    });
+    fireEvent.change(screen.getByLabelText(/income4_aria/i), {
+      target: { value: "15000" },
+    });
+    fireEvent.change(screen.getByLabelText(/child_benefits_aria/i), {
+      target: { value: "1000" },
+    });
+    fireEvent.change(screen.getByLabelText(/other_benefits_aria/i), {
+      target: { value: "500" },
+    });
+    fireEvent.change(screen.getByLabelText(/other_incomes_aria/i), {
+      target: { value: "2000" },
+    });
+    fireEvent.submit(screen.getByTestId("income-form"));
+    await waitFor(() => {
+      expect(mockOnSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          income1: 30000,
+          income2: 25000,
+          income3: 20000,
+          income4: 15000,
+          childBenefits: 1000,
+          otherBenefits: 500,
+          otherIncomes: 2000,
+          grossIncome1: 30000,
+          grossIncome2: 25000,
+          grossIncome3: 20000,
+          grossIncome4: 15000,
+        })
+      );
+    });
+  });
 
-    // Fill in all fields
-    const income1Field = screen.getByLabelText(/income1_aria/i);
-    const income2Field = screen.getByLabelText(/income2_aria/i);
-    const income3Field = screen.getByLabelText(/income3_aria/i);
-    const income4Field = screen.getByLabelText(/income4_aria/i);
-    const childBenefitsField = screen.getByLabelText(/child_benefits_aria/i);
-    const otherBenefitsField = screen.getByLabelText(/other_benefits_aria/i);
-    const otherIncomesField = screen.getByLabelText(/other_incomes_aria/i);
-
-    // Fill in fields and trigger blur events
-    fireEvent.change(income1Field, { target: { value: "30000" } });
-    fireEvent.blur(income1Field);
-
-    fireEvent.change(income2Field, { target: { value: "25000" } });
-    fireEvent.blur(income2Field);
-
-    fireEvent.change(income3Field, { target: { value: "20000" } });
-    fireEvent.blur(income3Field);
-
-    fireEvent.change(income4Field, { target: { value: "15000" } });
-    fireEvent.blur(income4Field);
-
-    fireEvent.change(childBenefitsField, { target: { value: "1000" } });
-    fireEvent.blur(childBenefitsField);
-
-    fireEvent.change(otherBenefitsField, { target: { value: "500" } });
-    fireEvent.blur(otherBenefitsField);
-
-    fireEvent.change(otherIncomesField, { target: { value: "2000" } });
-    fireEvent.blur(otherIncomesField);
-
-    // Wait for the form submission with a longer timeout
-    await waitFor(
-      () => {
-        expect(mockOnSubmit).toHaveBeenCalledWith(
-          expect.objectContaining({
-            income1: 30000,
-            income2: 25000,
-            income3: 20000,
-            income4: 15000,
-            childBenefits: 1000,
-            otherBenefits: 500,
-            otherIncomes: 2000,
-            grossIncome1: 30000,
-            grossIncome2: 25000,
-            grossIncome3: 20000,
-            grossIncome4: 15000,
-          })
-        );
-      },
-      { timeout: 3000 }
-    );
+  it("toggles extra incomes section", () => {
+    render(<Income onSubmit={mockOnSubmit} />);
+    const toggleButton = screen.getByText(/add_extra_incomes/i);
+    expect(toggleButton).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(toggleButton);
+    expect(toggleButton).toHaveAttribute("aria-expanded", "true");
+    fireEvent.click(toggleButton);
+    expect(toggleButton).toHaveAttribute("aria-expanded", "false");
   });
 });

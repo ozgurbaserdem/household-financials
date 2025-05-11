@@ -29,7 +29,6 @@ describe("Expense Calculations and Net Income", () => {
     childBenefits: 0,
     otherBenefits: 0,
     otherIncomes: 0,
-    runningCosts: 5000,
     expenses: {},
   });
 

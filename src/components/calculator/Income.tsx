@@ -99,6 +99,7 @@ export function Income({ onSubmit, values }: IncomeFormProps) {
       <CardContent>
         <Form {...form}>
           <form
+            data-testid="income-form"
             onSubmit={form.handleSubmit((values) => {
               onSubmit({
                 income1: values.income1,

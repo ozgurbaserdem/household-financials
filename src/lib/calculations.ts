@@ -16,7 +16,6 @@ export function calculateLoanScenarios(
     childBenefits,
     otherBenefits,
     otherIncomes,
-    runningCosts,
     expenses,
   } = state;
   const totalIncome = income1 + income2 + income3 + income4;
@@ -36,8 +35,9 @@ export function calculateLoanScenarios(
       const monthlyAmortization = Number(
         ((amount * (amortizationRate / 100)) / 12).toFixed(2)
       );
+      // Only use totalOtherExpenses for total costs
       const totalHousingCost = Number(
-        (monthlyInterest + monthlyAmortization + runningCosts).toFixed(2)
+        (monthlyInterest + monthlyAmortization).toFixed(2)
       );
       const totalExpenses = Number(
         (totalHousingCost + totalOtherExpenses).toFixed(2)

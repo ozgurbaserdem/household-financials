@@ -45,7 +45,6 @@ export default function Home({
     childBenefits: 0,
     otherBenefits: 0,
     otherIncomes: 0,
-    runningCosts: 5000,
     expenses: DEFAULT_EXPENSES,
   });
 
@@ -116,7 +115,6 @@ export default function Home({
       childBenefits: imported.childBenefits ?? calculatorState.childBenefits,
       otherBenefits: imported.otherBenefits ?? calculatorState.otherBenefits,
       otherIncomes: imported.otherIncomes ?? calculatorState.otherIncomes,
-      runningCosts: imported.runningCosts ?? calculatorState.runningCosts,
       expenses: imported.expenses ?? calculatorState.expenses,
       // These will be set on calculate
       income1: 0,
@@ -163,7 +161,6 @@ export default function Home({
                   interestRates: calculatorState.loanParameters.interestRates,
                   amortizationRates:
                     calculatorState.loanParameters.amortizationRates,
-                  runningCosts: calculatorState.runningCosts,
                 }}
               />
             </Section>

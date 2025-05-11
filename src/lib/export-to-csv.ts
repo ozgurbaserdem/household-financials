@@ -13,7 +13,7 @@ function flattenExpenses(expenses: ExpensesByCategory): Record<string, number> {
 }
 
 export function exportToCsv(state: CalculatorState) {
-  const { loanParameters, runningCosts, expenses } = state;
+  const { loanParameters, expenses } = state;
   const flatExpenses = flattenExpenses(expenses);
   const columns = [
     "loanAmount",
@@ -30,7 +30,6 @@ export function exportToCsv(state: CalculatorState) {
     "childBenefits",
     "otherBenefits",
     "otherIncomes",
-    "runningCosts",
     ...Object.keys(flatExpenses),
   ];
   const values = [
@@ -48,7 +47,6 @@ export function exportToCsv(state: CalculatorState) {
     state.childBenefits ?? 0,
     state.otherBenefits ?? 0,
     state.otherIncomes ?? 0,
-    runningCosts,
     ...Object.values(flatExpenses),
   ];
   const csv = [columns.join(","), values.join(",")].join("\n");

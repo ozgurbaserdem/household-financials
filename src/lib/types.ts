@@ -50,7 +50,6 @@ export interface CalculatorState {
   childBenefits: number;
   otherBenefits: number;
   otherIncomes: number;
-  runningCosts: number;
   expenses: ExpensesByCategory;
 }
 

@@ -31,7 +31,6 @@ const formSchema = z.object({
   childBenefits: z.number().min(0),
   otherBenefits: z.number().min(0),
   otherIncomes: z.number().min(0),
-  runningCosts: z.number().min(0),
 });
 
 interface LoansFormProps {
@@ -40,7 +39,6 @@ interface LoansFormProps {
     loanAmount: number;
     interestRates: number[];
     amortizationRates: number[];
-    runningCosts: number;
   };
 }
 
@@ -58,7 +56,6 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
       childBenefits: 0,
       otherBenefits: 0,
       otherIncomes: 0,
-      runningCosts: values?.runningCosts ?? 0,
     },
   });
 
@@ -78,7 +75,6 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
         childBenefits: 0,
         otherBenefits: 0,
         otherIncomes: 0,
-        runningCosts: values.runningCosts,
       });
     }
   }, [values, form]);
@@ -95,6 +91,7 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
       <CardContent>
         <Form {...form}>
           <form
+            data-testid="loan-form"
             onSubmit={form.handleSubmit((values) => {
               onSubmit({
                 loanParameters: {
@@ -102,7 +99,6 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
                   interestRates: values.interestRates,
                   amortizationRates: values.amortizationRates,
                 },
-                runningCosts: values.runningCosts,
               });
             })}
             className="space-y-6"
@@ -132,7 +128,6 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
                                 interestRates: values.interestRates,
                                 amortizationRates: values.amortizationRates,
                               },
-                              runningCosts: values.runningCosts,
                             });
                           }
                         }}
@@ -178,7 +173,6 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
                                       amortizationRates:
                                         values.amortizationRates,
                                     },
-                                    runningCosts: values.runningCosts,
                                   });
                                 }}
                               />
@@ -227,7 +221,6 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
                                     interestRates: values.interestRates,
                                     amortizationRates: newValue,
                                   },
-                                  runningCosts: values.runningCosts,
                                 });
                               }}
                             />
@@ -241,41 +234,6 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
                   ))}
                 </Box>
               </Box>
-
-              <FormField
-                control={form.control}
-                name="runningCosts"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="calculator-form-label">
-                      {t("running_costs")}
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={0}
-                        {...field}
-                        aria-label={t("running_costs_aria")}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        onBlur={() => {
-                          if (form.formState.dirtyFields["runningCosts"]) {
-                            const values = form.getValues();
-                            onSubmit({
-                              loanParameters: {
-                                amount: values.loanAmount,
-                                interestRates: values.interestRates,
-                                amortizationRates: values.amortizationRates,
-                              },
-                              runningCosts: values.runningCosts,
-                            });
-                          }
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </Box>
           </form>
         </Form>
