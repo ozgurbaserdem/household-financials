@@ -4,6 +4,8 @@
 declare const messages: {
   "loan_parameters": {
     "title": "Loan Parameters",
+    "add_loans": "Add loans",
+    "hide_loans": "Remove loans",
     "loan_amount": "Loan Amount (SEK)",
     "interest_rates": "Interest Rates (%)",
     "amortization_rates": "Amortization Rates (%)",
@@ -14,6 +16,8 @@ declare const messages: {
   },
   "expense_categories": {
     "title": "Expense Categories",
+    "add_expenses": "Add expenses",
+    "hide_expenses": "Hide expenses",
     "total_expenses": "Total Expenses",
     "home": {
       "name": "Home",

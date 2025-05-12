@@ -15,10 +15,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { CalculatorState } from "@/lib/types";
-import { HandCoins } from "lucide-react";
-import { useEffect } from "react";
+import { HandCoins, Plus, Minus } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
+import { cn } from "@/lib/utils";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 
 const formSchema = z.object({
   loanAmount: z.number().min(0),
@@ -43,6 +45,8 @@ interface LoansFormProps {
 }
 
 export function Loans({ onSubmit, values }: LoansFormProps) {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const [isExpanded, setIsExpanded] = useState(!isMobile);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,7 +65,11 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
 
   const t = useTranslations("loan_parameters");
 
-  // Reset form when values prop changes (e.g. after import or parent update)
+  useEffect(() => {
+    setIsExpanded(!isMobile);
+  }, [isMobile]);
+
+  // Reset form when values prop changes
   useEffect(() => {
     if (values) {
       form.reset({
@@ -80,164 +88,202 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
   }, [values, form]);
 
   return (
-    <Card>
-      <CardHeader>
-        <HandCoins className="icon-primary" />
-        <CardTitle tabIndex={0} aria-label={t("title_aria")}>
-          {t("title")}
-        </CardTitle>
-      </CardHeader>
-
-      <CardContent>
-        <Form {...form}>
-          <form
-            data-testid="loan-form"
-            onSubmit={form.handleSubmit((values) => {
-              onSubmit({
-                loanParameters: {
-                  amount: values.loanAmount,
-                  interestRates: values.interestRates,
-                  amortizationRates: values.amortizationRates,
-                },
-              });
-            })}
-            className="space-y-6"
-          >
-            <Box className="grid grid-cols-1 gap-6">
-              <FormField
-                control={form.control}
-                name="loanAmount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="calculator-form-label">
-                      {t("loan_amount")}
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={0}
-                        {...field}
-                        aria-label={t("loan_amount_aria")}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        onBlur={() => {
-                          if (form.formState.dirtyFields["loanAmount"]) {
-                            const values = form.getValues();
-                            onSubmit({
-                              loanParameters: {
-                                amount: values.loanAmount,
-                                interestRates: values.interestRates,
-                                amortizationRates: values.amortizationRates,
-                              },
-                            });
-                          }
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Box className="calculator-form-box">
-                <FormLabel className="calculator-form-box-form-label">
-                  {t("interest_rates")}
-                </FormLabel>
-                <Box
-                  className="flex flex-wrap gap-4"
-                  aria-label={t("interest_rates_aria")}
-                >
-                  {[0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6].map(
-                    (rate) => (
-                      <FormField
-                        key={rate}
-                        control={form.control}
-                        name="interestRates"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center space-x-2">
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value.includes(rate)}
-                                aria-label={`${rate}%`}
-                                onCheckedChange={(checked: boolean) => {
-                                  const newValue = checked
-                                    ? [...field.value, rate]
-                                    : field.value.filter(
-                                        (r: number) => r !== rate
-                                      );
-                                  field.onChange(newValue);
-                                  const values = form.getValues();
-                                  onSubmit({
-                                    loanParameters: {
-                                      amount: values.loanAmount,
-                                      interestRates: newValue,
-                                      amortizationRates:
-                                        values.amortizationRates,
-                                    },
-                                  });
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-sm text-gray-700 dark:text-gray-300">
-                              {rate}%
-                            </FormLabel>
-                          </FormItem>
-                        )}
-                      />
-                    )
-                  )}
-                </Box>
-              </Box>
-
-              <Box className="calculator-form-box">
-                <FormLabel className="calculator-form-box-form-label">
-                  {t("amortization_rates")}
-                </FormLabel>
-                <Box
-                  className="flex flex-wrap gap-4"
-                  aria-label={t("amortization_rates_aria")}
-                >
-                  {[0, 1, 2, 3, 4, 5].map((rate) => (
-                    <FormField
-                      key={rate}
-                      control={form.control}
-                      name="amortizationRates"
-                      render={({ field }) => (
-                        <FormItem className="flex items-center space-x-2">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value.includes(rate)}
-                              aria-label={`${rate}%`}
-                              onCheckedChange={(checked: boolean) => {
-                                const newValue = checked
-                                  ? [...field.value, rate]
-                                  : field.value.filter(
-                                      (r: number) => r !== rate
-                                    );
-                                field.onChange(newValue);
+    <Card
+      className={cn(
+        "relative transition-all duration-300",
+        isExpanded && !isMobile ? "p-0" : "p-0"
+      )}
+    >
+      {isMobile && (
+        <button
+          type="button"
+          onClick={() => setIsExpanded((v) => !v)}
+          className={cn(
+            "w-full flex items-center justify-between transition-colors",
+            "hover:bg-gray-50 dark:hover:bg-gray-900",
+            "focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950",
+            "rounded-lg p-4"
+          )}
+          aria-expanded={isExpanded}
+          aria-controls="loan-form-content"
+        >
+          <div className="flex items-center gap-3">
+            <HandCoins className="icon-primary" />
+            <CardTitle tabIndex={0} aria-label={t("title_aria")}>
+              {isExpanded ? t("hide_loans") : t("add_loans")}
+            </CardTitle>
+          </div>
+          {isExpanded ? (
+            <Minus className="h-5 w-5 text-gray-500" />
+          ) : (
+            <Plus className="h-5 w-5 text-gray-500" />
+          )}
+        </button>
+      )}
+      {isExpanded && (
+        <>
+          {!isMobile ? (
+            <CardHeader className={cn("pt-6")}>
+              <HandCoins className="icon-primary" />
+              <CardTitle tabIndex={0} aria-label={t("title_aria")}>
+                {t("title")}
+              </CardTitle>
+            </CardHeader>
+          ) : null}
+          <CardContent className="px-6 pb-6">
+            <Form {...form}>
+              <form
+                data-testid="loan-form"
+                onSubmit={form.handleSubmit((values) => {
+                  onSubmit({
+                    loanParameters: {
+                      amount: values.loanAmount,
+                      interestRates: values.interestRates,
+                      amortizationRates: values.amortizationRates,
+                    },
+                  });
+                })}
+                className="space-y-6"
+              >
+                <Box className="grid grid-cols-1 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="loanAmount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="calculator-form-label">
+                          {t("loan_amount")}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            min={0}
+                            {...field}
+                            aria-label={t("loan_amount_aria")}
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value))
+                            }
+                            onBlur={() => {
+                              if (form.formState.dirtyFields["loanAmount"]) {
                                 const values = form.getValues();
                                 onSubmit({
                                   loanParameters: {
                                     amount: values.loanAmount,
                                     interestRates: values.interestRates,
-                                    amortizationRates: newValue,
+                                    amortizationRates: values.amortizationRates,
                                   },
                                 });
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="text-sm text-gray-700 dark:text-gray-300">
-                            {rate}%
-                          </FormLabel>
-                        </FormItem>
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Box className="calculator-form-box">
+                    <FormLabel className="calculator-form-box-form-label">
+                      {t("interest_rates")}
+                    </FormLabel>
+                    <Box
+                      className="flex flex-wrap gap-4"
+                      aria-label={t("interest_rates_aria")}
+                    >
+                      {[0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6].map(
+                        (rate) => (
+                          <FormField
+                            key={rate}
+                            control={form.control}
+                            name="interestRates"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center space-x-2">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value.includes(rate)}
+                                    aria-label={`${rate}%`}
+                                    onCheckedChange={(checked: boolean) => {
+                                      const newValue = checked
+                                        ? [...field.value, rate]
+                                        : field.value.filter(
+                                            (r: number) => r !== rate
+                                          );
+                                      field.onChange(newValue);
+                                      const values = form.getValues();
+                                      onSubmit({
+                                        loanParameters: {
+                                          amount: values.loanAmount,
+                                          interestRates: newValue,
+                                          amortizationRates:
+                                            values.amortizationRates,
+                                        },
+                                      });
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm text-gray-700 dark:text-gray-300">
+                                  {rate}%
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        )
                       )}
-                    />
-                  ))}
+                    </Box>
+                  </Box>
+
+                  <Box className="calculator-form-box">
+                    <FormLabel className="calculator-form-box-form-label">
+                      {t("amortization_rates")}
+                    </FormLabel>
+                    <Box
+                      className="flex flex-wrap gap-4"
+                      aria-label={t("amortization_rates_aria")}
+                    >
+                      {[0, 1, 2, 3, 4, 5].map((rate) => (
+                        <FormField
+                          key={rate}
+                          control={form.control}
+                          name="amortizationRates"
+                          render={({ field }) => (
+                            <FormItem className="flex items-center space-x-2">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value.includes(rate)}
+                                  aria-label={`${rate}%`}
+                                  onCheckedChange={(checked: boolean) => {
+                                    const newValue = checked
+                                      ? [...field.value, rate]
+                                      : field.value.filter(
+                                          (r: number) => r !== rate
+                                        );
+                                    field.onChange(newValue);
+                                    const values = form.getValues();
+                                    onSubmit({
+                                      loanParameters: {
+                                        amount: values.loanAmount,
+                                        interestRates: values.interestRates,
+                                        amortizationRates: newValue,
+                                      },
+                                    });
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="text-sm text-gray-700 dark:text-gray-300">
+                                {rate}%
+                              </FormLabel>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </Box>
+                  </Box>
                 </Box>
-              </Box>
-            </Box>
-          </form>
-        </Form>
-      </CardContent>
+              </form>
+            </Form>
+          </CardContent>
+        </>
+      )}
     </Card>
   );
 }

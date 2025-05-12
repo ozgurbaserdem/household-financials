@@ -1,6 +1,7 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+import unusedImports from "eslint-plugin-unused-imports";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,8 +17,12 @@ const eslintConfig = [
     "plugin:prettier/recommended"
   ),
   {
+    plugins: {
+      "unused-imports": unusedImports,
+    },
     rules: {
       "react/jsx-curly-spacing": "off",
+      "unused-imports/no-unused-imports": "error",
     },
   },
 ];

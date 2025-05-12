@@ -20,6 +20,7 @@ import { Section } from "@/components/ui/section";
 import { Income } from "@/components/calculator/Income";
 import { Loans } from "@/components/calculator/Loans";
 import { Navbar } from "@/components/Navbar";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 
 export default function Home({
   params,
@@ -126,6 +127,7 @@ export default function Home({
   };
 
   const t = useTranslations();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <Main className="min-h-screen bg-gray-100 dark:bg-gray-950 flex flex-col items-center">
@@ -164,21 +166,23 @@ export default function Home({
                 }}
               />
             </Section>
-            <button
-              type="button"
-              onClick={handleCalculate}
-              className="
-                text-white
-                bg-gradient-to-r from-sky-700 via-sky-800 to-sky-900
-                hover:bg-gradient-to-br hover:from-sky-600 hover:via-sky-700 hover:to-sky-800
-                focus:ring-4 focus:outline-none focus:ring-sky-400 dark:focus:ring-sky-900
-                shadow-lg shadow-sky-800/50 dark:shadow-lg dark:shadow-sky-900/80
-                font-medium rounded-lg text-lg px-5 py-2.5 text-center mb-2 w-full
-                transition-all duration-150
-              "
-            >
-              {t("app.calculate")}
-            </button>
+            {!isMobile && (
+              <button
+                type="button"
+                onClick={handleCalculate}
+                className="
+                  text-white
+                  bg-gradient-to-r from-sky-700 via-sky-800 to-sky-900
+                  hover:bg-gradient-to-br hover:from-sky-600 hover:via-sky-700 hover:to-sky-800
+                  focus:ring-4 focus:outline-none focus:ring-sky-400 dark:focus:ring-sky-900
+                  shadow-lg shadow-sky-800/50 dark:shadow-lg dark:shadow-sky-900/80
+                  font-medium rounded-lg text-lg px-5 py-2.5 text-center mb-2 w-full
+                  transition-all duration-150
+                "
+              >
+                {t("app.calculate")}
+              </button>
+            )}
           </Box>
           <Section className="md:col-span-3 section-card">
             <ExpenseCategories
@@ -187,6 +191,24 @@ export default function Home({
             />
           </Section>
         </Box>
+        {isMobile && (
+          <button
+            type="button"
+            onClick={handleCalculate}
+            className="
+                  mt-4
+                  text-white
+                  bg-gradient-to-r from-sky-700 via-sky-800 to-sky-900
+                  hover:bg-gradient-to-br hover:from-sky-600 hover:via-sky-700 hover:to-sky-800
+                  focus:ring-4 focus:outline-none focus:ring-sky-400 dark:focus:ring-sky-900
+                  shadow-lg shadow-sky-800/50 dark:shadow-lg dark:shadow-sky-900/80
+                  font-medium rounded-lg text-lg px-5 py-2.5 text-center mb-2 w-full
+                  transition-all duration-150
+                "
+          >
+            {t("app.calculate")}
+          </button>
+        )}
         <Section className="mt-6 sm:mt-8 flex flex-col gap-4">
           <Box className="section-card">
             <ResultsTable results={results} />

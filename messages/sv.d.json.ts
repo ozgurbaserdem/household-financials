@@ -4,6 +4,8 @@
 declare const messages: {
   "loan_parameters": {
     "title": "Låneparametrar",
+    "add_loans": "Lägg till lån",
+    "hide_loans": "Dölj lån",
     "loan_amount": "Lånebelopp (SEK)",
     "interest_rates": "Räntesatser (%)",
     "amortization_rates": "Amorteringssatser (%)",
@@ -14,6 +16,8 @@ declare const messages: {
   },
   "expense_categories": {
     "title": "Utgiftskategorier",
+    "add_expenses": "Lägg till utgifter",
+    "hide_expenses": "Dölj utgifter",
     "total_expenses": "Totala utgifter",
     "home": {
       "name": "Hem",
