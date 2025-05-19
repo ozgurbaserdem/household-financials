@@ -11,10 +11,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
+import { AnimatedScramble } from "@/components/bubba-ui/animated-scramble";
 
 interface ResultsTableProps {
   results: CalculationResult[];
@@ -25,6 +26,8 @@ interface HeadCell {
   tooltipKey: string;
   className?: string;
   render?: (result: CalculationResult) => React.ReactNode;
+  getRawValue?: (result: CalculationResult) => number;
+  format?: (value: number) => string;
   priority?: number; // Higher number = higher priority, will show on smaller screens
 }
 
@@ -33,24 +36,32 @@ const HEAD_CELLS: HeadCell[] = [
     key: "interest_rate",
     tooltipKey: "interest_rate_tooltip",
     render: (result) => formatPercentage(result.interestRate),
+    getRawValue: (result) => result.interestRate,
+    format: formatPercentage,
     priority: 1,
   },
   {
     key: "amortization",
     tooltipKey: "amortization_tooltip",
     render: (result) => formatPercentage(result.amortizationRate),
+    getRawValue: (result) => result.amortizationRate,
+    format: formatPercentage,
     priority: 2,
   },
   {
     key: "housing_cost",
     tooltipKey: "housing_cost_tooltip",
     render: (result) => formatCurrency(result.totalHousingCost),
+    getRawValue: (result) => result.totalHousingCost,
+    format: formatCurrency,
     priority: 3,
   },
   {
     key: "total_expenses",
     tooltipKey: "total_expenses_tooltip",
     render: (result) => formatCurrency(result.totalExpenses),
+    getRawValue: (result) => result.totalExpenses,
+    format: formatCurrency,
     priority: 4,
   },
   {
@@ -66,6 +77,15 @@ const HEAD_CELLS: HeadCell[] = [
           (result.otherBenefits ?? 0) +
           (result.otherIncomes ?? 0)
       ),
+    getRawValue: (result) =>
+      result.income1 +
+      result.income2 +
+      (result.income3 ?? 0) +
+      (result.income4 ?? 0) +
+      (result.childBenefits ?? 0) +
+      (result.otherBenefits ?? 0) +
+      (result.otherIncomes ?? 0),
+    format: formatCurrency,
     priority: 5,
   },
   {
@@ -73,6 +93,8 @@ const HEAD_CELLS: HeadCell[] = [
     tooltipKey: "remaining_savings_tooltip",
     className: "font-bold",
     render: (result) => formatCurrency(result.remainingSavings),
+    getRawValue: (result) => result.remainingSavings,
+    format: formatCurrency,
     priority: 6,
   },
 ];
@@ -85,6 +107,7 @@ function ResultCard({
   showTooltips: boolean;
 }) {
   const t = useTranslations("results");
+  const [showAnimation, setShowAnimation] = useState(false);
   const gridOrder = [
     "interest_rate",
     "amortization",
@@ -96,6 +119,35 @@ function ResultCard({
 
   // Tooltip open state for click (only for first card)
   const [openIndex, setOpenIndex] = React.useState<number | null>(null);
+
+  useEffect(() => {
+    // Trigger animation after component mounts
+    setShowAnimation(true);
+  }, []);
+
+  const renderValue = (cell: HeadCell, result: CalculationResult) => {
+    if (!cell.render) return null;
+    if (!cell.getRawValue || !cell.format) return cell.render(result);
+    const rawValue = cell.getRawValue(result);
+    if (typeof rawValue !== "number" || isNaN(rawValue))
+      return cell.render(result);
+    if (showAnimation) {
+      return (
+        <AnimatedScramble
+          value={rawValue}
+          className={cn(
+            cell.key === "remaining_savings" && {
+              "text-green-600 dark:text-green-400":
+                result.remainingSavings >= 0,
+              "text-red-600 dark:text-red-400": result.remainingSavings < 0,
+            }
+          )}
+          format={cell.format}
+        />
+      );
+    }
+    return cell.format(rawValue);
+  };
 
   return (
     <Box className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-3">
@@ -150,7 +202,7 @@ function ResultCard({
                   }
                 )}
               >
-                {cell.render ? cell.render(result) : null}
+                {renderValue(cell, result)}
               </Text>
             </Box>
           );

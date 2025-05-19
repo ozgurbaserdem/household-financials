@@ -182,7 +182,7 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
                     )}
                   />
 
-                  <Box className="calculator-form-box">
+                  <Box>
                     <FormLabel className="calculator-form-box-form-label">
                       {t("interest_rates")}
                     </FormLabel>
@@ -190,14 +190,14 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
                       className="flex flex-wrap gap-4"
                       aria-label={t("interest_rates_aria")}
                     >
-                      {[0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6].map(
+                      {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6].map(
                         (rate) => (
                           <FormField
                             key={rate}
                             control={form.control}
                             name="interestRates"
                             render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2">
+                              <FormItem className="flex items-center space-x-2 min-w-18">
                                 <FormControl>
                                   <Checkbox
                                     checked={field.value.includes(rate)}
@@ -232,7 +232,7 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
                     </Box>
                   </Box>
 
-                  <Box className="calculator-form-box">
+                  <Box>
                     <FormLabel className="calculator-form-box-form-label">
                       {t("amortization_rates")}
                     </FormLabel>
@@ -246,7 +246,11 @@ export function Loans({ onSubmit, values }: LoansFormProps) {
                           control={form.control}
                           name="amortizationRates"
                           render={({ field }) => (
-                            <FormItem className="flex items-center space-x-2">
+                            <FormItem
+                              className={`flex items-center space-x-2 ${
+                                isMobile ? "min-w-18" : ""
+                              }`}
+                            >
                               <FormControl>
                                 <Checkbox
                                   checked={field.value.includes(rate)}
