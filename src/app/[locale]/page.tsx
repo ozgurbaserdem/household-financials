@@ -19,6 +19,7 @@ import { Box } from "@/components/ui/box";
 import { Section } from "@/components/ui/section";
 import { Income } from "@/components/calculator/Income";
 import { Loans } from "@/components/calculator/Loans";
+import { Forecast } from "@/components/calculator/Forecast";
 import { Navbar } from "@/components/Navbar";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
@@ -216,6 +217,7 @@ export default function Home({
           <Box className="section-card">
             <ExpenseBreakdown expenses={calculatorState.expenses} />
           </Box>
+          <Forecast calculatorState={calculatorState} />
         </Section>
       </Box>
     </Main>

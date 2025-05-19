@@ -200,6 +200,21 @@ declare const messages: {
     "title": "Min ekonomi",
     "calculate": "Beräkna"
   },
+  "forecast": {
+    "title": "Låneprognos",
+    "aria": {
+      "title": "Låneprognos sektion",
+      "graph": "Lånebelopp över tid graf"
+    },
+    "tooltip": {
+      "remaining_loan": "Återstående lånebelopp",
+      "yearly_cost": "Årlig lånekostnad",
+      "monthly_cost": "Månadsvis lånekostnad",
+      "monthly_income": "Månadsinkomst",
+      "monthly_savings": "Kvar att spara"
+    },
+    "no_loan": "Ange ett lånebelopp för att se prognosen"
+  },
   "not_found": {
     "title": "Sidan kunde inte hittas",
     "description": "Sidan du letar efter finns inte.",

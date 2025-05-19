@@ -18,7 +18,14 @@ export function calculateLoanScenarios(
     otherIncomes,
     expenses,
   } = state;
-  const totalIncome = income1 + income2 + income3 + income4;
+  const totalIncome =
+    income1 +
+    income2 +
+    income3 +
+    income4 +
+    otherIncomes +
+    otherBenefits +
+    childBenefits;
   const { amount, interestRates, amortizationRates } = loanParameters;
 
   // Calculate sum of all other expenses (from categories)

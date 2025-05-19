@@ -200,6 +200,21 @@ declare const messages: {
     "title": "Min ekonomi",
     "calculate": "Calculate"
   },
+  "forecast": {
+    "title": "Loan Forecast",
+    "aria": {
+      "title": "Loan Forecast section",
+      "graph": "Loan amount over time graph"
+    },
+    "tooltip": {
+      "remaining_loan": "Remaining loan amount",
+      "yearly_cost": "Yearly loan cost",
+      "monthly_cost": "Monthly loan cost",
+      "monthly_income": "Monthly income",
+      "monthly_savings": "Remaining savings"
+    },
+    "no_loan": "Enter a loan amount to see the forecast"
+  },
   "not_found": {
     "title": "Page not found",
     "description": "The page you are looking for does not exist.",
