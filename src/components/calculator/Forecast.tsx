@@ -52,7 +52,9 @@ export function Forecast({ calculatorState }: ForecastProps) {
     let currentYear = 0;
 
     while (remainingLoan > 0 && currentYear < 50) {
-      const yearlyCost = remainingLoan * (amortizationRate + interestRate);
+      const yearlyAmortization = initialLoan * amortizationRate;
+      const yearlyInterest = remainingLoan * interestRate;
+      const yearlyCost = yearlyAmortization + yearlyInterest;
       const monthlyCost = yearlyCost / 12;
       // Apply 3% increase to yearly net income
       const currentYearNetYearlyIncome =
@@ -69,7 +71,7 @@ export function Forecast({ calculatorState }: ForecastProps) {
         monthlySavings,
       });
 
-      remainingLoan -= remainingLoan * amortizationRate;
+      remainingLoan -= yearlyAmortization;
       currentYear++;
     }
 
@@ -161,6 +163,7 @@ export function Forecast({ calculatorState }: ForecastProps) {
                 stroke="#0284c7"
                 strokeWidth={2}
                 dot={false}
+                data-points={JSON.stringify(forecastData)}
               />
             </LineChart>
           </ResponsiveContainer>
