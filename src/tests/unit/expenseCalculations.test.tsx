@@ -1,5 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
-import { calculateLoanScenarios } from "@/lib/calculations";
+import {
+  calculateLoanScenarios,
+  calculateIncomeWithTax,
+} from "@/lib/calculations";
 import type {
   CalculatorState,
   ExpensesByCategory,
@@ -18,14 +21,10 @@ describe("Expense Calculations and Net Income", () => {
       interestRates: [3.5],
       amortizationRates: [2],
     },
-    grossIncome1: 50000,
-    grossIncome2: 30000,
-    grossIncome3: 0,
-    grossIncome4: 0,
-    income1: 0, // Will be calculated
-    income2: 0, // Will be calculated
-    income3: 0,
-    income4: 0,
+    income1: calculateIncomeWithTax(50000),
+    income2: calculateIncomeWithTax(30000),
+    income3: calculateIncomeWithTax(0, true),
+    income4: calculateIncomeWithTax(0, true),
     childBenefits: 0,
     otherBenefits: 0,
     otherIncomes: 0,

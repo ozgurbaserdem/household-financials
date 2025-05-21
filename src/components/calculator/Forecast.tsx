@@ -14,11 +14,7 @@ import {
 } from "recharts";
 import { useMemo } from "react";
 import type { CalculatorState } from "@/lib/types";
-import {
-  calculateNetIncome,
-  calculateNetIncomeSecond,
-  formatCurrency,
-} from "@/lib/calculations";
+import { formatCurrency, calculateTotalNetIncome } from "@/lib/calculations";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
 interface ForecastProps {
@@ -46,24 +42,8 @@ export function Forecast({ calculatorState }: ForecastProps) {
     const interestRate = 0.03; // 3%
     const salaryIncreaseRate = 0.03; // 3%
 
-    // Calculate net monthly income for each person
-    const netIncome1 = calculateNetIncome(calculatorState.grossIncome1 || 0);
-    const netIncome2 = calculateNetIncome(calculatorState.grossIncome2 || 0);
-    const netIncome3 = calculateNetIncomeSecond(
-      calculatorState.grossIncome3 || 0
-    );
-    const netIncome4 = calculateNetIncomeSecond(
-      calculatorState.grossIncome4 || 0
-    );
-    // Add child/other benefits and incomes (already net)
-    const netMonthlyIncome =
-      netIncome1 +
-      netIncome2 +
-      netIncome3 +
-      netIncome4 +
-      (calculatorState.childBenefits || 0) +
-      (calculatorState.otherBenefits || 0) +
-      (calculatorState.otherIncomes || 0);
+    // Use utility to calculate net monthly income
+    const netMonthlyIncome = calculateTotalNetIncome(calculatorState);
     // Net yearly income for year 0
     const netYearlyIncome0 = netMonthlyIncome * 12;
 
@@ -111,7 +91,7 @@ export function Forecast({ calculatorState }: ForecastProps) {
       const data = payload[0].payload as ForecastData;
       return (
         <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-          <p className="font-semibold mb-2">Year {data.year}</p>
+          <p className="font-semibold mb-2">{t("year", { year: data.year })}</p>
           <p className="text-sm">
             {t("tooltip.remaining_loan")}: {formatCurrency(data.remainingLoan)}
           </p>

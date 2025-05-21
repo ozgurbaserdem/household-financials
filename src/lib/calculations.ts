@@ -2,30 +2,38 @@ import type {
   CalculatorState,
   CalculationResult,
   ExpensesByCategory,
+  IncomeCalculation,
 } from "./types";
+
+export function calculateTotalNetIncome(state: CalculatorState): number {
+  return (
+    state.income1.net +
+    state.income2.net +
+    state.income3.net +
+    state.income4.net +
+    state.childBenefits +
+    state.otherBenefits +
+    state.otherIncomes
+  );
+}
+
+export function calculateIncomeWithTax(
+  gross: number,
+  isSecondIncome = false
+): IncomeCalculation {
+  const net = isSecondIncome
+    ? calculateNetIncomeSecond(gross)
+    : calculateNetIncome(gross);
+  return { gross, net };
+}
 
 export function calculateLoanScenarios(
   state: CalculatorState
 ): CalculationResult[] {
-  const {
-    loanParameters,
-    income1,
-    income2,
-    income3,
-    income4,
-    childBenefits,
-    otherBenefits,
-    otherIncomes,
-    expenses,
-  } = state;
-  const totalIncome =
-    income1 +
-    income2 +
-    income3 +
-    income4 +
-    otherIncomes +
-    otherBenefits +
-    childBenefits;
+  const { loanParameters, expenses } = state;
+
+  const totalIncome = calculateTotalNetIncome(state);
+  const totalIncomeObj = calculateTotalIncome(state);
   const { amount, interestRates, amortizationRates } = loanParameters;
 
   // Calculate sum of all other expenses (from categories)
@@ -65,13 +73,14 @@ export function calculateLoanScenarios(
         totalHousingCost,
         totalExpenses,
         remainingSavings,
-        income1,
-        income2,
-        income3,
-        income4,
-        childBenefits,
-        otherBenefits,
-        otherIncomes,
+        income1: state.income1.net,
+        income2: state.income2.net,
+        income3: state.income3.net,
+        income4: state.income4.net,
+        childBenefits: state.childBenefits,
+        otherBenefits: state.otherBenefits,
+        otherIncomes: state.otherIncomes,
+        totalIncome: totalIncomeObj,
       });
     }
   }
@@ -138,7 +147,7 @@ export function calculateNetIncome(gross: number): number {
 }
 
 export function calculateNetIncomeSecond(gross: number): number {
-  const kommunalskatt = 0.33; // higher tax, no deductions
+  const kommunalskatt = 0.34; // higher tax, no deductions
   const taxable = Math.max(0, gross);
   const tax = taxable * kommunalskatt;
 
@@ -159,4 +168,29 @@ export function calculateSelectedHousingExpenses(
     sum += expenses[cat]?.[sub] ?? 0;
   }
   return sum;
+}
+
+export function calculateTotalIncome(state: CalculatorState): {
+  gross: number;
+  net: number;
+} {
+  const gross =
+    state.income1.gross +
+    state.income2.gross +
+    state.income3.gross +
+    state.income4.gross +
+    state.childBenefits +
+    state.otherBenefits +
+    state.otherIncomes;
+
+  const net =
+    state.income1.net +
+    state.income2.net +
+    state.income3.net +
+    state.income4.net +
+    state.childBenefits +
+    state.otherBenefits +
+    state.otherIncomes;
+
+  return { gross, net };
 }

@@ -15,7 +15,7 @@ vi.mock("next-intl", () => ({
 }));
 
 describe("Income", () => {
-  const mockOnSubmit = vi.fn();
+  const mockOnChange = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -24,7 +24,20 @@ describe("Income", () => {
   });
 
   it("renders all form fields and radio buttons", () => {
-    render(<Income onSubmit={mockOnSubmit} />);
+    render(
+      <Income
+        onChange={mockOnChange}
+        values={{
+          income1: 0,
+          income2: 0,
+          income3: 0,
+          income4: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+        }}
+      />
+    );
     expect(screen.getByLabelText(/number_of_adults$/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/one_adult/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/two_adults/i)).toBeInTheDocument();
@@ -38,7 +51,20 @@ describe("Income", () => {
   });
 
   it("hides income2 and income4 fields when 1 adult is selected", () => {
-    render(<Income onSubmit={mockOnSubmit} />);
+    render(
+      <Income
+        onChange={mockOnChange}
+        values={{
+          income1: 0,
+          income2: 0,
+          income3: 0,
+          income4: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+        }}
+      />
+    );
 
     // Initially, income2 and income4 should be hidden (default is 1 adult)
     const income2Field = screen
@@ -52,7 +78,20 @@ describe("Income", () => {
   });
 
   it("shows income2 and income4 fields when 2 adults is selected", () => {
-    render(<Income onSubmit={mockOnSubmit} />);
+    render(
+      <Income
+        onChange={mockOnChange}
+        values={{
+          income1: 0,
+          income2: 0,
+          income3: 0,
+          income4: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+        }}
+      />
+    );
 
     // Click the "2 adults" radio button
     fireEvent.click(screen.getByLabelText(/two_adults/i));
@@ -69,7 +108,20 @@ describe("Income", () => {
   });
 
   it("clears income2 and income4 values when switching from 2 to 1 adult", async () => {
-    render(<Income onSubmit={mockOnSubmit} />);
+    render(
+      <Income
+        onChange={mockOnChange}
+        values={{
+          income1: 0,
+          income2: 30000,
+          income3: 0,
+          income4: 25000,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+        }}
+      />
+    );
 
     // First select 2 adults
     fireEvent.click(screen.getByLabelText(/two_adults/i));
@@ -85,25 +137,36 @@ describe("Income", () => {
     // Switch back to 1 adult
     fireEvent.click(screen.getByLabelText(/one_adult/i));
 
-    // Wait for the form submission
+    // Wait for the onChange callback
     await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith(
+      expect(mockOnChange).toHaveBeenCalledWith(
         expect.objectContaining({
           income2: 0,
           income4: 0,
-          grossIncome2: 0,
-          grossIncome4: 0,
         })
       );
     });
 
-    // Check if the fields are cleared
+    // Check if the fields are cleared in the UI
     expect(screen.getByLabelText(/income2_aria/i)).toHaveValue(0);
     expect(screen.getByLabelText(/income4_aria/i)).toHaveValue(0);
   });
 
   it("maintains income2 and income4 values when switching from 1 to 2 adults", () => {
-    render(<Income onSubmit={mockOnSubmit} />);
+    render(
+      <Income
+        onChange={mockOnChange}
+        values={{
+          income1: 0,
+          income2: 30000,
+          income3: 0,
+          income4: 25000,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+        }}
+      />
+    );
 
     // Fill in income2 and income4
     fireEvent.change(screen.getByLabelText(/income2_aria/i), {
@@ -132,7 +195,7 @@ describe("Income", () => {
       otherIncomes: 2000,
     };
 
-    render(<Income onSubmit={mockOnSubmit} values={initialValues} />);
+    render(<Income onChange={mockOnChange} values={initialValues} />);
 
     expect(screen.getByLabelText(/income1_aria/i)).toHaveValue(30000);
     expect(screen.getByLabelText(/income2_aria/i)).toHaveValue(25000);
@@ -143,51 +206,87 @@ describe("Income", () => {
     expect(screen.getByLabelText(/other_incomes_aria/i)).toHaveValue(2000);
   });
 
-  it("handles form submission with valid data", async () => {
-    render(<Income onSubmit={mockOnSubmit} />);
-    fireEvent.change(screen.getByLabelText(/income1_aria/i), {
-      target: { value: "30000" },
-    });
-    fireEvent.change(screen.getByLabelText(/income2_aria/i), {
-      target: { value: "25000" },
-    });
-    fireEvent.change(screen.getByLabelText(/income3_aria/i), {
-      target: { value: "20000" },
-    });
-    fireEvent.change(screen.getByLabelText(/income4_aria/i), {
-      target: { value: "15000" },
-    });
-    fireEvent.change(screen.getByLabelText(/child_benefits_aria/i), {
-      target: { value: "1000" },
-    });
-    fireEvent.change(screen.getByLabelText(/other_benefits_aria/i), {
-      target: { value: "500" },
-    });
-    fireEvent.change(screen.getByLabelText(/other_incomes_aria/i), {
-      target: { value: "2000" },
-    });
-    fireEvent.submit(screen.getByTestId("income-form"));
+  it("handles field changes with valid data", async () => {
+    render(
+      <Income
+        onChange={mockOnChange}
+        values={{
+          income1: 0,
+          income2: 0,
+          income3: 0,
+          income4: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+        }}
+      />
+    );
+
+    // Change and blur each field
+    const income1Field = screen.getByLabelText(/income1_aria/i);
+    const income2Field = screen.getByLabelText(/income2_aria/i);
+    const income3Field = screen.getByLabelText(/income3_aria/i);
+    const income4Field = screen.getByLabelText(/income4_aria/i);
+    const childBenefitsField = screen.getByLabelText(/child_benefits_aria/i);
+    const otherBenefitsField = screen.getByLabelText(/other_benefits_aria/i);
+    const otherIncomesField = screen.getByLabelText(/other_incomes_aria/i);
+
+    // Change and blur income1
+    fireEvent.change(income1Field, { target: { value: "30000" } });
+    fireEvent.blur(income1Field);
+
+    // Change and blur income2
+    fireEvent.change(income2Field, { target: { value: "25000" } });
+    fireEvent.blur(income2Field);
+
+    // Change and blur income3
+    fireEvent.change(income3Field, { target: { value: "20000" } });
+    fireEvent.blur(income3Field);
+
+    // Change and blur income4
+    fireEvent.change(income4Field, { target: { value: "15000" } });
+    fireEvent.blur(income4Field);
+
+    // Change and blur childBenefits
+    fireEvent.change(childBenefitsField, { target: { value: "1000" } });
+    fireEvent.blur(childBenefitsField);
+
+    // Change and blur otherBenefits
+    fireEvent.change(otherBenefitsField, { target: { value: "500" } });
+    fireEvent.blur(otherBenefitsField);
+
+    // Change and blur otherIncomes
+    fireEvent.change(otherIncomesField, { target: { value: "2000" } });
+    fireEvent.blur(otherIncomesField);
+
     await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({
-          income1: 30000,
-          income2: 25000,
-          income3: 20000,
-          income4: 15000,
-          childBenefits: 1000,
-          otherBenefits: 500,
-          otherIncomes: 2000,
-          grossIncome1: 30000,
-          grossIncome2: 25000,
-          grossIncome3: 20000,
-          grossIncome4: 15000,
-        })
-      );
+      expect(mockOnChange).toHaveBeenCalledWith({
+        income1: 30000,
+        income2: 25000,
+        income3: 20000,
+        income4: 15000,
+        childBenefits: 1000,
+        otherBenefits: 500,
+        otherIncomes: 2000,
+      });
     });
   });
 
   it("toggles extra incomes section", () => {
-    render(<Income onSubmit={mockOnSubmit} />);
+    render(
+      <Income
+        onChange={mockOnChange}
+        values={{
+          income1: 0,
+          income2: 0,
+          income3: 0,
+          income4: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+        }}
+      />
+    );
     const toggleButton = screen.getByText(/add_extra_incomes/i);
     expect(toggleButton).toHaveAttribute("aria-expanded", "false");
     fireEvent.click(toggleButton);

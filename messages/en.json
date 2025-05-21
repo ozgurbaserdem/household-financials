@@ -210,7 +210,8 @@
       "monthly_income": "Monthly income",
       "monthly_savings": "Remaining savings"
     },
-    "no_loan": "Enter a loan amount to see the forecast"
+    "no_loan": "Enter a loan amount to see the forecast",
+    "year": "Year {year}"
   },
   "not_found": {
     "title": "Page not found",

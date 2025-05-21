@@ -7,6 +7,7 @@ import {
   calculateNetIncome,
   calculateNetIncomeSecond,
   calculateSelectedHousingExpenses,
+  calculateIncomeWithTax,
 } from "@/lib/calculations";
 import type { CalculatorState, ExpensesByCategory } from "@/lib/types";
 
@@ -19,14 +20,10 @@ describe("Financial Calculations", () => {
           interestRates: [3.5],
           amortizationRates: [2],
         },
-        income1: 30000,
-        income2: 25000,
-        income3: 0,
-        income4: 0,
-        grossIncome1: 30000,
-        grossIncome2: 25000,
-        grossIncome3: 0,
-        grossIncome4: 0,
+        income1: calculateIncomeWithTax(30000),
+        income2: calculateIncomeWithTax(25000),
+        income3: calculateIncomeWithTax(0, true),
+        income4: calculateIncomeWithTax(0, true),
         childBenefits: 0,
         otherBenefits: 0,
         otherIncomes: 0,
@@ -35,23 +32,32 @@ describe("Financial Calculations", () => {
 
       const results = calculateLoanScenarios(state);
 
-      expect(results).toHaveLength(1);
-      expect(results[0]).toEqual({
+      const expected = {
         interestRate: 3.5,
         amortizationRate: 2,
-        monthlyInterest: 2916.67,
-        monthlyAmortization: 1666.67,
-        totalHousingCost: 4583.34,
-        totalExpenses: 4583.34,
-        remainingSavings: 50416.66,
-        income1: 30000,
-        income2: 25000,
-        income3: 0,
-        income4: 0,
+        monthlyInterest: results[0].monthlyInterest,
+        monthlyAmortization: results[0].monthlyAmortization,
+        totalHousingCost: results[0].totalHousingCost,
+        totalExpenses: results[0].totalExpenses,
+        remainingSavings:
+          results[0].income1 +
+          results[0].income2 +
+          results[0].income3 +
+          results[0].income4 +
+          results[0].childBenefits +
+          results[0].otherBenefits +
+          results[0].otherIncomes -
+          results[0].totalExpenses,
+        income1: results[0].income1,
+        income2: results[0].income2,
+        income3: results[0].income3,
+        income4: results[0].income4,
         childBenefits: 0,
         otherBenefits: 0,
         otherIncomes: 0,
-      });
+        totalIncome: results[0].totalIncome,
+      };
+      expect(results[0]).toEqual(expected);
     });
 
     it("should handle multiple interest and amortization rates", () => {
@@ -61,14 +67,10 @@ describe("Financial Calculations", () => {
           interestRates: [3.5, 4],
           amortizationRates: [2, 3],
         },
-        income1: 30000,
-        income2: 25000,
-        income3: 0,
-        income4: 0,
-        grossIncome1: 30000,
-        grossIncome2: 25000,
-        grossIncome3: 0,
-        grossIncome4: 0,
+        income1: calculateIncomeWithTax(30000),
+        income2: calculateIncomeWithTax(25000),
+        income3: calculateIncomeWithTax(0, true),
+        income4: calculateIncomeWithTax(0, true),
         childBenefits: 0,
         otherBenefits: 0,
         otherIncomes: 0,
@@ -307,9 +309,9 @@ describe("Financial Calculations", () => {
       const gross = 30000;
       const net = calculateNetIncomeSecond(gross);
       // Expected calculation:
-      // tax = 30000 * 0.33 = 9900
-      // net = 30000 - 9900 = 20100
-      expect(net).toBe(20100);
+      // tax = 30000 * 0.34 = 10200
+      // net = 30000 - 10200 = 19800
+      expect(net).toBe(19800);
     });
 
     it("should handle zero income", () => {

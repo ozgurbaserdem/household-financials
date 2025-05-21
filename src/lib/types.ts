@@ -35,18 +35,27 @@ export interface CalculationResult {
   childBenefits: number;
   otherBenefits: number;
   otherIncomes: number;
+  totalIncome?: {
+    gross: number;
+    net: number;
+  };
+}
+
+export interface IncomeCalculation {
+  gross: number;
+  net: number;
 }
 
 export interface CalculatorState {
-  loanParameters: LoanParameters;
-  income1: number;
-  income2: number;
-  income3: number;
-  income4: number;
-  grossIncome1: number;
-  grossIncome2: number;
-  grossIncome3: number;
-  grossIncome4: number;
+  loanParameters: {
+    amount: number;
+    interestRates: number[];
+    amortizationRates: number[];
+  };
+  income1: IncomeCalculation;
+  income2: IncomeCalculation;
+  income3: IncomeCalculation;
+  income4: IncomeCalculation;
   childBenefits: number;
   otherBenefits: number;
   otherIncomes: number;

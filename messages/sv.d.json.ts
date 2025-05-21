@@ -213,7 +213,8 @@ declare const messages: {
       "monthly_income": "Månadsinkomst",
       "monthly_savings": "Kvar att spara"
     },
-    "no_loan": "Ange ett lånebelopp för att se prognosen"
+    "no_loan": "Ange ett lånebelopp för att se prognosen",
+    "year": "År {year}"
   },
   "not_found": {
     "title": "Sidan kunde inte hittas",

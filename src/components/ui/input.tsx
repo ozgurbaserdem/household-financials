@@ -3,6 +3,14 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+  // Defensive: never pass NaN or undefined to value
+  const value =
+    typeof props.value === "number"
+      ? isNaN(props.value)
+        ? ""
+        : props.value
+      : (props.value ?? "");
+
   return (
     <input
       type={type}
@@ -23,6 +31,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         className
       )}
       {...props}
+      value={value}
     />
   );
 }
