@@ -30,8 +30,8 @@ describe("Income", () => {
         values={{
           income1: 0,
           income2: 0,
-          income3: 0,
-          income4: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
@@ -41,10 +41,10 @@ describe("Income", () => {
     expect(screen.getByLabelText(/number_of_adults$/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/one_adult/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/two_adults/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/income1_aria/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/income2_aria/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/income3_aria/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/income4_aria/i)).toBeInTheDocument();
+    expect(screen.getAllByLabelText(/income1_aria/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toBeInTheDocument();
+    expect(screen.getByLabelText(/secondaryIncome1_aria/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/child_benefits_aria/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/other_benefits_aria/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/other_incomes_aria/i)).toBeInTheDocument();
@@ -57,8 +57,8 @@ describe("Income", () => {
         values={{
           income1: 0,
           income2: 0,
-          income3: 0,
-          income4: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
@@ -68,10 +68,10 @@ describe("Income", () => {
 
     // Initially, income2 and income4 should be hidden (default is 1 adult)
     const income2Field = screen
-      .getByLabelText(/income2_aria/i)
+      .getAllByLabelText(/income2_aria/i)[0]
       .closest('[data-slot="form-item"]');
     const income4Field = screen
-      .getByLabelText(/income4_aria/i)
+      .getByLabelText(/secondaryIncome2_aria/i)
       .closest('[data-slot="form-item"]');
     expect(income2Field).toHaveClass("hidden");
     expect(income4Field).toHaveClass("hidden");
@@ -84,8 +84,8 @@ describe("Income", () => {
         values={{
           income1: 0,
           income2: 0,
-          income3: 0,
-          income4: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
@@ -98,10 +98,10 @@ describe("Income", () => {
 
     // income2 and income4 should now be visible
     const income2Field = screen
-      .getByLabelText(/income2_aria/i)
+      .getAllByLabelText(/income2_aria/i)[0]
       .closest('[data-slot="form-item"]');
     const income4Field = screen
-      .getByLabelText(/income4_aria/i)
+      .getAllByLabelText(/secondaryIncome1_aria/i)[0]
       .closest('[data-slot="form-item"]');
     expect(income2Field).not.toHaveClass("hidden");
     expect(income4Field).not.toHaveClass("hidden");
@@ -114,8 +114,8 @@ describe("Income", () => {
         values={{
           income1: 0,
           income2: 30000,
-          income3: 0,
-          income4: 25000,
+          secondaryIncome1: 0,
+          secondaryIncome2: 25000,
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
@@ -127,10 +127,10 @@ describe("Income", () => {
     fireEvent.click(screen.getByLabelText(/two_adults/i));
 
     // Fill in income2 and income4
-    fireEvent.change(screen.getByLabelText(/income2_aria/i), {
+    fireEvent.change(screen.getAllByLabelText(/income2_aria/i)[0], {
       target: { value: "30000" },
     });
-    fireEvent.change(screen.getByLabelText(/income4_aria/i), {
+    fireEvent.change(screen.getByLabelText(/secondaryIncome1_aria/i), {
       target: { value: "25000" },
     });
 
@@ -142,14 +142,14 @@ describe("Income", () => {
       expect(mockOnChange).toHaveBeenCalledWith(
         expect.objectContaining({
           income2: 0,
-          income4: 0,
+          secondaryIncome2: 0,
         })
       );
     });
 
     // Check if the fields are cleared in the UI
-    expect(screen.getByLabelText(/income2_aria/i)).toHaveValue(0);
-    expect(screen.getByLabelText(/income4_aria/i)).toHaveValue(0);
+    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(0);
+    expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toHaveValue(0);
   });
 
   it("maintains income2 and income4 values when switching from 1 to 2 adults", () => {
@@ -159,8 +159,8 @@ describe("Income", () => {
         values={{
           income1: 0,
           income2: 30000,
-          income3: 0,
-          income4: 25000,
+          secondaryIncome1: 0,
+          secondaryIncome2: 25000,
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
@@ -169,10 +169,10 @@ describe("Income", () => {
     );
 
     // Fill in income2 and income4
-    fireEvent.change(screen.getByLabelText(/income2_aria/i), {
+    fireEvent.change(screen.getAllByLabelText(/income2_aria/i)[0], {
       target: { value: "30000" },
     });
-    fireEvent.change(screen.getByLabelText(/income4_aria/i), {
+    fireEvent.change(screen.getByLabelText(/secondaryIncome2_aria/i), {
       target: { value: "25000" },
     });
 
@@ -180,16 +180,16 @@ describe("Income", () => {
     fireEvent.click(screen.getByLabelText(/two_adults/i));
 
     // Values should remain unchanged
-    expect(screen.getByLabelText(/income2_aria/i)).toHaveValue(30000);
-    expect(screen.getByLabelText(/income4_aria/i)).toHaveValue(25000);
+    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(30000);
+    expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toHaveValue(25000);
   });
 
   it("initializes with provided values", () => {
     const initialValues = {
       income1: 30000,
       income2: 25000,
-      income3: 20000,
-      income4: 15000,
+      secondaryIncome1: 20000,
+      secondaryIncome2: 15000,
       childBenefits: 1000,
       otherBenefits: 500,
       otherIncomes: 2000,
@@ -197,10 +197,10 @@ describe("Income", () => {
 
     render(<Income onChange={mockOnChange} values={initialValues} />);
 
-    expect(screen.getByLabelText(/income1_aria/i)).toHaveValue(30000);
-    expect(screen.getByLabelText(/income2_aria/i)).toHaveValue(25000);
-    expect(screen.getByLabelText(/income3_aria/i)).toHaveValue(20000);
-    expect(screen.getByLabelText(/income4_aria/i)).toHaveValue(15000);
+    expect(screen.getAllByLabelText(/income1_aria/i)[0]).toHaveValue(30000);
+    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(25000);
+    expect(screen.getByLabelText(/secondaryIncome1_aria/i)).toHaveValue(20000);
+    expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toHaveValue(15000);
     expect(screen.getByLabelText(/child_benefits_aria/i)).toHaveValue(1000);
     expect(screen.getByLabelText(/other_benefits_aria/i)).toHaveValue(500);
     expect(screen.getByLabelText(/other_incomes_aria/i)).toHaveValue(2000);
@@ -213,8 +213,8 @@ describe("Income", () => {
         values={{
           income1: 0,
           income2: 0,
-          income3: 0,
-          income4: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
@@ -223,10 +223,14 @@ describe("Income", () => {
     );
 
     // Change and blur each field
-    const income1Field = screen.getByLabelText(/income1_aria/i);
-    const income2Field = screen.getByLabelText(/income2_aria/i);
-    const income3Field = screen.getByLabelText(/income3_aria/i);
-    const income4Field = screen.getByLabelText(/income4_aria/i);
+    const income1Field = screen.getAllByLabelText(/income1_aria/i)[0];
+    const income2Field = screen.getAllByLabelText(/income2_aria/i)[0];
+    const secondaryIncome1Field = screen.getByLabelText(
+      /secondaryIncome1_aria/i
+    );
+    const secondaryIncome2Field = screen.getByLabelText(
+      /secondaryIncome2_aria/i
+    );
     const childBenefitsField = screen.getByLabelText(/child_benefits_aria/i);
     const otherBenefitsField = screen.getByLabelText(/other_benefits_aria/i);
     const otherIncomesField = screen.getByLabelText(/other_incomes_aria/i);
@@ -239,13 +243,13 @@ describe("Income", () => {
     fireEvent.change(income2Field, { target: { value: "25000" } });
     fireEvent.blur(income2Field);
 
-    // Change and blur income3
-    fireEvent.change(income3Field, { target: { value: "20000" } });
-    fireEvent.blur(income3Field);
+    // Change and blur secondaryIncome1
+    fireEvent.change(secondaryIncome1Field, { target: { value: "20000" } });
+    fireEvent.blur(secondaryIncome1Field);
 
     // Change and blur income4
-    fireEvent.change(income4Field, { target: { value: "15000" } });
-    fireEvent.blur(income4Field);
+    fireEvent.change(secondaryIncome2Field, { target: { value: "15000" } });
+    fireEvent.blur(secondaryIncome2Field);
 
     // Change and blur childBenefits
     fireEvent.change(childBenefitsField, { target: { value: "1000" } });
@@ -263,8 +267,8 @@ describe("Income", () => {
       expect(mockOnChange).toHaveBeenCalledWith({
         income1: 30000,
         income2: 25000,
-        income3: 20000,
-        income4: 15000,
+        secondaryIncome1: 20000,
+        secondaryIncome2: 15000,
         childBenefits: 1000,
         otherBenefits: 500,
         otherIncomes: 2000,
@@ -279,8 +283,8 @@ describe("Income", () => {
         values={{
           income1: 0,
           income2: 0,
-          income3: 0,
-          income4: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,

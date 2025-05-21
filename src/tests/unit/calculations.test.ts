@@ -22,8 +22,8 @@ describe("Financial Calculations", () => {
         },
         income1: calculateIncomeWithTax(30000),
         income2: calculateIncomeWithTax(25000),
-        income3: calculateIncomeWithTax(0, true),
-        income4: calculateIncomeWithTax(0, true),
+        secondaryIncome1: calculateIncomeWithTax(0, true),
+        secondaryIncome2: calculateIncomeWithTax(0, true),
         childBenefits: 0,
         otherBenefits: 0,
         otherIncomes: 0,
@@ -42,16 +42,16 @@ describe("Financial Calculations", () => {
         remainingSavings:
           results[0].income1 +
           results[0].income2 +
-          results[0].income3 +
-          results[0].income4 +
+          results[0].secondaryIncome1 +
+          results[0].secondaryIncome2 +
           results[0].childBenefits +
           results[0].otherBenefits +
           results[0].otherIncomes -
           results[0].totalExpenses,
         income1: results[0].income1,
         income2: results[0].income2,
-        income3: results[0].income3,
-        income4: results[0].income4,
+        secondaryIncome1: results[0].secondaryIncome1,
+        secondaryIncome2: results[0].secondaryIncome2,
         childBenefits: 0,
         otherBenefits: 0,
         otherIncomes: 0,
@@ -69,8 +69,8 @@ describe("Financial Calculations", () => {
         },
         income1: calculateIncomeWithTax(30000),
         income2: calculateIncomeWithTax(25000),
-        income3: calculateIncomeWithTax(0, true),
-        income4: calculateIncomeWithTax(0, true),
+        secondaryIncome1: calculateIncomeWithTax(0, true),
+        secondaryIncome2: calculateIncomeWithTax(0, true),
         childBenefits: 0,
         otherBenefits: 0,
         otherIncomes: 0,

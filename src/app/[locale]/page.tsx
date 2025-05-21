@@ -29,8 +29,8 @@ function hasAnyIncome(state: CalculatorState): boolean {
   return (
     state.income1.gross > 0 ||
     state.income2.gross > 0 ||
-    state.income3.gross > 0 ||
-    state.income4.gross > 0 ||
+    state.secondaryIncome1.gross > 0 ||
+    state.secondaryIncome2.gross > 0 ||
     state.childBenefits > 0 ||
     state.otherBenefits > 0 ||
     state.otherIncomes > 0
@@ -52,8 +52,8 @@ export default function Home({
     },
     income1: calculateIncomeWithTax(0),
     income2: calculateIncomeWithTax(0),
-    income3: calculateIncomeWithTax(0),
-    income4: calculateIncomeWithTax(0),
+    secondaryIncome1: calculateIncomeWithTax(0),
+    secondaryIncome2: calculateIncomeWithTax(0),
     childBenefits: 0,
     otherBenefits: 0,
     otherIncomes: 0,
@@ -65,8 +65,8 @@ export default function Home({
       ...prev,
       income1: calculateIncomeWithTax(values.income1),
       income2: calculateIncomeWithTax(values.income2),
-      income3: calculateIncomeWithTax(values.income3, true),
-      income4: calculateIncomeWithTax(values.income4, true),
+      secondaryIncome1: calculateIncomeWithTax(values.secondaryIncome1, true),
+      secondaryIncome2: calculateIncomeWithTax(values.secondaryIncome2, true),
       childBenefits: values.childBenefits,
       otherBenefits: values.otherBenefits,
       otherIncomes: values.otherIncomes,
@@ -91,8 +91,8 @@ export default function Home({
                 values={{
                   income1: calculatorState.income1.gross,
                   income2: calculatorState.income2.gross,
-                  income3: calculatorState.income3.gross,
-                  income4: calculatorState.income4.gross,
+                  secondaryIncome1: calculatorState.secondaryIncome1.gross,
+                  secondaryIncome2: calculatorState.secondaryIncome2.gross,
                   childBenefits: calculatorState.childBenefits,
                   otherBenefits: calculatorState.otherBenefits,
                   otherIncomes: calculatorState.otherIncomes,

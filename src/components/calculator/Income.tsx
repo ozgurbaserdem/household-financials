@@ -16,8 +16,8 @@ import { NumberOfAdultsRadioGroup } from "./NumberOfAdultsRadioGroup";
 const formSchema = z.object({
   income1: z.number().min(0),
   income2: z.number().min(0),
-  income3: z.number().min(0),
-  income4: z.number().min(0),
+  secondaryIncome1: z.number().min(0),
+  secondaryIncome2: z.number().min(0),
   childBenefits: z.number().min(0),
   otherBenefits: z.number().min(0),
   otherIncomes: z.number().min(0),
@@ -26,8 +26,8 @@ const formSchema = z.object({
 interface IncomeFormValues {
   income1: number;
   income2: number;
-  income3: number;
-  income4: number;
+  secondaryIncome1: number;
+  secondaryIncome2: number;
   childBenefits: number;
   otherBenefits: number;
   otherIncomes: number;
@@ -59,14 +59,14 @@ export function Income({ values, onChange }: IncomeFormProps) {
   const handleAdultsChange = (value: "1" | "2") => {
     setNumberOfAdults(value);
     if (value === "1") {
-      // Clear income2 and income4 when switching to 1 adult
+      // Clear income2 and secondaryIncome2 when switching to 1 adult
       form.setValue("income2", 0);
-      form.setValue("income4", 0);
+      form.setValue("secondaryIncome2", 0);
       const currentValues = form.getValues();
       onChange({
         ...currentValues,
         income2: 0,
-        income4: 0,
+        secondaryIncome2: 0,
       });
     }
   };
@@ -153,16 +153,16 @@ export function Income({ values, onChange }: IncomeFormProps) {
                   >
                     <IncomeInputField
                       form={form}
-                      name="income3"
-                      label={t("income3")}
-                      ariaLabel={t("income3_aria")}
+                      name="secondaryIncome1"
+                      label={t("secondaryIncome1")}
+                      ariaLabel={t("secondaryIncome1_aria")}
                       onBlur={handleFieldChange}
                     />
                     <IncomeInputField
                       form={form}
-                      name="income4"
-                      label={t("income4")}
-                      ariaLabel={t("income4_aria")}
+                      name="secondaryIncome2"
+                      label={t("secondaryIncome2")}
+                      ariaLabel={t("secondaryIncome2_aria")}
                       hidden={numberOfAdults === "1"}
                       onBlur={handleFieldChange}
                     />

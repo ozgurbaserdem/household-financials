@@ -9,8 +9,8 @@ export function calculateTotalNetIncome(state: CalculatorState): number {
   return (
     state.income1.net +
     state.income2.net +
-    state.income3.net +
-    state.income4.net +
+    state.secondaryIncome1.net +
+    state.secondaryIncome2.net +
     state.childBenefits +
     state.otherBenefits +
     state.otherIncomes
@@ -75,8 +75,8 @@ export function calculateLoanScenarios(
         remainingSavings,
         income1: state.income1.net,
         income2: state.income2.net,
-        income3: state.income3.net,
-        income4: state.income4.net,
+        secondaryIncome1: state.secondaryIncome1.net,
+        secondaryIncome2: state.secondaryIncome2.net,
         childBenefits: state.childBenefits,
         otherBenefits: state.otherBenefits,
         otherIncomes: state.otherIncomes,
@@ -177,8 +177,8 @@ export function calculateTotalIncome(state: CalculatorState): {
   const gross =
     state.income1.gross +
     state.income2.gross +
-    state.income3.gross +
-    state.income4.gross +
+    state.secondaryIncome1.gross +
+    state.secondaryIncome2.gross +
     state.childBenefits +
     state.otherBenefits +
     state.otherIncomes;
@@ -186,8 +186,8 @@ export function calculateTotalIncome(state: CalculatorState): {
   const net =
     state.income1.net +
     state.income2.net +
-    state.income3.net +
-    state.income4.net +
+    state.secondaryIncome1.net +
+    state.secondaryIncome2.net +
     state.childBenefits +
     state.otherBenefits +
     state.otherIncomes;

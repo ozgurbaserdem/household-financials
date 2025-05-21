@@ -224,8 +224,8 @@ declare const messages: {
     "title": "Incomes",
     "income1": "Income 1 (SEK)",
     "income2": "Income 2 (SEK)",
-    "income3": "Income 3 (SEK, secondary)",
-    "income4": "Income 4 (SEK, secondary)",
+    "secondaryIncome1": "Secondary Income 1 (SEK, secondary)",
+    "secondaryIncome2": "Secondary Income 2 (SEK, secondary)",
     "child_benefits": "Child Benefits (SEK)",
     "other_benefits": "Other Benefits (SEK)",
     "other_incomes": "Other Incomes (SEK)",
@@ -233,8 +233,6 @@ declare const messages: {
     "title_aria": "Income section",
     "income1_aria": "Monthly gross income for applicant 1 in SEK",
     "income2_aria": "Monthly gross income for applicant 2 in SEK",
-    "income3_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
-    "income4_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)",
     "child_benefits_aria": "Monthly child benefits in SEK",
     "other_benefits_aria": "Monthly other benefits in SEK",
     "other_incomes_aria": "Monthly other incomes in SEK",
@@ -242,7 +240,9 @@ declare const messages: {
     "number_of_adults": "Number of adults in the household",
     "one_adult": "1 adult",
     "two_adults": "2 adults",
-    "number_of_adults_full": "Select number of adults in the household"
+    "number_of_adults_full": "Select number of adults in the household",
+    "secondaryIncome1_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
+    "secondaryIncome2_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)"
   }
 };
 export default messages;

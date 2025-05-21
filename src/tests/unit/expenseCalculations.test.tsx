@@ -23,8 +23,8 @@ describe("Expense Calculations and Net Income", () => {
     },
     income1: calculateIncomeWithTax(50000),
     income2: calculateIncomeWithTax(30000),
-    income3: calculateIncomeWithTax(0, true),
-    income4: calculateIncomeWithTax(0, true),
+    secondaryIncome1: calculateIncomeWithTax(0, true),
+    secondaryIncome2: calculateIncomeWithTax(0, true),
     childBenefits: 0,
     otherBenefits: 0,
     otherIncomes: 0,
@@ -46,8 +46,8 @@ describe("Expense Calculations and Net Income", () => {
     return (
       result.income1 +
       result.income2 +
-      result.income3 +
-      result.income4 +
+      result.secondaryIncome1 +
+      result.secondaryIncome2 +
       (result.childBenefits ?? 0) +
       (result.otherBenefits ?? 0) +
       (result.otherIncomes ?? 0)

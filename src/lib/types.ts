@@ -30,8 +30,8 @@ export interface CalculationResult {
   remainingSavings: number;
   income1: number;
   income2: number;
-  income3: number;
-  income4: number;
+  secondaryIncome1: number;
+  secondaryIncome2: number;
   childBenefits: number;
   otherBenefits: number;
   otherIncomes: number;
@@ -54,8 +54,8 @@ export interface CalculatorState {
   };
   income1: IncomeCalculation;
   income2: IncomeCalculation;
-  income3: IncomeCalculation;
-  income4: IncomeCalculation;
+  secondaryIncome1: IncomeCalculation;
+  secondaryIncome2: IncomeCalculation;
   childBenefits: number;
   otherBenefits: number;
   otherIncomes: number;
