@@ -79,7 +79,7 @@ export default function Home({
       expenses,
     }));
   };
-  console.log("calculatorState", calculatorState);
+
   return (
     <Main className="min-h-screen bg-gray-100 dark:bg-gray-950 flex flex-col items-center">
       <Navbar />

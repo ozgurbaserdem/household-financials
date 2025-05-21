@@ -5,8 +5,8 @@ import { importFromCsv } from "@/lib/import-from-csv";
 
 describe("CSV Import", () => {
   it("should import data correctly from CSV", async () => {
-    const csvContent = `loanAmount,interestRates,amortizationRates,grossIncome1,grossIncome2,grossIncome3,grossIncome4,home.rent-monthly-fee,home.utilities,food.groceries,food.restaurants-cafes
-1000000,3.5|4,2|3,30000,25000,0,0,5000,1000,3000,2000`;
+    const csvContent = `loanAmount,interestRates,amortizationRates,income1,income2,secondaryIncome1,secondaryIncome2,home.rent-monthly-fee,home.utilities,food.groceries,food.restaurants-cafes
+1000000,3.5|4,2|3,30000,25000,20000,15000,5000,1000,3000,2000`;
 
     const file = new File([csvContent], "test.csv", { type: "text/csv" });
     const onSuccess = vi.fn();
@@ -41,8 +41,10 @@ describe("CSV Import", () => {
       interestRates: [3.5, 4],
       amortizationRates: [2, 3],
     });
-    expect(importedState.grossIncome1).toBe(30000);
-    expect(importedState.grossIncome2).toBe(25000);
+    expect(importedState.income1?.gross).toBe(30000);
+    expect(importedState.income2?.gross).toBe(25000);
+    expect(importedState.secondaryIncome1?.gross).toBe(20000);
+    expect(importedState.secondaryIncome2?.gross).toBe(15000);
     expect(importedState.expenses).toHaveProperty("home");
     expect(importedState.expenses).toHaveProperty("food");
   });
