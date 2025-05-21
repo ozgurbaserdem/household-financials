@@ -197,8 +197,7 @@ declare const messages: {
     "import_csv": "Importera CSV"
   },
   "app": {
-    "title": "Min ekonomi",
-    "calculate": "Beräkna"
+    "title": "Min ekonomi"
   },
   "forecast": {
     "title": "Låneprognos",

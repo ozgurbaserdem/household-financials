@@ -197,8 +197,7 @@ declare const messages: {
     "import_csv": "Import CSV"
   },
   "app": {
-    "title": "Min ekonomi",
-    "calculate": "Calculate"
+    "title": "Min ekonomi"
   },
   "forecast": {
     "title": "Loan Forecast",

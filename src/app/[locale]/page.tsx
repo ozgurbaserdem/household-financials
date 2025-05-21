@@ -17,6 +17,26 @@ import { Loans } from "@/components/calculator/Loans";
 import { Forecast } from "@/components/calculator/Forecast";
 import { Navbar } from "@/components/Navbar";
 
+// Utility: true if any expense > 0
+function hasAnyExpense(expenses: ExpensesByCategory): boolean {
+  return Object.values(expenses).some((categoryObj) =>
+    Object.values(categoryObj).some((amount) => amount > 0)
+  );
+}
+
+// Utility: true if any income field > 0
+function hasAnyIncome(state: CalculatorState): boolean {
+  return (
+    state.income1.gross > 0 ||
+    state.income2.gross > 0 ||
+    state.income3.gross > 0 ||
+    state.income4.gross > 0 ||
+    state.childBenefits > 0 ||
+    state.otherBenefits > 0 ||
+    state.otherIncomes > 0
+  );
+}
+
 export default function Home({
   params,
 }: {
@@ -112,12 +132,16 @@ export default function Home({
         </Box>
 
         <Section className="mt-6 sm:mt-8 flex flex-col gap-4">
-          <Box className="section-card">
-            <ResultsTable calculatorState={calculatorState} />
-          </Box>
-          <Box className="section-card">
-            <ExpenseBreakdown expenses={calculatorState.expenses} />
-          </Box>
+          {hasAnyIncome(calculatorState) && (
+            <Box className="section-card">
+              <ResultsTable calculatorState={calculatorState} />
+            </Box>
+          )}
+          {hasAnyExpense(calculatorState.expenses) && (
+            <Box className="section-card">
+              <ExpenseBreakdown expenses={calculatorState.expenses} />
+            </Box>
+          )}
           <Forecast calculatorState={calculatorState} />
         </Section>
       </Box>
