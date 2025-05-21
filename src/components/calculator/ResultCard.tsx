@@ -25,6 +25,9 @@ interface ResultCardProps {
 function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
   const t = useTranslations("results");
   const [showAnimation, setShowAnimation] = useState(false);
+  const [tooltipStates, setTooltipStates] = useState<Record<string, boolean>>(
+    {}
+  );
   const gridOrder = [
     "interest_rate",
     "amortization",
@@ -34,13 +37,16 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
     "remaining_savings",
   ];
 
-  // Tooltip open state for click (only for first card)
-  const [openIndex, setOpenIndex] = React.useState<number | null>(null);
-
   useEffect(() => {
-    // Trigger animation after component mounts
     setShowAnimation(true);
   }, []);
+
+  const handleTooltipToggle = (key: string) => {
+    setTooltipStates((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
 
   const renderValue = (cell: HeadCell, result: CalculationResult) => {
     if (!cell.render) return null;
@@ -69,34 +75,39 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
   return (
     <Box className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-3">
       <Box className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
-        {gridOrder.map((key, idx) => {
+        {gridOrder.map((key) => {
           const cell = HEAD_CELLS.find((c) => c.key === key);
           if (!cell) return null;
           return (
-            <Box key={cell.key} className="flex flex-col">
+            <Box key={cell.key} className="flex flex-col relative">
               {showTooltips ? (
-                <>
+                <Box className="relative">
                   <Text
-                    className="text-sm text-gray-500 dark:text-gray-400 cursor-help"
+                    className="text-sm text-gray-500 dark:text-gray-400 cursor-help hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
                     tabIndex={0}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenIndex(openIndex === idx ? null : idx);
-                    }}
-                    onMouseLeave={() => setOpenIndex(null)}
-                    onBlur={() => setOpenIndex(null)}
+                    onClick={() => handleTooltipToggle(cell.key)}
+                    onMouseEnter={() => handleTooltipToggle(cell.key)}
+                    onMouseLeave={() => handleTooltipToggle(cell.key)}
+                    onBlur={() => handleTooltipToggle(cell.key)}
+                    role="button"
+                    aria-label={t(cell.tooltipKey)}
                   >
                     {t(cell.key)}
                   </Text>
-                  {openIndex === idx && (
-                    <div
-                      className={`absolute z-10 w-48 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded shadow-lg p-2 text-xs text-gray-700 dark:text-gray-200 ${idx === 0 ? "translate-x-[-70px]" : "translate-x-[-40px]"}`}
-                      style={{ top: "2.5rem" }}
+                  {tooltipStates[cell.key] && (
+                    <Box
+                      className="absolute z-50 w-48 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg p-3 text-xs text-gray-700 dark:text-gray-200"
+                      style={{
+                        bottom: "100%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        marginBottom: "0.5rem",
+                      }}
                     >
                       {t(cell.tooltipKey)}
-                    </div>
+                    </Box>
                   )}
-                </>
+                </Box>
               ) : (
                 <Text className="text-sm text-gray-500 dark:text-gray-400">
                   {t(cell.key)}

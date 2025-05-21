@@ -40,7 +40,7 @@ export function Forecast({ calculatorState }: ForecastProps) {
     const initialLoan = calculatorState.loanParameters.amount;
     const amortizationRate = 0.03; // 3%
     const interestRate = 0.03; // 3%
-    const salaryIncreaseRate = 0.03; // 3%
+    const salaryIncreaseRate = 0.025; // 2.5%
 
     // Use utility to calculate net monthly income
     const netMonthlyIncome = calculateTotalNetIncome(calculatorState);
@@ -56,7 +56,7 @@ export function Forecast({ calculatorState }: ForecastProps) {
       const yearlyInterest = remainingLoan * interestRate;
       const yearlyCost = yearlyAmortization + yearlyInterest;
       const monthlyCost = yearlyCost / 12;
-      // Apply 3% increase to yearly net income
+      // Apply 2.5% increase to yearly net income
       const currentYearNetYearlyIncome =
         netYearlyIncome0 * Math.pow(1 + salaryIncreaseRate, currentYear);
       const monthlyIncome = currentYearNetYearlyIncome / 12;
