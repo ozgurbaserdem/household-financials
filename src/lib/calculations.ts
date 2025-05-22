@@ -3,6 +3,7 @@ import type {
   CalculationResult,
   ExpensesByCategory,
   IncomeCalculation,
+  FinancialHealthScore,
 } from "./types";
 
 export function calculateTotalNetIncome(state: CalculatorState): number {
@@ -193,4 +194,218 @@ export function calculateTotalIncome(state: CalculatorState): {
     state.otherIncomes;
 
   return { gross, net };
+}
+
+function getMainLoanCosts(state: CalculatorState): {
+  monthlyAmortization: number;
+  monthlyInterest: number;
+} {
+  const { amount, interestRates, amortizationRates } = state.loanParameters;
+  const interestRate = interestRates[0] ?? 0;
+  const amortizationRate = amortizationRates[0] ?? 0;
+  const monthlyInterest = (amount * (interestRate / 100)) / 12;
+  const monthlyAmortization = (amount * (amortizationRate / 100)) / 12;
+  return { monthlyAmortization, monthlyInterest };
+}
+
+export function calculateFinancialHealthScore(
+  state: CalculatorState
+): FinancialHealthScore {
+  const totalIncome = calculateTotalNetIncome(state);
+  const totalGrossIncome = calculateTotalIncome(state).gross;
+  const baseExpenses = calculateTotalExpenses(state.expenses);
+  const housingExpenses = calculateSelectedHousingExpenses(state.expenses);
+  const loanAmount = state.loanParameters.amount;
+
+  // Add loan costs to expenses
+  const { monthlyAmortization, monthlyInterest } = getMainLoanCosts(state);
+  const totalLoanCost = monthlyAmortization + monthlyInterest;
+  const totalExpenses = baseExpenses + totalLoanCost;
+  const totalHousingCost = housingExpenses + totalLoanCost;
+
+  // Guard against division by zero
+  const safeDiv = (num: number, denom: number) => (denom > 0 ? num / denom : 0);
+
+  // Calculate metrics
+  const debtToIncomeRatio = safeDiv(loanAmount, totalGrossIncome * 12); // Annual gross income
+  const emergencyFundCoverage = calculateEmergencyFundCoverage(
+    state,
+    totalExpenses
+  );
+
+  const savingsRate = safeDiv(totalIncome - totalExpenses, totalIncome);
+  const housingCostRatio = safeDiv(totalHousingCost, totalIncome);
+  const discretionaryIncomeRatio = safeDiv(
+    totalIncome - totalExpenses,
+    totalIncome
+  );
+
+  // Calculate overall score (0-100)
+  const overallScore = calculateOverallScore({
+    debtToIncomeRatio,
+    emergencyFundCoverage,
+    savingsRate,
+    housingCostRatio,
+    discretionaryIncomeRatio,
+  });
+
+  // Generate recommendations
+  const recommendations = generateRecommendations({
+    debtToIncomeRatio,
+    emergencyFundCoverage,
+    savingsRate,
+    housingCostRatio,
+    discretionaryIncomeRatio,
+  });
+
+  return {
+    overallScore,
+    metrics: {
+      debtToIncomeRatio,
+      emergencyFundCoverage,
+      savingsRate,
+      housingCostRatio,
+      discretionaryIncomeRatio,
+    },
+    recommendations,
+  };
+}
+
+function calculateEmergencyFundCoverage(
+  state: CalculatorState,
+  totalExpenses?: number
+): number {
+  const monthlyExpenses =
+    typeof totalExpenses === "number"
+      ? totalExpenses
+      : calculateTotalExpenses(state.expenses);
+  const emergencyFund = state.currentBuffer || 0;
+  return monthlyExpenses > 0 ? emergencyFund / monthlyExpenses : 0;
+}
+
+function calculateOverallScore(metrics: {
+  debtToIncomeRatio: number;
+  emergencyFundCoverage: number;
+  savingsRate: number;
+  housingCostRatio: number;
+  discretionaryIncomeRatio: number;
+}): number {
+  const weights = {
+    debtToIncomeRatio: 0.25,
+    emergencyFundCoverage: 0.25,
+    savingsRate: 0.2,
+    housingCostRatio: 0.15,
+    discretionaryIncomeRatio: 0.15,
+  };
+
+  const scores = {
+    debtToIncomeRatio: Math.max(
+      0,
+      100 * (1 - Math.min(metrics.debtToIncomeRatio, 2) / 2)
+    ), // 0x=100, 1x=50, 2x=0
+    emergencyFundCoverage: Math.min(100, metrics.emergencyFundCoverage * 100),
+    savingsRate: Math.min(100, metrics.savingsRate * 200), // 50% savings rate = 100 points
+    housingCostRatio: Math.max(0, 100 * (1 - metrics.housingCostRatio / 0.3)), // 30% is max recommended
+    discretionaryIncomeRatio: Math.min(
+      100,
+      metrics.discretionaryIncomeRatio * 200
+    ), // 50% = 100 points
+  };
+
+  // If any score is NaN, treat as 0
+  Object.keys(scores).forEach((key) => {
+    if (!Number.isFinite(scores[key as keyof typeof scores])) {
+      scores[key as keyof typeof scores] = 0;
+    }
+  });
+
+  const total = Object.entries(weights).reduce((total, [key, weight]) => {
+    return total + scores[key as keyof typeof scores] * weight;
+  }, 0);
+
+  return Math.round(total);
+}
+
+function generateRecommendations(metrics: {
+  debtToIncomeRatio: number;
+  emergencyFundCoverage: number;
+  savingsRate: number;
+  housingCostRatio: number;
+  discretionaryIncomeRatio: number;
+}): string[] {
+  const recommendations: string[] = [];
+  if (metrics.debtToIncomeRatio > 4.3) {
+    recommendations.push("recommendation_reduce_dti");
+  }
+  if (metrics.emergencyFundCoverage < 3) {
+    recommendations.push("recommendation_emergency_fund");
+  }
+  if (metrics.savingsRate < 0.2) {
+    recommendations.push("recommendation_savings_rate");
+  }
+  if (metrics.housingCostRatio > 0.3) {
+    recommendations.push("recommendation_housing_cost");
+  }
+  if (metrics.discretionaryIncomeRatio < 0.2) {
+    recommendations.push("recommendation_discretionary_income");
+  }
+  return recommendations;
+}
+
+export function calculateFinancialHealthScoreForResult(
+  result: CalculationResult,
+  currentBuffer: number
+): FinancialHealthScore {
+  // Use the scenario's net income and expenses
+  const totalIncome = result.totalIncome?.net ?? 0;
+  const totalGrossIncome = result.totalIncome?.gross ?? 0;
+  const totalExpenses = result.totalExpenses;
+  const housingCost = result.totalHousingCost;
+  const loanAmount =
+    ((result.monthlyAmortization + result.monthlyInterest) * 12) /
+      ((result.amortizationRate + result.interestRate) / 100) || 0;
+
+  // Guard against division by zero
+  const safeDiv = (num: number, denom: number) => (denom > 0 ? num / denom : 0);
+
+  // Calculate metrics
+  const debtToIncomeRatio = safeDiv(loanAmount, totalGrossIncome * 12);
+  const emergencyFundCoverage =
+    totalExpenses > 0 ? currentBuffer / totalExpenses : 0;
+  const savingsRate = safeDiv(totalIncome - totalExpenses, totalIncome);
+  const housingCostRatio = safeDiv(housingCost, totalIncome);
+  const discretionaryIncomeRatio = safeDiv(
+    totalIncome - totalExpenses,
+    totalIncome
+  );
+
+  // Calculate overall score (0-100)
+  const overallScore = calculateOverallScore({
+    debtToIncomeRatio,
+    emergencyFundCoverage,
+    savingsRate,
+    housingCostRatio,
+    discretionaryIncomeRatio,
+  });
+
+  // Generate recommendations
+  const recommendations = generateRecommendations({
+    debtToIncomeRatio,
+    emergencyFundCoverage,
+    savingsRate,
+    housingCostRatio,
+    discretionaryIncomeRatio,
+  });
+
+  return {
+    overallScore,
+    metrics: {
+      debtToIncomeRatio,
+      emergencyFundCoverage,
+      savingsRate,
+      housingCostRatio,
+      discretionaryIncomeRatio,
+    },
+    recommendations,
+  };
 }

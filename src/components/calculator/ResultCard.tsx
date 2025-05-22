@@ -5,6 +5,14 @@ import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { AnimatedScramble } from "@/components/bubba-ui/animated-scramble";
 import type { CalculationResult } from "@/lib/types";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
+import { calculateFinancialHealthScoreForResult } from "@/lib/calculations";
+import { FinancialHealthScore } from "./FinancialHealthScore";
 
 interface HeadCell {
   key: string;
@@ -20,14 +28,17 @@ interface ResultCardProps {
   result: CalculationResult;
   showTooltips: boolean;
   HEAD_CELLS: HeadCell[];
+  currentBuffer?: number;
 }
 
-function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
+function ResultCard({
+  result,
+  showTooltips,
+  HEAD_CELLS,
+  currentBuffer = 0,
+}: ResultCardProps) {
   const t = useTranslations("results");
   const [showAnimation, setShowAnimation] = useState(false);
-  const [tooltipStates, setTooltipStates] = useState<Record<string, boolean>>(
-    {}
-  );
   const gridOrder = [
     "interest_rate",
     "amortization",
@@ -40,13 +51,6 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
   useEffect(() => {
     setShowAnimation(true);
   }, []);
-
-  const handleTooltipToggle = (key: string) => {
-    setTooltipStates((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
 
   const renderValue = (cell: HeadCell, result: CalculationResult) => {
     if (!cell.render) return null;
@@ -81,32 +85,31 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
           return (
             <Box key={cell.key} className="flex flex-col relative">
               {showTooltips ? (
-                <Box className="relative">
+                <Box className="flex items-center gap-2 relative">
                   <Text
-                    className="text-sm text-gray-500 dark:text-gray-400 cursor-help hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+                    className="text-sm text-gray-500 dark:text-gray-400"
                     tabIndex={0}
-                    onClick={() => handleTooltipToggle(cell.key)}
-                    onMouseEnter={() => handleTooltipToggle(cell.key)}
-                    onMouseLeave={() => handleTooltipToggle(cell.key)}
-                    onBlur={() => handleTooltipToggle(cell.key)}
-                    role="button"
-                    aria-label={t(cell.tooltipKey)}
                   >
                     {t(cell.key)}
                   </Text>
-                  {tooltipStates[cell.key] && (
-                    <Box
-                      className="absolute z-50 w-48 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg p-3 text-xs text-gray-700 dark:text-gray-200"
-                      style={{
-                        bottom: "100%",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        marginBottom: "0.5rem",
-                      }}
+                  <Tooltip delayDuration={100}>
+                    <TooltipTrigger asChild>
+                      <button
+                        type="button"
+                        tabIndex={0}
+                        aria-label={t(cell.tooltipKey)}
+                        className="focus:outline-none"
+                      >
+                        <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="top"
+                      className="z-50 max-w-xs p-3 text-xs"
                     >
                       {t(cell.tooltipKey)}
-                    </Box>
-                  )}
+                    </TooltipContent>
+                  </Tooltip>
                 </Box>
               ) : (
                 <Text className="text-sm text-gray-500 dark:text-gray-400">
@@ -130,6 +133,13 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
           );
         })}
       </Box>
+      {/* Divider */}
+      <Box className="my-4 border-t border-gray-300 dark:border-gray-700" />
+      {/* Financial Health Score section */}
+      <FinancialHealthScore
+        score={calculateFinancialHealthScoreForResult(result, currentBuffer)}
+        showTooltips={showTooltips}
+      />
     </Box>
   );
 }

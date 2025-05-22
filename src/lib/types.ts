@@ -60,10 +60,23 @@ export interface CalculatorState {
   otherBenefits: number;
   otherIncomes: number;
   expenses: ExpensesByCategory;
+  currentBuffer: number;
 }
 
 export interface ExpensesByCategory {
   [categoryId: string]: {
     [subcategoryId: string]: number;
   };
+}
+
+export interface FinancialHealthScore {
+  overallScore: number;
+  metrics: {
+    debtToIncomeRatio: number;
+    emergencyFundCoverage: number;
+    savingsRate: number;
+    housingCostRatio: number;
+    discretionaryIncomeRatio: number;
+  };
+  recommendations: string[];
 }

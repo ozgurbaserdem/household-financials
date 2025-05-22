@@ -21,6 +21,7 @@ const formSchema = z.object({
   childBenefits: z.number().min(0),
   otherBenefits: z.number().min(0),
   otherIncomes: z.number().min(0),
+  currentBuffer: z.number().min(0),
 });
 
 interface IncomeFormValues {
@@ -31,6 +32,7 @@ interface IncomeFormValues {
   childBenefits: number;
   otherBenefits: number;
   otherIncomes: number;
+  currentBuffer: number;
 }
 
 interface IncomeFormProps {
@@ -193,6 +195,14 @@ export function Income({ values, onChange }: IncomeFormProps) {
                   name="otherIncomes"
                   label={t("other_incomes")}
                   ariaLabel={t("other_incomes_aria")}
+                  onBlur={handleFieldChange}
+                />
+
+                <IncomeInputField
+                  form={form}
+                  name="currentBuffer"
+                  label={t("current_buffer_label")}
+                  ariaLabel={t("current_buffer_aria")}
                   onBlur={handleFieldChange}
                 />
               </Box>

@@ -187,7 +187,8 @@
     "housing_cost_tooltip": "Summa av amorteringar, räntebetalningar, hyra/månadsavgift, el/värme, bolån och vatten/sopor.",
     "total_expenses_tooltip": "Alla månatliga utgifter, inklusive boende och övriga kategorier.",
     "total_income_tooltip": "Total nettoinkomst efter skatt för alla inkomsttagare.",
-    "remaining_savings_tooltip": "Överskott eller underskott efter alla kostnader och skatter."
+    "remaining_savings_tooltip": "Överskott eller underskott efter alla kostnader och skatter.",
+    "financial_health_score_details": "Visa ekonomiskt hälsotillstånd"
   },
   "export_import": {
     "export_csv": "Exportera CSV",
@@ -239,6 +240,36 @@
     "number_of_adults": "Antal vuxna i hushållet",
     "one_adult": "1 vuxen",
     "two_adults": "2 vuxna",
-    "number_of_adults_full": "Välj antal vuxna i hushållet"
+    "number_of_adults_full": "Välj antal vuxna i hushållet",
+    "current_buffer_label": "Buffertsparande (SEK)",
+    "current_buffer_aria": "Hur mycket har du på ditt buffertkonto just nu?"
+  },
+  "financial_health": {
+    "title": "Ekonomiskt hälsotillstånd",
+    "aria": {
+      "title": "Ekonomiskt hälsotillstånd sektion"
+    },
+    "overall_score": "Totalpoäng",
+    "metrics": "Nyckeltal",
+    "debt_to_income": "Skuldkvot",
+    "emergency_fund": "Bufferttäckning",
+    "savings_rate": "Sparande",
+    "housing_cost": "Boendekostnadsgrad",
+    "discretionary_income": "Disponibel inkomst",
+    "recommendations": "Rekommendationer",
+    "recommendation_reduce_dti": "Överväg att minska dina skulder eller öka din inkomst för att förbättra din skuldkvot.",
+    "recommendation_emergency_fund": "Bygg upp din buffert så att den täcker minst 3 månaders utgifter.",
+    "recommendation_savings_rate": "Försök öka din sparandegrad till minst 20% av din inkomst.",
+    "recommendation_housing_cost": "Dina boendekostnader är höga i förhållande till din inkomst. Fundera på sätt att minska boendekostnaderna.",
+    "recommendation_discretionary_income": "Din disponibla inkomst är låg. Se över möjligheter att minska fasta utgifter.",
+    "tooltips": {
+      "debt_to_income": "Skuldkvot = Totala lån / Årlig bruttoinkomst (före skatt). Visar hur stor andel av din årsinkomst före skatt som skulle krävas för att betala av alla dina skulder. Lägre är bättre.",
+      "emergency_fund": "Bufferttäckning = Buffert / Månadskostnader. Visar hur många månaders utgifter din buffert täcker. 300% betyder att du har tillräckligt för tre månader. Sikta på minst 300%.",
+      "savings_rate": "Sparande = (Nettoinkomst - Utgifter) / Nettoinkomst. Visar hur stor andel av din inkomst du sparar varje månad.",
+      "housing_cost": "Boendekostnadsgrad = Boendekostnader / Nettoinkomst. Visar hur stor andel av din inkomst som går till boende. Sikta på under 30%.",
+      "discretionary_income": "Disponibel inkomst = (Nettoinkomst - Utgifter) / Nettoinkomst. Visar hur stor andel av din inkomst som är kvar efter alla utgifter."
+    },
+    "current_buffer_label": "Buffertsparande (SEK)",
+    "current_buffer_aria": "Hur mycket har du på ditt buffertkonto just nu?"
   }
 }

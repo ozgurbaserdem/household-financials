@@ -187,7 +187,8 @@
     "housing_cost_tooltip": "Sum of amortizations, interest payments, rent/monthly fee, electricity/heating, mortgage, and water/garbage.",
     "total_expenses_tooltip": "All monthly expenses, including housing and other categories.",
     "total_income_tooltip": "Total net income after taxes for all income earners.",
-    "remaining_savings_tooltip": "Surplus or deficit after all costs and taxes are deducted."
+    "remaining_savings_tooltip": "Surplus or deficit after all costs and taxes are deducted.",
+    "financial_health_score_details": "Show Financial Health Score"
   },
   "export_import": {
     "export_csv": "Export CSV",
@@ -239,6 +240,36 @@
     "two_adults": "2 adults",
     "number_of_adults_full": "Select number of adults in the household",
     "secondaryIncome1_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
-    "secondaryIncome2_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)"
+    "secondaryIncome2_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)",
+    "current_buffer_label": "Current Buffer (SEK)",
+    "current_buffer_aria": "How much do you have in your buffer account right now?"
+  },
+  "financial_health": {
+    "title": "Financial Health Score",
+    "aria": {
+      "title": "Financial Health Score section"
+    },
+    "overall_score": "Overall Score",
+    "metrics": "Key Metrics",
+    "debt_to_income": "Debt to Income Ratio",
+    "emergency_fund": "Emergency Fund Coverage",
+    "savings_rate": "Savings Rate",
+    "housing_cost": "Housing Cost Ratio",
+    "discretionary_income": "Discretionary Income Ratio",
+    "recommendations": "Recommendations",
+    "recommendation_reduce_dti": "Consider reducing your debt or increasing your income to improve your debt-to-income ratio.",
+    "recommendation_emergency_fund": "Build up your emergency fund to cover at least 3 months of expenses.",
+    "recommendation_savings_rate": "Try to increase your savings rate to at least 20% of your income.",
+    "recommendation_housing_cost": "Your housing costs are high relative to your income. Consider ways to reduce housing expenses.",
+    "recommendation_discretionary_income": "Your discretionary income is low. Look for ways to reduce fixed expenses.",
+    "tooltips": {
+      "debt_to_income": "Debt-to-Income Ratio = Total Loan Amount / Annual Gross Income (before tax). Shows how much of your yearly gross income would be needed to pay off your total debt. Lower is better.",
+      "emergency_fund": "Emergency Fund Coverage = Emergency Fund / Monthly Expenses. Shows how many months of expenses your emergency fund covers. 300% means you have enough for 3 months. Aim for at least 300%.",
+      "savings_rate": "Savings Rate = (Net Income - Expenses) / Net Income. Shows what percent of your income you save each month.",
+      "housing_cost": "Housing Cost Ratio = Housing Expenses / Net Income. Shows what percent of your income goes to housing. Aim for less than 30%.",
+      "discretionary_income": "Discretionary Income Ratio = (Net Income - Expenses) / Net Income. Shows what percent of your income is left after all expenses."
+    },
+    "current_buffer_label": "Current Buffer (SEK)",
+    "current_buffer_aria": "How much do you have in your buffer account right now?"
   }
 }

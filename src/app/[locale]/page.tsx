@@ -58,6 +58,7 @@ export default function Home({
     otherBenefits: 0,
     otherIncomes: 0,
     expenses: DEFAULT_EXPENSES,
+    currentBuffer: 0,
   });
 
   const handleIncomeChange = (values: IncomeFormValues) => {
@@ -70,6 +71,7 @@ export default function Home({
       childBenefits: values.childBenefits,
       otherBenefits: values.otherBenefits,
       otherIncomes: values.otherIncomes,
+      currentBuffer: values.currentBuffer,
     }));
   };
 
@@ -96,6 +98,7 @@ export default function Home({
                   childBenefits: calculatorState.childBenefits,
                   otherBenefits: calculatorState.otherBenefits,
                   otherIncomes: calculatorState.otherIncomes,
+                  currentBuffer: calculatorState.currentBuffer,
                 }}
                 onChange={handleIncomeChange}
               />

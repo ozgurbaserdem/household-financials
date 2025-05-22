@@ -101,6 +101,7 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
               result={result}
               showTooltips={index === 0}
               HEAD_CELLS={HEAD_CELLS}
+              currentBuffer={calculatorState.currentBuffer}
             />
           ))}
         </Box>
