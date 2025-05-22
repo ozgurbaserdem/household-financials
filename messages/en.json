@@ -267,7 +267,8 @@
       "emergency_fund": "Emergency Fund Coverage = Emergency Fund / Monthly Expenses. Shows how many months of expenses your emergency fund covers. 300% means you have enough for 3 months. Aim for at least 300%.",
       "savings_rate": "Savings Rate = (Net Income - Expenses) / Net Income. Shows what percent of your income you save each month.",
       "housing_cost": "Housing Cost Ratio = Housing Expenses / Net Income. Shows what percent of your income goes to housing. Aim for less than 30%.",
-      "discretionary_income": "Discretionary Income Ratio = (Net Income - Expenses) / Net Income. Shows what percent of your income is left after all expenses."
+      "discretionary_income": "Discretionary Income Ratio = (Net Income - Expenses) / Net Income. Shows what percent of your income is left after all expenses.",
+      "overall_score": "The overall score summarizes your financial health from 0 (poor) to 100 (excellent). Above 80 is strong, 60-79 is fair, below 60 needs improvement. Use the recommendations below to improve your score."
     },
     "current_buffer_label": "Current Buffer (SEK)",
     "current_buffer_aria": "How much do you have in your buffer account right now?"

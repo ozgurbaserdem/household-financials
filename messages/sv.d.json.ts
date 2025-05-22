@@ -270,7 +270,8 @@ declare const messages: {
       "emergency_fund": "Bufferttäckning = Buffert / Månadskostnader. Visar hur många månaders utgifter din buffert täcker. 300% betyder att du har tillräckligt för tre månader. Sikta på minst 300%.",
       "savings_rate": "Sparande = (Nettoinkomst - Utgifter) / Nettoinkomst. Visar hur stor andel av din inkomst du sparar varje månad.",
       "housing_cost": "Boendekostnadsgrad = Boendekostnader / Nettoinkomst. Visar hur stor andel av din inkomst som går till boende. Sikta på under 30%.",
-      "discretionary_income": "Disponibel inkomst = (Nettoinkomst - Utgifter) / Nettoinkomst. Visar hur stor andel av din inkomst som är kvar efter alla utgifter."
+      "discretionary_income": "Disponibel inkomst = (Nettoinkomst - Utgifter) / Nettoinkomst. Visar hur stor andel av din inkomst som är kvar efter alla utgifter.",
+      "overall_score": "Totalpoängen sammanfattar din ekonomiska hälsa från 0 (svag) till 100 (utmärkt). Över 80 är starkt, 60-79 är okej, under 60 behöver förbättras. Använd rekommendationerna nedan för att förbättra din poäng."
     },
     "current_buffer_label": "Buffertsparande (SEK)",
     "current_buffer_aria": "Hur mycket har du på ditt buffertkonto just nu?"

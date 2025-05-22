@@ -55,9 +55,32 @@ export function FinancialHealthScore({
       </Box>
       {/* Overall Score */}
       <Box className="space-y-2">
-        <Text className="text-xs text-gray-500 dark:text-gray-400">
-          {t("overall_score")}
-        </Text>
+        <Box className="flex items-center gap-2">
+          <Text className="text-xs text-gray-500 dark:text-gray-400">
+            {t("overall_score")}
+          </Text>
+          {showTooltips && (
+            <Tooltip delayDuration={100}>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  tabIndex={0}
+                  aria-label={`Info: ${t("overall_score")}`}
+                  className="focus:outline-none p-2 -m-2 bg-transparent flex items-center justify-center"
+                >
+                  <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent
+                side="top"
+                sideOffset={-8}
+                className="z-50 max-w-xs p-3 text-xs"
+              >
+                {t("tooltips.overall_score")}
+              </TooltipContent>
+            </Tooltip>
+          )}
+        </Box>
         <Box className="flex items-center gap-4">
           <Text
             className={cn(
