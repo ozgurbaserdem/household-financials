@@ -275,6 +275,30 @@ declare const messages: {
     },
     "current_buffer_label": "Current Buffer (SEK)",
     "current_buffer_aria": "How much do you have in your buffer account right now?"
+  },
+  "wizard": {
+    "back": "Back",
+    "next": "Next"
+  },
+  "summary": {
+    "incomeTitle": "Income",
+    "loansTitle": "Loans",
+    "expensesTitle": "Expenses",
+    "income1": "Main Income 1",
+    "income2": "Main Income 2",
+    "secondaryIncome1": "Secondary Income 1",
+    "secondaryIncome2": "Secondary Income 2",
+    "childBenefits": "Child Benefits",
+    "otherBenefits": "Other Benefits",
+    "otherIncomes": "Other Incomes",
+    "currentBuffer": "Buffer Savings",
+    "loanAmount": "Loan Amount",
+    "interestRates": "Interest Rates",
+    "amortizationRates": "Amortization Rates",
+    "edit": "Edit",
+    "showAll": "Show all categories",
+    "showLess": "Show less",
+    "totalExpenses": "Total Expenses"
   }
 };
 export default messages;

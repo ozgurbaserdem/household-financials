@@ -61,6 +61,7 @@ export interface CalculatorState {
   otherIncomes: number;
   expenses: ExpensesByCategory;
   currentBuffer: number;
+  numberOfAdults: "1" | "2";
 }
 
 export interface ExpensesByCategory {

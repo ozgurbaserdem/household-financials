@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Income } from "@/components/calculator/Income";
+import React from "react";
 
 // Mock ResizeObserver
 class ResizeObserverMock {
@@ -16,6 +17,7 @@ vi.mock("next-intl", () => ({
 
 describe("Income", () => {
   const mockOnChange = vi.fn();
+  const mockOnNumberOfAdultsChange = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -23,10 +25,12 @@ describe("Income", () => {
     window.ResizeObserver = ResizeObserverMock;
   });
 
-  it("renders all form fields and radio buttons", () => {
+  it("renders correct fields for 1 adult", () => {
     render(
       <Income
         onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        numberOfAdults={"1"}
         values={{
           income1: 0,
           income2: 0,
@@ -35,52 +39,98 @@ describe("Income", () => {
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
+          currentBuffer: 0,
         }}
       />
     );
     expect(screen.getByLabelText(/number_of_adults$/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/one_adult/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/two_adults/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/two_adult/i)).toBeInTheDocument();
+    expect(screen.getAllByLabelText(/income1_aria/i)[0]).toBeInTheDocument();
+    // Expand extra incomes
+    fireEvent.click(screen.getByText(/add_extra_incomes/i));
+    expect(
+      screen.getAllByLabelText(/secondaryIncome1_aria/i)[0]
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/child_benefits_aria/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/other_benefits_aria/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/other_incomes_aria/i)).toBeInTheDocument();
+    // These should NOT be in the DOM:
+    expect(screen.queryAllByLabelText(/income2_aria/i).length).toBe(0);
+    expect(screen.queryAllByLabelText(/secondaryIncome2_aria/i).length).toBe(0);
+  });
+
+  it("renders all form fields for 2 adults", () => {
+    render(
+      <Income
+        onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        numberOfAdults={"2"}
+        values={{
+          income1: 0,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+        }}
+      />
+    );
+    expect(screen.getByLabelText(/number_of_adults$/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/one_adult/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/two_adult/i)).toBeInTheDocument();
     expect(screen.getAllByLabelText(/income1_aria/i)[0]).toBeInTheDocument();
     expect(screen.getAllByLabelText(/income2_aria/i)[0]).toBeInTheDocument();
-    expect(screen.getByLabelText(/secondaryIncome1_aria/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toBeInTheDocument();
+    // Expand extra incomes
+    fireEvent.click(screen.getByText(/add_extra_incomes/i));
+    expect(
+      screen.getAllByLabelText(/secondaryIncome1_aria/i)[0]
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByLabelText(/secondaryIncome2_aria/i)[0]
+    ).toBeInTheDocument();
     expect(screen.getByLabelText(/child_benefits_aria/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/other_benefits_aria/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/other_incomes_aria/i)).toBeInTheDocument();
   });
 
   it("hides income2 and income4 fields when 1 adult is selected", () => {
-    render(
-      <Income
-        onChange={mockOnChange}
-        values={{
-          income1: 0,
-          income2: 0,
-          secondaryIncome1: 0,
-          secondaryIncome2: 0,
-          childBenefits: 0,
-          otherBenefits: 0,
-          otherIncomes: 0,
-        }}
-      />
-    );
+    function Wrapper() {
+      const [adults, setAdults] = React.useState<"2" | "1">("1");
+      return (
+        <Income
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={setAdults}
+          numberOfAdults={adults}
+          values={{
+            income1: 0,
+            income2: 0,
+            secondaryIncome1: 0,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+          }}
+        />
+      );
+    }
 
-    // Initially, income2 and income4 should be hidden (default is 1 adult)
-    const income2Field = screen
-      .getAllByLabelText(/income2_aria/i)[0]
-      .closest('[data-slot="form-item"]');
-    const income4Field = screen
-      .getByLabelText(/secondaryIncome2_aria/i)
-      .closest('[data-slot="form-item"]');
-    expect(income2Field).toHaveClass("hidden");
-    expect(income4Field).toHaveClass("hidden");
+    render(<Wrapper />);
+
+    // Should not be in the DOM when 1 adult is selected
+    expect(screen.queryAllByLabelText(/income2_aria/i).length).toBe(0);
+    expect(screen.queryAllByLabelText(/secondaryIncome2_aria/i).length).toBe(0);
   });
 
   it("shows income2 and income4 fields when 2 adults is selected", () => {
     render(
       <Income
         onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        numberOfAdults={"2"}
         values={{
           income1: 0,
           income2: 0,
@@ -89,6 +139,7 @@ describe("Income", () => {
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
+          currentBuffer: 0,
         }}
       />
     );
@@ -96,41 +147,46 @@ describe("Income", () => {
     // Click the "2 adults" radio button
     fireEvent.click(screen.getByLabelText(/two_adults/i));
 
-    // income2 and income4 should now be visible
-    const income2Field = screen
-      .getAllByLabelText(/income2_aria/i)[0]
-      .closest('[data-slot="form-item"]');
-    const income4Field = screen
-      .getAllByLabelText(/secondaryIncome1_aria/i)[0]
-      .closest('[data-slot="form-item"]');
-    expect(income2Field).not.toHaveClass("hidden");
-    expect(income4Field).not.toHaveClass("hidden");
+    // Should now be present in the DOM
+    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toBeInTheDocument();
+    // Expand extra incomes
+    fireEvent.click(screen.getByText(/add_extra_incomes/i));
+    expect(
+      screen.getAllByLabelText(/secondaryIncome2_aria/i)[0]
+    ).toBeInTheDocument();
   });
 
   it("clears income2 and income4 values when switching from 2 to 1 adult", async () => {
-    render(
-      <Income
-        onChange={mockOnChange}
-        values={{
-          income1: 0,
-          income2: 30000,
-          secondaryIncome1: 0,
-          secondaryIncome2: 25000,
-          childBenefits: 0,
-          otherBenefits: 0,
-          otherIncomes: 0,
-        }}
-      />
-    );
+    function Wrapper() {
+      const [adults, setAdults] = React.useState<"2" | "1">("2");
+      return (
+        <Income
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={setAdults}
+          numberOfAdults={adults}
+          values={{
+            income1: 0,
+            income2: 30000,
+            secondaryIncome1: 0,
+            secondaryIncome2: 25000,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+          }}
+        />
+      );
+    }
 
-    // First select 2 adults
-    fireEvent.click(screen.getByLabelText(/two_adults/i));
+    render(<Wrapper />);
 
     // Fill in income2 and income4
     fireEvent.change(screen.getAllByLabelText(/income2_aria/i)[0], {
       target: { value: "30000" },
     });
-    fireEvent.change(screen.getByLabelText(/secondaryIncome1_aria/i), {
+    // Expand extra incomes
+    fireEvent.click(screen.getByText(/add_extra_incomes/i));
+    fireEvent.change(screen.getAllByLabelText(/secondaryIncome2_aria/i)[0], {
       target: { value: "25000" },
     });
 
@@ -139,7 +195,7 @@ describe("Income", () => {
 
     // Wait for the onChange callback
     await waitFor(() => {
-      expect(mockOnChange).toHaveBeenCalledWith(
+      expect(mockOnChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           income2: 0,
           secondaryIncome2: 0,
@@ -147,41 +203,56 @@ describe("Income", () => {
       );
     });
 
-    // Check if the fields are cleared in the UI
-    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(0);
-    expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toHaveValue(0);
+    // Should not be in the DOM
+    expect(screen.queryAllByLabelText(/income2_aria/i).length).toBe(0);
+    expect(screen.queryAllByLabelText(/secondaryIncome2_aria/i).length).toBe(0);
   });
 
-  it("maintains income2 and income4 values when switching from 1 to 2 adults", () => {
-    render(
-      <Income
-        onChange={mockOnChange}
-        values={{
-          income1: 0,
-          income2: 30000,
-          secondaryIncome1: 0,
-          secondaryIncome2: 25000,
-          childBenefits: 0,
-          otherBenefits: 0,
-          otherIncomes: 0,
-        }}
-      />
-    );
+  it("clears income2 and income4 values when toggling to 1 adult and back to 2 adults", () => {
+    function Wrapper() {
+      const [adults, setAdults] = React.useState<"2" | "1">("2");
+      return (
+        <Income
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={setAdults}
+          numberOfAdults={adults}
+          values={{
+            income1: 0,
+            income2: 0,
+            secondaryIncome1: 0,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+          }}
+        />
+      );
+    }
+
+    render(<Wrapper />);
 
     // Fill in income2 and income4
     fireEvent.change(screen.getAllByLabelText(/income2_aria/i)[0], {
       target: { value: "30000" },
     });
-    fireEvent.change(screen.getByLabelText(/secondaryIncome2_aria/i), {
+    // Expand extra incomes
+    fireEvent.click(screen.getByText(/add_extra_incomes/i));
+    fireEvent.change(screen.getAllByLabelText(/secondaryIncome2_aria/i)[0], {
       target: { value: "25000" },
     });
 
-    // Switch to 2 adults
-    fireEvent.click(screen.getByLabelText(/two_adults/i));
+    // Switch to 1 adult (fields disappear, values cleared)
+    fireEvent.click(screen.getByLabelText(/one_adult/i));
+    expect(screen.queryAllByLabelText(/income2_aria/i).length).toBe(0);
+    expect(screen.queryAllByLabelText(/secondaryIncome2_aria/i).length).toBe(0);
 
-    // Values should remain unchanged
-    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(30000);
-    expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toHaveValue(25000);
+    // Switch back to 2 adults (fields reappear, values should be 0)
+    fireEvent.click(screen.getByLabelText(/two_adults/i));
+    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(0);
+    expect(screen.getAllByLabelText(/secondaryIncome2_aria/i)[0]).toHaveValue(
+      0
+    );
   });
 
   it("initializes with provided values", () => {
@@ -193,12 +264,22 @@ describe("Income", () => {
       childBenefits: 1000,
       otherBenefits: 500,
       otherIncomes: 2000,
+      currentBuffer: 0,
     };
 
-    render(<Income onChange={mockOnChange} values={initialValues} />);
+    render(
+      <Income
+        onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        numberOfAdults={"2"}
+        values={initialValues}
+      />
+    );
 
     expect(screen.getAllByLabelText(/income1_aria/i)[0]).toHaveValue(30000);
     expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(25000);
+    // Expand extra incomes
+    fireEvent.click(screen.getByText(/add_extra_incomes/i));
     expect(screen.getByLabelText(/secondaryIncome1_aria/i)).toHaveValue(20000);
     expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toHaveValue(15000);
     expect(screen.getByLabelText(/child_benefits_aria/i)).toHaveValue(1000);
@@ -210,6 +291,8 @@ describe("Income", () => {
     render(
       <Income
         onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        numberOfAdults={"2"}
         values={{
           income1: 0,
           income2: 0,
@@ -218,6 +301,7 @@ describe("Income", () => {
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
+          currentBuffer: 0,
         }}
       />
     );
@@ -225,15 +309,20 @@ describe("Income", () => {
     // Change and blur each field
     const income1Field = screen.getAllByLabelText(/income1_aria/i)[0];
     const income2Field = screen.getAllByLabelText(/income2_aria/i)[0];
-    const secondaryIncome1Field = screen.getByLabelText(
+    // Expand extra incomes
+    fireEvent.click(screen.getByText(/add_extra_incomes/i));
+    const secondaryIncome1Field = screen.getAllByLabelText(
       /secondaryIncome1_aria/i
-    );
-    const secondaryIncome2Field = screen.getByLabelText(
+    )[0];
+    const secondaryIncome2Field = screen.getAllByLabelText(
       /secondaryIncome2_aria/i
-    );
-    const childBenefitsField = screen.getByLabelText(/child_benefits_aria/i);
-    const otherBenefitsField = screen.getByLabelText(/other_benefits_aria/i);
-    const otherIncomesField = screen.getByLabelText(/other_incomes_aria/i);
+    )[0];
+    const childBenefitsField =
+      screen.getAllByLabelText(/child_benefits_aria/i)[0];
+    const otherBenefitsField =
+      screen.getAllByLabelText(/other_benefits_aria/i)[0];
+    const otherIncomesField =
+      screen.getAllByLabelText(/other_incomes_aria/i)[0];
 
     // Change and blur income1
     fireEvent.change(income1Field, { target: { value: "30000" } });
@@ -264,7 +353,7 @@ describe("Income", () => {
     fireEvent.blur(otherIncomesField);
 
     await waitFor(() => {
-      expect(mockOnChange).toHaveBeenCalledWith({
+      expect(mockOnChange).toHaveBeenLastCalledWith({
         income1: 30000,
         income2: 25000,
         secondaryIncome1: 20000,
@@ -272,6 +361,7 @@ describe("Income", () => {
         childBenefits: 1000,
         otherBenefits: 500,
         otherIncomes: 2000,
+        currentBuffer: 0,
       });
     });
   });
@@ -280,6 +370,8 @@ describe("Income", () => {
     render(
       <Income
         onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        numberOfAdults={"1"}
         values={{
           income1: 0,
           income2: 0,
@@ -288,6 +380,7 @@ describe("Income", () => {
           childBenefits: 0,
           otherBenefits: 0,
           otherIncomes: 0,
+          currentBuffer: 0,
         }}
       />
     );

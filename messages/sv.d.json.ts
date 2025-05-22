@@ -275,6 +275,30 @@ declare const messages: {
     },
     "current_buffer_label": "Buffertsparande (SEK)",
     "current_buffer_aria": "Hur mycket har du på ditt buffertkonto just nu?"
+  },
+  "wizard": {
+    "back": "Tillbaka",
+    "next": "Nästa"
+  },
+  "summary": {
+    "incomeTitle": "Inkomster",
+    "loansTitle": "Lån",
+    "expensesTitle": "Utgifter",
+    "income1": "Huvudinkomst 1",
+    "income2": "Huvudinkomst 2",
+    "secondaryIncome1": "Sidoinkomst 1",
+    "secondaryIncome2": "Sidoinkomst 2",
+    "childBenefits": "Barnbidrag",
+    "otherBenefits": "Övriga bidrag",
+    "otherIncomes": "Övriga inkomster",
+    "currentBuffer": "Buffertsparande",
+    "loanAmount": "Lånebelopp",
+    "interestRates": "Räntesatser",
+    "amortizationRates": "Amorteringssatser",
+    "edit": "Redigera",
+    "showAll": "Visa alla kategorier",
+    "showLess": "Visa färre",
+    "totalExpenses": "Totala utgifter"
   }
 };
 export default messages;
