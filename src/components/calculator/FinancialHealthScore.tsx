@@ -10,6 +10,8 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import { useState } from "react";
 
 interface FinancialHealthScoreProps {
   score: FinancialHealthScore;
@@ -156,6 +158,8 @@ function MetricCard({
   tooltip,
   showTooltip = true,
 }: MetricCardProps) {
+  const isTouch = useIsTouchDevice();
+  const [open, setOpen] = useState(false);
   return (
     <Box className="p-0 bg-transparent rounded-none">
       <Box className="flex items-center gap-2 mb-1">
@@ -163,18 +167,34 @@ function MetricCard({
           {title}
         </Text>
         {showTooltip && (
-          <Tooltip delayDuration={100}>
+          <Tooltip
+            delayDuration={100}
+            open={isTouch ? open : undefined}
+            onOpenChange={isTouch ? setOpen : undefined}
+          >
             <TooltipTrigger asChild>
               <button
                 type="button"
                 tabIndex={0}
                 aria-label={`Info: ${title}`}
-                className="focus:outline-none"
+                className="focus:outline-none p-2 -m-2 bg-transparent flex items-center justify-center"
+                onClick={
+                  isTouch
+                    ? (e) => {
+                        e.stopPropagation();
+                        setOpen((o) => !o);
+                      }
+                    : undefined
+                }
               >
                 <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
               </button>
             </TooltipTrigger>
-            <TooltipContent side="top" className="z-50 max-w-xs p-3 text-xs">
+            <TooltipContent
+              side="top"
+              sideOffset={-8}
+              className="z-50 max-w-xs p-3 text-xs"
+            >
               {tooltip}
             </TooltipContent>
           </Tooltip>

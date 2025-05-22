@@ -13,6 +13,7 @@ import {
 import { Info } from "lucide-react";
 import { calculateFinancialHealthScoreForResult } from "@/lib/calculations";
 import { FinancialHealthScore } from "./FinancialHealthScore";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
 interface HeadCell {
   key: string;
@@ -47,6 +48,8 @@ function ResultCard({
     "total_income",
     "remaining_savings",
   ];
+  const isTouch = useIsTouchDevice();
+  const [openTooltip, setOpenTooltip] = useState<string | null>(null);
 
   useEffect(() => {
     setShowAnimation(true);
@@ -92,19 +95,38 @@ function ResultCard({
                   >
                     {t(cell.key)}
                   </Text>
-                  <Tooltip delayDuration={100}>
+                  <Tooltip
+                    delayDuration={100}
+                    open={isTouch ? openTooltip === cell.key : undefined}
+                    onOpenChange={
+                      isTouch
+                        ? (open) => setOpenTooltip(open ? cell.key : null)
+                        : undefined
+                    }
+                  >
                     <TooltipTrigger asChild>
                       <button
                         type="button"
                         tabIndex={0}
                         aria-label={t(cell.tooltipKey)}
-                        className="focus:outline-none"
+                        className="focus:outline-none p-2 -m-2 bg-transparent flex items-center justify-center"
+                        onClick={
+                          isTouch
+                            ? (e) => {
+                                e.stopPropagation();
+                                setOpenTooltip(
+                                  openTooltip === cell.key ? null : cell.key
+                                );
+                              }
+                            : undefined
+                        }
                       >
                         <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent
                       side="top"
+                      sideOffset={-8}
                       className="z-50 max-w-xs p-3 text-xs"
                     >
                       {t(cell.tooltipKey)}
