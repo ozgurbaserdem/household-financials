@@ -35,8 +35,8 @@ jobs:
 
       - name: Copy CNAME and static redirect
         run: |
-          cp public/CNAME out/CNAME
-          cp public/index.html out/index.html
+          cp CNAME out/CNAME
+          cp index.html out/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
