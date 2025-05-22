@@ -33,11 +33,6 @@ jobs:
       - name: Build with Next.js
         run: npm run build
 
-      - name: Copy CNAME and static redirect
-        run: |
-          cp CNAME out/CNAME
-          cp index.html out/index.html
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
