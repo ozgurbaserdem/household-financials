@@ -29,15 +29,9 @@ interface ResultCardProps {
   result: CalculationResult;
   showTooltips: boolean;
   HEAD_CELLS: HeadCell[];
-  currentBuffer?: number;
 }
 
-function ResultCard({
-  result,
-  showTooltips,
-  HEAD_CELLS,
-  currentBuffer = 0,
-}: ResultCardProps) {
+function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
   const t = useTranslations("results");
   const [showAnimation, setShowAnimation] = useState(false);
   const gridOrder = [
@@ -159,7 +153,7 @@ function ResultCard({
       <Box className="my-4 border-t border-gray-300 dark:border-gray-700" />
       {/* Financial Health Score section */}
       <FinancialHealthScore
-        score={calculateFinancialHealthScoreForResult(result, currentBuffer)}
+        score={calculateFinancialHealthScoreForResult(result)}
         showTooltips={showTooltips}
       />
     </Box>

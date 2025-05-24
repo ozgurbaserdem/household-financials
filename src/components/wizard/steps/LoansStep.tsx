@@ -5,14 +5,14 @@ import { updateLoanParameters } from "@/store/slices/calculatorSlice";
 
 export function LoansStep() {
   const dispatch = useAppDispatch();
-  const formData = useAppSelector((state) => state);
+  const loanParameters = useAppSelector((state) => state.loanParameters);
 
   return (
     <Loans
       values={{
-        loanAmount: formData.loanParameters.amount,
-        interestRates: formData.loanParameters.interestRates,
-        amortizationRates: formData.loanParameters.amortizationRates,
+        loanAmount: loanParameters.amount,
+        interestRates: loanParameters.interestRates,
+        amortizationRates: loanParameters.amortizationRates,
       }}
       onChange={(values) => {
         dispatch(

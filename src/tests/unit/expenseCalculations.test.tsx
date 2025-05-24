@@ -1,8 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import {
-  calculateLoanScenarios,
-  calculateIncomeWithTax,
-} from "@/lib/calculations";
+import { calculateLoanScenarios } from "@/lib/calculations";
 import type {
   CalculatorState,
   ExpensesByCategory,
@@ -21,13 +18,17 @@ describe("Expense Calculations and Net Income", () => {
       interestRates: [3.5],
       amortizationRates: [2],
     },
-    income1: calculateIncomeWithTax(50000),
-    income2: calculateIncomeWithTax(30000),
-    secondaryIncome1: calculateIncomeWithTax(0, true),
-    secondaryIncome2: calculateIncomeWithTax(0, true),
-    childBenefits: 0,
-    otherBenefits: 0,
-    otherIncomes: 0,
+    income: {
+      income1: 50000,
+      income2: 30000,
+      secondaryIncome1: 0,
+      secondaryIncome2: 0,
+      childBenefits: 0,
+      otherBenefits: 0,
+      otherIncomes: 0,
+      currentBuffer: 0,
+      numberOfAdults: "1",
+    },
     expenses: {},
   });
 
@@ -62,6 +63,7 @@ describe("Expense Calculations and Net Income", () => {
     // Update expenses
     const newState = {
       ...initialState,
+      income: { ...initialState.income },
       expenses: getTestExpenses(),
     };
     const updatedResults = calculateLoanScenarios(newState);
@@ -92,6 +94,7 @@ describe("Expense Calculations and Net Income", () => {
 
     const stateWithExpenses = {
       ...initialState,
+      income: { ...initialState.income },
       expenses: withExpenses,
     };
     const resultsWithExpenses = calculateLoanScenarios(stateWithExpenses);
@@ -113,6 +116,7 @@ describe("Expense Calculations and Net Income", () => {
 
     const stateWithZeroExpenses = {
       ...initialState,
+      income: { ...initialState.income },
       expenses: zeroExpenses,
     };
     const resultsWithZeroExpenses = calculateLoanScenarios(
@@ -154,6 +158,7 @@ describe("Expense Calculations and Net Income", () => {
 
     const newState = {
       ...initialState,
+      income: { ...initialState.income },
       expenses: largeExpenses,
     };
     const updatedResults = calculateLoanScenarios(newState);
@@ -184,6 +189,7 @@ describe("Expense Calculations and Net Income", () => {
 
     const newState = {
       ...initialState,
+      income: { ...initialState.income },
       expenses: decimalExpenses,
     };
     const updatedResults = calculateLoanScenarios(newState);
@@ -209,6 +215,7 @@ describe("Expense Calculations and Net Income", () => {
     };
     const firstState = {
       ...initialState,
+      income: { ...initialState.income },
       expenses: firstChange,
     };
     const firstResults = calculateLoanScenarios(firstState);
@@ -224,6 +231,7 @@ describe("Expense Calculations and Net Income", () => {
     };
     const secondState = {
       ...initialState,
+      income: { ...initialState.income },
       expenses: secondChange,
     };
     const secondResults = calculateLoanScenarios(secondState);
@@ -239,6 +247,7 @@ describe("Expense Calculations and Net Income", () => {
     };
     const thirdState = {
       ...initialState,
+      income: { ...initialState.income },
       expenses: thirdChange,
     };
     const thirdResults = calculateLoanScenarios(thirdState);

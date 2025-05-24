@@ -6,67 +6,92 @@ import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { BadgeDollarSign, HandCoins, List } from "lucide-react";
-import { formatCurrency } from "@/lib/calculations";
+import { formatCurrency, getNetIncome } from "@/lib/calculations";
 import { expenseCategories } from "@/data/expenseCategories";
 import { useTranslations } from "next-intl";
 
 interface Row {
   label: string;
   value: number;
+  net?: number;
 }
 
 export function SummaryStep() {
   const { setStepIndex } = useWizard();
-  const formData = useAppSelector((state) => state);
+  const income = useAppSelector((state) => state.income);
+  const loanParameters = useAppSelector((state) => state.loanParameters);
+  const expenses = useAppSelector((state) => state.expenses);
   const tSummary = useTranslations("summary");
   const tCategories = useTranslations("expense_categories");
   const [showAllExpenses, setShowAllExpenses] = useState(false);
 
   const incomeRows: Row[] = [
-    { label: tSummary("income1"), value: formData.income1.gross },
-    formData.numberOfAdults === "2"
-      ? { label: tSummary("income2"), value: formData.income2.gross }
+    {
+      label: tSummary("income1"),
+      value: income.income1,
+      net: getNetIncome(income.income1),
+    },
+    income.numberOfAdults === "2"
+      ? {
+          label: tSummary("income2"),
+          value: income.income2,
+          net: getNetIncome(income.income2),
+        }
       : undefined,
-    formData.secondaryIncome1.gross > 0
+    income.secondaryIncome1 > 0
       ? {
           label: tSummary("secondaryIncome1"),
-          value: formData.secondaryIncome1.gross,
+          value: income.secondaryIncome1,
+          net: getNetIncome(income.secondaryIncome1, true),
         }
       : undefined,
-    formData.numberOfAdults === "2" && formData.secondaryIncome2.gross > 0
+    income.numberOfAdults === "2" && income.secondaryIncome2 > 0
       ? {
           label: tSummary("secondaryIncome2"),
-          value: formData.secondaryIncome2.gross,
+          value: income.secondaryIncome2,
+          net: getNetIncome(income.secondaryIncome2, true),
         }
       : undefined,
-    formData.childBenefits > 0
-      ? { label: tSummary("childBenefits"), value: formData.childBenefits }
+    income.childBenefits > 0
+      ? {
+          label: tSummary("childBenefits"),
+          value: income.childBenefits,
+        }
       : undefined,
-    formData.otherBenefits > 0
-      ? { label: tSummary("otherBenefits"), value: formData.otherBenefits }
+    income.otherBenefits > 0
+      ? {
+          label: tSummary("otherBenefits"),
+          value: income.otherBenefits,
+        }
       : undefined,
-    formData.otherIncomes > 0
-      ? { label: tSummary("otherIncomes"), value: formData.otherIncomes }
+    income.otherIncomes > 0
+      ? {
+          label: tSummary("otherIncomes"),
+          value: income.otherIncomes,
+        }
       : undefined,
-    formData.currentBuffer > 0
-      ? { label: tSummary("currentBuffer"), value: formData.currentBuffer }
+    income.currentBuffer > 0
+      ? {
+          label: tSummary("currentBuffer"),
+          value: income.currentBuffer,
+        }
       : undefined,
   ].filter((row): row is Row => row !== undefined);
 
   const loanRows: Row[] = [
-    { label: tSummary("loanAmount"), value: formData.loanParameters.amount },
+    { label: tSummary("loanAmount"), value: loanParameters.amount },
     {
       label: tSummary("interestRates"),
-      value: formData.loanParameters.interestRates[0] ?? 0,
+      value: loanParameters.interestRates[0] ?? 0,
     },
     {
       label: tSummary("amortizationRates"),
-      value: formData.loanParameters.amortizationRates[0] ?? 0,
+      value: loanParameters.amortizationRates[0] ?? 0,
     },
   ];
 
   const expenseTotals = expenseCategories.map((cat) => {
-    const total = Object.values(formData.expenses[cat.id] || {}).reduce(
+    const total = Object.values(expenses[cat.id] || {}).reduce(
       (sum, v) => sum + v,
       0
     );
@@ -93,7 +118,7 @@ export function SummaryStep() {
       </CardHeader>
       <CardContent>
         <Box className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card>
+          <Card className="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-700">
             <CardHeader className="flex flex-row items-center gap-2">
               <BadgeDollarSign className="icon-primary" />
               <CardTitle>{tSummary("incomeTitle")}</CardTitle>
@@ -123,7 +148,7 @@ export function SummaryStep() {
               </Button>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-700">
             <CardHeader className="flex flex-row items-center gap-2">
               <HandCoins className="icon-primary" />
               <CardTitle>{tSummary("loansTitle")}</CardTitle>
@@ -155,7 +180,7 @@ export function SummaryStep() {
               </Button>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-700">
             <CardHeader className="flex flex-row items-center gap-2">
               <List className="icon-primary" />
               <CardTitle>{tSummary("expensesTitle")}</CardTitle>

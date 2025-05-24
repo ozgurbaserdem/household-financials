@@ -1,14 +1,17 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatCurrency, formatPercentage } from "@/lib/calculations";
+import {
+  formatCurrency,
+  formatPercentage,
+  calculateLoanScenarios,
+} from "@/lib/calculations";
 import type { CalculationResult, CalculatorState } from "@/lib/types";
 import { BarChart3 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useMemo } from "react";
 import { Box } from "@/components/ui/box";
 import { ResultCard } from "./ResultCard";
-import { useDebouncedCalculation } from "@/lib/hooks/useDebouncedCalculation";
 
 interface ResultsTableProps {
   calculatorState: CalculatorState;
@@ -78,10 +81,10 @@ const HEAD_CELLS: HeadCell[] = [
 
 export function ResultsTable({ calculatorState }: ResultsTableProps) {
   const t = useTranslations("results");
-  const { results } = useDebouncedCalculation({
-    calculatorState,
-    debounceMs: 300,
-  });
+  const results = useMemo(
+    () => calculateLoanScenarios(calculatorState),
+    [calculatorState]
+  );
 
   return (
     <Card>
@@ -101,7 +104,6 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
               result={result}
               showTooltips={index === 0}
               HEAD_CELLS={HEAD_CELLS}
-              currentBuffer={calculatorState.currentBuffer}
             />
           ))}
         </Box>

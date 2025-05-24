@@ -6,13 +6,16 @@ import { Forecast } from "@/components/calculator/Forecast";
 import { Box } from "@/components/ui/box";
 
 export function ResultsStep() {
-  const formData = useAppSelector((state) => state);
+  const loanParameters = useAppSelector((state) => state.loanParameters);
+  const income = useAppSelector((state) => state.income);
+  const expenses = useAppSelector((state) => state.expenses);
+  const calculatorState = { loanParameters, income, expenses };
 
   return (
     <Box className="space-y-6">
-      <ResultsTable calculatorState={formData} />
-      <ExpenseBreakdown expenses={formData.expenses} />
-      <Forecast calculatorState={formData} />
+      <ResultsTable calculatorState={calculatorState} />
+      <ExpenseBreakdown expenses={expenses} />
+      <Forecast calculatorState={calculatorState} />
     </Box>
   );
 }

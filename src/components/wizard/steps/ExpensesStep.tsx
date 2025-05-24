@@ -5,11 +5,11 @@ import { updateExpenses } from "@/store/slices/calculatorSlice";
 
 export function ExpensesStep() {
   const dispatch = useAppDispatch();
-  const formData = useAppSelector((state) => state);
+  const expenses = useAppSelector((state) => state.expenses);
 
   return (
     <ExpenseCategories
-      expenses={formData.expenses}
+      expenses={expenses}
       onChange={(expenses) => dispatch(updateExpenses(expenses))}
     />
   );

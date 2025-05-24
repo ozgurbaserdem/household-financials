@@ -1,32 +1,29 @@
 import React from "react";
 import { Income } from "@/components/calculator/Income";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  updateIncome,
-  updateNumberOfAdults,
-} from "@/store/slices/calculatorSlice";
+import { updateIncome } from "@/store/slices/calculatorSlice";
 
 export function IncomeStep() {
   const dispatch = useAppDispatch();
-  const formData = useAppSelector((state) => state);
+  const income = useAppSelector((state) => state.income);
 
   return (
     <Income
       values={{
-        income1: formData.income1.gross,
-        income2: formData.income2.gross,
-        secondaryIncome1: formData.secondaryIncome1.gross,
-        secondaryIncome2: formData.secondaryIncome2.gross,
-        childBenefits: formData.childBenefits,
-        otherBenefits: formData.otherBenefits,
-        otherIncomes: formData.otherIncomes,
-        currentBuffer: formData.currentBuffer,
+        income1: income.income1,
+        income2: income.income2,
+        secondaryIncome1: income.secondaryIncome1,
+        secondaryIncome2: income.secondaryIncome2,
+        childBenefits: income.childBenefits,
+        otherBenefits: income.otherBenefits,
+        otherIncomes: income.otherIncomes,
+        currentBuffer: income.currentBuffer,
       }}
-      numberOfAdults={formData.numberOfAdults}
-      onNumberOfAdultsChange={(value) => dispatch(updateNumberOfAdults(value))}
-      onChange={(values) => {
-        dispatch(updateIncome(values));
-      }}
+      numberOfAdults={income.numberOfAdults}
+      onNumberOfAdultsChange={(value) =>
+        dispatch(updateIncome({ numberOfAdults: value }))
+      }
+      onChange={(values) => dispatch(updateIncome(values))}
     />
   );
 }
