@@ -99,7 +99,7 @@ function FormLabel({
       data-slot="form-label"
       data-error={!!error}
       className={cn(
-        "text-muted-foreground dark:text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+        "text-muted-foreground text-gray-600 dark:text-gray-300 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
         className
       )}
       htmlFor={formItemId}

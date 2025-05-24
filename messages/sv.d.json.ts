@@ -281,6 +281,10 @@ declare const messages: {
     "next": "Nästa"
   },
   "summary": {
+    "title": "Sammanfattning",
+    "aria": {
+      "title": "Sammanfattning sektion"
+    },
     "incomeTitle": "Inkomster",
     "loansTitle": "Lån",
     "expensesTitle": "Utgifter",

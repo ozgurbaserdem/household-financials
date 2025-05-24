@@ -34,11 +34,13 @@ export function ExpenseCategories({
     subcategoryId: string,
     value: string
   ) => {
-    const newExpenses = { ...expenses };
-    if (!newExpenses[categoryId]) {
-      newExpenses[categoryId] = {};
-    }
-    newExpenses[categoryId][subcategoryId] = Number(value) || 0;
+    const newExpenses = {
+      ...expenses,
+      [categoryId]: {
+        ...(expenses[categoryId] || {}),
+        [subcategoryId]: Number(value) || 0,
+      },
+    };
     onChange(newExpenses);
   };
 

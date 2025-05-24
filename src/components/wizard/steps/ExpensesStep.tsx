@@ -1,13 +1,16 @@
 import React from "react";
 import { ExpenseCategories } from "@/components/calculator/ExpenseCategories";
-import { useWizard } from "../WizardLayout";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { updateExpenses } from "@/store/slices/calculatorSlice";
 
 export function ExpensesStep() {
-  const { formData, setFormData } = useWizard();
+  const dispatch = useAppDispatch();
+  const formData = useAppSelector((state) => state);
+
   return (
     <ExpenseCategories
       expenses={formData.expenses}
-      onChange={(expenses) => setFormData((prev) => ({ ...prev, expenses }))}
+      onChange={(expenses) => dispatch(updateExpenses(expenses))}
     />
   );
 }

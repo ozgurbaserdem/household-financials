@@ -1,10 +1,15 @@
 import React from "react";
 import { Income } from "@/components/calculator/Income";
-import { useWizard } from "../WizardLayout";
-import { calculateIncomeWithTax } from "@/lib/calculations";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  updateIncome,
+  updateNumberOfAdults,
+} from "@/store/slices/calculatorSlice";
 
 export function IncomeStep() {
-  const { formData, setFormData } = useWizard();
+  const dispatch = useAppDispatch();
+  const formData = useAppSelector((state) => state);
+
   return (
     <Income
       values={{
@@ -18,27 +23,9 @@ export function IncomeStep() {
         currentBuffer: formData.currentBuffer,
       }}
       numberOfAdults={formData.numberOfAdults}
-      onNumberOfAdultsChange={(value) =>
-        setFormData((prev) => ({ ...prev, numberOfAdults: value }))
-      }
+      onNumberOfAdultsChange={(value) => dispatch(updateNumberOfAdults(value))}
       onChange={(values) => {
-        setFormData((prev) => ({
-          ...prev,
-          income1: calculateIncomeWithTax(values.income1),
-          income2: calculateIncomeWithTax(values.income2),
-          secondaryIncome1: calculateIncomeWithTax(
-            values.secondaryIncome1,
-            true
-          ),
-          secondaryIncome2: calculateIncomeWithTax(
-            values.secondaryIncome2,
-            true
-          ),
-          childBenefits: values.childBenefits,
-          otherBenefits: values.otherBenefits,
-          otherIncomes: values.otherIncomes,
-          currentBuffer: values.currentBuffer,
-        }));
+        dispatch(updateIncome(values));
       }}
     />
   );

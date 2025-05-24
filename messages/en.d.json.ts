@@ -281,6 +281,10 @@ declare const messages: {
     "next": "Next"
   },
   "summary": {
+    "title": "Summary",
+    "aria": {
+      "title": "Summary section"
+    },
     "incomeTitle": "Income",
     "loansTitle": "Loans",
     "expensesTitle": "Expenses",

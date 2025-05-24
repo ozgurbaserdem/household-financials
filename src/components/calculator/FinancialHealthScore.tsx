@@ -56,7 +56,7 @@ export function FinancialHealthScore({
       {/* Overall Score */}
       <Box className="space-y-2">
         <Box className="flex items-center gap-2">
-          <Text className="text-xs text-gray-500 dark:text-gray-400">
+          <Text className="text-xs text-gray-600 dark:text-gray-300">
             {t("overall_score")}
           </Text>
           {showTooltips && (
@@ -100,7 +100,7 @@ export function FinancialHealthScore({
 
       {/* Metrics */}
       <Box className="space-y-4">
-        <Text className="text-xs text-gray-500 dark:text-gray-400">
+        <Text className="text-xs text-gray-600 dark:text-gray-300">
           {t("metrics")}
         </Text>
         <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -145,7 +145,7 @@ export function FinancialHealthScore({
       {/* Recommendations */}
       {score.recommendations.length > 0 && (
         <Box className="space-y-2">
-          <Text className="text-xs text-gray-500 dark:text-gray-400">
+          <Text className="text-xs text-gray-600 dark:text-gray-300">
             {t("recommendations")}
           </Text>
           <Box className="space-y-2">
@@ -186,7 +186,7 @@ function MetricCard({
   return (
     <Box className="p-0 bg-transparent rounded-none">
       <Box className="flex items-center gap-2 mb-1">
-        <Text className="text-sm text-gray-500 dark:text-gray-400">
+        <Text className="text-sm text-gray-600 dark:text-gray-300">
           {title}
         </Text>
         {showTooltip && (

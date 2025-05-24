@@ -16,6 +16,7 @@ import { useMemo } from "react";
 import type { CalculatorState } from "@/lib/types";
 import { formatCurrency, calculateTotalNetIncome } from "@/lib/calculations";
 import { useMediaQuery } from "@/lib/useMediaQuery";
+import { useTheme } from "next-themes";
 
 interface ForecastProps {
   calculatorState: CalculatorState;
@@ -33,6 +34,9 @@ interface ForecastData {
 export function Forecast({ calculatorState }: ForecastProps) {
   const t = useTranslations("forecast");
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const { resolvedTheme } = useTheme();
+
+  const axisColor = resolvedTheme === "dark" ? "#d1d5db" : "#4b5563";
 
   const forecastData = useMemo(() => {
     if (!calculatorState.loanParameters.amount) return [];
@@ -146,7 +150,9 @@ export function Forecast({ calculatorState }: ForecastProps) {
                   value: "Years",
                   position: "insideBottom",
                   offset: -5,
+                  fill: axisColor,
                 }}
+                tick={{ fill: axisColor }}
               />
               <YAxis
                 tickFormatter={formatCurrency}
@@ -154,7 +160,9 @@ export function Forecast({ calculatorState }: ForecastProps) {
                   value: "Loan Amount",
                   angle: -90,
                   dx: isMobile ? -85 : -85,
+                  fill: axisColor,
                 }}
+                tick={{ fill: axisColor }}
               />
               <Tooltip content={<CustomTooltip />} />
               <Line

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useWizard } from "../WizardLayout";
+import { useAppSelector } from "@/store/hooks";
 import { Box } from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
@@ -15,7 +16,8 @@ interface Row {
 }
 
 export function SummaryStep() {
-  const { formData, setStepIndex } = useWizard();
+  const { setStepIndex } = useWizard();
+  const formData = useAppSelector((state) => state);
   const tSummary = useTranslations("summary");
   const tCategories = useTranslations("expense_categories");
   const [showAllExpenses, setShowAllExpenses] = useState(false);
@@ -82,109 +84,131 @@ export function SummaryStep() {
   const showExpand = nonZeroExpenses.length > 3;
 
   return (
-    <Box className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center gap-2">
-          <BadgeDollarSign className="icon-primary" />
-          <CardTitle>{tSummary("incomeTitle")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Box className="space-y-2">
-            <ul>
-              {incomeRows.map((row, i) => (
-                <li key={i} className="flex justify-between">
-                  <Text className="text-gray-600">{row.label}</Text>
-                  <Text className="font-medium">
-                    {formatCurrency(row.value)}
-                  </Text>
-                </li>
-              ))}
-            </ul>
-          </Box>
-          <Button
-            size="sm"
-            variant="outline"
-            className="mt-4"
-            onClick={() => setStepIndex(0)}
-          >
-            {tSummary("edit")}
-          </Button>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center gap-2">
-          <HandCoins className="icon-primary" />
-          <CardTitle>{tSummary("loansTitle")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Box className="space-y-2">
-            <ul>
-              {loanRows.map((row, i) => (
-                <li key={i} className="flex justify-between">
-                  <Text className="text-gray-600">{row.label}</Text>
-                  <Text className="font-medium">
-                    {row.label === tSummary("loanAmount")
-                      ? formatCurrency(row.value)
-                      : `${row.value}%`}
-                  </Text>
-                </li>
-              ))}
-            </ul>
-          </Box>
-          <Button
-            size="sm"
-            variant="outline"
-            className="mt-4"
-            onClick={() => setStepIndex(1)}
-          >
-            {tSummary("edit")}
-          </Button>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center gap-2">
-          <List className="icon-primary" />
-          <CardTitle>{tSummary("expensesTitle")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Box className="space-y-2">
-            <ul>
-              {(showAllExpenses ? nonZeroExpenses : topExpenses).map((row) => (
-                <li key={row.id} className="flex justify-between">
-                  <Text className="text-gray-600">{row.name}</Text>
-                  <Text className="font-medium">
-                    {formatCurrency(row.total)}
-                  </Text>
-                </li>
-              ))}
-            </ul>
-            {showExpand && (
+    <Card>
+      <CardHeader>
+        <List className="icon-primary" />
+        <CardTitle tabIndex={0} aria-label={tSummary("aria.title")}>
+          {tSummary("title")}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Box className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center gap-2">
+              <BadgeDollarSign className="icon-primary" />
+              <CardTitle>{tSummary("incomeTitle")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Box className="space-y-2">
+                <ul>
+                  {incomeRows.map((row, i) => (
+                    <li key={i} className="flex justify-between">
+                      <Text className="text-gray-600 dark:text-gray-300">
+                        {row.label}
+                      </Text>
+                      <Text className="font-medium">
+                        {formatCurrency(row.value)}
+                      </Text>
+                    </li>
+                  ))}
+                </ul>
+              </Box>
               <Button
-                variant="ghost"
                 size="sm"
-                className="mt-2"
-                onClick={() => setShowAllExpenses((v) => !v)}
+                variant="outline"
+                className="mt-4"
+                onClick={() => setStepIndex(0)}
               >
-                {showAllExpenses ? tSummary("showLess") : tSummary("showAll")}
+                {tSummary("edit")}
               </Button>
-            )}
-            <Box className="flex justify-between border-t pt-2 mt-2">
-              <Text className="font-semibold">{tSummary("totalExpenses")}</Text>
-              <Text className="font-semibold">
-                {formatCurrency(totalExpenses)}
-              </Text>
-            </Box>
-          </Box>
-          <Button
-            size="sm"
-            variant="outline"
-            className="mt-4"
-            onClick={() => setStepIndex(2)}
-          >
-            {tSummary("edit")}
-          </Button>
-        </CardContent>
-      </Card>
-    </Box>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center gap-2">
+              <HandCoins className="icon-primary" />
+              <CardTitle>{tSummary("loansTitle")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Box className="space-y-2">
+                <ul>
+                  {loanRows.map((row, i) => (
+                    <li key={i} className="flex justify-between">
+                      <Text className="text-gray-600 dark:text-gray-300">
+                        {row.label}
+                      </Text>
+                      <Text className="font-medium">
+                        {row.label === tSummary("loanAmount")
+                          ? formatCurrency(row.value)
+                          : `${row.value}%`}
+                      </Text>
+                    </li>
+                  ))}
+                </ul>
+              </Box>
+              <Button
+                size="sm"
+                variant="outline"
+                className="mt-4"
+                onClick={() => setStepIndex(1)}
+              >
+                {tSummary("edit")}
+              </Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center gap-2">
+              <List className="icon-primary" />
+              <CardTitle>{tSummary("expensesTitle")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Box className="space-y-2">
+                <ul>
+                  {(showAllExpenses ? nonZeroExpenses : topExpenses).map(
+                    (row) => (
+                      <li key={row.id} className="flex justify-between">
+                        <Text className="text-gray-600 dark:text-gray-300">
+                          {row.name}
+                        </Text>
+                        <Text className="font-medium">
+                          {formatCurrency(row.total)}
+                        </Text>
+                      </li>
+                    )
+                  )}
+                </ul>
+                {showExpand && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="mt-2"
+                    onClick={() => setShowAllExpenses((v) => !v)}
+                  >
+                    {showAllExpenses
+                      ? tSummary("showLess")
+                      : tSummary("showAll")}
+                  </Button>
+                )}
+                <Box className="flex justify-between border-t pt-2 mt-2">
+                  <Text className="font-semibold">
+                    {tSummary("totalExpenses")}
+                  </Text>
+                  <Text className="font-semibold">
+                    {formatCurrency(totalExpenses)}
+                  </Text>
+                </Box>
+              </Box>
+              <Button
+                size="sm"
+                variant="outline"
+                className="mt-4"
+                onClick={() => setStepIndex(2)}
+              >
+                {tSummary("edit")}
+              </Button>
+            </CardContent>
+          </Card>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }

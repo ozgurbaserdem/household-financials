@@ -90,7 +90,7 @@ function ResultCard({
               {showTooltips ? (
                 <Box className="flex items-center gap-2 relative">
                   <Text
-                    className="text-sm text-gray-500 dark:text-gray-400"
+                    className="text-sm text-gray-600 dark:text-gray-300"
                     tabIndex={0}
                   >
                     {t(cell.key)}
@@ -134,7 +134,7 @@ function ResultCard({
                   </Tooltip>
                 </Box>
               ) : (
-                <Text className="text-sm text-gray-500 dark:text-gray-400">
+                <Text className="text-sm text-gray-600 dark:text-gray-300">
                   {t(cell.key)}
                 </Text>
               )}
