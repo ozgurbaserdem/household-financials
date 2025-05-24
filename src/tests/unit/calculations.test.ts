@@ -7,7 +7,6 @@ import {
   calculateNetIncome,
   calculateNetIncomeSecond,
   calculateSelectedHousingExpenses,
-  calculateIncomeWithTax,
 } from "@/lib/calculations";
 import type { CalculatorState, ExpensesByCategory } from "@/lib/types";
 
@@ -20,13 +19,17 @@ describe("Financial Calculations", () => {
           interestRates: [3.5],
           amortizationRates: [2],
         },
-        income1: calculateIncomeWithTax(30000),
-        income2: calculateIncomeWithTax(25000),
-        secondaryIncome1: calculateIncomeWithTax(0, true),
-        secondaryIncome2: calculateIncomeWithTax(0, true),
-        childBenefits: 0,
-        otherBenefits: 0,
-        otherIncomes: 0,
+        income: {
+          income1: 30000,
+          income2: 25000,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+        },
         expenses: {},
       };
 
@@ -40,21 +43,22 @@ describe("Financial Calculations", () => {
         totalHousingCost: results[0].totalHousingCost,
         totalExpenses: results[0].totalExpenses,
         remainingSavings:
-          results[0].income1 +
-          results[0].income2 +
-          results[0].secondaryIncome1 +
-          results[0].secondaryIncome2 +
+          results[0].income1Net +
+          results[0].income2Net +
+          results[0].secondaryIncome1Net +
+          results[0].secondaryIncome2Net +
           results[0].childBenefits +
           results[0].otherBenefits +
           results[0].otherIncomes -
           results[0].totalExpenses,
-        income1: results[0].income1,
-        income2: results[0].income2,
-        secondaryIncome1: results[0].secondaryIncome1,
-        secondaryIncome2: results[0].secondaryIncome2,
+        income1Net: results[0].income1Net,
+        income2Net: results[0].income2Net,
+        secondaryIncome1Net: results[0].secondaryIncome1Net,
+        secondaryIncome2Net: results[0].secondaryIncome2Net,
         childBenefits: 0,
         otherBenefits: 0,
         otherIncomes: 0,
+        currentBuffer: results[0].currentBuffer,
         totalIncome: results[0].totalIncome,
       };
       expect(results[0]).toEqual(expected);
@@ -67,13 +71,17 @@ describe("Financial Calculations", () => {
           interestRates: [3.5, 4],
           amortizationRates: [2, 3],
         },
-        income1: calculateIncomeWithTax(30000),
-        income2: calculateIncomeWithTax(25000),
-        secondaryIncome1: calculateIncomeWithTax(0, true),
-        secondaryIncome2: calculateIncomeWithTax(0, true),
-        childBenefits: 0,
-        otherBenefits: 0,
-        otherIncomes: 0,
+        income: {
+          income1: 30000,
+          income2: 25000,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+        },
         expenses: {},
       };
 

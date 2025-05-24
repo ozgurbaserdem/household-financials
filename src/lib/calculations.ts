@@ -2,36 +2,51 @@ import type {
   CalculatorState,
   CalculationResult,
   ExpensesByCategory,
-  IncomeCalculation,
   FinancialHealthScore,
 } from "./types";
 
-export function calculateTotalNetIncome(state: CalculatorState): number {
-  return (
-    state.income1.net +
-    state.income2.net +
-    state.secondaryIncome1.net +
-    state.secondaryIncome2.net +
-    state.childBenefits +
-    state.otherBenefits +
-    state.otherIncomes
-  );
+export function getNetIncome(gross: number, isSecondary = false): number {
+  const kommunalskatt = isSecondary ? 0.34 : 0.31;
+  const statligSkatt = 0.2;
+  const statligSkattThreshold = 53592; // kr/month for 2025
+  const grundavdrag = 3000; // basic deduction per month (approx)
+  const jobbskatteavdrag = 3100; // job tax deduction per month (approx)
+
+  if (isSecondary) {
+    const taxable = Math.max(0, gross);
+    const tax = taxable * kommunalskatt;
+    return gross - tax;
+  }
+
+  const taxable = Math.max(0, gross - grundavdrag);
+  let tax = taxable * kommunalskatt;
+  if (gross > statligSkattThreshold) {
+    tax += (gross - statligSkattThreshold) * statligSkatt;
+  }
+  tax = Math.max(0, tax - jobbskatteavdrag);
+  return gross - tax;
 }
 
-export function calculateIncomeWithTax(
-  gross: number,
-  isSecondIncome = false
-): IncomeCalculation {
-  const net = isSecondIncome
-    ? calculateNetIncomeSecond(gross)
-    : calculateNetIncome(gross);
-  return { gross, net };
+export function getIncomeWithNet(gross: number, isSecondary = false) {
+  return { gross, net: getNetIncome(gross, isSecondary) };
+}
+
+export function calculateTotalNetIncome(state: CalculatorState): number {
+  return (
+    getNetIncome(state.income.income1) +
+    getNetIncome(state.income.income2) +
+    getNetIncome(state.income.secondaryIncome1, true) +
+    getNetIncome(state.income.secondaryIncome2, true) +
+    state.income.childBenefits +
+    state.income.otherBenefits +
+    state.income.otherIncomes
+  );
 }
 
 export function calculateLoanScenarios(
   state: CalculatorState
 ): CalculationResult[] {
-  const { loanParameters, expenses } = state;
+  const { loanParameters, expenses, income } = state;
 
   const totalIncome = calculateTotalNetIncome(state);
   const totalIncomeObj = calculateTotalIncome(state);
@@ -74,13 +89,14 @@ export function calculateLoanScenarios(
         totalHousingCost,
         totalExpenses,
         remainingSavings,
-        income1: state.income1.net,
-        income2: state.income2.net,
-        secondaryIncome1: state.secondaryIncome1.net,
-        secondaryIncome2: state.secondaryIncome2.net,
-        childBenefits: state.childBenefits,
-        otherBenefits: state.otherBenefits,
-        otherIncomes: state.otherIncomes,
+        income1Net: getNetIncome(income.income1),
+        income2Net: getNetIncome(income.income2),
+        secondaryIncome1Net: getNetIncome(income.secondaryIncome1, true),
+        secondaryIncome2Net: getNetIncome(income.secondaryIncome2, true),
+        childBenefits: income.childBenefits,
+        otherBenefits: income.otherBenefits,
+        otherIncomes: income.otherIncomes,
+        currentBuffer: income.currentBuffer,
         totalIncome: totalIncomeObj,
       });
     }
@@ -176,22 +192,22 @@ export function calculateTotalIncome(state: CalculatorState): {
   net: number;
 } {
   const gross =
-    state.income1.gross +
-    state.income2.gross +
-    state.secondaryIncome1.gross +
-    state.secondaryIncome2.gross +
-    state.childBenefits +
-    state.otherBenefits +
-    state.otherIncomes;
+    state.income.income1 +
+    state.income.income2 +
+    state.income.secondaryIncome1 +
+    state.income.secondaryIncome2 +
+    state.income.childBenefits +
+    state.income.otherBenefits +
+    state.income.otherIncomes;
 
   const net =
-    state.income1.net +
-    state.income2.net +
-    state.secondaryIncome1.net +
-    state.secondaryIncome2.net +
-    state.childBenefits +
-    state.otherBenefits +
-    state.otherIncomes;
+    getNetIncome(state.income.income1) +
+    getNetIncome(state.income.income2) +
+    getNetIncome(state.income.secondaryIncome1, true) +
+    getNetIncome(state.income.secondaryIncome2, true) +
+    state.income.childBenefits +
+    state.income.otherBenefits +
+    state.income.otherIncomes;
 
   return { gross, net };
 }
@@ -279,7 +295,7 @@ function calculateEmergencyFundCoverage(
     typeof totalExpenses === "number"
       ? totalExpenses
       : calculateTotalExpenses(state.expenses);
-  const emergencyFund = state.currentBuffer || 0;
+  const emergencyFund = state.income.currentBuffer || 0;
   return monthlyExpenses > 0 ? emergencyFund / monthlyExpenses : 0;
 }
 
@@ -353,8 +369,7 @@ function generateRecommendations(metrics: {
 }
 
 export function calculateFinancialHealthScoreForResult(
-  result: CalculationResult,
-  currentBuffer: number
+  result: CalculationResult
 ): FinancialHealthScore {
   // Use the scenario's net income and expenses
   const totalIncome = result.totalIncome?.net ?? 0;
@@ -371,7 +386,7 @@ export function calculateFinancialHealthScoreForResult(
   // Calculate metrics
   const debtToIncomeRatio = safeDiv(loanAmount, totalGrossIncome * 12);
   const emergencyFundCoverage =
-    totalExpenses > 0 ? currentBuffer / totalExpenses : 0;
+    totalExpenses > 0 ? result.currentBuffer / totalExpenses : 0;
   const savingsRate = safeDiv(totalIncome - totalExpenses, totalIncome);
   const housingCostRatio = safeDiv(housingCost, totalIncome);
   const discretionaryIncomeRatio = safeDiv(

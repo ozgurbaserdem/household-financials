@@ -1,6 +1,5 @@
 import type { CalculatorState, ExpensesByCategory } from "./types";
 import { expenseCategories } from "@/data/expenseCategories";
-import { calculateIncomeWithTax } from "./calculations";
 
 function unflattenExpenses(
   flat: Record<string, string | number>
@@ -56,13 +55,17 @@ export function importFromCsv(
             ? amortizationRatesRaw.split("|").map(Number)
             : [],
         },
-        income1: calculateIncomeWithTax(income1),
-        income2: calculateIncomeWithTax(income2),
-        secondaryIncome1: calculateIncomeWithTax(secondaryIncome1, true),
-        secondaryIncome2: calculateIncomeWithTax(secondaryIncome2, true),
-        childBenefits,
-        otherBenefits,
-        otherIncomes,
+        income: {
+          income1,
+          income2,
+          secondaryIncome1,
+          secondaryIncome2,
+          childBenefits,
+          otherBenefits,
+          otherIncomes,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+        },
         expenses: unflattenExpenses(flat),
       };
       onSuccess(state);

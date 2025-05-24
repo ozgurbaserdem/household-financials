@@ -38,11 +38,17 @@ interface IncomeFormValues {
 interface IncomeFormProps {
   values: IncomeFormValues;
   onChange: (values: IncomeFormValues) => void;
+  numberOfAdults: "1" | "2";
+  onNumberOfAdultsChange: (value: "1" | "2") => void;
 }
 
-export function Income({ values, onChange }: IncomeFormProps) {
+export function Income({
+  values,
+  onChange,
+  numberOfAdults,
+  onNumberOfAdultsChange,
+}: IncomeFormProps) {
   const [showExtraIncomes, setShowExtraIncomes] = useState(false);
-  const [numberOfAdults, setNumberOfAdults] = useState<"1" | "2">("1");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: values,
@@ -59,7 +65,7 @@ export function Income({ values, onChange }: IncomeFormProps) {
 
   // Handle number of adults change
   const handleAdultsChange = (value: "1" | "2") => {
-    setNumberOfAdults(value);
+    onNumberOfAdultsChange(value);
     if (value === "1") {
       // Clear income2 and secondaryIncome2 when switching to 1 adult
       form.setValue("income2", 0);
@@ -105,14 +111,15 @@ export function Income({ values, onChange }: IncomeFormProps) {
                 onBlur={handleFieldChange}
               />
 
-              <IncomeInputField
-                form={form}
-                name="income2"
-                label={t("income2")}
-                ariaLabel={t("income2_aria")}
-                hidden={numberOfAdults === "1"}
-                onBlur={handleFieldChange}
-              />
+              {numberOfAdults === "2" && (
+                <IncomeInputField
+                  form={form}
+                  name="income2"
+                  label={t("income2")}
+                  ariaLabel={t("income2_aria")}
+                  onBlur={handleFieldChange}
+                />
+              )}
 
               {/* Collapsible extra incomes */}
               <Box
@@ -145,31 +152,32 @@ export function Income({ values, onChange }: IncomeFormProps) {
                   {t("add_extra_incomes")}
                 </Button>
 
-                <div
-                  className={`transition-all duration-300 ease-in-out overflow-hidden ${showExtraIncomes ? "max-h-96 opacity-100 mt-2" : "max-h-0 opacity-0 mt-0"}`}
-                >
-                  <Box
-                    id="extra-incomes-section"
-                    className="space-y-6"
-                    aria-hidden={!showExtraIncomes}
-                  >
-                    <IncomeInputField
-                      form={form}
-                      name="secondaryIncome1"
-                      label={t("secondaryIncome1")}
-                      ariaLabel={t("secondaryIncome1_aria")}
-                      onBlur={handleFieldChange}
-                    />
-                    <IncomeInputField
-                      form={form}
-                      name="secondaryIncome2"
-                      label={t("secondaryIncome2")}
-                      ariaLabel={t("secondaryIncome2_aria")}
-                      hidden={numberOfAdults === "1"}
-                      onBlur={handleFieldChange}
-                    />
-                  </Box>
-                </div>
+                {showExtraIncomes && (
+                  <div className="transition-all duration-300 ease-in-out overflow-hidden max-h-96 opacity-100 mt-2">
+                    <Box
+                      id="extra-incomes-section"
+                      className="space-y-6"
+                      aria-hidden={!showExtraIncomes}
+                    >
+                      <IncomeInputField
+                        form={form}
+                        name="secondaryIncome1"
+                        label={t("secondaryIncome1")}
+                        ariaLabel={t("secondaryIncome1_aria")}
+                        onBlur={handleFieldChange}
+                      />
+                      {numberOfAdults === "2" && (
+                        <IncomeInputField
+                          form={form}
+                          name="secondaryIncome2"
+                          label={t("secondaryIncome2")}
+                          ariaLabel={t("secondaryIncome2_aria")}
+                          onBlur={handleFieldChange}
+                        />
+                      )}
+                    </Box>
+                  </div>
+                )}
               </Box>
 
               {/* Additional Income Fields */}

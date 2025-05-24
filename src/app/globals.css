@@ -28,7 +28,7 @@ input[type="number"].no-spinner {
   }
 
   .card-main-primary {
-    @apply shadow-lg rounded-2xl border border-gray-200 dark:border-gray-900 dark:bg-gray-900;
+    @apply bg-white shadow-lg rounded-2xl border border-gray-200 dark:border-gray-900 dark:bg-gray-900;
   }
 
   .card-header-primary {

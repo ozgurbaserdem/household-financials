@@ -41,10 +41,10 @@ describe("CSV Import", () => {
       interestRates: [3.5, 4],
       amortizationRates: [2, 3],
     });
-    expect(importedState.income1?.gross).toBe(30000);
-    expect(importedState.income2?.gross).toBe(25000);
-    expect(importedState.secondaryIncome1?.gross).toBe(20000);
-    expect(importedState.secondaryIncome2?.gross).toBe(15000);
+    expect(importedState.income?.income1).toBe(30000);
+    expect(importedState.income?.income2).toBe(25000);
+    expect(importedState.income?.secondaryIncome1).toBe(20000);
+    expect(importedState.income?.secondaryIncome2).toBe(15000);
     expect(importedState.expenses).toHaveProperty("home");
     expect(importedState.expenses).toHaveProperty("food");
   });

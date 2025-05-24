@@ -20,6 +20,18 @@ export interface ExpenseSubcategory {
   name: string;
 }
 
+export interface IncomeState {
+  income1: number;
+  income2: number;
+  secondaryIncome1: number;
+  secondaryIncome2: number;
+  childBenefits: number;
+  otherBenefits: number;
+  otherIncomes: number;
+  currentBuffer: number;
+  numberOfAdults: "1" | "2";
+}
+
 export interface CalculationResult {
   interestRate: number;
   amortizationRate: number;
@@ -28,39 +40,18 @@ export interface CalculationResult {
   totalHousingCost: number;
   totalExpenses: number;
   remainingSavings: number;
-  income1: number;
-  income2: number;
-  secondaryIncome1: number;
-  secondaryIncome2: number;
+  income1Net: number;
+  income2Net: number;
+  secondaryIncome1Net: number;
+  secondaryIncome2Net: number;
   childBenefits: number;
   otherBenefits: number;
   otherIncomes: number;
+  currentBuffer: number;
   totalIncome?: {
     gross: number;
     net: number;
   };
-}
-
-export interface IncomeCalculation {
-  gross: number;
-  net: number;
-}
-
-export interface CalculatorState {
-  loanParameters: {
-    amount: number;
-    interestRates: number[];
-    amortizationRates: number[];
-  };
-  income1: IncomeCalculation;
-  income2: IncomeCalculation;
-  secondaryIncome1: IncomeCalculation;
-  secondaryIncome2: IncomeCalculation;
-  childBenefits: number;
-  otherBenefits: number;
-  otherIncomes: number;
-  expenses: ExpensesByCategory;
-  currentBuffer: number;
 }
 
 export interface ExpensesByCategory {
@@ -79,4 +70,14 @@ export interface FinancialHealthScore {
     discretionaryIncomeRatio: number;
   };
   recommendations: string[];
+}
+
+export interface CalculatorState {
+  loanParameters: {
+    amount: number;
+    interestRates: number[];
+    amortizationRates: number[];
+  };
+  expenses: ExpensesByCategory;
+  income: IncomeState;
 }

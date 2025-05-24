@@ -2,7 +2,6 @@ import { describe, it, expect, beforeAll, vi } from "vitest";
 import { render } from "@testing-library/react";
 import { Forecast } from "../../components/calculator/Forecast";
 import type { CalculatorState } from "@/lib/types";
-import { calculateIncomeWithTax } from "@/lib/calculations";
 
 interface ForecastData {
   year: number;
@@ -72,13 +71,17 @@ const mockCalculatorState: CalculatorState = {
     interestRates: [0.03],
     amortizationRates: [0.03],
   },
-  income1: calculateIncomeWithTax(50000),
-  income2: calculateIncomeWithTax(0),
-  secondaryIncome1: calculateIncomeWithTax(0, true),
-  secondaryIncome2: calculateIncomeWithTax(0, true),
-  childBenefits: 0,
-  otherBenefits: 0,
-  otherIncomes: 0,
+  income: {
+    income1: 50000,
+    income2: 0,
+    secondaryIncome1: 0,
+    secondaryIncome2: 0,
+    childBenefits: 0,
+    otherBenefits: 0,
+    otherIncomes: 0,
+    currentBuffer: 0,
+    numberOfAdults: "1",
+  },
   expenses: {},
 };
 
@@ -90,6 +93,8 @@ describe("Forecast", () => {
         ...mockCalculatorState.loanParameters,
         amount: 0,
       },
+      income: { ...mockCalculatorState.income },
+      expenses: {},
     };
     const { container } = render(<Forecast calculatorState={emptyState} />);
     expect(container).toBeEmptyDOMElement();
@@ -124,6 +129,8 @@ describe("Forecast", () => {
         ...mockCalculatorState.loanParameters,
         amount: 100000000,
       },
+      income: { ...mockCalculatorState.income },
+      expenses: {},
     };
     const { container } = render(<Forecast calculatorState={largeLoanState} />);
     const chart = container.querySelector("[data-testid='line-chart']");
@@ -148,6 +155,8 @@ describe("Forecast", () => {
         ...mockCalculatorState.loanParameters,
         amount: 100000,
       },
+      income: { ...mockCalculatorState.income },
+      expenses: {},
     };
     const { container } = render(<Forecast calculatorState={smallLoanState} />);
     const chart = container.querySelector("[data-testid='line-chart']");
@@ -197,6 +206,8 @@ describe("Forecast", () => {
         interestRates: [0.02],
         amortizationRates: [0.04],
       },
+      income: { ...mockCalculatorState.income },
+      expenses: {},
     };
     const { container } = render(
       <Forecast calculatorState={differentRatesState} />
@@ -246,6 +257,8 @@ describe("Forecast", () => {
         amount: 100000,
         amortizationRates: [0.1], // 10% amortization
       },
+      income: { ...mockCalculatorState.income },
+      expenses: {},
     };
     const { container } = render(<Forecast calculatorState={smallLoanState} />);
     const chart = container.querySelector("[data-testid='line-chart']");
@@ -274,6 +287,8 @@ describe("Forecast", () => {
         ...mockCalculatorState.loanParameters,
         amortizationRates: [0.001], // 0.1% amortization
       },
+      income: { ...mockCalculatorState.income },
+      expenses: {},
     };
     const { container } = render(
       <Forecast calculatorState={tinyAmortizationState} />
