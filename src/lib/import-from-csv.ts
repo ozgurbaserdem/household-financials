@@ -55,13 +55,17 @@ export function importFromCsv(
             ? amortizationRatesRaw.split("|").map(Number)
             : [],
         },
-        income1: income1,
-        income2: income2,
-        secondaryIncome1: secondaryIncome1,
-        secondaryIncome2: secondaryIncome2,
-        childBenefits,
-        otherBenefits,
-        otherIncomes,
+        income: {
+          income1,
+          income2,
+          secondaryIncome1,
+          secondaryIncome2,
+          childBenefits,
+          otherBenefits,
+          otherIncomes,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+        },
         expenses: unflattenExpenses(flat),
       };
       onSuccess(state);
