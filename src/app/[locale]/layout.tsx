@@ -23,12 +23,12 @@ export async function generateMetadata({
 
   const title =
     locale === "sv"
-      ? "Budgetkollen - Din personliga budgetkalkylator"
+      ? "Budgetkollen - Hushållskalkyl & Hushållsbudget | Din personliga budgetkalkylator"
       : "Budgetkollen - Your Personal Budget Calculator";
 
   const description =
     locale === "sv"
-      ? "Budgetkollen hjälper dig att hantera din ekonomi smartare. Beräkna dina lån, utgifter och sparmål med vår enkla budgetkalkylator. Perfekt för svenska hushåll."
+      ? "Budgetkollen hjälper dig att hantera din ekonomi smartare. Skapa din hushållsbudget och hushållskalkyl enkelt med vår budgetkalkylator. Beräkna lån, utgifter och sparmål. Perfekt för svenska hushåll."
       : "Budgetkollen helps you manage your finances smarter. Calculate your loans, expenses, and savings goals with our easy budget calculator. Perfect for Swedish households.";
 
   return {
@@ -36,7 +36,7 @@ export async function generateMetadata({
     description,
     keywords:
       locale === "sv"
-        ? "budgetkalkylator, hushållsekonomi, lånekalkylator, amorteringskalkylator, räntekalkylator, sparmål, utgiftskalkylator, svensk ekonomi"
+        ? "budgetkalkylator, hushållsekonomi, lånekalkylator, amorteringskalkylator, räntekalkylator, sparmål, utgiftskalkylator, svensk ekonomi, hushållskalkyl, hushållsbudget"
         : "budget calculator, household economy, loan calculator, amortization calculator, interest calculator, savings goals, expense calculator, Swedish economy",
     authors: [{ name: "Budgetkollen" }],
     creator: "Budgetkollen",
@@ -112,6 +112,37 @@ export default async function LocaleLayout({
     <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name:
+                locale === "sv"
+                  ? "Budgetkollen - Hushållskalkyl & Hushållsbudget"
+                  : "Budgetkollen - Household Budget Calculator",
+              description:
+                locale === "sv"
+                  ? "Budgetkollen hjälper dig att skapa hushållskalkyl och hushållsbudget. Enkelt verktyg för att planera din ekonomi, utgifter och sparmål."
+                  : "Budgetkollen helps you create a household budget and calculator. Easy tool to plan your finances, expenses, and savings goals.",
+              url: `https://www.budgetkollen.se/${locale === "sv" ? "sv" : "en"}`,
+              applicationCategory: "FinanceApplication",
+              inLanguage: locale,
+              keywords:
+                locale === "sv"
+                  ? "budgetkalkylator, hushållskalkyl, hushållsbudget, ekonomi, sparmål, utgifter"
+                  : "budget calculator, household budget, finance, savings, expenses",
+              offers: {
+                "@type": "Offer",
+                price: 0,
+                priceCurrency: "SEK",
+                availability: "https://schema.org/InStock",
+              },
+              operatingSystem: "All",
+            }),
+          }}
+        />
       </head>
       <body className={spaceGrotesk.className}>
         <NextIntlClientProvider

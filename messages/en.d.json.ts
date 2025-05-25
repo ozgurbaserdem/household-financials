@@ -283,7 +283,10 @@ declare const messages: {
     "loans": "Loans",
     "expenses": "Expenses",
     "summary": "Summary",
-    "results": "Results"
+    "results": "Results",
+    "hushallskalkylTitle": "Household Budget & Calculator",
+    "hushallskalkylDesc": "Easily create your household budget and calculator with Budgetkollen. Get full control of your finances and plan for the future.",
+    "hushallskalkylCta": "Learn more"
   },
   "summary": {
     "title": "Summary",
@@ -308,6 +311,53 @@ declare const messages: {
     "showAll": "Show all categories",
     "showLess": "Show less",
     "totalExpenses": "Total Expenses"
+  },
+  "hushallskalkyl": {
+    "title": "Household Budget & Calculator",
+    "intro": "Creating a household budget is one of the smartest steps you can take to gain control of your finances. With a clear overview of your income and expenses, it's easier to reach your goals—whether you're saving for a trip, building an emergency fund, or making your money last each month. Budgetkollen is here to help you get started easily.",
+    "tips_title": "Tips for a Smarter Budget",
+    "tips": [
+      "Set clear savings goals – both short and long term.",
+      "Create a realistic overview of all income and expenses.",
+      "Prioritize an emergency fund for unexpected costs.",
+      "Compare prices and negotiate subscriptions and insurance.",
+      "Automate your savings every month.",
+      "Avoid impulse purchases – wait 24 hours before big buys."
+    ],
+    "mistakes_title": "Common Mistakes to Avoid",
+    "mistakes": [
+      "Underestimating small expenses – they add up over time.",
+      "Not budgeting for fun and unexpected costs.",
+      "Forgetting annual fees and occasional purchases.",
+      "Not reviewing and adjusting your budget regularly."
+    ],
+    "facts_title": "Did you know…",
+    "facts": [
+      "Did you know Swedes save an average of 10% of their income?",
+      "Experts recommend an emergency fund of three months' salary.",
+      "Food is often the second largest household expense after housing.",
+      "Cooking at home can save a family over 1,000 SEK/month."
+    ],
+    "faq_title": "Frequently Asked Questions",
+    "faq": [
+      {
+        "question": "What is a household budget?",
+        "answer": "A household budget helps you get an overview of your income and expenses, so you can plan your finances smarter."
+      },
+      {
+        "question": "Why is a household budget important?",
+        "answer": "With a household budget, you can avoid unexpected expenses and save for your goals."
+      },
+      {
+        "question": "How often should I review my budget?",
+        "answer": "At least once per quarter, or whenever your finances change."
+      },
+      {
+        "question": "How much should I save each month?",
+        "answer": "Aim for at least 10% of your income, but any saving is good."
+      }
+    ],
+    "footer": "Ready to take control of your finances? Try Budgetkollen for free and create your own household budget today!"
   }
 };
 export default messages;

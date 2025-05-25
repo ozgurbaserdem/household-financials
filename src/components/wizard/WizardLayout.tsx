@@ -77,7 +77,13 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
       isSyncingRef.current = true;
       const params = new URLSearchParams(searchParams.toString());
       params.set(param, stepName);
-      router.replace(`${pathname}?${params.toString()}`);
+
+      // Use the router's replace method with the correct type
+      router.replace({
+        pathname,
+        query: Object.fromEntries(params.entries()),
+      });
+
       setTimeout(() => {
         isSyncingRef.current = false;
       }, 0);

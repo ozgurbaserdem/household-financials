@@ -283,7 +283,10 @@ declare const messages: {
     "loans": "Lån",
     "expenses": "Utgifter",
     "summary": "Sammanfattning",
-    "results": "Resultat"
+    "results": "Resultat",
+    "hushallskalkylTitle": "Hushållskalkyl & Hushållsbudget",
+    "hushallskalkylDesc": "Skapa din hushållsbudget och hushållskalkyl enkelt med Budgetkollen. Få full kontroll över din ekonomi och planera för framtiden.",
+    "hushallskalkylCta": "Läs mer"
   },
   "summary": {
     "title": "Sammanfattning",
@@ -308,6 +311,53 @@ declare const messages: {
     "showAll": "Visa alla kategorier",
     "showLess": "Visa färre",
     "totalExpenses": "Totala utgifter"
+  },
+  "hushallskalkyl": {
+    "title": "Hushållskalkyl & Hushållsbudget",
+    "intro": "Att skapa en hushållsbudget är ett av de smartaste stegen du kan ta för att få kontroll över din ekonomi. Med en tydlig översikt över inkomster och utgifter blir det enklare att nå dina mål – oavsett om du vill spara till en resa, bygga en buffert eller få pengarna att räcka längre varje månad. Budgetkollen finns här för att göra det enkelt att komma igång.",
+    "tips_title": "Tips för en smartare budget",
+    "tips": [
+      "Sätt upp tydliga sparmål – både på kort och lång sikt.",
+      "Gör en realistisk översikt över alla inkomster och utgifter.",
+      "Prioritera buffertsparande för oförutsedda utgifter.",
+      "Jämför priser och förhandla om abonnemang och försäkringar.",
+      "Automatisera ditt sparande varje månad.",
+      "Undvik impulsköp – vänta 24 timmar innan större inköp."
+    ],
+    "mistakes_title": "Vanliga misstag att undvika",
+    "mistakes": [
+      "Att underskatta småutgifter – de blir stora över tid.",
+      "Att inte budgetera för nöjen och oförutsedda utgifter.",
+      "Att glömma bort årsavgifter och sällanköp.",
+      "Att inte följa upp och justera budgeten regelbundet."
+    ],
+    "facts_title": "Visste du att…",
+    "facts": [
+      "Visste du att svenskar i snitt sparar 10% av sin inkomst?",
+      "En buffert på tre månadslöner rekommenderas av experter.",
+      "Matkostnader är ofta hushållets näst största utgift efter boende.",
+      "Att laga mat hemma kan spara över 1 000 kr/mån för en familj."
+    ],
+    "faq_title": "Vanliga frågor",
+    "faq": [
+      {
+        "question": "Vad är en hushållskalkyl?",
+        "answer": "En hushållskalkyl hjälper dig att få överblick över inkomster och utgifter, så att du kan planera din ekonomi smartare."
+      },
+      {
+        "question": "Varför är en hushållsbudget viktig?",
+        "answer": "Med en hushållsbudget kan du undvika oväntade utgifter och spara till dina mål."
+      },
+      {
+        "question": "Hur ofta bör jag se över min budget?",
+        "answer": "Minst en gång per kvartal, eller när din ekonomi förändras."
+      },
+      {
+        "question": "Hur mycket bör jag spara varje månad?",
+        "answer": "Sikta på minst 10% av din inkomst, men allt sparande är positivt."
+      }
+    ],
+    "footer": "Redo att ta kontroll över din ekonomi? Prova Budgetkollen gratis och skapa din egen hushållsbudget redan idag!"
   }
 };
 export default messages;
