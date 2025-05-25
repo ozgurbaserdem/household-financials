@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { useState } from "react";
+import { AnimatedScramble } from "@/components/bubba-ui/animated-scramble";
 
 interface FinancialHealthScoreProps {
   score: FinancialHealthScore;
@@ -82,14 +83,14 @@ export function FinancialHealthScore({
           )}
         </Box>
         <Box className="flex items-center gap-4">
-          <Text
+          <AnimatedScramble
+            value={Number.isFinite(score.overallScore) ? score.overallScore : 0}
             className={cn(
               "text-3xl font-bold",
               getScoreColor(score.overallScore)
             )}
-          >
-            {Number.isFinite(score.overallScore) ? score.overallScore : "–"}
-          </Text>
+            format={(v) => (Number.isFinite(v) ? String(v) : "–")}
+          />
           <Progress
             value={Number.isFinite(score.overallScore) ? score.overallScore : 0}
             className="flex-1 h-2"
@@ -223,11 +224,13 @@ function MetricCard({
           </Tooltip>
         )}
       </Box>
-      <Text className="font-medium">
-        {typeof value === "number" && Number.isFinite(value)
-          ? format(value)
-          : "–"}
-      </Text>
+      <AnimatedScramble
+        value={typeof value === "number" && Number.isFinite(value) ? value : 0}
+        className="font-medium"
+        format={(v) =>
+          typeof v === "number" && Number.isFinite(v) ? format(v) : "–"
+        }
+      />
     </Box>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { AnimatedNumber } from "./animated-number";
 
 interface AnimatedScrambleProps {
   value: number;
@@ -16,7 +15,10 @@ export function AnimatedScramble({
 }: AnimatedScrambleProps) {
   const [displayValue, setDisplayValue] = useState(0);
   const [done, setDone] = useState(false);
-  const width = Math.abs(value).toString().split(".")[0].length;
+
+  // Use formatted string for width (number of characters)
+  const formattedTarget = format ? format(value) : String(value);
+  const width = formattedTarget.length;
 
   useEffect(() => {
     const start = Date.now();
@@ -26,12 +28,9 @@ export function AnimatedScramble({
     const timer = setInterval(() => {
       const elapsedTime = (Date.now() - start) / 1000;
       const progress = Math.min(elapsedTime / duration, 1);
-
       const easedProgress = 1 - Math.pow(1 - progress, 3);
-      const newValue = Math.floor(Math.abs(value) * easedProgress);
-
+      const newValue = value * easedProgress;
       setDisplayValue(newValue);
-
       if (progress >= 1) {
         clearInterval(timer);
         setDone(true);
@@ -45,19 +44,16 @@ export function AnimatedScramble({
     return <span className={className}>{format(value)}</span>;
   }
 
-  const paddedValue = String(displayValue).padStart(width, "0").split("");
-  const sign = value < 0 ? "-" : "";
+  // Format the intermediate value and pad/truncate to match the target width
+  const formattedDisplay = format ? format(displayValue) : String(displayValue);
+  // Pad with spaces or zeros to match the width of the final formatted value
+  const paddedDisplay = formattedDisplay.padStart(width, " ").slice(-width);
 
   return (
-    <div className={`flex flex-row font-bold ${className}`}>
-      {sign}
-      {paddedValue.map((_, index) => (
-        <AnimatedNumber
-          key={index}
-          place={Math.pow(10, width - index - 1)}
-          value={displayValue}
-        />
+    <span className={`inline-flex font-bold ${className}`}>
+      {paddedDisplay.split("").map((char, idx) => (
+        <span key={idx}>{char}</span>
       ))}
-    </div>
+    </span>
   );
 }
