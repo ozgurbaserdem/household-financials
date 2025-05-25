@@ -134,14 +134,6 @@ export function formatPercentage(value: number): string {
   }).format(value / 100);
 }
 
-export const calculateExpenses = () => {
-  // TODO: Implement expense calculation logic
-};
-
-export const calculateSavings = () => {
-  // TODO: Implement savings calculation logic
-};
-
 // Swedish net income calculation
 export function calculateNetIncome(gross: number): number {
   const kommunalskatt = 0.31; // average
