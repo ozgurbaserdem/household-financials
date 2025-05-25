@@ -13,13 +13,13 @@ export const routing = defineRouting({
   // Enable locale detection
   localeDetection: true,
 
-  pathnames: {
-    "/": {
-      en: "/",
-    },
-    "/hushallskalkyl": {
-      en: "/householdbudget",
-    },
-    // Add more localized pathnames here if needed
-  },
+  // pathnames: {
+  //   "/": {
+  //     en: "/",
+  //   },
+  //   "/hushallskalkyl": {
+  //     en: "/householdbudget",
+  //   },
+  //   // Add more localized pathnames here if needed
+  // },
 });
