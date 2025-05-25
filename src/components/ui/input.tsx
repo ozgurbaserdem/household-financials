@@ -2,14 +2,39 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
-  // Defensive: never pass NaN or undefined to value
-  const value =
-    typeof props.value === "number"
-      ? isNaN(props.value)
+/**
+ * Input component for forms, optimized for SSR/SSG and hydration performance.
+ * - Uses defaultValue for SSR/SSG for faster first paint.
+ * - Falls back to value for controlled usage.
+ * - Defensive: never passes NaN or undefined to value.
+ * - Styles are Tailwind-based and should be included in critical CSS.
+ *
+ * @param className - Additional class names
+ * @param type - Input type
+ * @param value - Controlled value
+ * @param defaultValue - Uncontrolled default value (SSR/SSG recommended)
+ * @param props - Other input props
+ */
+function Input({
+  className,
+  type,
+  value,
+  defaultValue,
+  ...props
+}: React.ComponentProps<"input">) {
+  // Defensive: never pass NaN or undefined to value/defaultValue
+  const safeValue =
+    typeof value === "number"
+      ? isNaN(value)
         ? ""
-        : props.value
-      : (props.value ?? "");
+        : value
+      : (value ?? undefined);
+  const safeDefaultValue =
+    typeof defaultValue === "number"
+      ? isNaN(defaultValue)
+        ? ""
+        : defaultValue
+      : (defaultValue ?? undefined);
 
   return (
     <input
@@ -30,8 +55,10 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         type === "number" ? "no-spinner" : "",
         className
       )}
+      {...(safeValue !== undefined
+        ? { value: safeValue }
+        : { defaultValue: safeDefaultValue })}
       {...props}
-      value={value}
     />
   );
 }
