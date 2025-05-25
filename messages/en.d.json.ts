@@ -278,7 +278,12 @@ declare const messages: {
   },
   "wizard": {
     "back": "Back",
-    "next": "Next"
+    "next": "Next",
+    "income": "Income",
+    "loans": "Loans",
+    "expenses": "Expenses",
+    "summary": "Summary",
+    "results": "Results"
   },
   "summary": {
     "title": "Summary",

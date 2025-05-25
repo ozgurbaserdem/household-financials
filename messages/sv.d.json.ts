@@ -278,7 +278,12 @@ declare const messages: {
   },
   "wizard": {
     "back": "Tillbaka",
-    "next": "Nästa"
+    "next": "Nästa",
+    "income": "Inkomst",
+    "loans": "Lån",
+    "expenses": "Utgifter",
+    "summary": "Sammanfattning",
+    "results": "Resultat"
   },
   "summary": {
     "title": "Sammanfattning",
