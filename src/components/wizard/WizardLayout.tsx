@@ -30,15 +30,27 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [stepIndex, setStepIndex] = useState(0);
   const t = useTranslations("wizard");
   const isSyncingRef = useRef(false);
+
+  // Initialize stepIndex from URL to prevent flash
+  const [stepIndex, setStepIndex] = useState(() => {
+    const param = getStepParam(locale);
+    const stepName = searchParams.get(param);
+    if (stepName) {
+      const idx = getStepIndexFromName(stepName, steps);
+      return idx >= 0 && idx < steps.length ? idx : 0;
+    }
+    return 0;
+  });
 
   // Effect 1: Sync stepIndex from URL (only when URL/searchParams changes)
   useEffect(() => {
     if (isSyncingRef.current) return;
+
     const param = getStepParam(locale);
     const stepName = searchParams.get(param);
+
     if (stepName) {
       const idx = getStepIndexFromName(stepName, steps);
       if (idx >= 0 && idx < steps.length && idx !== stepIndex) {
@@ -49,15 +61,18 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
         }, 0);
       }
     }
+    // ESLint disabled: stepIndex is intentionally excluded to prevent circular dependency
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale, searchParams, steps]);
 
   // Effect 2: Sync URL from stepIndex (only when stepIndex changes)
   useEffect(() => {
     if (isSyncingRef.current) return;
+
     const param = getStepParam(locale);
     const stepName = getStepName(steps[stepIndex], locale);
     const currentStepName = searchParams.get(param);
+
     if (currentStepName !== stepName) {
       isSyncingRef.current = true;
       const params = new URLSearchParams(searchParams.toString());
@@ -71,7 +86,6 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
 
   const goNext = () => setStepIndex((i) => Math.min(i + 1, steps.length - 1));
   const goBack = () => setStepIndex((i) => Math.max(i - 1, 0));
-
   const handleStepClick = (idx: number) => setStepIndex(idx);
 
   return (

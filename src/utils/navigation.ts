@@ -5,29 +5,49 @@ export function getStepParam(locale: string) {
 }
 
 export function getStepName(step: WizardStepConfig, locale: string) {
-  const map: Record<string, string> = {
+  // Create a mapping from any label to URL-friendly name
+  const labelToUrlName: Record<string, string> = {
+    // English labels
     Income: locale === "sv" ? "inkomst" : "income",
     Loans: locale === "sv" ? "lan" : "loans",
     Expenses: locale === "sv" ? "utgifter" : "expenses",
     Summary: locale === "sv" ? "sammanfattning" : "summary",
     Results: locale === "sv" ? "resultat" : "results",
+    // Swedish labels
+    Inkomst: locale === "sv" ? "inkomst" : "income",
+    Lån: locale === "sv" ? "lan" : "loans",
+    Utgifter: locale === "sv" ? "utgifter" : "expenses",
+    Sammanfattning: locale === "sv" ? "sammanfattning" : "summary",
+    Resultat: locale === "sv" ? "resultat" : "results",
   };
-  return map[step.label] || step.label.toLowerCase();
+
+  return labelToUrlName[step.label] || step.label.toLowerCase();
 }
 
 export function getStepIndexFromName(name: string, steps: WizardStepConfig[]) {
-  const map: Record<string, string> = {
-    income: "Income",
-    inkomst: "Income",
-    loans: "Loans",
-    lan: "Loans",
-    expenses: "Expenses",
-    utgifter: "Expenses",
-    summary: "Summary",
-    sammanfattning: "Summary",
-    results: "Results",
-    resultat: "Results",
+  // Create reverse mapping from URL name to possible step labels
+  const urlNameToLabels: Record<string, string[]> = {
+    income: ["Income", "Inkomst"],
+    inkomst: ["Income", "Inkomst"],
+    loans: ["Loans", "Lån"],
+    lan: ["Loans", "Lån"],
+    expenses: ["Expenses", "Utgifter"],
+    utgifter: ["Expenses", "Utgifter"],
+    summary: ["Summary", "Sammanfattning"],
+    sammanfattning: ["Summary", "Sammanfattning"],
+    results: ["Results", "Resultat"],
+    resultat: ["Results", "Resultat"],
   };
-  const canonical = map[name.toLowerCase()];
-  return steps.findIndex((s) => s.label === canonical);
+
+  const possibleLabels = urlNameToLabels[name.toLowerCase()] || [];
+
+  // Find the first matching step
+  for (const label of possibleLabels) {
+    const index = steps.findIndex((s) => s.label === label);
+    if (index !== -1) {
+      return index;
+    }
+  }
+
+  return -1;
 }
