@@ -21,7 +21,7 @@ const HushallskalkylPage: FC<Props> = ({ params }) => {
           {locale === "sv" ? "← Tillbaka till startsidan" : "← Back to Home"}
         </Link>
       </Button>
-      <HushallskalkylContent locale={locale as "sv" | "en"} />
+      <HushallskalkylContent />
     </Box>
   );
 };

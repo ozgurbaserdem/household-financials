@@ -58,7 +58,7 @@ export default function Home() {
                 ? "Hushållskalkyl & Hushållsbudget"
                 : "Household Budget & Calculator"}
             </DialogTitle>
-            <HushallskalkylContent locale={locale as "sv" | "en"} hideTitle />
+            <HushallskalkylContent hideTitle />
             <Box className="flex flex-col gap-4 mt-6">
               <DialogClose asChild>
                 <Button variant="outline" className="w-full">
