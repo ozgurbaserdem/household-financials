@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
   output: isProd ? "export" : undefined,
   // This ensures the app works with GitHub Pages
   trailingSlash: true,
+  async rewrites() {
+    return [
+      {
+        source: "/en/householdbudget",
+        destination: "/en/hushallskalkyl",
+      },
+    ];
+  },
 };
 
 const withNextIntl = createNextIntlPlugin({
