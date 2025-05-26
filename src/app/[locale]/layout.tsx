@@ -31,6 +31,9 @@ export async function generateMetadata({
       ? "Budgetkollen hjälper dig att hantera din ekonomi smartare. Skapa din hushållsbudget och hushållskalkyl enkelt med vår budgetkalkylator. Beräkna lån, utgifter och sparmål. Perfekt för svenska hushåll."
       : "Budgetkollen helps you manage your finances smarter. Calculate your loans, expenses, and savings goals with our easy budget calculator. Perfect for Swedish households.";
 
+  // FIXED: Dynamic canonical URL based on locale
+  const canonicalUrl = `https://www.budgetkollen.se/${locale}`;
+
   return {
     title,
     description,
@@ -48,7 +51,7 @@ export async function generateMetadata({
     },
     metadataBase: new URL("https://www.budgetkollen.se"),
     alternates: {
-      canonical: "/",
+      canonical: canonicalUrl, // CHANGED: Now dynamic instead of "/"
       languages: {
         sv: "/sv",
         en: "/en",
@@ -57,7 +60,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: "https://www.budgetkollen.se",
+      url: canonicalUrl, // CHANGED: Now dynamic instead of hardcoded
       siteName: "Budgetkollen",
       locale: locale === "sv" ? "sv_SE" : "en_US",
       type: "website",
