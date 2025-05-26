@@ -5,11 +5,24 @@ import { useTranslations, useLocale } from "next-intl";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import { Link } from "@/i18n/navigation";
+import { getStepParam, getStepName } from "@/utils/navigation";
 
 export function Navbar() {
   const t = useTranslations("navbar");
   const tApp = useTranslations("app");
   const locale = useLocale();
+
+  // Create the home URL using utility functions
+  const stepParam = getStepParam(locale);
+
+  // Create a mock first step to use with getStepName
+  const firstStep = {
+    label: locale === "sv" ? "Inkomst" : "Income",
+    component: null,
+  };
+
+  const firstStepName = getStepName(firstStep, locale);
+  const homeUrl = `/?${stepParam}=${firstStepName}`;
 
   return (
     <nav
@@ -20,9 +33,12 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
-            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            <Link
+              href={homeUrl}
+              className="text-xl font-bold text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors cursor-pointer"
+            >
               {tApp("title")}
-            </h1>
+            </Link>
           </div>
           <div className="flex items-center gap-4">
             <NavigationMenu.Root className="relative z-10">
@@ -32,7 +48,7 @@ export function Navbar() {
                     {t("articles")}
                     <CaretDownIcon className="transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </NavigationMenu.Trigger>
-                  <NavigationMenu.Content className="relative left-1/2 transform -translate-x-1/2 mt-3 min-w-[320px] bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4">
+                  <NavigationMenu.Content className="relative left-1/2 transform -translate-x-1/2 mt-2 min-w-[320px] bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4">
                     {/* SVG Triangle Spike */}
                     <svg
                       className="absolute -top-2 left-1/2 transform -translate-x-1/2"

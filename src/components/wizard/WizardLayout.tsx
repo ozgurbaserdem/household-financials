@@ -90,6 +90,18 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
     }
   }, [stepIndex, locale, pathname, router, steps, searchParams]);
 
+  // Effect 3: Reset to step 1 when navigating to root path
+  useEffect(() => {
+    // Check if we're on the root path without any step parameter
+    const param = getStepParam(locale);
+    const stepName = searchParams.get(param);
+
+    // If no step parameter exists and we're not already on step 0
+    if (!stepName && stepIndex !== 0) {
+      setStepIndex(0);
+    }
+  }, [pathname, searchParams, stepIndex, locale]);
+
   const goNext = () => setStepIndex((i) => Math.min(i + 1, steps.length - 1));
   const goBack = () => setStepIndex((i) => Math.max(i - 1, 0));
   const handleStepClick = (idx: number) => setStepIndex(idx);
