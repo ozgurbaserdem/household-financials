@@ -16,9 +16,9 @@ const DialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         // Mobile: bottom sheet
-        "fixed z-50 left-0 right-0 bottom-0 w-full max-w-full rounded-t-2xl p-4 bg-white dark:bg-gray-900 shadow-lg focus:outline-none",
+        "fixed z-50 left-0 right-0 bottom-0 w-full max-w-full rounded-t-2xl bg-white dark:bg-gray-900 shadow-lg focus:outline-none",
         // Desktop: centered modal (override mobile)
-        "sm:left-1/2 sm:top-1/2 sm:right-auto sm:bottom-auto sm:w-full sm:max-w-xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg sm:p-6",
+        "sm:left-1/2 sm:top-1/2 sm:right-auto sm:bottom-auto sm:w-full sm:max-w-xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
         // Scrollable content
         "overflow-y-auto max-h-[90vh]",
         className

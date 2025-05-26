@@ -13,6 +13,7 @@ export const routing = defineRouting({
   // Enable locale detection
   localeDetection: true,
 
+  // Doesn't really work with static exports right now, might be usable in the future
   // pathnames: {
   //   "/": {
   //     en: "/",

@@ -357,7 +357,8 @@ declare const messages: {
         "answer": "Sikta på minst 10% av din inkomst, men allt sparande är positivt."
       }
     ],
-    "footer": "Redo att ta kontroll över din ekonomi? Prova Budgetkollen gratis och skapa din egen hushållsbudget redan idag!"
+    "footer": "Redo att ta kontroll över din ekonomi? Prova Budgetkollen gratis och skapa din egen hushållsbudget redan idag!",
+    "back_to_home": "← Tillbaka till startsidan"
   }
 };
 export default messages;

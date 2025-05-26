@@ -16,7 +16,6 @@ import {
   Dialog,
   DialogTrigger,
   DialogContent,
-  DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
 import HushallskalkylContent from "@/components/hushallskalkyl/HushallskalkylContent";
@@ -52,13 +51,11 @@ export default function Home() {
               </Button>
             </DialogTrigger>
           </Box>
-          <DialogContent className="max-w-lg w-full sm:max-w-xl">
-            <DialogTitle>
-              {locale === "sv"
-                ? "Hushållskalkyl & Hushållsbudget"
-                : "Household Budget & Calculator"}
-            </DialogTitle>
-            <HushallskalkylContent hideTitle />
+          <DialogContent className="max-w-lg w-full sm:max-w-xl px-0 sm:px-6">
+            <HushallskalkylContent
+              showBackButton={false}
+              showDialogRelatedContent
+            />
             <Box className="flex flex-col gap-4 mt-6">
               <DialogClose asChild>
                 <Button variant="outline" className="w-full">

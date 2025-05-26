@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   output: isProd ? "export" : undefined,
   // This ensures the app works with GitHub Pages
   trailingSlash: true,
+  // Doesn't really work with static exports right now, might be usable in the future
   // async rewrites() {
   //   return [
   //     {
