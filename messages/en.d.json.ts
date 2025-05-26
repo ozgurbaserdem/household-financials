@@ -22,6 +22,12 @@ declare const messages: {
       "cta": "Learn more"
     }
   },
+  "dialog_hushallskalkyl": {
+    "close": "Close",
+    "title": "Household Budget & Calculator",
+    "description": "Easily create your household budget and calculator with Budgetkollen. Get full control of your finances and plan for the future.",
+    "cta": "Learn more"
+  },
   "expense_categories": {
     "title": "Expense Categories",
     "add_expenses": "Add expenses",
@@ -367,6 +373,13 @@ declare const messages: {
     ],
     "footer": "Ready to take control of your finances? Try Budgetkollen for free and create your own household budget today!",
     "back_to_home": "← Back to Home"
+  },
+  "navbar": {
+    "articles": "Articles",
+    "main_article_label": "Household Budget",
+    "main_article_desc": "The household budget gives you control over your income and expenses",
+    "guides": "Guides",
+    "budget_tools": "Budget Tools"
   }
 };
 export default messages;

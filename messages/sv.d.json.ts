@@ -2,6 +2,13 @@
 // See: https://next-intl.dev/docs/workflows/typescript#messages-arguments
 
 declare const messages: {
+  "navbar": {
+    "articles": "Artiklar",
+    "main_article_label": "Hushållskalkyl",
+    "main_article_desc": "Hushållskalkylen hjälper dig att förstå din ekonomi bättre",
+    "guides": "Guider",
+    "budget_tools": "Budgetverktyg"
+  },
   "loan_parameters": {
     "title": "Låneparametrar",
     "add_loans": "Lägg till lån",
