@@ -11,6 +11,14 @@
     "interest_rates_aria": "Select one or more interest rates",
     "amortization_rates_aria": "Select one or more amortization rates"
   },
+  "dialog": {
+    "close": "Close",
+    "hushallskalkyl": {
+      "title": "Household Budget & Calculator",
+      "description": "Easily create your household budget and calculator with Budgetkollen. Get full control of your finances and plan for the future.",
+      "cta": "Learn more"
+    }
+  },
   "expense_categories": {
     "title": "Expense Categories",
     "add_expenses": "Add expenses",

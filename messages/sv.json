@@ -11,6 +11,12 @@
     "interest_rates_aria": "Välj en eller flera räntesatser",
     "amortization_rates_aria": "Välj en eller flera amorteringssatser"
   },
+  "dialog_hushallskalkyl": {
+    "close": "Stäng",
+    "title": "Hushållskalkyl & Hushållsbudget",
+    "description": "Skapa din hushållsbudget och hushållskalkyl enkelt med Budgetkollen. Få full kontroll över din ekonomi och planera för framtiden.",
+    "cta": "Läs mer"
+  },
   "expense_categories": {
     "title": "Utgiftskategorier",
     "add_expenses": "Lägg till utgifter",
