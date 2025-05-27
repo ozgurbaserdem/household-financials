@@ -11,6 +11,20 @@ const nextConfig: NextConfig = {
   output: isProd ? "export" : undefined,
   // This ensures the app works with GitHub Pages
   trailingSlash: true,
+
+  // Exclude development extensions in production
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      // Exclude axe DevTools and other dev extensions
+      config.externals = config.externals || [];
+      config.externals.push({
+        "axe-core": "axe-core",
+        "@axe-core/react": "@axe-core/react",
+      });
+    }
+    return config;
+  },
+
   // Doesn't really work with static exports right now, might be usable in the future
   // async rewrites() {
   //   return [
@@ -27,6 +41,5 @@ const withNextIntl = createNextIntlPlugin({
     createMessagesDeclaration: ["./messages/en.json", "./messages/sv.json"],
   },
 });
-// const withNextIntl = createNextIntlPlugin();
 
 export default withNextIntl(nextConfig);
