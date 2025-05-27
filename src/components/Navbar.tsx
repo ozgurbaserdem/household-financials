@@ -2,7 +2,16 @@ import React from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useTranslations, useLocale } from "next-intl";
-import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "@radix-ui/react-navigation-menu";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import { Link } from "@/i18n/navigation";
 import { getStepParam, getStepName } from "@/utils/navigation";
@@ -41,14 +50,14 @@ export function Navbar() {
             </Link>
           </div>
           <div className="flex items-center gap-4">
-            <NavigationMenu.Root className="relative z-10">
-              <NavigationMenu.List className="flex items-center gap-2">
-                <NavigationMenu.Item>
-                  <NavigationMenu.Trigger className="group inline-flex items-center gap-1 px-3 py-2 rounded-md font-medium bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <NavigationMenu className="relative z-10">
+              <NavigationMenuList className="flex items-center gap-2">
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="group inline-flex items-center gap-1 px-3 py-2 rounded-md font-medium bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                     {t("articles")}
                     <CaretDownIcon className="transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                  </NavigationMenu.Trigger>
-                  <NavigationMenu.Content className="relative left-1/2 transform -translate-x-1/2 mt-2 min-w-[320px] bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4">
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="relative left-1/2 transform -translate-x-1/2 mt-2 min-w-[320px] bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4">
                     {/* SVG Triangle Spike */}
                     <svg
                       className="absolute -top-2 left-1/2 transform -translate-x-1/2"
@@ -68,7 +77,7 @@ export function Navbar() {
                     <ul className="grid gap-2">
                       {locale === "sv" && (
                         <li>
-                          <NavigationMenu.Link asChild>
+                          <NavigationMenuLink asChild>
                             <Link
                               href="/hushallskalkyl"
                               className="block p-3 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -80,12 +89,12 @@ export function Navbar() {
                                 {t("main_article_desc")}
                               </div>
                             </Link>
-                          </NavigationMenu.Link>
+                          </NavigationMenuLink>
                         </li>
                       )}
                       {locale === "en" && (
                         <li>
-                          <NavigationMenu.Link asChild>
+                          <NavigationMenuLink asChild>
                             <Link
                               href="/householdbudget"
                               className="block p-3 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -97,16 +106,16 @@ export function Navbar() {
                                 {t("main_article_desc")}
                               </div>
                             </Link>
-                          </NavigationMenu.Link>
+                          </NavigationMenuLink>
                         </li>
                       )}
                     </ul>
-                  </NavigationMenu.Content>
-                </NavigationMenu.Item>
-              </NavigationMenu.List>
-              <NavigationMenu.Indicator className="absolute top-full left-0 w-full h-1 bg-blue-500 rounded-b-lg" />
-              <NavigationMenu.Viewport className="absolute left-0 w-full" />
-            </NavigationMenu.Root>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+              <NavigationMenuIndicator className="absolute top-full left-0 w-full h-1 bg-blue-500 rounded-b-lg" />
+              <NavigationMenuViewport className="absolute left-0 w-full" />
+            </NavigationMenu>
             <LanguageSwitcher />
             <ThemeSwitcher />
           </div>

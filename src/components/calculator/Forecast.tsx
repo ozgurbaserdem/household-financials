@@ -3,20 +3,20 @@
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HandCoins } from "lucide-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { useMemo } from "react";
 import type { CalculatorState } from "@/lib/types";
 import { formatCurrency, calculateTotalNetIncome } from "@/lib/calculations";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
+
+const LineChart = dynamic(() =>
+  import("recharts").then((mod) => ({ default: mod.LineChart }))
+);
+const ResponsiveContainer = dynamic(() =>
+  import("recharts").then((mod) => ({ default: mod.ResponsiveContainer }))
+);
 
 interface ForecastProps {
   calculatorState: CalculatorState;

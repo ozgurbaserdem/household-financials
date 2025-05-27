@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, vi } from "vitest";
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { Forecast } from "../../components/calculator/Forecast";
 import type { CalculatorState } from "@/lib/types";
 
@@ -100,12 +100,16 @@ describe("Forecast", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("calculates correct yearly amortization based on initial loan", () => {
+  it("calculates correct yearly amortization based on initial loan", async () => {
     const { container } = render(
       <Forecast calculatorState={mockCalculatorState} />
     );
-    const chart = container.querySelector("[data-testid='line-chart']");
-    expect(chart).toBeInTheDocument();
+
+    // Wait for dynamic components to load
+    await waitFor(() => {
+      const chart = container.querySelector("[data-testid='line-chart']");
+      expect(chart).toBeInTheDocument();
+    });
 
     // Initial loan: 9,000,000
     // Yearly amortization: 9,000,000 * 0.03 = 270,000
@@ -122,7 +126,7 @@ describe("Forecast", () => {
     }
   });
 
-  it("handles very large loan amounts", () => {
+  it("handles very large loan amounts", async () => {
     const largeLoanState: CalculatorState = {
       ...mockCalculatorState,
       loanParameters: {
@@ -133,8 +137,12 @@ describe("Forecast", () => {
       expenses: {},
     };
     const { container } = render(<Forecast calculatorState={largeLoanState} />);
-    const chart = container.querySelector("[data-testid='line-chart']");
-    expect(chart).toBeInTheDocument();
+
+    // Wait for dynamic components to load
+    await waitFor(() => {
+      const chart = container.querySelector("[data-testid='line-chart']");
+      expect(chart).toBeInTheDocument();
+    });
 
     const line = container.querySelector(".recharts-line");
     expect(line).toBeInTheDocument();
@@ -148,7 +156,7 @@ describe("Forecast", () => {
     }
   });
 
-  it("handles very small loan amounts", () => {
+  it("handles very small loan amounts", async () => {
     const smallLoanState: CalculatorState = {
       ...mockCalculatorState,
       loanParameters: {
@@ -159,8 +167,12 @@ describe("Forecast", () => {
       expenses: {},
     };
     const { container } = render(<Forecast calculatorState={smallLoanState} />);
-    const chart = container.querySelector("[data-testid='line-chart']");
-    expect(chart).toBeInTheDocument();
+
+    // Wait for dynamic components to load
+    await waitFor(() => {
+      const chart = container.querySelector("[data-testid='line-chart']");
+      expect(chart).toBeInTheDocument();
+    });
 
     const line = container.querySelector(".recharts-line");
     expect(line).toBeInTheDocument();
@@ -174,12 +186,16 @@ describe("Forecast", () => {
     }
   });
 
-  it("calculates correct interest based on remaining loan", () => {
+  it("calculates correct interest based on remaining loan", async () => {
     const { container } = render(
       <Forecast calculatorState={mockCalculatorState} />
     );
-    const chart = container.querySelector("[data-testid='line-chart']");
-    expect(chart).toBeInTheDocument();
+
+    // Wait for dynamic components to load
+    await waitFor(() => {
+      const chart = container.querySelector("[data-testid='line-chart']");
+      expect(chart).toBeInTheDocument();
+    });
 
     const line = container.querySelector(".recharts-line");
     expect(line).toBeInTheDocument();
@@ -198,7 +214,7 @@ describe("Forecast", () => {
     }
   });
 
-  it("handles different interest and amortization rates", () => {
+  it("handles different interest and amortization rates", async () => {
     const differentRatesState: CalculatorState = {
       ...mockCalculatorState,
       loanParameters: {
@@ -212,8 +228,12 @@ describe("Forecast", () => {
     const { container } = render(
       <Forecast calculatorState={differentRatesState} />
     );
-    const chart = container.querySelector("[data-testid='line-chart']");
-    expect(chart).toBeInTheDocument();
+
+    // Wait for dynamic components to load
+    await waitFor(() => {
+      const chart = container.querySelector("[data-testid='line-chart']");
+      expect(chart).toBeInTheDocument();
+    });
 
     const line = container.querySelector(".recharts-line");
     expect(line).toBeInTheDocument();
@@ -228,12 +248,16 @@ describe("Forecast", () => {
     }
   });
 
-  it("calculates correct monthly savings", () => {
+  it("calculates correct monthly savings", async () => {
     const { container } = render(
       <Forecast calculatorState={mockCalculatorState} />
     );
-    const chart = container.querySelector("[data-testid='line-chart']");
-    expect(chart).toBeInTheDocument();
+
+    // Wait for dynamic components to load
+    await waitFor(() => {
+      const chart = container.querySelector("[data-testid='line-chart']");
+      expect(chart).toBeInTheDocument();
+    });
 
     const line = container.querySelector(".recharts-line");
     expect(line).toBeInTheDocument();
@@ -249,7 +273,7 @@ describe("Forecast", () => {
     }
   });
 
-  it("stops calculation when loan is paid off", () => {
+  it("stops calculation when loan is paid off", async () => {
     const smallLoanState: CalculatorState = {
       ...mockCalculatorState,
       loanParameters: {
@@ -261,8 +285,12 @@ describe("Forecast", () => {
       expenses: {},
     };
     const { container } = render(<Forecast calculatorState={smallLoanState} />);
-    const chart = container.querySelector("[data-testid='line-chart']");
-    expect(chart).toBeInTheDocument();
+
+    // Wait for dynamic components to load
+    await waitFor(() => {
+      const chart = container.querySelector("[data-testid='line-chart']");
+      expect(chart).toBeInTheDocument();
+    });
 
     const line = container.querySelector(".recharts-line");
     expect(line).toBeInTheDocument();
@@ -280,7 +308,7 @@ describe("Forecast", () => {
     }
   });
 
-  it("handles maximum calculation years (50)", () => {
+  it("handles maximum calculation years (50)", async () => {
     const tinyAmortizationState: CalculatorState = {
       ...mockCalculatorState,
       loanParameters: {
@@ -293,8 +321,12 @@ describe("Forecast", () => {
     const { container } = render(
       <Forecast calculatorState={tinyAmortizationState} />
     );
-    const chart = container.querySelector("[data-testid='line-chart']");
-    expect(chart).toBeInTheDocument();
+
+    // Wait for dynamic components to load
+    await waitFor(() => {
+      const chart = container.querySelector("[data-testid='line-chart']");
+      expect(chart).toBeInTheDocument();
+    });
 
     const line = container.querySelector(".recharts-line");
     expect(line).toBeInTheDocument();

@@ -5,49 +5,64 @@
   --font-space-grotesk: "Space Grotesk", sans-serif;
 }
 
-/* Hide number input spinners for Chrome, Safari, Edge, Opera */
 input[type="number"].no-spinner::-webkit-inner-spin-button,
 input[type="number"].no-spinner::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Hide number input spinners for Firefox */
 input[type="number"].no-spinner {
   -moz-appearance: textfield;
 }
 
-/* Custom classes */
 @layer components {
   .icon-primary {
     @apply w-7 h-7 text-blue-600 dark:text-blue-400;
+    contain: layout style paint;
   }
 
   .card-title-primary {
     @apply text-2xl font-bold text-gray-900 dark:text-gray-100;
+    contain: layout style;
   }
 
   .card-main-primary {
     @apply bg-white shadow-lg rounded-2xl border border-gray-200 dark:border-gray-900 dark:bg-gray-900;
+    contain: layout style paint;
   }
 
   .card-header-primary {
     @apply flex flex-row items-center gap-3 pb-2 dark:bg-gray-900 px-6;
+    contain: layout style;
   }
 
   .calculator-form-box {
     @apply dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg p-4;
+    contain: layout style paint;
   }
 
   .calculator-form-box-form-label {
     @apply text-gray-700 dark:text-gray-300 mb-2 block pb-1 text-lg;
+    contain: layout style;
   }
 
   .calculator-form-label {
     @apply text-gray-700 dark:text-gray-300 mb-2 block text-lg;
+    contain: layout style;
   }
 
   .section-card {
     @apply bg-white dark:bg-gray-900 rounded-xl shadow-lg dark:shadow-gray-800/70 w-full border-none;
+    contain: layout style paint;
   }
+}
+
+.critical-above-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
+.below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
 }
