@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
-import ThemeSwitcher from "./ThemeSwitcher";
 import { useTranslations, useLocale } from "next-intl";
 import {
   NavigationMenu,
@@ -151,7 +150,8 @@ export function Navbar() {
 
             <Box className="flex items-center gap-3">
               <LanguageSwitcher />
-              <ThemeSwitcher />
+              {/* Disable until we have solved the issue with Light Theme */}
+              {/* <ThemeSwitcher /> */}
             </Box>
           </div>
 
@@ -237,7 +237,8 @@ export function Navbar() {
 
               <Box className="flex items-center gap-3 pt-4 border-t border-gray-800">
                 <LanguageSwitcher />
-                <ThemeSwitcher />
+                {/* Disable until we have solved the issue with Light Theme */}
+                {/* <ThemeSwitcher /> */}
               </Box>
             </Box>
           </motion.div>

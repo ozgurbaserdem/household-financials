@@ -7,7 +7,8 @@ import { ThemeProvider } from "next-themes";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    /* Disable until we have solved the issue with Light Theme then switch back to this <ThemeProvider attribute="class" defaultTheme="system" enableSystem>*/
+    <ThemeProvider attribute="class" forcedTheme="dark" enableSystem={false}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           {children}
