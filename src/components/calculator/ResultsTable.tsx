@@ -118,7 +118,7 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
     <Card gradient glass delay={0.3}>
       <CardHeader>
         <CardIcon>
-          <BarChart3 className="w-6 h-6 text-green-400" />
+          <BarChart3 className="w-6 h-6 text-blue-400" />
         </CardIcon>
         <Box className="flex-1">
           <CardTitle tabIndex={0} aria-label={t("aria.title")}>
