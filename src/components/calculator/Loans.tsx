@@ -76,7 +76,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
     <Card gradient glass delay={0.1}>
       <CardHeader>
         <CardIcon>
-          <HandCoins className="w-6 h-6 text-purple-400" />
+          <HandCoins className="w-6 h-6 text-orange-400" />
         </CardIcon>
         <Box className="flex-1">
           <CardTitle tabIndex={0} aria-label={t("title_aria")}>

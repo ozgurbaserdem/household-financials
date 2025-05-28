@@ -96,7 +96,7 @@ export function Income({
     <Card gradient glass>
       <CardHeader>
         <CardIcon>
-          <Wallet className="w-6 h-6 text-blue-400" />
+          <Wallet className="w-6 h-6 text-green-400" />
         </CardIcon>
         <Box className="flex-1">
           <CardTitle tabIndex={0} aria-label={t("title_aria")}>

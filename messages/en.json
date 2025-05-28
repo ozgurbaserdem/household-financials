@@ -210,11 +210,14 @@
     "total_expenses_tooltip": "All monthly expenses, including housing and other categories.",
     "total_income_tooltip": "Total net income after taxes for all income earners.",
     "remaining_savings_tooltip": "Surplus or deficit after all costs and taxes are deducted.",
-    "financial_health_score_details": "Show Financial Health Score",
+    "show_financial_health_score_details": "Show Financial Health Score",
+    "hide_financial_health_score_details": "Hide Financial Health Score",
     "comparing_scenarios": "Comparing {count} loan scenarios",
     "best_scenario": "Best Scenario",
     "worst_scenario": "Worst Scenario",
-    "at_interest_amortization": "@ {interest} / {amortization}"
+    "at_interest_amortization": "@ {interest} / {amortization}",
+    "best_option": "Best Option",
+    "worst_option": "Highest Cost"
   },
   "export_import": {
     "export_csv": "Export CSV",

@@ -101,7 +101,7 @@ export function ExpenseCategories({
     <Card gradient glass delay={0.2}>
       <CardHeader>
         <CardIcon>
-          <List className="w-6 h-6 text-orange-400" />
+          <List className="w-6 h-6 text-red-400" />
         </CardIcon>
         <Box className="flex-1">
           <CardTitle tabIndex={0} aria-label={t("aria.title")}>

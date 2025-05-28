@@ -107,6 +107,13 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
     results[0]
   );
 
+  // Always show best first, worst second, then the rest
+  const sortedResults = [
+    bestScenario,
+    worstScenario,
+    ...results.filter((r) => r !== bestScenario && r !== worstScenario),
+  ];
+
   return (
     <Card gradient glass delay={0.3}>
       <CardHeader>
@@ -175,7 +182,7 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
 
         {/* Results Grid */}
         <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {results.map((result, index) => (
+          {sortedResults.map((result, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.9 }}

@@ -382,8 +382,8 @@ export function SummaryStep() {
           {/* Loans Section */}
           <SectionCard
             title={tSummary("loansTitle")}
-            icon={<HandCoins className="w-5 h-5 text-purple-400" />}
-            color="bg-gradient-to-br from-purple-600/20 to-indigo-600/20"
+            icon={<HandCoins className="w-5 h-5 text-orange-400" />}
+            color="bg-gradient-to-br from-orange-500/20 to-amber-600/20"
             onEdit={() => setStepIndex(1)}
             sectionKey="loans"
           >
@@ -415,7 +415,7 @@ export function SummaryStep() {
           {/* Expenses Section */}
           <SectionCard
             title={tSummary("expensesTitle")}
-            icon={<List className="w-5 h-5 text-orange-400" />}
+            icon={<List className="w-5 h-5 text-red-400" />}
             color="bg-gradient-to-br from-orange-600/20 to-red-600/20"
             onEdit={() => setStepIndex(2)}
             sectionKey="expenses"

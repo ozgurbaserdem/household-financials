@@ -209,11 +209,14 @@
     "total_expenses_tooltip": "Alla månatliga utgifter, inklusive boende och övriga kategorier.",
     "total_income_tooltip": "Total nettoinkomst efter skatt för alla inkomsttagare.",
     "remaining_savings_tooltip": "Överskott eller underskott efter alla kostnader och skatter.",
-    "financial_health_score_details": "Visa ekonomiskt hälsotillstånd",
+    "show_financial_health_score_details": "Visa ekonomiskt hälsotillstånd",
+    "hide_financial_health_score_details": "Dölj ekonomiskt hälsotillstånd",
     "comparing_scenarios": "Jämför {count} lånescenarion",
     "best_scenario": "Bästa scenariot",
     "worst_scenario": "Sämsta scenariot",
-    "at_interest_amortization": "@ {interest} / {amortization}"
+    "at_interest_amortization": "@ {interest} / {amortization}",
+    "best_option": "Bästa alternativet",
+    "worst_option": "Högsta kostnad"
   },
   "export_import": {
     "export_csv": "Exportera CSV",

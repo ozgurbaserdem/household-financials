@@ -187,7 +187,11 @@ function ResultCard({
           onClick={() => setShowHealthScore(!showHealthScore)}
           className="w-full text-left text-sm text-gray-300 hover:text-white transition-colors flex items-center justify-between group"
         >
-          <span>{t("financial_health_score_details")}</span>
+          <span>
+            {showHealthScore
+              ? t("hide_financial_health_score_details")
+              : t("show_financial_health_score_details")}
+          </span>
           <motion.div
             animate={{ rotate: showHealthScore ? 180 : 0 }}
             transition={{ duration: 0.2 }}
