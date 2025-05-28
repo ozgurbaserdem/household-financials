@@ -12,7 +12,10 @@ declare const messages: {
     "title_aria": "Loan Parameters section",
     "loan_amount_aria": "Loan amount in SEK",
     "interest_rates_aria": "Select one or more interest rates",
-    "amortization_rates_aria": "Select one or more amortization rates"
+    "amortization_rates_aria": "Select one or more amortization rates",
+    "estimated_monthly_payment": "Estimated monthly payment",
+    "monthly": "Monthly",
+    "total_interest": "Total interest"
   },
   "dialog": {
     "close": "Close",
@@ -179,14 +182,19 @@ declare const messages: {
       "title": "Expense Categories section",
       "category": "Expense category: {{category}}",
       "subcategory_input": "Input for {{subcategory}} in {{category}}"
-    }
+    },
+    "track_expenses": "Track your monthly expenses across categories"
   },
   "expense_breakdown": {
     "title": "Expense Breakdown",
     "aria": {
       "title": "Expense Breakdown section"
     },
-    "no_expenses": "No expenses to display"
+    "no_expenses": "No expenses to display",
+    "total": "Total: {amount}",
+    "legend_amount": "{amount}",
+    "legend_percentage": "{percentage}%",
+    "legend_label": "{name}: {amount} ({percentage}%)"
   },
   "results": {
     "title": "Calculation Results",
@@ -205,7 +213,11 @@ declare const messages: {
     "total_expenses_tooltip": "All monthly expenses, including housing and other categories.",
     "total_income_tooltip": "Total net income after taxes for all income earners.",
     "remaining_savings_tooltip": "Surplus or deficit after all costs and taxes are deducted.",
-    "financial_health_score_details": "Show Financial Health Score"
+    "financial_health_score_details": "Show Financial Health Score",
+    "comparing_scenarios": "Comparing {count} loan scenarios",
+    "best_scenario": "Best Scenario",
+    "worst_scenario": "Worst Scenario",
+    "at_interest_amortization": "@ {interest} / {amortization}"
   },
   "export_import": {
     "export_csv": "Export CSV",
@@ -228,7 +240,8 @@ declare const messages: {
       "monthly_savings": "Remaining savings"
     },
     "no_loan": "Enter a loan amount to see the forecast",
-    "year": "Year {year}"
+    "year": "Year {year}",
+    "loan_payoff_in_years": "Loan payoff in {years} years"
   },
   "not_found": {
     "title": "Page not found",
@@ -259,7 +272,9 @@ declare const messages: {
     "secondaryIncome1_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
     "secondaryIncome2_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)",
     "current_buffer_label": "Current Buffer (SEK)",
-    "current_buffer_aria": "How much do you have in your buffer account right now?"
+    "current_buffer_aria": "How much do you have in your buffer account right now?",
+    "total_monthly_income": "Total monthly income",
+    "optional": "Optional"
   },
   "financial_health": {
     "title": "Financial Health Score",
@@ -324,7 +339,16 @@ declare const messages: {
     "edit": "Edit",
     "showAll": "Show all categories",
     "showLess": "Show less",
-    "totalExpenses": "Total Expenses"
+    "totalExpenses": "Total Expenses",
+    "review_before_calculating": "Review your financial information before calculating",
+    "net_income": "Net Income",
+    "loan_payment": "Loan Payment",
+    "per_month": "/ per month",
+    "net": "Net",
+    "adults": "adults",
+    "adult": "adult",
+    "estimated_monthly_surplus": "Estimated Monthly Surplus",
+    "estimated_monthly_deficit": "Estimated Monthly Deficit"
   },
   "hushallskalkyl": {
     "title": "Household Budget & Calculator",
@@ -380,6 +404,95 @@ declare const messages: {
     "main_article_desc": "The household budget gives you control over your income and expenses",
     "guides": "Guides",
     "budget_tools": "Budget Tools"
+  },
+  "hushallsbudget": {
+    "title": "Household Budget - Take Control of Your Family's Finances",
+    "subtitle": "Create your perfect household budget with Sweden's most used free budget tool. Over 50,000 Swedish families already use Budgetkollen to plan their finances.",
+    "cta_button": "Start Your Household Budget Free",
+    "meta": {
+      "title": "Household Budget Free - Create Your Family Budget | Budgetkollen",
+      "description": "Create your household budget free with Budgetkollen. Get full control over your family budget, monthly budget and plan your personal finances smart. Sweden's best budget tool.",
+      "keywords": "household budget, family budget, monthly budget, free budget tool, personal finance, budget planning, financial planning, savings, budgetkollen, sweden"
+    },
+    "features": {
+      "title": "Why Choose Budgetkollen for Your Household Budget?",
+      "calculator": {
+        "title": "Easy Budget Calculator",
+        "description": "Calculate your household budget in minutes with our intuitive calculator"
+      },
+      "analysis": {
+        "title": "Expense Analysis",
+        "description": "See exactly where your money goes and optimize your family budget"
+      },
+      "planning": {
+        "title": "Savings Planning",
+        "description": "Plan your savings and see how your goals develop over time"
+      },
+      "goals": {
+        "title": "Financial Goals",
+        "description": "Set up and track your financial goals with precision"
+      }
+    },
+    "guide": {
+      "title": "How to Create Your Perfect Household Budget",
+      "step1": {
+        "title": "Gather All Income",
+        "description": "List all monthly income for the family including salaries, child benefits and other income."
+      },
+      "step2": {
+        "title": "Map All Expenses",
+        "description": "Go through all your expenses from housing and food to leisure and savings."
+      },
+      "step3": {
+        "title": "Analyze and Optimize",
+        "description": "Use our tools to see where you can save money and improve your finances."
+      },
+      "step4": {
+        "title": "Follow Up Regularly",
+        "description": "Update your household budget monthly to keep it current and relevant."
+      }
+    },
+    "tips": {
+      "title": "Expert Advice for Your Household Budget",
+      "working_tips": {
+        "title": "Budget Tips That Work",
+        "tip1": "Use the 50/30/20 rule for balanced budget",
+        "tip2": "Set up automatic savings",
+        "tip3": "Review subscriptions and memberships",
+        "tip4": "Plan for unexpected expenses"
+      },
+      "mistakes": {
+        "title": "Common Budget Mistakes to Avoid",
+        "mistake1": "Forgetting annual expenses like insurance",
+        "mistake2": "Setting unrealistic savings goals",
+        "mistake3": "Not having buffer for entertainment",
+        "mistake4": "Not following up the budget regularly"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions about Household Budget",
+      "q1": {
+        "question": "What is a household budget?",
+        "answer": "A household budget is a plan for how the family should use their money each month. It includes all income and expenses to give a complete picture of the family's finances."
+      },
+      "q2": {
+        "question": "How much should I save each month?",
+        "answer": "Experts recommend saving at least 20% of your monthly income. But start with what you can - even 5-10% is good to get started with saving."
+      },
+      "q3": {
+        "question": "What's the difference between family budget and household budget?",
+        "answer": "The terms are often used synonymously. A household budget includes everyone living in the home, while a family budget focuses on the nuclear family. Both help you plan your finances."
+      },
+      "q4": {
+        "question": "How often should I update my household budget?",
+        "answer": "Update your household budget monthly for best results. Make major changes quarterly or when your financial situation changes significantly."
+      }
+    },
+    "cta": {
+      "title": "Start Creating Your Household Budget Today",
+      "subtitle": "Join over 50,000 Swedish families who already use Budgetkollen",
+      "button": "Get Started Free Now"
+    }
   }
 };
 export default messages;

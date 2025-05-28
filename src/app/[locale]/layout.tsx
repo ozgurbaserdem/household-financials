@@ -23,27 +23,30 @@ export async function generateMetadata({
 
   const title =
     locale === "sv"
-      ? "Budgetkollen - Hushållskalkyl & Hushållsbudget | Din personliga budgetkalkylator"
-      : "Budgetkollen - Your Personal Budget Calculator";
+      ? "Budgetkollen - Hushållsbudget & Hushållskalkyl | Gratis Budgetkalkylator Sverige"
+      : "Budgetkollen - Household Budget Calculator | Free Budget Tool Sweden";
 
   const description =
     locale === "sv"
-      ? "Budgetkollen hjälper dig att hantera din ekonomi smartare. Skapa din hushållsbudget och hushållskalkyl enkelt med vår budgetkalkylator. Beräkna lån, utgifter och sparmål. Perfekt för svenska hushåll."
-      : "Budgetkollen helps you manage your finances smarter. Calculate your loans, expenses, and savings goals with our easy budget calculator. Perfect for Swedish households.";
+      ? "Skapa din hushållsbudget och hushållskalkyl gratis med Budgetkollen. Sveriges bästa budgetkalkylator för att planera din ekonomi, beräkna lån och sparmål. Få kontroll över din privatekonomi."
+      : "Create your household budget and calculator free with Budgetkollen. Sweden's best budget calculator to plan your finances, calculate loans and savings goals. Take control of your personal finance.";
 
-  // FIXED: Dynamic canonical URL based on locale
+  const keywords =
+    locale === "sv"
+      ? "hushållsbudget, hushållskalkyl, budgetkollen, budgetkalkylator, privatekonomi, ekonomi kalkylator, lånekalkylator, sparande, hushållsekonomi, budgetplanering, finansiell planering, månadsbudget, familjebudget, ekonomisk rådgivning"
+      : "household budget, budget calculator, personal finance, loan calculator, savings calculator, financial planning, monthly budget, family budget, budgetkollen, sweden budget tool";
+
   const canonicalUrl = `https://www.budgetkollen.se/${locale}`;
 
   return {
     title,
     description,
-    keywords:
-      locale === "sv"
-        ? "budgetkalkylator, hushållsekonomi, lånekalkylator, amorteringskalkylator, räntekalkylator, sparmål, utgiftskalkylator, svensk ekonomi, hushållskalkyl, hushållsbudget"
-        : "budget calculator, household economy, loan calculator, amortization calculator, interest calculator, savings goals, expense calculator, Swedish economy",
-    authors: [{ name: "Budgetkollen" }],
+    keywords,
+    authors: [{ name: "Budgetkollen", url: "https://www.budgetkollen.se" }],
     creator: "Budgetkollen",
     publisher: "Budgetkollen",
+    category: "Finance",
+    classification: "Personal Finance Tool",
     formatDetection: {
       email: false,
       address: false,
@@ -51,31 +54,46 @@ export async function generateMetadata({
     },
     metadataBase: new URL("https://www.budgetkollen.se"),
     alternates: {
-      canonical: canonicalUrl, // CHANGED: Now dynamic instead of "/"
+      canonical: canonicalUrl,
       languages: {
         sv: "/sv",
         en: "/en",
+        "x-default": "/sv", // Swedish as default for international
       },
     },
     openGraph: {
       title,
       description,
-      url: canonicalUrl, // CHANGED: Now dynamic instead of hardcoded
+      url: canonicalUrl,
       siteName: "Budgetkollen",
       locale: locale === "sv" ? "sv_SE" : "en_US",
       type: "website",
+      images: [
+        {
+          url: "/og-image.png", // You'll need to create this
+          width: 1200,
+          height: 630,
+          alt:
+            locale === "sv"
+              ? "Budgetkollen - Hushållsbudget och Kalkylator"
+              : "Budgetkollen - Budget Calculator",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: ["/og-image.png"],
     },
     robots: {
       index: true,
       follow: true,
+      nocache: false,
       googleBot: {
         index: true,
         follow: true,
+        noimageindex: false,
         "max-video-preview": -1,
         "max-image-preview": "large",
         "max-snippet": -1,
@@ -83,6 +101,17 @@ export async function generateMetadata({
     },
     verification: {
       google: "G2E34AZZPQ97qu8fxJbgKwM0dUveivxfv84F97tMqV8",
+      // Add other verification codes if you have them:
+      // bing: "YOUR_BING_CODE",
+      // yandex: "YOUR_YANDEX_CODE",
+    },
+    other: {
+      "revisit-after": "7 days",
+      distribution: "global",
+      rating: "general",
+      language: locale === "sv" ? "Swedish" : "English",
+      "geo.region": "SE",
+      "geo.country": "Sweden",
     },
   };
 }
@@ -100,58 +129,136 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  // Validate that the locale is supported
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  // Enable static rendering
   setRequestLocale(locale);
-
-  // Load messages for the current locale
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
+        {/* Enhanced Schema.org markup */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebApplication",
-              name:
-                locale === "sv"
-                  ? "Budgetkollen - Hushållskalkyl & Hushållsbudget"
-                  : "Budgetkollen - Household Budget Calculator",
-              description:
-                locale === "sv"
-                  ? "Budgetkollen hjälper dig att skapa hushållskalkyl och hushållsbudget. Enkelt verktyg för att planera din ekonomi, utgifter och sparmål."
-                  : "Budgetkollen helps you create a household budget and calculator. Easy tool to plan your finances, expenses, and savings goals.",
-              url: `https://www.budgetkollen.se/${locale === "sv" ? "sv" : "en"}`,
-              applicationCategory: "FinanceApplication",
-              inLanguage: locale,
-              keywords:
-                locale === "sv"
-                  ? "budgetkalkylator, hushållskalkyl, hushållsbudget, ekonomi, sparmål, utgifter"
-                  : "budget calculator, household budget, finance, savings, expenses",
-              offers: {
-                "@type": "Offer",
-                price: 0,
-                priceCurrency: "SEK",
-                availability: "https://schema.org/InStock",
-              },
-              operatingSystem: "All",
+              "@graph": [
+                {
+                  "@type": "WebApplication",
+                  "@id": `https://www.budgetkollen.se/${locale}#webapp`,
+                  name:
+                    locale === "sv"
+                      ? "Budgetkollen - Hushållsbudget & Hushållskalkyl"
+                      : "Budgetkollen - Budget Calculator",
+                  description:
+                    locale === "sv"
+                      ? "Gratis hushållsbudget och budgetkalkylator för svenska familjer. Planera din ekonomi, beräkna lån och sparmål enkelt."
+                      : "Free household budget and calculator for Swedish families. Plan your finances, calculate loans and savings goals easily.",
+                  url: `https://www.budgetkollen.se/${locale}`,
+                  applicationCategory: "FinanceApplication",
+                  operatingSystem: "All",
+                  browserRequirements: "HTML5, JavaScript",
+                  inLanguage: locale,
+                  isAccessibleForFree: true,
+                  keywords:
+                    locale === "sv"
+                      ? "hushållsbudget, hushållskalkyl, budgetkalkylator, privatekonomi, lånekalkylator"
+                      : "household budget, budget calculator, personal finance, loan calculator",
+                  offers: {
+                    "@type": "Offer",
+                    price: 0,
+                    priceCurrency: "SEK",
+                    availability: "https://schema.org/InStock",
+                  },
+                  featureList: [
+                    locale === "sv" ? "Hushållsbudget" : "Household Budget",
+                    locale === "sv" ? "Lånekalkylator" : "Loan Calculator",
+                    locale === "sv" ? "Sparkalkyler" : "Savings Calculator",
+                    locale === "sv" ? "Utgiftsanalys" : "Expense Analysis",
+                  ],
+                },
+                {
+                  "@type": "Organization",
+                  "@id": "https://www.budgetkollen.se#organization",
+                  name: "Budgetkollen",
+                  url: "https://www.budgetkollen.se",
+                  logo: "https://www.budgetkollen.se/favicon.svg",
+                  sameAs: [
+                    // Add your social media profiles here when you create them
+                  ],
+                  address: {
+                    "@type": "PostalAddress",
+                    addressCountry: "SE",
+                  },
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://www.budgetkollen.se#website",
+                  url: "https://www.budgetkollen.se",
+                  name: "Budgetkollen",
+                  description:
+                    locale === "sv"
+                      ? "Sveriges ledande verktyg för hushållsbudget och ekonomisk planering"
+                      : "Sweden's leading tool for household budgeting and financial planning",
+                  publisher: {
+                    "@id": "https://www.budgetkollen.se#organization",
+                  },
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target:
+                      "https://www.budgetkollen.se/search?q={search_term_string}",
+                    "query-input": "required name=search_term_string",
+                  },
+                  inLanguage: [locale],
+                },
+                {
+                  "@type": "BreadcrumbList",
+                  itemListElement: [
+                    {
+                      "@type": "ListItem",
+                      position: 1,
+                      name: locale === "sv" ? "Hem" : "Home",
+                      item: `https://www.budgetkollen.se/${locale}`,
+                    },
+                  ],
+                },
+              ],
             }),
           }}
+        />
+
+        {/* Hreflang tags for better international SEO */}
+        <link
+          rel="alternate"
+          hrefLang="sv"
+          href="https://www.budgetkollen.se/sv"
+        />
+        <link
+          rel="alternate"
+          hrefLang="en"
+          href="https://www.budgetkollen.se/en"
+        />
+        <link
+          rel="alternate"
+          hrefLang="x-default"
+          href="https://www.budgetkollen.se/sv"
         />
       </head>
       <body className={spaceGrotesk.className}>
         <NextIntlClientProvider
           locale={locale}
           messages={messages}
-          // Disable client-side caching to ensure fresh messages on locale change
           timeZone="Europe/Stockholm"
           now={new Date()}
         >

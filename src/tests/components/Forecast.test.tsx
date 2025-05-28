@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, vi } from "vitest";
-import { render, waitFor } from "@testing-library/react";
+import { render, waitFor, screen } from "@testing-library/react";
 import { Forecast } from "../../components/calculator/Forecast";
 import type { CalculatorState } from "@/lib/types";
 
@@ -24,9 +24,9 @@ interface LineChartProps {
   data: ForecastData[];
 }
 
-interface LineProps {
+interface AreaProps {
   dataKey: string;
-  dataPoints: string;
+  dataPoints: ForecastData[];
 }
 
 // Mock Recharts components
@@ -42,16 +42,16 @@ vi.mock("recharts", async () => {
         {children}
       </div>
     ),
-    LineChart: ({ children, data }: LineChartProps) => (
+    AreaChart: ({ children, data }: LineChartProps) => (
       <div data-testid="line-chart" data-chart-data={JSON.stringify(data)}>
         {children}
       </div>
     ),
-    Line: ({ dataKey, dataPoints }: LineProps) => (
+    Area: ({ dataKey, dataPoints }: AreaProps) => (
       <div
         className="recharts-line"
         data-key={dataKey}
-        data-points={dataPoints}
+        data-points={JSON.stringify(dataPoints)}
       />
     ),
     XAxis: () => <div className="recharts-xAxis" />,
@@ -107,7 +107,7 @@ describe("Forecast", () => {
 
     // Wait for dynamic components to load
     await waitFor(() => {
-      const chart = container.querySelector("[data-testid='line-chart']");
+      const chart = screen.getByTestId("line-chart");
       expect(chart).toBeInTheDocument();
     });
 
@@ -140,7 +140,7 @@ describe("Forecast", () => {
 
     // Wait for dynamic components to load
     await waitFor(() => {
-      const chart = container.querySelector("[data-testid='line-chart']");
+      const chart = screen.getByTestId("line-chart");
       expect(chart).toBeInTheDocument();
     });
 
@@ -170,7 +170,7 @@ describe("Forecast", () => {
 
     // Wait for dynamic components to load
     await waitFor(() => {
-      const chart = container.querySelector("[data-testid='line-chart']");
+      const chart = screen.getByTestId("line-chart");
       expect(chart).toBeInTheDocument();
     });
 
@@ -193,7 +193,7 @@ describe("Forecast", () => {
 
     // Wait for dynamic components to load
     await waitFor(() => {
-      const chart = container.querySelector("[data-testid='line-chart']");
+      const chart = screen.getByTestId("line-chart");
       expect(chart).toBeInTheDocument();
     });
 
@@ -231,7 +231,7 @@ describe("Forecast", () => {
 
     // Wait for dynamic components to load
     await waitFor(() => {
-      const chart = container.querySelector("[data-testid='line-chart']");
+      const chart = screen.getByTestId("line-chart");
       expect(chart).toBeInTheDocument();
     });
 
@@ -255,7 +255,7 @@ describe("Forecast", () => {
 
     // Wait for dynamic components to load
     await waitFor(() => {
-      const chart = container.querySelector("[data-testid='line-chart']");
+      const chart = screen.getByTestId("line-chart");
       expect(chart).toBeInTheDocument();
     });
 
@@ -288,7 +288,7 @@ describe("Forecast", () => {
 
     // Wait for dynamic components to load
     await waitFor(() => {
-      const chart = container.querySelector("[data-testid='line-chart']");
+      const chart = screen.getByTestId("line-chart");
       expect(chart).toBeInTheDocument();
     });
 
@@ -324,7 +324,7 @@ describe("Forecast", () => {
 
     // Wait for dynamic components to load
     await waitFor(() => {
-      const chart = container.querySelector("[data-testid='line-chart']");
+      const chart = screen.getByTestId("line-chart");
       expect(chart).toBeInTheDocument();
     });
 

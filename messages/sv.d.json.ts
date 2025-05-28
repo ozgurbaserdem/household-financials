@@ -19,7 +19,10 @@ declare const messages: {
     "title_aria": "Avsnitt för låneparametrar",
     "loan_amount_aria": "Lånebelopp i SEK",
     "interest_rates_aria": "Välj en eller flera räntesatser",
-    "amortization_rates_aria": "Välj en eller flera amorteringssatser"
+    "amortization_rates_aria": "Välj en eller flera amorteringssatser",
+    "estimated_monthly_payment": "Beräknad månadskostnad",
+    "monthly": "Månadskostnad",
+    "total_interest": "Total ränta"
   },
   "dialog_hushallskalkyl": {
     "close": "Stäng",
@@ -178,14 +181,19 @@ declare const messages: {
       "title": "Utgiftskategorier sektion",
       "category": "Utgiftskategori: {{category}}",
       "subcategory_input": "Inmatning för {{subcategory}} i {{category}}"
-    }
+    },
+    "track_expenses": "Följ dina månatliga utgifter per kategori"
   },
   "expense_breakdown": {
     "title": "Utgiftsfördelning",
     "aria": {
       "title": "Utgiftsfördelning sektion"
     },
-    "no_expenses": "Inga utgifter att visa"
+    "no_expenses": "Inga utgifter att visa",
+    "total": "Totalt: {amount}",
+    "legend_amount": "{amount}",
+    "legend_percentage": "{percentage}%",
+    "legend_label": "{name}: {amount} ({percentage}%)"
   },
   "results": {
     "title": "Beräkningsresultat",
@@ -204,7 +212,11 @@ declare const messages: {
     "total_expenses_tooltip": "Alla månatliga utgifter, inklusive boende och övriga kategorier.",
     "total_income_tooltip": "Total nettoinkomst efter skatt för alla inkomsttagare.",
     "remaining_savings_tooltip": "Överskott eller underskott efter alla kostnader och skatter.",
-    "financial_health_score_details": "Visa ekonomiskt hälsotillstånd"
+    "financial_health_score_details": "Visa ekonomiskt hälsotillstånd",
+    "comparing_scenarios": "Jämför {count} lånescenarion",
+    "best_scenario": "Bästa scenariot",
+    "worst_scenario": "Sämsta scenariot",
+    "at_interest_amortization": "@ {interest} / {amortization}"
   },
   "export_import": {
     "export_csv": "Exportera CSV",
@@ -227,7 +239,8 @@ declare const messages: {
       "monthly_savings": "Kvar att spara"
     },
     "no_loan": "Ange ett lånebelopp för att se prognosen",
-    "year": "År {year}"
+    "year": "År {year}",
+    "loan_payoff_in_years": "Lånet betalt om {years} år"
   },
   "not_found": {
     "title": "Sidan kunde inte hittas",
@@ -258,7 +271,9 @@ declare const messages: {
     "two_adults": "2 vuxna",
     "number_of_adults_full": "Välj antal vuxna i hushållet",
     "current_buffer_label": "Buffertsparande (SEK)",
-    "current_buffer_aria": "Hur mycket har du på ditt buffertkonto just nu?"
+    "current_buffer_aria": "Hur mycket har du på ditt buffertkonto just nu?",
+    "total_monthly_income": "Total månatlig inkomst",
+    "optional": "Valfritt"
   },
   "financial_health": {
     "title": "Ekonomiskt hälsotillstånd",
@@ -323,7 +338,16 @@ declare const messages: {
     "edit": "Redigera",
     "showAll": "Visa alla kategorier",
     "showLess": "Visa färre",
-    "totalExpenses": "Totala utgifter"
+    "totalExpenses": "Totala utgifter",
+    "review_before_calculating": "Granska din ekonomiska information innan du beräknar",
+    "net_income": "Nettoinkomst",
+    "loan_payment": "Lånebetalning",
+    "per_month": "/ per månad",
+    "net": "Netto",
+    "adults": "vuxna",
+    "adult": "vuxen",
+    "estimated_monthly_surplus": "Beräknat månadsöverskott",
+    "estimated_monthly_deficit": "Beräknat månadsunderskott"
   },
   "hushallskalkyl": {
     "title": "Hushållskalkyl & Hushållsbudget",
@@ -372,6 +396,95 @@ declare const messages: {
     ],
     "footer": "Redo att ta kontroll över din ekonomi? Prova Budgetkollen gratis och skapa din egen hushållsbudget redan idag!",
     "back_to_home": "← Tillbaka till startsidan"
+  },
+  "hushallsbudget": {
+    "title": "Hushållsbudget - Ta Kontroll över Din Familjs Ekonomi",
+    "subtitle": "Skapa din perfekta hushållsbudget med Sveriges mest använda gratis budgetverktyg. Över 50,000 svenska familjer använder redan Budgetkollen för att planera sin ekonomi.",
+    "cta_button": "Starta Din Hushållsbudget Gratis",
+    "meta": {
+      "title": "Hushållsbudget Gratis - Skapa Din Familjebudget | Budgetkollen",
+      "description": "Skapa din hushållsbudget gratis med Budgetkollen. Få full kontroll över familjebudgeten, månadsbudgeten och planera din privatekonomi smart. Sveriges bästa budgetverktyg.",
+      "keywords": "hushållsbudget, familjebudget, månadsbudget, gratis budgetverktyg, privatekonomi, budgetplanering, ekonomisk planering, sparande, budgetkollen, sverige"
+    },
+    "features": {
+      "title": "Varför Välja Budgetkollen för Din Hushållsbudget?",
+      "calculator": {
+        "title": "Enkel Budgetkalkylator",
+        "description": "Beräkna din hushållsbudget på minuter med vår intuitiva kalkylator"
+      },
+      "analysis": {
+        "title": "Utgiftsanalys",
+        "description": "Se exakt var dina pengar går och optimera din familjebudget"
+      },
+      "planning": {
+        "title": "Sparplanering",
+        "description": "Planera ditt sparande och se hur dina mål utvecklas över tid"
+      },
+      "goals": {
+        "title": "Ekonomiska Mål",
+        "description": "Sätt upp och följ dina finansiella mål med precision"
+      }
+    },
+    "guide": {
+      "title": "Så Skapar Du Din Perfekta Hushållsbudget",
+      "step1": {
+        "title": "Samla Alla Inkomster",
+        "description": "Lista alla månadsinkomster för familjen inklusive löner, barnbidrag och andra inkomster."
+      },
+      "step2": {
+        "title": "Kartlägg Alla Utgifter",
+        "description": "Gå igenom alla dina utgifter från boende och mat till fritid och sparande."
+      },
+      "step3": {
+        "title": "Analysera och Optimera",
+        "description": "Använd våra verktyg för att se var du kan spara pengar och förbättra din ekonomi."
+      },
+      "step4": {
+        "title": "Följ Upp Regelbundet",
+        "description": "Uppdatera din hushållsbudget månadsvis för att hålla den aktuell och relevant."
+      }
+    },
+    "tips": {
+      "title": "Expertråd för Din Hushållsbudget",
+      "working_tips": {
+        "title": "Budgettips som Fungerar",
+        "tip1": "Använd 50/30/20-regeln för balanserad budget",
+        "tip2": "Sätt upp automatiska sparanden",
+        "tip3": "Granska abonnemang och prenumerationer",
+        "tip4": "Planera för oförutsedda utgifter"
+      },
+      "mistakes": {
+        "title": "Vanliga Budgetfel att Undvika",
+        "mistake1": "Glömma bort årsutgifter som försäkringar",
+        "mistake2": "Sätta orealistiska sparmål",
+        "mistake3": "Inte ha buffert för nöjen",
+        "mistake4": "Inte följa upp budgeten regelbundet"
+      }
+    },
+    "faq": {
+      "title": "Vanliga Frågor om Hushållsbudget",
+      "q1": {
+        "question": "Vad är en hushållsbudget?",
+        "answer": "En hushållsbudget är en plan över hur familjen ska använda sina pengar varje månad. Den inkluderar alla inkomster och utgifter för att ge en komplett bild av familjens ekonomi."
+      },
+      "q2": {
+        "question": "Hur mycket ska jag spara varje månad?",
+        "answer": "Experter rekommenderar att spara minst 20% av din månadsinkomst. Men börja med det du kan - även 5-10% är bra för att komma igång med sparandet."
+      },
+      "q3": {
+        "question": "Vad är skillnaden mellan familjebudget och hushållsbudget?",
+        "answer": "Termerna används ofta synonymt. En hushållsbudget inkluderar alla som bor i hemmet, medan familjebudget fokuserar på kärnfamiljen. Båda hjälper dig att planera din ekonomi."
+      },
+      "q4": {
+        "question": "Hur ofta bör jag uppdatera min hushållsbudget?",
+        "answer": "Uppdatera din hushållsbudget månadsvis för bästa resultat. Gör större förändringar kvartalsvis eller när din ekonomiska situation förändras betydligt."
+      }
+    },
+    "cta": {
+      "title": "Börja Skapa Din Hushållsbudget Idag",
+      "subtitle": "Gå med i över 50,000 svenska familjer som redan använder Budgetkollen",
+      "button": "Kom Igång Gratis Nu"
+    }
   }
 };
 export default messages;

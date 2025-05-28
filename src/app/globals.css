@@ -3,8 +3,189 @@
 
 :root {
   --font-space-grotesk: "Space Grotesk", sans-serif;
+
+  /* Modern color palette */
+  --primary-gradient-start: #3b82f6;
+  --primary-gradient-end: #8b5cf6;
+  --accent-gradient-start: #f59e0b;
+  --accent-gradient-end: #ef4444;
+  --success-gradient-start: #10b981;
+  --success-gradient-end: #34d399;
+
+  /* Glassmorphism variables */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+  /* Dark mode adjustments */
+  --dark-glass-bg: rgba(255, 255, 255, 0.06);
+  --dark-glass-border: rgba(255, 255, 255, 0.08);
 }
 
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-900/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-b from-blue-600 to-purple-600 rounded-full;
+}
+
+/* Gradient backgrounds */
+.gradient-mesh {
+  background-color: #0a0a0a;
+  background-image:
+    radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 0.15) 0px, transparent 0%),
+    radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 0.15) 0px, transparent 50%);
+  position: fixed;
+  content: "";
+  width: 100%;
+  height: 100%;
+  filter: blur(100px) saturate(150%);
+  opacity: 0.15;
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.dark .glass {
+  background: var(--dark-glass-bg);
+  border-color: var(--dark-glass-border);
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent;
+}
+
+/* Animated gradient border */
+.gradient-border {
+  position: relative;
+  background: #0a0a0a;
+  border-radius: 16px;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6, #f59e0b, #ef4444);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Glow effects */
+.glow-blue {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+}
+
+.glow-purple {
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+}
+
+/* Floating animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse animation */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Modern input styles */
+input[type="number"].modern-input {
+  @apply bg-gray-900/50 border-gray-700/50 text-white placeholder-gray-500
+         focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20
+         transition-all duration-200;
+}
+
+.modern-input:focus {
+  @apply shadow-lg shadow-blue-500/10;
+}
+
+/* Card animations */
+.card-hover {
+  @apply transition-all duration-300 hover:shadow-2xl;
+  transform: translateY(0);
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+}
+
+/* Simple hover lift effect without framer-motion */
+.hover-lift {
+  @apply transition-transform duration-200 ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Gradient button */
+.btn-gradient {
+  @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold
+         hover:from-blue-700 hover:to-purple-700 transform transition-all duration-200
+         hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25;
+}
+
+.btn-gradient-2 {
+  @apply bg-gradient-to-r from-slate-600/90 to-slate-700/90 text-white font-medium
+         hover:from-slate-700/95 hover:to-slate-800/95
+         border border-slate-500/30
+         shadow-sm hover:shadow-md
+         transition-all duration-300 ease-out;
+}
+
+/* Number input spinner removal */
 input[type="number"].no-spinner::-webkit-inner-spin-button,
 input[type="number"].no-spinner::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -15,54 +196,63 @@ input[type="number"].no-spinner {
   -moz-appearance: textfield;
 }
 
-@layer components {
-  .icon-primary {
-    @apply w-7 h-7 text-blue-600 dark:text-blue-400;
-    contain: layout style paint;
-  }
+/* Modern chip styles */
+.chip {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+         bg-gray-800/50 text-gray-200 border border-gray-600
+         hover:bg-gray-700/50 hover:border-gray-500 transition-all duration-200;
+}
 
-  .card-title-primary {
-    @apply text-2xl font-bold text-gray-900 dark:text-gray-100;
-    contain: layout style;
-  }
+.chip.active {
+  @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent;
+}
 
-  .card-main-primary {
-    @apply bg-white shadow-lg rounded-2xl border border-gray-200 dark:border-gray-900 dark:bg-gray-900;
-    contain: layout style paint;
+/* Loading skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
   }
-
-  .card-header-primary {
-    @apply flex flex-row items-center gap-3 pb-2 dark:bg-gray-900 px-6;
-    contain: layout style;
-  }
-
-  .calculator-form-box {
-    @apply dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg p-4;
-    contain: layout style paint;
-  }
-
-  .calculator-form-box-form-label {
-    @apply text-gray-700 dark:text-gray-300 mb-2 block pb-1 text-lg;
-    contain: layout style;
-  }
-
-  .calculator-form-label {
-    @apply text-gray-700 dark:text-gray-300 mb-2 block text-lg;
-    contain: layout style;
-  }
-
-  .section-card {
-    @apply bg-white dark:bg-gray-900 rounded-xl shadow-lg dark:shadow-gray-800/70 w-full border-none;
-    contain: layout style paint;
+  100% {
+    background-position: 200% 0;
   }
 }
 
-.critical-above-fold {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 400px;
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
 }
 
-.below-fold {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 200px;
+/* Form label with better contrast */
+.calculator-form-label {
+  @apply text-gray-200 font-medium text-sm;
+}
+
+.completed-step-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--success-gradient-start),
+    var(--success-gradient-end)
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.completed-step-gradient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  mix-blend-mode: lighten;
+  pointer-events: none;
 }

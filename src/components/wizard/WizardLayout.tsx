@@ -133,7 +133,7 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
             </Button>
           )}
           {stepIndex < steps.length - 1 && (
-            <Button onClick={goNext}>
+            <Button onClick={goNext} variant="wizard-next">
               {t("next")}
               <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
