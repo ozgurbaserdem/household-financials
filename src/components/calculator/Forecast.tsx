@@ -1,21 +1,32 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { HandCoins } from "lucide-react";
-import { Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardIcon,
+} from "@/components/ui/modern-card";
+import { CardContent } from "@/components/ui/card";
+import { HandCoins, TrendingUp } from "lucide-react";
+import {
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Area,
+  ResponsiveContainer,
+} from "recharts";
 import { useMemo } from "react";
 import type { CalculatorState } from "@/lib/types";
 import { formatCurrency, calculateTotalNetIncome } from "@/lib/calculations";
 import { useMediaQuery } from "@/lib/useMediaQuery";
-import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
+import { Box } from "@/components/ui/box";
 
-const LineChart = dynamic(() =>
-  import("recharts").then((mod) => ({ default: mod.LineChart }))
-);
-const ResponsiveContainer = dynamic(() =>
-  import("recharts").then((mod) => ({ default: mod.ResponsiveContainer }))
+const AreaChart = dynamic(() =>
+  import("recharts").then((mod) => ({ default: mod.AreaChart }))
 );
 
 interface ForecastProps {
@@ -34,21 +45,18 @@ interface ForecastData {
 export function Forecast({ calculatorState }: ForecastProps) {
   const t = useTranslations("forecast");
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const { resolvedTheme } = useTheme();
-
-  const axisColor = resolvedTheme === "dark" ? "#d1d5db" : "#4b5563";
 
   const forecastData = useMemo(() => {
     if (!calculatorState.loanParameters.amount) return [];
 
     const initialLoan = calculatorState.loanParameters.amount;
-    const amortizationRate = 0.03; // 3%
-    const interestRate = 0.03; // 3%
-    const salaryIncreaseRate = 0.025; // 2.5%
+    const amortizationRate =
+      calculatorState.loanParameters.amortizationRates[0] / 100 || 0.03;
+    const interestRate =
+      calculatorState.loanParameters.interestRates[0] / 100 || 0.03;
+    const salaryIncreaseRate = 0.025;
 
-    // Use utility to calculate net monthly income
     const netMonthlyIncome = calculateTotalNetIncome(calculatorState);
-    // Net yearly income for year 0
     const netYearlyIncome0 = netMonthlyIncome * 12;
 
     const data: ForecastData[] = [];
@@ -60,7 +68,6 @@ export function Forecast({ calculatorState }: ForecastProps) {
       const yearlyInterest = remainingLoan * interestRate;
       const yearlyCost = yearlyAmortization + yearlyInterest;
       const monthlyCost = yearlyCost / 12;
-      // Apply 2.5% increase to yearly net income
       const currentYearNetYearlyIncome =
         netYearlyIncome0 * Math.pow(1 + salaryIncreaseRate, currentYear);
       const monthlyIncome = currentYearNetYearlyIncome / 12;
@@ -82,7 +89,7 @@ export function Forecast({ calculatorState }: ForecastProps) {
     return data;
   }, [calculatorState]);
 
-  if (!calculatorState.loanParameters.amount) {
+  if (!calculatorState.loanParameters.amount || forecastData.length === 0) {
     return null;
   }
 
@@ -96,45 +103,96 @@ export function Forecast({ calculatorState }: ForecastProps) {
     if (active && payload && payload.length) {
       const data = payload[0].payload as ForecastData;
       return (
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-          <p className="font-semibold mb-2">{t("year", { year: data.year })}</p>
-          <p className="text-sm">
-            {t("tooltip.remaining_loan")}: {formatCurrency(data.remainingLoan)}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gray-800/30 backdrop-blur-md p-4 rounded-lg border border-gray-600 shadow-lg space-y-2"
+        >
+          <p className="font-semibold mb-2 text-white">
+            {t("year", { year: data.year })}
           </p>
-          <p className="text-sm">
-            {t("tooltip.yearly_cost")}: {formatCurrency(data.yearlyCost)}
-          </p>
-          <p className="text-sm">
-            {t("tooltip.monthly_cost")}: {formatCurrency(data.monthlyCost)}
-          </p>
-          <p className="text-sm">
-            {t("tooltip.monthly_income")}: {formatCurrency(data.monthlyIncome)}
-          </p>
-          <p className="text-sm">
-            {t("tooltip.monthly_savings")}:{" "}
-            {formatCurrency(data.monthlySavings)}
-          </p>
-        </div>
+          <div className="space-y-1 text-sm">
+            <p className="text-gray-300">
+              {t("tooltip.remaining_loan")}:{" "}
+              <span className="text-blue-400 font-semibold">
+                {formatCurrency(data.remainingLoan)}
+              </span>
+            </p>
+            <p className="text-gray-300">
+              {t("tooltip.yearly_cost")}:{" "}
+              <span className="text-orange-400 font-semibold">
+                {formatCurrency(data.yearlyCost)}
+              </span>
+            </p>
+            <p className="text-gray-300">
+              {t("tooltip.monthly_cost")}:{" "}
+              <span className="text-orange-300 font-semibold">
+                {formatCurrency(data.monthlyCost)}
+              </span>
+            </p>
+            <p className="text-gray-300">
+              {t("tooltip.monthly_income")}:{" "}
+              <span className="text-green-300 font-semibold">
+                {formatCurrency(data.monthlyIncome)}
+              </span>
+            </p>
+            <p className="text-gray-300">
+              {t("tooltip.monthly_savings")}:{" "}
+              <span
+                className={`font-semibold ${data.monthlySavings >= 0 ? "text-green-400" : "text-red-400"}`}
+              >
+                {formatCurrency(data.monthlySavings)}
+              </span>
+            </p>
+          </div>
+        </motion.div>
       );
     }
     return null;
   };
 
+  const gradientOffset = () => {
+    const dataMax = Math.max(...forecastData.map((i) => i.remainingLoan));
+    const dataMin = Math.min(...forecastData.map((i) => i.remainingLoan));
+    if (dataMax <= 0) return 0;
+    if (dataMin >= 0) return 1;
+    return dataMax / (dataMax - dataMin);
+  };
+
+  const off = gradientOffset();
+
   return (
-    <Card className="section-card">
+    <Card gradient glass delay={0.4}>
       <CardHeader>
-        <HandCoins className="icon-primary" />
-        <CardTitle tabIndex={0} aria-label={t("aria.title")}>
-          {t("title")}
-        </CardTitle>
+        <CardIcon>
+          <HandCoins className="w-6 h-6 text-purple-400" />
+        </CardIcon>
+        <Box className="flex-1">
+          <CardTitle tabIndex={0} aria-label={t("aria.title")}>
+            {t("title")}
+          </CardTitle>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="text-sm text-gray-300 mt-1"
+          >
+            {t("loan_payoff_in_years", { years: forecastData.length })}
+          </motion.p>
+        </Box>
+        <TrendingUp className="w-8 h-8 text-purple-400" />
       </CardHeader>
+
       <CardContent>
-        <div
-          className={isMobile ? "h-[250px] w-full" : "h-[400px] w-full"}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+          className={isMobile ? "h-[300px] w-full" : "h-[400px] w-full"}
           aria-label={t("aria.graph")}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart
+            <AreaChart
               data={forecastData}
               margin={
                 isMobile
@@ -142,40 +200,62 @@ export function Forecast({ calculatorState }: ForecastProps) {
                   : { top: 20, right: 30, left: 60, bottom: 20 }
               }
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              <defs>
+                <linearGradient id="loanGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset={off} stopColor="#8b5cf6" stopOpacity={0.8} />
+                  <stop offset={off} stopColor="#3b82f6" stopOpacity={0.8} />
+                </linearGradient>
+                <linearGradient id="gridGradient">
+                  <stop offset="0%" stopColor="#374151" stopOpacity={0.5} />
+                  <stop offset="100%" stopColor="#374151" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="url(#gridGradient)"
+                strokeOpacity={0.5}
+              />
+
               <XAxis
                 dataKey="year"
-                interval={isMobile ? undefined : 0}
+                interval={isMobile ? "preserveStartEnd" : 5}
                 label={{
                   value: "Years",
                   position: "insideBottom",
                   offset: -5,
-                  fill: axisColor,
+                  style: { fill: "#9CA3AF" },
                 }}
-                tick={{ fill: axisColor }}
+                tick={{ fill: "#9CA3AF" }}
+                stroke="#374151"
               />
+
               <YAxis
                 tickFormatter={formatCurrency}
                 label={{
                   value: "Loan Amount",
                   angle: -90,
-                  dx: isMobile ? -85 : -85,
-                  fill: axisColor,
+                  position: "insideLeft",
+                  style: { fill: "#9CA3AF" },
                 }}
-                tick={{ fill: axisColor }}
+                tick={{ fill: "#9CA3AF" }}
+                stroke="#374151"
               />
+
               <Tooltip content={<CustomTooltip />} />
-              <Line
+
+              <Area
                 type="monotone"
                 dataKey="remainingLoan"
-                stroke="#0284c7"
+                stroke="#8b5cf6"
                 strokeWidth={2}
-                dot={false}
-                data-points={JSON.stringify(forecastData)}
+                fill="url(#loanGradient)"
+                animationDuration={1500}
+                animationEasing="ease-out"
               />
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
       </CardContent>
     </Card>
   );

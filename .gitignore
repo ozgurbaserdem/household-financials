@@ -44,6 +44,11 @@ next-env.d.ts
 guides/
 .cursor/
 
+# Ignore claude files
+.claude/
+claude/
+CLAUDE.md
+
 # If you specifically want to ignore certain files in .cursor
 .cursor/rules
 

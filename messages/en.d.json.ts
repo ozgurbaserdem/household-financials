@@ -12,7 +12,14 @@ declare const messages: {
     "title_aria": "Loan Parameters section",
     "loan_amount_aria": "Loan amount in SEK",
     "interest_rates_aria": "Select one or more interest rates",
-    "amortization_rates_aria": "Select one or more amortization rates"
+    "amortization_rates_aria": "Select one or more amortization rates",
+    "estimated_monthly_payment": "Estimated monthly payment",
+    "monthly": "Monthly",
+    "total_interest": "Total interest",
+    "no_loan": "I don't have any loans",
+    "has_loan": "I have loans",
+    "validation_rates_required": "Please select at least one interest rate and one amortization rate when entering a loan amount",
+    "validation_loan_amount_required": "Please enter a loan amount when selecting rates"
   },
   "dialog": {
     "close": "Close",
@@ -179,14 +186,19 @@ declare const messages: {
       "title": "Expense Categories section",
       "category": "Expense category: {{category}}",
       "subcategory_input": "Input for {{subcategory}} in {{category}}"
-    }
+    },
+    "track_expenses": "Track your monthly expenses across categories"
   },
   "expense_breakdown": {
     "title": "Expense Breakdown",
     "aria": {
       "title": "Expense Breakdown section"
     },
-    "no_expenses": "No expenses to display"
+    "no_expenses": "No expenses to display",
+    "total": "Total: {amount}",
+    "legend_amount": "{amount}",
+    "legend_percentage": "{percentage}%",
+    "legend_label": "{name}: {amount} ({percentage}%)"
   },
   "results": {
     "title": "Calculation Results",
@@ -205,7 +217,19 @@ declare const messages: {
     "total_expenses_tooltip": "All monthly expenses, including housing and other categories.",
     "total_income_tooltip": "Total net income after taxes for all income earners.",
     "remaining_savings_tooltip": "Surplus or deficit after all costs and taxes are deducted.",
-    "financial_health_score_details": "Show Financial Health Score"
+    "show_financial_health_score_details": "Show Financial Health Score",
+    "hide_financial_health_score_details": "Hide Financial Health Score",
+    "comparing_scenarios": "Comparing {count} loan scenarios",
+    "best_scenario": "Best Scenario",
+    "worst_scenario": "Worst Scenario",
+    "at_interest_amortization": "@ {interest} / {amortization}",
+    "best_option": "Best Option",
+    "worst_option": "Highest Cost",
+    "compound_interest_cta": {
+      "title": "Maximize Your Savings with Compound Interest",
+      "description": "You can save {savings} kr every month! See how much this amount can grow with compound interest over time.",
+      "button": "Calculate Compound Interest"
+    }
   },
   "export_import": {
     "export_csv": "Export CSV",
@@ -228,7 +252,8 @@ declare const messages: {
       "monthly_savings": "Remaining savings"
     },
     "no_loan": "Enter a loan amount to see the forecast",
-    "year": "Year {year}"
+    "year": "Year {year}",
+    "loan_payoff_in_years": "Loan payoff in {years} years"
   },
   "not_found": {
     "title": "Page not found",
@@ -259,7 +284,9 @@ declare const messages: {
     "secondaryIncome1_aria": "Monthly gross secondary income for applicant 1 in SEK (no deductions)",
     "secondaryIncome2_aria": "Monthly gross secondary income for applicant 2 in SEK (no deductions)",
     "current_buffer_label": "Current Buffer (SEK)",
-    "current_buffer_aria": "How much do you have in your buffer account right now?"
+    "current_buffer_aria": "How much do you have in your buffer account right now?",
+    "total_monthly_income": "Total monthly income",
+    "optional": "Optional"
   },
   "financial_health": {
     "title": "Financial Health Score",
@@ -324,7 +351,17 @@ declare const messages: {
     "edit": "Edit",
     "showAll": "Show all categories",
     "showLess": "Show less",
-    "totalExpenses": "Total Expenses"
+    "totalExpenses": "Total Expenses",
+    "review_before_calculating": "Review your financial information before calculating",
+    "net_income": "Net Income",
+    "loan_payment": "Loan Payment",
+    "per_month": "/ per month",
+    "net": "Net",
+    "adults": "adults",
+    "adult": "adult",
+    "estimated_monthly_surplus": "Estimated Monthly Surplus",
+    "estimated_monthly_deficit": "Estimated Monthly Deficit",
+    "no_loan": "No loans"
   },
   "hushallskalkyl": {
     "title": "Household Budget & Calculator",
@@ -379,7 +416,174 @@ declare const messages: {
     "main_article_label": "Household Budget",
     "main_article_desc": "The household budget gives you control over your income and expenses",
     "guides": "Guides",
-    "budget_tools": "Budget Tools"
+    "budget_tools": "Budget Tools",
+    "compound_interest": "Compound Interest",
+    "compound_interest_label": "Compound Interest Calculator",
+    "compound_interest_desc": "See how your investments grow through the power of compounding"
+  },
+  "hushallsbudget": {
+    "title": "Household Budget - Take Control of Your Family's Finances",
+    "subtitle": "Create your perfect household budget with Sweden's most used free budget tool. Over 50,000 Swedish families already use Budgetkollen to plan their finances.",
+    "cta_button": "Start Your Household Budget Free",
+    "meta": {
+      "title": "Household Budget Free - Create Your Family Budget | Budgetkollen",
+      "description": "Create your household budget free with Budgetkollen. Get full control over your family budget, monthly budget and plan your personal finances smart. Sweden's best budget tool.",
+      "keywords": "household budget, family budget, monthly budget, free budget tool, personal finance, budget planning, financial planning, savings, budgetkollen, sweden"
+    },
+    "features": {
+      "title": "Why Choose Budgetkollen for Your Household Budget?",
+      "calculator": {
+        "title": "Easy Budget Calculator",
+        "description": "Calculate your household budget in minutes with our intuitive calculator"
+      },
+      "analysis": {
+        "title": "Expense Analysis",
+        "description": "See exactly where your money goes and optimize your family budget"
+      },
+      "planning": {
+        "title": "Savings Planning",
+        "description": "Plan your savings and see how your goals develop over time"
+      },
+      "goals": {
+        "title": "Financial Goals",
+        "description": "Set up and track your financial goals with precision"
+      }
+    },
+    "guide": {
+      "title": "How to Create Your Perfect Household Budget",
+      "step1": {
+        "title": "Gather All Income",
+        "description": "List all monthly income for the family including salaries, child benefits and other income."
+      },
+      "step2": {
+        "title": "Map All Expenses",
+        "description": "Go through all your expenses from housing and food to leisure and savings."
+      },
+      "step3": {
+        "title": "Analyze and Optimize",
+        "description": "Use our tools to see where you can save money and improve your finances."
+      },
+      "step4": {
+        "title": "Follow Up Regularly",
+        "description": "Update your household budget monthly to keep it current and relevant."
+      }
+    },
+    "tips": {
+      "title": "Expert Advice for Your Household Budget",
+      "working_tips": {
+        "title": "Budget Tips That Work",
+        "tip1": "Use the 50/30/20 rule for balanced budget",
+        "tip2": "Set up automatic savings",
+        "tip3": "Review subscriptions and memberships",
+        "tip4": "Plan for unexpected expenses"
+      },
+      "mistakes": {
+        "title": "Common Budget Mistakes to Avoid",
+        "mistake1": "Forgetting annual expenses like insurance",
+        "mistake2": "Setting unrealistic savings goals",
+        "mistake3": "Not having buffer for entertainment",
+        "mistake4": "Not following up the budget regularly"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions about Household Budget",
+      "q1": {
+        "question": "What is a household budget?",
+        "answer": "A household budget is a plan for how the family should use their money each month. It includes all income and expenses to give a complete picture of the family's finances."
+      },
+      "q2": {
+        "question": "How much should I save each month?",
+        "answer": "Experts recommend saving at least 20% of your monthly income. But start with what you can - even 5-10% is good to get started with saving."
+      },
+      "q3": {
+        "question": "What's the difference between family budget and household budget?",
+        "answer": "The terms are often used synonymously. A household budget includes everyone living in the home, while a family budget focuses on the nuclear family. Both help you plan your finances."
+      },
+      "q4": {
+        "question": "How often should I update my household budget?",
+        "answer": "Update your household budget monthly for best results. Make major changes quarterly or when your financial situation changes significantly."
+      }
+    },
+    "cta": {
+      "title": "Start Creating Your Household Budget Today",
+      "subtitle": "Join over 50,000 Swedish families who already use Budgetkollen",
+      "button": "Get Started Free Now"
+    }
+  },
+  "compound_interest": {
+    "title": "Compound Interest Calculator - The Power of Long-term Investing",
+    "subtitle": "Discover how consistent saving and compound interest can build substantial wealth over time. See the magic of compounding returns in action.",
+    "meta": {
+      "title": "Compound Interest Calculator Free - See Your Investment Growth | Budgetkollen",
+      "description": "Calculate compound interest and see how your investments grow over time. Free compound interest calculator with visual charts. Perfect for long-term financial planning in Sweden.",
+      "keywords": "compound interest calculator, investment calculator, savings calculator, financial planning, long-term investing, wealth building, investment growth, budgetkollen"
+    },
+    "intro": {
+      "title": "The Magic of Compound Interest",
+      "description": "Compound interest is often called the eighth wonder of the world. When you invest money, you earn returns not just on your original investment, but also on all the returns you've accumulated over time. This creates a snowball effect that can dramatically increase your wealth over the long term.",
+      "einstein_quote": "Compound interest is the eighth wonder of the world. He who understands it, earns it; he who doesn't, pays it.",
+      "einstein_attribution": "Often attributed to Albert Einstein",
+      "why_important": "The key to maximizing compound interest is time and consistency. Starting early and investing regularly, even small amounts, can lead to substantial wealth accumulation. This calculator helps you visualize exactly how your money can grow through the power of compounding.",
+      "connection_to_budget": "After creating your household budget with Budgetkollen, you can use this compound interest calculator to see how your monthly savings surplus can grow into significant wealth over time."
+    },
+    "calculator": {
+      "title": "Compound Interest Calculator",
+      "description": "Adjust the values below to see how your investments can grow over time"
+    },
+    "inputs": {
+      "start_sum_label": "Starting Amount (SEK)",
+      "start_sum_description": "The initial amount you have to invest",
+      "monthly_savings_label": "Monthly Savings (SEK)",
+      "monthly_savings_description": "How much you plan to save and invest each month",
+      "yearly_return_label": "Expected Annual Return (%)",
+      "yearly_return_description": "The average yearly return you expect on your investments",
+      "investment_horizon_label": "Investment Period (Years)",
+      "investment_horizon_description": "How long you plan to keep your money invested"
+    },
+    "results": {
+      "title": "Your Investment Growth",
+      "description": "Here's how your money could grow over {years} years",
+      "total_value": "Total Portfolio Value",
+      "start_sum": "Initial Investment",
+      "total_savings": "Total Savings Added",
+      "compound_returns": "Investment Growth",
+      "growth_summary": "Starting with {startSum} and saving {totalSavings} over {years} years, your investments could grow by {returns} to reach a total value of {total}."
+    },
+    "chart": {
+      "title": "Investment Growth Over Time",
+      "description": "See how your portfolio grows through savings and compound returns",
+      "aria_title": "Investment growth visualization showing the breakdown of portfolio value over time"
+    },
+    "legend": {
+      "start_sum": "Initial Investment",
+      "accumulated_savings": "Monthly Savings",
+      "compound_returns": "Investment Returns"
+    },
+    "tooltip": {
+      "year": "Year {year}",
+      "start_sum": "Initial Investment",
+      "accumulated_savings": "Total Savings Added",
+      "compound_returns": "Investment Growth",
+      "total_value": "Total Portfolio Value"
+    },
+    "tips": {
+      "title": "Smart Investment Tips",
+      "tip1": "Start investing as early as possible - time is your greatest asset",
+      "tip2": "Invest regularly and consistently, regardless of market conditions",
+      "tip3": "Diversify your investments to reduce risk",
+      "tip4": "Keep your investment costs low to maximize returns",
+      "tip5": "Stay invested for the long term - don't panic during market downturns",
+      "tip6": "Reinvest all dividends and returns to maximize compounding"
+    },
+    "disclaimer": {
+      "title": "Important Disclaimer",
+      "text": "This calculator provides estimates based on the inputs you provide. Actual investment returns can vary significantly and past performance does not guarantee future results. Always consult with a financial advisor before making investment decisions."
+    },
+    "cta": {
+      "title": "Ready to Start Building Wealth?",
+      "subtitle": "Use our household budget calculator to find money you can invest each month",
+      "button": "Create Your Budget"
+    }
   }
 };
 export default messages;

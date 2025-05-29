@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardIcon,
+} from "@/components/ui/modern-card";
+import { CardContent } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
@@ -12,15 +18,42 @@ import { Input } from "@/components/ui/input";
 import { expenseCategories } from "@/data/expenseCategories";
 import { formatCurrency } from "@/lib/calculations";
 import type { ExpensesByCategory } from "@/lib/types";
-import { List } from "lucide-react";
+import {
+  List,
+  TrendingDown,
+  Home,
+  Car,
+  ShoppingBag,
+  Heart,
+  Baby,
+  Umbrella,
+  PiggyBank,
+  Plane,
+  GraduationCap,
+  Pizza,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory;
   onChange: (expenses: ExpensesByCategory) => void;
 }
+
+const categoryIcons: Record<string, React.ReactNode> = {
+  home: <Home className="w-4 h-4" />,
+  "car-transportation": <Car className="w-4 h-4" />,
+  "shopping-services": <ShoppingBag className="w-4 h-4" />,
+  "health-beauty": <Heart className="w-4 h-4" />,
+  children: <Baby className="w-4 h-4" />,
+  insurance: <Umbrella className="w-4 h-4" />,
+  "savings-investments": <PiggyBank className="w-4 h-4" />,
+  "vacation-traveling": <Plane className="w-4 h-4" />,
+  education: <GraduationCap className="w-4 h-4" />,
+  food: <Pizza className="w-4 h-4" />,
+};
 
 export function ExpenseCategories({
   expenses,
@@ -28,6 +61,7 @@ export function ExpenseCategories({
 }: ExpenseCategoriesProps) {
   const t = useTranslations("expense_categories");
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
+  const [focusedCategory, setFocusedCategory] = useState<string | null>(null);
 
   const handleExpenseChange = (
     categoryId: string,
@@ -61,112 +95,239 @@ export function ExpenseCategories({
     }, 0);
   };
 
+  const grandTotal = calculateGrandTotal();
+
   return (
-    <Card>
+    <Card gradient glass delay={0.2}>
       <CardHeader>
-        <List className="icon-primary" />
-        <CardTitle tabIndex={0} aria-label={t("aria.title")}>
-          {t("title")}
-        </CardTitle>
+        <CardIcon>
+          <List className="w-6 h-6 text-red-400" />
+        </CardIcon>
+        <Box className="flex-1">
+          <CardTitle tabIndex={0} aria-label={t("aria.title")}>
+            {t("title")}
+          </CardTitle>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-sm text-gray-300 mt-1"
+          >
+            {t("track_expenses")}
+          </motion.p>
+        </Box>
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+        >
+          <TrendingDown className="w-8 h-8 text-red-400" />
+        </motion.div>
       </CardHeader>
+
       <CardContent className="px-6 pb-6">
         <Accordion
           type="multiple"
           value={expandedCategories}
           onValueChange={setExpandedCategories}
-          className="space-y-4 w-full"
+          className="space-y-3 w-full"
         >
-          {expenseCategories.map((category) => {
+          {expenseCategories.map((category, index) => {
             const categoryTotal = calculateCategoryTotal(category.id);
+            const isExpanded = expandedCategories.includes(category.id);
+            const categoryPercentage =
+              grandTotal > 0 ? (categoryTotal / grandTotal) * 100 : 0;
+
             return (
-              <AccordionItem
+              <motion.div
                 key={category.id}
-                value={category.id}
-                className="rounded-lg border border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900"
-                aria-label={`${t(`${category.id}.name`)} category`}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + index * 0.05 }}
               >
-                <AccordionTrigger
-                  className={`flex items-center justify-between px-4 py-3 rounded-t-lg ${
-                    expandedCategories.includes(category.id)
-                      ? "rounded-b-none"
-                      : "rounded-b-lg"
-                  } hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors`}
+                <AccordionItem
+                  value={category.id}
+                  className={`
+                    glass rounded-xl border-0 overflow-hidden
+                    ${focusedCategory === category.id ? "ring-2 ring-blue-500/50" : ""}
+                    transition-all duration-300
+                  `}
+                  onFocus={() => setFocusedCategory(category.id)}
+                  onBlur={() => setFocusedCategory(null)}
                 >
-                  <Text className="font-medium text-gray-800 dark:text-gray-100 truncate whitespace-normal sm:truncate flex-1">
-                    {t(`${category.id}.name`)}
-                  </Text>
-                  <Text className="text-sm text-gray-500 dark:text-gray-300 text-right w-24 flex-shrink-0">
-                    {formatCurrency(categoryTotal)}
-                  </Text>
-                </AccordionTrigger>
-                <AccordionContent className="transition-all duration-200">
-                  <Box className="space-y-4 px-4 pb-0">
-                    {category.subcategories.map((subcategory) => (
-                      <Box
-                        key={subcategory.id}
-                        className={`
-                          flex items-center justify-between gap-4
-                          py-2 px-2 group
-                          even:bg-gray-50 odd:bg-white
-                          dark:even:bg-gray-900 dark:odd:bg-gray-800
-                          transition-colors
-                          focus-within:bg-blue-100 dark:focus-within:bg-blue-900/20 focus-within:ring-2 focus-within:ring-blue-500
-                          hover:bg-blue-50 dark:hover:bg-blue-900/10 -mx-4 pl-4 mb-0 ${
-                            expandedCategories.includes(category.id) &&
-                            subcategory.id ===
-                              category.subcategories[
-                                category.subcategories.length - 1
-                              ].id
-                              ? "rounded-b-lg"
-                              : "rounded-b-none"
-                          }
-                        `}
-                      >
-                        <label
-                          className="
-                            text-sm text-gray-700 dark:text-gray-300
-                            group-focus-within:text-blue-400 group-hover:text-blue-300
-                            transition-colors
-                          "
-                          htmlFor={`${category.id}-${subcategory.id}-input`}
+                  <AccordionTrigger className="px-4 py-4 hover:bg-white/5 transition-colors">
+                    {/* Mobile layout: flex-col, stacked, visible on mobile only */}
+                    <Box className="flex flex-col w-full gap-2 sm:hidden">
+                      <Box className="flex items-center justify-between w-full gap-2">
+                        <Box className="flex items-center gap-3 min-w-0">
+                          <Box
+                            className={`
+                              p-2 rounded-lg bg-gradient-to-br
+                              ${categoryTotal > 0 ? "from-orange-600/20 to-red-600/20" : "from-gray-600/20 to-gray-700/20"}
+                              transition-colors duration-300
+                            `}
+                          >
+                            {categoryIcons[category.id] || (
+                              <List className="w-4 h-4" />
+                            )}
+                          </Box>
+                          <Text className="font-medium text-gray-200 whitespace-normal break-words min-w-0">
+                            {t(`${category.id}.name`)}
+                          </Text>
+                        </Box>
+                        <Text
+                          className={`
+                            text-sm font-semibold min-w-[70px] text-right
+                            ${categoryTotal > 0 ? "text-orange-400" : "text-gray-500"}
+                          `}
                         >
-                          {t(`${category.id}.${subcategory.id}`)}
-                        </label>
-                        <Input
-                          id={`${category.id}-${subcategory.id}-input`}
-                          type="number"
-                          min={0}
-                          className="w-32 bg-white border border-gray-200 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 transition-all duration-150 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 dark:placeholder-gray-500"
-                          value={expenses[category.id]?.[subcategory.id] || 0}
-                          onChange={(e) =>
-                            handleExpenseChange(
-                              category.id,
-                              subcategory.id,
-                              e.target.value
-                            )
-                          }
-                          onFocus={(e) => e.target.select()}
-                          aria-label={`${t(`${category.id}.${subcategory.id}`)} in ${t(`${category.id}.name`)}`}
-                        />
+                          {formatCurrency(categoryTotal)}
+                        </Text>
                       </Box>
-                    ))}
-                  </Box>
-                </AccordionContent>
-              </AccordionItem>
+                      {categoryTotal > 0 && (
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: "100%" }}
+                          className="h-1.5 bg-gray-700/50 rounded-full overflow-hidden w-full mt-2"
+                        >
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${categoryPercentage}%` }}
+                            transition={{ delay: 0.5, duration: 0.5 }}
+                            className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full"
+                          />
+                        </motion.div>
+                      )}
+                    </Box>
+                    {/* Desktop layout: flex-row, inline, visible on desktop only */}
+                    <Box className="hidden sm:flex items-center justify-between w-full">
+                      <Box className="flex items-center gap-3">
+                        <Box
+                          className={`
+                            p-2 rounded-lg bg-gradient-to-br
+                            ${categoryTotal > 0 ? "from-orange-600/20 to-red-600/20" : "from-gray-600/20 to-gray-700/20"}
+                            transition-colors duration-300
+                          `}
+                        >
+                          {categoryIcons[category.id] || (
+                            <List className="w-4 h-4" />
+                          )}
+                        </Box>
+                        <Text className="font-medium text-gray-200">
+                          {t(`${category.id}.name`)}
+                        </Text>
+                      </Box>
+                      <Box className="flex items-center gap-4">
+                        {categoryTotal > 0 && (
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: 60 }}
+                            className="h-1.5 bg-gray-700/50 rounded-full overflow-hidden"
+                          >
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${categoryPercentage}%` }}
+                              transition={{ delay: 0.5, duration: 0.5 }}
+                              className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full"
+                            />
+                          </motion.div>
+                        )}
+                        <Text
+                          className={`
+                            text-sm font-semibold min-w-[100px] text-right
+                            ${categoryTotal > 0 ? "text-orange-400" : "text-gray-500"}
+                          `}
+                        >
+                          {formatCurrency(categoryTotal)}
+                        </Text>
+                      </Box>
+                    </Box>
+                  </AccordionTrigger>
+
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <AccordionContent className="px-4 pb-4">
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                          className="space-y-2 pt-2"
+                        >
+                          {category.subcategories.map(
+                            (subcategory, subIndex) => (
+                              <motion.div
+                                key={subcategory.id}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: subIndex * 0.03 }}
+                                className={`
+                                flex items-center justify-between gap-4
+                                p-3 rounded-lg glass
+                                hover:bg-white/5 transition-all duration-200
+                                group
+                              `}
+                              >
+                                <label
+                                  className="text-sm text-gray-200 group-hover:text-white transition-colors cursor-pointer flex-1"
+                                  htmlFor={`${category.id}-${subcategory.id}-input`}
+                                >
+                                  {t(`${category.id}.${subcategory.id}`)}
+                                </label>
+                                <Input
+                                  id={`${category.id}-${subcategory.id}-input`}
+                                  type="number"
+                                  min={0}
+                                  className="w-32 modern-input text-right"
+                                  value={
+                                    expenses[category.id]?.[subcategory.id] || 0
+                                  }
+                                  onChange={(e) =>
+                                    handleExpenseChange(
+                                      category.id,
+                                      subcategory.id,
+                                      e.target.value
+                                    )
+                                  }
+                                  onFocus={(e) => e.target.select()}
+                                  aria-label={`${t(`${category.id}.${subcategory.id}`)} in ${t(`${category.id}.name`)}`}
+                                />
+                              </motion.div>
+                            )
+                          )}
+                        </motion.div>
+                      </AccordionContent>
+                    )}
+                  </AnimatePresence>
+                </AccordionItem>
+              </motion.div>
             );
           })}
         </Accordion>
 
-        <Box className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
-          <Box className="flex items-center justify-between flex-wrap gap-2">
-            <Text className="font-medium text-gray-800 dark:text-gray-100">
-              {t("total_expenses")}
-            </Text>
-            <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              {formatCurrency(calculateGrandTotal())}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8 p-4 glass rounded-xl"
+        >
+          <Box className="flex items-center justify-between">
+            <Box className="flex items-center gap-3">
+              <Box className="p-2 rounded-lg bg-gradient-to-br from-red-600/20 to-pink-600/20">
+                <TrendingDown className="w-5 h-5 text-red-400" />
+              </Box>
+              <Text className="text-lg font-medium text-gray-200">
+                {t("total_expenses")}
+              </Text>
+            </Box>
+            <Text
+              className={`text-2xl font-bold ${grandTotal > 0 ? "text-red-400" : "text-gray-500"}`}
+              data-testid="grand-total"
+            >
+              {formatCurrency(grandTotal)}
             </Text>
           </Box>
-        </Box>
+        </motion.div>
       </CardContent>
     </Card>
   );

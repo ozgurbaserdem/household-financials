@@ -208,7 +208,7 @@ describe("Income", () => {
     expect(screen.queryAllByLabelText(/secondaryIncome2_aria/i).length).toBe(0);
   });
 
-  it("clears income2 and income4 values when toggling to 1 adult and back to 2 adults", () => {
+  it("clears income2 and income4 values when toggling to 1 adult and back to 2 adults", async () => {
     function Wrapper() {
       const [adults, setAdults] = React.useState<"2" | "1">("2");
       return (
@@ -237,22 +237,37 @@ describe("Income", () => {
       target: { value: "30000" },
     });
     // Expand extra incomes
-    fireEvent.click(screen.getByText(/add_extra_incomes/i));
+    fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
     fireEvent.change(screen.getAllByLabelText(/secondaryIncome2_aria/i)[0], {
       target: { value: "25000" },
     });
 
     // Switch to 1 adult (fields disappear, values cleared)
     fireEvent.click(screen.getByLabelText(/one_adult/i));
-    expect(screen.queryAllByLabelText(/income2_aria/i).length).toBe(0);
-    expect(screen.queryAllByLabelText(/secondaryIncome2_aria/i).length).toBe(0);
+
+    // Wait for the state to update
+    await waitFor(() => {
+      expect(screen.queryAllByLabelText(/income2_aria/i).length).toBe(0);
+      expect(screen.queryAllByLabelText(/secondaryIncome2_aria/i).length).toBe(
+        0
+      );
+    });
 
     // Switch back to 2 adults (fields reappear, values should be 0)
     fireEvent.click(screen.getByLabelText(/two_adults/i));
-    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(0);
-    expect(screen.getAllByLabelText(/secondaryIncome2_aria/i)[0]).toHaveValue(
-      0
-    );
+
+    // Wait for the state to update and check values
+    await waitFor(() => {
+      const income2Field = screen.getAllByLabelText(/income2_aria/i)[0];
+      expect(income2Field).toHaveValue(0);
+
+      // Expand extra incomes again to check secondaryIncome2
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+      const secondaryIncome2Field = screen.getAllByLabelText(
+        /secondaryIncome2_aria/i
+      )[0];
+      expect(secondaryIncome2Field).toHaveValue(0);
+    });
   });
 
   it("initializes with provided values", () => {
@@ -384,7 +399,7 @@ describe("Income", () => {
         }}
       />
     );
-    const toggleButton = screen.getByText(/add_extra_incomes/i);
+    const toggleButton = screen.getByTestId("extra-incomes-toggle");
     expect(toggleButton).toHaveAttribute("aria-expanded", "false");
     fireEvent.click(toggleButton);
     expect(toggleButton).toHaveAttribute("aria-expanded", "true");

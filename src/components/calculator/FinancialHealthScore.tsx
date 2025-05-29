@@ -69,7 +69,7 @@ export function FinancialHealthScore({
                   aria-label={`Info: ${t("overall_score")}`}
                   className="focus:outline-none p-2 -m-2 bg-transparent flex items-center justify-center"
                 >
-                  <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
+                  <Info className="w-4 h-4 text-gray-300 hover:text-blue-500" />
                 </button>
               </TooltipTrigger>
               <TooltipContent
@@ -211,7 +211,7 @@ function MetricCard({
                     : undefined
                 }
               >
-                <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
+                <Info className="w-4 h-4 text-gray-300 hover:text-blue-500" />
               </button>
             </TooltipTrigger>
             <TooltipContent

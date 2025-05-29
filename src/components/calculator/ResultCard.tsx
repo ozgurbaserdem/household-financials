@@ -10,10 +10,11 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, TrendingUp, TrendingDown } from "lucide-react";
 import { calculateFinancialHealthScoreForResult } from "@/lib/calculations";
 import { FinancialHealthScore } from "./FinancialHealthScore";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import { motion } from "framer-motion";
 
 interface HeadCell {
   key: string;
@@ -29,11 +30,20 @@ interface ResultCardProps {
   result: CalculationResult;
   showTooltips: boolean;
   HEAD_CELLS: HeadCell[];
+  isBest?: boolean;
+  isWorst?: boolean;
 }
 
-function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
+function ResultCard({
+  result,
+  showTooltips,
+  HEAD_CELLS,
+  isBest,
+  isWorst,
+}: ResultCardProps) {
   const t = useTranslations("results");
   const [showAnimation, setShowAnimation] = useState(false);
+  const [showHealthScore, setShowHealthScore] = useState(false);
   const gridOrder = [
     "interest_rate",
     "amortization",
@@ -61,9 +71,8 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
           value={rawValue}
           className={cn(
             cell.key === "remaining_savings" && {
-              "text-green-600 dark:text-green-400":
-                result.remainingSavings >= 0,
-              "text-red-600 dark:text-red-400": result.remainingSavings < 0,
+              "text-green-400": result.remainingSavings >= 0,
+              "text-red-400": result.remainingSavings < 0,
             }
           )}
           format={cell.format}
@@ -74,8 +83,35 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
   };
 
   return (
-    <Box className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-3">
-      <Box className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
+    <Box
+      className={cn(
+        "glass p-4 rounded-xl transition-all duration-300",
+        "hover:bg-white/5 hover:border-white/20",
+        isBest && "border-green-500/30 bg-green-500/5",
+        isWorst && "border-red-500/30 bg-red-500/5"
+      )}
+    >
+      {/* Header Badge */}
+      {(isBest || isWorst) && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={cn(
+            "mb-3 px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1",
+            isBest && "bg-green-500/20 text-green-400",
+            isWorst && "bg-red-500/20 text-red-400"
+          )}
+        >
+          {isBest ? (
+            <TrendingUp className="w-3 h-3" />
+          ) : (
+            <TrendingDown className="w-3 h-3" />
+          )}
+          {isBest ? "Best Option" : "Highest Cost"}
+        </motion.div>
+      )}
+
+      <Box className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-3">
         {gridOrder.map((key) => {
           const cell = HEAD_CELLS.find((c) => c.key === key);
           if (!cell) return null;
@@ -83,10 +119,7 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
             <Box key={cell.key} className="flex flex-col relative">
               {showTooltips ? (
                 <Box className="flex items-center gap-2 relative">
-                  <Text
-                    className="text-sm text-gray-600 dark:text-gray-300"
-                    tabIndex={0}
-                  >
+                  <Text className="text-xs text-gray-300" tabIndex={0}>
                     {t(cell.key)}
                   </Text>
                   <Tooltip
@@ -103,7 +136,7 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
                         type="button"
                         tabIndex={0}
                         aria-label={t(cell.tooltipKey)}
-                        className="focus:outline-none p-2 -m-2 bg-transparent flex items-center justify-center"
+                        className="focus:outline-none p-1 -m-1 bg-transparent flex items-center justify-center hover:text-blue-400 transition-colors"
                         onClick={
                           isTouch
                             ? (e) => {
@@ -115,30 +148,28 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
                             : undefined
                         }
                       >
-                        <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
+                        <Info className="w-4 h-4 text-gray-300" />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent
                       side="top"
                       sideOffset={-8}
-                      className="z-50 max-w-xs p-3 text-xs"
+                      className="z-50 max-w-xs p-3 text-xs glass"
                     >
                       {t(cell.tooltipKey)}
                     </TooltipContent>
                   </Tooltip>
                 </Box>
               ) : (
-                <Text className="text-sm text-gray-600 dark:text-gray-300">
-                  {t(cell.key)}
-                </Text>
+                <Text className="text-xs text-gray-300">{t(cell.key)}</Text>
               )}
               <Text
                 className={cn(
-                  "font-medium",
+                  "font-medium text-white",
                   cell.key === "remaining_savings" && {
-                    "text-green-600 dark:text-green-400 font-bold":
+                    "text-green-400 font-bold text-lg":
                       result.remainingSavings >= 0,
-                    "text-red-600 dark:text-red-400 font-bold":
+                    "text-red-400 font-bold text-lg":
                       result.remainingSavings < 0,
                   }
                 )}
@@ -149,13 +180,40 @@ function ResultCard({ result, showTooltips, HEAD_CELLS }: ResultCardProps) {
           );
         })}
       </Box>
-      {/* Divider */}
-      <Box className="my-4 border-t border-gray-300 dark:border-gray-700" />
-      {/* Financial Health Score section */}
-      <FinancialHealthScore
-        score={calculateFinancialHealthScoreForResult(result)}
-        showTooltips={showTooltips}
-      />
+
+      {/* Toggle Financial Health Score */}
+      <Box className="mt-4 pt-4 border-t border-gray-800">
+        <button
+          onClick={() => setShowHealthScore(!showHealthScore)}
+          className="w-full text-left text-sm text-gray-300 hover:text-white transition-colors flex items-center justify-between group"
+        >
+          <span>
+            {showHealthScore
+              ? t("hide_financial_health_score_details")
+              : t("show_financial_health_score_details")}
+          </span>
+          <motion.div
+            animate={{ rotate: showHealthScore ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Info className="w-6 h-6 group-hover:text-blue-400" />
+          </motion.div>
+        </button>
+
+        {showHealthScore && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-4"
+          >
+            <FinancialHealthScore
+              score={calculateFinancialHealthScoreForResult(result)}
+              showTooltips={showTooltips}
+            />
+          </motion.div>
+        )}
+      </Box>
     </Box>
   );
 }
