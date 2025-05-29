@@ -4,7 +4,10 @@
     "main_article_label": "Hushållskalkyl",
     "main_article_desc": "Hushållskalkylen hjälper dig att förstå din ekonomi bättre",
     "guides": "Guider",
-    "budget_tools": "Budgetverktyg"
+    "budget_tools": "Budgetverktyg",
+    "compound_interest": "Ränta-på-Ränta",
+    "compound_interest_label": "Ränta-på-Ränta Kalkylator",
+    "compound_interest_desc": "Se hur dina investeringar växer genom sammansatt avkastning"
   },
   "loan_parameters": {
     "title": "Låneparametrar",
@@ -220,7 +223,12 @@
     "worst_scenario": "Sämsta scenariot",
     "at_interest_amortization": "@ {interest} / {amortization}",
     "best_option": "Bästa alternativet",
-    "worst_option": "Högsta kostnad"
+    "worst_option": "Högsta kostnad",
+    "compound_interest_cta": {
+      "title": "Maximera Ditt Sparande med Ränta på Ränta",
+      "description": "Du kan spara {savings} kr varje månad! Se hur mycket denna summa kan växa med ränta på ränta över tid.",
+      "button": "Beräkna Ränta på Ränta"
+    }
   },
   "export_import": {
     "export_csv": "Exportera CSV",
@@ -489,6 +497,80 @@
       "title": "Börja Skapa Din Hushållsbudget Idag",
       "subtitle": "Gå med i över 50,000 svenska familjer som redan använder Budgetkollen",
       "button": "Kom Igång Gratis Nu"
+    }
+  },
+  "compound_interest": {
+    "title": "Ränta på Ränta Kalkylator - Månadssparande & Långsiktigt Sparande",
+    "subtitle": "Beräkna ränta på ränta för ditt månadssparande. Se hur regelbundet sparande i fonder och aktier kan bygga betydande förmögenhet över tid genom sammansatt avkastning.",
+    "meta": {
+      "title": "Ränta-på-Ränta Kalkylator Gratis - Se Din Investering Växa | Budgetkollen",
+      "description": "Beräkna ränta-på-ränta och se hur dina investeringar växer över tid. Gratis ränta-på-ränta kalkylator med visuella diagram. Perfekt för långsiktig ekonomisk planering i Sverige.",
+      "keywords": "ränta på ränta kalkylator, investeringskalkylator, sparkalkylator, ekonomisk planering, långsiktigt sparande, förmögenhetsbyggande, investeringstillväxt, budgetkollen"
+    },
+    "intro": {
+      "title": "Magin med Ränta på Ränta och Månadssparande",
+      "description": "Ränta på ränta kallas ofta världens åttonde underverk. När du kombinerar månadssparande med ränta på ränta tjänar du avkastning inte bara på din ursprungliga investering, utan även på all avkastning du har samlat över tid. Detta skapar en snöbollseffekt som dramatiskt kan öka din förmögenhet på lång sikt.",
+      "einstein_quote": "\"Ränta-på-ränta är världens åttonde underverk. Den som förstår den, tjänar på den; den som inte gör det, betalar för den.\" - Ofta tillskrivet Albert Einstein",
+      "why_important": "Nyckeln till att maximera ränta på ränta är tid och konsistens. Genom månadssparande i aktiefonder, indexfonder eller ETF:er, även med små belopp, kan du bygga upp betydande förmögenhet. Den här kalkylatorn hjälper dig att visualisera exakt hur ditt månadssparande kan växa genom kraften i ränta på ränta.",
+      "connection_to_budget": "Efter att ha skapat din hushållsbudget med Budgetkollen kan du använda denna ränta på ränta kalkylator för att se hur ditt månadssparande kan växa. Perfekt för pensionssparande, barnsparande eller andra långsiktiga sparmål."
+    },
+    "calculator": {
+      "title": "Beräkna Ränta på Ränta & Månadssparande",
+      "description": "Justera värdena nedan för att se hur ditt månadssparande kan växa med ränta på ränta över tid"
+    },
+    "inputs": {
+      "start_sum_label": "Startbelopp (SEK)",
+      "start_sum_description": "Det initiala beloppet du har att investera",
+      "monthly_savings_label": "Månatligt Sparande (SEK)",
+      "monthly_savings_description": "Hur mycket du planerar att spara och investera varje månad",
+      "yearly_return_label": "Förväntad Årlig Avkastning (%)",
+      "yearly_return_description": "Den genomsnittliga årliga avkastningen du förväntar dig på dina investeringar",
+      "investment_horizon_label": "Investeringsperiod (År)",
+      "investment_horizon_description": "Hur länge du planerar att hålla dina pengar investerade"
+    },
+    "results": {
+      "title": "Din Investeringstillväxt",
+      "description": "Här är hur dina pengar kan växa över {years} år",
+      "total_value": "Total Portföljvärde",
+      "start_sum": "Initial Investering",
+      "total_savings": "Totalt Sparat Tillagt",
+      "compound_returns": "Investeringstillväxt",
+      "growth_summary": "Börjar med {startSum} och sparar {totalSavings} över {years} år, kan dina investeringar växa med {returns} för att nå ett totalt värde på {total}."
+    },
+    "chart": {
+      "title": "Investeringstillväxt Över Tid",
+      "description": "Se hur din portfölj växer genom sparande och sammansatt avkastning",
+      "aria_title": "Investeringstillväxt visualisering som visar fördelningen av portföljvärde över tid"
+    },
+    "legend": {
+      "start_sum": "Initial Investering",
+      "accumulated_savings": "Månatligt Sparande",
+      "compound_returns": "Investeringsavkastning"
+    },
+    "tooltip": {
+      "year": "År {year}",
+      "start_sum": "Initial Investering",
+      "accumulated_savings": "Totalt Sparat Tillagt",
+      "compound_returns": "Investeringstillväxt",
+      "total_value": "Total Portföljvärde"
+    },
+    "tips": {
+      "title": "Smarta Investeringstips",
+      "tip1": "Börja investera så tidigt som möjligt - tid är din största tillgång",
+      "tip2": "Investera regelbundet och konsekvent, oavsett marknadsförhållanden",
+      "tip3": "Diversifiera dina investeringar för att minska risken",
+      "tip4": "Håll dina investeringskostnader låga för att maximera avkastningen",
+      "tip5": "Håll dig investerad på lång sikt - panikera inte under marknadsnedgångar",
+      "tip6": "Återinvestera all utdelning och avkastning för att maximera sammansättningen"
+    },
+    "disclaimer": {
+      "title": "Viktig Ansvarsfriskrivning",
+      "text": "Denna kalkylator ger uppskattningar baserade på de indata du anger. Faktisk investeringsavkastning kan variera betydligt och tidigare resultat garanterar inte framtida resultat. Rådfråga alltid en finansiell rådgivare innan du fattar investeringsbeslut."
+    },
+    "cta": {
+      "title": "Redo att Börja Bygga Förmögenhet?",
+      "subtitle": "Använd vår hushållsbudget kalkylator för att hitta pengar du kan investera varje månad",
+      "button": "Skapa Din Budget"
     }
   }
 }

@@ -106,7 +106,7 @@ export function Forecast({ calculatorState }: ForecastProps) {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="glass p-4 rounded-lg border border-gray-700"
+          className="bg-gray-800/30 backdrop-blur-md p-4 rounded-lg border border-gray-600 shadow-lg space-y-2"
         >
           <p className="font-semibold mb-2 text-white">
             {t("year", { year: data.year })}

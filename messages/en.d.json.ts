@@ -224,7 +224,12 @@ declare const messages: {
     "worst_scenario": "Worst Scenario",
     "at_interest_amortization": "@ {interest} / {amortization}",
     "best_option": "Best Option",
-    "worst_option": "Highest Cost"
+    "worst_option": "Highest Cost",
+    "compound_interest_cta": {
+      "title": "Maximize Your Savings with Compound Interest",
+      "description": "You can save {savings} kr every month! See how much this amount can grow with compound interest over time.",
+      "button": "Calculate Compound Interest"
+    }
   },
   "export_import": {
     "export_csv": "Export CSV",
@@ -411,7 +416,10 @@ declare const messages: {
     "main_article_label": "Household Budget",
     "main_article_desc": "The household budget gives you control over your income and expenses",
     "guides": "Guides",
-    "budget_tools": "Budget Tools"
+    "budget_tools": "Budget Tools",
+    "compound_interest": "Compound Interest",
+    "compound_interest_label": "Compound Interest Calculator",
+    "compound_interest_desc": "See how your investments grow through the power of compounding"
   },
   "hushallsbudget": {
     "title": "Household Budget - Take Control of Your Family's Finances",
@@ -500,6 +508,80 @@ declare const messages: {
       "title": "Start Creating Your Household Budget Today",
       "subtitle": "Join over 50,000 Swedish families who already use Budgetkollen",
       "button": "Get Started Free Now"
+    }
+  },
+  "compound_interest": {
+    "title": "Compound Interest Calculator - The Power of Long-term Investing",
+    "subtitle": "Discover how consistent saving and compound interest can build substantial wealth over time. See the magic of compounding returns in action.",
+    "meta": {
+      "title": "Compound Interest Calculator Free - See Your Investment Growth | Budgetkollen",
+      "description": "Calculate compound interest and see how your investments grow over time. Free compound interest calculator with visual charts. Perfect for long-term financial planning in Sweden.",
+      "keywords": "compound interest calculator, investment calculator, savings calculator, financial planning, long-term investing, wealth building, investment growth, budgetkollen"
+    },
+    "intro": {
+      "title": "The Magic of Compound Interest",
+      "description": "Compound interest is often called the eighth wonder of the world. When you invest money, you earn returns not just on your original investment, but also on all the returns you've accumulated over time. This creates a snowball effect that can dramatically increase your wealth over the long term.",
+      "einstein_quote": "\"Compound interest is the eighth wonder of the world. He who understands it, earns it; he who doesn't, pays it.\" - Often attributed to Albert Einstein",
+      "why_important": "The key to maximizing compound interest is time and consistency. Starting early and investing regularly, even small amounts, can lead to substantial wealth accumulation. This calculator helps you visualize exactly how your money can grow through the power of compounding.",
+      "connection_to_budget": "After creating your household budget with Budgetkollen, you can use this compound interest calculator to see how your monthly savings surplus can grow into significant wealth over time."
+    },
+    "calculator": {
+      "title": "Compound Interest Calculator",
+      "description": "Adjust the values below to see how your investments can grow over time"
+    },
+    "inputs": {
+      "start_sum_label": "Starting Amount (SEK)",
+      "start_sum_description": "The initial amount you have to invest",
+      "monthly_savings_label": "Monthly Savings (SEK)",
+      "monthly_savings_description": "How much you plan to save and invest each month",
+      "yearly_return_label": "Expected Annual Return (%)",
+      "yearly_return_description": "The average yearly return you expect on your investments",
+      "investment_horizon_label": "Investment Period (Years)",
+      "investment_horizon_description": "How long you plan to keep your money invested"
+    },
+    "results": {
+      "title": "Your Investment Growth",
+      "description": "Here's how your money could grow over {years} years",
+      "total_value": "Total Portfolio Value",
+      "start_sum": "Initial Investment",
+      "total_savings": "Total Savings Added",
+      "compound_returns": "Investment Growth",
+      "growth_summary": "Starting with {startSum} and saving {totalSavings} over {years} years, your investments could grow by {returns} to reach a total value of {total}."
+    },
+    "chart": {
+      "title": "Investment Growth Over Time",
+      "description": "See how your portfolio grows through savings and compound returns",
+      "aria_title": "Investment growth visualization showing the breakdown of portfolio value over time"
+    },
+    "legend": {
+      "start_sum": "Initial Investment",
+      "accumulated_savings": "Monthly Savings",
+      "compound_returns": "Investment Returns"
+    },
+    "tooltip": {
+      "year": "Year {year}",
+      "start_sum": "Initial Investment",
+      "accumulated_savings": "Total Savings Added",
+      "compound_returns": "Investment Growth",
+      "total_value": "Total Portfolio Value"
+    },
+    "tips": {
+      "title": "Smart Investment Tips",
+      "tip1": "Start investing as early as possible - time is your greatest asset",
+      "tip2": "Invest regularly and consistently, regardless of market conditions",
+      "tip3": "Diversify your investments to reduce risk",
+      "tip4": "Keep your investment costs low to maximize returns",
+      "tip5": "Stay invested for the long term - don't panic during market downturns",
+      "tip6": "Reinvest all dividends and returns to maximize compounding"
+    },
+    "disclaimer": {
+      "title": "Important Disclaimer",
+      "text": "This calculator provides estimates based on the inputs you provide. Actual investment returns can vary significantly and past performance does not guarantee future results. Always consult with a financial advisor before making investment decisions."
+    },
+    "cta": {
+      "title": "Ready to Start Building Wealth?",
+      "subtitle": "Use our household budget calculator to find money you can invest each month",
+      "button": "Create Your Budget"
     }
   }
 };
