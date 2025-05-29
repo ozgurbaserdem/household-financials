@@ -94,6 +94,9 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
     [calculatorState]
   );
 
+  // Check if there's only one scenario
+  const isSingleScenario = results.length === 1;
+
   // Calculate summary statistics
   const bestScenario = results.reduce(
     (best, current) =>
@@ -107,12 +110,15 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
     results[0]
   );
 
-  // Always show best first, worst second, then the rest
-  const sortedResults = [
-    bestScenario,
-    worstScenario,
-    ...results.filter((r) => r !== bestScenario && r !== worstScenario),
-  ];
+  // For single scenario, just show the one result
+  // For multiple scenarios, show best first, worst second, then the rest
+  const sortedResults = isSingleScenario
+    ? results
+    : [
+        bestScenario,
+        worstScenario,
+        ...results.filter((r) => r !== bestScenario && r !== worstScenario),
+      ];
 
   return (
     <Card gradient glass delay={0.3}>
@@ -136,49 +142,53 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
       </CardHeader>
 
       <CardContent>
-        {/* Summary Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
-        >
-          <Box className="p-4 glass rounded-xl border border-green-500/20">
-            <Box className="flex items-center gap-3">
-              <TrendingUp className="w-5 h-5 text-green-400" />
-              <Text className="text-sm text-gray-300">
-                {t("best_scenario")}
+        {/* Summary Stats - Only show when there are multiple scenarios */}
+        {!isSingleScenario && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
+          >
+            <Box className="p-4 glass rounded-xl border border-green-500/20">
+              <Box className="flex items-center gap-3">
+                <TrendingUp className="w-5 h-5 text-green-400" />
+                <Text className="text-sm text-gray-300">
+                  {t("best_scenario")}
+                </Text>
+              </Box>
+              <Text className="text-2xl font-bold text-green-400 mt-2">
+                {formatCurrency(bestScenario.remainingSavings)}
+              </Text>
+              <Text className="text-xs text-gray-300 mt-1">
+                {t("at_interest_amortization", {
+                  interest: formatPercentage(bestScenario.interestRate),
+                  amortization: formatPercentage(bestScenario.amortizationRate),
+                })}
               </Text>
             </Box>
-            <Text className="text-2xl font-bold text-green-400 mt-2">
-              {formatCurrency(bestScenario.remainingSavings)}
-            </Text>
-            <Text className="text-xs text-gray-300 mt-1">
-              {t("at_interest_amortization", {
-                interest: formatPercentage(bestScenario.interestRate),
-                amortization: formatPercentage(bestScenario.amortizationRate),
-              })}
-            </Text>
-          </Box>
 
-          <Box className="p-4 glass rounded-xl border border-red-500/20">
-            <Box className="flex items-center gap-3">
-              <TrendingDown className="w-5 h-5 text-red-400" />
-              <Text className="text-sm text-gray-300">
-                {t("worst_scenario")}
+            <Box className="p-4 glass rounded-xl border border-red-500/20">
+              <Box className="flex items-center gap-3">
+                <TrendingDown className="w-5 h-5 text-red-400" />
+                <Text className="text-sm text-gray-300">
+                  {t("worst_scenario")}
+                </Text>
+              </Box>
+              <Text className="text-2xl font-bold text-red-400 mt-2">
+                {formatCurrency(worstScenario.remainingSavings)}
+              </Text>
+              <Text className="text-xs text-gray-300 mt-1">
+                {t("at_interest_amortization", {
+                  interest: formatPercentage(worstScenario.interestRate),
+                  amortization: formatPercentage(
+                    worstScenario.amortizationRate
+                  ),
+                })}
               </Text>
             </Box>
-            <Text className="text-2xl font-bold text-red-400 mt-2">
-              {formatCurrency(worstScenario.remainingSavings)}
-            </Text>
-            <Text className="text-xs text-gray-300 mt-1">
-              {t("at_interest_amortization", {
-                interest: formatPercentage(worstScenario.interestRate),
-                amortization: formatPercentage(worstScenario.amortizationRate),
-              })}
-            </Text>
-          </Box>
-        </motion.div>
+          </motion.div>
+        )}
 
         {/* Results Grid */}
         <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -193,8 +203,8 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
                 result={result}
                 showTooltips={index === 0}
                 HEAD_CELLS={HEAD_CELLS}
-                isBest={result === bestScenario}
-                isWorst={result === worstScenario}
+                isBest={!isSingleScenario && result === bestScenario}
+                isWorst={!isSingleScenario && result === worstScenario}
               />
             </motion.div>
           ))}

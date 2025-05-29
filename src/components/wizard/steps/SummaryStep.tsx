@@ -165,11 +165,16 @@ export function SummaryStep() {
   const totalIncome = incomeRows
     .filter((row) => row.label !== tSummary("currentBuffer"))
     .reduce((sum, row) => sum + (row.net || row.value), 0);
-  const monthlyPayment =
-    loanParameters.amount *
-    ((loanParameters.interestRates[0] + loanParameters.amortizationRates[0]) /
-      100 /
-      12);
+  const hasLoan =
+    loanParameters.amount > 0 &&
+    loanParameters.interestRates.length > 0 &&
+    loanParameters.amortizationRates.length > 0;
+  const monthlyPayment = hasLoan
+    ? loanParameters.amount *
+      ((loanParameters.interestRates[0] + loanParameters.amortizationRates[0]) /
+        100 /
+        12)
+    : 0;
 
   const nonZeroExpenses = expenseTotals.filter((e) => e.total > 0);
   const topExpenses = nonZeroExpenses
@@ -304,7 +309,7 @@ export function SummaryStep() {
               </Text>
             </Box>
             <Text className="text-2xl font-bold text-orange-400">
-              {formatCurrency(monthlyPayment)}
+              {hasLoan ? formatCurrency(monthlyPayment) : "-"}
             </Text>
             <Text className="text-base text-gray-200 font-medium mt-1">
               {tSummary("per_month")}
@@ -349,7 +354,7 @@ export function SummaryStep() {
               </Text>
             }
           >
-            <Box className="space-y-3">
+            <Box className="space-y-3" data-testid="income-content">
               {incomeRows.map((row, i) => (
                 <motion.div
                   key={i}
@@ -388,27 +393,33 @@ export function SummaryStep() {
             sectionKey="loans"
           >
             <Box className="space-y-3">
-              {loanRows.map((row, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
-                >
-                  <Box className="flex items-center gap-3">
-                    <Box className="p-1.5 rounded-md bg-gray-800/50">
-                      {row.icon}
+              {hasLoan ? (
+                loanRows.map((row, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
+                  >
+                    <Box className="flex items-center gap-3">
+                      <Box className="p-1.5 rounded-md bg-gray-800/50">
+                        {row.icon}
+                      </Box>
+                      <Text className="text-sm text-gray-300">{row.label}</Text>
                     </Box>
-                    <Text className="text-sm text-gray-300">{row.label}</Text>
-                  </Box>
-                  <Text className="font-medium text-white">
-                    {row.label === tSummary("loanAmount")
-                      ? formatCurrency(row.value)
-                      : `${row.value}%`}
-                  </Text>
-                </motion.div>
-              ))}
+                    <Text className="font-medium text-white">
+                      {row.label === tSummary("loanAmount")
+                        ? formatCurrency(row.value)
+                        : `${row.value}%`}
+                    </Text>
+                  </motion.div>
+                ))
+              ) : (
+                <Text className="text-sm text-gray-400 text-center py-4">
+                  {tSummary("no_loan")}
+                </Text>
+              )}
             </Box>
           </SectionCard>
 

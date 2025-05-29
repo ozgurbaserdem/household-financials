@@ -15,7 +15,11 @@ declare const messages: {
     "amortization_rates_aria": "Select one or more amortization rates",
     "estimated_monthly_payment": "Estimated monthly payment",
     "monthly": "Monthly",
-    "total_interest": "Total interest"
+    "total_interest": "Total interest",
+    "no_loan": "I don't have any loans",
+    "has_loan": "I have loans",
+    "validation_rates_required": "Please select at least one interest rate and one amortization rate when entering a loan amount",
+    "validation_loan_amount_required": "Please enter a loan amount when selecting rates"
   },
   "dialog": {
     "close": "Close",
@@ -351,7 +355,8 @@ declare const messages: {
     "adults": "adults",
     "adult": "adult",
     "estimated_monthly_surplus": "Estimated Monthly Surplus",
-    "estimated_monthly_deficit": "Estimated Monthly Deficit"
+    "estimated_monthly_deficit": "Estimated Monthly Deficit",
+    "no_loan": "No loans"
   },
   "hushallskalkyl": {
     "title": "Household Budget & Calculator",

@@ -59,6 +59,35 @@ export function calculateLoanScenarios(
 
   const scenarios: CalculationResult[] = [];
 
+  // Handle case where there are no loans
+  if (
+    amount === 0 ||
+    interestRates.length === 0 ||
+    amortizationRates.length === 0
+  ) {
+    // Return a single scenario with no loan payments
+    scenarios.push({
+      interestRate: 0,
+      amortizationRate: 0,
+      monthlyInterest: 0,
+      monthlyAmortization: 0,
+      totalHousingCost: selectedHousingExpenses,
+      totalExpenses: selectedHousingExpenses + totalOtherExpenses,
+      remainingSavings:
+        totalIncome - (selectedHousingExpenses + totalOtherExpenses),
+      income1Net: getNetIncome(income.income1),
+      income2Net: getNetIncome(income.income2),
+      secondaryIncome1Net: getNetIncome(income.secondaryIncome1, true),
+      secondaryIncome2Net: getNetIncome(income.secondaryIncome2, true),
+      childBenefits: income.childBenefits,
+      otherBenefits: income.otherBenefits,
+      otherIncomes: income.otherIncomes,
+      currentBuffer: income.currentBuffer,
+      totalIncome: totalIncomeObj,
+    });
+    return scenarios;
+  }
+
   for (const interestRate of interestRates) {
     for (const amortizationRate of amortizationRates) {
       // Fix: Round the calculations to 2 decimal places

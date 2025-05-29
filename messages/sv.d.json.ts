@@ -22,7 +22,11 @@ declare const messages: {
     "amortization_rates_aria": "Välj en eller flera amorteringssatser",
     "estimated_monthly_payment": "Beräknad månadskostnad",
     "monthly": "Månadskostnad",
-    "total_interest": "Total ränta"
+    "total_interest": "Total ränta",
+    "no_loan": "Jag har inga lån",
+    "has_loan": "Jag har lån",
+    "validation_rates_required": "Välj minst en räntesats och en amorteringssats när du anger ett lånebelopp",
+    "validation_loan_amount_required": "Ange ett lånebelopp när du väljer räntor"
   },
   "dialog_hushallskalkyl": {
     "close": "Stäng",
@@ -350,7 +354,8 @@ declare const messages: {
     "adults": "vuxna",
     "adult": "vuxen",
     "estimated_monthly_surplus": "Beräknat månadsöverskott",
-    "estimated_monthly_deficit": "Beräknat månadsunderskott"
+    "estimated_monthly_deficit": "Beräknat månadsunderskott",
+    "no_loan": "Inga lån"
   },
   "hushallskalkyl": {
     "title": "Hushållskalkyl & Hushållsbudget",

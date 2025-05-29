@@ -18,6 +18,7 @@ import {
   getStepName,
   getStepIndexFromName,
 } from "@/utils/navigation";
+import { useAppSelector } from "@/store/hooks";
 
 const WizardContext = createContext<WizardContextProps | undefined>(undefined);
 
@@ -102,9 +103,38 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
     }
   }, [pathname, searchParams, stepIndex, locale]);
 
-  const goNext = () => setStepIndex((i) => Math.min(i + 1, steps.length - 1));
+  // Get loan state for validation
+  const loanParameters = useAppSelector((state) => state.loanParameters);
+
+  const canNavigateFromLoans = () => {
+    // If no loan amount, always allow navigation
+    if (loanParameters.amount === 0) return true;
+
+    // If loan amount > 0, require at least one rate of each type
+    return (
+      loanParameters.interestRates.length > 0 &&
+      loanParameters.amortizationRates.length > 0
+    );
+  };
+
+  const goNext = () => {
+    // Validate loan step before moving forward
+    if (stepIndex === 1 && !canNavigateFromLoans()) {
+      // Don't navigate if validation fails
+      return;
+    }
+    setStepIndex((i) => Math.min(i + 1, steps.length - 1));
+  };
+
   const goBack = () => setStepIndex((i) => Math.max(i - 1, 0));
-  const handleStepClick = (idx: number) => setStepIndex(idx);
+
+  const handleStepClick = (idx: number) => {
+    // If trying to navigate past loans step, validate
+    if (stepIndex === 1 && idx > 1 && !canNavigateFromLoans()) {
+      return;
+    }
+    setStepIndex(idx);
+  };
 
   return (
     <WizardContext.Provider
