@@ -107,11 +107,11 @@ describe("Compound Interest Calculations - Integration Tests", () => {
 
       expect(result).toHaveLength(50);
       const finalYear = result[49];
-      
+
       // Should produce finite values
       expect(Number.isFinite(finalYear.totalValue)).toBe(true);
       expect(Number.isFinite(finalYear.compoundReturns)).toBe(true);
-      
+
       // Should not be NaN or Infinity
       expect(finalYear.totalValue).not.toBe(Infinity);
       expect(finalYear.totalValue).not.toBe(NaN);
@@ -192,7 +192,7 @@ describe("Compound Interest Calculations - Integration Tests", () => {
       // With 700% return, the values would be astronomical compared to realistic 7%
       // This test will fail if someone accidentally passes percentages
       expect(finalYear.totalValue).toBeGreaterThan(100000000); // Would be over 100 million
-      
+
       // This serves as documentation that our component MUST convert percentages to decimals
       // The component should pass 0.07, not 7
     });
@@ -245,10 +245,13 @@ describe("Compound Interest Calculations - Integration Tests", () => {
       };
 
       const result = calculateCompoundInterest(inputs);
-      
-      result.forEach(year => {
-        const calculatedReturns = year.totalValue - year.startSum - year.accumulatedSavings;
-        expect(Math.abs(year.compoundReturns - calculatedReturns)).toBeLessThan(0.01); // Allow tiny rounding differences
+
+      result.forEach((year) => {
+        const calculatedReturns =
+          year.totalValue - year.startSum - year.accumulatedSavings;
+        expect(Math.abs(year.compoundReturns - calculatedReturns)).toBeLessThan(
+          0.01
+        ); // Allow tiny rounding differences
       });
     });
   });

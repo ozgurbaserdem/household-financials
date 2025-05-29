@@ -258,7 +258,7 @@ describe("CompoundInterestCalculator", () => {
     // Set realistic values: 100k start, 5k monthly, 7% return, 10 years
     const sliders = screen.getAllByRole("slider");
     fireEvent.change(sliders[0], { target: { value: "100000" } }); // Start sum
-    fireEvent.change(sliders[1], { target: { value: "5000" } }); // Monthly savings  
+    fireEvent.change(sliders[1], { target: { value: "5000" } }); // Monthly savings
     fireEvent.change(sliders[2], { target: { value: "7" } }); // 7% return
     fireEvent.change(sliders[3], { target: { value: "10" } }); // 10 years
 
@@ -266,7 +266,7 @@ describe("CompoundInterestCalculator", () => {
       // With 7% annual return, the total should be reasonable (not astronomical)
       // This test would have failed with the old bug since 7% was treated as 700%
       const totalElements = screen.getAllByText(/kr/);
-      const hasReasonableValues = totalElements.some(el => {
+      const hasReasonableValues = totalElements.some((el) => {
         const text = el.textContent || "";
         const numbers = text.replace(/[^\d]/g, "");
         if (numbers.length > 0) {
@@ -285,14 +285,14 @@ describe("CompoundInterestCalculator", () => {
 
     // Test various percentage values
     const returnSlider = screen.getByLabelText(/yearly_return_label/i);
-    
+
     // Test 15% (maximum allowed)
     fireEvent.change(returnSlider, { target: { value: "15" } });
 
     await waitFor(() => {
       // Even with maximum 15% return, values should never exceed reasonable bounds
       const totalElements = screen.getAllByText(/kr/);
-      const hasAstronomicalValues = totalElements.some(el => {
+      const hasAstronomicalValues = totalElements.some((el) => {
         const text = el.textContent || "";
         const numbers = text.replace(/[^\d]/g, "");
         if (numbers.length > 0) {
@@ -335,9 +335,13 @@ describe("CompoundInterestCalculator", () => {
     await waitFor(() => {
       // Should still show finite, reasonable values (not Infinity or astronomical numbers)
       const totalElements = screen.getAllByText(/kr/);
-      const hasValidValues = totalElements.some(el => {
+      const hasValidValues = totalElements.some((el) => {
         const text = el.textContent || "";
-        return text.includes("kr") && !text.includes("Infinity") && !text.includes("NaN");
+        return (
+          text.includes("kr") &&
+          !text.includes("Infinity") &&
+          !text.includes("NaN")
+        );
       });
       expect(hasValidValues).toBe(true);
     });
@@ -357,12 +361,12 @@ describe("CompoundInterestCalculator", () => {
       // With proper percentage conversion (10% = 0.10), the total should be around 100k-200k
       // If the bug existed (10% = 10.0), the value would be astronomical
       const totalElements = screen.getAllByText(/kr/);
-      const hasReasonableGrowth = totalElements.some(el => {
+      const hasReasonableGrowth = totalElements.some((el) => {
         const text = el.textContent || "";
         const numbers = text.replace(/[^\d]/g, "");
         if (numbers.length > 0) {
           const value = parseInt(numbers);
-          // For 10k start + 1k monthly + 10% return over 5 years, 
+          // For 10k start + 1k monthly + 10% return over 5 years,
           // realistic total should be roughly 80k-300k kr
           return value >= 70000 && value <= 500000;
         }
