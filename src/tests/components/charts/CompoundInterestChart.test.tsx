@@ -1,3 +1,4 @@
+import React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { CompoundInterestChart } from "@/components/charts/CompoundInterestChart";
@@ -5,32 +6,48 @@ import type { CompoundInterestData } from "@/lib/compound-interest";
 
 // Mock recharts to avoid rendering issues in tests
 vi.mock("recharts", () => ({
-  ResponsiveContainer: ({ children }: any) => (
+  ResponsiveContainer: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="responsive-container">{children}</div>
   ),
-  BarChart: ({ children, data }: any) => (
+  BarChart: ({
+    children,
+    data,
+  }: {
+    children: React.ReactNode;
+    data: unknown;
+  }) => (
     <div data-testid="bar-chart" data-chart-data={JSON.stringify(data)}>
       {children}
     </div>
   ),
-  Bar: ({ dataKey, stackId, fill }: any) => (
+  Bar: ({
+    dataKey,
+    stackId,
+    fill,
+  }: {
+    dataKey: string;
+    stackId: string;
+    fill: string;
+  }) => (
     <div
       data-testid={`bar-${dataKey}`}
       data-stack-id={stackId}
       data-fill={fill}
     />
   ),
-  XAxis: ({ dataKey }: any) => <div data-testid="x-axis" data-key={dataKey} />,
-  YAxis: ({ tickFormatter }: any) => (
+  XAxis: ({ dataKey }: { dataKey: string }) => (
+    <div data-testid="x-axis" data-key={dataKey} />
+  ),
+  YAxis: ({ tickFormatter }: { tickFormatter?: () => string }) => (
     <div
       data-testid="y-axis"
       data-formatter={tickFormatter ? "custom" : "default"}
     />
   ),
-  Tooltip: ({ content }: any) => (
+  Tooltip: ({ content }: { content?: React.ComponentType }) => (
     <div data-testid="tooltip" data-custom={content ? "true" : "false"} />
   ),
-  Legend: ({ content }: any) => (
+  Legend: ({ content }: { content?: React.ComponentType }) => (
     <div data-testid="legend" data-custom={content ? "true" : "false"} />
   ),
   CartesianGrid: () => <div data-testid="cartesian-grid" />,
