@@ -232,13 +232,13 @@ async function CompoundInterestContent() {
                   />
                   <div className="flex-1 relative">
                     <div className="text-6xl text-purple-400/30 font-serif absolute -top-4 -left-2">
-                      "
+                      &ldquo;
                     </div>
                     <Text className="text-gray-300 italic text-lg leading-relaxed pl-8 pt-2">
                       {t("intro.einstein_quote")}
                     </Text>
                     <div className="text-6xl text-purple-400/30 font-serif absolute -bottom-6 right-0">
-                      "
+                      &rdquo;
                     </div>
                     <Text className="text-gray-400 text-sm mt-4 pl-8">
                       — {t("intro.einstein_attribution")}
