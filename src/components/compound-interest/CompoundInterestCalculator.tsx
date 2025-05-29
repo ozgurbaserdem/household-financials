@@ -108,11 +108,17 @@ export function CompoundInterestCalculator() {
   ];
 
   const chartData = useMemo(() => {
-    return calculateCompoundInterest(inputs);
+    return calculateCompoundInterest({
+      ...inputs,
+      yearlyReturn: inputs.yearlyReturn / 100, // Convert percentage to decimal
+    });
   }, [inputs]);
 
   const finalValues = useMemo(() => {
-    return calculateFinalValues(inputs);
+    return calculateFinalValues({
+      ...inputs,
+      yearlyReturn: inputs.yearlyReturn / 100, // Convert percentage to decimal
+    });
   }, [inputs]);
 
   const handleInputChange = (

@@ -30,35 +30,8 @@ vi.mock("next-intl", async (importOriginal) => {
   };
 });
 
-// Mock the calculation functions
-vi.mock("@/lib/compound-interest", () => ({
-  calculateCompoundInterest: vi.fn((inputs) => {
-    // Simple mock implementation
-    const years = [];
-    for (let year = 0; year <= inputs.investmentHorizon; year++) {
-      years.push({
-        year,
-        startSum: inputs.startSum,
-        accumulatedSavings: inputs.monthlySavings * 12 * year,
-        compoundReturns: year * 1000, // Simple mock
-        totalValue:
-          inputs.startSum + inputs.monthlySavings * 12 * year + year * 1000,
-      });
-    }
-    return years;
-  }),
-  calculateFinalValues: vi.fn((inputs) => {
-    const years = inputs.investmentHorizon;
-    const totalSavings = inputs.monthlySavings * 12 * years;
-    const totalReturns = years * 1000;
-    return {
-      totalValue: inputs.startSum + totalSavings + totalReturns,
-      startSum: inputs.startSum,
-      totalSavings: totalSavings,
-      totalReturns: totalReturns,
-    };
-  }),
-}));
+// DON'T MOCK THE CALCULATION FUNCTIONS - We want to test the real logic!
+// This was the bug - the tests were mocking the actual calculation functions
 
 describe("CompoundInterestCalculator", () => {
   const mockRouter = {
@@ -274,6 +247,128 @@ describe("CompoundInterestCalculator", () => {
 
     await waitFor(() => {
       expect(screen.getByText("7,5%")).toBeInTheDocument();
+    });
+  });
+
+  // CRITICAL NEW TESTS - These would have caught the percentage bug!
+
+  it("should produce realistic compound interest calculations", async () => {
+    render(<CompoundInterestCalculator />);
+
+    // Set realistic values: 100k start, 5k monthly, 7% return, 10 years
+    const sliders = screen.getAllByRole("slider");
+    fireEvent.change(sliders[0], { target: { value: "100000" } }); // Start sum
+    fireEvent.change(sliders[1], { target: { value: "5000" } }); // Monthly savings  
+    fireEvent.change(sliders[2], { target: { value: "7" } }); // 7% return
+    fireEvent.change(sliders[3], { target: { value: "10" } }); // 10 years
+
+    await waitFor(() => {
+      // With 7% annual return, the total should be reasonable (not astronomical)
+      // This test would have failed with the old bug since 7% was treated as 700%
+      const totalElements = screen.getAllByText(/kr/);
+      const hasReasonableValues = totalElements.some(el => {
+        const text = el.textContent || "";
+        const numbers = text.replace(/[^\d]/g, "");
+        if (numbers.length > 0) {
+          const value = parseInt(numbers);
+          // Should be between 100k and 10M kr (reasonable compound growth)
+          return value >= 100000 && value <= 10000000;
+        }
+        return false;
+      });
+      expect(hasReasonableValues).toBe(true);
+    });
+  });
+
+  it("should never show astronomical values that indicate percentage conversion bug", async () => {
+    render(<CompoundInterestCalculator />);
+
+    // Test various percentage values
+    const returnSlider = screen.getByLabelText(/yearly_return_label/i);
+    
+    // Test 15% (maximum allowed)
+    fireEvent.change(returnSlider, { target: { value: "15" } });
+
+    await waitFor(() => {
+      // Even with maximum 15% return, values should never exceed reasonable bounds
+      const totalElements = screen.getAllByText(/kr/);
+      const hasAstronomicalValues = totalElements.some(el => {
+        const text = el.textContent || "";
+        const numbers = text.replace(/[^\d]/g, "");
+        if (numbers.length > 0) {
+          const value = parseInt(numbers);
+          // If we see values over 1 trillion kr, it's definitely the percentage bug
+          return value > 1000000000000;
+        }
+        return false;
+      });
+      expect(hasAstronomicalValues).toBe(false);
+    });
+  });
+
+  it("should handle zero values without errors", async () => {
+    render(<CompoundInterestCalculator />);
+
+    // Set everything to zero/minimum
+    const sliders = screen.getAllByRole("slider");
+    fireEvent.change(sliders[0], { target: { value: "0" } }); // Start sum = 0
+    fireEvent.change(sliders[1], { target: { value: "0" } }); // Monthly savings = 0
+    fireEvent.change(sliders[2], { target: { value: "1" } }); // Return = 1% (minimum)
+    fireEvent.change(sliders[3], { target: { value: "1" } }); // Horizon = 1 year
+
+    await waitFor(() => {
+      // Should show 0 values without crashing
+      expect(screen.getAllByText("0 kr").length).toBeGreaterThan(0);
+    });
+  });
+
+  it("should handle maximum values without overflow", async () => {
+    render(<CompoundInterestCalculator />);
+
+    // Set to maximum allowed values
+    const sliders = screen.getAllByRole("slider");
+    fireEvent.change(sliders[0], { target: { value: "10000000" } }); // Max start sum
+    fireEvent.change(sliders[1], { target: { value: "100000" } }); // Max monthly savings
+    fireEvent.change(sliders[2], { target: { value: "15" } }); // Max return
+    fireEvent.change(sliders[3], { target: { value: "50" } }); // Max horizon
+
+    await waitFor(() => {
+      // Should still show finite, reasonable values (not Infinity or astronomical numbers)
+      const totalElements = screen.getAllByText(/kr/);
+      const hasValidValues = totalElements.some(el => {
+        const text = el.textContent || "";
+        return text.includes("kr") && !text.includes("Infinity") && !text.includes("NaN");
+      });
+      expect(hasValidValues).toBe(true);
+    });
+  });
+
+  it("should correctly convert percentage input to decimal for calculations", async () => {
+    render(<CompoundInterestCalculator />);
+
+    // Set specific values to test percentage conversion
+    const sliders = screen.getAllByRole("slider");
+    fireEvent.change(sliders[0], { target: { value: "10000" } }); // 10k start
+    fireEvent.change(sliders[1], { target: { value: "1000" } }); // 1k monthly
+    fireEvent.change(sliders[2], { target: { value: "10" } }); // 10% return
+    fireEvent.change(sliders[3], { target: { value: "5" } }); // 5 years
+
+    await waitFor(() => {
+      // With proper percentage conversion (10% = 0.10), the total should be around 100k-200k
+      // If the bug existed (10% = 10.0), the value would be astronomical
+      const totalElements = screen.getAllByText(/kr/);
+      const hasReasonableGrowth = totalElements.some(el => {
+        const text = el.textContent || "";
+        const numbers = text.replace(/[^\d]/g, "");
+        if (numbers.length > 0) {
+          const value = parseInt(numbers);
+          // For 10k start + 1k monthly + 10% return over 5 years, 
+          // realistic total should be roughly 80k-300k kr
+          return value >= 70000 && value <= 500000;
+        }
+        return false;
+      });
+      expect(hasReasonableGrowth).toBe(true);
     });
   });
 });

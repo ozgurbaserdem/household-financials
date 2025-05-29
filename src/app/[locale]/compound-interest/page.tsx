@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 import { CompoundInterestCalculator } from "@/components/compound-interest/CompoundInterestCalculator";
 import {
   Card,
@@ -219,11 +220,28 @@ async function CompoundInterestContent() {
                 {t("intro.description")}
               </Text>
 
-              <Box className="p-4 glass rounded-lg border-l-4 border-purple-500">
-                <Text className="text-gray-300 italic">
-                  {t("intro.einstein_quote")}
-                </Text>
-              </Box>
+              <div className="relative py-6 px-4">
+                <div className="flex items-start gap-6">
+                  <Image
+                    src="/einstein-optimized.png"
+                    alt="Albert Einstein"
+                    width={80}
+                    height={80}
+                    className="rounded-full object-cover grayscale flex-shrink-0 ring-2 ring-purple-500/20"
+                    priority
+                  />
+                  <div className="flex-1 relative">
+                    <div className="text-6xl text-purple-400/30 font-serif absolute -top-4 -left-2">"</div>
+                    <Text className="text-gray-300 italic text-lg leading-relaxed pl-8 pt-2">
+                      {t("intro.einstein_quote")}
+                    </Text>
+                    <div className="text-6xl text-purple-400/30 font-serif absolute -bottom-6 right-0">"</div>
+                    <Text className="text-gray-400 text-sm mt-4 pl-8">
+                      — {t("intro.einstein_attribution")}
+                    </Text>
+                  </div>
+                </div>
+              </div>
 
               <Text className="text-gray-300 leading-relaxed">
                 {t("intro.why_important")}

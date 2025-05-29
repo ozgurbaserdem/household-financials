@@ -521,7 +521,8 @@ declare const messages: {
     "intro": {
       "title": "The Magic of Compound Interest",
       "description": "Compound interest is often called the eighth wonder of the world. When you invest money, you earn returns not just on your original investment, but also on all the returns you've accumulated over time. This creates a snowball effect that can dramatically increase your wealth over the long term.",
-      "einstein_quote": "\"Compound interest is the eighth wonder of the world. He who understands it, earns it; he who doesn't, pays it.\" - Often attributed to Albert Einstein",
+      "einstein_quote": "Compound interest is the eighth wonder of the world. He who understands it, earns it; he who doesn't, pays it.",
+      "einstein_attribution": "Often attributed to Albert Einstein",
       "why_important": "The key to maximizing compound interest is time and consistency. Starting early and investing regularly, even small amounts, can lead to substantial wealth accumulation. This calculator helps you visualize exactly how your money can grow through the power of compounding.",
       "connection_to_budget": "After creating your household budget with Budgetkollen, you can use this compound interest calculator to see how your monthly savings surplus can grow into significant wealth over time."
     },
