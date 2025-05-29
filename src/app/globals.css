@@ -1,6 +1,16 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Prevent layout shift when scrollbar appears */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* For better cross-browser support */
+body {
+  overflow-y: scroll;
+}
+
 :root {
   --font-space-grotesk: "Space Grotesk", sans-serif;
 
@@ -20,6 +30,11 @@
   /* Dark mode adjustments */
   --dark-glass-bg: rgba(255, 255, 255, 0.06);
   --dark-glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* Scrollbar gutter to prevent layout shift */
+.scrollbar-gutter-stable {
+  scrollbar-gutter: stable;
 }
 
 /* Custom scrollbar */

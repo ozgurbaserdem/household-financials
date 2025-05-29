@@ -255,7 +255,7 @@ export default async function LocaleLayout({
           href="https://www.budgetkollen.se/sv"
         />
       </head>
-      <body className={spaceGrotesk.className}>
+      <body className={`${spaceGrotesk.className} scrollbar-gutter-stable`}>
         <NextIntlClientProvider
           locale={locale}
           messages={messages}

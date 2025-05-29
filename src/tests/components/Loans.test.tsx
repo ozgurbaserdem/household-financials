@@ -305,7 +305,7 @@ describe("Loans", () => {
 
     // Check that the no loan button is active (has default variant)
     const noLoanButton = screen.getByRole("button", { name: "no_loan" });
-    expect(noLoanButton).toHaveClass("bg-blue-600");
+    expect(noLoanButton).toHaveClass("from-blue-600");
 
     // Loan fields should not be visible
     expect(
