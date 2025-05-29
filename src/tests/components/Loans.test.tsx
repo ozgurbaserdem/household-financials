@@ -178,11 +178,11 @@ describe("Loans", () => {
 
     // First toggle to has loan
     fireEvent.click(screen.getByRole("button", { name: "has_loan" }));
-    
+
     // Enter loan amount to trigger validation
     const loanInput = screen.getByLabelText(/loan_amount_aria/i);
     fireEvent.change(loanInput, { target: { value: "1000000" } });
-    
+
     // Should show validation error after entering amount without rates
     await waitFor(() => {
       expect(screen.getByText("validation_rates_required")).toBeInTheDocument();
@@ -262,7 +262,7 @@ describe("Loans", () => {
 
     // Click on the interest rate labels (which contain the checkboxes)
     const interestRateLabels = screen.getAllByText(/^\d+(\.\d+)?%$/);
-    
+
     // Find and click 3%, 3.5%, and 4% for interest rates (first set of rates)
     fireEvent.click(interestRateLabels[5].parentElement!); // 3%
     fireEvent.click(interestRateLabels[6].parentElement!); // 3.5%
@@ -277,13 +277,15 @@ describe("Loans", () => {
       expect(mockOnChange).toHaveBeenCalled();
       // Check the most recent call contains our selections
       const calls = mockOnChange.mock.calls;
-      const hasAllRates = calls.some(call => {
+      const hasAllRates = calls.some((call) => {
         const { interestRates, amortizationRates } = call[0];
-        return interestRates.includes(3) && 
-               interestRates.includes(3.5) && 
-               interestRates.includes(4) &&
-               amortizationRates.includes(2) && 
-               amortizationRates.includes(3);
+        return (
+          interestRates.includes(3) &&
+          interestRates.includes(3.5) &&
+          interestRates.includes(4) &&
+          amortizationRates.includes(2) &&
+          amortizationRates.includes(3)
+        );
       });
       expect(hasAllRates).toBeTruthy();
     });
@@ -304,7 +306,7 @@ describe("Loans", () => {
     // Check that the no loan button is active (has default variant)
     const noLoanButton = screen.getByRole("button", { name: "no_loan" });
     expect(noLoanButton).toHaveClass("bg-blue-600");
-    
+
     // Loan fields should not be visible
     expect(
       screen.queryByLabelText(/loan_amount_aria/i)
