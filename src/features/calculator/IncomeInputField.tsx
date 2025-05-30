@@ -40,6 +40,7 @@ function IncomeInputField({
               type="number"
               min={0}
               {...field}
+              value={typeof field.value === "number" ? field.value : 0}
               aria-label={ariaLabel}
               onChange={(e) => field.onChange(Number(e.target.value))}
               onBlur={onBlur}
