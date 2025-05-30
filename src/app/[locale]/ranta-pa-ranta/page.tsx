@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import { CompoundInterestCalculator } from "@/components/compound-interest/CompoundInterestCalculator";
+import { CompoundInterestCalculator } from "@/features/compound-interest/CompoundInterestCalculator";
 import {
   Card,
   CardHeader,
@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { TrendingUp, AlertTriangle, Lightbulb } from "lucide-react";
 import { Main } from "@/components/ui/main";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/shared/Navbar";
 
 interface PageProps {
   params: Promise<{ locale: string }>;

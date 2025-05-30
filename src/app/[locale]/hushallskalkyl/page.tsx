@@ -2,8 +2,8 @@
 
 import { Main } from "@/components/ui/main";
 import { Box } from "@/components/ui/box";
-import { Navbar } from "@/components/Navbar";
-import HushallskalkylContent from "@/components/hushallskalkyl/HushallskalkylContent";
+import { Navbar } from "@/components/shared/Navbar";
+import HushallskalkylContent from "@/features/hushallskalkyl/HushallskalkylContent";
 import { useLocale } from "next-intl";
 import Head from "next/head";
 
