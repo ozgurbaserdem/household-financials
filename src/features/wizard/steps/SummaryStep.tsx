@@ -75,14 +75,24 @@ export function SummaryStep() {
     {
       label: tSummary("income1"),
       value: income.income1,
-      net: getNetIncome(income.income1),
+      net: getNetIncome(
+        income.income1,
+        false,
+        income.selectedKommun,
+        income.includeChurchTax
+      ),
       icon: incomeIcons.income1,
     },
     income.numberOfAdults === "2"
       ? {
           label: tSummary("income2"),
           value: income.income2,
-          net: getNetIncome(income.income2),
+          net: getNetIncome(
+            income.income2,
+            false,
+            income.selectedKommun,
+            income.includeChurchTax
+          ),
           icon: incomeIcons.income2,
         }
       : undefined,
