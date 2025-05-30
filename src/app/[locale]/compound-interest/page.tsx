@@ -221,16 +221,8 @@ async function CompoundInterestContent() {
               </Text>
 
               <div className="relative py-6 px-4">
-                <div className="flex items-start gap-6">
-                  <Image
-                    src="/einstein-optimized.png"
-                    alt="Albert Einstein"
-                    width={80}
-                    height={80}
-                    className="rounded-full object-cover grayscale flex-shrink-0 ring-2 ring-purple-500/20"
-                    priority
-                  />
-                  <div className="flex-1 relative">
+                <div className="flex flex-col md:flex-row md:items-start gap-6">
+                  <div className="flex-1 relative md:order-2">
                     <div className="text-6xl text-purple-400/30 font-serif absolute -top-4 -left-2">
                       &ldquo;
                     </div>
@@ -243,6 +235,16 @@ async function CompoundInterestContent() {
                     <Text className="text-gray-400 text-sm mt-4 pl-8">
                       — {t("intro.einstein_attribution")}
                     </Text>
+                  </div>
+                  <div className="flex justify-center md:justify-start md:order-1">
+                    <Image
+                      src="/einstein-optimized.png"
+                      alt="Albert Einstein"
+                      width={80}
+                      height={80}
+                      className="rounded-full object-cover grayscale opacity-70 flex-shrink-0 ring-2 ring-purple-500/20"
+                      priority
+                    />
                   </div>
                 </div>
               </div>
