@@ -1,0 +1,1742 @@
+[
+  {
+    "kommunNamn": "ALE",
+    "kommunalSkatt": 33.14,
+    "kyrkoSkatt": 1.09,
+    "summaInklKyrka": 34.24
+  },
+  {
+    "kommunNamn": "ALINGSÅS",
+    "kommunalSkatt": 33.13,
+    "kyrkoSkatt": 1.23,
+    "summaInklKyrka": 34.36
+  },
+  {
+    "kommunNamn": "ALVESTA",
+    "kommunalSkatt": 33.71,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 35.01
+  },
+  {
+    "kommunNamn": "ANEBY",
+    "kommunalSkatt": 34.14,
+    "kyrkoSkatt": 1.42,
+    "summaInklKyrka": 35.56
+  },
+  {
+    "kommunNamn": "ARBOGA",
+    "kommunalSkatt": 33.58,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 34.89
+  },
+  {
+    "kommunNamn": "ARJEPLOG",
+    "kommunalSkatt": 35.13,
+    "kyrkoSkatt": 1.25,
+    "summaInklKyrka": 36.38
+  },
+  {
+    "kommunNamn": "ARVIDSJAUR",
+    "kommunalSkatt": 34.43,
+    "kyrkoSkatt": 1.25,
+    "summaInklKyrka": 35.68
+  },
+  {
+    "kommunNamn": "ARVIKA",
+    "kommunalSkatt": 34.32,
+    "kyrkoSkatt": 1.29,
+    "summaInklKyrka": 35.61
+  },
+  {
+    "kommunNamn": "ASKERSUND",
+    "kommunalSkatt": 34.44,
+    "kyrkoSkatt": 1.09,
+    "summaInklKyrka": 35.53
+  },
+  {
+    "kommunNamn": "AVESTA",
+    "kommunalSkatt": 34.24,
+    "kyrkoSkatt": 1.23,
+    "summaInklKyrka": 35.47
+  },
+  {
+    "kommunNamn": "BENGTSFORS",
+    "kommunalSkatt": 34.69,
+    "kyrkoSkatt": 1.53,
+    "summaInklKyrka": 36.23
+  },
+  {
+    "kommunNamn": "BERG",
+    "kommunalSkatt": 34.51,
+    "kyrkoSkatt": 1.56,
+    "summaInklKyrka": 36.07
+  },
+  {
+    "kommunNamn": "BJURHOLM",
+    "kommunalSkatt": 34.79,
+    "kyrkoSkatt": 1.01,
+    "summaInklKyrka": 35.8
+  },
+  {
+    "kommunNamn": "BJUV",
+    "kommunalSkatt": 32.46,
+    "kyrkoSkatt": 1.19,
+    "summaInklKyrka": 33.65
+  },
+  {
+    "kommunNamn": "BODEN",
+    "kommunalSkatt": 34.23,
+    "kyrkoSkatt": 0.95,
+    "summaInklKyrka": 35.18
+  },
+  {
+    "kommunNamn": "BOLLEBYGD",
+    "kommunalSkatt": 33.36,
+    "kyrkoSkatt": 1.2,
+    "summaInklKyrka": 34.56
+  },
+  {
+    "kommunNamn": "BOLLNÄS",
+    "kommunalSkatt": 33.66,
+    "kyrkoSkatt": 1.02,
+    "summaInklKyrka": 34.68
+  },
+  {
+    "kommunNamn": "BORGHOLM",
+    "kommunalSkatt": 33.73,
+    "kyrkoSkatt": 1.54,
+    "summaInklKyrka": 35.27
+  },
+  {
+    "kommunNamn": "BORLÄNGE",
+    "kommunalSkatt": 34.69,
+    "kyrkoSkatt": 0.88,
+    "summaInklKyrka": 35.57
+  },
+  {
+    "kommunNamn": "BORÅS",
+    "kommunalSkatt": 33.08,
+    "kyrkoSkatt": 1.17,
+    "summaInklKyrka": 34.25
+  },
+  {
+    "kommunNamn": "BOTKYRKA",
+    "kommunalSkatt": 32.72,
+    "kyrkoSkatt": 0.98,
+    "summaInklKyrka": 33.7
+  },
+  {
+    "kommunNamn": "BOXHOLM",
+    "kommunalSkatt": 33.66,
+    "kyrkoSkatt": 1.15,
+    "summaInklKyrka": 34.81
+  },
+  {
+    "kommunNamn": "BROMÖLLA",
+    "kommunalSkatt": 34.03,
+    "kyrkoSkatt": 1.09,
+    "summaInklKyrka": 35.12
+  },
+  {
+    "kommunNamn": "BRÄCKE",
+    "kommunalSkatt": 35.38,
+    "kyrkoSkatt": 1.5,
+    "summaInklKyrka": 36.88
+  },
+  {
+    "kommunNamn": "BURLÖV",
+    "kommunalSkatt": 31.56,
+    "kyrkoSkatt": 0.85,
+    "summaInklKyrka": 32.41
+  },
+  {
+    "kommunNamn": "BÅSTAD",
+    "kommunalSkatt": 31.7,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 33.02
+  },
+  {
+    "kommunNamn": "DALS-ED",
+    "kommunalSkatt": 34.98,
+    "kyrkoSkatt": 1.63,
+    "summaInklKyrka": 36.61
+  },
+  {
+    "kommunNamn": "DANDERYD",
+    "kommunalSkatt": 30.92,
+    "kyrkoSkatt": 0.73,
+    "summaInklKyrka": 31.65
+  },
+  {
+    "kommunNamn": "DEGERFORS",
+    "kommunalSkatt": 35.59,
+    "kyrkoSkatt": 0.93,
+    "summaInklKyrka": 36.52
+  },
+  {
+    "kommunNamn": "DOROTEA",
+    "kommunalSkatt": 35.44,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 36.74
+  },
+  {
+    "kommunNamn": "EDA",
+    "kommunalSkatt": 34.84,
+    "kyrkoSkatt": 1.33,
+    "summaInklKyrka": 36.17
+  },
+  {
+    "kommunNamn": "EKERÖ",
+    "kommunalSkatt": 31.89,
+    "kyrkoSkatt": 0.95,
+    "summaInklKyrka": 32.85
+  },
+  {
+    "kommunNamn": "EKSJÖ",
+    "kommunalSkatt": 34.31,
+    "kyrkoSkatt": 1.5,
+    "summaInklKyrka": 35.81
+  },
+  {
+    "kommunNamn": "EMMABODA",
+    "kommunalSkatt": 34.11,
+    "kyrkoSkatt": 1.2,
+    "summaInklKyrka": 35.31
+  },
+  {
+    "kommunNamn": "ENKÖPING",
+    "kommunalSkatt": 33.34,
+    "kyrkoSkatt": 1.17,
+    "summaInklKyrka": 34.51
+  },
+  {
+    "kommunNamn": "ESKILSTUNA",
+    "kommunalSkatt": 33.14,
+    "kyrkoSkatt": 1.02,
+    "summaInklKyrka": 34.16
+  },
+  {
+    "kommunNamn": "ESLÖV",
+    "kommunalSkatt": 32.01,
+    "kyrkoSkatt": 1.02,
+    "summaInklKyrka": 33.04
+  },
+  {
+    "kommunNamn": "ESSUNGA",
+    "kommunalSkatt": 33.34,
+    "kyrkoSkatt": 1.46,
+    "summaInklKyrka": 34.8
+  },
+  {
+    "kommunNamn": "FAGERSTA",
+    "kommunalSkatt": 33.28,
+    "kyrkoSkatt": 1.21,
+    "summaInklKyrka": 34.49
+  },
+  {
+    "kommunNamn": "FALKENBERG",
+    "kommunalSkatt": 32.79,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 34.09
+  },
+  {
+    "kommunNamn": "FALKÖPING",
+    "kommunalSkatt": 33.72,
+    "kyrkoSkatt": 1.51,
+    "summaInklKyrka": 35.23
+  },
+  {
+    "kommunNamn": "FALUN",
+    "kommunalSkatt": 34.34,
+    "kyrkoSkatt": 1.13,
+    "summaInklKyrka": 35.47
+  },
+  {
+    "kommunNamn": "FILIPSTAD",
+    "kommunalSkatt": 34.84,
+    "kyrkoSkatt": 1.37,
+    "summaInklKyrka": 36.21
+  },
+  {
+    "kommunNamn": "FINSPÅNG",
+    "kommunalSkatt": 33.99,
+    "kyrkoSkatt": 1.15,
+    "summaInklKyrka": 35.14
+  },
+  {
+    "kommunNamn": "FLEN",
+    "kommunalSkatt": 33.39,
+    "kyrkoSkatt": 1.36,
+    "summaInklKyrka": 34.75
+  },
+  {
+    "kommunNamn": "FORSHAGA",
+    "kommunalSkatt": 34.92,
+    "kyrkoSkatt": 1.11,
+    "summaInklKyrka": 36.03
+  },
+  {
+    "kommunNamn": "FÄRGELANDA",
+    "kommunalSkatt": 34.68,
+    "kyrkoSkatt": 1.22,
+    "summaInklKyrka": 35.9
+  },
+  {
+    "kommunNamn": "GAGNEF",
+    "kommunalSkatt": 34.56,
+    "kyrkoSkatt": 1.23,
+    "summaInklKyrka": 35.79
+  },
+  {
+    "kommunNamn": "GISLAVED",
+    "kommunalSkatt": 34.04,
+    "kyrkoSkatt": 1.18,
+    "summaInklKyrka": 35.22
+  },
+  {
+    "kommunNamn": "GNESTA",
+    "kommunalSkatt": 33.24,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 34.55
+  },
+  {
+    "kommunNamn": "GNOSJÖ",
+    "kommunalSkatt": 34.29,
+    "kyrkoSkatt": 1.46,
+    "summaInklKyrka": 35.75
+  },
+  {
+    "kommunNamn": "GOTLAND",
+    "kommunalSkatt": 33.89,
+    "kyrkoSkatt": 1.72,
+    "summaInklKyrka": 35.61
+  },
+  {
+    "kommunNamn": "GRUMS",
+    "kommunalSkatt": 35.07,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 36.37
+  },
+  {
+    "kommunNamn": "GRÄSTORP",
+    "kommunalSkatt": 33.76,
+    "kyrkoSkatt": 1.16,
+    "summaInklKyrka": 34.92
+  },
+  {
+    "kommunNamn": "GULLSPÅNG",
+    "kommunalSkatt": 34.26,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 35.57
+  },
+  {
+    "kommunNamn": "GÄLLIVARE",
+    "kommunalSkatt": 34.18,
+    "kyrkoSkatt": 0.92,
+    "summaInklKyrka": 35.1
+  },
+  {
+    "kommunNamn": "GÄVLE",
+    "kommunalSkatt": 34.06,
+    "kyrkoSkatt": 1,
+    "summaInklKyrka": 35.06
+  },
+  {
+    "kommunNamn": "GÖTEBORG",
+    "kommunalSkatt": 32.89,
+    "kyrkoSkatt": 0.85,
+    "summaInklKyrka": 33.74
+  },
+  {
+    "kommunNamn": "GÖTENE",
+    "kommunalSkatt": 33.89,
+    "kyrkoSkatt": 1.26,
+    "summaInklKyrka": 35.16
+  },
+  {
+    "kommunNamn": "HABO",
+    "kommunalSkatt": 34.22,
+    "kyrkoSkatt": 1.19,
+    "summaInklKyrka": 35.41
+  },
+  {
+    "kommunNamn": "HAGFORS",
+    "kommunalSkatt": 34.59,
+    "kyrkoSkatt": 1.2,
+    "summaInklKyrka": 35.79
+  },
+  {
+    "kommunNamn": "HALLSBERG",
+    "kommunalSkatt": 34.14,
+    "kyrkoSkatt": 1.15,
+    "summaInklKyrka": 35.3
+  },
+  {
+    "kommunNamn": "HALLSTAHAMMAR",
+    "kommunalSkatt": 32.98,
+    "kyrkoSkatt": 1.12,
+    "summaInklKyrka": 34.1
+  },
+  {
+    "kommunNamn": "HALMSTAD",
+    "kommunalSkatt": 32.67,
+    "kyrkoSkatt": 1.25,
+    "summaInklKyrka": 33.92
+  },
+  {
+    "kommunNamn": "HAMMARÖ",
+    "kommunalSkatt": 35.49,
+    "kyrkoSkatt": 0.83,
+    "summaInklKyrka": 36.32
+  },
+  {
+    "kommunNamn": "HANINGE",
+    "kommunalSkatt": 32.12,
+    "kyrkoSkatt": 0.85,
+    "summaInklKyrka": 32.97
+  },
+  {
+    "kommunNamn": "HAPARANDA",
+    "kommunalSkatt": 34.13,
+    "kyrkoSkatt": 1.03,
+    "summaInklKyrka": 35.16
+  },
+  {
+    "kommunNamn": "HEBY",
+    "kommunalSkatt": 34.5,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 35.81
+  },
+  {
+    "kommunNamn": "HEDEMORA",
+    "kommunalSkatt": 34.44,
+    "kyrkoSkatt": 1.35,
+    "summaInklKyrka": 35.79
+  },
+  {
+    "kommunNamn": "HELSINGBORG",
+    "kommunalSkatt": 31.68,
+    "kyrkoSkatt": 1.04,
+    "summaInklKyrka": 32.73
+  },
+  {
+    "kommunNamn": "HERRLJUNGA",
+    "kommunalSkatt": 33.71,
+    "kyrkoSkatt": 1.37,
+    "summaInklKyrka": 35.09
+  },
+  {
+    "kommunNamn": "HJO",
+    "kommunalSkatt": 33.77,
+    "kyrkoSkatt": 1.08,
+    "summaInklKyrka": 34.85
+  },
+  {
+    "kommunNamn": "HOFORS",
+    "kommunalSkatt": 34.66,
+    "kyrkoSkatt": 1.27,
+    "summaInklKyrka": 35.93
+  },
+  {
+    "kommunNamn": "HUDDINGE",
+    "kommunalSkatt": 32.14,
+    "kyrkoSkatt": 0.8,
+    "summaInklKyrka": 32.94
+  },
+  {
+    "kommunNamn": "HUDIKSVALL",
+    "kommunalSkatt": 33.41,
+    "kyrkoSkatt": 1.1,
+    "summaInklKyrka": 34.51
+  },
+  {
+    "kommunNamn": "HULTSFRED",
+    "kommunalSkatt": 34.06,
+    "kyrkoSkatt": 1.4,
+    "summaInklKyrka": 35.46
+  },
+  {
+    "kommunNamn": "HYLTE",
+    "kommunalSkatt": 34.14,
+    "kyrkoSkatt": 1.62,
+    "summaInklKyrka": 35.76
+  },
+  {
+    "kommunNamn": "HÅBO",
+    "kommunalSkatt": 33.59,
+    "kyrkoSkatt": 1.12,
+    "summaInklKyrka": 34.71
+  },
+  {
+    "kommunNamn": "HÄLLEFORS",
+    "kommunalSkatt": 34.64,
+    "kyrkoSkatt": 1.42,
+    "summaInklKyrka": 36.06
+  },
+  {
+    "kommunNamn": "HÄRJEDALEN",
+    "kommunalSkatt": 34.46,
+    "kyrkoSkatt": 1.85,
+    "summaInklKyrka": 36.31
+  },
+  {
+    "kommunNamn": "HÄRNÖSAND",
+    "kommunalSkatt": 34.92,
+    "kyrkoSkatt": 1.47,
+    "summaInklKyrka": 36.39
+  },
+  {
+    "kommunNamn": "HÄRRYDA",
+    "kommunalSkatt": 32.27,
+    "kyrkoSkatt": 1.1,
+    "summaInklKyrka": 33.37
+  },
+  {
+    "kommunNamn": "HÄSSLEHOLM",
+    "kommunalSkatt": 32.67,
+    "kyrkoSkatt": 1.2,
+    "summaInklKyrka": 33.87
+  },
+  {
+    "kommunNamn": "HÖGANÄS",
+    "kommunalSkatt": 31.2,
+    "kyrkoSkatt": 1.06,
+    "summaInklKyrka": 32.26
+  },
+  {
+    "kommunNamn": "HÖGSBY",
+    "kommunalSkatt": 34.36,
+    "kyrkoSkatt": 1.35,
+    "summaInklKyrka": 35.71
+  },
+  {
+    "kommunNamn": "HÖRBY",
+    "kommunalSkatt": 32.55,
+    "kyrkoSkatt": 1.13,
+    "summaInklKyrka": 33.68
+  },
+  {
+    "kommunNamn": "HÖÖR",
+    "kommunalSkatt": 33.22,
+    "kyrkoSkatt": 1.21,
+    "summaInklKyrka": 34.43
+  },
+  {
+    "kommunNamn": "JOKKMOKK",
+    "kommunalSkatt": 34.58,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 35.88
+  },
+  {
+    "kommunNamn": "JÄRFÄLLA",
+    "kommunalSkatt": 31.91,
+    "kyrkoSkatt": 0.69,
+    "summaInklKyrka": 32.6
+  },
+  {
+    "kommunNamn": "JÖNKÖPING",
+    "kommunalSkatt": 33.69,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 34.99
+  },
+  {
+    "kommunNamn": "KALIX",
+    "kommunalSkatt": 34.18,
+    "kyrkoSkatt": 0.98,
+    "summaInklKyrka": 35.16
+  },
+  {
+    "kommunNamn": "KALMAR",
+    "kommunalSkatt": 33.96,
+    "kyrkoSkatt": 1.23,
+    "summaInklKyrka": 35.19
+  },
+  {
+    "kommunNamn": "KARLSBORG",
+    "kommunalSkatt": 33.09,
+    "kyrkoSkatt": 1.32,
+    "summaInklKyrka": 34.41
+  },
+  {
+    "kommunNamn": "KARLSHAMN",
+    "kommunalSkatt": 34.39,
+    "kyrkoSkatt": 1.05,
+    "summaInklKyrka": 35.44
+  },
+  {
+    "kommunNamn": "KARLSKOGA",
+    "kommunalSkatt": 34.59,
+    "kyrkoSkatt": 0.93,
+    "summaInklKyrka": 35.52
+  },
+  {
+    "kommunNamn": "KARLSKRONA",
+    "kommunalSkatt": 33.98,
+    "kyrkoSkatt": 1.05,
+    "summaInklKyrka": 35.03
+  },
+  {
+    "kommunNamn": "KARLSTAD",
+    "kommunalSkatt": 33.84,
+    "kyrkoSkatt": 0.99,
+    "summaInklKyrka": 34.83
+  },
+  {
+    "kommunNamn": "KATRINEHOLM",
+    "kommunalSkatt": 33.24,
+    "kyrkoSkatt": 1.25,
+    "summaInklKyrka": 34.49
+  },
+  {
+    "kommunNamn": "KIL",
+    "kommunalSkatt": 34.92,
+    "kyrkoSkatt": 1.12,
+    "summaInklKyrka": 36.04
+  },
+  {
+    "kommunNamn": "KINDA",
+    "kommunalSkatt": 33.29,
+    "kyrkoSkatt": 1.32,
+    "summaInklKyrka": 34.61
+  },
+  {
+    "kommunNamn": "KIRUNA",
+    "kommunalSkatt": 34.68,
+    "kyrkoSkatt": 0.99,
+    "summaInklKyrka": 35.67
+  },
+  {
+    "kommunNamn": "KLIPPAN",
+    "kommunalSkatt": 32.22,
+    "kyrkoSkatt": 1.15,
+    "summaInklKyrka": 33.37
+  },
+  {
+    "kommunNamn": "KNIVSTA",
+    "kommunalSkatt": 32.91,
+    "kyrkoSkatt": 1.03,
+    "summaInklKyrka": 33.94
+  },
+  {
+    "kommunNamn": "KRAMFORS",
+    "kommunalSkatt": 34.72,
+    "kyrkoSkatt": 1.6,
+    "summaInklKyrka": 36.32
+  },
+  {
+    "kommunNamn": "KRISTIANSTAD",
+    "kommunalSkatt": 32.93,
+    "kyrkoSkatt": 1.2,
+    "summaInklKyrka": 34.13
+  },
+  {
+    "kommunNamn": "KRISTINEHAMN",
+    "kommunalSkatt": 34.54,
+    "kyrkoSkatt": 1.18,
+    "summaInklKyrka": 35.72
+  },
+  {
+    "kommunNamn": "KROKOM",
+    "kommunalSkatt": 34.16,
+    "kyrkoSkatt": 1.41,
+    "summaInklKyrka": 35.57
+  },
+  {
+    "kommunNamn": "KUMLA",
+    "kommunalSkatt": 34.13,
+    "kyrkoSkatt": 1.02,
+    "summaInklKyrka": 35.15
+  },
+  {
+    "kommunNamn": "KUNGSBACKA",
+    "kommunalSkatt": 33.02,
+    "kyrkoSkatt": 1.19,
+    "summaInklKyrka": 34.21
+  },
+  {
+    "kommunNamn": "KUNGSÖR",
+    "kommunalSkatt": 33.2,
+    "kyrkoSkatt": 1.23,
+    "summaInklKyrka": 34.43
+  },
+  {
+    "kommunNamn": "KUNGÄLV",
+    "kommunalSkatt": 33.21,
+    "kyrkoSkatt": 1.12,
+    "summaInklKyrka": 34.34
+  },
+  {
+    "kommunNamn": "KÄVLINGE",
+    "kommunalSkatt": 29.98,
+    "kyrkoSkatt": 1.07,
+    "summaInklKyrka": 31.05
+  },
+  {
+    "kommunNamn": "KÖPING",
+    "kommunalSkatt": 33.33,
+    "kyrkoSkatt": 1.05,
+    "summaInklKyrka": 34.38
+  },
+  {
+    "kommunNamn": "LAHOLM",
+    "kommunalSkatt": 33.09,
+    "kyrkoSkatt": 1.17,
+    "summaInklKyrka": 34.27
+  },
+  {
+    "kommunNamn": "LANDSKRONA",
+    "kommunalSkatt": 31.71,
+    "kyrkoSkatt": 1.04,
+    "summaInklKyrka": 32.75
+  },
+  {
+    "kommunNamn": "LAXÅ",
+    "kommunalSkatt": 35.29,
+    "kyrkoSkatt": 1.38,
+    "summaInklKyrka": 36.67
+  },
+  {
+    "kommunNamn": "LEKEBERG",
+    "kommunalSkatt": 35.02,
+    "kyrkoSkatt": 1.12,
+    "summaInklKyrka": 36.14
+  },
+  {
+    "kommunNamn": "LEKSAND",
+    "kommunalSkatt": 34.09,
+    "kyrkoSkatt": 1.36,
+    "summaInklKyrka": 35.45
+  },
+  {
+    "kommunNamn": "LERUM",
+    "kommunalSkatt": 32.42,
+    "kyrkoSkatt": 1.05,
+    "summaInklKyrka": 33.48
+  },
+  {
+    "kommunNamn": "LESSEBO",
+    "kommunalSkatt": 34.1,
+    "kyrkoSkatt": 1.33,
+    "summaInklKyrka": 35.43
+  },
+  {
+    "kommunNamn": "LIDINGÖ",
+    "kommunalSkatt": 30.01,
+    "kyrkoSkatt": 0.67,
+    "summaInklKyrka": 30.68
+  },
+  {
+    "kommunNamn": "LIDKÖPING",
+    "kommunalSkatt": 33.03,
+    "kyrkoSkatt": 1.44,
+    "summaInklKyrka": 34.47
+  },
+  {
+    "kommunNamn": "LILLA EDET",
+    "kommunalSkatt": 34.14,
+    "kyrkoSkatt": 1.28,
+    "summaInklKyrka": 35.43
+  },
+  {
+    "kommunNamn": "LINDESBERG",
+    "kommunalSkatt": 34.89,
+    "kyrkoSkatt": 1.32,
+    "summaInklKyrka": 36.21
+  },
+  {
+    "kommunNamn": "LINKÖPING",
+    "kommunalSkatt": 32.04,
+    "kyrkoSkatt": 1.21,
+    "summaInklKyrka": 33.25
+  },
+  {
+    "kommunNamn": "LJUNGBY",
+    "kommunalSkatt": 33.36,
+    "kyrkoSkatt": 1.35,
+    "summaInklKyrka": 34.71
+  },
+  {
+    "kommunNamn": "LJUSDAL",
+    "kommunalSkatt": 34.16,
+    "kyrkoSkatt": 1.11,
+    "summaInklKyrka": 35.27
+  },
+  {
+    "kommunNamn": "LJUSNARSBERG",
+    "kommunalSkatt": 34.09,
+    "kyrkoSkatt": 1.29,
+    "summaInklKyrka": 35.38
+  },
+  {
+    "kommunNamn": "LOMMA",
+    "kommunalSkatt": 31.11,
+    "kyrkoSkatt": 0.95,
+    "summaInklKyrka": 32.06
+  },
+  {
+    "kommunNamn": "LUDVIKA",
+    "kommunalSkatt": 34.34,
+    "kyrkoSkatt": 1.16,
+    "summaInklKyrka": 35.5
+  },
+  {
+    "kommunNamn": "LULEÅ",
+    "kommunalSkatt": 34.13,
+    "kyrkoSkatt": 1.04,
+    "summaInklKyrka": 35.17
+  },
+  {
+    "kommunNamn": "LUND",
+    "kommunalSkatt": 32.71,
+    "kyrkoSkatt": 1.03,
+    "summaInklKyrka": 33.74
+  },
+  {
+    "kommunNamn": "LYCKSELE",
+    "kommunalSkatt": 34.69,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 35.99
+  },
+  {
+    "kommunNamn": "LYSEKIL",
+    "kommunalSkatt": 34.23,
+    "kyrkoSkatt": 1.29,
+    "summaInklKyrka": 35.52
+  },
+  {
+    "kommunNamn": "MALMÖ",
+    "kommunalSkatt": 32.71,
+    "kyrkoSkatt": 0.93,
+    "summaInklKyrka": 33.64
+  },
+  {
+    "kommunNamn": "MALUNG-SÄLEN",
+    "kommunalSkatt": 34.84,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 36.14
+  },
+  {
+    "kommunNamn": "MALÅ",
+    "kommunalSkatt": 34.99,
+    "kyrkoSkatt": 1.35,
+    "summaInklKyrka": 36.34
+  },
+  {
+    "kommunNamn": "MARIESTAD",
+    "kommunalSkatt": 33.03,
+    "kyrkoSkatt": 1.27,
+    "summaInklKyrka": 34.31
+  },
+  {
+    "kommunNamn": "MARK",
+    "kommunalSkatt": 33.28,
+    "kyrkoSkatt": 1.37,
+    "summaInklKyrka": 34.65
+  },
+  {
+    "kommunNamn": "MARKARYD",
+    "kommunalSkatt": 33.6,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 34.91
+  },
+  {
+    "kommunNamn": "MELLERUD",
+    "kommunalSkatt": 34.37,
+    "kyrkoSkatt": 1.5,
+    "summaInklKyrka": 35.87
+  },
+  {
+    "kommunNamn": "MJÖLBY",
+    "kommunalSkatt": 33.74,
+    "kyrkoSkatt": 1.15,
+    "summaInklKyrka": 34.89
+  },
+  {
+    "kommunNamn": "MORA",
+    "kommunalSkatt": 34.61,
+    "kyrkoSkatt": 1.13,
+    "summaInklKyrka": 35.74
+  },
+  {
+    "kommunNamn": "MOTALA",
+    "kommunalSkatt": 33.54,
+    "kyrkoSkatt": 1.16,
+    "summaInklKyrka": 34.7
+  },
+  {
+    "kommunNamn": "MULLSJÖ",
+    "kommunalSkatt": 34.39,
+    "kyrkoSkatt": 1.24,
+    "summaInklKyrka": 35.63
+  },
+  {
+    "kommunNamn": "MUNKEDAL",
+    "kommunalSkatt": 35.15,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 36.46
+  },
+  {
+    "kommunNamn": "MUNKFORS",
+    "kommunalSkatt": 34.59,
+    "kyrkoSkatt": 1.11,
+    "summaInklKyrka": 35.7
+  },
+  {
+    "kommunNamn": "MÖLNDAL",
+    "kommunalSkatt": 32.28,
+    "kyrkoSkatt": 0.78,
+    "summaInklKyrka": 33.07
+  },
+  {
+    "kommunNamn": "MÖNSTERÅS",
+    "kommunalSkatt": 34.36,
+    "kyrkoSkatt": 1.02,
+    "summaInklKyrka": 35.38
+  },
+  {
+    "kommunNamn": "MÖRBYLÅNGA",
+    "kommunalSkatt": 34.36,
+    "kyrkoSkatt": 1.55,
+    "summaInklKyrka": 35.91
+  },
+  {
+    "kommunNamn": "NACKA",
+    "kommunalSkatt": 30.55,
+    "kyrkoSkatt": 0.84,
+    "summaInklKyrka": 31.4
+  },
+  {
+    "kommunNamn": "NORA",
+    "kommunalSkatt": 34.84,
+    "kyrkoSkatt": 1.41,
+    "summaInklKyrka": 36.25
+  },
+  {
+    "kommunNamn": "NORBERG",
+    "kommunalSkatt": 33.83,
+    "kyrkoSkatt": 1.39,
+    "summaInklKyrka": 35.22
+  },
+  {
+    "kommunNamn": "NORDANSTIG",
+    "kommunalSkatt": 34.31,
+    "kyrkoSkatt": 1.27,
+    "summaInklKyrka": 35.59
+  },
+  {
+    "kommunNamn": "NORDMALING",
+    "kommunalSkatt": 34.89,
+    "kyrkoSkatt": 1.2,
+    "summaInklKyrka": 36.09
+  },
+  {
+    "kommunNamn": "NORRKÖPING",
+    "kommunalSkatt": 33.59,
+    "kyrkoSkatt": 1.19,
+    "summaInklKyrka": 34.78
+  },
+  {
+    "kommunNamn": "NORRTÄLJE",
+    "kommunalSkatt": 32.39,
+    "kyrkoSkatt": 1.11,
+    "summaInklKyrka": 33.51
+  },
+  {
+    "kommunNamn": "NORSJÖ",
+    "kommunalSkatt": 34.99,
+    "kyrkoSkatt": 1.1,
+    "summaInklKyrka": 36.09
+  },
+  {
+    "kommunNamn": "NYBRO",
+    "kommunalSkatt": 34.48,
+    "kyrkoSkatt": 1.17,
+    "summaInklKyrka": 35.65
+  },
+  {
+    "kommunNamn": "NYKVARN",
+    "kommunalSkatt": 32.64,
+    "kyrkoSkatt": 1.07,
+    "summaInklKyrka": 33.71
+  },
+  {
+    "kommunNamn": "NYKÖPING",
+    "kommunalSkatt": 32.54,
+    "kyrkoSkatt": 1.41,
+    "summaInklKyrka": 33.95
+  },
+  {
+    "kommunNamn": "NYNÄSHAMN",
+    "kommunalSkatt": 32.52,
+    "kyrkoSkatt": 0.94,
+    "summaInklKyrka": 33.46
+  },
+  {
+    "kommunNamn": "NÄSSJÖ",
+    "kommunalSkatt": 34.59,
+    "kyrkoSkatt": 0.99,
+    "summaInklKyrka": 35.58
+  },
+  {
+    "kommunNamn": "OCKELBO",
+    "kommunalSkatt": 34.56,
+    "kyrkoSkatt": 1.21,
+    "summaInklKyrka": 35.77
+  },
+  {
+    "kommunNamn": "OLOFSTRÖM",
+    "kommunalSkatt": 34.04,
+    "kyrkoSkatt": 1.17,
+    "summaInklKyrka": 35.21
+  },
+  {
+    "kommunNamn": "ORSA",
+    "kommunalSkatt": 34.59,
+    "kyrkoSkatt": 1.38,
+    "summaInklKyrka": 35.97
+  },
+  {
+    "kommunNamn": "ORUST",
+    "kommunalSkatt": 34.08,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 35.38
+  },
+  {
+    "kommunNamn": "OSBY",
+    "kommunalSkatt": 34.28,
+    "kyrkoSkatt": 1.07,
+    "summaInklKyrka": 35.35
+  },
+  {
+    "kommunNamn": "OSKARSHAMN",
+    "kommunalSkatt": 34.5,
+    "kyrkoSkatt": 1.23,
+    "summaInklKyrka": 35.74
+  },
+  {
+    "kommunNamn": "OVANÅKER",
+    "kommunalSkatt": 33.66,
+    "kyrkoSkatt": 1.21,
+    "summaInklKyrka": 34.87
+  },
+  {
+    "kommunNamn": "OXELÖSUND",
+    "kommunalSkatt": 33.34,
+    "kyrkoSkatt": 1.04,
+    "summaInklKyrka": 34.38
+  },
+  {
+    "kommunNamn": "PAJALA",
+    "kommunalSkatt": 35.03,
+    "kyrkoSkatt": 1.26,
+    "summaInklKyrka": 36.29
+  },
+  {
+    "kommunNamn": "PARTILLE",
+    "kommunalSkatt": 31.68,
+    "kyrkoSkatt": 1.05,
+    "summaInklKyrka": 32.73
+  },
+  {
+    "kommunNamn": "PERSTORP",
+    "kommunalSkatt": 32.28,
+    "kyrkoSkatt": 1.2,
+    "summaInklKyrka": 33.48
+  },
+  {
+    "kommunNamn": "PITEÅ",
+    "kommunalSkatt": 33.88,
+    "kyrkoSkatt": 1.01,
+    "summaInklKyrka": 34.89
+  },
+  {
+    "kommunNamn": "RAGUNDA",
+    "kommunalSkatt": 35.21,
+    "kyrkoSkatt": 1.5,
+    "summaInklKyrka": 36.71
+  },
+  {
+    "kommunNamn": "ROBERTSFORS",
+    "kommunalSkatt": 34.79,
+    "kyrkoSkatt": 1.17,
+    "summaInklKyrka": 35.96
+  },
+  {
+    "kommunNamn": "RONNEBY",
+    "kommunalSkatt": 33.97,
+    "kyrkoSkatt": 1.12,
+    "summaInklKyrka": 35.09
+  },
+  {
+    "kommunNamn": "RÄTTVIK",
+    "kommunalSkatt": 34.09,
+    "kyrkoSkatt": 1.32,
+    "summaInklKyrka": 35.41
+  },
+  {
+    "kommunNamn": "SALA",
+    "kommunalSkatt": 33.48,
+    "kyrkoSkatt": 1.21,
+    "summaInklKyrka": 34.7
+  },
+  {
+    "kommunNamn": "SALEM",
+    "kommunalSkatt": 32.34,
+    "kyrkoSkatt": 0.84,
+    "summaInklKyrka": 33.18
+  },
+  {
+    "kommunNamn": "SANDVIKEN",
+    "kommunalSkatt": 33.41,
+    "kyrkoSkatt": 1.16,
+    "summaInklKyrka": 34.57
+  },
+  {
+    "kommunNamn": "SIGTUNA",
+    "kommunalSkatt": 32.37,
+    "kyrkoSkatt": 0.97,
+    "summaInklKyrka": 33.34
+  },
+  {
+    "kommunNamn": "SIMRISHAMN",
+    "kommunalSkatt": 31.98,
+    "kyrkoSkatt": 1.34,
+    "summaInklKyrka": 33.32
+  },
+  {
+    "kommunNamn": "SJÖBO",
+    "kommunalSkatt": 32.39,
+    "kyrkoSkatt": 1.12,
+    "summaInklKyrka": 33.51
+  },
+  {
+    "kommunNamn": "SKARA",
+    "kommunalSkatt": 33.67,
+    "kyrkoSkatt": 1.26,
+    "summaInklKyrka": 34.94
+  },
+  {
+    "kommunNamn": "SKELLEFTEÅ",
+    "kommunalSkatt": 34.24,
+    "kyrkoSkatt": 1.15,
+    "summaInklKyrka": 35.39
+  },
+  {
+    "kommunNamn": "SKINNSKATTEBERG",
+    "kommunalSkatt": 33.63,
+    "kyrkoSkatt": 1.33,
+    "summaInklKyrka": 34.96
+  },
+  {
+    "kommunNamn": "SKURUP",
+    "kommunalSkatt": 31.89,
+    "kyrkoSkatt": 1.23,
+    "summaInklKyrka": 33.13
+  },
+  {
+    "kommunNamn": "SKÖVDE",
+    "kommunalSkatt": 33.38,
+    "kyrkoSkatt": 1.34,
+    "summaInklKyrka": 34.72
+  },
+  {
+    "kommunNamn": "SMEDJEBACKEN",
+    "kommunalSkatt": 34.73,
+    "kyrkoSkatt": 1.23,
+    "summaInklKyrka": 35.96
+  },
+  {
+    "kommunNamn": "SOLLEFTEÅ",
+    "kommunalSkatt": 34.97,
+    "kyrkoSkatt": 1.47,
+    "summaInklKyrka": 36.44
+  },
+  {
+    "kommunNamn": "SOLLENTUNA",
+    "kommunalSkatt": 30.79,
+    "kyrkoSkatt": 0.8,
+    "summaInklKyrka": 31.59
+  },
+  {
+    "kommunNamn": "SOLNA",
+    "kommunalSkatt": 30.04,
+    "kyrkoSkatt": 0.69,
+    "summaInklKyrka": 30.73
+  },
+  {
+    "kommunNamn": "SORSELE",
+    "kommunalSkatt": 35.24,
+    "kyrkoSkatt": 1.35,
+    "summaInklKyrka": 36.59
+  },
+  {
+    "kommunNamn": "SOTENÄS",
+    "kommunalSkatt": 33.76,
+    "kyrkoSkatt": 1.33,
+    "summaInklKyrka": 35.09
+  },
+  {
+    "kommunNamn": "STAFFANSTORP",
+    "kommunalSkatt": 30.56,
+    "kyrkoSkatt": 1.03,
+    "summaInklKyrka": 31.59
+  },
+  {
+    "kommunNamn": "STENUNGSUND",
+    "kommunalSkatt": 33.41,
+    "kyrkoSkatt": 1.2,
+    "summaInklKyrka": 34.61
+  },
+  {
+    "kommunNamn": "STOCKHOLM",
+    "kommunalSkatt": 30.67,
+    "kyrkoSkatt": 0.87,
+    "summaInklKyrka": 31.54
+  },
+  {
+    "kommunNamn": "STORFORS",
+    "kommunalSkatt": 35.27,
+    "kyrkoSkatt": 1.34,
+    "summaInklKyrka": 36.61
+  },
+  {
+    "kommunNamn": "STORUMAN",
+    "kommunalSkatt": 34.74,
+    "kyrkoSkatt": 1.38,
+    "summaInklKyrka": 36.12
+  },
+  {
+    "kommunNamn": "STRÄNGNÄS",
+    "kommunalSkatt": 32.79,
+    "kyrkoSkatt": 1.25,
+    "summaInklKyrka": 34.04
+  },
+  {
+    "kommunNamn": "STRÖMSTAD",
+    "kommunalSkatt": 33.68,
+    "kyrkoSkatt": 1.22,
+    "summaInklKyrka": 34.9
+  },
+  {
+    "kommunNamn": "STRÖMSUND",
+    "kommunalSkatt": 35.21,
+    "kyrkoSkatt": 1.5,
+    "summaInklKyrka": 36.71
+  },
+  {
+    "kommunNamn": "SUNDBYBERG",
+    "kommunalSkatt": 31.92,
+    "kyrkoSkatt": 0.73,
+    "summaInklKyrka": 32.65
+  },
+  {
+    "kommunNamn": "SUNDSVALL",
+    "kommunalSkatt": 34.17,
+    "kyrkoSkatt": 1.34,
+    "summaInklKyrka": 35.51
+  },
+  {
+    "kommunNamn": "SUNNE",
+    "kommunalSkatt": 34.19,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 35.5
+  },
+  {
+    "kommunNamn": "SURAHAMMAR",
+    "kommunalSkatt": 33.48,
+    "kyrkoSkatt": 1.18,
+    "summaInklKyrka": 34.66
+  },
+  {
+    "kommunNamn": "SVALÖV",
+    "kommunalSkatt": 32.21,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 33.52
+  },
+  {
+    "kommunNamn": "SVEDALA",
+    "kommunalSkatt": 31.71,
+    "kyrkoSkatt": 0.95,
+    "summaInklKyrka": 32.66
+  },
+  {
+    "kommunNamn": "SVENLJUNGA",
+    "kommunalSkatt": 33.82,
+    "kyrkoSkatt": 1.47,
+    "summaInklKyrka": 35.29
+  },
+  {
+    "kommunNamn": "SÄFFLE",
+    "kommunalSkatt": 34.09,
+    "kyrkoSkatt": 1.29,
+    "summaInklKyrka": 35.38
+  },
+  {
+    "kommunNamn": "SÄTER",
+    "kommunalSkatt": 34.59,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 35.89
+  },
+  {
+    "kommunNamn": "SÄVSJÖ",
+    "kommunalSkatt": 33.97,
+    "kyrkoSkatt": 1.25,
+    "summaInklKyrka": 35.22
+  },
+  {
+    "kommunNamn": "SÖDERHAMN",
+    "kommunalSkatt": 33.46,
+    "kyrkoSkatt": 1.13,
+    "summaInklKyrka": 34.59
+  },
+  {
+    "kommunNamn": "SÖDERKÖPING",
+    "kommunalSkatt": 33.82,
+    "kyrkoSkatt": 1.48,
+    "summaInklKyrka": 35.31
+  },
+  {
+    "kommunNamn": "SÖDERTÄLJE",
+    "kommunalSkatt": 32.82,
+    "kyrkoSkatt": 1,
+    "summaInklKyrka": 33.82
+  },
+  {
+    "kommunNamn": "SÖLVESBORG",
+    "kommunalSkatt": 34.15,
+    "kyrkoSkatt": 0.99,
+    "summaInklKyrka": 35.14
+  },
+  {
+    "kommunNamn": "TANUM",
+    "kommunalSkatt": 33.33,
+    "kyrkoSkatt": 1.44,
+    "summaInklKyrka": 34.77
+  },
+  {
+    "kommunNamn": "TIBRO",
+    "kommunalSkatt": 33.48,
+    "kyrkoSkatt": 1.02,
+    "summaInklKyrka": 34.51
+  },
+  {
+    "kommunNamn": "TIDAHOLM",
+    "kommunalSkatt": 33.84,
+    "kyrkoSkatt": 1.39,
+    "summaInklKyrka": 35.23
+  },
+  {
+    "kommunNamn": "TIERP",
+    "kommunalSkatt": 33.29,
+    "kyrkoSkatt": 1.46,
+    "summaInklKyrka": 34.75
+  },
+  {
+    "kommunNamn": "TIMRÅ",
+    "kommunalSkatt": 34.77,
+    "kyrkoSkatt": 1.29,
+    "summaInklKyrka": 36.06
+  },
+  {
+    "kommunNamn": "TINGSRYD",
+    "kommunalSkatt": 34.29,
+    "kyrkoSkatt": 1.5,
+    "summaInklKyrka": 35.79
+  },
+  {
+    "kommunNamn": "TJÖRN",
+    "kommunalSkatt": 33.48,
+    "kyrkoSkatt": 1.27,
+    "summaInklKyrka": 34.75
+  },
+  {
+    "kommunNamn": "TOMELILLA",
+    "kommunalSkatt": 32.08,
+    "kyrkoSkatt": 1.29,
+    "summaInklKyrka": 33.37
+  },
+  {
+    "kommunNamn": "TORSBY",
+    "kommunalSkatt": 34.59,
+    "kyrkoSkatt": 1.29,
+    "summaInklKyrka": 35.88
+  },
+  {
+    "kommunNamn": "TORSÅS",
+    "kommunalSkatt": 34.08,
+    "kyrkoSkatt": 1.25,
+    "summaInklKyrka": 35.33
+  },
+  {
+    "kommunNamn": "TRANEMO",
+    "kommunalSkatt": 33.27,
+    "kyrkoSkatt": 1.47,
+    "summaInklKyrka": 34.74
+  },
+  {
+    "kommunNamn": "TRANÅS",
+    "kommunalSkatt": 34.05,
+    "kyrkoSkatt": 1.1,
+    "summaInklKyrka": 35.15
+  },
+  {
+    "kommunNamn": "TRELLEBORG",
+    "kommunalSkatt": 31.87,
+    "kyrkoSkatt": 1.09,
+    "summaInklKyrka": 32.97
+  },
+  {
+    "kommunNamn": "TROLLHÄTTAN",
+    "kommunalSkatt": 34.13,
+    "kyrkoSkatt": 1.24,
+    "summaInklKyrka": 35.37
+  },
+  {
+    "kommunNamn": "TROSA",
+    "kommunalSkatt": 32.42,
+    "kyrkoSkatt": 0.97,
+    "summaInklKyrka": 33.39
+  },
+  {
+    "kommunNamn": "TYRESÖ",
+    "kommunalSkatt": 32.17,
+    "kyrkoSkatt": 0.82,
+    "summaInklKyrka": 32.99
+  },
+  {
+    "kommunNamn": "TÄBY",
+    "kommunalSkatt": 30.22,
+    "kyrkoSkatt": 0.78,
+    "summaInklKyrka": 31
+  },
+  {
+    "kommunNamn": "TÖREBODA",
+    "kommunalSkatt": 33.49,
+    "kyrkoSkatt": 1.27,
+    "summaInklKyrka": 34.77
+  },
+  {
+    "kommunNamn": "UDDEVALLA",
+    "kommunalSkatt": 33.93,
+    "kyrkoSkatt": 1.22,
+    "summaInklKyrka": 35.15
+  },
+  {
+    "kommunNamn": "ULRICEHAMN",
+    "kommunalSkatt": 32.82,
+    "kyrkoSkatt": 1.35,
+    "summaInklKyrka": 34.17
+  },
+  {
+    "kommunNamn": "UMEÅ",
+    "kommunalSkatt": 34.44,
+    "kyrkoSkatt": 1.06,
+    "summaInklKyrka": 35.5
+  },
+  {
+    "kommunNamn": "UPPLANDS VÄSBY",
+    "kommunalSkatt": 32.09,
+    "kyrkoSkatt": 0.85,
+    "summaInklKyrka": 32.94
+  },
+  {
+    "kommunNamn": "UPPLANDS-BRO",
+    "kommunalSkatt": 32.07,
+    "kyrkoSkatt": 0.94,
+    "summaInklKyrka": 33.01
+  },
+  {
+    "kommunNamn": "UPPSALA",
+    "kommunalSkatt": 33.14,
+    "kyrkoSkatt": 1.15,
+    "summaInklKyrka": 34.29
+  },
+  {
+    "kommunNamn": "UPPVIDINGE",
+    "kommunalSkatt": 34.09,
+    "kyrkoSkatt": 1.35,
+    "summaInklKyrka": 35.44
+  },
+  {
+    "kommunNamn": "VADSTENA",
+    "kommunalSkatt": 34.64,
+    "kyrkoSkatt": 1.25,
+    "summaInklKyrka": 35.9
+  },
+  {
+    "kommunNamn": "VAGGERYD",
+    "kommunalSkatt": 33.54,
+    "kyrkoSkatt": 1.12,
+    "summaInklKyrka": 34.66
+  },
+  {
+    "kommunNamn": "VALDEMARSVIK",
+    "kommunalSkatt": 34.32,
+    "kyrkoSkatt": 1.35,
+    "summaInklKyrka": 35.67
+  },
+  {
+    "kommunNamn": "VALLENTUNA",
+    "kommunalSkatt": 31.57,
+    "kyrkoSkatt": 1.04,
+    "summaInklKyrka": 32.62
+  },
+  {
+    "kommunNamn": "VANSBRO",
+    "kommunalSkatt": 34.57,
+    "kyrkoSkatt": 1.33,
+    "summaInklKyrka": 35.9
+  },
+  {
+    "kommunNamn": "VARA",
+    "kommunalSkatt": 33.54,
+    "kyrkoSkatt": 1.51,
+    "summaInklKyrka": 35.05
+  },
+  {
+    "kommunNamn": "VARBERG",
+    "kommunalSkatt": 32.02,
+    "kyrkoSkatt": 1.29,
+    "summaInklKyrka": 33.31
+  },
+  {
+    "kommunNamn": "VAXHOLM",
+    "kommunalSkatt": 31.97,
+    "kyrkoSkatt": 0.85,
+    "summaInklKyrka": 32.82
+  },
+  {
+    "kommunNamn": "VELLINGE",
+    "kommunalSkatt": 29.97,
+    "kyrkoSkatt": 0.93,
+    "summaInklKyrka": 30.9
+  },
+  {
+    "kommunNamn": "VETLANDA",
+    "kommunalSkatt": 34.06,
+    "kyrkoSkatt": 1.36,
+    "summaInklKyrka": 35.42
+  },
+  {
+    "kommunNamn": "VILHELMINA",
+    "kommunalSkatt": 35.29,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 36.59
+  },
+  {
+    "kommunNamn": "VIMMERBY",
+    "kommunalSkatt": 34.51,
+    "kyrkoSkatt": 1.35,
+    "summaInklKyrka": 35.86
+  },
+  {
+    "kommunNamn": "VINDELN",
+    "kommunalSkatt": 34.99,
+    "kyrkoSkatt": 1.22,
+    "summaInklKyrka": 36.21
+  },
+  {
+    "kommunNamn": "VINGÅKER",
+    "kommunalSkatt": 33.79,
+    "kyrkoSkatt": 1.04,
+    "summaInklKyrka": 34.83
+  },
+  {
+    "kommunNamn": "VÅRGÅRDA",
+    "kommunalSkatt": 33.38,
+    "kyrkoSkatt": 1.22,
+    "summaInklKyrka": 34.6
+  },
+  {
+    "kommunNamn": "VÄNERSBORG",
+    "kommunalSkatt": 33.98,
+    "kyrkoSkatt": 1.21,
+    "summaInklKyrka": 35.19
+  },
+  {
+    "kommunNamn": "VÄNNÄS",
+    "kommunalSkatt": 34.99,
+    "kyrkoSkatt": 1.01,
+    "summaInklKyrka": 36
+  },
+  {
+    "kommunNamn": "VÄRMDÖ",
+    "kommunalSkatt": 31.65,
+    "kyrkoSkatt": 0.97,
+    "summaInklKyrka": 32.62
+  },
+  {
+    "kommunNamn": "VÄRNAMO",
+    "kommunalSkatt": 33.57,
+    "kyrkoSkatt": 1.41,
+    "summaInklKyrka": 34.98
+  },
+  {
+    "kommunNamn": "VÄSTERVIK",
+    "kommunalSkatt": 33.31,
+    "kyrkoSkatt": 1.38,
+    "summaInklKyrka": 34.7
+  },
+  {
+    "kommunNamn": "VÄSTERÅS",
+    "kommunalSkatt": 31.53,
+    "kyrkoSkatt": 0.96,
+    "summaInklKyrka": 32.49
+  },
+  {
+    "kommunNamn": "VÄXJÖ",
+    "kommunalSkatt": 32.48,
+    "kyrkoSkatt": 1.05,
+    "summaInklKyrka": 33.53
+  },
+  {
+    "kommunNamn": "YDRE",
+    "kommunalSkatt": 34.39,
+    "kyrkoSkatt": 1.53,
+    "summaInklKyrka": 35.92
+  },
+  {
+    "kommunNamn": "YSTAD",
+    "kommunalSkatt": 31.58,
+    "kyrkoSkatt": 1.22,
+    "summaInklKyrka": 32.8
+  },
+  {
+    "kommunNamn": "ÅMÅL",
+    "kommunalSkatt": 34.23,
+    "kyrkoSkatt": 1.27,
+    "summaInklKyrka": 35.51
+  },
+  {
+    "kommunNamn": "ÅNGE",
+    "kommunalSkatt": 34.91,
+    "kyrkoSkatt": 1.4,
+    "summaInklKyrka": 36.31
+  },
+  {
+    "kommunNamn": "ÅRE",
+    "kommunalSkatt": 34.21,
+    "kyrkoSkatt": 1.4,
+    "summaInklKyrka": 35.61
+  },
+  {
+    "kommunNamn": "ÅRJÄNG",
+    "kommunalSkatt": 34.54,
+    "kyrkoSkatt": 1.67,
+    "summaInklKyrka": 36.21
+  },
+  {
+    "kommunNamn": "ÅSELE",
+    "kommunalSkatt": 35.24,
+    "kyrkoSkatt": 1.3,
+    "summaInklKyrka": 36.54
+  },
+  {
+    "kommunNamn": "ÅSTORP",
+    "kommunalSkatt": 31.76,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 33.07
+  },
+  {
+    "kommunNamn": "ÅTVIDABERG",
+    "kommunalSkatt": 34.23,
+    "kyrkoSkatt": 1.28,
+    "summaInklKyrka": 35.51
+  },
+  {
+    "kommunNamn": "ÄLMHULT",
+    "kommunalSkatt": 34.15,
+    "kyrkoSkatt": 1.31,
+    "summaInklKyrka": 35.46
+  },
+  {
+    "kommunNamn": "ÄLVDALEN",
+    "kommunalSkatt": 35.06,
+    "kyrkoSkatt": 1.63,
+    "summaInklKyrka": 36.69
+  },
+  {
+    "kommunNamn": "ÄLVKARLEBY",
+    "kommunalSkatt": 34.69,
+    "kyrkoSkatt": 1.13,
+    "summaInklKyrka": 35.82
+  },
+  {
+    "kommunNamn": "ÄLVSBYN",
+    "kommunalSkatt": 34.08,
+    "kyrkoSkatt": 1.01,
+    "summaInklKyrka": 35.09
+  },
+  {
+    "kommunNamn": "ÄNGELHOLM",
+    "kommunalSkatt": 31.76,
+    "kyrkoSkatt": 1.23,
+    "summaInklKyrka": 33
+  },
+  {
+    "kommunNamn": "ÖCKERÖ",
+    "kommunalSkatt": 33.33,
+    "kyrkoSkatt": 1.11,
+    "summaInklKyrka": 34.44
+  },
+  {
+    "kommunNamn": "ÖDESHÖG",
+    "kommunalSkatt": 34.24,
+    "kyrkoSkatt": 1.15,
+    "summaInklKyrka": 35.39
+  },
+  {
+    "kommunNamn": "ÖREBRO",
+    "kommunalSkatt": 33.94,
+    "kyrkoSkatt": 1.01,
+    "summaInklKyrka": 34.95
+  },
+  {
+    "kommunNamn": "ÖRKELLJUNGA",
+    "kommunalSkatt": 30.53,
+    "kyrkoSkatt": 1.18,
+    "summaInklKyrka": 31.71
+  },
+  {
+    "kommunNamn": "ÖRNSKÖLDSVIK",
+    "kommunalSkatt": 34.29,
+    "kyrkoSkatt": 1.49,
+    "summaInklKyrka": 35.78
+  },
+  {
+    "kommunNamn": "ÖSTERSUND",
+    "kommunalSkatt": 34.01,
+    "kyrkoSkatt": 1.42,
+    "summaInklKyrka": 35.44
+  },
+  {
+    "kommunNamn": "ÖSTERÅKER",
+    "kommunalSkatt": 29.27,
+    "kyrkoSkatt": 0.74,
+    "summaInklKyrka": 30.01
+  },
+  {
+    "kommunNamn": "ÖSTHAMMAR",
+    "kommunalSkatt": 33.64,
+    "kyrkoSkatt": 1.39,
+    "summaInklKyrka": 35.03
+  },
+  {
+    "kommunNamn": "ÖSTRA GÖINGE",
+    "kommunalSkatt": 32.46,
+    "kyrkoSkatt": 1.22,
+    "summaInklKyrka": 33.69
+  },
+  {
+    "kommunNamn": "ÖVERKALIX",
+    "kommunalSkatt": 34.43,
+    "kyrkoSkatt": 1.1,
+    "summaInklKyrka": 35.53
+  },
+  {
+    "kommunNamn": "ÖVERTORNEÅ",
+    "kommunalSkatt": 34.13,
+    "kyrkoSkatt": 1.2,
+    "summaInklKyrka": 35.33
+  }
+]

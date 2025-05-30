@@ -4,9 +4,9 @@ import {
   calculateTotalExpenses,
   formatCurrency,
   formatPercentage,
-  calculateNetIncome,
-  calculateNetIncomeSecond,
+  getNetIncome,
   calculateSelectedHousingExpenses,
+  calculateTotalNetIncome,
 } from "@/lib/calculations";
 import type { CalculatorState, ExpensesByCategory } from "@/lib/types";
 
@@ -29,6 +29,8 @@ describe("Financial Calculations", () => {
           otherIncomes: 0,
           currentBuffer: 0,
           numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
         },
         expenses: {},
       };
@@ -81,6 +83,8 @@ describe("Financial Calculations", () => {
           otherIncomes: 0,
           currentBuffer: 0,
           numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
         },
         expenses: {},
       };
@@ -286,10 +290,10 @@ describe("Financial Calculations", () => {
     });
   });
 
-  describe("calculateNetIncome", () => {
-    it("should calculate net income correctly for basic case", () => {
+  describe("getNetIncome", () => {
+    it("should calculate net income correctly for basic case with default tax", () => {
       const gross = 30000;
-      const net = calculateNetIncome(gross);
+      const net = getNetIncome(gross);
       // Expected calculation:
       // taxable = 30000 - 3000 = 27000
       // tax = 27000 * 0.31 = 8370
@@ -299,32 +303,211 @@ describe("Financial Calculations", () => {
       expect(net).toBe(24730);
     });
 
+    it("should calculate net income with specific kommun tax", () => {
+      const gross = 30000;
+      const net = getNetIncome(gross, false, "STOCKHOLM", false);
+      // Stockholm has 30.67% tax rate
+      // taxable = 30000 - 3000 = 27000
+      // tax = 27000 * 0.3067 = 8280.9
+      // jobbskatteavdrag = 3100
+      // final tax = 8280.9 - 3100 = 5180.9
+      // net = 30000 - 5180.9 = 24819.1
+      expect(Math.round(net)).toBe(24819);
+    });
+
+    it("should calculate net income with church tax included", () => {
+      const gross = 30000;
+      const net = getNetIncome(gross, false, "STOCKHOLM", true);
+      // Stockholm has 31.54% tax rate with church tax
+      // taxable = 30000 - 3000 = 27000
+      // tax = 27000 * 0.3154 = 8515.8
+      // jobbskatteavdrag = 3100
+      // final tax = 8515.8 - 3100 = 5415.8
+      // net = 30000 - 5415.8 = 24584.2
+      expect(Math.round(net)).toBe(24584);
+    });
+
     it("should handle income above statligSkatt threshold", () => {
       const gross = 60000;
-      const net = calculateNetIncome(gross);
+      const net = getNetIncome(gross);
       expect(net).toBeLessThan(gross);
       expect(net).toBeGreaterThan(0);
     });
 
     it("should handle zero income", () => {
-      const net = calculateNetIncome(0);
+      const net = getNetIncome(0);
       expect(net).toBe(0);
     });
-  });
 
-  describe("calculateNetIncomeSecond", () => {
-    it("should calculate second income net correctly", () => {
+    it("should calculate secondary income correctly", () => {
       const gross = 30000;
-      const net = calculateNetIncomeSecond(gross);
+      const net = getNetIncome(gross, true);
       // Expected calculation:
       // tax = 30000 * 0.34 = 10200
       // net = 30000 - 10200 = 19800
       expect(net).toBe(19800);
     });
 
-    it("should handle zero income", () => {
-      const net = calculateNetIncomeSecond(0);
-      expect(net).toBe(0);
+    it("should ignore kommun selection for secondary income", () => {
+      const gross = 30000;
+      const net1 = getNetIncome(gross, true, "STOCKHOLM", true);
+      const net2 = getNetIncome(gross, true);
+      expect(net1).toBe(net2);
+    });
+  });
+
+  describe("calculateTotalNetIncome", () => {
+    it("should calculate total net income with kommun tax", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 0,
+          interestRates: [],
+          amortizationRates: [],
+        },
+        income: {
+          income1: 30000,
+          income2: 25000,
+          secondaryIncome1: 5000,
+          secondaryIncome2: 0,
+          childBenefits: 1500,
+          otherBenefits: 500,
+          otherIncomes: 1000,
+          currentBuffer: 10000,
+          numberOfAdults: "2",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {},
+      };
+
+      const totalNet = calculateTotalNetIncome(state);
+      // Should calculate with Stockholm tax rates for primary incomes
+      // and default secondary income tax
+      expect(totalNet).toBeGreaterThan(0);
+      expect(totalNet).toBeLessThan(63000); // Less than gross total
+    });
+
+    it("should handle missing kommun selection", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 0,
+          interestRates: [],
+          amortizationRates: [],
+        },
+        income: {
+          income1: 30000,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+        },
+        expenses: {},
+      };
+
+      const totalNet = calculateTotalNetIncome(state);
+      expect(totalNet).toBe(24730); // Default tax calculation
+    });
+  });
+
+  describe("Kommun Tax Integration", () => {
+    it("should calculate correctly with high-tax kommun", () => {
+      const gross = 40000;
+      // DOROTEA has one of the highest tax rates: 35.44%
+      const net = getNetIncome(gross, false, "DOROTEA", false);
+      // taxable = 40000 - 3000 = 37000
+      // tax = 37000 * 0.3544 = 13112.8
+      // jobbskatteavdrag = 3100
+      // final tax = 13112.8 - 3100 = 10012.8
+      // net = 40000 - 10012.8 = 29987.2
+      expect(Math.round(net)).toBe(29987);
+    });
+
+    it("should calculate correctly with low-tax kommun", () => {
+      const gross = 40000;
+      // VELLINGE has one of the lowest tax rates: 29.97%
+      const net = getNetIncome(gross, false, "VELLINGE", false);
+      // taxable = 40000 - 3000 = 37000
+      // tax = 37000 * 0.2997 = 11088.9
+      // jobbskatteavdrag = 3100
+      // final tax = 11088.9 - 3100 = 7988.9
+      // net = 40000 - 7988.9 = 32011.1
+      expect(Math.round(net)).toBe(32011);
+    });
+
+    it("should show significant difference between kommuner", () => {
+      const gross = 50000;
+      const netHigh = getNetIncome(gross, false, "DOROTEA", true); // 36.74% with church
+      const netLow = getNetIncome(gross, false, "VELLINGE", true); // 30.9% with church
+
+      const difference = netLow - netHigh;
+      // Should be approximately 2500-3000 kr difference per month
+      expect(difference).toBeGreaterThan(2500);
+      expect(difference).toBeLessThan(3500);
+    });
+
+    it("should handle invalid kommun name gracefully", () => {
+      const gross = 30000;
+      const netDefault = getNetIncome(gross);
+      const netInvalid = getNetIncome(gross, false, "INVALID_KOMMUN", false);
+
+      // Should fall back to default tax rate
+      expect(netInvalid).toBe(netDefault);
+    });
+
+    it("should calculate loan scenarios with kommun tax", () => {
+      const stateHighTax: CalculatorState = {
+        loanParameters: {
+          amount: 2000000,
+          interestRates: [4],
+          amortizationRates: [2],
+        },
+        income: {
+          income1: 40000,
+          income2: 35000,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "2",
+          selectedKommun: "DOROTEA",
+          includeChurchTax: true,
+        },
+        expenses: {
+          home: {
+            "rent-monthly-fee": 0,
+            "electricity-heating": 2000,
+            mortgage: 0,
+            "water-garbage": 800,
+          },
+        },
+      };
+
+      const stateLowTax = {
+        ...stateHighTax,
+        income: {
+          ...stateHighTax.income,
+          selectedKommun: "VELLINGE",
+        },
+      };
+
+      const resultsHigh = calculateLoanScenarios(stateHighTax);
+      const resultsLow = calculateLoanScenarios(stateLowTax);
+
+      // Lower tax kommun should have more remaining savings
+      expect(resultsLow[0].remainingSavings).toBeGreaterThan(
+        resultsHigh[0].remainingSavings
+      );
+
+      // The difference should be significant (several thousand kr)
+      const savingsDiff =
+        resultsLow[0].remainingSavings - resultsHigh[0].remainingSavings;
+      expect(savingsDiff).toBeGreaterThan(3000);
     });
   });
 });

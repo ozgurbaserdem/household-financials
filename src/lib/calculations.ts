@@ -3,10 +3,29 @@ import type {
   CalculationResult,
   ExpensesByCategory,
   FinancialHealthScore,
+  KommunData,
 } from "./types";
+import kommunalskattData from "@/data/kommunalskatt_2025.json";
 
-export function getNetIncome(gross: number, isSecondary = false): number {
-  const kommunalskatt = isSecondary ? 0.34 : 0.31;
+export function getNetIncome(
+  gross: number,
+  isSecondary = false,
+  selectedKommun?: string,
+  includeChurchTax?: boolean
+): number {
+  // Get tax rate from selected kommun or use default
+  let kommunalskatt = isSecondary ? 0.34 : 0.31; // default rates
+
+  if (selectedKommun && !isSecondary) {
+    const kommunList = kommunalskattData as KommunData[];
+    const kommun = kommunList.find((k) => k.kommunNamn === selectedKommun);
+    if (kommun) {
+      kommunalskatt = includeChurchTax
+        ? kommun.summaInklKyrka / 100
+        : kommun.kommunalSkatt / 100;
+    }
+  }
+
   const statligSkatt = 0.2;
   const statligSkattThreshold = 53592; // kr/month for 2025
   const grundavdrag = 3000; // basic deduction per month (approx)
@@ -27,14 +46,33 @@ export function getNetIncome(gross: number, isSecondary = false): number {
   return gross - tax;
 }
 
-export function getIncomeWithNet(gross: number, isSecondary = false) {
-  return { gross, net: getNetIncome(gross, isSecondary) };
+export function getIncomeWithNet(
+  gross: number,
+  isSecondary = false,
+  selectedKommun?: string,
+  includeChurchTax?: boolean
+) {
+  return {
+    gross,
+    net: getNetIncome(gross, isSecondary, selectedKommun, includeChurchTax),
+  };
 }
 
 export function calculateTotalNetIncome(state: CalculatorState): number {
+  const { selectedKommun, includeChurchTax } = state.income;
   return (
-    getNetIncome(state.income.income1) +
-    getNetIncome(state.income.income2) +
+    getNetIncome(
+      state.income.income1,
+      false,
+      selectedKommun,
+      includeChurchTax
+    ) +
+    getNetIncome(
+      state.income.income2,
+      false,
+      selectedKommun,
+      includeChurchTax
+    ) +
     getNetIncome(state.income.secondaryIncome1, true) +
     getNetIncome(state.income.secondaryIncome2, true) +
     state.income.childBenefits +
@@ -75,8 +113,18 @@ export function calculateLoanScenarios(
       totalExpenses: selectedHousingExpenses + totalOtherExpenses,
       remainingSavings:
         totalIncome - (selectedHousingExpenses + totalOtherExpenses),
-      income1Net: getNetIncome(income.income1),
-      income2Net: getNetIncome(income.income2),
+      income1Net: getNetIncome(
+        income.income1,
+        false,
+        income.selectedKommun,
+        income.includeChurchTax
+      ),
+      income2Net: getNetIncome(
+        income.income2,
+        false,
+        income.selectedKommun,
+        income.includeChurchTax
+      ),
       secondaryIncome1Net: getNetIncome(income.secondaryIncome1, true),
       secondaryIncome2Net: getNetIncome(income.secondaryIncome2, true),
       childBenefits: income.childBenefits,
@@ -118,8 +166,18 @@ export function calculateLoanScenarios(
         totalHousingCost,
         totalExpenses,
         remainingSavings,
-        income1Net: getNetIncome(income.income1),
-        income2Net: getNetIncome(income.income2),
+        income1Net: getNetIncome(
+          income.income1,
+          false,
+          income.selectedKommun,
+          income.includeChurchTax
+        ),
+        income2Net: getNetIncome(
+          income.income2,
+          false,
+          income.selectedKommun,
+          income.includeChurchTax
+        ),
         secondaryIncome1Net: getNetIncome(income.secondaryIncome1, true),
         secondaryIncome2Net: getNetIncome(income.secondaryIncome2, true),
         childBenefits: income.childBenefits,
@@ -163,35 +221,6 @@ export function formatPercentage(value: number): string {
   }).format(value / 100);
 }
 
-// Swedish net income calculation
-export function calculateNetIncome(gross: number): number {
-  const kommunalskatt = 0.31; // average
-  const statligSkatt = 0.2;
-  const statligSkattThreshold = 53592; // kr/month for 2025
-  const grundavdrag = 3000; // basic deduction per month (approx)
-  const jobbskatteavdrag = 3100; // job tax deduction per month (approx)
-
-  const taxable = Math.max(0, gross - grundavdrag);
-  let tax = taxable * kommunalskatt;
-
-  if (gross > statligSkattThreshold) {
-    tax += (gross - statligSkattThreshold) * statligSkatt;
-  }
-
-  // Apply jobbskatteavdrag (cannot reduce tax below zero)
-  tax = Math.max(0, tax - jobbskatteavdrag);
-
-  return gross - tax;
-}
-
-export function calculateNetIncomeSecond(gross: number): number {
-  const kommunalskatt = 0.34; // higher tax, no deductions
-  const taxable = Math.max(0, gross);
-  const tax = taxable * kommunalskatt;
-
-  return gross - tax;
-}
-
 export function calculateSelectedHousingExpenses(
   expenses: ExpensesByCategory
 ): number {
@@ -221,9 +250,20 @@ export function calculateTotalIncome(state: CalculatorState): {
     state.income.otherBenefits +
     state.income.otherIncomes;
 
+  const { selectedKommun, includeChurchTax } = state.income;
   const net =
-    getNetIncome(state.income.income1) +
-    getNetIncome(state.income.income2) +
+    getNetIncome(
+      state.income.income1,
+      false,
+      selectedKommun,
+      includeChurchTax
+    ) +
+    getNetIncome(
+      state.income.income2,
+      false,
+      selectedKommun,
+      includeChurchTax
+    ) +
     getNetIncome(state.income.secondaryIncome1, true) +
     getNetIncome(state.income.secondaryIncome2, true) +
     state.income.childBenefits +

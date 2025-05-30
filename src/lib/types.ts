@@ -20,6 +20,13 @@ export interface ExpenseSubcategory {
   name: string;
 }
 
+export interface KommunData {
+  kommunNamn: string;
+  kommunalSkatt: number;
+  kyrkoSkatt: number;
+  summaInklKyrka: number;
+}
+
 export interface IncomeState {
   income1: number;
   income2: number;
@@ -30,6 +37,8 @@ export interface IncomeState {
   otherIncomes: number;
   currentBuffer: number;
   numberOfAdults: "1" | "2";
+  selectedKommun?: string;
+  includeChurchTax?: boolean;
 }
 
 export interface CalculationResult {

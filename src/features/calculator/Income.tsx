@@ -12,13 +12,24 @@ import {
 } from "@/components/ui/modern-card";
 import { CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { ChevronRight, TrendingUp, Wallet } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ChevronRight, TrendingUp, Wallet, Search } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
 import { IncomeInputField } from "./IncomeInputField";
 import { NumberOfAdultsRadioGroup } from "./NumberOfAdultsRadioGroup";
 import { motion, AnimatePresence } from "framer-motion";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+} from "@/components/ui/form";
+import kommunalskattData from "@/data/kommunalskatt_2025.json";
+import type { KommunData } from "@/lib/types";
 
 const formSchema = z.object({
   income1: z.number().min(0),
@@ -29,6 +40,8 @@ const formSchema = z.object({
   otherBenefits: z.number().min(0),
   otherIncomes: z.number().min(0),
   currentBuffer: z.number().min(0),
+  selectedKommun: z.string().optional(),
+  includeChurchTax: z.boolean().optional(),
 });
 
 interface IncomeFormValues {
@@ -40,6 +53,8 @@ interface IncomeFormValues {
   otherBenefits: number;
   otherIncomes: number;
   currentBuffer: number;
+  selectedKommun?: string;
+  includeChurchTax?: boolean;
 }
 
 interface IncomeFormProps {
@@ -56,18 +71,40 @@ export function Income({
   onNumberOfAdultsChange,
 }: IncomeFormProps) {
   const [showExtraIncomes, setShowExtraIncomes] = useState(false);
+  const [kommunSearch, setKommunSearch] = useState("");
+  const [showKommunDropdown, setShowKommunDropdown] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: values,
   });
 
   const t = useTranslations("income");
+  const kommunList = kommunalskattData as KommunData[];
 
   useEffect(() => {
     if (values) {
       form.reset(values);
+      if (values.selectedKommun) {
+        setKommunSearch(values.selectedKommun);
+      }
     }
   }, [values, form]);
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (
+        !target.closest("#kommun-search") &&
+        !target.closest(".kommun-dropdown")
+      ) {
+        setShowKommunDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleAdultsChange = (value: "1" | "2") => {
     onNumberOfAdultsChange(value);
@@ -87,10 +124,42 @@ export function Income({
     onChange(currentValues);
   };
 
-  // Calculate total income for display (exclude currentBuffer)
+  // Filter and sort kommun list based on search
+  const filteredKommuner = useMemo(() => {
+    if (!kommunSearch) return kommunList;
+
+    const searchLower = kommunSearch.toLowerCase();
+    const filtered = kommunList.filter((kommun) =>
+      kommun.kommunNamn.toLowerCase().includes(searchLower)
+    );
+
+    // Sort: prioritize names that start with the search term
+    return filtered.sort((a, b) => {
+      const aStarts = a.kommunNamn.toLowerCase().startsWith(searchLower);
+      const bStarts = b.kommunNamn.toLowerCase().startsWith(searchLower);
+
+      if (aStarts && !bStarts) return -1;
+      if (!aStarts && bStarts) return 1;
+
+      // If both start or both don't start with search term, sort alphabetically
+      return a.kommunNamn.localeCompare(b.kommunNamn, "sv");
+    });
+  }, [kommunSearch, kommunList]);
+
+  const selectedKommun = form.watch("selectedKommun");
+  const selectedKommunData = useMemo(() => {
+    return kommunList.find((k) => k.kommunNamn === selectedKommun);
+  }, [selectedKommun, kommunList]);
+
+  // Calculate total income for display (exclude currentBuffer and non-numeric fields)
   const totalIncome = Object.entries(form.watch())
-    .filter(([key]) => key !== "currentBuffer")
-    .reduce((sum, [, val]) => sum + (val || 0), 0);
+    .filter(
+      ([key]) =>
+        key !== "currentBuffer" &&
+        key !== "selectedKommun" &&
+        key !== "includeChurchTax"
+    )
+    .reduce((sum, [, val]) => sum + (typeof val === "number" ? val : 0), 0);
 
   return (
     <Card gradient glass>
@@ -139,6 +208,110 @@ export function Income({
                 <NumberOfAdultsRadioGroup
                   value={numberOfAdults}
                   onChange={handleAdultsChange}
+                />
+              </motion.div>
+
+              {/* Kommun Selection and Church Tax */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.15 }}
+                className="space-y-4"
+              >
+                {/* Kommun Select */}
+                <div className="relative">
+                  <Label
+                    htmlFor="kommun-search"
+                    className="text-sm font-medium text-gray-200 mb-2 block"
+                  >
+                    Välj kommun
+                  </Label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Input
+                      id="kommun-search"
+                      type="text"
+                      placeholder="Sök kommun..."
+                      value={kommunSearch}
+                      onChange={(e) => {
+                        setKommunSearch(e.target.value);
+                        setShowKommunDropdown(true);
+                      }}
+                      onFocus={() => setShowKommunDropdown(true)}
+                      className="pl-10 modern-input"
+                    />
+                    {selectedKommunData && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-300">
+                        {selectedKommunData.kommunalSkatt}%
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Dropdown */}
+                  <AnimatePresence>
+                    {showKommunDropdown && filteredKommuner.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="kommun-dropdown absolute z-50 w-full mt-1 max-h-60 overflow-y-auto bg-gray-900/70 backdrop-blur-md rounded-lg border border-gray-700 shadow-xl"
+                      >
+                        {filteredKommuner.slice(0, 10).map((kommun) => (
+                          <button
+                            key={kommun.kommunNamn}
+                            type="button"
+                            className="w-full px-4 py-2 text-left hover:bg-gray-800 text-gray-100 text-sm transition-colors flex justify-between items-center"
+                            onClick={() => {
+                              form.setValue(
+                                "selectedKommun",
+                                kommun.kommunNamn
+                              );
+                              setKommunSearch(kommun.kommunNamn);
+                              setShowKommunDropdown(false);
+                              handleFieldChange();
+                            }}
+                          >
+                            <span>{kommun.kommunNamn}</span>
+                            <span className="text-gray-400">
+                              {kommun.kommunalSkatt}%
+                            </span>
+                          </button>
+                        ))}
+                        {filteredKommuner.length > 10 && (
+                          <div className="px-4 py-2 text-xs text-gray-300 border-t border-gray-600">
+                            Visar {10} av {filteredKommuner.length} kommuner
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Church Tax Checkbox */}
+                <FormField
+                  control={form.control}
+                  name="includeChurchTax"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={(checked) => {
+                            field.onChange(checked);
+                            handleFieldChange();
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel className="text-sm font-normal text-gray-200 cursor-pointer">
+                        Räkna med kyrkoavgift
+                        {selectedKommunData && field.value && (
+                          <span className="text-gray-400 ml-2">
+                            (+{selectedKommunData.kyrkoSkatt}%)
+                          </span>
+                        )}
+                      </FormLabel>
+                    </FormItem>
+                  )}
                 />
               </motion.div>
 

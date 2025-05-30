@@ -18,6 +18,8 @@ export function IncomeStep() {
         otherBenefits: income.otherBenefits,
         otherIncomes: income.otherIncomes,
         currentBuffer: income.currentBuffer,
+        selectedKommun: income.selectedKommun,
+        includeChurchTax: income.includeChurchTax,
       }}
       numberOfAdults={income.numberOfAdults}
       onNumberOfAdultsChange={(value) =>

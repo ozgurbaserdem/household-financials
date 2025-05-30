@@ -31,6 +31,9 @@ import {
   Plane,
   GraduationCap,
   Pizza,
+  FileQuestion,
+  Volleyball,
+  DollarSign,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
@@ -53,6 +56,9 @@ const categoryIcons: Record<string, React.ReactNode> = {
   "vacation-traveling": <Plane className="w-4 h-4" />,
   education: <GraduationCap className="w-4 h-4" />,
   food: <Pizza className="w-4 h-4" />,
+  uncategorized: <FileQuestion className="w-4 h-4" />,
+  leisure: <Volleyball className="w-4 h-4" />,
+  "loans-tax-fees": <DollarSign className="w-4 h-4" />,
 };
 
 export function ExpenseCategories({
