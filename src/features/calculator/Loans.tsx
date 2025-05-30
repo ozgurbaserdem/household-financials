@@ -143,17 +143,39 @@ export function Loans({ onChange, values }: LoansFormProps) {
     }
   };
 
-  // Calculate monthly payment for display
+  // Calculate monthly payment range for display
   const hasLoan = form.watch("hasLoan");
   const loanAmount = form.watch("loanAmount");
   const interestRates = form.watch("interestRates");
   const amortizationRates = form.watch("amortizationRates");
-  const interestRate = interestRates[0] || 0;
-  const amortizationRate = amortizationRates[0] || 0;
-  const monthlyPayment =
-    hasLoan && loanAmount > 0 && interestRate > 0 && amortizationRate >= 0
-      ? loanAmount * ((interestRate + amortizationRate) / 100 / 12)
-      : 0;
+
+  // Calculate range of monthly payments based on selected rates
+  const calculatePaymentRange = () => {
+    if (
+      !hasLoan ||
+      loanAmount <= 0 ||
+      interestRates.length === 0 ||
+      amortizationRates.length === 0
+    ) {
+      return { min: 0, max: 0 };
+    }
+
+    let minPayment = Infinity;
+    let maxPayment = 0;
+
+    interestRates.forEach((interestRate) => {
+      amortizationRates.forEach((amortizationRate) => {
+        const monthlyPayment =
+          loanAmount * ((interestRate + amortizationRate) / 100 / 12);
+        minPayment = Math.min(minPayment, monthlyPayment);
+        maxPayment = Math.max(maxPayment, monthlyPayment);
+      });
+    });
+
+    return { min: minPayment, max: maxPayment };
+  };
+
+  const paymentRange = calculatePaymentRange();
 
   return (
     <Card gradient glass delay={0.1}>
@@ -171,15 +193,28 @@ export function Loans({ onChange, values }: LoansFormProps) {
             transition={{ delay: 0.3 }}
             className="text-sm text-gray-300 mt-1"
           >
-            {hasLoan && monthlyPayment > 0 ? (
+            {hasLoan && paymentRange.max > 0 ? (
               <>
                 {t("estimated_monthly_payment")}:{" "}
                 <span className="text-orange-400 font-semibold">
-                  {new Intl.NumberFormat("sv-SE", {
-                    style: "currency",
-                    currency: "SEK",
-                    maximumFractionDigits: 0,
-                  }).format(monthlyPayment)}
+                  {paymentRange.min === paymentRange.max
+                    ? new Intl.NumberFormat("sv-SE", {
+                        style: "currency",
+                        currency: "SEK",
+                        maximumFractionDigits: 0,
+                      }).format(paymentRange.min)
+                    : `${new Intl.NumberFormat("sv-SE", {
+                        style: "currency",
+                        currency: "SEK",
+                        maximumFractionDigits: 0,
+                      }).format(paymentRange.min)} - ${new Intl.NumberFormat(
+                        "sv-SE",
+                        {
+                          style: "currency",
+                          currency: "SEK",
+                          maximumFractionDigits: 0,
+                        }
+                      ).format(paymentRange.max)}`}
                 </span>
               </>
             ) : (
@@ -275,35 +310,6 @@ export function Loans({ onChange, values }: LoansFormProps) {
                       </FormItem>
                     )}
                   />
-                  {loanAmount > 0 &&
-                    interestRates.length > 0 &&
-                    amortizationRates.length > 0 && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        className="mt-2"
-                      >
-                        <Box className="flex items-center gap-4 text-sm text-gray-300">
-                          <span>
-                            {t("monthly")}:{" "}
-                            {new Intl.NumberFormat("sv-SE", {
-                              style: "currency",
-                              currency: "SEK",
-                              maximumFractionDigits: 0,
-                            }).format(monthlyPayment)}
-                          </span>
-                          <span>•</span>
-                          <span>
-                            {t("total_interest")}:{" "}
-                            {new Intl.NumberFormat("sv-SE", {
-                              style: "currency",
-                              currency: "SEK",
-                              maximumFractionDigits: 0,
-                            }).format(loanAmount * (interestRate / 100))}
-                          </span>
-                        </Box>
-                      </motion.div>
-                    )}
                 </motion.div>
 
                 <motion.div

@@ -299,4 +299,111 @@ describe("Loans", () => {
       screen.queryByLabelText(/loan_amount_aria/i)
     ).not.toBeInTheDocument();
   });
+
+  describe("calculatePaymentRange", () => {
+    it("displays single payment when only one rate combination is selected", () => {
+      render(
+        <Loans
+          onChange={mockOnChange}
+          values={{
+            loanAmount: 1000000,
+            interestRates: [3],
+            amortizationRates: [2],
+          }}
+        />
+      );
+
+      // Should display single payment: 1000000 * ((3 + 2) / 100 / 12) = 4166.67
+      // In Swedish format: 4 167 kr
+      expect(screen.getByText(/estimated_monthly_payment/)).toBeInTheDocument();
+      const paymentText = screen.getByText(/4\s*167/);
+      expect(paymentText).toBeInTheDocument();
+      // Should not contain a dash (range separator)
+      expect(paymentText.textContent).not.toContain("-");
+    });
+
+    it("displays payment range when multiple rate combinations are selected", () => {
+      render(
+        <Loans
+          onChange={mockOnChange}
+          values={{
+            loanAmount: 1000000,
+            interestRates: [2, 4], // 2% and 4%
+            amortizationRates: [1, 3], // 1% and 3%
+          }}
+        />
+      );
+
+      // Min payment: 1000000 * ((2 + 1) / 100 / 12) = 2500
+      // Max payment: 1000000 * ((4 + 3) / 100 / 12) = 5833.33
+      // Should display range in Swedish format: 2 500 kr - 5 833 kr
+      expect(screen.getByText(/estimated_monthly_payment/)).toBeInTheDocument();
+
+      // Look for the range separator
+      const paymentElement = screen.getByText(/2\s*500.*-.*5\s*833/);
+      expect(paymentElement).toBeInTheDocument();
+      expect(paymentElement.textContent).toContain("-");
+    });
+
+    it("displays zero payment when no rates are selected", () => {
+      render(
+        <Loans
+          onChange={mockOnChange}
+          values={{
+            loanAmount: 1000000,
+            interestRates: [],
+            amortizationRates: [],
+          }}
+        />
+      );
+
+      // Should display no_loan message instead of payment - specifically in the header area
+      const headerArea = screen.getByText("title").closest("div");
+      expect(headerArea).toHaveTextContent("no_loan");
+      expect(
+        screen.queryByText(/estimated_monthly_payment/)
+      ).not.toBeInTheDocument();
+    });
+
+    it("displays zero payment when loan amount is zero", () => {
+      render(
+        <Loans
+          onChange={mockOnChange}
+          values={{
+            loanAmount: 0,
+            interestRates: [3],
+            amortizationRates: [2],
+          }}
+        />
+      );
+
+      // Should display no_loan message - specifically in the header area
+      const headerArea = screen.getByText("title").closest("div");
+      expect(headerArea).toHaveTextContent("no_loan");
+      expect(
+        screen.queryByText(/estimated_monthly_payment/)
+      ).not.toBeInTheDocument();
+    });
+
+    it("calculates range correctly with multiple interest and amortization rates", () => {
+      render(
+        <Loans
+          onChange={mockOnChange}
+          values={{
+            loanAmount: 2000000,
+            interestRates: [1, 2, 3], // 1%, 2%, 3%
+            amortizationRates: [0, 1, 2], // 0%, 1%, 2%
+          }}
+        />
+      );
+
+      // Min payment: 2000000 * ((1 + 0) / 100 / 12) = 1666.67 ≈ 1 667 kr
+      // Max payment: 2000000 * ((3 + 2) / 100 / 12) = 8333.33 ≈ 8 333 kr
+      expect(screen.getByText(/estimated_monthly_payment/)).toBeInTheDocument();
+
+      // Look for the range with appropriate formatting
+      const paymentElement = screen.getByText(/1\s*667.*-.*8\s*333/);
+      expect(paymentElement).toBeInTheDocument();
+    });
+  });
 });
