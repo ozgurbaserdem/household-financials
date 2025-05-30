@@ -3,13 +3,13 @@
 import React from "react";
 import { Main } from "@/components/ui/main";
 import { Box } from "@/components/ui/box";
-import { Navbar } from "@/components/Navbar";
-import { WizardLayout } from "@/components/wizard/WizardLayout";
-import { IncomeStep } from "@/components/wizard/steps/IncomeStep";
-import { LoansStep } from "@/components/wizard/steps/LoansStep";
-import { ExpensesStep } from "@/components/wizard/steps/ExpensesStep";
-import { SummaryStep } from "@/components/wizard/steps/SummaryStep";
-import { ResultsStep } from "@/components/wizard/steps/ResultsStep";
+import { Navbar } from "@/components/shared/Navbar";
+import { WizardLayout } from "@/features/wizard/WizardLayout";
+import { IncomeStep } from "@/features/wizard/steps/IncomeStep";
+import { LoansStep } from "@/features/wizard/steps/LoansStep";
+import { ExpensesStep } from "@/features/wizard/steps/ExpensesStep";
+import { SummaryStep } from "@/features/wizard/steps/SummaryStep";
+import { ResultsStep } from "@/features/wizard/steps/ResultsStep";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 

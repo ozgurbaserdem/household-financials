@@ -2,7 +2,7 @@
 
 import { Main } from "@/components/ui/main";
 import { Box } from "@/components/ui/box";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/shared/Navbar";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
