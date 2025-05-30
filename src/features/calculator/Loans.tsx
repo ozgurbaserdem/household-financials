@@ -326,7 +326,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                       </FormLabel>
                     </Box>
                     <Box
-                      className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-3"
+                      className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-4"
                       aria-label={t("interest_rates_aria")}
                     >
                       {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6].map(
@@ -381,7 +381,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                       </FormLabel>
                     </Box>
                     <Box
-                      className="grid grid-cols-2 sm:grid-cols-3 gap-3"
+                      className="grid grid-cols-2 sm:grid-cols-3 gap-4"
                       aria-label={t("amortization_rates_aria")}
                     >
                       {[0, 1, 2, 3, 4, 5].map((rate) => (

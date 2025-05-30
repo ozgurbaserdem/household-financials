@@ -85,7 +85,7 @@ function ResultCard({
   return (
     <Box
       className={cn(
-        "glass p-4 rounded-xl transition-all duration-300",
+        "glass p-6 rounded-xl transition-all duration-300",
         "hover:bg-white/5 hover:border-white/20",
         isBest && "border-green-500/30 bg-green-500/5",
         isWorst && "border-red-500/30 bg-red-500/5"
@@ -111,7 +111,7 @@ function ResultCard({
         </motion.div>
       )}
 
-      <Box className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-3">
+      <Box className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {gridOrder.map((key) => {
           const cell = HEAD_CELLS.find((c) => c.key === key);
           if (!cell) return null;

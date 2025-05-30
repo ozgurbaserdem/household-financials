@@ -183,7 +183,7 @@ export function CompoundInterestCalculator() {
           </Box>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {inputConfigs.map((config, index) => (
               <motion.div
                 key={config.key}
@@ -210,8 +210,8 @@ export function CompoundInterestCalculator() {
                   )}
                 </div>
                 <div className="space-y-3">
-                  {/* Custom styled range slider */}
-                  <div className="relative">
+                  {/* Custom styled range slider with value display at the end */}
+                  <div className="relative flex items-center gap-4">
                     <input
                       id={config.key}
                       type="range"
@@ -222,7 +222,7 @@ export function CompoundInterestCalculator() {
                       onChange={(e) =>
                         handleInputChange(config.key, Number(e.target.value))
                       }
-                      className="w-full h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                      className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
                       style={{
                         background: `linear-gradient(to right, 
                           rgb(59 130 246) 0%, 
@@ -231,30 +231,30 @@ export function CompoundInterestCalculator() {
                           rgb(55 65 81) 100%)`,
                       }}
                     />
-                  </div>
-                  <div className="flex justify-center">
-                    {editingField === config.key ? (
-                      <input
-                        type="text"
-                        value={tempValue}
-                        onChange={(e) => setTempValue(e.target.value)}
-                        onBlur={() => handleEditEnd(config.key)}
-                        onKeyDown={(e) => handleKeyDown(e, config.key)}
-                        className="glass px-6 py-3 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 min-w-[180px] text-center text-lg font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                        autoFocus
-                      />
-                    ) : (
-                      <button
-                        onClick={() => handleEditStart(config.key)}
-                        className="glass px-6 py-3 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 min-w-[180px] text-center cursor-text"
-                      >
-                        <Text className="text-lg font-semibold text-white">
-                          {config.prefix}
-                          {inputs[config.key].toLocaleString("sv-SE")}
-                          {config.suffix}
-                        </Text>
-                      </button>
-                    )}
+                    <div className="flex-shrink-0">
+                      {editingField === config.key ? (
+                        <input
+                          type="text"
+                          value={tempValue}
+                          onChange={(e) => setTempValue(e.target.value)}
+                          onBlur={() => handleEditEnd(config.key)}
+                          onKeyDown={(e) => handleKeyDown(e, config.key)}
+                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-28 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
+                          autoFocus
+                        />
+                      ) : (
+                        <button
+                          onClick={() => handleEditStart(config.key)}
+                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-28 text-center cursor-text"
+                        >
+                          <Text className="text-sm font-semibold text-white">
+                            {config.prefix}
+                            {inputs[config.key].toLocaleString("sv-SE")}
+                            {config.suffix}
+                          </Text>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -277,7 +277,7 @@ export function CompoundInterestCalculator() {
           </Box>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -374,7 +374,7 @@ export function CompoundInterestCalculator() {
           </div>
 
           {/* Growth Summary */}
-          <div className="mt-8 p-6 glass rounded-xl border border-gray-700/50 bg-gradient-to-r from-gray-800/30 to-gray-900/30">
+          <div className="mt-6 p-6 glass rounded-xl border border-gray-700/50 bg-gradient-to-r from-gray-800/30 to-gray-900/30">
             <Text className="text-sm text-gray-300 text-center leading-relaxed max-w-4xl mx-auto">
               {t("results.growth_summary", {
                 startSum: formatCurrencyNoDecimals(finalValues.startSum),

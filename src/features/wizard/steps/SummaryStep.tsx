@@ -245,7 +245,7 @@ export function SummaryStep() {
                     e.stopPropagation();
                     onEdit();
                   }}
-                  className="mt-4 w-full font-medium group transition-colors"
+                  className="mt-6 w-full font-medium group transition-colors"
                 >
                   <Edit3 className="w-4 h-4 mr-2" />
                   {tSummary("edit")}

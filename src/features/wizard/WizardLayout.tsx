@@ -152,9 +152,9 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
           currentStep={stepIndex}
           onStepClick={handleStepClick}
         />
-        <Box className="mt-8">{steps[stepIndex].component}</Box>
+        <Box className="mt-6">{steps[stepIndex].component}</Box>
         <Box
-          className={`flex mt-8 ${stepIndex === 0 ? "justify-end" : "justify-between"}`}
+          className={`flex mt-6 ${stepIndex === 0 ? "justify-end" : "justify-between"}`}
         >
           {stepIndex > 0 && (
             <Button onClick={goBack} variant="secondary">

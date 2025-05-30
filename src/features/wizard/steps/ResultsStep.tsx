@@ -53,7 +53,7 @@ export function ResultsStep() {
         >
           <Card gradient glass className="overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
-            <CardContent className="relative z-10 p-8">
+            <CardContent className="relative z-10 p-6">
               <div className="flex flex-col lg:flex-row items-center gap-6">
                 <div className="flex-1 text-center lg:text-left space-y-4">
                   <div className="flex items-center justify-center lg:justify-start gap-3">

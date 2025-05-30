@@ -23,7 +23,7 @@ const HushallskalkylContent: FC<Props> = ({
   const backLabel = t("back_to_home");
 
   return (
-    <Box className="max-w-5xl mx-auto w-full px-4 sm:px-6 xl:px-0 py-6 sm:py-10">
+    <Box className="max-w-5xl mx-auto w-full">
       {showBackButton && (
         <Button asChild variant="outline" className="mb-6">
           <Link href="/">{backLabel}</Link>

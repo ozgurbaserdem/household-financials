@@ -309,7 +309,7 @@ export function ExpenseCategories({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-8 p-4 glass rounded-xl"
+          className="mt-6 p-6 glass rounded-xl"
         >
           <Box className="flex items-center justify-between">
             <Box className="flex items-center gap-3">

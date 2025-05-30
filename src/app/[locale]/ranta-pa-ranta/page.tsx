@@ -33,11 +33,11 @@ export async function generateMetadata({
   }
 
   const title =
-    "Ränta på Ränta Kalkylator & Månadssparande - Gratis Verktyg | Budgetkollen";
+    "Ränta på Ränta Kalkylator 2025 - Se Hur Dina Pengar Växer | Budgetkollen";
   const description =
-    "Beräkna ränta-på-ränta och månadssparande. Se hur dina investeringar växer över tid med vår gratis kalkylator. Visualisera effekten av ränta på ränta för långsiktigt sparande och pensionsplanering.";
+    "Gratis ränta på ränta kalkylator för svenskar. Beräkna exakt hur ditt månadssparande kan växa till miljoner. Perfekt för pensionssparande, ISK och investeringar i fonder.";
   const keywords =
-    "ränta på ränta, ränta på ränta kalkylator, månadssparande, månadssparande kalkylator, investeringskalkylator, sparkalkylator, långsiktigt sparande, pensionssparande, aktiefonder, indexfonder, avkastning, kapitalökning, budgetkollen";
+    "ränta på ränta kalkylator, ränta på ränta, månadssparande kalkylator, sparkalkylator, investeringskalkylator, ISK kalkylator, pensionssparande, indexfonder, sammansatt ränta, FIRE sverige, ekonomisk oberoende, budgetkollen";
 
   const canonicalUrl = `https://www.budgetkollen.se/sv/ranta-pa-ranta`;
 
@@ -73,18 +73,18 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "/og-compound-interest.png",
-          width: 1200,
-          height: 630,
-          alt: "Ränta-på-Ränta Kalkylator - Investeringstillväxt Visualisering",
+          url: "/einstein-optimized.png",
+          width: 80,
+          height: 80,
+          alt: "Ränta på Ränta Kalkylator - Budgetkollen",
         },
       ],
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title,
       description,
-      images: ["/og-compound-interest.png"],
+      images: ["/einstein-optimized.png"],
     },
     robots: {
       index: true,
@@ -120,9 +120,9 @@ async function CompoundInterestContent() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Ränta på Ränta Kalkylator",
+    name: "Ränta på Ränta Kalkylator - Budgetkollen",
     description:
-      "Beräkna ränta på ränta och månadssparande för dina investeringar",
+      "Sveriges bästa gratis kalkylator för ränta på ränta. Beräkna hur ditt månadssparande kan växa genom investeringar i fonder och aktier.",
     url: "https://www.budgetkollen.se/sv/ranta-pa-ranta",
     applicationCategory: "FinanceApplication",
     operatingSystem: "All",
@@ -194,7 +194,7 @@ async function CompoundInterestContent() {
 
         <Navbar />
 
-        <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10 relative z-10 space-y-8">
+        <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10 relative z-10 space-y-6">
           {/* Hero Section */}
           <section className="text-center space-y-6 py-4">
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent leading-tight">
@@ -277,7 +277,7 @@ async function CompoundInterestContent() {
                 {[1, 2, 3, 4, 5, 6].map((num) => (
                   <div
                     key={num}
-                    className="flex items-start gap-4 p-4 glass rounded-lg"
+                    className="flex items-start gap-4 p-6 glass rounded-lg"
                   >
                     <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0 mt-0.5">
                       {num}
@@ -310,7 +310,7 @@ async function CompoundInterestContent() {
 
           {/* CTA Section */}
           <Card gradient glass>
-            <CardContent className="text-center space-y-6 py-8">
+            <CardContent className="text-center space-y-6">
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-white">
                   {t("cta.title")}
@@ -323,7 +323,7 @@ async function CompoundInterestContent() {
                 <Link href="/">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 px-8 py-3"
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500"
                   >
                     {t("cta.button")}
                   </Button>
