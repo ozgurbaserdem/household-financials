@@ -23,6 +23,7 @@ import {
   Receipt,
   PiggyBank,
   Users,
+  User,
   Baby,
   Briefcase,
   Home,
@@ -343,14 +344,18 @@ export function SummaryStep() {
             sectionKey="income"
             stats={
               <Text className="text-xs text-gray-300">
-                {income.numberOfAdults === "2" ? (
-                  <Box className="flex items-center gap-1">
+                <Box className="flex items-center gap-1">
+                  {income.numberOfAdults === "2" ? (
                     <Users className="w-3 h-3" />
-                    <span>2 {tSummary("adults")}</span>
-                  </Box>
-                ) : (
-                  `1 ${tSummary("adult")}`
-                )}
+                  ) : (
+                    <User className="w-3 h-3" />
+                  )}
+                  <span>
+                    {tSummary("adults_count", {
+                      count: parseInt(income.numberOfAdults),
+                    })}
+                  </span>
+                </Box>
               </Text>
             }
           >

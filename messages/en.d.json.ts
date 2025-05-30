@@ -359,6 +359,7 @@ declare const messages: {
     "net": "Net",
     "adults": "adults",
     "adult": "adult",
+    "adults_count": "{count, plural, =1 {# adult} other {# adults}}",
     "estimated_monthly_surplus": "Estimated Monthly Surplus",
     "estimated_monthly_deficit": "Estimated Monthly Deficit",
     "no_loan": "No loans"

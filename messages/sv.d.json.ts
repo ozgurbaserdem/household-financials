@@ -361,6 +361,7 @@ declare const messages: {
     "net": "Netto",
     "adults": "vuxna",
     "adult": "vuxen",
+    "adults_count": "{count, plural, =1 {# vuxen} other {# vuxna}}",
     "estimated_monthly_surplus": "Beräknat månadsöverskott",
     "estimated_monthly_deficit": "Beräknat månadsunderskott",
     "no_loan": "Inga lån"
