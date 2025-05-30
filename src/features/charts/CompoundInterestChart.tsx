@@ -159,7 +159,10 @@ export function CompoundInterestChart({
                 tickFormatter={(value) => `${Math.round(value / 1000)}k`}
                 domain={[0, yAxisMax]}
               />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ fill: "rgba(107, 114, 128, 0.2)" }}
+              />
 
               {/* Start Sum (Bottom) */}
               <Bar
