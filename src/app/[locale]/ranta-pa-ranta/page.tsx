@@ -304,9 +304,9 @@ async function CompoundInterestContent(locale: string) {
                 {[1, 2, 3, 4, 5, 6].map((num) => (
                   <div
                     key={num}
-                    className="flex items-start gap-4 p-6 glass rounded-lg"
+                    className="flex items-center gap-4 p-6 glass rounded-lg"
                   >
-                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0 mt-0.5">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
                       {num}
                     </div>
                     <Text className="text-gray-300 text-sm leading-relaxed">
