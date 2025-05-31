@@ -20,6 +20,7 @@ import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { motion } from "framer-motion";
 import { ResultCard } from "./ResultCard";
+import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 
 interface ResultsTableProps {
   calculatorState: CalculatorState;
@@ -89,6 +90,7 @@ const HEAD_CELLS: HeadCell[] = [
 
 export function ResultsTable({ calculatorState }: ResultsTableProps) {
   const t = useTranslations("results");
+  const titleRef = useFocusOnMount();
   const results = useMemo(
     () => calculateLoanScenarios(calculatorState),
     [calculatorState]
@@ -127,7 +129,7 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
           <BarChart3 className="w-6 h-6 text-blue-400" />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle tabIndex={0} aria-label={t("aria.title")}>
+          <CardTitle ref={titleRef} tabIndex={0} aria-label={t("aria.title")}>
             {t("title")}
           </CardTitle>
           <motion.p

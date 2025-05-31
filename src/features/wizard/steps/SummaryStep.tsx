@@ -34,6 +34,7 @@ import { expenseCategories } from "@/data/expenseCategories";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 
 interface Row {
   label: string;
@@ -51,6 +52,7 @@ export function SummaryStep() {
   const tCategories = useTranslations("expense_categories");
   const [showAllExpenses, setShowAllExpenses] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
+  const titleRef = useFocusOnMount();
 
   const toggleSection = (section: string) => {
     setExpandedSections((prev) =>
@@ -275,7 +277,11 @@ export function SummaryStep() {
           <List className="w-6 h-6 text-purple-400" />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle tabIndex={0} aria-label={tSummary("aria.title")}>
+          <CardTitle
+            ref={titleRef}
+            tabIndex={0}
+            aria-label={tSummary("aria.title")}
+          >
             {tSummary("title")}
           </CardTitle>
           <motion.p

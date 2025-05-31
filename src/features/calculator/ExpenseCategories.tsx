@@ -39,6 +39,7 @@ import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { motion, AnimatePresence } from "framer-motion";
+import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory;
@@ -68,6 +69,7 @@ export function ExpenseCategories({
   const t = useTranslations("expense_categories");
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const [focusedCategory, setFocusedCategory] = useState<string | null>(null);
+  const titleRef = useFocusOnMount();
 
   const handleExpenseChange = (
     categoryId: string,
@@ -110,7 +112,7 @@ export function ExpenseCategories({
           <List className="w-6 h-6 text-red-400" />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle tabIndex={0} aria-label={t("aria.title")}>
+          <CardTitle ref={titleRef} tabIndex={0} aria-label={t("aria.title")}>
             {t("title")}
           </CardTitle>
           <motion.p

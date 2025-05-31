@@ -202,6 +202,8 @@
   },
   "results": {
     "title": "Beräkningsresultat",
+    "page_title": "Beräkningsresultat",
+    "page_title_aria": "Beräkningsresultat sektion",
     "aria": {
       "title": "Beräkningsresultat sektion"
     },

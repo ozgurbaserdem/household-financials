@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/form";
 import kommunalskattData from "@/data/kommunalskatt_2025.json";
 import type { KommunData } from "@/lib/types";
+import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 
 const formSchema = z.object({
   income1: z.number().min(0),
@@ -79,6 +80,7 @@ export function Income({
   });
 
   const t = useTranslations("income");
+  const titleRef = useFocusOnMount();
   const kommunList = kommunalskattData as KommunData[];
 
   useEffect(() => {
@@ -168,7 +170,7 @@ export function Income({
           <Wallet className="w-6 h-6 text-green-400" />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle tabIndex={0} aria-label={t("title_aria")}>
+          <CardTitle ref={titleRef} tabIndex={0} aria-label={t("title_aria")}>
             {t("title")}
           </CardTitle>
           <motion.p

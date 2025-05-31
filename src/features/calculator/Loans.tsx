@@ -26,6 +26,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 
 const formSchema = z
   .object({
@@ -75,6 +76,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
   });
 
   const t = useTranslations("loan_parameters");
+  const titleRef = useFocusOnMount();
 
   useEffect(() => {
     // Skip the first render and when user is toggling
@@ -184,7 +186,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
           <HandCoins className="w-6 h-6 text-orange-400" />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle tabIndex={0} aria-label={t("title_aria")}>
+          <CardTitle ref={titleRef} tabIndex={0} aria-label={t("title_aria")}>
             {t("title")}
           </CardTitle>
           <motion.p

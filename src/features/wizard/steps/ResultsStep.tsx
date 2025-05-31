@@ -13,7 +13,6 @@ import { Text } from "@/components/ui/text";
 import { useTranslations, useLocale } from "next-intl";
 import { formatCurrency, calculateLoanScenarios } from "@/lib/calculations";
 import { motion } from "framer-motion";
-
 export function ResultsStep() {
   const loanParameters = useAppSelector((state) => state.loanParameters);
   const income = useAppSelector((state) => state.income);

@@ -202,6 +202,8 @@ declare const messages: {
   },
   "results": {
     "title": "Calculation Results",
+    "page_title": "Calculation Results",
+    "page_title_aria": "Calculation Results section",
     "aria": {
       "title": "Calculation Results section"
     },
