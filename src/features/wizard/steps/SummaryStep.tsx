@@ -12,11 +12,16 @@ import {
 } from "@/components/ui/modern-card";
 import { CardContent } from "@/components/ui/card";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   BadgeDollarSign,
   HandCoins,
   List,
   Edit3,
-  ChevronDown,
   Wallet,
   TrendingUp,
   TrendingDown,
@@ -32,7 +37,7 @@ import {
 import { formatCurrency, getNetIncome } from "@/lib/calculations";
 import { expenseCategories } from "@/data/expenseCategories";
 import { useTranslations } from "next-intl";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 
@@ -53,14 +58,6 @@ export function SummaryStep() {
   const [showAllExpenses, setShowAllExpenses] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const titleRef = useFocusOnMount();
-
-  const toggleSection = (section: string) => {
-    setExpandedSections((prev) =>
-      prev.includes(section)
-        ? prev.filter((s) => s !== section)
-        : [...prev, section]
-    );
-  };
 
   const incomeIcons: Record<string, React.ReactNode> = {
     income1: <Briefcase className="w-4 h-4" />,
@@ -195,81 +192,6 @@ export function SummaryStep() {
     .slice(0, 3);
   const showExpand = nonZeroExpenses.length > 3;
 
-  const SectionCard = ({
-    title,
-    icon,
-    color,
-    children,
-    onEdit,
-    sectionKey,
-    stats,
-  }: {
-    title: string;
-    icon: React.ReactNode;
-    color: string;
-    children: React.ReactNode;
-    onEdit: () => void;
-    sectionKey: string;
-    stats?: React.ReactNode;
-  }) => {
-    const isExpanded = expandedSections.includes(sectionKey);
-
-    return (
-      <div className="glass rounded-xl overflow-hidden">
-        <Box
-          className="p-4 cursor-pointer hover:bg-white/5 transition-colors"
-          onClick={() => toggleSection(sectionKey)}
-        >
-          <Box className="flex items-center justify-between">
-            <Box className="flex items-center gap-3">
-              <Box className={cn("p-2 rounded-lg", color)}>{icon}</Box>
-              <Box>
-                <Text className="font-semibold text-white">{title}</Text>
-                {stats}
-              </Box>
-            </Box>
-            <Box className="flex items-center gap-2">
-              <ChevronDown
-                className={cn(
-                  "w-5 h-5 text-gray-300 transition-transform duration-200",
-                  isExpanded && "rotate-180"
-                )}
-              />
-            </Box>
-          </Box>
-        </Box>
-
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
-              <Box className="p-4 pt-0 border-t border-gray-800">
-                {children}
-                <Button
-                  size="sm"
-                  variant="gradient2"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onEdit();
-                  }}
-                  className="mt-6 w-full font-medium group transition-colors"
-                >
-                  <Edit3 className="w-4 h-4 mr-2" />
-                  {tSummary("edit")}
-                </Button>
-              </Box>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    );
-  };
-
   return (
     <Card gradient glass>
       <CardHeader>
@@ -303,10 +225,17 @@ export function SummaryStep() {
           transition={{ delay: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
         >
-          <Box className="p-4 glass rounded-xl border border-green-500/20">
+          <Box
+            className="p-4 glass rounded-xl border border-green-500/20 focus-within:ring-2 focus-within:ring-green-400/50 focus-within:border-green-400/50"
+            tabIndex={0}
+            role="group"
+            aria-label={tSummary("aria.net_income_card", {
+              amount: formatCurrency(totalIncome),
+            })}
+          >
             <Box className="flex items-center gap-3 mb-2">
               <Wallet className="w-5 h-5 text-green-400" />
-              <Text className="text-sm text-gray-300">
+              <Text id="net-income-label" className="text-sm text-gray-300">
                 {tSummary("net_income")}
               </Text>
             </Box>
@@ -318,10 +247,17 @@ export function SummaryStep() {
             </Text>
           </Box>
 
-          <Box className="p-4 glass rounded-xl border border-orange-500/20">
+          <Box
+            className="p-4 glass rounded-xl border border-orange-500/20 focus-within:ring-2 focus-within:ring-orange-400/50 focus-within:border-orange-400/50"
+            tabIndex={0}
+            role="group"
+            aria-label={tSummary("aria.loan_payment_card", {
+              amount: hasLoan ? formatCurrency(monthlyPayment) : "-",
+            })}
+          >
             <Box className="flex items-center gap-3 mb-2">
               <HandCoins className="w-5 h-5 text-orange-400" />
-              <Text className="text-sm text-gray-300">
+              <Text id="loan-payment-label" className="text-sm text-gray-300">
                 {tSummary("loan_payment")}
               </Text>
             </Box>
@@ -333,10 +269,17 @@ export function SummaryStep() {
             </Text>
           </Box>
 
-          <Box className="p-4 glass rounded-xl border border-red-500/20">
+          <Box
+            className="p-4 glass rounded-xl border border-red-500/20 focus-within:ring-2 focus-within:ring-red-400/50 focus-within:border-red-400/50"
+            tabIndex={0}
+            role="group"
+            aria-label={tSummary("aria.total_expenses_card", {
+              amount: formatCurrency(totalExpenses),
+            })}
+          >
             <Box className="flex items-center gap-3 mb-2">
               <Receipt className="w-5 h-5 text-red-400" />
-              <Text className="text-sm text-gray-300">
+              <Text id="total-expenses-label" className="text-sm text-gray-300">
                 {tSummary("totalExpenses")}
               </Text>
             </Box>
@@ -350,72 +293,58 @@ export function SummaryStep() {
         </motion.div>
 
         {/* Sections */}
-        <Box className="space-y-4">
+        <Accordion
+          type="multiple"
+          value={expandedSections}
+          onValueChange={setExpandedSections}
+          className="space-y-4"
+        >
           {/* Income Section */}
-          <SectionCard
-            title={tSummary("incomeTitle")}
-            icon={<BadgeDollarSign className="w-5 h-5 text-green-400" />}
-            color="bg-gradient-to-br from-green-600/20 to-emerald-600/20"
-            onEdit={() => setStepIndex(0)}
-            sectionKey="income"
-            stats={
-              <Text className="text-xs text-gray-300">
-                <Box className="flex items-center gap-1">
-                  {income.numberOfAdults === "2" ? (
-                    <Users className="w-3 h-3" />
-                  ) : (
-                    <User className="w-3 h-3" />
-                  )}
-                  <span>
-                    {tSummary("adults_count", {
-                      count: parseInt(income.numberOfAdults),
-                    })}
-                  </span>
-                </Box>
-              </Text>
-            }
+          <AccordionItem
+            value="income"
+            className="glass rounded-xl border-0 overflow-hidden"
           >
-            <Box className="space-y-3" data-testid="income-content">
-              {incomeRows.map((row, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
-                >
-                  <Box className="flex items-center gap-3">
-                    <Box className="p-1.5 rounded-md bg-gray-800/50">
-                      {row.icon}
-                    </Box>
-                    <Text className="text-sm text-gray-300">{row.label}</Text>
+            <AccordionTrigger
+              className="px-4 py-4 hover:bg-white/5 transition-colors"
+              aria-label={tSummary("aria.income_section", {
+                state: expandedSections.includes("income")
+                  ? tSummary("aria.expanded")
+                  : tSummary("aria.collapsed"),
+                action: expandedSections.includes("income")
+                  ? tSummary("aria.collapse")
+                  : tSummary("aria.expand"),
+              })}
+            >
+              <Box className="flex items-center justify-between w-full">
+                <Box className="flex items-center gap-3">
+                  <Box className="p-2 rounded-lg bg-gradient-to-br from-green-600/20 to-emerald-600/20">
+                    <BadgeDollarSign className="w-5 h-5 text-green-400" />
                   </Box>
-                  <Box className="flex flex-col items-end">
-                    <Text className="font-medium text-white text-right">
-                      {formatCurrency(row.value)}
+                  <Box>
+                    <Text className="font-semibold text-white">
+                      {tSummary("incomeTitle")}
                     </Text>
-                    {row.net && (
-                      <Text className="text-xs text-gray-300 font-medium mt-0.5 text-right">
-                        {tSummary("net")}: {formatCurrency(row.net)}
-                      </Text>
-                    )}
+                    <Text className="text-xs text-gray-300">
+                      <Box className="flex items-center gap-1">
+                        {income.numberOfAdults === "2" ? (
+                          <Users className="w-3 h-3" />
+                        ) : (
+                          <User className="w-3 h-3" />
+                        )}
+                        <span>
+                          {tSummary("adults_count", {
+                            count: parseInt(income.numberOfAdults),
+                          })}
+                        </span>
+                      </Box>
+                    </Text>
                   </Box>
-                </motion.div>
-              ))}
-            </Box>
-          </SectionCard>
-
-          {/* Loans Section */}
-          <SectionCard
-            title={tSummary("loansTitle")}
-            icon={<HandCoins className="w-5 h-5 text-orange-400" />}
-            color="bg-gradient-to-br from-orange-500/20 to-amber-600/20"
-            onEdit={() => setStepIndex(1)}
-            sectionKey="loans"
-          >
-            <Box className="space-y-3">
-              {hasLoan ? (
-                loanRows.map((row, i) => (
+                </Box>
+              </Box>
+            </AccordionTrigger>
+            <AccordionContent className="px-4 pb-4">
+              <Box className="space-y-3 pt-2" data-testid="income-content">
+                {incomeRows.map((row, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, x: -10 }}
@@ -429,91 +358,224 @@ export function SummaryStep() {
                       </Box>
                       <Text className="text-sm text-gray-300">{row.label}</Text>
                     </Box>
-                    <Text className="font-medium text-white">
-                      {row.label === tSummary("loanAmount")
-                        ? formatCurrency(row.value)
-                        : `${row.value}%`}
-                    </Text>
-                  </motion.div>
-                ))
-              ) : (
-                <Text className="text-sm text-gray-400 text-center py-4">
-                  {tSummary("no_loan")}
-                </Text>
-              )}
-            </Box>
-          </SectionCard>
-
-          {/* Expenses Section */}
-          <SectionCard
-            title={tSummary("expensesTitle")}
-            icon={<List className="w-5 h-5 text-red-400" />}
-            color="bg-gradient-to-br from-orange-600/20 to-red-600/20"
-            onEdit={() => setStepIndex(2)}
-            sectionKey="expenses"
-          >
-            <Box className="space-y-3">
-              {(showAllExpenses ? nonZeroExpenses : topExpenses).map(
-                (row, i) => (
-                  <motion.div
-                    key={row.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
-                  >
-                    <Text className="text-sm text-gray-300">{row.name}</Text>
-                    <Box className="flex items-center gap-3">
-                      <Box className="w-16 h-1.5 bg-gray-700/50 rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{
-                            width: `${(row.total / totalExpenses) * 100}%`,
-                          }}
-                          transition={{ delay: 0.3 + i * 0.05 }}
-                          className="h-full bg-gradient-to-r from-orange-500 to-red-500"
-                        />
-                      </Box>
-                      <Text className="font-medium text-white min-w-[80px] text-right">
-                        {formatCurrency(row.total)}
+                    <Box className="flex flex-col items-end">
+                      <Text className="font-medium text-white text-right">
+                        {formatCurrency(row.value)}
                       </Text>
+                      {row.net && (
+                        <Text className="text-xs text-gray-300 font-medium mt-0.5 text-right">
+                          {tSummary("net")}: {formatCurrency(row.net)}
+                        </Text>
+                      )}
                     </Box>
                   </motion.div>
-                )
-              )}
-
-              {showExpand && (
+                ))}
                 <Button
-                  variant="ghost"
                   size="sm"
-                  className="w-full text-gray-300 hover:text-white"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowAllExpenses((v) => !v);
-                  }}
+                  variant="gradient2"
+                  onClick={() => setStepIndex(0)}
+                  className="mt-6 w-full font-medium group transition-colors"
+                  aria-label={tSummary("aria.edit_income")}
                 >
-                  {showAllExpenses ? tSummary("showLess") : tSummary("showAll")}
+                  <Edit3 className="w-4 h-4 mr-2" />
+                  {tSummary("edit")}
                 </Button>
-              )}
-
-              <Box className="flex justify-between items-center pt-3 border-t border-gray-800">
-                <Text className="font-semibold text-gray-300">
-                  {tSummary("totalExpenses")}
-                </Text>
-                <Text className="font-bold text-xl gradient-text">
-                  {formatCurrency(totalExpenses)}
-                </Text>
               </Box>
-            </Box>
-          </SectionCard>
-        </Box>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Loans Section */}
+          <AccordionItem
+            value="loans"
+            className="glass rounded-xl border-0 overflow-hidden"
+          >
+            <AccordionTrigger
+              className="px-4 py-4 hover:bg-white/5 transition-colors"
+              aria-label={tSummary("aria.loans_section", {
+                state: expandedSections.includes("loans")
+                  ? tSummary("aria.expanded")
+                  : tSummary("aria.collapsed"),
+                action: expandedSections.includes("loans")
+                  ? tSummary("aria.collapse")
+                  : tSummary("aria.expand"),
+              })}
+            >
+              <Box className="flex items-center justify-between w-full">
+                <Box className="flex items-center gap-3">
+                  <Box className="p-2 rounded-lg bg-gradient-to-br from-orange-500/20 to-amber-600/20">
+                    <HandCoins className="w-5 h-5 text-orange-400" />
+                  </Box>
+                  <Box>
+                    <Text className="font-semibold text-white">
+                      {tSummary("loansTitle")}
+                    </Text>
+                  </Box>
+                </Box>
+              </Box>
+            </AccordionTrigger>
+            <AccordionContent className="px-4 pb-4">
+              <Box className="space-y-3 pt-2">
+                {hasLoan ? (
+                  loanRows.map((row, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
+                    >
+                      <Box className="flex items-center gap-3">
+                        <Box className="p-1.5 rounded-md bg-gray-800/50">
+                          {row.icon}
+                        </Box>
+                        <Text className="text-sm text-gray-300">
+                          {row.label}
+                        </Text>
+                      </Box>
+                      <Text className="font-medium text-white">
+                        {row.label === tSummary("loanAmount")
+                          ? formatCurrency(row.value)
+                          : `${row.value}%`}
+                      </Text>
+                    </motion.div>
+                  ))
+                ) : (
+                  <Text className="text-sm text-gray-400 text-center py-4">
+                    {tSummary("no_loan")}
+                  </Text>
+                )}
+                <Button
+                  size="sm"
+                  variant="gradient2"
+                  onClick={() => setStepIndex(1)}
+                  className="mt-6 w-full font-medium group transition-colors"
+                  aria-label={tSummary("aria.edit_loans")}
+                >
+                  <Edit3 className="w-4 h-4 mr-2" />
+                  {tSummary("edit")}
+                </Button>
+              </Box>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Expenses Section */}
+          <AccordionItem
+            value="expenses"
+            className="glass rounded-xl border-0 overflow-hidden"
+          >
+            <AccordionTrigger
+              className="px-4 py-4 hover:bg-white/5 transition-colors"
+              aria-label={tSummary("aria.expenses_section", {
+                state: expandedSections.includes("expenses")
+                  ? tSummary("aria.expanded")
+                  : tSummary("aria.collapsed"),
+                action: expandedSections.includes("expenses")
+                  ? tSummary("aria.collapse")
+                  : tSummary("aria.expand"),
+              })}
+            >
+              <Box className="flex items-center justify-between w-full">
+                <Box className="flex items-center gap-3">
+                  <Box className="p-2 rounded-lg bg-gradient-to-br from-orange-600/20 to-red-600/20">
+                    <List className="w-5 h-5 text-red-400" />
+                  </Box>
+                  <Box>
+                    <Text className="font-semibold text-white">
+                      {tSummary("expensesTitle")}
+                    </Text>
+                  </Box>
+                </Box>
+              </Box>
+            </AccordionTrigger>
+            <AccordionContent className="px-4 pb-4">
+              <Box className="space-y-3 pt-2">
+                {(showAllExpenses ? nonZeroExpenses : topExpenses).map(
+                  (row, i) => (
+                    <motion.div
+                      key={row.id}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
+                    >
+                      <Text className="text-sm text-gray-300">{row.name}</Text>
+                      <Box className="flex items-center gap-3">
+                        <Box className="w-16 h-1.5 bg-gray-700/50 rounded-full overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{
+                              width: `${(row.total / totalExpenses) * 100}%`,
+                            }}
+                            transition={{ delay: 0.3 + i * 0.05 }}
+                            className="h-full bg-gradient-to-r from-orange-500 to-red-500"
+                          />
+                        </Box>
+                        <Text className="font-medium text-white min-w-[80px] text-right">
+                          {formatCurrency(row.total)}
+                        </Text>
+                      </Box>
+                    </motion.div>
+                  )
+                )}
+
+                {showExpand && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full text-gray-300 hover:text-white"
+                    onClick={() => setShowAllExpenses((v) => !v)}
+                  >
+                    {showAllExpenses
+                      ? tSummary("showLess")
+                      : tSummary("showAll")}
+                  </Button>
+                )}
+
+                <Box className="flex justify-between items-center pt-3 border-t border-gray-800">
+                  <Text className="font-semibold text-gray-300">
+                    {tSummary("totalExpenses")}
+                  </Text>
+                  <Text className="font-bold text-xl gradient-text">
+                    {formatCurrency(totalExpenses)}
+                  </Text>
+                </Box>
+
+                <Button
+                  size="sm"
+                  variant="gradient2"
+                  onClick={() => setStepIndex(2)}
+                  className="mt-6 w-full font-medium group transition-colors"
+                  aria-label={tSummary("aria.edit_expenses")}
+                >
+                  <Edit3 className="w-4 h-4 mr-2" />
+                  {tSummary("edit")}
+                </Button>
+              </Box>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
         {/* Summary Box */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-6 p-4 glass rounded-xl border border-blue-500/20"
+          className="mt-6 p-4 glass rounded-xl border border-blue-500/20 focus-within:ring-2 focus-within:ring-blue-400/50 focus-within:border-blue-400/50"
+          tabIndex={0}
+          role="group"
+          aria-label={
+            totalIncome - monthlyPayment - totalExpenses >= 0
+              ? tSummary("aria.monthly_surplus_summary", {
+                  amount: formatCurrency(
+                    totalIncome - monthlyPayment - totalExpenses
+                  ),
+                })
+              : tSummary("aria.monthly_deficit_summary", {
+                  amount: formatCurrency(
+                    totalIncome - monthlyPayment - totalExpenses
+                  ),
+                })
+          }
         >
           <Box className="flex flex-col sm:flex-row items-center gap-4">
             <Box

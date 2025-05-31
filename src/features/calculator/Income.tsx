@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -12,7 +11,13 @@ import {
 } from "@/components/ui/modern-card";
 import { CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { ChevronRight, TrendingUp, Wallet, Search } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { TrendingUp, Wallet, Search } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
@@ -71,7 +76,6 @@ export function Income({
   numberOfAdults,
   onNumberOfAdultsChange,
 }: IncomeFormProps) {
-  const [showExtraIncomes, setShowExtraIncomes] = useState(false);
   const [kommunSearch, setKommunSearch] = useState("");
   const [showKommunDropdown, setShowKommunDropdown] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -323,102 +327,92 @@ export function Income({
                 transition={{ delay: 0.2 }}
                 className="space-y-4"
               >
-                <IncomeInputField
-                  form={form}
-                  name="income1"
-                  label={t("income1")}
-                  ariaLabel={t("income1_aria")}
-                  onBlur={handleFieldChange}
-                  className="modern-input"
-                />
+                <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <IncomeInputField
+                    form={form}
+                    name="income1"
+                    label={t("income1")}
+                    ariaLabel={t("income1_aria")}
+                    onBlur={handleFieldChange}
+                    className="modern-input"
+                  />
 
-                <AnimatePresence>
-                  {numberOfAdults === "2" && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <IncomeInputField
-                        form={form}
-                        name="income2"
-                        label={t("income2")}
-                        ariaLabel={t("income2_aria")}
-                        onBlur={handleFieldChange}
-                        className="modern-input"
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  <AnimatePresence>
+                    {numberOfAdults === "2" && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <IncomeInputField
+                          form={form}
+                          name="income2"
+                          label={t("income2")}
+                          ariaLabel={t("income2_aria")}
+                          onBlur={handleFieldChange}
+                          className="modern-input"
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </Box>
               </motion.div>
 
-              {/* Collapsible extra incomes */}
+              {/* Secondary Income Accordion */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 className="mt-6"
               >
-                <Button
-                  type="button"
-                  variant="gradient2"
-                  onClick={() => setShowExtraIncomes((v) => !v)}
-                  aria-expanded={showExtraIncomes}
-                  aria-controls="extra-incomes-section"
-                  data-testid="extra-incomes-toggle"
-                  className="w-full glass hover:bg-white/10 border-gray-600 text-gray-100 
-                           flex items-center gap-2 justify-between group transition-all duration-300"
-                >
-                  <span className="flex items-center gap-2">
-                    <motion.div
-                      animate={{ rotate: showExtraIncomes ? 90 : 0 }}
-                      transition={{ duration: 0.2 }}
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem
+                    value="secondary-income"
+                    className="border-none"
+                  >
+                    <AccordionTrigger
+                      className="glass hover:bg-white/10 border border-gray-600 text-gray-100 
+                                 px-4 py-3 rounded-lg group transition-all duration-300
+                                 hover:no-underline [&[data-state=open]]:rounded-b-none"
+                      data-testid="extra-incomes-toggle"
                     >
-                      <ChevronRight className="w-4 h-4" />
-                    </motion.div>
-                    {t("add_extra_incomes")}
-                  </span>
-                  <span className="text-xs text-gray-400 group-hover:text-gray-300">
-                    {t("optional")}
-                  </span>
-                </Button>
-
-                <AnimatePresence>
-                  {showExtraIncomes && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="mt-4 space-y-4 overflow-hidden"
-                    >
+                      <span className="flex items-center justify-between w-full">
+                        <span>{t("add_extra_incomes")}</span>
+                        <span className="text-xs text-gray-400 group-hover:text-gray-300 mr-2">
+                          {t("optional")}
+                        </span>
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-0 pb-0">
                       <Box
                         id="extra-incomes-section"
-                        className="space-y-4 p-4 glass rounded-xl"
+                        className="p-4 glass rounded-b-lg border border-t-0 border-gray-600"
                       >
-                        <IncomeInputField
-                          form={form}
-                          name="secondaryIncome1"
-                          label={t("secondaryIncome1")}
-                          ariaLabel={t("secondaryIncome1_aria")}
-                          onBlur={handleFieldChange}
-                          className="modern-input"
-                        />
-                        {numberOfAdults === "2" && (
+                        <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <IncomeInputField
                             form={form}
-                            name="secondaryIncome2"
-                            label={t("secondaryIncome2")}
-                            ariaLabel={t("secondaryIncome2_aria")}
+                            name="secondaryIncome1"
+                            label={t("secondaryIncome1")}
+                            ariaLabel={t("secondaryIncome1_aria")}
                             onBlur={handleFieldChange}
                             className="modern-input"
                           />
-                        )}
+                          {numberOfAdults === "2" && (
+                            <IncomeInputField
+                              form={form}
+                              name="secondaryIncome2"
+                              label={t("secondaryIncome2")}
+                              ariaLabel={t("secondaryIncome2_aria")}
+                              onBlur={handleFieldChange}
+                              className="modern-input"
+                            />
+                          )}
+                        </Box>
                       </Box>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </motion.div>
 
               {/* Additional Income Fields with Icons */}

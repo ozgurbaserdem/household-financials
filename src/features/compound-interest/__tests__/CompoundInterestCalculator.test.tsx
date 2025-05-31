@@ -5,6 +5,57 @@ import userEvent from "@testing-library/user-event";
 import { CompoundInterestCalculator } from "@/features/compound-interest/CompoundInterestCalculator";
 import * as nextNavigation from "next/navigation";
 
+// Mock recharts to avoid rendering issues in tests
+vi.mock("recharts", () => ({
+  ResponsiveContainer: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="responsive-container" style={{ width: 500, height: 400 }}>
+      {children}
+    </div>
+  ),
+  BarChart: ({
+    children,
+    data,
+  }: {
+    children: React.ReactNode;
+    data: unknown;
+  }) => (
+    <div data-testid="bar-chart" data-chart-data={JSON.stringify(data)}>
+      {children}
+    </div>
+  ),
+  Bar: ({
+    dataKey,
+    stackId,
+    fill,
+  }: {
+    dataKey: string;
+    stackId: string;
+    fill: string;
+  }) => (
+    <div
+      data-testid={`bar-${dataKey}`}
+      data-stack-id={stackId}
+      data-fill={fill}
+    />
+  ),
+  XAxis: ({ dataKey }: { dataKey: string }) => (
+    <div data-testid="x-axis" data-key={dataKey} />
+  ),
+  YAxis: ({ tickFormatter }: { tickFormatter?: () => string }) => (
+    <div
+      data-testid="y-axis"
+      data-formatter={tickFormatter ? "custom" : "default"}
+    />
+  ),
+  Tooltip: ({ content }: { content?: React.ComponentType }) => (
+    <div data-testid="tooltip" data-custom={content ? "true" : "false"} />
+  ),
+  Legend: ({ content }: { content?: React.ComponentType }) => (
+    <div data-testid="legend" data-custom={content ? "true" : "false"} />
+  ),
+  CartesianGrid: () => <div data-testid="cartesian-grid" />,
+}));
+
 // DON'T MOCK THE CALCULATION FUNCTIONS - We want to test the real logic!
 // This was the bug - the tests were mocking the actual calculation functions
 

@@ -334,7 +334,22 @@
   "summary": {
     "title": "Sammanfattning",
     "aria": {
-      "title": "Sammanfattning sektion"
+      "title": "Sammanfattning sektion",
+      "net_income_card": "Nettoinkomst är {amount} per månad",
+      "loan_payment_card": "Lånebetalning är {amount} per månad",
+      "total_expenses_card": "Totala utgifter är {amount} per månad",
+      "income_section": "Inkomstsektion, {state}. Tryck Enter eller mellanslag för att {action}",
+      "loans_section": "Lånsektion, {state}. Tryck Enter eller mellanslag för att {action}",
+      "expenses_section": "Utgiftssektion, {state}. Tryck Enter eller mellanslag för att {action}",
+      "monthly_surplus_summary": "Beräknat månadsöverskott är {amount}",
+      "monthly_deficit_summary": "Beräknat månadsunderskott är {amount}",
+      "expanded": "expanderad",
+      "collapsed": "kollapsad",
+      "expand": "expandera",
+      "collapse": "kollapsa",
+      "edit_income": "Redigera inkomster",
+      "edit_loans": "Redigera lån",
+      "edit_expenses": "Redigera utgifter"
     },
     "incomeTitle": "Inkomster",
     "loansTitle": "Lån",

@@ -334,7 +334,22 @@ declare const messages: {
   "summary": {
     "title": "Summary",
     "aria": {
-      "title": "Summary section"
+      "title": "Summary section",
+      "net_income_card": "Net income is {amount} per month",
+      "loan_payment_card": "Loan payment is {amount} per month",
+      "total_expenses_card": "Total expenses is {amount} per month",
+      "income_section": "Income section, {state}. Press Enter or Space to {action}",
+      "loans_section": "Loans section, {state}. Press Enter or Space to {action}",
+      "expenses_section": "Expenses section, {state}. Press Enter or Space to {action}",
+      "monthly_surplus_summary": "Estimated monthly surplus is {amount}",
+      "monthly_deficit_summary": "Estimated monthly deficit is {amount}",
+      "expanded": "expanded",
+      "collapsed": "collapsed",
+      "expand": "expand",
+      "collapse": "collapse",
+      "edit_income": "Edit Income",
+      "edit_loans": "Edit Loans",
+      "edit_expenses": "Edit Expenses"
     },
     "incomeTitle": "Income",
     "loansTitle": "Loans",

@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { vi } from "vitest";
+import { vi, beforeAll, afterAll } from "vitest";
 
 // Mock next/navigation
 vi.mock("next/navigation", () => ({
@@ -52,5 +52,32 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }));
+
+// Mock window.scrollTo
+Object.defineProperty(window, "scrollTo", {
+  writable: true,
+  value: vi.fn(),
+});
+
+// Suppress React prop warnings and SVG warnings in tests
+const originalError = console.error;
+beforeAll(() => {
+  console.error = (...args) => {
+    const message = args[0];
+    if (
+      typeof message === "string" &&
+      (message.includes("React does not recognize") ||
+        message.includes("is unrecognized in this browser") ||
+        message.includes("is using incorrect casing"))
+    ) {
+      return;
+    }
+    originalError.call(console, ...args);
+  };
+});
+
+afterAll(() => {
+  console.error = originalError;
+});
 
 // Add any other global test setup here

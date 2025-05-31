@@ -13,7 +13,6 @@ import {
 import { Info, TrendingUp, TrendingDown } from "lucide-react";
 import { calculateFinancialHealthScoreForResult } from "@/lib/calculations";
 import { FinancialHealthScore } from "./FinancialHealthScore";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { motion } from "framer-motion";
 
 interface HeadCell {
@@ -52,8 +51,6 @@ function ResultCard({
     "total_income",
     "remaining_savings",
   ];
-  const isTouch = useIsTouchDevice();
-  const [openTooltip, setOpenTooltip] = useState<string | null>(null);
 
   useEffect(() => {
     setShowAnimation(true);
@@ -122,31 +119,13 @@ function ResultCard({
                   <Text className="text-xs text-gray-300" tabIndex={0}>
                     {t(cell.key)}
                   </Text>
-                  <Tooltip
-                    delayDuration={100}
-                    open={isTouch ? openTooltip === cell.key : undefined}
-                    onOpenChange={
-                      isTouch
-                        ? (open) => setOpenTooltip(open ? cell.key : null)
-                        : undefined
-                    }
-                  >
+                  <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <button
                         type="button"
                         tabIndex={0}
                         aria-label={t(cell.tooltipKey)}
                         className="focus:outline-none p-1 -m-1 bg-transparent flex items-center justify-center hover:text-blue-400 transition-colors"
-                        onClick={
-                          isTouch
-                            ? (e) => {
-                                e.stopPropagation();
-                                setOpenTooltip(
-                                  openTooltip === cell.key ? null : cell.key
-                                );
-                              }
-                            : undefined
-                        }
                       >
                         <Info className="w-4 h-4 text-gray-300" />
                       </button>
@@ -182,7 +161,7 @@ function ResultCard({
       </Box>
 
       {/* Toggle Financial Health Score */}
-      <Box className="mt-4 pt-4 border-t border-gray-800">
+      <Box className="mt-4 pt-4 border-t border-gray-500/50">
         <button
           onClick={() => setShowHealthScore(!showHealthScore)}
           className="w-full text-left text-sm text-gray-300 hover:text-white transition-colors flex items-center justify-between group"

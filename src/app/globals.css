@@ -84,6 +84,20 @@ body {
   border-color: var(--dark-glass-border);
 }
 
+/* Navbar-specific glass effect with higher opacity */
+.glass-navbar {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--glass-shadow);
+}
+
+.dark .glass-navbar {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
 /* Gradient text */
 .gradient-text {
   @apply bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent;

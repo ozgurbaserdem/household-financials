@@ -108,10 +108,10 @@ describe("SummaryStep", () => {
     const loansSectionContainer = loansSection.closest(".glass");
     expect(loansSectionContainer).toBeTruthy();
 
-    // Click the header area to expand
-    const headerArea = loansSectionContainer!.querySelector(".cursor-pointer");
-    expect(headerArea).toBeTruthy();
-    fireEvent.click(headerArea!);
+    // Click the accordion trigger to expand
+    const accordionTrigger = loansSection.closest("button");
+    expect(accordionTrigger).toBeTruthy();
+    fireEvent.click(accordionTrigger!);
 
     // Wait for and verify the no loan message
     await waitFor(() => {
@@ -189,10 +189,10 @@ describe("SummaryStep", () => {
     const loansSectionContainer = loansSection.closest(".glass");
     expect(loansSectionContainer).toBeTruthy();
 
-    // Click the header area to expand
-    const headerArea = loansSectionContainer!.querySelector(".cursor-pointer");
-    expect(headerArea).toBeTruthy();
-    fireEvent.click(headerArea!);
+    // Click the accordion trigger to expand
+    const accordionTrigger = loansSection.closest("button");
+    expect(accordionTrigger).toBeTruthy();
+    fireEvent.click(accordionTrigger!);
 
     // Wait for and verify loan information
     await waitFor(() => {
@@ -308,10 +308,10 @@ describe("SummaryStep", () => {
     const incomeSectionContainer = incomeSection.closest(".glass");
     expect(incomeSectionContainer).toBeTruthy();
 
-    // Click the header area to expand
-    const headerArea = incomeSectionContainer!.querySelector(".cursor-pointer");
-    expect(headerArea).toBeTruthy();
-    fireEvent.click(headerArea!);
+    // Click the accordion trigger to expand
+    const accordionTrigger = incomeSection.closest("button");
+    expect(accordionTrigger).toBeTruthy();
+    fireEvent.click(accordionTrigger!);
 
     // Wait for and verify income information
     await waitFor(() => {
@@ -357,10 +357,10 @@ describe("SummaryStep", () => {
     const incomeSectionContainer = incomeSection.closest(".glass");
     expect(incomeSectionContainer).toBeTruthy();
 
-    // Click the header area to expand
-    const headerArea = incomeSectionContainer!.querySelector(".cursor-pointer");
-    expect(headerArea).toBeTruthy();
-    fireEvent.click(headerArea!);
+    // Click the accordion trigger to expand
+    const accordionTrigger = incomeSection.closest("button");
+    expect(accordionTrigger).toBeTruthy();
+    fireEvent.click(accordionTrigger!);
 
     // Wait for the section to be expanded and content to be visible
     await waitFor(() => {

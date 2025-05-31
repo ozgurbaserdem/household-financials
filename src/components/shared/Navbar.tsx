@@ -31,7 +31,7 @@ export function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
-      className="w-full glass border-b border-gray-800/50 sticky top-0 z-50"
+      className="w-full glass-navbar border-b border-gray-800/50 sticky top-0 z-50"
       role="navigation"
       aria-label="Main navigation"
     >
