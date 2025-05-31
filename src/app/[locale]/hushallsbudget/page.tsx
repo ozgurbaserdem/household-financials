@@ -1,20 +1,79 @@
-"use client";
-
 import { Main } from "@/components/ui/main";
 import { Box } from "@/components/ui/box";
-import { Navbar } from "@/components/shared/Navbar";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { Calculator, TrendingUp, PieChart, Target } from "lucide-react";
+import type { Metadata } from "next";
+import { routing } from "@/i18n/routing";
 
-export default function HushallsbudgetPage() {
-  const t = useTranslations("hushallsbudget");
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+
+  const title =
+    locale === "sv"
+      ? "Hushållsbudget - Gratis Budgetplaneringsverktyg | Budgetkollen"
+      : "Household Budget - Free Budget Planning Tool | Budgetkollen";
+
+  const description =
+    locale === "sv"
+      ? "Planera din hushållsbudget enkelt med vårt gratis verktyg. Få kontroll över din ekonomi, analysera utgifter och sätt sparsmål."
+      : "Plan your household budget easily with our free tool. Take control of your finances, analyze expenses and set savings goals.";
+
+  const keywords =
+    locale === "sv"
+      ? "hushållsbudget, budgetplanering, familjebudget, ekonomisk planering, privatekonomi, budgetverktyg"
+      : "household budget, budget planning, family budget, financial planning, personal finance, budget tool";
+
+  const pathname = locale === "en" ? "/householdbudget" : "/hushallsbudget";
+  const canonicalUrl = `https://www.budgetkollen.se/${locale}${pathname}`;
+
+  return {
+    title,
+    description,
+    keywords,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        sv: `/sv/hushallsbudget`,
+        en: `/en/householdbudget`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "Budgetkollen",
+      locale: locale === "sv" ? "sv_SE" : "en_US",
+      type: "website",
+    },
+  };
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function HushallsbudgetPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("hushallsbudget");
 
   return (
-    <Main className="min-h-screen bg-gray-100 dark:bg-gray-950 flex flex-col items-center">
-      <Navbar />
-      <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10">
+    <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
+      {/* Animated gradient mesh background */}
+      <div className="gradient-mesh" />
+
+      {/* Static gradient orbs for depth - no animation for better performance */}
+      <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+
+      <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10 relative z-10">
         {/* Hero Section */}
         <header className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-6 text-gray-900 dark:text-gray-100">

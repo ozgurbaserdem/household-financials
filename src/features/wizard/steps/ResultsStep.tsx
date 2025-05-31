@@ -88,11 +88,10 @@ export function ResultsStep() {
                 </div>
                 <div className="flex-shrink-0">
                   <Link
-                    href={
-                      locale === "sv"
-                        ? `/ranta-pa-ranta?monthlySavings=${Math.round(monthlySavings)}`
-                        : `/compound-interest?monthlySavings=${Math.round(monthlySavings)}`
-                    }
+                    href={{
+                      pathname: "/ranta-pa-ranta",
+                      query: { monthlySavings: Math.round(monthlySavings) },
+                    }}
                   >
                     <Button
                       size="lg"

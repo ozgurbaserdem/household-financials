@@ -41,7 +41,7 @@ interface ForecastProps {
 }
 
 interface LinkProps {
-  href: string;
+  href: string | { pathname: string; query?: Record<string, unknown> };
   children: React.ReactNode;
 }
 
@@ -77,11 +77,21 @@ vi.mock("@/features/calculator/Forecast", () => ({
 }));
 
 vi.mock("@/i18n/navigation", () => ({
-  Link: ({ href, children }: LinkProps) => (
-    <a href={href} data-testid="compound-interest-link">
-      {children}
-    </a>
-  ),
+  Link: ({ href, children }: LinkProps) => {
+    let hrefString: string;
+    if (typeof href === "string") {
+      hrefString = href;
+    } else {
+      // For testing, we'll use a simplified approach
+      // The actual behavior will be tested through the component
+      hrefString = `${href.pathname}${href.query ? "?" + new URLSearchParams(href.query as Record<string, string>).toString() : ""}`;
+    }
+    return (
+      <a href={hrefString} data-testid="compound-interest-link">
+        {children}
+      </a>
+    );
+  },
 }));
 
 // Mock framer-motion
@@ -373,7 +383,7 @@ describe("ResultsStep", () => {
     );
     expect(link).toHaveAttribute(
       "href",
-      `/compound-interest?monthlySavings=${highestSavings}`
+      `/ranta-pa-ranta?monthlySavings=${highestSavings}`
     );
   });
 
@@ -405,10 +415,7 @@ describe("ResultsStep", () => {
     ).toBeInTheDocument();
 
     const link = screen.getByTestId("compound-interest-link");
-    expect(link).toHaveAttribute(
-      "href",
-      `/compound-interest?monthlySavings=3000`
-    );
+    expect(link).toHaveAttribute("href", `/ranta-pa-ranta?monthlySavings=3000`);
   });
 
   it("should round monthly savings in the URL", () => {
@@ -442,7 +449,7 @@ describe("ResultsStep", () => {
     const link = screen.getByTestId("compound-interest-link");
     expect(link).toHaveAttribute(
       "href",
-      `/compound-interest?monthlySavings=3457` // 3456.78 rounded
+      `/ranta-pa-ranta?monthlySavings=3457` // 3456.78 rounded
     );
   });
 

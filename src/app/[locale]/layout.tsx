@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "../globals.css";
 import { Providers } from "@/components/shared/providers";
+import { Navbar } from "@/components/shared/Navbar";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
@@ -55,11 +56,6 @@ export async function generateMetadata({
     metadataBase: new URL("https://www.budgetkollen.se"),
     alternates: {
       canonical: canonicalUrl,
-      languages: {
-        sv: "/sv",
-        en: "/en",
-        "x-default": "/sv", // Swedish as default for international
-      },
     },
     openGraph: {
       title,
@@ -237,32 +233,20 @@ export default async function LocaleLayout({
             }),
           }}
         />
-
-        {/* Hreflang tags for better international SEO */}
-        <link
-          rel="alternate"
-          hrefLang="sv"
-          href="https://www.budgetkollen.se/sv"
-        />
-        <link
-          rel="alternate"
-          hrefLang="en"
-          href="https://www.budgetkollen.se/en"
-        />
-        <link
-          rel="alternate"
-          hrefLang="x-default"
-          href="https://www.budgetkollen.se/sv"
-        />
       </head>
-      <body className={`${spaceGrotesk.className} scrollbar-gutter-stable`}>
+      <body
+        className={`${spaceGrotesk.className} scrollbar-gutter-stable bg-gray-950`}
+      >
         <NextIntlClientProvider
           locale={locale}
           messages={messages}
           timeZone="Europe/Stockholm"
           now={new Date()}
         >
-          <Providers>{children}</Providers>
+          <Providers>
+            <Navbar />
+            {children}
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -13,14 +13,17 @@ export const routing = defineRouting({
   // Enable locale detection
   localeDetection: true,
 
-  // Doesn't really work with static exports right now, might be usable in the future
-  // pathnames: {
-  //   "/": {
-  //     en: "/",
-  //   },
-  //   "/hushallskalkyl": {
-  //     en: "/householdbudget",
-  //   },
-  //   // Add more localized pathnames here if needed
-  // },
+  // Now that we're using Vercel (not static export), we can use localized pathnames
+  pathnames: {
+    "/": "/",
+    "/hushallskalkyl": {
+      sv: "/hushallskalkyl",
+      en: "/householdbudget",
+    },
+    "/ranta-pa-ranta": {
+      sv: "/ranta-pa-ranta",
+      en: "/compound-interest",
+    },
+    // Add more localized pathnames here as needed
+  },
 });

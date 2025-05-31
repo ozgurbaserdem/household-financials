@@ -413,6 +413,7 @@ declare const messages: {
     "back_to_home": "← Back to Home"
   },
   "navbar": {
+    "income": "Income",
     "articles": "Articles",
     "main_article_label": "Household Budget",
     "main_article_desc": "The household budget gives you control over your income and expenses",

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
@@ -17,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { TrendingUp, AlertTriangle, Lightbulb } from "lucide-react";
 import { Main } from "@/components/ui/main";
-import { Navbar } from "@/components/shared/Navbar";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -28,18 +26,21 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
 
-  if (locale !== "sv") {
-    notFound();
-  }
+  const isSwedish = locale === "sv";
 
-  const title =
-    "Ränta på Ränta Kalkylator 2025 - Se Hur Dina Pengar Växer | Budgetkollen";
-  const description =
-    "Gratis ränta på ränta kalkylator för svenskar. Beräkna exakt hur ditt månadssparande kan växa till miljoner. Perfekt för pensionssparande, ISK och investeringar i fonder.";
-  const keywords =
-    "ränta på ränta kalkylator, ränta på ränta, månadssparande kalkylator, sparkalkylator, investeringskalkylator, ISK kalkylator, pensionssparande, indexfonder, sammansatt ränta, FIRE sverige, ekonomisk oberoende, budgetkollen";
+  const title = isSwedish
+    ? "Ränta på Ränta Kalkylator 2025 - Se Hur Dina Pengar Växer | Budgetkollen"
+    : "Compound Interest Calculator 2025 - See How Your Money Grows | Budgetkollen";
+  const description = isSwedish
+    ? "Gratis ränta på ränta kalkylator för svenskar. Beräkna exakt hur ditt månadssparande kan växa till miljoner. Perfekt för pensionssparande, ISK och investeringar i fonder."
+    : "Free compound interest calculator for Swedes. Calculate exactly how your monthly savings can grow to millions. Perfect for retirement savings, ISK, and fund investments.";
+  const keywords = isSwedish
+    ? "ränta på ränta kalkylator, ränta på ränta, månadssparande kalkylator, sparkalkylator, investeringskalkylator, ISK kalkylator, pensionssparande, indexfonder, sammansatt ränta, FIRE sverige, ekonomisk oberoende, budgetkollen"
+    : "compound interest calculator, compound interest, monthly savings calculator, investment calculator, ISK calculator, retirement savings, index funds, compound growth, FIRE Sweden, financial independence, budgetkollen";
 
-  const canonicalUrl = `https://www.budgetkollen.se/sv/ranta-pa-ranta`;
+  const canonicalUrl = isSwedish
+    ? `https://www.budgetkollen.se/sv/ranta-pa-ranta`
+    : `https://www.budgetkollen.se/en/compound-interest`;
 
   return {
     title,
@@ -61,7 +62,6 @@ export async function generateMetadata({
       languages: {
         sv: "/sv/ranta-pa-ranta",
         en: "/en/compound-interest",
-        "x-default": "/sv/ranta-pa-ranta",
       },
     },
     openGraph: {
@@ -69,14 +69,16 @@ export async function generateMetadata({
       description,
       url: canonicalUrl,
       siteName: "Budgetkollen",
-      locale: "sv_SE",
+      locale: isSwedish ? "sv_SE" : "en_US",
       type: "website",
       images: [
         {
           url: "/einstein-optimized.png",
           width: 80,
           height: 80,
-          alt: "Ränta på Ränta Kalkylator - Budgetkollen",
+          alt: isSwedish
+            ? "Ränta på Ränta Kalkylator - Budgetkollen"
+            : "Compound Interest Calculator - Budgetkollen",
         },
       ],
     },
@@ -103,7 +105,7 @@ export async function generateMetadata({
       "revisit-after": "7 days",
       distribution: "global",
       rating: "general",
-      language: "Swedish",
+      language: isSwedish ? "Swedish" : "English",
       "geo.region": "SE",
       "geo.country": "Sweden",
     },
@@ -111,19 +113,28 @@ export async function generateMetadata({
 }
 
 export function generateStaticParams() {
-  return [{ locale: "sv" }];
+  return [{ locale: "sv" }, { locale: "en" }];
 }
 
-async function CompoundInterestContent() {
+async function CompoundInterestContent(locale: string) {
+  await setRequestLocale(locale);
   const t = await getTranslations("compound_interest");
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Ränta på Ränta Kalkylator - Budgetkollen",
+    name:
+      locale === "sv"
+        ? "Ränta på Ränta Kalkylator - Budgetkollen"
+        : "Compound Interest Calculator - Budgetkollen",
     description:
-      "Sveriges bästa gratis kalkylator för ränta på ränta. Beräkna hur ditt månadssparande kan växa genom investeringar i fonder och aktier.",
-    url: "https://www.budgetkollen.se/sv/ranta-pa-ranta",
+      locale === "sv"
+        ? "Sveriges bästa gratis kalkylator för ränta på ränta. Beräkna hur ditt månadssparande kan växa genom investeringar i fonder och aktier."
+        : "Sweden's best free compound interest calculator. Calculate how your monthly savings can grow through investments in funds and stocks.",
+    url:
+      locale === "sv"
+        ? "https://www.budgetkollen.se/sv/ranta-pa-ranta"
+        : "https://www.budgetkollen.se/en/compound-interest",
     applicationCategory: "FinanceApplication",
     operatingSystem: "All",
     offers: {
@@ -149,26 +160,44 @@ async function CompoundInterestContent() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "Vad är ränta på ränta?",
+        name:
+          locale === "sv"
+            ? "Vad är ränta på ränta?"
+            : "What is compound interest?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Ränta på ränta är när du får avkastning inte bara på ditt ursprungliga kapital, utan även på den ränta du redan tjänat. Detta skapar en exponentiell tillväxt över tid.",
+          text:
+            locale === "sv"
+              ? "Ränta på ränta är när du får avkastning inte bara på ditt ursprungliga kapital, utan även på den ränta du redan tjänat. Detta skapar en exponentiell tillväxt över tid."
+              : "Compound interest is when you earn returns not only on your original capital, but also on the interest you have already earned. This creates exponential growth over time.",
         },
       },
       {
         "@type": "Question",
-        name: "Hur fungerar månadssparande med ränta på ränta?",
+        name:
+          locale === "sv"
+            ? "Hur fungerar månadssparande med ränta på ränta?"
+            : "How does monthly saving work with compound interest?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "När du sparar månadsvis får varje insättning ränta från den tidpunkt den sätts in. Över tid växer ditt sparande exponentiellt tack vare ränta-på-ränta-effekten.",
+          text:
+            locale === "sv"
+              ? "När du sparar månadsvis får varje insättning ränta från den tidpunkt den sätts in. Över tid växer ditt sparande exponentiellt tack vare ränta-på-ränta-effekten."
+              : "When you save monthly, each deposit earns interest from the time it is made. Over time, your savings grow exponentially thanks to the compound interest effect.",
         },
       },
       {
         "@type": "Question",
-        name: "Hur mycket kan jag tjäna på ränta på ränta?",
+        name:
+          locale === "sv"
+            ? "Hur mycket kan jag tjäna på ränta på ränta?"
+            : "How much can I earn with compound interest?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Det beror på startkapital, månadssparande, ränta och tid. Med vår kalkylator kan du se exakt hur mycket ditt sparande kan växa.",
+          text:
+            locale === "sv"
+              ? "Det beror på startkapital, månadssparande, ränta och tid. Med vår kalkylator kan du se exakt hur mycket ditt sparande kan växa."
+              : "It depends on starting capital, monthly savings, interest rate, and time. With our calculator, you can see exactly how much your savings can grow.",
         },
       },
     ],
@@ -191,8 +220,6 @@ async function CompoundInterestContent() {
         {/* Static gradient orbs for depth - no animation for better performance */}
         <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-
-        <Navbar />
 
         <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10 relative z-10 space-y-6">
           {/* Hero Section */}
@@ -339,12 +366,6 @@ async function CompoundInterestContent() {
 
 export default async function RantaPaRantaPage({ params }: PageProps) {
   const { locale } = await params;
-
-  if (locale !== "sv") {
-    notFound();
-  }
-
-  setRequestLocale(locale);
-
-  return await CompoundInterestContent();
+  await setRequestLocale(locale);
+  return await CompoundInterestContent(locale);
 }

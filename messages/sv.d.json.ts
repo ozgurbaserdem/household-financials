@@ -3,6 +3,7 @@
 
 declare const messages: {
   "navbar": {
+    "income": "Inkomst",
     "articles": "Artiklar",
     "main_article_label": "Hushållskalkyl",
     "main_article_desc": "Hushållskalkylen hjälper dig att förstå din ekonomi bättre",

@@ -26,15 +26,7 @@ const nextConfig: NextConfig = {
     return config;
   },
 
-  // Doesn't really work with static exports right now, might be usable in the future
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/en/householdbudget",
-  //       destination: "/en/hushallskalkyl",
-  //     },
-  //   ];
-  // },
+  // Localized pathnames are now handled by next-intl routing configuration
 };
 
 const withNextIntl = createNextIntlPlugin({

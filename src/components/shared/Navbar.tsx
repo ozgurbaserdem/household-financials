@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,55 +13,18 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@radix-ui/react-navigation-menu";
-import { Calculator, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { getStepParam, getStepName } from "@/utils/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { CaretDownIcon } from "@radix-ui/react-icons";
+import { Logo } from "./Logo";
 
 export function Navbar() {
   const t = useTranslations("navbar");
-  const tApp = useTranslations("app");
-  const locale = useLocale();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Create the home URL using utility functions
-  const stepParam = getStepParam(locale);
-  const firstStep = {
-    label: locale === "sv" ? "Inkomst" : "Income",
-    component: null,
-  };
-  const firstStepName = getStepName(firstStep, locale);
-  const homeUrl = `/?${stepParam}=${firstStepName}`;
-
-  const Logo = () => (
-    <Link
-      href={homeUrl}
-      className="flex items-center gap-3 group"
-      onClick={() => setMobileMenuOpen(false)}
-    >
-      <motion.div
-        whileHover={{ rotate: 180 }}
-        transition={{ duration: 0.5 }}
-        className="relative"
-      >
-        <Box className="p-2 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 shadow-lg shadow-blue-500/25">
-          <Calculator className="w-6 h-6 text-white" />
-        </Box>
-        <Box className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 blur-md opacity-50" />
-      </motion.div>
-      <motion.span
-        className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent"
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 400 }}
-      >
-        {tApp("title")}
-      </motion.span>
-    </Link>
-  );
 
   return (
     <motion.nav
@@ -75,7 +38,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Logo />
+          <Logo onLogoClick={() => setMobileMenuOpen(false)} />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
@@ -108,74 +71,36 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       className="grid gap-2"
                     >
-                      {locale === "sv" && (
-                        <>
-                          <li>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                href="/hushallskalkyl"
-                                className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
-                              >
-                                <div className="font-semibold text-base text-gray-200 group-hover:text-white">
-                                  {t("main_article_label")}
-                                </div>
-                                <div className="text-sm text-gray-400 group-hover:text-gray-300">
-                                  {t("main_article_desc")}
-                                </div>
-                              </Link>
-                            </NavigationMenuLink>
-                          </li>
-                          <li>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                href="/ranta-pa-ranta"
-                                className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
-                              >
-                                <div className="font-semibold text-base text-gray-200 group-hover:text-white">
-                                  {t("compound_interest_label")}
-                                </div>
-                                <div className="text-sm text-gray-400 group-hover:text-gray-300">
-                                  {t("compound_interest_desc")}
-                                </div>
-                              </Link>
-                            </NavigationMenuLink>
-                          </li>
-                        </>
-                      )}
-                      {locale === "en" && (
-                        <>
-                          <li>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                href="/householdbudget"
-                                className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
-                              >
-                                <div className="font-semibold text-base text-gray-200 group-hover:text-white">
-                                  {t("main_article_label")}
-                                </div>
-                                <div className="text-sm text-gray-400 group-hover:text-gray-300">
-                                  {t("main_article_desc")}
-                                </div>
-                              </Link>
-                            </NavigationMenuLink>
-                          </li>
-                          <li>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                href="/compound-interest"
-                                className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
-                              >
-                                <div className="font-semibold text-base text-gray-200 group-hover:text-white">
-                                  {t("compound_interest_label")}
-                                </div>
-                                <div className="text-sm text-gray-400 group-hover:text-gray-300">
-                                  {t("compound_interest_desc")}
-                                </div>
-                              </Link>
-                            </NavigationMenuLink>
-                          </li>
-                        </>
-                      )}
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href="/hushallskalkyl"
+                            className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
+                          >
+                            <div className="font-semibold text-base text-gray-200 group-hover:text-white">
+                              {t("main_article_label")}
+                            </div>
+                            <div className="text-sm text-gray-400 group-hover:text-gray-300">
+                              {t("main_article_desc")}
+                            </div>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href="/ranta-pa-ranta"
+                            className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
+                          >
+                            <div className="font-semibold text-base text-gray-200 group-hover:text-white">
+                              {t("compound_interest_label")}
+                            </div>
+                            <div className="text-sm text-gray-400 group-hover:text-gray-300">
+                              {t("compound_interest_desc")}
+                            </div>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
                     </motion.ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -241,62 +166,30 @@ export function Navbar() {
                 <Text className="text-sm font-medium text-gray-400 px-3">
                   {t("articles")}
                 </Text>
-                {locale === "sv" && (
-                  <>
-                    <Link
-                      href="/hushallskalkyl"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200"
-                    >
-                      <div className="font-semibold text-gray-200">
-                        {t("main_article_label")}
-                      </div>
-                      <div className="text-sm text-gray-400">
-                        {t("main_article_desc")}
-                      </div>
-                    </Link>
-                    <Link
-                      href="/ranta-pa-ranta"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200"
-                    >
-                      <div className="font-semibold text-gray-200">
-                        {t("compound_interest_label")}
-                      </div>
-                      <div className="text-sm text-gray-400">
-                        {t("compound_interest_desc")}
-                      </div>
-                    </Link>
-                  </>
-                )}
-                {locale === "en" && (
-                  <>
-                    <Link
-                      href="/householdbudget"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200"
-                    >
-                      <div className="font-semibold text-gray-200">
-                        {t("main_article_label")}
-                      </div>
-                      <div className="text-sm text-gray-400">
-                        {t("main_article_desc")}
-                      </div>
-                    </Link>
-                    <Link
-                      href="/compound-interest"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200"
-                    >
-                      <div className="font-semibold text-gray-200">
-                        {t("compound_interest_label")}
-                      </div>
-                      <div className="text-sm text-gray-400">
-                        {t("compound_interest_desc")}
-                      </div>
-                    </Link>
-                  </>
-                )}
+                <Link
+                  href="/hushallskalkyl"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200"
+                >
+                  <div className="font-semibold text-gray-200">
+                    {t("main_article_label")}
+                  </div>
+                  <div className="text-sm text-gray-400">
+                    {t("main_article_desc")}
+                  </div>
+                </Link>
+                <Link
+                  href="/ranta-pa-ranta"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200"
+                >
+                  <div className="font-semibold text-gray-200">
+                    {t("compound_interest_label")}
+                  </div>
+                  <div className="text-sm text-gray-400">
+                    {t("compound_interest_desc")}
+                  </div>
+                </Link>
               </Box>
 
               <Box className="flex items-center gap-3 pt-4 border-t border-gray-800">
