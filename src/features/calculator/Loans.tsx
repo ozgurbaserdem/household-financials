@@ -226,7 +226,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
         </Box>
       </CardHeader>
 
-      <CardContent className="px-6 pb-6">
+      <CardContent className="pb-6">
         <Form {...form}>
           <form data-testid="loan-form" className="space-y-6">
             {/* Has Loan Toggle */}

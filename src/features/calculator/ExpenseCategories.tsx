@@ -133,7 +133,7 @@ export function ExpenseCategories({
         </motion.div>
       </CardHeader>
 
-      <CardContent className="px-6 pb-6">
+      <CardContent className="pb-6">
         <Accordion
           type="multiple"
           value={expandedCategories}
