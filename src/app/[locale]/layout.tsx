@@ -73,6 +73,7 @@ export async function generateMetadata({
           url: "/Budgetkollen.png",
           width: 1200,
           height: 630,
+          type: "image/png",
           alt:
             locale === "sv"
               ? "Budgetkollen - Hushållsbudget och Kalkylator"
@@ -82,6 +83,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      site: "@budgetkollen",
+      creator: "@budgetkollen",
       title,
       description,
       images: ["/Budgetkollen.png"],
@@ -207,7 +210,7 @@ export default async function LocaleLayout({
                   url: "https://www.budgetkollen.se",
                   logo: "https://www.budgetkollen.se/favicon-32.svg",
                   sameAs: [
-                    // Add your social media profiles here when you create them
+                    "https://twitter.com/budgetkollen",
                   ],
                   address: {
                     "@type": "PostalAddress",
