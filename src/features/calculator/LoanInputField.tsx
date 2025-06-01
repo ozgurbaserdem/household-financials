@@ -34,7 +34,9 @@ function LoanInputField({
         // Only pass a number or empty string to Input value
         const value = Array.isArray(field.value)
           ? ""
-          : typeof field.value === "number" && !isNaN(field.value)
+          : typeof field.value === "number" &&
+              !isNaN(field.value) &&
+              field.value !== 0
             ? field.value
             : "";
         return (
@@ -46,6 +48,7 @@ function LoanInputField({
                 min={0}
                 {...field}
                 value={value}
+                placeholder="0"
                 aria-label={ariaLabel}
                 onChange={(e) => field.onChange(Number(e.target.value))}
                 onBlur={onBlur}

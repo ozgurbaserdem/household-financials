@@ -301,6 +301,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                             min={0}
                             {...field}
                             value={field.value === 0 ? "" : field.value}
+                            placeholder="0"
                             aria-label={t("loan_amount_aria")}
                             onChange={(e) => {
                               const value =

@@ -293,8 +293,12 @@ export function ExpenseCategories({
                                   min={0}
                                   className="w-32 modern-input text-right"
                                   value={
-                                    expenses[category.id]?.[subcategory.id] || 0
+                                    expenses[category.id]?.[subcategory.id] &&
+                                    expenses[category.id][subcategory.id] !== 0
+                                      ? expenses[category.id][subcategory.id]
+                                      : ""
                                   }
+                                  placeholder="0"
                                   onChange={(e) =>
                                     handleExpenseChange(
                                       category.id,

@@ -245,14 +245,14 @@ describe("Income", () => {
     // Wait for the state to update and check values
     await waitFor(() => {
       const income2Field = screen.getAllByLabelText(/income2_aria/i)[0];
-      expect(income2Field).toHaveValue(0);
+      expect(income2Field).toHaveValue(null);
 
       // Expand extra incomes again to check secondaryIncome2
       fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
       const secondaryIncome2Field = screen.getAllByLabelText(
         /secondaryIncome2_aria/i
       )[0];
-      expect(secondaryIncome2Field).toHaveValue(0);
+      expect(secondaryIncome2Field).toHaveValue(null);
     });
   });
 
