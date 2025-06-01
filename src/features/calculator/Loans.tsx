@@ -186,7 +186,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
           <HandCoins className="w-6 h-6 text-orange-400" />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle ref={titleRef} tabIndex={0} aria-label={t("title_aria")}>
+          <CardTitle ref={titleRef} tabIndex={0} aria-label={t("title_aria")} className="focus:outline-none">
             {t("title")}
           </CardTitle>
           <motion.p

@@ -104,7 +104,7 @@ function ResultCard({
           ) : (
             <TrendingDown className="w-3 h-3" />
           )}
-          {isBest ? "Best Option" : "Highest Cost"}
+          {isBest ? t("best_option") : t("worst_option")}
         </motion.div>
       )}
 

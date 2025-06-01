@@ -226,7 +226,7 @@ declare const messages: {
     "worst_scenario": "Worst Scenario",
     "at_interest_amortization": "@ {interest} / {amortization}",
     "best_option": "Best Option",
-    "worst_option": "Highest Cost",
+    "worst_option": "Worst Option",
     "compound_interest_cta": {
       "title": "Maximize Your Savings with Compound Interest",
       "description": "You can save {savings} kr every month! See how much this amount can grow with compound interest over time.",

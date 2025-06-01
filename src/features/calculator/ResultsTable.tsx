@@ -129,7 +129,12 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
           <BarChart3 className="w-6 h-6 text-blue-400" />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle ref={titleRef} tabIndex={0} aria-label={t("aria.title")}>
+          <CardTitle
+            ref={titleRef}
+            tabIndex={0}
+            aria-label={t("aria.title")}
+            className="focus:outline-none"
+          >
             {t("title")}
           </CardTitle>
           <motion.p
@@ -156,7 +161,7 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
               <Box className="flex items-center gap-3">
                 <TrendingUp className="w-5 h-5 text-green-400" />
                 <Text className="text-sm text-gray-300">
-                  {t("best_scenario")}
+                  {t("best_option")}
                 </Text>
               </Box>
               <Text className="text-2xl font-bold text-green-400 mt-2">
@@ -174,7 +179,7 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
               <Box className="flex items-center gap-3">
                 <TrendingDown className="w-5 h-5 text-red-400" />
                 <Text className="text-sm text-gray-300">
-                  {t("worst_scenario")}
+                  {t("worst_option")}
                 </Text>
               </Box>
               <Text className="text-2xl font-bold text-red-400 mt-2">

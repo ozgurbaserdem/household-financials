@@ -203,6 +203,7 @@ export function SummaryStep() {
             ref={titleRef}
             tabIndex={0}
             aria-label={tSummary("aria.title")}
+            className="focus:outline-none"
           >
             {tSummary("title")}
           </CardTitle>

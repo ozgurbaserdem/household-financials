@@ -132,8 +132,8 @@ describe("ResultsTable", () => {
       );
 
       // Best/worst scenario sections should not be present
-      expect(screen.queryByText("best_scenario")).not.toBeInTheDocument();
-      expect(screen.queryByText("worst_scenario")).not.toBeInTheDocument();
+      expect(screen.queryByText("best_option")).not.toBeInTheDocument();
+      expect(screen.queryByText("worst_option")).not.toBeInTheDocument();
 
       // Should show exactly one result card (not duplicated)
       // Check that we don't have duplicate cards by looking for unique elements
@@ -234,14 +234,14 @@ describe("ResultsTable", () => {
         </Provider>
       );
 
-      // Best/worst scenario sections should be present
-      expect(screen.getByText("best_scenario")).toBeInTheDocument();
-      expect(screen.getByText("worst_scenario")).toBeInTheDocument();
+      // Best/worst scenario sections should be present (using getAllByText for multiple occurrences)
+      expect(screen.getAllByText("best_option")).toHaveLength(2); // Summary + badge
+      expect(screen.getAllByText("worst_option")).toHaveLength(2); // Summary + badge
 
       // Should show the correct values in summary cards
       // The values are rendered inside the summary stats section
       const summarySection =
-        screen.getByText("best_scenario").parentElement?.parentElement;
+        screen.getAllByText("best_option")[0].parentElement?.parentElement;
       expect(summarySection).toBeTruthy();
     });
 
@@ -302,9 +302,9 @@ describe("ResultsTable", () => {
         </Provider>
       );
 
-      // Badges should be present
-      expect(screen.getByText("Best Option")).toBeInTheDocument();
-      expect(screen.getByText("Highest Cost")).toBeInTheDocument();
+      // Badges should be present (text has been updated)
+      expect(screen.getAllByText("best_option")).toHaveLength(2); // Summary + badge
+      expect(screen.getAllByText("worst_option")).toHaveLength(2); // Summary + badge
     });
   });
 
@@ -425,8 +425,8 @@ describe("ResultsTable", () => {
       );
 
       // Should show best/worst summaries
-      expect(screen.getByText("best_scenario")).toBeInTheDocument();
-      expect(screen.getByText("worst_scenario")).toBeInTheDocument();
+      expect(screen.getAllByText("best_option")).toHaveLength(2); // Summary + badge
+      expect(screen.getAllByText("worst_option")).toHaveLength(2); // Summary + badge
 
       // Should show all scenarios (9 total, but displayed uniquely)
       const housingCosts = screen.getAllByText(/housing_cost/i);
@@ -465,8 +465,9 @@ describe("ResultsTable", () => {
       );
 
       // Should still show best/worst (even though they're the same)
-      expect(screen.getByText("best_scenario")).toBeInTheDocument();
-      expect(screen.getByText("worst_scenario")).toBeInTheDocument();
+      // When scenarios are identical, both cards show "best" badge due to isBest priority
+      expect(screen.getAllByText("best_option")).toHaveLength(3); // Summary + 2 badges (both cards show best)
+      expect(screen.getAllByText("worst_option")).toHaveLength(1); // Summary only (badges prioritize best)
     });
 
     it("should show correct scenario count in subtitle", () => {

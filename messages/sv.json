@@ -225,8 +225,8 @@
     "best_scenario": "Bästa scenariot",
     "worst_scenario": "Sämsta scenariot",
     "at_interest_amortization": "@ {interest} / {amortization}",
-    "best_option": "Bästa alternativet",
-    "worst_option": "Högsta kostnad",
+    "best_option": "Bästa scenariot",
+    "worst_option": "Sämsta scenariot",
     "compound_interest_cta": {
       "title": "Maximera Ditt Sparande med Ränta på Ränta",
       "description": "Du kan spara {savings} kr varje månad! Se hur mycket denna summa kan växa med ränta på ränta över tid.",

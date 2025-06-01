@@ -112,7 +112,12 @@ export function ExpenseCategories({
           <List className="w-6 h-6 text-red-400" />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle ref={titleRef} tabIndex={0} aria-label={t("aria.title")}>
+          <CardTitle
+            ref={titleRef}
+            tabIndex={0}
+            aria-label={t("aria.title")}
+            className="focus:outline-none"
+          >
             {t("title")}
           </CardTitle>
           <motion.p

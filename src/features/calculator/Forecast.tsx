@@ -46,6 +46,15 @@ export function Forecast({ calculatorState }: ForecastProps) {
   const t = useTranslations("forecast");
   const isMobile = useMediaQuery("(max-width: 768px)");
 
+  const formatCompactCurrency = (value: number) => {
+    if (value >= 1000000) {
+      return `${(value / 1000000).toFixed(value >= 10000000 ? 0 : 1)}m`;
+    } else if (value >= 1000) {
+      return `${(value / 1000).toFixed(value >= 10000 ? 0 : 1)}k`;
+    }
+    return value.toString();
+  };
+
   const forecastData = useMemo(() => {
     if (!calculatorState.loanParameters.amount) return [];
 
@@ -196,8 +205,8 @@ export function Forecast({ calculatorState }: ForecastProps) {
               data={forecastData}
               margin={
                 isMobile
-                  ? { top: 10, right: 5, left: 60, bottom: 10 }
-                  : { top: 20, right: 30, left: 60, bottom: 20 }
+                  ? { top: 10, right: 5, left: 0, bottom: 10 }
+                  : { top: 20, right: 10, left: 0, bottom: 20 }
               }
             >
               <defs>
@@ -220,26 +229,15 @@ export function Forecast({ calculatorState }: ForecastProps) {
               <XAxis
                 dataKey="year"
                 interval={isMobile ? "preserveStartEnd" : 5}
-                label={{
-                  value: "Years",
-                  position: "insideBottom",
-                  offset: -5,
-                  style: { fill: "#9CA3AF" },
-                }}
                 tick={{ fill: "#9CA3AF" }}
                 stroke="#374151"
               />
 
               <YAxis
-                tickFormatter={formatCurrency}
-                label={{
-                  value: "Loan Amount",
-                  angle: -90,
-                  position: "insideLeft",
-                  style: { fill: "#9CA3AF" },
-                }}
-                tick={{ fill: "#9CA3AF" }}
+                tickFormatter={formatCompactCurrency}
+                tick={{ fill: "#9CA3AF", fontSize: 12 }}
                 stroke="#374151"
+                width={35}
               />
 
               <Tooltip content={<CustomTooltip />} />
