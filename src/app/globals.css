@@ -199,7 +199,7 @@ input[type="number"].modern-input {
   transform: translateY(-4px);
 }
 
-/* Gradient button */
+/* Legacy gradient buttons - use Button component variants instead */
 .btn-gradient {
   @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold
          hover:from-blue-700 hover:to-purple-700 transform transition-all duration-200
@@ -280,7 +280,7 @@ input[type="number"].no-spinner {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-/* Modern chip styles */
+/* Legacy chip styles - use Button component with chip variants instead */
 .chip {
   @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
          bg-gray-800/50 text-gray-200 border border-gray-600
@@ -317,6 +317,69 @@ input[type="number"].no-spinner {
   @apply text-gray-200 font-medium text-sm;
 }
 
+/* Utility Classes for Common Patterns - TEMPORARILY DISABLED */
+
+/* Text utilities */
+/*
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-gradient-primary {
+  @apply bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent;
+}
+
+.text-gradient-success {
+  @apply bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent;
+}
+
+.text-gradient-warning {
+  @apply bg-gradient-to-r from-amber-400 to-orange-600 bg-clip-text text-transparent;
+}
+*/
+
+/* Surface utilities */
+/*
+.surface-glass {
+  @apply glass backdrop-blur-xl;
+}
+
+.surface-elevated {
+  @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg;
+}
+
+.surface-floating {
+  @apply bg-gray-900/80 backdrop-blur-xl border border-gray-800/50 shadow-xl;
+}
+*/
+
+/* Interactive utilities */
+/*
+.interactive-scale {
+  @apply transition-transform duration-200 hover:scale-105 active:scale-95;
+}
+
+.interactive-lift {
+  @apply transition-transform duration-200 hover:-translate-y-1;
+}
+
+.interactive-glow {
+  @apply transition-shadow duration-200 hover:shadow-lg hover:shadow-blue-500/25;
+}
+*/
+
+/* Focus utilities */
+/*
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+}
+
+.focus-ring-purple {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2;
+}
+*/
+
+/* Legacy step gradient - use StepIndicator component instead */
 .completed-step-gradient {
   background: linear-gradient(
     135deg,

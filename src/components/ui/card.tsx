@@ -3,35 +3,118 @@
 import * as React from "react";
 import { Box } from "./box";
 import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+const cardVariants = cva(
+  "flex flex-col gap-6 rounded-xl shadow-sm transition-all duration-200",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800",
+        glass: "glass backdrop-blur-xl",
+        modern:
+          "bg-gray-900/80 backdrop-blur-xl border border-gray-800/50 shadow-xl",
+        gradient: "gradient-border bg-gray-900/95",
+        elevated:
+          "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg hover:shadow-xl",
+      },
+      padding: {
+        default: "p-6",
+        sm: "p-4",
+        lg: "p-8",
+        none: "p-0",
+      },
+      hover: {
+        none: "",
+        lift: "hover-lift",
+        scale: "hover:scale-[1.02] transition-transform duration-200",
+        glow: "hover:shadow-2xl hover:shadow-blue-500/10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      padding: "default",
+      hover: "none",
+    },
+  }
+);
+
+export interface CardProps
+  extends React.ComponentProps<"div">,
+    VariantProps<typeof cardVariants> {}
+
+function Card({ className, variant, padding, hover, ...props }: CardProps) {
   return (
     <Box
       data-slot="card"
-      className={cn(
-        "flex flex-col gap-6 rounded-xl border py-6 shadow-sm card-main-primary",
-        className
-      )}
+      className={cn(cardVariants({ variant, padding, hover }), className)}
       {...props}
     />
   );
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+const cardHeaderVariants = cva("@container/card-header", {
+  variants: {
+    layout: {
+      default: "flex items-center gap-4",
+      grid: "grid grid-cols-2 gap-4",
+      vertical: "flex flex-col gap-2",
+    },
+  },
+  defaultVariants: {
+    layout: "default",
+  },
+});
+
+interface CardHeaderProps
+  extends React.ComponentProps<"div">,
+    VariantProps<typeof cardHeaderVariants> {}
+
+function CardHeader({ className, layout, ...props }: CardHeaderProps) {
   return (
     <Box
       data-slot="card-header"
-      className={cn("@container/card-header card-header-primary", className)}
+      className={cn(cardHeaderVariants({ layout }), className)}
       {...props}
     />
   );
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+const cardTitleVariants = cva("leading-none font-semibold", {
+  variants: {
+    size: {
+      sm: "text-lg",
+      default: "text-xl",
+      lg: "text-2xl",
+      xl: "text-3xl",
+    },
+    gradient: {
+      none: "",
+      primary:
+        "bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent",
+      blue: "bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent",
+      purple:
+        "bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent",
+      success:
+        "bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent",
+    },
+  },
+  defaultVariants: {
+    size: "default",
+    gradient: "none",
+  },
+});
+
+interface CardTitleProps
+  extends React.ComponentProps<"div">,
+    VariantProps<typeof cardTitleVariants> {}
+
+function CardTitle({ className, size, gradient, ...props }: CardTitleProps) {
   return (
     <Box
       data-slot="card-title"
-      className={cn("leading-none font-semibold card-title-primary", className)}
+      className={cn(cardTitleVariants({ size, gradient }), className)}
       {...props}
     />
   );
@@ -42,7 +125,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
     <Box
       data-slot="card-description"
       className={cn(
-        "text-muted-foreground dark:text-gray-400 text-sm",
+        "text-muted-foreground dark:text-gray-400 text-sm leading-relaxed",
         className
       )}
       {...props}
@@ -79,6 +162,47 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+const cardIconVariants = cva(
+  "flex items-center justify-center rounded-xl transition-all duration-200",
+  {
+    variants: {
+      variant: {
+        default: "bg-gray-100 dark:bg-gray-800",
+        gradient:
+          "bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-500/20 backdrop-blur-xl",
+        success:
+          "bg-gradient-to-br from-green-600/20 to-emerald-600/20 border border-green-500/20",
+        warning:
+          "bg-gradient-to-br from-amber-600/20 to-orange-600/20 border border-amber-500/20",
+        glass: "bg-white/10 backdrop-blur-xl border border-white/20",
+      },
+      size: {
+        sm: "p-2 w-8 h-8",
+        default: "p-3 w-12 h-12",
+        lg: "p-4 w-16 h-16",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
+
+interface CardIconProps
+  extends React.ComponentProps<"div">,
+    VariantProps<typeof cardIconVariants> {}
+
+function CardIcon({ className, variant, size, ...props }: CardIconProps) {
+  return (
+    <Box
+      data-slot="card-icon"
+      className={cn(cardIconVariants({ variant, size }), className)}
+      {...props}
+    />
+  );
+}
+
 export {
   Card,
   CardHeader,
@@ -87,4 +211,9 @@ export {
   CardAction,
   CardDescription,
   CardContent,
+  CardIcon,
+  cardVariants,
+  cardTitleVariants,
+  cardHeaderVariants,
+  cardIconVariants,
 };

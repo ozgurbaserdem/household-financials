@@ -373,7 +373,7 @@ export function SummaryStep() {
                 ))}
                 <Button
                   size="sm"
-                  variant="gradient2"
+                  variant="gradientSecondary"
                   onClick={() => setStepIndex(0)}
                   className="mt-6 w-full font-medium group transition-colors"
                   aria-label={tSummary("aria.edit_income")}
@@ -447,7 +447,7 @@ export function SummaryStep() {
                 )}
                 <Button
                   size="sm"
-                  variant="gradient2"
+                  variant="gradientSecondary"
                   onClick={() => setStepIndex(1)}
                   className="mt-6 w-full font-medium group transition-colors"
                   aria-label={tSummary("aria.edit_loans")}
@@ -543,7 +543,7 @@ export function SummaryStep() {
 
                 <Button
                   size="sm"
-                  variant="gradient2"
+                  variant="gradientSecondary"
                   onClick={() => setStepIndex(2)}
                   className="mt-6 w-full font-medium group transition-colors"
                   aria-label={tSummary("aria.edit_expenses")}

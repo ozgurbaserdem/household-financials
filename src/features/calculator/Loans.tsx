@@ -249,7 +249,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                       <Box className="flex items-center gap-3">
                         <Button
                           type="button"
-                          variant={field.value ? "wizard-next" : "secondary"}
+                          variant={field.value ? "gradient" : "secondary"}
                           onClick={() => {
                             setIsUserToggling(true);
                             field.onChange(true);
@@ -263,7 +263,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                         </Button>
                         <Button
                           type="button"
-                          variant={!field.value ? "wizard-next" : "secondary"}
+                          variant={!field.value ? "gradient" : "secondary"}
                           onClick={() => {
                             setIsUserToggling(true);
                             field.onChange(false);

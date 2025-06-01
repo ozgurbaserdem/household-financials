@@ -94,7 +94,8 @@ export function ResultsStep() {
                   >
                     <Button
                       size="lg"
-                      className="group relative overflow-hidden bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 shadow-lg shadow-purple-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/40 hover:scale-105"
+                      variant="gradient"
+                      className="group relative overflow-hidden"
                     >
                       <span className="relative z-10 flex items-center gap-2 px-2">
                         <Calculator className="w-5 h-5 transition-transform group-hover:rotate-12" />
