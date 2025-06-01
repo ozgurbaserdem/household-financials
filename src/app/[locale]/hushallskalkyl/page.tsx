@@ -3,7 +3,6 @@ import { Box } from "@/components/ui/box";
 import HushallskalkylContent from "@/features/hushallskalkyl/HushallskalkylContent";
 import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
-import { routing } from "@/i18n/routing";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -63,7 +62,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
-
 
 export default async function HushallskalkylPage({ params }: Props) {
   const { locale } = await params;
