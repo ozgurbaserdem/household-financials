@@ -44,153 +44,55 @@ declare const messages: {
     "hide_expenses": "Dölj utgifter",
     "total_expenses": "Totala utgifter",
     "home": {
-      "name": "Hem",
-      "electricity-heating": "El och uppvärmning",
-      "pets": "Husdjur",
-      "streaming-internet-phone": "Streaming, internet och telefon",
-      "house-cleaning": "Städning",
-      "rent-monthly-fee": "Hyra och avgift",
-      "interior-decoration": "Inredning och möbler",
-      "mortgage": "Bolån",
-      "home-improvements": "Renovering och förbättringar",
-      "holiday-home": "Fritidshus",
-      "water-garbage": "Vatten och sophämtning",
-      "gardening": "Trädgård",
-      "home-alarm": "Larm",
-      "other-household": "Övriga hushållstjänster"
+      "name": "Hem"
     },
-    "car-transportation": {
-      "name": "Bil och transport",
-      "charging": "Laddning",
-      "parking": "Parkering",
-      "fuel": "Bränsle",
-      "car-service": "Bilservice",
-      "taxi": "Taxi",
-      "public-transportation": "Kollektivtrafik",
-      "car-cleaning": "Biltvätt",
-      "car-loan-lease": "Billån och leasing",
-      "motorcycle": "Motorcykel",
-      "other-transportation": "Övriga transporter"
+    "carTransportation": {
+      "name": "Bil och transport"
     },
     "leisure": {
-      "name": "Fritid",
-      "association-memberships": "Föreningsmedlemskap",
-      "golfing": "Golf",
-      "hunting": "Jakt",
-      "hiking-outdoor": "Vandring och friluftsliv",
-      "arts-crafts": "Konst och hantverk",
-      "dancing": "Dans",
-      "skiing-winter": "Skidåkning och vintersport",
-      "horseback-riding": "Ridning",
-      "biking": "Cykling",
-      "photographing": "Fotografering",
-      "music-instruments": "Musik och instrument",
-      "parties-celebrations": "Fester och firanden",
-      "charities": "Välgörenhet",
-      "movies-events": "Bio, teater och evenemang",
-      "lotteries-betting": "Lotterier och spel",
-      "bars-nightclubs": "Barer, pubar och nattklubbar"
+      "name": "Fritid"
     },
-    "shopping-services": {
-      "name": "Shopping och tjänster",
-      "flowers-decor": "Blommor och dekoration",
-      "electronics": "Hemelektronik",
-      "books-games": "Böcker och spel",
-      "music-apps": "Musik och appar",
-      "subscriptions-media": "Prenumerationer och media",
-      "clothes-shoes": "Kläder och skor",
-      "dry-clean-tailor": "Kemtvätt och skräddare",
-      "jewelry-accessories": "Smycken och accessoarer",
-      "tobacco": "Tobak",
-      "alcohol": "Alkohol",
-      "gifts": "Presenter",
-      "shopping-other": "Shopping och tjänster, övrigt"
+    "shoppingServices": {
+      "name": "Shopping och tjänster"
     },
-    "loans-tax-fees": {
-      "name": "Lån, skatt och avgifter",
-      "late-fees": "Förseningsavgifter",
-      "bank-fees": "Bank- och serviceavgifter",
-      "private-loans": "Privatlån",
-      "tax-payments": "Skattebetalningar",
-      "other-loans-fees": "Övriga lån, skatter och avgifter"
+    "loansTaxFees": {
+      "name": "Lån, skatt och avgifter"
     },
-    "health-beauty": {
-      "name": "Hälsa och skönhet",
-      "pharmacy": "Apotek",
-      "healthcare": "Sjukvård",
-      "sports-exercise": "Sport och träning",
-      "spa-massage": "Spa och massage",
-      "beauty-products": "Skönhetsprodukter",
-      "hairdresser": "Frisör",
-      "optician": "Optiker",
-      "other-health-beauty": "Övrig hälsa och skönhet"
+    "healthBeauty": {
+      "name": "Hälsa och skönhet"
     },
     "children": {
-      "name": "Barn",
-      "babysitting": "Barnpassning",
-      "children-clothing": "Barnkläder",
-      "children-toys": "Barnleksaker",
-      "allowance": "Vecko- och månadspeng",
-      "children-activities": "Barnaktiviteter",
-      "childcare-products": "Barnomsorgsprodukter",
-      "alimony": "Underhåll",
-      "preschool-after-school": "Förskola och fritids",
-      "children-other": "Barn, övrigt"
+      "name": "Barn"
     },
     "uncategorized": {
-      "name": "Okategoriserade utgifter",
-      "cash-withdrawals": "Kontantuttag",
-      "swish": "Swish",
-      "uncategorized-transfers": "Okategoriserade överföringar",
-      "uncategorized-other": "Okategoriserade utgifter, övrigt",
-      "uncategorized-credit-card": "Okategoriserade kortköp"
+      "name": "Okategoriserade utgifter"
     },
     "insurance": {
-      "name": "Försäkring",
-      "household-insurance": "Hemförsäkring",
-      "car-insurance": "Bilförsäkring",
-      "life-health-insurance": "Liv- och sjukförsäkring",
-      "income-insurance": "A-kassa och/eller inkomstförsäkring",
-      "accident-insurance": "Olycksfallsförsäkring",
-      "insurance-other": "Övriga försäkringar"
+      "name": "Försäkring"
     },
-    "savings-investments": {
-      "name": "Sparande och investeringar",
-      "savings-buffer": "Buffertsparande",
-      "pension-savings": "Pensionssparande",
-      "securities-funds": "Värdepapper och fonder",
-      "savings-children": "Barnsparande",
-      "savings-other": "Sparande, övrigt"
+    "savingsInvestments": {
+      "name": "Sparande och investeringar"
     },
-    "vacation-traveling": {
-      "name": "Semester och resor",
-      "vacation-transport": "Transport på semester",
-      "hotels-accommodation": "Hotell och boende",
-      "vacation-entertainment": "Nöjen på semester",
-      "vacation-food": "Mat och levnadskostnader på semester",
-      "vacation-other": "Semester och resor, övrigt"
+    "vacationTraveling": {
+      "name": "Semester och resor"
     },
     "education": {
-      "name": "Utbildning",
-      "student-loan": "Studielån",
-      "education-fees": "Utbildningsavgifter",
-      "educational-equipment": "Utbildningsmaterial",
-      "education-other": "Utbildning, övrigt"
+      "name": "Utbildning"
     },
     "food": {
-      "name": "Mat",
-      "groceries": "Livsmedel",
-      "fast-food": "Snabbmat",
-      "candy-kiosks": "Godis, glass och kiosker",
-      "restaurants-cafes": "Restauranger och caféer",
-      "food-other": "Mat, övrigt"
+      "name": "Mat"
     },
     "aria": {
       "title": "Utgiftskategorier sektion",
       "category": "Utgiftskategori: {{category}}",
       "subcategory_input": "Inmatning för {{subcategory}} i {{category}}"
     },
-    "track_expenses": "Följ dina månatliga utgifter per kategori"
+    "track_expenses": "Följ dina månatliga utgifter per kategori",
+    "view_toggle": {
+      "detailed": "Detaljerad vy",
+      "simple": "Enkel vy",
+      "simple_description": "Ange dina totala månatliga utgifter"
+    }
   },
   "expense_breakdown": {
     "title": "Utgiftsfördelning",

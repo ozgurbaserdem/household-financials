@@ -12,12 +12,6 @@ export interface IncomeRange {
 export interface ExpenseCategory {
   id: string;
   name: string;
-  subcategories: ExpenseSubcategory[];
-}
-
-export interface ExpenseSubcategory {
-  id: string;
-  name: string;
 }
 
 export interface KommunData {
@@ -64,9 +58,7 @@ export interface CalculationResult {
 }
 
 export interface ExpensesByCategory {
-  [categoryId: string]: {
-    [subcategoryId: string]: number;
-  };
+  [categoryId: string]: number;
 }
 
 export interface FinancialHealthScore {
@@ -89,4 +81,6 @@ export interface CalculatorState {
   };
   expenses: ExpensesByCategory;
   income: IncomeState;
+  expenseViewMode: "detailed" | "simple";
+  totalExpenses: number;
 }

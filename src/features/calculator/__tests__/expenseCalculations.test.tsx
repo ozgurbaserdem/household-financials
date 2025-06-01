@@ -25,17 +25,13 @@ describe("Expense Calculations and Net Income", () => {
       numberOfAdults: "1",
     },
     expenses: {},
+    expenseViewMode: "detailed",
+    totalExpenses: 0,
   });
 
   const getTestExpenses = (): ExpensesByCategory => ({
-    home: {
-      "rent-monthly-fee": 5000,
-      "electricity-heating": 1000,
-    },
-    food: {
-      groceries: 3000,
-      "restaurants-cafes": 2000,
-    },
+    home: 6000,
+    food: 5000,
   });
 
   const calculateTotalIncome = (result: CalculationResult): number => {
@@ -77,14 +73,8 @@ describe("Expense Calculations and Net Income", () => {
 
     // First add some expenses
     const withExpenses: ExpensesByCategory = {
-      home: {
-        "rent-monthly-fee": 5000,
-        "electricity-heating": 1000,
-      },
-      food: {
-        groceries: 3000,
-        "restaurants-cafes": 2000,
-      },
+      home: 6000,
+      food: 5000,
     };
 
     const stateWithExpenses = {
@@ -99,14 +89,8 @@ describe("Expense Calculations and Net Income", () => {
 
     // Then set all expenses to zero
     const zeroExpenses: ExpensesByCategory = {
-      home: {
-        "rent-monthly-fee": 0,
-        "electricity-heating": 0,
-      },
-      food: {
-        groceries: 0,
-        "restaurants-cafes": 0,
-      },
+      home: 0,
+      food: 0,
     };
 
     const stateWithZeroExpenses = {
@@ -141,14 +125,8 @@ describe("Expense Calculations and Net Income", () => {
 
     // Set very large expenses
     const largeExpenses: ExpensesByCategory = {
-      home: {
-        "rent-monthly-fee": 9999999,
-        "electricity-heating": 9999999,
-      },
-      food: {
-        groceries: 9999999,
-        "restaurants-cafes": 9999999,
-      },
+      home: 19999998,
+      food: 19999998,
     };
 
     const newState = {
@@ -170,16 +148,10 @@ describe("Expense Calculations and Net Income", () => {
     const initialResults = calculateLoanScenarios(initialState);
     const initialTotalIncome = calculateTotalIncome(initialResults[0]);
 
-    // Set decimal expenses
+    // Set decimal expenses (simplified structure)
     const decimalExpenses: ExpensesByCategory = {
-      home: {
-        "rent-monthly-fee": 1234.56,
-        "electricity-heating": 789.12,
-      },
-      food: {
-        groceries: 456.78,
-        "restaurants-cafes": 901.23,
-      },
+      home: 2023.68, // 1234.56 + 789.12
+      food: 1358.01, // 456.78 + 901.23
     };
 
     const newState = {
@@ -203,10 +175,7 @@ describe("Expense Calculations and Net Income", () => {
 
     // First change
     const firstChange: ExpensesByCategory = {
-      home: {
-        "rent-monthly-fee": 1000,
-        "electricity-heating": 0,
-      },
+      home: 1000,
     };
     const firstState = {
       ...initialState,
@@ -219,10 +188,7 @@ describe("Expense Calculations and Net Income", () => {
     // Second change
     const secondChange: ExpensesByCategory = {
       ...firstChange,
-      food: {
-        groceries: 500,
-        "restaurants-cafes": 0,
-      },
+      food: 500,
     };
     const secondState = {
       ...initialState,
@@ -235,10 +201,7 @@ describe("Expense Calculations and Net Income", () => {
     // Third change
     const thirdChange: ExpensesByCategory = {
       ...secondChange,
-      home: {
-        ...secondChange.home,
-        "electricity-heating": 300,
-      },
+      home: 1300, // Updated home expenses
     };
     const thirdState = {
       ...initialState,
@@ -249,6 +212,77 @@ describe("Expense Calculations and Net Income", () => {
     expect(calculateTotalIncome(thirdResults[0])).toBe(initialTotalIncome);
     expect(thirdResults[0].remainingSavings).not.toBe(
       initialResults[0].remainingSavings
+    );
+  });
+
+  it("should use simple view total expenses when in simple mode", () => {
+    const initialState = getInitialState();
+
+    // Set up state with simple view mode and total expenses
+    const simpleViewState: CalculatorState = {
+      ...initialState,
+      expenseViewMode: "simple",
+      totalExpenses: 10000,
+      expenses: {
+        home: 5000, // This should be ignored in simple mode
+        food: 3000, // This should be ignored in simple mode
+      },
+    };
+
+    const simpleResults = calculateLoanScenarios(simpleViewState);
+
+    // Set up state with detailed view mode using same individual expenses
+    const detailedViewState: CalculatorState = {
+      ...initialState,
+      expenseViewMode: "detailed",
+      totalExpenses: 0, // This should be ignored in detailed mode
+      expenses: {
+        home: 5000,
+        food: 3000,
+      },
+    };
+
+    const detailedResults = calculateLoanScenarios(detailedViewState);
+
+    // Simple view uses totalExpenses (10000), detailed view uses sum of categories (8000)
+    expect(simpleResults[0].remainingSavings).toBeLessThan(
+      detailedResults[0].remainingSavings
+    );
+  });
+
+  it("should use detailed view expenses when in detailed mode", () => {
+    const initialState = getInitialState();
+
+    // Test with detailed mode
+    const detailedState: CalculatorState = {
+      ...initialState,
+      expenseViewMode: "detailed",
+      totalExpenses: 15000, // This should be ignored
+      expenses: {
+        home: 6000,
+        food: 4000,
+        leisure: 2000,
+      },
+    };
+
+    const detailedResults = calculateLoanScenarios(detailedState);
+
+    // Should use sum of detailed expenses (12000), not totalExpenses (15000)
+    const expectedExpenseTotal = 6000 + 4000 + 2000; // 12000
+
+    // Compare with a state that has the same totalExpenses in simple mode
+    const simpleState: CalculatorState = {
+      ...initialState,
+      expenseViewMode: "simple",
+      totalExpenses: expectedExpenseTotal,
+      expenses: {}, // Should be ignored
+    };
+
+    const simpleResults = calculateLoanScenarios(simpleState);
+
+    // Results should be the same when using equivalent expense amounts
+    expect(detailedResults[0].remainingSavings).toBe(
+      simpleResults[0].remainingSavings
     );
   });
 });

@@ -6,11 +6,7 @@ function unflattenExpenses(
 ): ExpensesByCategory {
   const result: ExpensesByCategory = {};
   for (const category of expenseCategories) {
-    result[category.id] = {};
-    for (const sub of category.subcategories) {
-      const key = `${category.id}.${sub.id}`;
-      result[category.id][sub.id] = Number(flat[key] ?? 0);
-    }
+    result[category.id] = Number(flat[category.id] ?? 0);
   }
   return result;
 }

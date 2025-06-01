@@ -100,14 +100,8 @@ describe("Financial Calculations", () => {
   describe("calculateTotalExpenses", () => {
     it("should calculate total expenses correctly", () => {
       const expenses: ExpensesByCategory = {
-        housing: {
-          rent: 5000,
-          utilities: 1000,
-        },
-        food: {
-          groceries: 3000,
-          restaurants: 2000,
-        },
+        home: 6000,
+        food: 5000,
       };
 
       const total = calculateTotalExpenses(expenses);
@@ -120,23 +114,9 @@ describe("Financial Calculations", () => {
       expect(total).toBe(0);
     });
 
-    it("should correctly handle housing costs with all subcategories", () => {
+    it("should correctly handle housing costs with simplified structure", () => {
       const expenses: ExpensesByCategory = {
-        home: {
-          "rent-monthly-fee": 5000,
-          "electricity-heating": 1000,
-          mortgage: 2000,
-          "water-garbage": 500,
-          pets: 300,
-          "streaming-internet-phone": 400,
-          "house-cleaning": 600,
-          "interior-decoration": 200,
-          "home-improvements": 1000,
-          "holiday-home": 1500,
-          gardening: 200,
-          "home-alarm": 150,
-          "other-household": 300,
-        },
+        home: 13150,
       };
 
       const totalExpenses = calculateTotalExpenses(expenses);
@@ -145,27 +125,15 @@ describe("Financial Calculations", () => {
 
       // Total expenses should include ALL expenses
       expect(totalExpenses).toBe(13150);
-      // Selected housing expenses should only include the specific housing-related costs
-      expect(selectedHousingExpenses).toBe(8500);
+      // Selected housing expenses should be the same as home category in simplified structure
+      expect(selectedHousingExpenses).toBe(13150);
     });
 
     it("should handle mixed categories with housing costs", () => {
       const expenses: ExpensesByCategory = {
-        home: {
-          "rent-monthly-fee": 5000,
-          "electricity-heating": 1000,
-          mortgage: 2000,
-          "water-garbage": 500,
-          pets: 300,
-        },
-        "car-transportation": {
-          fuel: 1500,
-          parking: 500,
-        },
-        food: {
-          groceries: 3000,
-          restaurants: 2000,
-        },
+        home: 9300,
+        carTransportation: 2000,
+        food: 5000,
       };
 
       const totalExpenses = calculateTotalExpenses(expenses);
@@ -173,20 +141,15 @@ describe("Financial Calculations", () => {
         calculateSelectedHousingExpenses(expenses);
 
       // Total expenses should include ALL expenses
-      expect(totalExpenses).toBe(15800);
-      // Selected housing expenses should only include the specific housing-related costs
-      expect(selectedHousingExpenses).toBe(8500);
+      expect(totalExpenses).toBe(16300);
+      // Selected housing expenses should be the home category total in simplified structure
+      expect(selectedHousingExpenses).toBe(9300);
     });
 
-    it("should handle zero values in housing subcategories", () => {
+    it("should handle zero values in housing category", () => {
       const expenses: ExpensesByCategory = {
-        home: {
-          "rent-monthly-fee": 0,
-          "electricity-heating": 0,
-          mortgage: 0,
-          "water-garbage": 0,
-          pets: 300,
-        },
+        home: 0,
+        food: 300,
       };
 
       const totalExpenses = calculateTotalExpenses(expenses);
@@ -197,14 +160,9 @@ describe("Financial Calculations", () => {
       expect(selectedHousingExpenses).toBe(0);
     });
 
-    it("should handle negative values in housing subcategories", () => {
+    it("should handle negative values in housing category", () => {
       const expenses: ExpensesByCategory = {
-        home: {
-          "rent-monthly-fee": -1000,
-          "electricity-heating": 1000,
-          mortgage: 2000,
-          "water-garbage": 500,
-        },
+        home: 2500,
       };
 
       const totalExpenses = calculateTotalExpenses(expenses);
@@ -215,14 +173,9 @@ describe("Financial Calculations", () => {
       expect(selectedHousingExpenses).toBe(2500);
     });
 
-    it("should handle very large values in housing subcategories", () => {
+    it("should handle very large values in housing category", () => {
       const expenses: ExpensesByCategory = {
-        home: {
-          "rent-monthly-fee": 100000,
-          "electricity-heating": 50000,
-          mortgage: 75000,
-          "water-garbage": 25000,
-        },
+        home: 250000,
       };
 
       const totalExpenses = calculateTotalExpenses(expenses);
@@ -233,15 +186,9 @@ describe("Financial Calculations", () => {
       expect(selectedHousingExpenses).toBe(250000);
     });
 
-    it("should handle missing housing subcategories", () => {
+    it("should handle missing housing category", () => {
       const expenses: ExpensesByCategory = {
-        home: {
-          "rent-monthly-fee": 5000,
-          // Missing electricity-heating
-          mortgage: 2000,
-          // Missing water-garbage
-          pets: 300,
-        },
+        food: 7300,
       };
 
       const totalExpenses = calculateTotalExpenses(expenses);
@@ -249,7 +196,7 @@ describe("Financial Calculations", () => {
         calculateSelectedHousingExpenses(expenses);
 
       expect(totalExpenses).toBe(7300);
-      expect(selectedHousingExpenses).toBe(7000);
+      expect(selectedHousingExpenses).toBe(0);
     });
   });
 
@@ -479,12 +426,7 @@ describe("Financial Calculations", () => {
           includeChurchTax: true,
         },
         expenses: {
-          home: {
-            "rent-monthly-fee": 0,
-            "electricity-heating": 2000,
-            mortgage: 0,
-            "water-garbage": 800,
-          },
+          home: 2800,
         },
       };
 

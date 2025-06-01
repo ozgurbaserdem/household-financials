@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -8,16 +7,16 @@ import {
   CardIcon,
 } from "@/components/ui/modern-card";
 import { CardContent } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { expenseCategories } from "@/data/expenseCategories";
 import { formatCurrency } from "@/lib/calculations";
 import type { ExpensesByCategory } from "@/lib/types";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import {
+  updateExpenseViewMode,
+  updateTotalExpenses,
+} from "@/store/slices/calculatorSlice";
 import {
   List,
   TrendingDown,
@@ -34,6 +33,8 @@ import {
   FileQuestion,
   Volleyball,
   DollarSign,
+  Menu,
+  Minus,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
@@ -48,18 +49,18 @@ interface ExpenseCategoriesProps {
 
 const categoryIcons: Record<string, React.ReactNode> = {
   home: <Home className="w-4 h-4" />,
-  "car-transportation": <Car className="w-4 h-4" />,
-  "shopping-services": <ShoppingBag className="w-4 h-4" />,
-  "health-beauty": <Heart className="w-4 h-4" />,
+  carTransportation: <Car className="w-4 h-4" />,
+  shoppingServices: <ShoppingBag className="w-4 h-4" />,
+  healthBeauty: <Heart className="w-4 h-4" />,
   children: <Baby className="w-4 h-4" />,
   insurance: <Umbrella className="w-4 h-4" />,
-  "savings-investments": <PiggyBank className="w-4 h-4" />,
-  "vacation-traveling": <Plane className="w-4 h-4" />,
+  savingsInvestments: <PiggyBank className="w-4 h-4" />,
+  vacationTraveling: <Plane className="w-4 h-4" />,
   education: <GraduationCap className="w-4 h-4" />,
   food: <Pizza className="w-4 h-4" />,
   uncategorized: <FileQuestion className="w-4 h-4" />,
   leisure: <Volleyball className="w-4 h-4" />,
-  "loans-tax-fees": <DollarSign className="w-4 h-4" />,
+  loansTaxFees: <DollarSign className="w-4 h-4" />,
 };
 
 export function ExpenseCategories({
@@ -67,40 +68,41 @@ export function ExpenseCategories({
   onChange,
 }: ExpenseCategoriesProps) {
   const t = useTranslations("expense_categories");
-  const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
-  const [focusedCategory, setFocusedCategory] = useState<string | null>(null);
   const titleRef = useFocusOnMount();
+  const dispatch = useAppDispatch();
+  const expenseViewMode = useAppSelector((state) => state.expenseViewMode);
+  const totalExpenses = useAppSelector((state) => state.totalExpenses);
 
-  const handleExpenseChange = (
-    categoryId: string,
-    subcategoryId: string,
-    value: string
-  ) => {
+  const handleExpenseChange = (categoryId: string, value: string) => {
     const newExpenses = {
       ...expenses,
-      [categoryId]: {
-        ...(expenses[categoryId] || {}),
-        [subcategoryId]: Number(value) || 0,
-      },
+      [categoryId]: Number(value) || 0,
     };
     onChange(newExpenses);
   };
 
-  const calculateCategoryTotal = (categoryId: string) => {
-    const categoryExpenses = expenses[categoryId] || {};
-    return Object.values(categoryExpenses).reduce(
-      (sum, amount) => sum + amount,
-      0
-    );
+  const handleTotalExpenseChange = (value: string) => {
+    const numericValue = Number(value) || 0;
+    dispatch(updateTotalExpenses(numericValue));
+  };
+
+  const handleViewModeToggle = (isSimple: boolean) => {
+    dispatch(updateExpenseViewMode(isSimple ? "simple" : "detailed"));
+  };
+
+  const getCategoryAmount = (categoryId: string) => {
+    return expenses[categoryId] || 0;
   };
 
   const calculateGrandTotal = () => {
-    return Object.values(expenses).reduce((sum, category) => {
-      return (
-        sum +
-        Object.values(category).reduce((catSum, amount) => catSum + amount, 0)
-      );
+    return Object.values(expenses).reduce((sum, amount) => {
+      const numericAmount = Number(amount) || 0;
+      return sum + numericAmount;
     }, 0);
+  };
+
+  const getCurrentTotal = () => {
+    return expenseViewMode === "simple" ? totalExpenses : calculateGrandTotal();
   };
 
   const grandTotal = calculateGrandTotal();
@@ -133,50 +135,119 @@ export function ExpenseCategories({
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+          className="flex items-center gap-4"
         >
-          <TrendingDown className="w-8 h-8 text-red-400" />
+          <Box className="flex items-center gap-2">
+            <Text className="text-sm text-gray-300">
+              {t("view_toggle.detailed")}
+            </Text>
+            <Switch
+              checked={expenseViewMode === "simple"}
+              onCheckedChange={handleViewModeToggle}
+              size="sm"
+            />
+            <Text className="text-sm text-gray-300">
+              {t("view_toggle.simple")}
+            </Text>
+          </Box>
+          <motion.div
+            animate={{
+              rotate: expenseViewMode === "simple" ? 0 : 360,
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            {expenseViewMode === "simple" ? (
+              <Minus className="w-8 h-8 text-red-400" />
+            ) : (
+              <Menu className="w-8 h-8 text-red-400" />
+            )}
+          </motion.div>
         </motion.div>
       </CardHeader>
 
       <CardContent className="pb-6">
-        <Accordion
-          type="multiple"
-          value={expandedCategories}
-          onValueChange={setExpandedCategories}
-          className="space-y-3 w-full"
-        >
-          {expenseCategories.map((category, index) => {
-            const categoryTotal = calculateCategoryTotal(category.id);
-            const isExpanded = expandedCategories.includes(category.id);
-            const categoryPercentage =
-              grandTotal > 0 ? (categoryTotal / grandTotal) * 100 : 0;
-
-            return (
+        <AnimatePresence mode="wait">
+          {expenseViewMode === "simple" ? (
+            <motion.div
+              key="simple-view"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 30 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-4"
+            >
               <motion.div
-                key={category.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 + index * 0.05 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="glass rounded-xl border-0 overflow-hidden p-6"
               >
-                <AccordionItem
-                  value={category.id}
-                  className={`
-                    glass rounded-xl border-0 overflow-hidden
-                    ${focusedCategory === category.id ? "ring-2 ring-blue-500/50" : ""}
-                    transition-all duration-300
-                  `}
-                  onFocus={() => setFocusedCategory(category.id)}
-                  onBlur={() => setFocusedCategory(null)}
-                >
-                  <AccordionTrigger className="px-4 py-4 hover:bg-white/5 transition-colors">
-                    {/* Mobile layout: flex-col, stacked, visible on mobile only */}
-                    <Box className="flex flex-col w-full gap-2 sm:hidden">
+                <Box className="flex flex-col gap-4">
+                  <Box className="flex items-center gap-3">
+                    <Box className="p-2 rounded-lg bg-gradient-to-br from-red-600/20 to-pink-600/20">
+                      <TrendingDown className="w-5 h-5 text-red-400" />
+                    </Box>
+                    <label
+                      htmlFor="total-expenses-input"
+                      className="text-lg font-medium text-gray-200 cursor-pointer"
+                    >
+                      {t("total_expenses")}
+                    </label>
+                  </Box>
+                  <Text className="text-sm text-gray-300">
+                    {t("view_toggle.simple_description")}
+                  </Text>
+                  <Input
+                    id="total-expenses-input"
+                    type="number"
+                    min={0}
+                    className="w-full modern-input text-right text-xl"
+                    value={
+                      totalExpenses && totalExpenses !== 0 ? totalExpenses : ""
+                    }
+                    placeholder="0"
+                    onChange={(e) => handleTotalExpenseChange(e.target.value)}
+                    onFocus={(e) => e.target.select()}
+                    aria-label={t("total_expenses")}
+                  />
+                </Box>
+              </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="detailed-view"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-3 w-full"
+            >
+              {expenseCategories.map((category, index) => {
+                const categoryAmount = getCategoryAmount(category.id);
+                const categoryPercentage =
+                  grandTotal > 0 ? (categoryAmount / grandTotal) * 100 : 0;
+
+                return (
+                  <motion.div
+                    key={category.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + index * 0.05 }}
+                    className={`
+                      glass rounded-xl border-0 overflow-hidden
+                      p-4 transition-all duration-300
+                      hover:bg-white/5
+                    `}
+                  >
+                    {/* Mobile layout */}
+                    <Box className="flex flex-col w-full gap-3 sm:hidden">
                       <Box className="flex items-center justify-between w-full gap-2">
-                        <Box className="flex items-center gap-3 min-w-0">
+                        <Box className="flex items-center gap-3 min-w-0 flex-1">
                           <Box
                             className={`
                               p-2 rounded-lg bg-gradient-to-br
-                              ${categoryTotal > 0 ? "from-orange-600/20 to-red-600/20" : "from-gray-600/20 to-gray-700/20"}
+                              ${categoryAmount > 0 ? "from-orange-600/20 to-red-600/20" : "from-gray-600/20 to-gray-700/20"}
                               transition-colors duration-300
                             `}
                           >
@@ -184,24 +255,36 @@ export function ExpenseCategories({
                               <List className="w-4 h-4" />
                             )}
                           </Box>
-                          <Text className="font-medium text-gray-200 whitespace-normal break-words min-w-0">
+                          <label
+                            className="font-medium text-gray-200 whitespace-normal break-words min-w-0 cursor-pointer"
+                            htmlFor={`${category.id}-input`}
+                          >
                             {t(`${category.id}.name`)}
-                          </Text>
+                          </label>
                         </Box>
-                        <Text
-                          className={`
-                            text-sm font-semibold min-w-[70px] text-right
-                            ${categoryTotal > 0 ? "text-orange-400" : "text-gray-500"}
-                          `}
-                        >
-                          {formatCurrency(categoryTotal)}
-                        </Text>
                       </Box>
-                      {categoryTotal > 0 && (
+                      <Input
+                        id={`${category.id}-input`}
+                        type="number"
+                        min={0}
+                        className="w-full modern-input text-right"
+                        value={
+                          categoryAmount && categoryAmount !== 0
+                            ? categoryAmount
+                            : ""
+                        }
+                        placeholder="0"
+                        onChange={(e) =>
+                          handleExpenseChange(category.id, e.target.value)
+                        }
+                        onFocus={(e) => e.target.select()}
+                        aria-label={t(`${category.id}.name`)}
+                      />
+                      {categoryAmount > 0 && (
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: "100%" }}
-                          className="h-1.5 bg-gray-700/50 rounded-full overflow-hidden w-full mt-2"
+                          className="h-1.5 bg-gray-700/50 rounded-full overflow-hidden w-full"
                         >
                           <motion.div
                             initial={{ width: 0 }}
@@ -212,13 +295,14 @@ export function ExpenseCategories({
                         </motion.div>
                       )}
                     </Box>
-                    {/* Desktop layout: flex-row, inline, visible on desktop only */}
-                    <Box className="hidden sm:flex items-center justify-between w-full">
-                      <Box className="flex items-center gap-3">
+
+                    {/* Desktop layout */}
+                    <Box className="hidden sm:flex items-center justify-between w-full gap-4">
+                      <Box className="flex items-center gap-3 flex-1">
                         <Box
                           className={`
                             p-2 rounded-lg bg-gradient-to-br
-                            ${categoryTotal > 0 ? "from-orange-600/20 to-red-600/20" : "from-gray-600/20 to-gray-700/20"}
+                            ${categoryAmount > 0 ? "from-orange-600/20 to-red-600/20" : "from-gray-600/20 to-gray-700/20"}
                             transition-colors duration-300
                           `}
                         >
@@ -226,12 +310,15 @@ export function ExpenseCategories({
                             <List className="w-4 h-4" />
                           )}
                         </Box>
-                        <Text className="font-medium text-gray-200">
+                        <label
+                          className="font-medium text-gray-200 cursor-pointer flex-1"
+                          htmlFor={`${category.id}-input-desktop`}
+                        >
                           {t(`${category.id}.name`)}
-                        </Text>
+                        </label>
                       </Box>
                       <Box className="flex items-center gap-4">
-                        {categoryTotal > 0 && (
+                        {categoryAmount > 0 && (
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: 60 }}
@@ -245,82 +332,31 @@ export function ExpenseCategories({
                             />
                           </motion.div>
                         )}
-                        <Text
-                          className={`
-                            text-sm font-semibold min-w-[100px] text-right
-                            ${categoryTotal > 0 ? "text-orange-400" : "text-gray-500"}
-                          `}
-                        >
-                          {formatCurrency(categoryTotal)}
-                        </Text>
+                        <Input
+                          id={`${category.id}-input-desktop`}
+                          type="number"
+                          min={0}
+                          className="w-40 modern-input text-right"
+                          value={
+                            categoryAmount && categoryAmount !== 0
+                              ? categoryAmount
+                              : ""
+                          }
+                          placeholder="0"
+                          onChange={(e) =>
+                            handleExpenseChange(category.id, e.target.value)
+                          }
+                          onFocus={(e) => e.target.select()}
+                          aria-label={t(`${category.id}.name`)}
+                        />
                       </Box>
                     </Box>
-                  </AccordionTrigger>
-
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <AccordionContent className="px-4 pb-4">
-                        <motion.div
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.2 }}
-                          className="space-y-2 pt-2"
-                        >
-                          {category.subcategories.map(
-                            (subcategory, subIndex) => (
-                              <motion.div
-                                key={subcategory.id}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: subIndex * 0.03 }}
-                                className={`
-                                flex items-center justify-between gap-4
-                                p-3 rounded-lg glass
-                                hover:bg-white/5 transition-all duration-200
-                                group
-                              `}
-                              >
-                                <label
-                                  className="text-sm text-gray-200 group-hover:text-white transition-colors cursor-pointer flex-1"
-                                  htmlFor={`${category.id}-${subcategory.id}-input`}
-                                >
-                                  {t(`${category.id}.${subcategory.id}`)}
-                                </label>
-                                <Input
-                                  id={`${category.id}-${subcategory.id}-input`}
-                                  type="number"
-                                  min={0}
-                                  className="w-32 modern-input text-right"
-                                  value={
-                                    expenses[category.id]?.[subcategory.id] &&
-                                    expenses[category.id][subcategory.id] !== 0
-                                      ? expenses[category.id][subcategory.id]
-                                      : ""
-                                  }
-                                  placeholder="0"
-                                  onChange={(e) =>
-                                    handleExpenseChange(
-                                      category.id,
-                                      subcategory.id,
-                                      e.target.value
-                                    )
-                                  }
-                                  onFocus={(e) => e.target.select()}
-                                  aria-label={`${t(`${category.id}.${subcategory.id}`)} in ${t(`${category.id}.name`)}`}
-                                />
-                              </motion.div>
-                            )
-                          )}
-                        </motion.div>
-                      </AccordionContent>
-                    )}
-                  </AnimatePresence>
-                </AccordionItem>
-              </motion.div>
-            );
-          })}
-        </Accordion>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -338,10 +374,10 @@ export function ExpenseCategories({
               </Text>
             </Box>
             <Text
-              className={`text-2xl font-bold ${grandTotal > 0 ? "text-red-400" : "text-gray-500"}`}
+              className={`text-2xl font-bold ${getCurrentTotal() > 0 ? "text-red-400" : "text-gray-500"}`}
               data-testid="grand-total"
             >
-              {formatCurrency(grandTotal)}
+              {formatCurrency(getCurrentTotal())}
             </Text>
           </Box>
         </motion.div>

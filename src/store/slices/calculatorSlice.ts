@@ -20,6 +20,8 @@ const initialState: CalculatorState = {
     numberOfAdults: "1",
   },
   expenses: DEFAULT_EXPENSES,
+  expenseViewMode: "detailed",
+  totalExpenses: 0,
 };
 
 const calculatorSlice = createSlice({
@@ -45,14 +47,26 @@ const calculatorSlice = createSlice({
       state,
       action: PayloadAction<Partial<ExpensesByCategory>>
     ) => {
-      for (const cat in action.payload) {
-        if (action.payload[cat]) {
-          state.expenses[cat] = {
-            ...state.expenses[cat],
-            ...action.payload[cat],
-          };
-        }
-      }
+      // Filter out undefined values and ensure numbers
+      const validExpenses = Object.fromEntries(
+        Object.entries(action.payload).filter(
+          ([, value]) => value !== undefined
+        )
+      ) as ExpensesByCategory;
+
+      state.expenses = {
+        ...state.expenses,
+        ...validExpenses,
+      };
+    },
+    updateExpenseViewMode: (
+      state,
+      action: PayloadAction<"detailed" | "simple">
+    ) => {
+      state.expenseViewMode = action.payload;
+    },
+    updateTotalExpenses: (state, action: PayloadAction<number>) => {
+      state.totalExpenses = action.payload;
     },
     resetCalculator: () => initialState,
   },
@@ -62,6 +76,8 @@ export const {
   updateLoanParameters,
   updateIncome,
   updateExpenses,
+  updateExpenseViewMode,
+  updateTotalExpenses,
   resetCalculator,
 } = calculatorSlice.actions;
 

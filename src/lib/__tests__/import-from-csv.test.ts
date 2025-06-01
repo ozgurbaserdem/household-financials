@@ -5,8 +5,8 @@ import { importFromCsv } from "@/lib/import-from-csv";
 
 describe("CSV Import", () => {
   it("should import data correctly from CSV", async () => {
-    const csvContent = `loanAmount,interestRates,amortizationRates,income1,income2,secondaryIncome1,secondaryIncome2,home.rent-monthly-fee,home.utilities,food.groceries,food.restaurants-cafes
-1000000,3.5|4,2|3,30000,25000,20000,15000,5000,1000,3000,2000`;
+    const csvContent = `loanAmount,interestRates,amortizationRates,income1,income2,secondaryIncome1,secondaryIncome2,home,food
+1000000,3.5|4,2|3,30000,25000,20000,15000,6000,5000`;
 
     const file = new File([csvContent], "test.csv", { type: "text/csv" });
     const onSuccess = vi.fn();

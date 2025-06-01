@@ -5,9 +5,7 @@ import { expenseCategories } from "@/data/expenseCategories";
 function flattenExpenses(expenses: ExpensesByCategory): Record<string, number> {
   const flat: Record<string, number> = {};
   for (const category of expenseCategories) {
-    for (const sub of category.subcategories) {
-      flat[`${category.id}.${sub.id}`] = expenses?.[category.id]?.[sub.id] ?? 0;
-    }
+    flat[category.id] = expenses?.[category.id] ?? 0;
   }
   return flat;
 }

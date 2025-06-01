@@ -29,7 +29,10 @@ export function Logo({ onLogoClick }: LogoProps) {
   };
 
   return (
-    <button onClick={handleLogoClick} className="flex items-center gap-3 group">
+    <button
+      onClick={handleLogoClick}
+      className="flex items-center gap-3 group cursor-pointer"
+    >
       <motion.div
         whileHover={{ rotate: 180 }}
         transition={{ duration: 0.5 }}

@@ -8,6 +8,7 @@ const persistConfig = {
   storage,
   throttle: 500,
   blacklist: [],
+  version: 1, // Bump version to clear old data
 };
 
 const persistedReducer = persistReducer(persistConfig, calculatorReducer);

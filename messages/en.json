@@ -38,153 +38,55 @@
     "hide_expenses": "Hide expenses",
     "total_expenses": "Total Expenses",
     "home": {
-      "name": "Home",
-      "electricity-heating": "Electricity and heating",
-      "pets": "Pets",
-      "streaming-internet-phone": "Streaming services, internet and phone",
-      "house-cleaning": "House cleaning",
-      "rent-monthly-fee": "Rent and monthly fee",
-      "interior-decoration": "Interior decoration and furnishing",
-      "mortgage": "Mortgage",
-      "home-improvements": "Home improvements and renovation",
-      "holiday-home": "Holiday home",
-      "water-garbage": "Water and garbage collection",
-      "gardening": "Gardening",
-      "home-alarm": "Home alarm",
-      "other-household": "Other household services"
+      "name": "Home"
     },
-    "car-transportation": {
-      "name": "Car and transportation",
-      "charging": "Charging",
-      "parking": "Parking",
-      "fuel": "Fuel",
-      "car-service": "Car service",
-      "taxi": "Taxi",
-      "public-transportation": "Public transportation",
-      "car-cleaning": "Car cleaning",
-      "car-loan-lease": "Car loan and car lease",
-      "motorcycle": "Motorcycle",
-      "other-transportation": "Other car and transportation"
+    "carTransportation": {
+      "name": "Car and transportation"
     },
     "leisure": {
-      "name": "Leisure time",
-      "association-memberships": "Association memberships",
-      "golfing": "Golfing",
-      "hunting": "Hunting",
-      "hiking-outdoor": "Hiking and outdoor activities",
-      "arts-crafts": "Arts and crafts",
-      "dancing": "Dancing",
-      "skiing-winter": "Skiing and winter sports",
-      "horseback-riding": "Horseback riding",
-      "biking": "Biking",
-      "photographing": "Photographing",
-      "music-instruments": "Music and instruments",
-      "parties-celebrations": "Parties and celebrations",
-      "charities": "Charities",
-      "movies-events": "Movies, theaters and events",
-      "lotteries-betting": "Lotteries and betting",
-      "bars-nightclubs": "Bars, pubs and nightclubs"
+      "name": "Leisure time"
     },
-    "shopping-services": {
-      "name": "Shopping and services",
-      "flowers-decor": "Flowers and minor home decorating items",
-      "electronics": "Home electronics",
-      "books-games": "Books and games",
-      "music-apps": "Music and apps",
-      "subscriptions-media": "Subscriptions and media",
-      "clothes-shoes": "Clothes and shoes",
-      "dry-clean-tailor": "Dry clean and tailor",
-      "jewelry-accessories": "Jewelery and accessories",
-      "tobacco": "Tobacco",
-      "alcohol": "Alcohol",
-      "gifts": "Gifts",
-      "shopping-other": "Shopping and Services, other"
+    "shoppingServices": {
+      "name": "Shopping and services"
     },
-    "loans-tax-fees": {
-      "name": "Loans, tax and fees",
-      "late-fees": "Late fees and charges",
-      "bank-fees": "Bank and service fees",
-      "private-loans": "Private loans",
-      "tax-payments": "Tax payments",
-      "other-loans-fees": "Other loans, taxes and fees"
+    "loansTaxFees": {
+      "name": "Loans, tax and fees"
     },
-    "health-beauty": {
-      "name": "Health and beauty",
-      "pharmacy": "Pharmacy",
-      "healthcare": "Healthcare",
-      "sports-exercise": "Sports and exercise",
-      "spa-massage": "Spa and massage",
-      "beauty-products": "Beauty products",
-      "hairdresser": "Hairdresser",
-      "optician": "Optician",
-      "other-health-beauty": "Other health and beauty"
+    "healthBeauty": {
+      "name": "Health and beauty"
     },
     "children": {
-      "name": "Children",
-      "babysitting": "Babysitting",
-      "children-clothing": "Children's clothing",
-      "children-toys": "Children's toys",
-      "allowance": "Weekly and monthly allowance",
-      "children-activities": "Children's activities",
-      "childcare-products": "Childcare products",
-      "alimony": "Alimony",
-      "preschool-after-school": "Preschool and after school center",
-      "children-other": "Children, other"
+      "name": "Children"
     },
     "uncategorized": {
-      "name": "Uncategorised expenses",
-      "cash-withdrawals": "Cash withdrawals",
-      "swish": "Swish",
-      "uncategorized-transfers": "Uncategorised transfers",
-      "uncategorized-other": "Uncategorised expenses other",
-      "uncategorized-credit-card": "Uncategorised credit card purchases"
+      "name": "Uncategorised expenses"
     },
     "insurance": {
-      "name": "Insurance",
-      "household-insurance": "Household insurance",
-      "car-insurance": "Car insurance",
-      "life-health-insurance": "Life and health insurance",
-      "income-insurance": "A-kassa and/or income insurance",
-      "accident-insurance": "Accident insurance",
-      "insurance-other": "Insurance other"
+      "name": "Insurance"
     },
-    "savings-investments": {
-      "name": "Savings and investments",
-      "savings-buffer": "Savings buffer",
-      "pension-savings": "Pension savings",
-      "securities-funds": "Securities and fund savings",
-      "savings-children": "Savings children",
-      "savings-other": "Savings other"
+    "savingsInvestments": {
+      "name": "Savings and investments"
     },
-    "vacation-traveling": {
-      "name": "Vacation and travelling",
-      "vacation-transport": "Planes, trains and cars on vacation",
-      "hotels-accommodation": "Hotels and accomodation",
-      "vacation-entertainment": "Entertainment on vacation",
-      "vacation-food": "Vacation food and living expenses",
-      "vacation-other": "Vacation and travelling other"
+    "vacationTraveling": {
+      "name": "Vacation and travelling"
     },
     "education": {
-      "name": "Education",
-      "student-loan": "Student loan",
-      "education-fees": "Education fees",
-      "educational-equipment": "Educational equipment",
-      "education-other": "Education other"
+      "name": "Education"
     },
     "food": {
-      "name": "Food",
-      "groceries": "Groceries",
-      "fast-food": "Fast food",
-      "candy-kiosks": "Candy, ice cream and kiosks",
-      "restaurants-cafes": "Restaurants and cafes",
-      "food-other": "Other foods"
+      "name": "Food"
     },
     "aria": {
       "title": "Expense Categories section",
       "category": "Expense category: {{category}}",
       "subcategory_input": "Input for {{subcategory}} in {{category}}"
     },
-    "track_expenses": "Track your monthly expenses across categories"
+    "track_expenses": "Track your monthly expenses across categories",
+    "view_toggle": {
+      "detailed": "Detailed view",
+      "simple": "Simple view",
+      "simple_description": "Enter your total monthly expenses"
+    }
   },
   "expense_breakdown": {
     "title": "Expense Breakdown",

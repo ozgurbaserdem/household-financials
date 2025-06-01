@@ -54,6 +54,8 @@ export function SummaryStep() {
   const income = useAppSelector((state) => state.income);
   const loanParameters = useAppSelector((state) => state.loanParameters);
   const expenses = useAppSelector((state) => state.expenses);
+  const expenseViewMode = useAppSelector((state) => state.expenseViewMode);
+  const totalExpenses = useAppSelector((state) => state.totalExpenses);
   const tSummary = useTranslations("summary");
   const tCategories = useTranslations("expense_categories");
   const [showAllExpenses, setShowAllExpenses] = useState(false);
@@ -161,10 +163,7 @@ export function SummaryStep() {
   ];
 
   const expenseTotals = expenseCategories.map((cat) => {
-    const total = Object.values(expenses[cat.id] || {}).reduce(
-      (sum, v) => sum + v,
-      0
-    );
+    const total = Number(expenses[cat.id]) || 0;
     return {
       id: cat.id,
       name: tCategories(`${cat.id}.name`, { default: cat.name }),
@@ -172,7 +171,12 @@ export function SummaryStep() {
     };
   });
 
-  const totalExpenses = expenseTotals.reduce((sum, c) => sum + c.total, 0);
+  const detailedExpensesTotal = expenseTotals.reduce(
+    (sum, c) => sum + c.total,
+    0
+  );
+  const currentExpensesTotal =
+    expenseViewMode === "simple" ? totalExpenses : detailedExpensesTotal;
   const totalIncome = incomeRows
     .filter((row) => row.label !== tSummary("currentBuffer"))
     .reduce((sum, row) => sum + (row.net || row.value), 0);
@@ -278,7 +282,7 @@ export function SummaryStep() {
               tabIndex={0}
               role="group"
               aria-label={tSummary("aria.total_expenses_card", {
-                amount: formatCurrency(totalExpenses),
+                amount: formatCurrency(currentExpensesTotal),
               })}
             >
               <Box className="flex items-center gap-3 mb-2">
@@ -291,7 +295,7 @@ export function SummaryStep() {
                 </Text>
               </Box>
               <Text className="text-2xl font-bold text-red-400">
-                {formatCurrency(totalExpenses)}
+                {formatCurrency(currentExpensesTotal)}
               </Text>
               <Text className="text-base text-gray-200 font-medium mt-1">
                 {tSummary("per_month")}
@@ -515,7 +519,7 @@ export function SummaryStep() {
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{
-                                width: `${(row.total / totalExpenses) * 100}%`,
+                                width: `${(row.total / currentExpensesTotal) * 100}%`,
                               }}
                               transition={{ delay: 0.3 + i * 0.05 }}
                               className="h-full bg-gradient-to-r from-orange-500 to-red-500"
@@ -547,7 +551,7 @@ export function SummaryStep() {
                       {tSummary("totalExpenses")}
                     </Text>
                     <Text className="font-bold text-xl gradient-text">
-                      {formatCurrency(totalExpenses)}
+                      {formatCurrency(currentExpensesTotal)}
                     </Text>
                   </Box>
 
@@ -575,15 +579,15 @@ export function SummaryStep() {
             tabIndex={0}
             role="group"
             aria-label={
-              totalIncome - monthlyPayment - totalExpenses >= 0
+              totalIncome - monthlyPayment - currentExpensesTotal >= 0
                 ? tSummary("aria.monthly_surplus_summary", {
                     amount: formatCurrency(
-                      totalIncome - monthlyPayment - totalExpenses
+                      totalIncome - monthlyPayment - currentExpensesTotal
                     ),
                   })
                 : tSummary("aria.monthly_deficit_summary", {
                     amount: formatCurrency(
-                      totalIncome - monthlyPayment - totalExpenses
+                      totalIncome - monthlyPayment - currentExpensesTotal
                     ),
                   })
             }
@@ -592,12 +596,12 @@ export function SummaryStep() {
               <Box
                 className={cn(
                   "p-4 rounded-full flex-shrink-0",
-                  totalIncome - monthlyPayment - totalExpenses >= 0
+                  totalIncome - monthlyPayment - currentExpensesTotal >= 0
                     ? "bg-green-500/10"
                     : "bg-red-500/10"
                 )}
               >
-                {totalIncome - monthlyPayment - totalExpenses >= 0 ? (
+                {totalIncome - monthlyPayment - currentExpensesTotal >= 0 ? (
                   <TrendingUp className="w-8 h-8 text-green-400" />
                 ) : (
                   <TrendingDown className="w-8 h-8 text-red-400" />
@@ -605,7 +609,7 @@ export function SummaryStep() {
               </Box>
               <Box className="flex-1 text-center sm:text-left">
                 <Text className="text-base text-gray-200 font-medium">
-                  {totalIncome - monthlyPayment - totalExpenses >= 0
+                  {totalIncome - monthlyPayment - currentExpensesTotal >= 0
                     ? tSummary("estimated_monthly_surplus")
                     : tSummary("estimated_monthly_deficit")}
                 </Text>
@@ -614,12 +618,14 @@ export function SummaryStep() {
                 <Text
                   className={cn(
                     "text-2xl sm:text-3xl font-bold text-center",
-                    totalIncome - monthlyPayment - totalExpenses >= 0
+                    totalIncome - monthlyPayment - currentExpensesTotal >= 0
                       ? "text-green-400"
                       : "text-red-400"
                   )}
                 >
-                  {formatCurrency(totalIncome - monthlyPayment - totalExpenses)}
+                  {formatCurrency(
+                    totalIncome - monthlyPayment - currentExpensesTotal
+                  )}
                 </Text>
               </Box>
             </Box>

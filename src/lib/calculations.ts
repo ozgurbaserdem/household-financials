@@ -47,15 +47,10 @@ export function calculateLoanScenarios(
 }
 
 export function calculateTotalExpenses(expenses: ExpensesByCategory): number {
-  let total = 0;
-
-  for (const category of Object.values(expenses)) {
-    for (const amount of Object.values(category)) {
-      total += amount;
-    }
-  }
-
-  return total;
+  return Object.values(expenses).reduce((total, amount) => {
+    const numericAmount = Number(amount) || 0;
+    return total + numericAmount;
+  }, 0);
 }
 
 export function formatCurrency(amount: number): string {
@@ -78,17 +73,8 @@ export function formatPercentage(value: number): string {
 export function calculateSelectedHousingExpenses(
   expenses: ExpensesByCategory
 ): number {
-  const pairs: [string, string][] = [
-    ["home", "rent-monthly-fee"],
-    ["home", "electricity-heating"],
-    ["home", "mortgage"],
-    ["home", "water-garbage"],
-  ];
-  let sum = 0;
-  for (const [cat, sub] of pairs) {
-    sum += expenses[cat]?.[sub] ?? 0;
-  }
-  return sum;
+  // In the simplified version, we just return the home category total
+  return Number(expenses["home"]) || 0;
 }
 
 export function calculateTotalIncome(state: CalculatorState): {

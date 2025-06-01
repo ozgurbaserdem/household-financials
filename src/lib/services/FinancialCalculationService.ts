@@ -92,9 +92,14 @@ export class FinancialCalculationService {
   /**
    * Calculate total expenses broken down by category
    */
-  calculateExpenses(expenses: ExpensesByCategory): ExpenseCalculationResult {
+  calculateExpenses(
+    expenses: ExpensesByCategory,
+    state?: CalculatorState
+  ): ExpenseCalculationResult {
     const housingExpenses = this.calculateHousingExpenses(expenses);
-    const totalExpenses = this.calculateTotalExpenses(expenses);
+    const totalExpenses = state
+      ? this.getEffectiveTotalExpenses(state)
+      : this.calculateTotalExpenses(expenses);
     const otherExpenses = totalExpenses - housingExpenses;
 
     return {
@@ -113,15 +118,18 @@ export class FinancialCalculationService {
     const { loanParameters, expenses, income } = calculatorState;
 
     const totalIncomeResult = this.calculateTotalIncome(income);
-    const expenseResult = this.calculateExpenses(expenses);
+    const expenseResult = this.calculateExpenses(expenses, calculatorState);
     const loanScenarios =
       this.loanService.calculateLoanScenarios(loanParameters);
 
     return loanScenarios.map((loanScenario) => {
       const totalHousingCost =
-        loanScenario.totalMonthlyPayment + expenseResult.housingExpenses;
-      const totalExpenses = totalHousingCost + expenseResult.otherExpenses;
-      const remainingSavings = totalIncomeResult.net - totalExpenses;
+        Number(loanScenario.totalMonthlyPayment) +
+        Number(expenseResult.housingExpenses);
+      const totalExpenses =
+        Number(totalHousingCost) + Number(expenseResult.otherExpenses);
+      const remainingSavings =
+        Number(totalIncomeResult.net) - Number(totalExpenses);
 
       // Calculate individual income components for detailed breakdown
       const income1Net = this.taxService.calculateNetIncome(
@@ -176,7 +184,10 @@ export class FinancialCalculationService {
     calculatorState: CalculatorState
   ): FinancialHealthScore {
     const totalIncomeResult = this.calculateTotalIncome(calculatorState.income);
-    const expenseResult = this.calculateExpenses(calculatorState.expenses);
+    const expenseResult = this.calculateExpenses(
+      calculatorState.expenses,
+      calculatorState
+    );
     const loanAmount = calculatorState.loanParameters.amount;
 
     // Get main loan costs using the first rates as primary scenario
@@ -241,31 +252,28 @@ export class FinancialCalculationService {
    * Calculate housing expenses from expense categories
    */
   private calculateHousingExpenses(expenses: ExpensesByCategory): number {
-    const housingCategories: [string, string][] = [
-      ["home", "rent-monthly-fee"],
-      ["home", "electricity-heating"],
-      ["home", "mortgage"],
-      ["home", "water-garbage"],
-    ];
-
-    let sum = 0;
-    for (const [category, subcategory] of housingCategories) {
-      sum += expenses[category]?.[subcategory] ?? 0;
-    }
-    return sum;
+    // In the simplified version, we just return the home category total
+    return Number(expenses["home"]) || 0;
   }
 
   /**
    * Calculate total expenses from all categories
    */
   private calculateTotalExpenses(expenses: ExpensesByCategory): number {
-    let total = 0;
-    for (const category of Object.values(expenses)) {
-      for (const amount of Object.values(category)) {
-        total += amount;
-      }
+    return Object.values(expenses).reduce((total, amount) => {
+      const numericAmount = Number(amount) || 0;
+      return total + numericAmount;
+    }, 0);
+  }
+
+  /**
+   * Get effective total expenses based on view mode
+   */
+  private getEffectiveTotalExpenses(state: CalculatorState): number {
+    if (state.expenseViewMode === "simple") {
+      return Number(state.totalExpenses) || 0;
     }
-    return total;
+    return this.calculateTotalExpenses(state.expenses);
   }
 
   /**
@@ -293,7 +301,7 @@ export class FinancialCalculationService {
     totalExpenses?: number
   ): number {
     const monthlyExpenses =
-      totalExpenses ?? this.calculateTotalExpenses(state.expenses);
+      totalExpenses ?? this.getEffectiveTotalExpenses(state);
     const emergencyFund = state.income.currentBuffer || 0;
     return monthlyExpenses > 0 ? emergencyFund / monthlyExpenses : 0;
   }

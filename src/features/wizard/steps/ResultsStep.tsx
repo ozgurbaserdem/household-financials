@@ -18,7 +18,15 @@ export function ResultsStep() {
   const loanParameters = useAppSelector((state) => state.loanParameters);
   const income = useAppSelector((state) => state.income);
   const expenses = useAppSelector((state) => state.expenses);
-  const calculatorState = { loanParameters, income, expenses };
+  const expenseViewMode = useAppSelector((state) => state.expenseViewMode);
+  const totalExpenses = useAppSelector((state) => state.totalExpenses);
+  const calculatorState = {
+    loanParameters,
+    income,
+    expenses,
+    expenseViewMode,
+    totalExpenses,
+  };
   const t = useTranslations("results");
   const locale = useLocale();
 

@@ -138,8 +138,8 @@ describe("SummaryStep", () => {
         amortizationRates: [],
       },
       expenses: {
-        housing: { rent: 10000 },
-        food: { groceries: 5000 },
+        home: 10000,
+        food: 5000,
       },
     });
 
@@ -174,7 +174,7 @@ describe("SummaryStep", () => {
         amortizationRates: [2],
       },
       expenses: {
-        housing: { rent: 0 },
+        home: 0,
       },
     });
 
@@ -257,10 +257,10 @@ describe("SummaryStep", () => {
         amortizationRates: [3],
       },
       expenses: {
-        housing: { rent: 15000 }, // Higher expenses
-        food: { groceries: 8000 },
-        transport: { publicTransport: 3000 },
-        utilities: { electricity: 2000 },
+        home: 15000, // Higher expenses
+        food: 8000,
+        carTransportation: 3000,
+        healthBeauty: 2000,
       },
     });
 
@@ -394,10 +394,10 @@ describe("SummaryStep", () => {
         amortizationRates: [],
       },
       expenses: {
-        housing: { rent: 15000 },
-        food: { groceries: 5000 },
-        transport: { car: 3000 },
-        utilities: { electricity: 1000 },
+        home: 15000,
+        food: 5000,
+        carTransportation: 3000,
+        healthBeauty: 1000,
       },
     });
 

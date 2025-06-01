@@ -47,10 +47,7 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
 
   const chartData: ChartData[] = expenseCategories
     .map((category, idx) => {
-      const categoryTotal = Object.values(expenses[category.id] || {}).reduce(
-        (sum, amount) => sum + amount,
-        0
-      );
+      const categoryTotal = Number(expenses[category.id]) || 0;
       return {
         name: t(`${category.id}.name`),
         value: categoryTotal,
