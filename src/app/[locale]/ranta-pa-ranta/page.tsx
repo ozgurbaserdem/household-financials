@@ -29,14 +29,14 @@ export async function generateMetadata({
   const isSwedish = locale === "sv";
 
   const title = isSwedish
-    ? "Ränta på Ränta Kalkylator 2025 - Se Hur Dina Pengar Växer | Budgetkollen"
-    : "Compound Interest Calculator 2025 - See How Your Money Grows | Budgetkollen";
+    ? "Ränta på Ränta Kalkylator 2025 | Beräkna Hur Dina Pengar Växer | Budgetkollen"
+    : "Compound Interest Calculator 2025 | Calculate How Your Money Grows | Budgetkollen";
   const description = isSwedish
-    ? "Gratis ränta på ränta kalkylator för svenskar. Beräkna exakt hur ditt månadssparande kan växa till miljoner. Perfekt för pensionssparande, ISK och investeringar i fonder."
-    : "Free compound interest calculator for Swedes. Calculate exactly how your monthly savings can grow to millions. Perfect for retirement savings, ISK, and fund investments.";
+    ? "Beräkna ränta på ränta gratis med Sveriges bästa kalkylator. Se hur ditt månadssparande växer till miljoner. Perfekt för ISK, pensionssparande och investeringar. Enkelt, säkert och gratis."
+    : "Calculate compound interest free with Sweden's best calculator. See how your monthly savings grow to millions. Perfect for ISK, retirement savings and investments. Easy, secure—and free.";
   const keywords = isSwedish
-    ? "ränta på ränta kalkylator, ränta på ränta, månadssparande kalkylator, sparkalkylator, investeringskalkylator, ISK kalkylator, pensionssparande, indexfonder, sammansatt ränta, FIRE sverige, ekonomisk oberoende, budgetkollen"
-    : "compound interest calculator, compound interest, monthly savings calculator, investment calculator, ISK calculator, retirement savings, index funds, compound growth, FIRE Sweden, financial independence, budgetkollen";
+    ? "ränta på ränta kalkylator, ränta på ränta, månadssparande kalkylator, sparkalkylator, investeringskalkylator, ISK kalkylator, pensionssparande, indexfonder, sammansatt ränta, FIRE sverige, ekonomisk oberoende, budgetkollen, gratis sparkalkylator, fondkalkylator"
+    : "compound interest calculator, compound interest, monthly savings calculator, investment calculator, ISK calculator, retirement savings, index funds, compound growth, FIRE Sweden, financial independence, budgetkollen, free savings calculator";
 
   // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
   const canonicalUrl = isSwedish
@@ -75,8 +75,8 @@ export async function generateMetadata({
       images: [
         {
           url: "/einstein-optimized.png",
-          width: 80,
-          height: 80,
+          width: 1200,
+          height: 630,
           alt: isSwedish
             ? "Ränta på Ränta Kalkylator - Budgetkollen"
             : "Compound Interest Calculator - Budgetkollen",
@@ -109,6 +109,8 @@ export async function generateMetadata({
       language: isSwedish ? "Swedish" : "English",
       "geo.region": "SE",
       "geo.country": "Sweden",
+      "apple-mobile-web-app-status-bar-style": "#0055FF",
+      "apple-mobile-web-app-title": title,
     },
   };
 }
@@ -136,22 +138,36 @@ async function CompoundInterestContent(locale: string) {
       locale === "sv"
         ? "https://www.budgetkollen.se/ranta-pa-ranta"
         : "https://www.budgetkollen.se/en/compound-interest",
+    image: "/einstein-optimized.png",
     applicationCategory: "FinanceApplication",
     operatingSystem: "All",
+    browserRequirements: "HTML5, JavaScript",
+    inLanguage: locale,
+    isAccessibleForFree: true,
+    category: "Productivity",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "SEK",
+      availability: "https://schema.org/InStock",
     },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
       ratingCount: "127",
+      bestRating: "5",
+      worstRating: "1",
     },
     publisher: {
       "@type": "Organization",
       name: "Budgetkollen",
       url: "https://www.budgetkollen.se",
+      logo: "https://www.budgetkollen.se/favicon.svg",
+    },
+    brand: {
+      "@type": "Brand",
+      name: "Budgetkollen",
+      logo: "https://www.budgetkollen.se/favicon.svg",
     },
   };
 
@@ -201,6 +217,117 @@ async function CompoundInterestContent(locale: string) {
               : "It depends on starting capital, monthly savings, interest rate, and time. With our calculator, you can see exactly how much your savings can grow.",
         },
       },
+      {
+        "@type": "Question",
+        name:
+          locale === "sv"
+            ? "Hur använder jag ränta på ränta kalkylatorn?"
+            : "How do I use the compound interest calculator?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text:
+            locale === "sv"
+              ? "1) Ange ditt startkapital 2) Välj månatligt sparande 3) Sätt förväntad årlig avkastning 4) Välj tidsperiod 5) Klicka 'Beräkna' för att se resultatet."
+              : "1) Enter your starting capital 2) Choose monthly savings 3) Set expected annual return 4) Select time period 5) Click 'Calculate' to see the result.",
+        },
+      },
+      {
+        "@type": "Question",
+        name:
+          locale === "sv"
+            ? "Är kalkylatorn gratis att använda?"
+            : "Is the calculator free to use?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text:
+            locale === "sv"
+              ? "Ja, vår ränta på ränta kalkylator är helt gratis att använda. Inga registreringar eller nedladdningar krävs."
+              : "Yes, our compound interest calculator is completely free to use. No registrations or downloads required.",
+        },
+      },
+    ],
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: locale === "sv" ? "Hem" : "Home",
+        item:
+          locale === "sv"
+            ? "https://www.budgetkollen.se"
+            : "https://www.budgetkollen.se/en",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name:
+          locale === "sv"
+            ? "Ränta på Ränta Kalkylator"
+            : "Compound Interest Calculator",
+        item:
+          locale === "sv"
+            ? "https://www.budgetkollen.se/ranta-pa-ranta"
+            : "https://www.budgetkollen.se/en/compound-interest",
+      },
+    ],
+  };
+
+  const howToJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name:
+      locale === "sv"
+        ? "Hur man använder ränta på ränta kalkylatorn"
+        : "How to use the compound interest calculator",
+    image: {
+      "@type": "ImageObject",
+      url: "https://www.budgetkollen.se/einstein-optimized.png",
+    },
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        text:
+          locale === "sv"
+            ? "Ange ditt nuvarande startkapital i kalkylatorn."
+            : "Enter your current starting capital in the calculator.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        text:
+          locale === "sv"
+            ? "Välj hur mycket du planerar att spara varje månad."
+            : "Choose how much you plan to save each month.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        text:
+          locale === "sv"
+            ? "Sätt din förväntade årliga avkastning (t.ex. 7% för indexfonder)."
+            : "Set your expected annual return (e.g., 7% for index funds).",
+      },
+      {
+        "@type": "HowToStep",
+        position: 4,
+        text:
+          locale === "sv"
+            ? "Välj tidsperioden du vill spara över."
+            : "Choose the time period you want to save over.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 5,
+        text:
+          locale === "sv"
+            ? "Se resultatet och hur ränta på ränta gör dina pengar till miljoner!"
+            : "See the result and how compound interest makes your money grow to millions!",
+      },
     ],
   };
 
@@ -213,6 +340,14 @@ async function CompoundInterestContent(locale: string) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
       <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
         {/* Animated gradient mesh background */}

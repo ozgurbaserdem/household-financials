@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { Calculator, TrendingUp, PieChart, Target } from "lucide-react";
 import type { Metadata } from "next";
-import { routing } from "@/i18n/routing";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -57,10 +56,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
     },
   };
-}
-
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
 }
 
 export default async function HushallsbudgetPage({ params }: Props) {
