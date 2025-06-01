@@ -70,7 +70,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "/og-image.png", // You'll need to create this
+          url: "/Budgetkollen.png",
           width: 1200,
           height: 630,
           alt:
@@ -84,7 +84,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image.png"],
+      images: ["/Budgetkollen.png"],
     },
     robots: {
       index: true,
@@ -141,7 +141,17 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        {/* Primary SVG favicon for modern browsers */}
+        <link
+          rel="icon"
+          href="/favicon-32.svg"
+          sizes="any"
+          type="image/svg+xml"
+        />
+        {/* ICO fallback for older browsers and SEO */}
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+        {/* Apple Touch Icon for iOS devices */}
+        <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -195,7 +205,7 @@ export default async function LocaleLayout({
                   "@id": "https://www.budgetkollen.se#organization",
                   name: "Budgetkollen",
                   url: "https://www.budgetkollen.se",
-                  logo: "https://www.budgetkollen.se/favicon.svg",
+                  logo: "https://www.budgetkollen.se/favicon-32.svg",
                   sameAs: [
                     // Add your social media profiles here when you create them
                   ],

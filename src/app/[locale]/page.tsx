@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: "/og-image.png",
+          url: "/Budgetkollen.png",
           width: 1200,
           height: 630,
           alt:
@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image.png"],
+      images: ["/Budgetkollen.png"],
     },
     robots: {
       index: true,
