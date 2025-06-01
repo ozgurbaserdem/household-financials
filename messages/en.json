@@ -326,7 +326,24 @@
     "results": "Results",
     "hushallskalkylTitle": "Household Budget & Calculator",
     "hushallskalkylDesc": "Easily create your household budget and calculator with Budgetkollen. Get full control of your finances and plan for the future.",
-    "hushallskalkylCta": "Learn more"
+    "hushallskalkylCta": "Learn more",
+    "step_descriptions": {
+      "income": {
+        "description": "Enter all monthly income for your household. We automatically calculate net income after taxes based on your municipality."
+      },
+      "loans": {
+        "description": "Enter loan amount and select multiple interest and amortization rates to compare different scenarios and see how they affect your monthly budget."
+      },
+      "expenses": {
+        "description": "Fill in your monthly expenses category by category. Be accurate to get a realistic picture of your finances."
+      },
+      "summary": {
+        "description": "Check that all information is correct before proceeding to results. You can edit each section if anything needs adjustment."
+      },
+      "results": {
+        "description": "View different loan scenarios and how much you have left to save each month based on your financial situation."
+      }
+    }
   },
   "summary": {
     "title": "Summary",

@@ -332,7 +332,24 @@ declare const messages: {
     "results": "Resultat",
     "hushallskalkylTitle": "Hushållskalkyl & Hushållsbudget",
     "hushallskalkylDesc": "Skapa din hushållsbudget och hushållskalkyl enkelt med Budgetkollen. Få full kontroll över din ekonomi och planera för framtiden.",
-    "hushallskalkylCta": "Läs mer"
+    "hushallskalkylCta": "Läs mer",
+    "step_descriptions": {
+      "income": {
+        "description": "Ange alla månatliga inkomster för hushållet. Vi beräknar automatiskt nettoinkomsten efter skatt baserat på din kommun."
+      },
+      "loans": {
+        "description": "Ange lånebelopp och välj flera ränte- och amorteringssatser för att jämföra olika scenarier och se hur de påverkar din månadsbudget."
+      },
+      "expenses": {
+        "description": "Fyll i dina månatliga utgifter kategori för kategori. Var noggrann för att få en realistisk bild av din ekonomi."
+      },
+      "summary": {
+        "description": "Kontrollera att all information stämmer innan du går vidare till resultaten. Du kan redigera varje sektion om något behöver justeras."
+      },
+      "results": {
+        "description": "Se olika lånescenarion och hur mycket du har kvar att spara varje månad baserat på din ekonomiska situation."
+      }
+    }
   },
   "summary": {
     "title": "Sammanfattning",
