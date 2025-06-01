@@ -16,7 +16,11 @@
     "no_loan": "I don't have any loans",
     "has_loan": "I have loans",
     "validation_rates_required": "Please select at least one interest rate and one amortization rate when entering a loan amount",
-    "validation_loan_amount_required": "Please enter a loan amount when selecting rates"
+    "validation_loan_amount_required": "Please enter a loan amount when selecting rates",
+    "custom_interest_rate": "Custom Interest Rate",
+    "custom_interest_rate_placeholder": "e.g., 2.74",
+    "add_custom_rate": "Add Custom Rate",
+    "remove_custom_rate": "Remove custom rate {rate}%"
   },
   "dialog": {
     "close": "Close",

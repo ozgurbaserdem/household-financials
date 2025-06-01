@@ -2,6 +2,7 @@ export interface LoanParameters {
   amount: number;
   interestRates: number[];
   amortizationRates: number[];
+  customInterestRates: number[];
 }
 
 export interface IncomeRange {
@@ -78,6 +79,7 @@ export interface CalculatorState {
     amount: number;
     interestRates: number[];
     amortizationRates: number[];
+    customInterestRates: number[];
   };
   expenses: ExpensesByCategory;
   income: IncomeState;

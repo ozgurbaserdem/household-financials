@@ -30,7 +30,11 @@ declare const messages: {
     "no_loan": "Jag har inga lån",
     "has_loan": "Jag har lån",
     "validation_rates_required": "Välj minst en räntesats och en amorteringssats när du anger ett lånebelopp",
-    "validation_loan_amount_required": "Ange ett lånebelopp när du väljer räntor"
+    "validation_loan_amount_required": "Ange ett lånebelopp när du väljer räntor",
+    "custom_interest_rate": "Anpassad Räntesats",
+    "custom_interest_rate_placeholder": "t.ex. 2,74",
+    "add_custom_rate": "Lägg till Anpassad Ränta",
+    "remove_custom_rate": "Ta bort anpassad ränta {rate}%"
   },
   "dialog_hushallskalkyl": {
     "close": "Stäng",

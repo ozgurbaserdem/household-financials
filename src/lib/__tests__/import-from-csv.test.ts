@@ -40,6 +40,7 @@ describe("CSV Import", () => {
       amount: 1000000,
       interestRates: [3.5, 4],
       amortizationRates: [2, 3],
+      customInterestRates: [],
     });
     expect(importedState.income?.income1).toBe(30000);
     expect(importedState.income?.income2).toBe(25000);

@@ -288,7 +288,7 @@ input[type="number"].no-spinner {
 }
 
 .chip.active {
-  @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent;
+  @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white border-purple-600;
 }
 
 /* Loading skeleton */

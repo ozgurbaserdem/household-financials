@@ -20,6 +20,7 @@ describe("Loans", () => {
           loanAmount: 0,
           interestRates: [],
           amortizationRates: [],
+          customInterestRates: [],
         }}
       />
     );
@@ -38,6 +39,7 @@ describe("Loans", () => {
           loanAmount: 0,
           interestRates: [],
           amortizationRates: [],
+          customInterestRates: [],
         }}
       />
     );
@@ -52,6 +54,7 @@ describe("Loans", () => {
         loanAmount: 1000000,
         interestRates: [3],
         amortizationRates: [3],
+        customInterestRates: [],
       });
     });
 
@@ -67,6 +70,7 @@ describe("Loans", () => {
           loanAmount: 2000000,
           interestRates: [4, 5],
           amortizationRates: [2, 3],
+          customInterestRates: [],
         }}
       />
     );
@@ -81,6 +85,7 @@ describe("Loans", () => {
         loanAmount: 0,
         interestRates: [],
         amortizationRates: [],
+        customInterestRates: [],
       });
     });
 
@@ -98,6 +103,7 @@ describe("Loans", () => {
           loanAmount: 2000000,
           interestRates: [4],
           amortizationRates: [2],
+          customInterestRates: [],
         }}
       />
     );
@@ -113,6 +119,7 @@ describe("Loans", () => {
           loanAmount: 0,
           interestRates: [],
           amortizationRates: [],
+          customInterestRates: [],
         }}
       />
     );
@@ -134,6 +141,7 @@ describe("Loans", () => {
           loanAmount: 0,
           interestRates: [],
           amortizationRates: [],
+          customInterestRates: [],
         }}
       />
     );
@@ -159,6 +167,7 @@ describe("Loans", () => {
           loanAmount: 0,
           interestRates: [],
           amortizationRates: [],
+          customInterestRates: [],
         }}
       />
     );
@@ -199,6 +208,7 @@ describe("Loans", () => {
           loanAmount: 1000000,
           interestRates: [3],
           amortizationRates: [2],
+          customInterestRates: [],
         }}
       />
     );
@@ -216,6 +226,7 @@ describe("Loans", () => {
       loanAmount: 1500000,
       interestRates: [3.5, 4],
       amortizationRates: [2, 3],
+      customInterestRates: [],
     };
 
     render(<Loans onChange={mockOnChange} values={initialValues} />);
@@ -243,6 +254,7 @@ describe("Loans", () => {
           loanAmount: 1000000,
           interestRates: [],
           amortizationRates: [],
+          customInterestRates: [],
         }}
       />
     );
@@ -286,6 +298,7 @@ describe("Loans", () => {
           loanAmount: 0,
           interestRates: [],
           amortizationRates: [],
+          customInterestRates: [],
         }}
       />
     );
@@ -309,6 +322,7 @@ describe("Loans", () => {
             loanAmount: 1000000,
             interestRates: [3],
             amortizationRates: [2],
+            customInterestRates: [],
           }}
         />
       );
@@ -330,6 +344,7 @@ describe("Loans", () => {
             loanAmount: 1000000,
             interestRates: [2, 4], // 2% and 4%
             amortizationRates: [1, 3], // 1% and 3%
+            customInterestRates: [],
           }}
         />
       );
@@ -353,6 +368,7 @@ describe("Loans", () => {
             loanAmount: 1000000,
             interestRates: [],
             amortizationRates: [],
+            customInterestRates: [],
           }}
         />
       );
@@ -373,6 +389,7 @@ describe("Loans", () => {
             loanAmount: 0,
             interestRates: [3],
             amortizationRates: [2],
+            customInterestRates: [],
           }}
         />
       );
@@ -393,6 +410,7 @@ describe("Loans", () => {
             loanAmount: 2000000,
             interestRates: [1, 2, 3], // 1%, 2%, 3%
             amortizationRates: [0, 1, 2], // 0%, 1%, 2%
+            customInterestRates: [],
           }}
         />
       );

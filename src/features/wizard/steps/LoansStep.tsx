@@ -16,6 +16,7 @@ export function LoansStep() {
           loanAmount: loanParameters.amount,
           interestRates: loanParameters.interestRates,
           amortizationRates: loanParameters.amortizationRates,
+          customInterestRates: loanParameters.customInterestRates || [],
         }}
         onChange={(values) => {
           dispatch(
@@ -23,6 +24,7 @@ export function LoansStep() {
               amount: values.loanAmount,
               interestRates: values.interestRates,
               amortizationRates: values.amortizationRates,
+              customInterestRates: values.customInterestRates || [],
             })
           );
         }}

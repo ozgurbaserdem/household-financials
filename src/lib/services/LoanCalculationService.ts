@@ -26,11 +26,15 @@ export class LoanCalculationService {
   ): LoanScenario[] {
     const config = { ...this.defaultOptions, ...options };
     const { amount, interestRates, amortizationRates } = loanParameters;
+    const customInterestRates = loanParameters.customInterestRates || [];
+
+    // Combine regular and custom interest rates
+    const allInterestRates = [...interestRates, ...customInterestRates];
 
     // Handle case where there are no loans
     if (
       amount === 0 ||
-      interestRates.length === 0 ||
+      allInterestRates.length === 0 ||
       amortizationRates.length === 0
     ) {
       return [
@@ -46,7 +50,7 @@ export class LoanCalculationService {
 
     const scenarios: LoanScenario[] = [];
 
-    for (const interestRate of interestRates) {
+    for (const interestRate of allInterestRates) {
       for (const amortizationRate of amortizationRates) {
         const scenario = this.calculateSingleScenario(
           amount,
@@ -193,13 +197,23 @@ export class LoanCalculationService {
     }
 
     if (
+      loanParameters.customInterestRates &&
+      loanParameters.customInterestRates.some((rate) => rate < 0 || rate > 100)
+    ) {
+      errors.push("Custom interest rates must be between 0 and 100");
+    }
+
+    if (
       loanParameters.amortizationRates.some((rate) => rate < 0 || rate > 100)
     ) {
       errors.push("Amortization rates must be between 0 and 100");
     }
 
     if (loanParameters.amount > 0) {
-      if (loanParameters.interestRates.length === 0) {
+      const totalInterestRates =
+        loanParameters.interestRates.length +
+        (loanParameters.customInterestRates?.length || 0);
+      if (totalInterestRates === 0) {
         errors.push(
           "At least one interest rate is required when loan amount > 0"
         );

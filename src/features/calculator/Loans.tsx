@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
+import { Plus, X } from "lucide-react";
 
 const formSchema = z
   .object({
@@ -34,13 +35,17 @@ const formSchema = z
     loanAmount: z.number().min(0),
     interestRates: z.array(z.number()),
     amortizationRates: z.array(z.number()),
+    customInterestRates: z.array(z.number()),
+    customInterestRate: z.number().optional(),
   })
   .refine(
     (data) => {
       // If has loan and amount > 0, must have at least one rate of each type
       if (data.hasLoan && data.loanAmount > 0) {
         return (
-          data.interestRates.length > 0 && data.amortizationRates.length > 0
+          (data.interestRates.length > 0 ||
+            data.customInterestRates.length > 0) &&
+          data.amortizationRates.length > 0
         );
       }
       return true;
@@ -55,6 +60,7 @@ export type LoansFormValues = {
   loanAmount: number;
   interestRates: number[];
   amortizationRates: number[];
+  customInterestRates: number[];
 };
 
 interface LoansFormProps {
@@ -72,6 +78,8 @@ export function Loans({ onChange, values }: LoansFormProps) {
       loanAmount: values?.loanAmount ?? 0,
       interestRates: values?.interestRates ?? [],
       amortizationRates: values?.amortizationRates ?? [],
+      customInterestRates: values?.customInterestRates ?? [],
+      customInterestRate: undefined,
     },
   });
 
@@ -85,6 +93,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
       form.setValue("loanAmount", values.loanAmount);
       form.setValue("interestRates", values.interestRates);
       form.setValue("amortizationRates", values.amortizationRates);
+      form.setValue("customInterestRates", values.customInterestRates);
     }
   }, [values, form, isUserToggling]);
   const handleFieldChange = (forceHasLoan?: boolean) => {
@@ -103,6 +112,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
         loanAmount: 0,
         interestRates: [],
         amortizationRates: [],
+        customInterestRates: [],
       });
     } else {
       // When switching to "has loan", use previous values or sensible defaults
@@ -129,13 +139,20 @@ export function Loans({ onChange, values }: LoansFormProps) {
             : values?.amortizationRates && values.amortizationRates.length > 0
               ? values.amortizationRates
               : [3], // Default 3% if no rates selected
+        customInterestRates:
+          currentValues.customInterestRates &&
+          currentValues.customInterestRates.length > 0
+            ? currentValues.customInterestRates
+            : values?.customInterestRates || [],
       });
     }
 
     // Only validate when updating loan amount or rates (not when toggling)
     if (hasLoan && currentValues.loanAmount > 0 && forceHasLoan === undefined) {
       if (
-        currentValues.interestRates.length === 0 ||
+        (currentValues.interestRates.length === 0 &&
+          (!currentValues.customInterestRates ||
+            currentValues.customInterestRates.length === 0)) ||
         currentValues.amortizationRates.length === 0
       ) {
         setShowValidationError(true);
@@ -150,13 +167,16 @@ export function Loans({ onChange, values }: LoansFormProps) {
   const loanAmount = form.watch("loanAmount");
   const interestRates = form.watch("interestRates");
   const amortizationRates = form.watch("amortizationRates");
+  const customInterestRates = form.watch("customInterestRates") || [];
 
   // Calculate range of monthly payments based on selected rates
   const calculatePaymentRange = () => {
+    const allInterestRates = [...interestRates, ...customInterestRates];
+
     if (
       !hasLoan ||
       loanAmount <= 0 ||
-      interestRates.length === 0 ||
+      allInterestRates.length === 0 ||
       amortizationRates.length === 0
     ) {
       return { min: 0, max: 0 };
@@ -165,7 +185,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
     let minPayment = Infinity;
     let maxPayment = 0;
 
-    interestRates.forEach((interestRate) => {
+    allInterestRates.forEach((interestRate) => {
       amortizationRates.forEach((amortizationRate) => {
         const monthlyPayment =
           loanAmount * ((interestRate + amortizationRate) / 100 / 12);
@@ -378,6 +398,136 @@ export function Loans({ onChange, values }: LoansFormProps) {
                           </motion.div>
                         )
                       )}
+                    </Box>
+
+                    {/* Custom Interest Rates */}
+                    <Box className="space-y-3">
+                      <Box className="flex items-center gap-2">
+                        <Plus className="w-4 h-4 text-green-400" />
+                        <FormLabel className="text-lg text-gray-200">
+                          {t("custom_interest_rate")}
+                        </FormLabel>
+                      </Box>
+
+                      {/* Custom Interest Rate Input */}
+                      <Box className="flex gap-2">
+                        <FormField
+                          control={form.control}
+                          name="customInterestRate"
+                          render={({ field }) => (
+                            <FormItem className="flex-1">
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  step="0.01"
+                                  min={0}
+                                  max={20}
+                                  placeholder={t(
+                                    "custom_interest_rate_placeholder"
+                                  )}
+                                  {...field}
+                                  value={field.value || ""}
+                                  onChange={(e) => {
+                                    let value: number | undefined;
+                                    if (e.target.value === "") {
+                                      value = undefined;
+                                    } else {
+                                      // Handle both comma and dot decimal separators
+                                      const normalizedValue =
+                                        e.target.value.replace(",", ".");
+                                      const numValue = Number(normalizedValue);
+                                      value = isNaN(numValue)
+                                        ? undefined
+                                        : numValue;
+                                    }
+                                    field.onChange(value);
+                                  }}
+                                  className="modern-input"
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => {
+                            const customRate =
+                              form.getValues("customInterestRate");
+                            if (
+                              customRate &&
+                              !isNaN(customRate) &&
+                              customRate > 0 &&
+                              customRate <= 20
+                            ) {
+                              const currentCustomRates = form.getValues(
+                                "customInterestRates"
+                              );
+                              // Round to 2 decimal places for comparison
+                              const roundedRate =
+                                Math.round(customRate * 100) / 100;
+                              if (
+                                !currentCustomRates.some(
+                                  (rate) =>
+                                    Math.round(rate * 100) / 100 === roundedRate
+                                )
+                              ) {
+                                const newCustomRates = [
+                                  ...currentCustomRates,
+                                  roundedRate,
+                                ];
+                                form.setValue(
+                                  "customInterestRates",
+                                  newCustomRates
+                                );
+                                form.setValue("customInterestRate", undefined);
+                                handleFieldChange();
+                              }
+                            }
+                          }}
+                          className="px-3"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </Button>
+                      </Box>
+
+                      {/* Display Custom Interest Rates */}
+                      {customInterestRates &&
+                        customInterestRates.length > 0 && (
+                          <Box className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                            {customInterestRates.map((rate, index) => (
+                              <motion.div
+                                key={`custom-${rate}-${index}`}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                className="relative"
+                              >
+                                <div
+                                  className="chip active cursor-pointer select-none relative group w-full flex items-center justify-between"
+                                  onClick={() => {
+                                    const newCustomRates =
+                                      customInterestRates.filter(
+                                        (_, i) => i !== index
+                                      );
+                                    form.setValue(
+                                      "customInterestRates",
+                                      newCustomRates
+                                    );
+                                    handleFieldChange();
+                                  }}
+                                  aria-label={t("remove_custom_rate", {
+                                    rate,
+                                  })}
+                                >
+                                  <span>{rate}%</span>
+                                  <X className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+                                </div>
+                              </motion.div>
+                            ))}
+                          </Box>
+                        )}
                     </Box>
                   </Box>
 

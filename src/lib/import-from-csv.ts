@@ -50,6 +50,7 @@ export function importFromCsv(
           amortizationRates: amortizationRatesRaw
             ? amortizationRatesRaw.split("|").map(Number)
             : [],
+          customInterestRates: [],
         },
         income: {
           income1,
