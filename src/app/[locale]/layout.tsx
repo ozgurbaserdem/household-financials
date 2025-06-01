@@ -209,9 +209,7 @@ export default async function LocaleLayout({
                   name: "Budgetkollen",
                   url: "https://www.budgetkollen.se",
                   logo: "https://www.budgetkollen.se/favicon-32.svg",
-                  sameAs: [
-                    "https://twitter.com/budgetkollen",
-                  ],
+                  sameAs: ["https://twitter.com/budgetkollen"],
                   address: {
                     "@type": "PostalAddress",
                     addressCountry: "SE",
