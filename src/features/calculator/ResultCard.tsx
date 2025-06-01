@@ -125,7 +125,7 @@ function ResultCard({
                         type="button"
                         tabIndex={0}
                         aria-label={t(cell.tooltipKey)}
-                        className="focus:outline-none p-1 -m-1 bg-transparent flex items-center justify-center hover:text-blue-400 transition-colors"
+                        className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-blue-400 transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
                       >
                         <Info className="w-4 h-4 text-gray-300" />
                       </button>
@@ -164,7 +164,7 @@ function ResultCard({
       <Box className="mt-4 pt-4 border-t border-gray-500/50">
         <button
           onClick={() => setShowHealthScore(!showHealthScore)}
-          className="w-full text-left text-sm text-gray-300 hover:text-white transition-colors flex items-center justify-between group"
+          className="w-full text-left text-sm text-gray-300 hover:text-white transition-colors flex items-center justify-between group min-h-[44px] py-2"
         >
           <span>
             {showHealthScore
@@ -174,6 +174,7 @@ function ResultCard({
           <motion.div
             animate={{ rotate: showHealthScore ? 180 : 0 }}
             transition={{ duration: 0.2 }}
+            className="flex items-center justify-center min-w-[44px] min-h-[44px] -mr-2"
           >
             <Info className="w-6 h-6 group-hover:text-blue-400" />
           </motion.div>

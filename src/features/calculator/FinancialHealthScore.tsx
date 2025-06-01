@@ -67,9 +67,9 @@ export function FinancialHealthScore({
                   type="button"
                   tabIndex={0}
                   aria-label={`Info: ${t("overall_score")}`}
-                  className="focus:outline-none p-2 -m-2 bg-transparent flex items-center justify-center"
+                  className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-blue-500 transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
                 >
-                  <Info className="w-4 h-4 text-gray-300 hover:text-blue-500" />
+                  <Info className="w-4 h-4 text-gray-300" />
                 </button>
               </TooltipTrigger>
               <TooltipContent
@@ -201,7 +201,7 @@ function MetricCard({
                 type="button"
                 tabIndex={0}
                 aria-label={`Info: ${title}`}
-                className="focus:outline-none p-2 -m-2 bg-transparent flex items-center justify-center"
+                className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-blue-500 transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
                 onClick={
                   isTouch
                     ? (e) => {
@@ -211,7 +211,7 @@ function MetricCard({
                     : undefined
                 }
               >
-                <Info className="w-4 h-4 text-gray-300 hover:text-blue-500" />
+                <Info className="w-4 h-4 text-gray-300" />
               </button>
             </TooltipTrigger>
             <TooltipContent
