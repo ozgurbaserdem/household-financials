@@ -103,7 +103,7 @@ describe("WizardLayout", () => {
       push: mockPush,
       replace: mockReplace,
     });
-    (usePathname as Mock).mockReturnValue("/en/householdbudget");
+    (usePathname as Mock).mockReturnValue("/householdbudget");
     (useSearchParams as Mock).mockReturnValue(mockSearchParams);
   });
 
@@ -205,7 +205,7 @@ describe("WizardLayout", () => {
     await waitFor(() => {
       expect(mockReplace).toHaveBeenCalledWith(
         expect.objectContaining({
-          pathname: "/en/householdbudget",
+          pathname: "/householdbudget",
           query: expect.objectContaining({
             steg: "utgifter",
           }),
@@ -260,7 +260,7 @@ describe("WizardLayout", () => {
     await waitFor(() => {
       expect(mockReplace).toHaveBeenCalledWith(
         expect.objectContaining({
-          pathname: "/en/householdbudget",
+          pathname: "/householdbudget",
           query: expect.objectContaining({
             steg: "utgifter",
           }),
@@ -315,7 +315,7 @@ describe("WizardLayout", () => {
     await waitFor(() => {
       expect(mockReplace).toHaveBeenCalledWith(
         expect.objectContaining({
-          pathname: "/en/householdbudget",
+          pathname: "/householdbudget",
           query: expect.objectContaining({
             steg: "lan",
           }),

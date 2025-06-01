@@ -37,7 +37,11 @@ export async function generateMetadata({
       ? "hushållsbudget, hushållskalkyl, budgetkollen, budgetkalkylator, privatekonomi, ekonomi kalkylator, lånekalkylator, sparande, hushållsekonomi, budgetplanering, finansiell planering, månadsbudget, familjebudget, ekonomisk rådgivning"
       : "household budget, budget calculator, personal finance, loan calculator, savings calculator, financial planning, monthly budget, family budget, budgetkollen, sweden budget tool";
 
-  const canonicalUrl = `https://www.budgetkollen.se/${locale}`;
+  // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
+  const canonicalUrl =
+    locale === "sv"
+      ? "https://www.budgetkollen.se"
+      : `https://www.budgetkollen.se/en`;
 
   return {
     title,
@@ -132,6 +136,12 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
+  // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
+  const canonicalUrl =
+    locale === "sv"
+      ? "https://www.budgetkollen.se"
+      : `https://www.budgetkollen.se/en`;
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
@@ -152,7 +162,7 @@ export default async function LocaleLayout({
               "@graph": [
                 {
                   "@type": "WebApplication",
-                  "@id": `https://www.budgetkollen.se/${locale}#webapp`,
+                  "@id": `${canonicalUrl}#webapp`,
                   name:
                     locale === "sv"
                       ? "Budgetkollen - Hushållsbudget & Hushållskalkyl"
@@ -161,7 +171,7 @@ export default async function LocaleLayout({
                     locale === "sv"
                       ? "Gratis hushållsbudget och budgetkalkylator för svenska familjer. Planera din ekonomi, beräkna lån och sparmål enkelt."
                       : "Free household budget and calculator for Swedish families. Plan your finances, calculate loans and savings goals easily.",
-                  url: `https://www.budgetkollen.se/${locale}`,
+                  url: canonicalUrl,
                   applicationCategory: "FinanceApplication",
                   operatingSystem: "All",
                   browserRequirements: "HTML5, JavaScript",
@@ -225,7 +235,7 @@ export default async function LocaleLayout({
                       "@type": "ListItem",
                       position: 1,
                       name: locale === "sv" ? "Hem" : "Home",
-                      item: `https://www.budgetkollen.se/${locale}`,
+                      item: canonicalUrl,
                     },
                   ],
                 },

@@ -38,8 +38,9 @@ export async function generateMetadata({
     ? "ränta på ränta kalkylator, ränta på ränta, månadssparande kalkylator, sparkalkylator, investeringskalkylator, ISK kalkylator, pensionssparande, indexfonder, sammansatt ränta, FIRE sverige, ekonomisk oberoende, budgetkollen"
     : "compound interest calculator, compound interest, monthly savings calculator, investment calculator, ISK calculator, retirement savings, index funds, compound growth, FIRE Sweden, financial independence, budgetkollen";
 
+  // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
   const canonicalUrl = isSwedish
-    ? `https://www.budgetkollen.se/sv/ranta-pa-ranta`
+    ? `https://www.budgetkollen.se/ranta-pa-ranta`
     : `https://www.budgetkollen.se/en/compound-interest`;
 
   return {
@@ -60,7 +61,7 @@ export async function generateMetadata({
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        sv: "/sv/ranta-pa-ranta",
+        sv: "/ranta-pa-ranta", // No prefix for default locale
         en: "/en/compound-interest",
       },
     },
@@ -133,7 +134,7 @@ async function CompoundInterestContent(locale: string) {
         : "Sweden's best free compound interest calculator. Calculate how your monthly savings can grow through investments in funds and stocks.",
     url:
       locale === "sv"
-        ? "https://www.budgetkollen.se/sv/ranta-pa-ranta"
+        ? "https://www.budgetkollen.se/ranta-pa-ranta"
         : "https://www.budgetkollen.se/en/compound-interest",
     applicationCategory: "FinanceApplication",
     operatingSystem: "All",

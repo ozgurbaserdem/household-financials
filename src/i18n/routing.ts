@@ -8,7 +8,7 @@ export const routing = defineRouting({
   defaultLocale: "sv",
 
   // Always show locale in URL
-  localePrefix: "always",
+  localePrefix: "as-needed",
 
   // Enable locale detection
   localeDetection: true,

@@ -31,7 +31,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : "household budget, budget planning, family budget, financial planning, personal finance, budget tool";
 
   const pathname = locale === "en" ? "/householdbudget" : "/hushallsbudget";
-  const canonicalUrl = `https://www.budgetkollen.se/${locale}${pathname}`;
+  // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
+  const canonicalUrl =
+    locale === "sv"
+      ? `https://www.budgetkollen.se${pathname}`
+      : `https://www.budgetkollen.se/en${pathname}`;
 
   return {
     title,
@@ -40,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        sv: `/sv/hushallsbudget`,
+        sv: `/hushallsbudget`, // No prefix for default locale
         en: `/en/householdbudget`,
       },
     },

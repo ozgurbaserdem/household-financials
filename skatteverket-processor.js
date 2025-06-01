@@ -3,7 +3,7 @@
  * Skapar ren JSON med endast: kommunNamn, kommunalSkatt, kyrkoSkatt, summaInklKyrka
  */
 
-const fs = require("fs");
+import fs from "fs";
 
 const SKATTEVERKET_API_URL =
   "https://skatteverket.entryscape.net/rowstore/dataset/c67b320b-ffee-4876-b073-dd9236cd2a99";
@@ -235,9 +235,9 @@ async function main() {
 }
 
 // Exportera för användning som modul
-module.exports = { main, fetchTaxData, processKommunData };
+export { main, fetchTaxData, processKommunData };
 
 // Kör scriptet om det körs direkt
-if (require.main === module) {
+if (import.meta.url === new URL(process.argv[1], "file://").href) {
   main();
 }

@@ -27,7 +27,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? "hushållsbudget, hushållskalkyl, budgetkollen, budgetkalkylator, privatekonomi, ekonomi kalkylator, lånekalkylator, sparande, hushållsekonomi, budgetplanering, finansiell planering, månadsbudget, familjebudget, ekonomisk rådgivning"
       : "household budget, budget calculator, personal finance, loan calculator, savings calculator, financial planning, monthly budget, family budget, budgetkollen, sweden budget tool";
 
-  const canonicalUrl = `https://www.budgetkollen.se/${locale}`;
+  // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
+  const canonicalUrl =
+    locale === "sv"
+      ? "https://www.budgetkollen.se"
+      : `https://www.budgetkollen.se/en`;
 
   return {
     title,
