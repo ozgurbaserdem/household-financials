@@ -25,18 +25,13 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "compound_interest" });
 
   const isSwedish = locale === "sv";
 
-  const title = isSwedish
-    ? "Ränta på Ränta Kalkylator 2025 | Beräkna Hur Dina Pengar Växer | Budgetkollen"
-    : "Compound Interest Calculator 2025 | Calculate How Your Money Grows | Budgetkollen";
-  const description = isSwedish
-    ? "Beräkna ränta på ränta gratis med Sveriges bästa kalkylator. Se hur ditt månadssparande växer till miljoner. Perfekt för ISK, pensionssparande och investeringar. Enkelt, säkert och gratis."
-    : "Calculate compound interest free with Sweden's best calculator. See how your monthly savings grow to millions. Perfect for ISK, retirement savings and investments. Easy, secure—and free.";
-  const keywords = isSwedish
-    ? "ränta på ränta kalkylator, ränta på ränta, månadssparande kalkylator, sparkalkylator, investeringskalkylator, ISK kalkylator, pensionssparande, indexfonder, sammansatt ränta, FIRE sverige, ekonomisk oberoende, budgetkollen, gratis sparkalkylator, fondkalkylator"
-    : "compound interest calculator, compound interest, monthly savings calculator, investment calculator, ISK calculator, retirement savings, index funds, compound growth, FIRE Sweden, financial independence, budgetkollen, free savings calculator";
+  const title = t("meta.title");
+  const description = t("meta.description");
+  const keywords = t("meta.keywords");
 
   // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
   const canonicalUrl = isSwedish
@@ -126,37 +121,28 @@ async function CompoundInterestContent(locale: string) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name:
-      locale === "sv"
-        ? "Ränta på Ränta Kalkylator - Budgetkollen"
-        : "Compound Interest Calculator - Budgetkollen",
-    description:
-      locale === "sv"
-        ? "Sveriges bästa gratis kalkylator för ränta på ränta. Beräkna hur ditt månadssparande kan växa genom investeringar i fonder och aktier."
-        : "Sweden's best free compound interest calculator. Calculate how your monthly savings can grow through investments in funds and stocks.",
+    name: t("schema.app_name"),
+    description: t("schema.app_description"),
     url:
       locale === "sv"
         ? "https://www.budgetkollen.se/ranta-pa-ranta"
         : "https://www.budgetkollen.se/en/compound-interest",
-    image: "/einstein-optimized.png",
+    image: "https://www.budgetkollen.se/einstein-optimized.png",
     applicationCategory: "FinanceApplication",
+    applicationSubCategory: "InvestmentCalculator",
     operatingSystem: "All",
     browserRequirements: "HTML5, JavaScript",
     inLanguage: locale,
     isAccessibleForFree: true,
-    category: "Productivity",
+    keywords: t("meta.keywords").split(", "),
+    category: "Finance",
+    datePublished: "2024-01-01",
+    dateModified: "2025-01-06",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "SEK",
       availability: "https://schema.org/InStock",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      ratingCount: "127",
-      bestRating: "5",
-      worstRating: "1",
     },
     publisher: {
       "@type": "Organization",
@@ -164,10 +150,12 @@ async function CompoundInterestContent(locale: string) {
       url: "https://www.budgetkollen.se",
       logo: "https://www.budgetkollen.se/favicon.svg",
     },
-    brand: {
-      "@type": "Brand",
-      name: "Budgetkollen",
-      logo: "https://www.budgetkollen.se/favicon.svg",
+    potentialAction: {
+      "@type": "UseAction",
+      target:
+        locale === "sv"
+          ? "https://www.budgetkollen.se/ranta-pa-ranta"
+          : "https://www.budgetkollen.se/en/compound-interest",
     },
   };
 
@@ -359,14 +347,14 @@ async function CompoundInterestContent(locale: string) {
 
         <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10 relative z-10 space-y-6">
           {/* Hero Section */}
-          <section className="text-center space-y-6 py-4">
+          <header className="text-center space-y-6 py-4">
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent leading-tight">
-              {t("title")}
+              {t("page_title")}
             </h1>
-            <Text className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              {t("subtitle")}
-            </Text>
-          </section>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              {t("page_subtitle")}
+            </p>
+          </header>
 
           {/* Introduction Section */}
           <Card gradient glass>
@@ -453,6 +441,41 @@ async function CompoundInterestContent(locale: string) {
               </div>
             </CardContent>
           </Card>
+
+          {/* FAQ Section for SEO */}
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-white text-center mb-8">
+              {t("faq.title")}
+            </h2>
+            <div className="grid gap-4">
+              <Card gradient glass>
+                <CardContent className="pt-6">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    {t("faq.q1.question")}
+                  </h3>
+                  <Text className="text-gray-300">{t("faq.q1.answer")}</Text>
+                </CardContent>
+              </Card>
+
+              <Card gradient glass>
+                <CardContent className="pt-6">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    {t("faq.q2.question")}
+                  </h3>
+                  <Text className="text-gray-300">{t("faq.q2.answer")}</Text>
+                </CardContent>
+              </Card>
+
+              <Card gradient glass>
+                <CardContent className="pt-6">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    {t("faq.q3.question")}
+                  </h3>
+                  <Text className="text-gray-300">{t("faq.q3.answer")}</Text>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
 
           {/* Disclaimer */}
           <Card gradient glass>

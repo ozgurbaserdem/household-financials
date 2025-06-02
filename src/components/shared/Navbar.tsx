@@ -89,21 +89,6 @@ export function Navbar() {
                       <li>
                         <NavigationMenuLink asChild>
                           <Link
-                            href="/hushallskalkyl"
-                            className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
-                          >
-                            <div className="font-semibold text-base text-gray-200 group-hover:text-white">
-                              {t("main_article_label")}
-                            </div>
-                            <div className="text-sm text-gray-400 group-hover:text-gray-300">
-                              {t("main_article_desc")}
-                            </div>
-                          </Link>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <Link
                             href="/ranta-pa-ranta"
                             className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
                           >
@@ -112,6 +97,21 @@ export function Navbar() {
                             </div>
                             <div className="text-sm text-gray-400 group-hover:text-gray-300">
                               {t("compound_interest_desc")}
+                            </div>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href="/hushallskalkyl"
+                            className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
+                          >
+                            <div className="font-semibold text-base text-gray-200 group-hover:text-white">
+                              {t("main_article_label")}
+                            </div>
+                            <div className="text-sm text-gray-400 group-hover:text-gray-300">
+                              {t("main_article_desc")}
                             </div>
                           </Link>
                         </NavigationMenuLink>

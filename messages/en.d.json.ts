@@ -515,15 +515,32 @@ declare const messages: {
     "footer": {
       "copyright": "© 2024 BudgetKollen. All rights reserved."
     },
-    "scrollIndicator": "Scroll for more"
+    "scrollIndicator": "Scroll for more",
+    "other_calculators": {
+      "title": "More tools for your finances",
+      "compound_interest": {
+        "title": "Compound Interest Calculator",
+        "description": "Calculate compound interest and see how your savings grow over time. Perfect for compound interest calculation of your monthly savings."
+      },
+      "budget_calculator": {
+        "title": "Budget calculator",
+        "description": "Take control of your household budget step by step. Compare loan scenarios and make informed financial decisions."
+      }
+    }
   },
   "compound_interest": {
+    "page_title": "Compound Interest Calculator",
+    "page_subtitle": "Calculate easily how compound interest makes your money grow. Perfect for compound interest calculation of savings and investments.",
     "title": "Compound interest calculator - The power of long-term investing",
     "subtitle": "Discover how consistent saving and compound interest can build substantial wealth over time. See the magic of compounding returns in action.",
     "meta": {
-      "title": "Compound interest calculator free - See your investment growth | Budgetkollen",
-      "description": "Calculate compound interest and see how your investments grow over time. Free compound interest calculator with visual charts. Perfect for long-term financial planning in Sweden.",
-      "keywords": "compound interest calculator, investment calculator, savings calculator, financial planning, long-term investing, wealth building, investment growth, budgetkollen"
+      "title": "Compound Interest Calculator - Calculate compound interest easily | Budgetkollen",
+      "description": "Calculate compound interest with our free calculator. Compound interest calculation for your monthly savings. See how your money grows with the compound interest effect.",
+      "keywords": "compound interest, compound interest calculator, compound interest calculation, calculate compound interest, compound interest formula, compound interest example, how compound interest works, what is compound interest, compound interest monthly savings"
+    },
+    "schema": {
+      "app_name": "Compound Interest Calculator",
+      "app_description": "Compound interest calculator to calculate compound interest. Make your compound interest calculation easy. See how the compound interest effect makes your money grow exponentially."
     },
     "intro": {
       "title": "The magic of compound interest",
@@ -590,6 +607,21 @@ declare const messages: {
       "title": "Ready to start building wealth?",
       "subtitle": "Use our household budget calculator to find money you can invest each month",
       "button": "Create your budget"
+    },
+    "faq": {
+      "title": "Common questions about compound interest",
+      "q1": {
+        "question": "How do I calculate compound interest?",
+        "answer": "Use our compound interest calculator above. Enter starting capital, monthly savings, expected return and time period. The calculator automatically performs your compound interest calculation and shows how your money grows."
+      },
+      "q2": {
+        "question": "What is compound interest calculation?",
+        "answer": "A compound interest calculation computes how your investment grows when you earn returns on both your original capital and previously earned interest. This creates exponential growth over time."
+      },
+      "q3": {
+        "question": "How do I use a compound interest calculator?",
+        "answer": "Our compound interest calculator is easy to use. Fill in your starting amount, how much you want to save each month, expected annual return and number of years. Then click 'Calculate' to see the result."
+      }
     }
   }
 };

@@ -20,8 +20,16 @@ import {
   LightBulbIcon,
   ArrowRightIcon,
   ChevronDownIcon,
+  CalculatorIcon,
 } from "@heroicons/react/24/outline";
-import { BarChart3, HandCoins, List, ListChecks, Wallet } from "lucide-react";
+import {
+  BarChart3,
+  HandCoins,
+  List,
+  ListChecks,
+  Wallet,
+  TrendingUp,
+} from "lucide-react";
 import { getStepParam } from "@/utils/navigation";
 
 const containerVariants = {
@@ -326,6 +334,79 @@ export function LandingPage() {
                 </Card>
               </motion.div>
             ))}
+          </div>
+        </motion.section>
+
+        {/* Other Calculators Section */}
+        <motion.section className="py-24" variants={itemVariants}>
+          <motion.h2
+            className="text-3xl sm:text-4xl font-bold text-center text-white mb-12"
+            variants={itemVariants}
+          >
+            {t("other_calculators.title")}
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Card
+                variant="modern"
+                hover="glow"
+                className="h-full group cursor-pointer"
+                onClick={() => router.push("/ranta-pa-ranta")}
+              >
+                <CardHeader>
+                  <CardIcon
+                    variant="gradient"
+                    size="lg"
+                    className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 group-hover:scale-110 transition-transform duration-300"
+                  >
+                    <TrendingUp className="w-8 h-8 text-purple-400" />
+                  </CardIcon>
+                  <Box className="flex-1">
+                    <CardTitle className="group-hover:text-purple-300 transition-colors">
+                      {t("other_calculators.compound_interest.title")}
+                    </CardTitle>
+                  </Box>
+                </CardHeader>
+                <CardDescription className="text-gray-400 leading-relaxed">
+                  {t("other_calculators.compound_interest.description")}
+                </CardDescription>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Card
+                variant="modern"
+                hover="glow"
+                className="h-full group cursor-pointer"
+                onClick={() => router.push("/hushallsbudget")}
+              >
+                <CardHeader>
+                  <CardIcon
+                    variant="gradient"
+                    size="lg"
+                    className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 group-hover:scale-110 transition-transform duration-300"
+                  >
+                    <CalculatorIcon className="w-8 h-8 text-blue-400" />
+                  </CardIcon>
+                  <Box className="flex-1">
+                    <CardTitle className="group-hover:text-blue-300 transition-colors">
+                      {t("other_calculators.budget_calculator.title")}
+                    </CardTitle>
+                  </Box>
+                </CardHeader>
+                <CardDescription className="text-gray-400 leading-relaxed">
+                  {t("other_calculators.budget_calculator.description")}
+                </CardDescription>
+              </Card>
+            </motion.div>
           </div>
         </motion.section>
 

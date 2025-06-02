@@ -507,15 +507,32 @@ declare const messages: {
     "footer": {
       "copyright": "© 2024 BudgetKollen. Alla rättigheter förbehållna."
     },
-    "scrollIndicator": "Scrolla för mer"
+    "scrollIndicator": "Scrolla för mer",
+    "other_calculators": {
+      "title": "Fler verktyg för din ekonomi",
+      "compound_interest": {
+        "title": "Ränta på ränta kalkylator",
+        "description": "Räkna ut ränta på ränta och se hur ditt sparande växer över tid. Perfekt för ränta på ränta uträkning av ditt månadssparande."
+      },
+      "budget_calculator": {
+        "title": "Budgetkalkylator",
+        "description": "Ta kontroll över din hushållsbudget steg för steg. Jämför lånescenarion och ta smartare ekonomiska beslut."
+      }
+    }
   },
   "compound_interest": {
+    "page_title": "Ränta på ränta kalkylator",
+    "page_subtitle": "Beräkna enkelt hur ränta på ränta får dina pengar att växa. Perfekt för ränta på ränta uträkning av sparande och investeringar.",
     "title": "Ränta på ränta kalkylator - månadssparande och långsiktigt sparande",
     "subtitle": "Beräkna ränta på ränta för ditt månadssparande. Se hur regelbundet sparande kan bygga förmögenhet över tid.",
     "meta": {
-      "title": "Ränta-på-Ränta Kalkylator Gratis - Se Din Investering Växa | Budgetkollen",
-      "description": "Beräkna ränta-på-ränta och se hur dina investeringar växer över tid. Gratis ränta-på-ränta kalkylator med visuella diagram. Perfekt för långsiktig ekonomisk planering i Sverige.",
-      "keywords": "ränta på ränta kalkylator, investeringskalkylator, sparkalkylator, ekonomisk planering, långsiktigt sparande, förmögenhetsbyggande, investeringstillväxt, budgetkollen"
+      "title": "Ränta på ränta kalkylator - Räkna ut ränta på ränta enkelt | Budgetkollen",
+      "description": "Räkna ut ränta på ränta med vår tydliga kalkylator. Ränta på ränta uträkning för ditt månadssparande. Se hur dina pengar växer med ränta på ränta effekten.",
+      "keywords": "ränta på ränta, ränta på ränta kalkylator, ränta på ränta uträkning, ränta på ränta kalkyl, räkna ränta på ränta, ränta på ränta formel, ränta på ränta exempel, hur fungerar ränta på ränta, vad är ränta på ränta, ränta på ränta månadssparande"
+    },
+    "schema": {
+      "app_name": "Ränta på ränta kalkylator",
+      "app_description": "Ränta på ränta kalkylator för att beräkna ränta på ränta. Gör din ränta på ränta uträkning enkelt. Se hur ränta på ränta effekten gör att dina pengar växer exponentiellt."
     },
     "intro": {
       "title": "Magin med ränta på ränta och månadssparande",
@@ -582,6 +599,21 @@ declare const messages: {
       "title": "Redo att börja bygga förmögenhet?",
       "subtitle": "Använd vår budgetkalkylator för att hitta pengar du kan investera varje månad",
       "button": "Skapa din budget"
+    },
+    "faq": {
+      "title": "Vanliga frågor om ränta på ränta",
+      "q1": {
+        "question": "Hur gör jag en ränta på ränta uträkning?",
+        "answer": "Använd vår ränta på ränta kalkylator ovan. Ange startkapital, månadssparande, förväntad avkastning och tidsperiod. Kalkylatorn gör automatiskt din ränta på ränta uträkning och visar hur dina pengar växer."
+      },
+      "q2": {
+        "question": "Vad är ränta på ränta kalkyl?",
+        "answer": "En ränta på ränta kalkyl beräknar hur din investering växer när du får avkastning på både ditt ursprungliga kapital och tidigare intjänad ränta. Detta skapar exponentiell tillväxt över tid."
+      },
+      "q3": {
+        "question": "Hur använder jag en ränta på ränta kalkylator?",
+        "answer": "Vår ränta på ränta kalkylator är enkel att använda. Fyll i ditt startbelopp, hur mycket du vill spara varje månad, förväntad årlig avkastning och antal år. Klicka sedan på 'Beräkna' för att se resultatet."
+      }
     }
   }
 };
