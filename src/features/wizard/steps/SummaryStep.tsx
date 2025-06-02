@@ -33,6 +33,7 @@ import {
   Briefcase,
   Home,
   MoreHorizontal,
+  ListChecks,
 } from "lucide-react";
 import { formatCurrency, getNetIncome } from "@/lib/calculations";
 import { formatPercentage } from "@/lib/formatting";
@@ -204,7 +205,7 @@ export function SummaryStep() {
       <Card gradient glass>
         <CardHeader>
           <CardIcon>
-            <List className="w-6 h-6 text-purple-400" />
+            <ListChecks className="w-6 h-6 text-purple-400" />
           </CardIcon>
           <Box className="flex-1">
             <CardTitle

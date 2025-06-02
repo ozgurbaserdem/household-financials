@@ -1,10 +1,8 @@
 "use client";
 
 import React from "react";
-import { useLocale } from "next-intl";
 import { Calculator } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
-import { getStepParam, getStepName } from "@/utils/navigation";
 import { motion } from "framer-motion";
 import { Box } from "@/components/ui/box";
 import BudgetkollenLogo from "../ui/BudgetKollen.logo";
@@ -14,18 +12,12 @@ interface LogoProps {
 }
 
 export function Logo({ onLogoClick }: LogoProps) {
-  const locale = useLocale();
   const router = useRouter();
 
   const handleLogoClick = () => {
     onLogoClick?.();
-    const stepParam = getStepParam(locale);
-    const firstStep = {
-      label: "Inkomst", // Use hardcoded Swedish value as fallback
-      component: null,
-    };
-    const firstStepName = getStepName(firstStep, locale);
-    router.push({ pathname: "/", query: { [stepParam]: firstStepName } });
+    // Navigate to landing page (root without query parameters)
+    router.push("/");
   };
 
   return (
