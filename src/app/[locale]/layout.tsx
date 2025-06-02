@@ -229,12 +229,6 @@ export default async function LocaleLayout({
                   publisher: {
                     "@id": "https://www.budgetkollen.se#organization",
                   },
-                  potentialAction: {
-                    "@type": "SearchAction",
-                    target:
-                      "https://www.budgetkollen.se/search?q={search_term_string}",
-                    "query-input": "required name=search_term_string",
-                  },
                   inLanguage: [locale],
                 },
                 {

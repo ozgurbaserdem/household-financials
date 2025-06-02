@@ -523,6 +523,21 @@
         "title": "Budget calculator",
         "description": "Take control of your household budget step by step. Compare loan scenarios and make informed financial decisions."
       }
+    },
+    "previews": {
+      "title": "See what you will get",
+      "subtitle": "Powerful insights and analysis to help you make better financial decisions",
+      "budget_results_title": "Comprehensive budget analysis",
+      "budget_results_description": "Get detailed breakdown of your finances with multiple loan scenarios and personalized recommendations",
+      "budget_results_alt": "Budget calculator results showing financial analysis and recommendations",
+      "compound_interest_title": "Visualize your wealth growth",
+      "compound_interest_description": "See how compound interest grows your savings over time with interactive charts and projections",
+      "compound_interest_alt": "Compound interest calculator showing investment growth over time",
+      "budget_wizard_title": "Easy step-by-step process",
+      "budget_wizard_description": "Simple and intuitive interface guides you through entering your financial information",
+      "budget_wizard_alt": "Budget calculator wizard interface showing expense categories",
+      "click_to_enlarge": "Click to enlarge",
+      "fullsize_view": "Full size image view"
     }
   },
   "compound_interest": {

@@ -518,6 +518,21 @@ declare const messages: {
         "title": "Budgetkalkylator",
         "description": "Ta kontroll över din hushållsbudget steg för steg. Jämför lånescenarion och ta smartare ekonomiska beslut."
       }
+    },
+    "previews": {
+      "title": "Se vad du får",
+      "subtitle": "Kraftfulla insikter och analyser för att hjälpa dig fatta bättre ekonomiska beslut",
+      "budget_results_title": "Omfattande budgetanalys",
+      "budget_results_description": "Få detaljerad uppdelning av din ekonomi med flera lånescenarier och personliga rekommendationer",
+      "budget_results_alt": "Budgetkalkylatorns resultat som visar ekonomisk analys och rekommendationer",
+      "compound_interest_title": "Visualisera din förmögenhetstillväxt",
+      "compound_interest_description": "Se hur ränta på ränta får ditt sparande att växa över tid med interaktiva diagram och prognoser",
+      "compound_interest_alt": "Ränta på ränta-kalkylator som visar investeringstillväxt över tid",
+      "budget_wizard_title": "Enkel steg-för-steg-process",
+      "budget_wizard_description": "Enkelt och intuitivt gränssnitt guidar dig genom att ange din ekonomiska information",
+      "budget_wizard_alt": "Budgetkalkylatorns guidegränssnitt som visar utgiftskategorier",
+      "click_to_enlarge": "Klicka för att förstora",
+      "fullsize_view": "Fullstorleksvisning av bild"
     }
   },
   "compound_interest": {

@@ -31,6 +31,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { getStepParam } from "@/utils/navigation";
+import { CalculatorPreviews } from "./CalculatorPreviews";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -292,6 +293,9 @@ export function LandingPage() {
             </div>
           </div>
         </motion.section>
+
+        {/* Calculator Previews Section */}
+        <CalculatorPreviews />
 
         {/* Features Section */}
         <motion.section className="py-24" variants={itemVariants}>

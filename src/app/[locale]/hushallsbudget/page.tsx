@@ -9,14 +9,47 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
   const { locale } = await params;
+  const resolvedSearchParams = await searchParams;
 
-  // Optimized titles with better keyword placement and length (50-60 chars)
-  const title =
+  // Get the current step from search params
+  const stepParam = locale === "sv" ? "steg" : "step";
+  const currentStep = resolvedSearchParams?.[stepParam];
+
+  // Dynamic title based on current step
+  let title =
     locale === "sv"
       ? "Hushållsbudget - Gratis budgetverktyg | Budgetkollen"
       : "Household Budget - Free Budget Tool | Budgetkollen";
+
+  // Add step-specific context to title if available
+  if (currentStep && typeof currentStep === "string") {
+    const stepTitles: Record<string, Record<string, string>> = {
+      sv: {
+        inkomst: "Steg 1: Inkomster - Hushållsbudget | Budgetkollen",
+        lan: "Steg 2: Lån - Hushållsbudget | Budgetkollen",
+        utgifter: "Steg 3: Utgifter - Hushållsbudget | Budgetkollen",
+        sammanfattning:
+          "Steg 4: Sammanfattning - Hushållsbudget | Budgetkollen",
+        resultat: "Resultat - Hushållsbudget | Budgetkollen",
+      },
+      en: {
+        income: "Step 1: Income - Household Budget | Budgetkollen",
+        loans: "Step 2: Loans - Household Budget | Budgetkollen",
+        expenses: "Step 3: Expenses - Household Budget | Budgetkollen",
+        summary: "Step 4: Summary - Household Budget | Budgetkollen",
+        results: "Results - Household Budget | Budgetkollen",
+      },
+    };
+
+    if (stepTitles[locale]?.[currentStep]) {
+      title = stepTitles[locale][currentStep];
+    }
+  }
 
   // Compelling meta descriptions with call-to-action (150-160 chars)
   const description =
@@ -31,10 +64,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : "compound interest,household budget, budget calculator, personal finance, loan calculator, savings calculator, financial planning, monthly budget, family budget, budgetkollen, sweden budget tool, disposable income calculator, living costs sweden, budget template, expense tracker, financial advisor sweden";
 
   // Canonical URLs with proper localization
-  const canonicalUrl =
+  let canonicalUrl =
     locale === "sv"
       ? "https://www.budgetkollen.se/hushallsbudget"
       : "https://www.budgetkollen.se/en/household-budget";
+
+  // Add step parameter to canonical URL if present
+  if (currentStep && typeof currentStep === "string") {
+    canonicalUrl += `?${stepParam}=${currentStep}`;
+  }
 
   // Alternate language URLs for hreflang
   const alternateUrls = {
@@ -131,8 +169,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function HushallsbudgetPage({ params }: Props) {
+export default async function HushallsbudgetPage({
+  params,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  searchParams,
+}: Props) {
   const { locale } = await params;
+  // searchParams is included in Props to satisfy Next.js page component requirements
+  // but is not used in the server component itself (used by the client component)
   setRequestLocale(locale);
 
   // Structured data for SEO
@@ -151,11 +195,6 @@ export default async function HushallsbudgetPage({ params }: Props) {
       locale === "sv"
         ? "Gratis budgetkalkylator för svenska hushåll med skatteuträkning och lånekalkylator"
         : "Free budget calculator for Swedish households with tax calculation and loan calculator",
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      ratingCount: "50000",
-    },
     featureList: [
       locale === "sv" ? "Skatteuträkning" : "Tax calculation",
       locale === "sv" ? "Lånekalkylator" : "Loan calculator",
