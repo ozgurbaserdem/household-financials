@@ -12,6 +12,7 @@ describe("Expense Calculations and Net Income", () => {
       amount: 5000000,
       interestRates: [3.5],
       amortizationRates: [2],
+      customInterestRates: [],
     },
     income: {
       income1: 50000,
@@ -36,10 +37,10 @@ describe("Expense Calculations and Net Income", () => {
 
   const calculateTotalIncome = (result: CalculationResult): number => {
     return (
-      result.income1 +
-      result.income2 +
-      result.secondaryIncome1 +
-      result.secondaryIncome2 +
+      result.income1Net +
+      result.income2Net +
+      result.secondaryIncome1Net +
+      result.secondaryIncome2Net +
       (result.childBenefits ?? 0) +
       (result.otherBenefits ?? 0) +
       (result.otherIncomes ?? 0)

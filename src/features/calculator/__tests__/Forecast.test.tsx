@@ -59,6 +59,7 @@ const mockCalculatorState: CalculatorState = {
     amount: 9000000,
     interestRates: [0.03],
     amortizationRates: [0.03],
+    customInterestRates: [],
   },
   income: {
     income1: 50000,
@@ -72,6 +73,8 @@ const mockCalculatorState: CalculatorState = {
     numberOfAdults: "1",
   },
   expenses: {},
+  expenseViewMode: "detailed" as const,
+  totalExpenses: 0,
 };
 
 describe("Forecast", () => {
@@ -84,6 +87,8 @@ describe("Forecast", () => {
       },
       income: { ...mockCalculatorState.income },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     };
     const { container } = render(<Forecast calculatorState={emptyState} />);
     expect(container).toBeEmptyDOMElement();
@@ -124,6 +129,8 @@ describe("Forecast", () => {
       },
       income: { ...mockCalculatorState.income },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     };
     const { container } = render(<Forecast calculatorState={largeLoanState} />);
 
@@ -154,6 +161,8 @@ describe("Forecast", () => {
       },
       income: { ...mockCalculatorState.income },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     };
     const { container } = render(<Forecast calculatorState={smallLoanState} />);
 
@@ -213,6 +222,8 @@ describe("Forecast", () => {
       },
       income: { ...mockCalculatorState.income },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     };
     const { container } = render(
       <Forecast calculatorState={differentRatesState} />
@@ -272,6 +283,8 @@ describe("Forecast", () => {
       },
       income: { ...mockCalculatorState.income },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     };
     const { container } = render(<Forecast calculatorState={smallLoanState} />);
 
@@ -306,6 +319,8 @@ describe("Forecast", () => {
       },
       income: { ...mockCalculatorState.income },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     };
     const { container } = render(
       <Forecast calculatorState={tinyAmortizationState} />

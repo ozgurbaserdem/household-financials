@@ -64,6 +64,7 @@ const createMockState = (
     amount: 3000000,
     interestRates: [3.5],
     amortizationRates: [2],
+    customInterestRates: [],
   },
   income: {
     income1: 35000,
@@ -77,22 +78,19 @@ const createMockState = (
     numberOfAdults: "2",
   },
   expenses: {
-    food: {
-      groceries: 5000,
-      "dining-out": 1000,
-    },
-    transport: {
-      "public-transport": 800,
-      car: 2000,
-      fuel: 1500,
-    },
-    home: {
-      rent: 0,
-      "electricity-heating": 1500,
-      mortgage: 0,
-      "water-garbage": 500,
-    },
+    // ExpensesByCategory format - flat key-value pairs
+    groceries: 5000,
+    "dining-out": 1000,
+    "public-transport": 800,
+    car: 2000,
+    fuel: 1500,
+    rent: 0,
+    "electricity-heating": 1500,
+    mortgage: 0,
+    "water-garbage": 500,
   },
+  expenseViewMode: "detailed" as const,
+  totalExpenses: 16800,
   ...overrides,
 });
 
@@ -228,6 +226,7 @@ describe("ResultsTable", () => {
                 amount: 3000000,
                 interestRates: [3, 4],
                 amortizationRates: [2, 3],
+                customInterestRates: [],
               },
             })}
           />
@@ -296,6 +295,7 @@ describe("ResultsTable", () => {
                 amount: 3000000,
                 interestRates: [3, 4],
                 amortizationRates: [2, 3],
+                customInterestRates: [],
               },
             })}
           />
@@ -340,6 +340,7 @@ describe("ResultsTable", () => {
                 amount: 0,
                 interestRates: [],
                 amortizationRates: [],
+                customInterestRates: [],
               },
             })}
           />
@@ -418,6 +419,7 @@ describe("ResultsTable", () => {
                 amount: 3000000,
                 interestRates: [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7],
                 amortizationRates: [2, 3, 4],
+                customInterestRates: [],
               },
             })}
           />

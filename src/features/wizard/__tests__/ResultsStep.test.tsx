@@ -186,6 +186,7 @@ describe("ResultsStep", () => {
         amount: 2000000,
         interestRates: [3.5],
         amortizationRates: [2],
+        customInterestRates: [],
       },
       income: {
         income1: 50000,
@@ -199,14 +200,12 @@ describe("ResultsStep", () => {
         numberOfAdults: "1",
       },
       expenses: {
-        // Conforms to ExpensesByCategory
-        // Default expenses can be loaded here if needed, or kept minimal
-        // For example, from "@/data/expenseCategories";
-        // For now, an example.
-        housing: {
-          rent: 10000,
-        },
+        // Conforms to ExpensesByCategory - key-value pairs of expense IDs and amounts
+        rent: 10000,
+        groceries: 5000,
       },
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 15000,
     };
 
     return configureStore({

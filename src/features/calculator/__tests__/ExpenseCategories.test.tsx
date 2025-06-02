@@ -35,6 +35,7 @@ describe("ExpenseCategories", () => {
         amount: 0,
         interestRates: [3],
         amortizationRates: [3],
+        customInterestRates: [],
       },
       income: {
         income1: 0,

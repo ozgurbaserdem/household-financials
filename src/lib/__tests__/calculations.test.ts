@@ -18,6 +18,7 @@ describe("Financial Calculations", () => {
           amount: 1000000,
           interestRates: [3.5],
           amortizationRates: [2],
+          customInterestRates: [],
         },
         income: {
           income1: 30000,
@@ -33,6 +34,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -72,6 +75,7 @@ describe("Financial Calculations", () => {
           amount: 1000000,
           interestRates: [3.5, 4],
           amortizationRates: [2, 3],
+          customInterestRates: [],
         },
         income: {
           income1: 30000,
@@ -87,6 +91,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -310,6 +316,7 @@ describe("Financial Calculations", () => {
           amount: 0,
           interestRates: [],
           amortizationRates: [],
+          customInterestRates: [],
         },
         income: {
           income1: 30000,
@@ -325,6 +332,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const totalNet = calculateTotalNetIncome(state);
@@ -340,6 +349,7 @@ describe("Financial Calculations", () => {
           amount: 0,
           interestRates: [],
           amortizationRates: [],
+          customInterestRates: [],
         },
         income: {
           income1: 30000,
@@ -353,6 +363,8 @@ describe("Financial Calculations", () => {
           numberOfAdults: "1",
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const totalNet = calculateTotalNetIncome(state);
@@ -411,6 +423,7 @@ describe("Financial Calculations", () => {
           amount: 2000000,
           interestRates: [4],
           amortizationRates: [2],
+          customInterestRates: [],
         },
         income: {
           income1: 40000,
@@ -428,6 +441,8 @@ describe("Financial Calculations", () => {
         expenses: {
           home: 2800,
         },
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const stateLowTax = {
@@ -476,6 +491,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -525,6 +542,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -572,6 +591,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -617,6 +638,8 @@ describe("Financial Calculations", () => {
           home: 10000,
           food: 5000,
         },
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -663,6 +686,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -719,6 +744,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -755,6 +782,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -792,6 +821,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);
@@ -823,6 +854,8 @@ describe("Financial Calculations", () => {
           includeChurchTax: false,
         },
         expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
       };
 
       const results = calculateLoanScenarios(state);

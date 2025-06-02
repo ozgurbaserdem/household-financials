@@ -124,8 +124,11 @@ describe("WizardLayout", () => {
         amount: 1000000, // Has loan amount
         interestRates: [], // But no rates selected
         amortizationRates: [],
+        customInterestRates: [],
       },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     });
 
     // Mock being on the loans step
@@ -176,8 +179,11 @@ describe("WizardLayout", () => {
         amount: 0,
         interestRates: [],
         amortizationRates: [],
+        customInterestRates: [],
       },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     });
 
     // Mock being on the loans step
@@ -231,8 +237,11 @@ describe("WizardLayout", () => {
         amount: 1000000,
         interestRates: [3, 4],
         amortizationRates: [2, 3],
+        customInterestRates: [],
       },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     });
 
     // Mock being on the loans step
@@ -286,8 +295,11 @@ describe("WizardLayout", () => {
         amount: 0,
         interestRates: [],
         amortizationRates: [],
+        customInterestRates: [],
       },
       expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
     });
 
     // Mock being on the income step
