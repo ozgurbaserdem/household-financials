@@ -247,7 +247,9 @@ describe("ExpenseCategories", () => {
     );
 
     // Should show the simple view inputs (both mobile and desktop)
-    expect(screen.getAllByLabelText("Total Expenses").length).toBeGreaterThan(0);
+    expect(screen.getAllByLabelText("Total Expenses").length).toBeGreaterThan(
+      0
+    );
     expect(screen.getAllByDisplayValue("10000").length).toBeGreaterThan(0);
     expect(
       screen.getAllByText("Enter your total monthly expenses").length
