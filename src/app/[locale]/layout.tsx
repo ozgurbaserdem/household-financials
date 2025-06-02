@@ -7,6 +7,8 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const spaceGrotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -265,6 +267,8 @@ export default async function LocaleLayout({
             {children}
           </Providers>
         </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
