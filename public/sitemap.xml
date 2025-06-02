@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.budgetkollen.se/</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://www.budgetkollen.se/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.budgetkollen.se/en"/>
+    <lastmod>2025-06-02</lastmod>
   </url>
   <url>
     <loc>https://www.budgetkollen.se/en</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://www.budgetkollen.se/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.budgetkollen.se/en"/>
+    <lastmod>2025-06-02</lastmod>
+  </url>
+  <url>
+    <loc>https://www.budgetkollen.se/hushallsbudget</loc>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://www.budgetkollen.se/hushallsbudget"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.budgetkollen.se/en/household-budget"/>
+    <lastmod>2025-06-02</lastmod>
+  </url>
+  <url>
+    <loc>https://www.budgetkollen.se/en/household-budget</loc>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://www.budgetkollen.se/hushallsbudget"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.budgetkollen.se/en/household-budget"/>
+    <lastmod>2025-06-02</lastmod>
   </url>
   <url>
     <loc>https://www.budgetkollen.se/hushallskalkyl</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://www.budgetkollen.se/hushallskalkyl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.budgetkollen.se/en/householdbudget"/>
+    <lastmod>2025-06-02</lastmod>
   </url>
   <url>
     <loc>https://www.budgetkollen.se/en/householdbudget</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://www.budgetkollen.se/hushallskalkyl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.budgetkollen.se/en/householdbudget"/>
+    <lastmod>2025-06-02</lastmod>
   </url>
   <url>
     <loc>https://www.budgetkollen.se/ranta-pa-ranta</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://www.budgetkollen.se/ranta-pa-ranta"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.budgetkollen.se/en/compound-interest"/>
+    <lastmod>2025-06-02</lastmod>
   </url>
   <url>
     <loc>https://www.budgetkollen.se/en/compound-interest</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://www.budgetkollen.se/ranta-pa-ranta"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.budgetkollen.se/en/compound-interest"/>
+    <lastmod>2025-06-02</lastmod>
   </url>
 </urlset> 

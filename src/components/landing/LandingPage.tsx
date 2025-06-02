@@ -97,7 +97,7 @@ export function LandingPage() {
     const param = getStepParam(locale);
     const stepValue = locale === "sv" ? "inkomst" : "income";
     router.push({
-      pathname: "/",
+      pathname: "/hushallsbudget",
       query: { [param]: stepValue },
     });
   };

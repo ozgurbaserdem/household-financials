@@ -1,46 +1,29 @@
 import React from "react";
-import { Main } from "@/components/ui/main";
-import { WizardClient } from "@/components/WizardClient";
 import { LandingPage } from "@/components/landing/LandingPage";
 import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const { steg, step } = await searchParams;
 
-  // Different metadata for landing page vs wizard
-  // Check for both 'steg' (Swedish) and 'step' (English) parameters
-  const isWizardMode = !!(steg || step);
+  const title =
+    locale === "sv"
+      ? "Budgetkollen - Få koll på din ekonomi | Gratis verktyg för hushållsbudget"
+      : "Budgetkollen - Control your financial future | Free household budget tool";
 
-  const title = isWizardMode
-    ? locale === "sv"
-      ? "Budgetkollen - Hushållsbudget & Hushållskalkyl | Gratis Budgetkalkylator Sverige"
-      : "Budgetkollen - Household Budget Calculator | Free Budget Tool Sweden"
-    : locale === "sv"
-      ? "Budgetkollen - Mästra Din Finansiella Framtid | Sveriges Bästa Budgetverktyg"
-      : "Budgetkollen - Master Your Financial Future | Sweden's Best Budget Tool";
-
-  const description = isWizardMode
-    ? locale === "sv"
-      ? "Skapa din hushållsbudget och hushållskalkyl gratis med Budgetkollen. Sveriges bästa budgetkalkylator för att planera din ekonomi, beräkna lån och sparmål. Få kontroll över din privatekonomi."
-      : "Create your household budget and calculator free with Budgetkollen. Sweden's best budget calculator to plan your finances, calculate loans and savings goals. Take control of your personal finance."
-    : locale === "sv"
-      ? "Beräkna din budget, jämför lånescenarion och fatta informerade finansiella beslut med vårt omfattande analysverktyg. Över 50,000 svenska familjer litar på Budgetkollen."
-      : "Calculate your budget, compare loan scenarios, and make informed financial decisions with our comprehensive analysis tool. Over 50,000 Swedish families trust Budgetkollen.";
+  const description =
+    locale === "sv"
+      ? "Få koll på din budget, jämför lån och ta smartare ekonomiska beslut"
+      : "Calculate your budget, compare loan scenarios, and make informed financial decisions with our simple analysis tool";
 
   const keywords =
     locale === "sv"
-      ? "hushållsbudget, hushållskalkyl, budgetkollen, budgetkalkylator, privatekonomi, ekonomi kalkylator, lånekalkylator, sparande, hushållsekonomi, budgetplanering, finansiell planering, månadsbudget, familjebudget, ekonomisk rådgivning"
-      : "household budget, budget calculator, personal finance, loan calculator, savings calculator, financial planning, monthly budget, family budget, budgetkollen, sweden budget tool";
+      ? "ränta på ränta, ränta-på-ränta,hushållsbudget, hushållskalkyl, budgetkollen, budgetkalkylator, privatekonomi, ekonomi kalkylator, lånekalkylator, sparande, hushållsekonomi, budgetplanering, finansiell planering, månadsbudget, familjebudget, ekonomisk rådgivning"
+      : "compound interest, household budget, budget calculator, personal finance, loan calculator, savings calculator, financial planning, monthly budget, family budget, budgetkollen, sweden budget tool";
 
   // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
   const canonicalUrl =
@@ -118,30 +101,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function Home({ params, searchParams }: Props) {
+export default async function Home({ params }: Props) {
   const { locale } = await params;
-  const { steg, step } = await searchParams;
   setRequestLocale(locale);
 
-  // Show landing page if no step parameter, otherwise show wizard
-  // Check for both 'steg' (Swedish) and 'step' (English) parameters
-  const isWizardMode = !!(steg || step);
-
-  if (isWizardMode) {
-    return (
-      <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
-        {/* Animated gradient mesh background */}
-        <div className="gradient-mesh" />
-
-        {/* Static gradient orbs for depth - no animation for better performance */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-
-        <WizardClient />
-      </Main>
-    );
-  }
-
-  // Landing page
   return <LandingPage />;
 }

@@ -355,6 +355,8 @@ declare const messages: {
   "navbar": {
     "income": "Income",
     "articles": "Articles",
+    "household_budget_label": "Budget Calculator",
+    "household_budget_desc": "Take control of your finances in 3 minutes",
     "main_article_label": "Household budget",
     "main_article_desc": "The household budget gives you control over your income and expenses",
     "guides": "Guides",
@@ -458,7 +460,7 @@ declare const messages: {
         "start": "Control your",
         "highlight": "financial future"
       },
-      "subtitle": "Calculate your budget, compare loan scenarios, and make informed financial decisions with our simple analysis tool",
+      "subtitle": "Create your complete household budget in 3 minutes – free and no registration required",
       "cta": "Get started"
     },
     "howItWorks": {

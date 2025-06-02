@@ -74,6 +74,21 @@ export function Navbar() {
                       <li>
                         <NavigationMenuLink asChild>
                           <Link
+                            href="/hushallsbudget"
+                            className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
+                          >
+                            <div className="font-semibold text-base text-gray-200 group-hover:text-white">
+                              {t("household_budget_label")}
+                            </div>
+                            <div className="text-sm text-gray-400 group-hover:text-gray-300">
+                              {t("household_budget_desc")}
+                            </div>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
                             href="/hushallskalkyl"
                             className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200 group"
                           >
@@ -166,6 +181,18 @@ export function Navbar() {
                 <Text className="text-sm font-medium text-gray-400 px-3">
                   {t("articles")}
                 </Text>
+                <Link
+                  href="/hushallsbudget"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block p-3 rounded-lg glass hover:bg-white/10 transition-all duration-200"
+                >
+                  <div className="font-semibold text-gray-200">
+                    {t("household_budget_label")}
+                  </div>
+                  <div className="text-sm text-gray-400">
+                    {t("household_budget_desc")}
+                  </div>
+                </Link>
                 <Link
                   href="/hushallskalkyl"
                   onClick={() => setMobileMenuOpen(false)}

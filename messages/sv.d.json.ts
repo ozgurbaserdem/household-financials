@@ -5,6 +5,8 @@ declare const messages: {
   "navbar": {
     "income": "Inkomst",
     "articles": "Artiklar",
+    "household_budget_label": "Budgetkalkylator",
+    "household_budget_desc": "Få koll på din ekonomi på 3 minuter",
     "main_article_label": "Hushållskalkyl",
     "main_article_desc": "Hushållskalkylen hjälper dig att förstå din ekonomi bättre",
     "guides": "Guider",
@@ -450,7 +452,7 @@ declare const messages: {
         "start": "Få koll på",
         "highlight": "din ekonomi"
       },
-      "subtitle": "Få koll på din budget, jämför lån och ta smartare ekonomiska beslut",
+      "subtitle": "Skapa din kompletta hushållsbudget på 3 minuter – gratis och utan registrering",
       "cta": "Kom igång"
     },
     "howItWorks": {

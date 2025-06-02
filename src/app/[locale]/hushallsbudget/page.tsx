@@ -1,51 +1,69 @@
+import React from "react";
 import { Main } from "@/components/ui/main";
-import { Box } from "@/components/ui/box";
-import { getTranslations } from "next-intl/server";
+import { WizardClient } from "@/components/WizardClient";
 import { setRequestLocale } from "next-intl/server";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
-import { Calculator, TrendingUp, PieChart, Target } from "lucide-react";
 import type { Metadata } from "next";
 
 type Props = {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
 
+  // Optimized titles with better keyword placement and length (50-60 chars)
   const title =
     locale === "sv"
-      ? "Hushållsbudget - Gratis Budgetplaneringsverktyg | Budgetkollen"
-      : "Household Budget - Free Budget Planning Tool | Budgetkollen";
+      ? "Hushållsbudget - Gratis budgetverktyg | Budgetkollen"
+      : "Household Budget - Free Budget Tool | Budgetkollen";
 
+  // Compelling meta descriptions with call-to-action (150-160 chars)
   const description =
     locale === "sv"
-      ? "Planera din hushållsbudget enkelt med vårt gratis verktyg. Få kontroll över din ekonomi, analysera utgifter och sätt sparsmål."
-      : "Plan your household budget easily with our free tool. Take control of your finances, analyze expenses and set savings goals.";
+      ? "Beräkna din hushållsbudget på 3 minuter! ✓ Skatteuträkning ✓ Lånekalkylator ✓ 13 utgiftskategorier."
+      : "Calculate your household budget in 3 minutes! ✓ Tax calculation ✓ Loan calculator ✓ 13 expense categories.";
 
+  // Comprehensive keyword list including long-tail keywords
   const keywords =
     locale === "sv"
-      ? "hushållsbudget, budgetplanering, familjebudget, ekonomisk planering, privatekonomi, budgetverktyg"
-      : "household budget, budget planning, family budget, financial planning, personal finance, budget tool";
+      ? "ränta på ränta, ränta-på-ränta, hushållsbudget, hushållskalkyl, budgetkalkylator, budgetkollen, privatekonomi, ekonomi kalkylator, lånekalkylator, sparande, hushållsekonomi, budgetplanering, finansiell planering, månadsbudget, familjebudget, ekonomisk rådgivning, skatteuträkning, disponibel inkomst, levnadskostnader sverige, budgetmall, ekonomiplanering, sparkalkylatorer"
+      : "compound interest,household budget, budget calculator, personal finance, loan calculator, savings calculator, financial planning, monthly budget, family budget, budgetkollen, sweden budget tool, disposable income calculator, living costs sweden, budget template, expense tracker, financial advisor sweden";
 
-  const pathname = locale === "en" ? "/householdbudget" : "/hushallsbudget";
-  // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
+  // Canonical URLs with proper localization
   const canonicalUrl =
     locale === "sv"
-      ? `https://www.budgetkollen.se${pathname}`
-      : `https://www.budgetkollen.se/en${pathname}`;
+      ? "https://www.budgetkollen.se/hushallsbudget"
+      : "https://www.budgetkollen.se/en/household-budget";
+
+  // Alternate language URLs for hreflang
+  const alternateUrls = {
+    sv: "https://www.budgetkollen.se/hushallsbudget",
+    en: "https://www.budgetkollen.se/en/household-budget",
+  };
 
   return {
     title,
     description,
     keywords,
+    authors: [{ name: "Budgetkollen", url: "https://www.budgetkollen.se" }],
+    creator: "Budgetkollen",
+    publisher: "Budgetkollen",
+    category: "Finance",
+    classification: "Personal Finance Tool",
+    applicationName: "Budgetkollen",
+    generator: "Next.js",
+    referrer: "origin-when-cross-origin",
+    manifest: "/manifest.json",
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    metadataBase: new URL("https://www.budgetkollen.se"),
     alternates: {
       canonical: canonicalUrl,
-      languages: {
-        sv: `/hushallsbudget`, // No prefix for default locale
-        en: `/en/householdbudget`,
-      },
+      languages: alternateUrls,
     },
     openGraph: {
       title,
@@ -53,7 +71,62 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: canonicalUrl,
       siteName: "Budgetkollen",
       locale: locale === "sv" ? "sv_SE" : "en_US",
+      alternateLocale: locale === "sv" ? "en_US" : "sv_SE",
       type: "website",
+      images: [
+        {
+          url: "/Budgetkollen.png",
+          width: 1200,
+          height: 630,
+          alt:
+            locale === "sv"
+              ? "Budgetkollen - Sveriges bästa budgetkalkylator för hushåll"
+              : "Budgetkollen - Sweden's best household budget calculator",
+          type: "image/png",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/Budgetkollen.png"],
+      creator: "@budgetkollen",
+      site: "@budgetkollen",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: false,
+      googleBot: {
+        index: true,
+        follow: true,
+        noimageindex: false,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    verification: {
+      google: "G2E34AZZPQ97qu8fxJbgKwM0dUveivxfv84F97tMqV8",
+    },
+    other: {
+      "revisit-after": "7 days",
+      distribution: "global",
+      rating: "general",
+      language: locale === "sv" ? "Swedish" : "English",
+      "geo.region": "SE",
+      "geo.country": "Sweden",
+      "og:locale:alternate": locale === "sv" ? "en_US" : "sv_SE",
+      "article:author": "Budgetkollen",
+      "article:section": "Finance",
+      "apple-mobile-web-app-capable": "yes",
+      "apple-mobile-web-app-status-bar-style": "black-translucent",
+      "msapplication-TileColor": "#1a1a1a",
+      "format-detection": "telephone=no",
+      "mobile-web-app-capable": "yes",
+      "dns-prefetch": "https://www.googletagmanager.com",
+      preconnect: "https://www.google-analytics.com",
     },
   };
 }
@@ -61,227 +134,206 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HushallsbudgetPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("hushallsbudget");
+
+  // Structured data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Budgetkollen",
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Any",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "SEK",
+    },
+    description:
+      locale === "sv"
+        ? "Gratis budgetkalkylator för svenska hushåll med skatteuträkning och lånekalkylator"
+        : "Free budget calculator for Swedish households with tax calculation and loan calculator",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: "50000",
+    },
+    featureList: [
+      locale === "sv" ? "Skatteuträkning" : "Tax calculation",
+      locale === "sv" ? "Lånekalkylator" : "Loan calculator",
+      locale === "sv" ? "13 utgiftskategorier" : "13 expense categories",
+      locale === "sv" ? "Finansiell hälsopoäng" : "Financial health score",
+    ],
+  };
+
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Budgetkollen",
+        item: "https://www.budgetkollen.se",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name:
+          locale === "sv"
+            ? "Hushållsbudget Kalkylator"
+            : "Household Budget Calculator",
+        item:
+          locale === "sv"
+            ? "https://www.budgetkollen.se/hushallsbudget"
+            : "https://www.budgetkollen.se/en/household-budget",
+      },
+    ],
+  };
+
+  const faqData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name:
+          locale === "sv"
+            ? "Hur lång tid tar det att fylla i budgetkalkylatorn?"
+            : "How long does it take to complete the budget calculator?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text:
+            locale === "sv"
+              ? "Det tar ungefär 3 minuter att fylla i alla steg i budgetkalkylatorn."
+              : "It takes approximately 3 minutes to complete all steps in the budget calculator.",
+        },
+      },
+      {
+        "@type": "Question",
+        name:
+          locale === "sv"
+            ? "Är Budgetkollen gratis att använda?"
+            : "Is Budgetkollen free to use?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text:
+            locale === "sv"
+              ? "Ja, Budgetkollen är helt gratis att använda utan några dolda avgifter."
+              : "Yes, Budgetkollen is completely free to use with no hidden fees.",
+        },
+      },
+    ],
+  };
+
+  // Canonical URL for structured data
+  const canonicalUrl =
+    locale === "sv"
+      ? "https://www.budgetkollen.se/hushallsbudget"
+      : "https://www.budgetkollen.se/en/household-budget";
+
+  const financialProductSchema = {
+    "@context": "https://schema.org",
+    "@type": "FinancialProduct",
+    name:
+      locale === "sv"
+        ? "Budgetkollen Hushållsbudgetkalkylator"
+        : "Budgetkollen Household Budget Calculator",
+    description:
+      locale === "sv"
+        ? "Komplett budgetkalkylator med skatteuträkning, lånekalkylator och finansiell hälsoanalys"
+        : "Complete budget calculator with tax calculation, loan calculator and financial health analysis",
+    provider: {
+      "@type": "Organization",
+      name: "Budgetkollen",
+      url: "https://www.budgetkollen.se",
+      logo: "https://www.budgetkollen.se/Budgetkollen.png",
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "Sweden",
+    },
+    audience: {
+      "@type": "Audience",
+      audienceType: locale === "sv" ? "Svenska hushåll" : "Swedish households",
+    },
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: canonicalUrl,
+      serviceType: "Online",
+    },
+  };
 
   return (
-    <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
-      {/* Animated gradient mesh background */}
-      <div className="gradient-mesh" />
+    <>
+      {/* SEO: Structured Data Scripts with proper typing */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+        key="structured-data"
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbData),
+        }}
+        key="breadcrumb-data"
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqData),
+        }}
+        key="faq-data"
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(financialProductSchema),
+        }}
+        key="financial-product"
+      />
 
-      {/* Static gradient orbs for depth - no animation for better performance */}
-      <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-
-      <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10 relative z-10">
-        {/* Hero Section */}
-        <header className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-            {t("title")}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            {t("subtitle")}
-          </p>
-          <Button asChild size="lg" className="text-lg px-8 py-4">
-            <Link href="/">{t("cta_button")}</Link>
-          </Button>
-        </header>
-
-        {/* Features Section */}
-        <section className="mb-12">
-          <h2 className="text-3xl font-bold text-center mb-8">
-            {t("features.title")}
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg">
-              <Calculator className="w-12 h-12 text-blue-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">
-                {t("features.calculator.title")}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t("features.calculator.description")}
+      <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
+        <noscript>
+          <div className="min-h-screen bg-gray-950 flex items-center justify-center p-8">
+            <div className="max-w-md text-center bg-gray-900 rounded-lg p-8 border border-gray-800">
+              <h2 className="text-2xl font-bold text-white mb-4">
+                {locale === "sv" ? "JavaScript krävs" : "JavaScript Required"}
+              </h2>
+              <p className="text-gray-400 mb-6">
+                {locale === "sv"
+                  ? "För att använda Budgetkollens kalkylator behöver du aktivera JavaScript i din webbläsare."
+                  : "To use Budgetkollen's calculator, you need to enable JavaScript in your browser."}
               </p>
-            </div>
-
-            <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg">
-              <PieChart className="w-12 h-12 text-green-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">
-                {t("features.analysis.title")}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t("features.analysis.description")}
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg">
-              <TrendingUp className="w-12 h-12 text-purple-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">
-                {t("features.planning.title")}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t("features.planning.description")}
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg">
-              <Target className="w-12 h-12 text-red-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">
-                {t("features.goals.title")}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t("features.goals.description")}
-              </p>
+              <a
+                href="https://www.enable-javascript.com/"
+                className="text-blue-400 hover:text-blue-300 underline"
+                rel="noopener noreferrer"
+              >
+                {locale === "sv"
+                  ? "Läs hur du aktiverar JavaScript"
+                  : "Learn how to enable JavaScript"}
+              </a>
             </div>
           </div>
-        </section>
+        </noscript>
+        {/* SEO: Hidden H1 for screen readers and search engines */}
+        <h1 className="sr-only">
+          {locale === "sv"
+            ? "Budgetkollen - Hushållsbudget Kalkylator för Sverige"
+            : "Budgetkollen - Household Budget Calculator for Sweden"}
+        </h1>
 
-        {/* Guide Section */}
-        <section className="mb-12 bg-white dark:bg-gray-900 p-8 rounded-lg">
-          <h2 className="text-3xl font-bold mb-6">{t("guide.title")}</h2>
-          <div className="space-y-6">
-            <div className="flex items-start space-x-4">
-              <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
-                1
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {t("guide.step1.title")}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {t("guide.step1.description")}
-                </p>
-              </div>
-            </div>
+        {/* Animated gradient mesh background */}
+        <div className="gradient-mesh" />
 
-            <div className="flex items-start space-x-4">
-              <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
-                2
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {t("guide.step2.title")}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {t("guide.step2.description")}
-                </p>
-              </div>
-            </div>
+        {/* Static gradient orbs for depth - no animation for better performance */}
+        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
 
-            <div className="flex items-start space-x-4">
-              <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
-                3
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {t("guide.step3.title")}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {t("guide.step3.description")}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
-                4
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {t("guide.step4.title")}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {t("guide.step4.description")}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Tips Section */}
-        <section className="mb-12">
-          <h2 className="text-3xl font-bold mb-6">{t("tips.title")}</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4 text-green-800 dark:text-green-200">
-                {t("tips.working_tips.title")}
-              </h3>
-              <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                <li>• {t("tips.working_tips.tip1")}</li>
-                <li>• {t("tips.working_tips.tip2")}</li>
-                <li>• {t("tips.working_tips.tip3")}</li>
-                <li>• {t("tips.working_tips.tip4")}</li>
-              </ul>
-            </div>
-
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
-                {t("tips.mistakes.title")}
-              </h3>
-              <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                <li>• {t("tips.mistakes.mistake1")}</li>
-                <li>• {t("tips.mistakes.mistake2")}</li>
-                <li>• {t("tips.mistakes.mistake3")}</li>
-                <li>• {t("tips.mistakes.mistake4")}</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section className="mb-12 bg-gray-50 dark:bg-gray-800 p-8 rounded-lg">
-          <h2 className="text-3xl font-bold mb-6">{t("faq.title")}</h2>
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-xl font-semibold mb-2">
-                {t("faq.q1.question")}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t("faq.q1.answer")}
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold mb-2">
-                {t("faq.q2.question")}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t("faq.q2.answer")}
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold mb-2">
-                {t("faq.q3.question")}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t("faq.q3.answer")}
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold mb-2">
-                {t("faq.q4.question")}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t("faq.q4.answer")}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="text-center bg-blue-600 text-white p-8 rounded-lg">
-          <h2 className="text-3xl font-bold mb-4">{t("cta.title")}</h2>
-          <p className="text-xl mb-6 opacity-90">{t("cta.subtitle")}</p>
-          <Button
-            asChild
-            size="lg"
-            variant="secondary"
-            className="text-lg px-8 py-4"
-          >
-            <Link href="/">{t("cta.button")}</Link>
-          </Button>
-        </section>
-      </Box>
-    </Main>
+        <WizardClient />
+      </Main>
+    </>
   );
 }

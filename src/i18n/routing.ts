@@ -16,6 +16,10 @@ export const routing = defineRouting({
   // Now that we're using Vercel (not static export), we can use localized pathnames
   pathnames: {
     "/": "/",
+    "/hushallsbudget": {
+      sv: "/hushallsbudget",
+      en: "/household-budget",
+    },
     "/hushallskalkyl": {
       sv: "/hushallskalkyl",
       en: "/householdbudget",
