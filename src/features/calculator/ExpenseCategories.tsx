@@ -109,33 +109,35 @@ export function ExpenseCategories({
 
   return (
     <Card gradient glass delay={0.2}>
-      <CardHeader>
-        <CardIcon>
-          <List className="w-6 h-6 text-red-400" />
-        </CardIcon>
-        <Box className="flex-1">
-          <CardTitle
-            ref={titleRef}
-            tabIndex={0}
-            aria-label={t("aria.title")}
-            className="focus:outline-none"
-          >
-            {t("title")}
-          </CardTitle>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-sm text-gray-300 mt-1"
-          >
-            {t("track_expenses")}
-          </motion.p>
+      <CardHeader className="flex-col sm:flex-row">
+        <Box className="flex items-start gap-4 flex-1 w-full sm:w-auto">
+          <CardIcon>
+            <List className="w-6 h-6 text-red-400" />
+          </CardIcon>
+          <Box className="flex-1">
+            <CardTitle
+              ref={titleRef}
+              tabIndex={0}
+              aria-label={t("aria.title")}
+              className="focus:outline-none"
+            >
+              {t("title")}
+            </CardTitle>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-sm text-gray-300 mt-1"
+            >
+              {t("track_expenses")}
+            </motion.p>
+          </Box>
         </Box>
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-          className="flex items-center gap-4"
+          className="flex items-center gap-4 mt-4 sm:mt-0 w-full sm:w-auto justify-center sm:justify-end"
         >
           <Box className="flex items-center gap-2">
             <Text className="text-sm text-gray-300">
@@ -184,33 +186,75 @@ export function ExpenseCategories({
                 className="glass rounded-xl border-0 overflow-hidden p-6"
               >
                 <Box className="flex flex-col gap-4">
-                  <Box className="flex items-center gap-3">
-                    <Box className="p-2 rounded-lg bg-gradient-to-br from-red-600/20 to-pink-600/20">
-                      <TrendingDown className="w-5 h-5 text-red-400" />
+                  {/* Mobile layout - stacked */}
+                  <Box className="flex flex-col gap-4 sm:hidden">
+                    <Box className="flex items-center gap-3">
+                      <Box className="p-2 rounded-lg bg-gradient-to-br from-red-600/20 to-pink-600/20">
+                        <TrendingDown className="w-5 h-5 text-red-400" />
+                      </Box>
+                      <label
+                        htmlFor="total-expenses-input"
+                        className="text-lg font-medium text-gray-200 cursor-pointer"
+                      >
+                        {t("total_expenses")}
+                      </label>
                     </Box>
-                    <label
-                      htmlFor="total-expenses-input"
-                      className="text-lg font-medium text-gray-200 cursor-pointer"
-                    >
-                      {t("total_expenses")}
-                    </label>
+                    <Text className="text-sm text-gray-300">
+                      {t("view_toggle.simple_description")}
+                    </Text>
+                    <Input
+                      id="total-expenses-input"
+                      type="number"
+                      min={0}
+                      className="w-full modern-input text-right text-xl"
+                      value={
+                        totalExpenses && totalExpenses !== 0
+                          ? totalExpenses
+                          : ""
+                      }
+                      placeholder="0"
+                      onChange={(e) => handleTotalExpenseChange(e.target.value)}
+                      onFocus={(e) => e.target.select()}
+                      aria-label={t("total_expenses")}
+                    />
                   </Box>
-                  <Text className="text-sm text-gray-300">
-                    {t("view_toggle.simple_description")}
-                  </Text>
-                  <Input
-                    id="total-expenses-input"
-                    type="number"
-                    min={0}
-                    className="w-full modern-input text-right text-xl"
-                    value={
-                      totalExpenses && totalExpenses !== 0 ? totalExpenses : ""
-                    }
-                    placeholder="0"
-                    onChange={(e) => handleTotalExpenseChange(e.target.value)}
-                    onFocus={(e) => e.target.select()}
-                    aria-label={t("total_expenses")}
-                  />
+
+                  {/* Desktop layout - inline */}
+                  <Box className="hidden sm:flex flex-col gap-3">
+                    <Box className="flex items-center justify-between gap-4">
+                      <Box className="flex items-center gap-3 flex-1">
+                        <Box className="p-2 rounded-lg bg-gradient-to-br from-red-600/20 to-pink-600/20">
+                          <TrendingDown className="w-5 h-5 text-red-400" />
+                        </Box>
+                        <label
+                          htmlFor="total-expenses-input-desktop"
+                          className="text-lg font-medium text-gray-200 cursor-pointer"
+                        >
+                          {t("total_expenses")}
+                        </label>
+                      </Box>
+                      <Input
+                        id="total-expenses-input-desktop"
+                        type="number"
+                        min={0}
+                        className="w-48 modern-input text-right text-xl"
+                        value={
+                          totalExpenses && totalExpenses !== 0
+                            ? totalExpenses
+                            : ""
+                        }
+                        placeholder="0"
+                        onChange={(e) =>
+                          handleTotalExpenseChange(e.target.value)
+                        }
+                        onFocus={(e) => e.target.select()}
+                        aria-label={t("total_expenses")}
+                      />
+                    </Box>
+                    <Text className="text-sm text-gray-300">
+                      {t("view_toggle.simple_description")}
+                    </Text>
+                  </Box>
                 </Box>
               </motion.div>
             </motion.div>

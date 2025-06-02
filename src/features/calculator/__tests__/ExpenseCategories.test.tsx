@@ -246,12 +246,12 @@ describe("ExpenseCategories", () => {
       </TestWrapper>
     );
 
-    // Should show the simple view input
-    expect(screen.getByLabelText("Total Expenses")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("10000")).toBeInTheDocument();
+    // Should show the simple view inputs (both mobile and desktop)
+    expect(screen.getAllByLabelText("Total Expenses").length).toBeGreaterThan(0);
+    expect(screen.getAllByDisplayValue("10000").length).toBeGreaterThan(0);
     expect(
-      screen.getByText("Enter your total monthly expenses")
-    ).toBeInTheDocument();
+      screen.getAllByText("Enter your total monthly expenses").length
+    ).toBeGreaterThan(0);
 
     // Should NOT show detailed category inputs
     expect(screen.queryByText("Home")).not.toBeInTheDocument();
@@ -317,11 +317,11 @@ describe("ExpenseCategories", () => {
       </TestWrapper>
     );
 
-    const totalInput = screen.getByLabelText("Total Expenses");
-    fireEvent.change(totalInput, { target: { value: "8000" } });
+    const totalInputs = screen.getAllByLabelText("Total Expenses");
+    fireEvent.change(totalInputs[0], { target: { value: "8000" } });
 
     // Should update the Redux state, not call the onChange prop
     // The component now manages its own state via Redux
-    expect(totalInput).toHaveValue(8000);
+    expect(totalInputs[0]).toHaveValue(8000);
   });
 });
