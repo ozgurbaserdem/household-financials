@@ -5,6 +5,35 @@ export interface LoanParameters {
   customInterestRates: number[];
 }
 
+// Helper functions for loan parameters
+export const getAllInterestRates = (
+  loanParameters: LoanParameters
+): number[] => {
+  return [
+    ...loanParameters.interestRates,
+    ...(loanParameters.customInterestRates || []),
+  ];
+};
+
+export const hasInterestRates = (loanParameters: LoanParameters): boolean => {
+  return getAllInterestRates(loanParameters).length > 0;
+};
+
+export const getFirstInterestRate = (
+  loanParameters: LoanParameters
+): number => {
+  const allRates = getAllInterestRates(loanParameters);
+  return allRates.length > 0 ? allRates[0] : 0;
+};
+
+export const hasValidLoan = (loanParameters: LoanParameters): boolean => {
+  return (
+    loanParameters.amount > 0 &&
+    hasInterestRates(loanParameters) &&
+    loanParameters.amortizationRates.length > 0
+  );
+};
+
 export interface IncomeRange {
   min: number;
   max: number;

@@ -28,6 +28,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { Plus, X } from "lucide-react";
+import {
+  hasInterestRates,
+  getAllInterestRates,
+  hasValidLoan,
+} from "@/lib/types";
 
 const formSchema = z
   .object({
@@ -43,9 +48,12 @@ const formSchema = z
       // If has loan and amount > 0, must have at least one rate of each type
       if (data.hasLoan && data.loanAmount > 0) {
         return (
-          (data.interestRates.length > 0 ||
-            data.customInterestRates.length > 0) &&
-          data.amortizationRates.length > 0
+          hasInterestRates({
+            interestRates: data.interestRates,
+            customInterestRates: data.customInterestRates,
+            amount: data.loanAmount,
+            amortizationRates: data.amortizationRates,
+          }) && data.amortizationRates.length > 0
         );
       }
       return true;
@@ -132,7 +140,18 @@ export function Loans({ onChange, values }: LoansFormProps) {
             ? currentValues.interestRates
             : values?.interestRates && values.interestRates.length > 0
               ? values.interestRates
-              : [3], // Default 3% if no rates selected
+              : // Only set default if no custom rates either
+                hasInterestRates({
+                    amount: 0,
+                    interestRates: [],
+                    amortizationRates: [],
+                    customInterestRates:
+                      currentValues.customInterestRates ||
+                      values?.customInterestRates ||
+                      [],
+                  })
+                ? []
+                : [3], // Default 3% if no rates selected
         amortizationRates:
           currentValues.amortizationRates.length > 0
             ? currentValues.amortizationRates
@@ -150,10 +169,12 @@ export function Loans({ onChange, values }: LoansFormProps) {
     // Only validate when updating loan amount or rates (not when toggling)
     if (hasLoan && currentValues.loanAmount > 0 && forceHasLoan === undefined) {
       if (
-        (currentValues.interestRates.length === 0 &&
-          (!currentValues.customInterestRates ||
-            currentValues.customInterestRates.length === 0)) ||
-        currentValues.amortizationRates.length === 0
+        !hasValidLoan({
+          amount: currentValues.loanAmount,
+          interestRates: currentValues.interestRates,
+          amortizationRates: currentValues.amortizationRates,
+          customInterestRates: currentValues.customInterestRates || [],
+        })
       ) {
         setShowValidationError(true);
       } else {
@@ -171,14 +192,16 @@ export function Loans({ onChange, values }: LoansFormProps) {
 
   // Calculate range of monthly payments based on selected rates
   const calculatePaymentRange = () => {
-    const allInterestRates = [...interestRates, ...customInterestRates];
+    const loanParams = {
+      amount: loanAmount,
+      interestRates,
+      amortizationRates,
+      customInterestRates: customInterestRates || [],
+    };
 
-    if (
-      !hasLoan ||
-      loanAmount <= 0 ||
-      allInterestRates.length === 0 ||
-      amortizationRates.length === 0
-    ) {
+    const allInterestRates = getAllInterestRates(loanParams);
+
+    if (!hasLoan || !hasValidLoan(loanParams)) {
       return { min: 0, max: 0 };
     }
 
@@ -385,7 +408,33 @@ export function Loans({ onChange, values }: LoansFormProps) {
                                                 (r: number) => r !== rate
                                               );
                                           field.onChange(newValue);
-                                          handleFieldChange();
+
+                                          // If we're removing the last interest rate but have custom rates, directly call onChange
+                                          if (
+                                            !checked &&
+                                            newValue.length === 0 &&
+                                            hasInterestRates({
+                                              amount: 0,
+                                              interestRates: [],
+                                              amortizationRates: [],
+                                              customInterestRates:
+                                                customInterestRates || [],
+                                            })
+                                          ) {
+                                            const currentValues =
+                                              form.getValues();
+                                            onChange({
+                                              loanAmount:
+                                                currentValues.loanAmount,
+                                              interestRates: newValue,
+                                              amortizationRates:
+                                                currentValues.amortizationRates,
+                                              customInterestRates:
+                                                currentValues.customInterestRates,
+                                            });
+                                          } else {
+                                            handleFieldChange();
+                                          }
                                         }}
                                         className="sr-only"
                                       />
@@ -504,25 +553,100 @@ export function Loans({ onChange, values }: LoansFormProps) {
                                 exit={{ opacity: 0, scale: 0.8 }}
                                 className="relative"
                               >
-                                <div
-                                  className="chip active cursor-pointer select-none relative group w-full flex items-center justify-between"
-                                  onClick={() => {
-                                    const newCustomRates =
-                                      customInterestRates.filter(
-                                        (_, i) => i !== index
+                                <div className="chip active w-full flex items-center justify-between gap-1 pr-1 relative group">
+                                  <span
+                                    className="flex-1 cursor-pointer"
+                                    onClick={() => {
+                                      const newCustomRates =
+                                        customInterestRates.filter(
+                                          (_, i) => i !== index
+                                        );
+                                      form.setValue(
+                                        "customInterestRates",
+                                        newCustomRates
                                       );
-                                    form.setValue(
-                                      "customInterestRates",
-                                      newCustomRates
-                                    );
-                                    handleFieldChange();
-                                  }}
-                                  aria-label={t("remove_custom_rate", {
-                                    rate,
-                                  })}
-                                >
-                                  <span>{rate}%</span>
-                                  <X className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+
+                                      // Directly call onChange with updated values
+                                      const currentValues = form.getValues();
+                                      onChange({
+                                        loanAmount: currentValues.loanAmount,
+                                        interestRates:
+                                          currentValues.interestRates,
+                                        amortizationRates:
+                                          currentValues.amortizationRates,
+                                        customInterestRates: newCustomRates,
+                                      });
+
+                                      // Check validation after removing custom rate
+                                      if (
+                                        !hasValidLoan({
+                                          amount: currentValues.loanAmount,
+                                          interestRates:
+                                            currentValues.interestRates,
+                                          amortizationRates:
+                                            currentValues.amortizationRates,
+                                          customInterestRates: newCustomRates,
+                                        })
+                                      ) {
+                                        setShowValidationError(true);
+                                      } else {
+                                        setShowValidationError(false);
+                                      }
+                                    }}
+                                    aria-label={t("remove_custom_rate", {
+                                      rate,
+                                    })}
+                                  >
+                                    {rate}%
+                                  </span>
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                      const newCustomRates =
+                                        customInterestRates.filter(
+                                          (_, i) => i !== index
+                                        );
+                                      form.setValue(
+                                        "customInterestRates",
+                                        newCustomRates
+                                      );
+
+                                      // Directly call onChange with updated values
+                                      const currentValues = form.getValues();
+                                      onChange({
+                                        loanAmount: currentValues.loanAmount,
+                                        interestRates:
+                                          currentValues.interestRates,
+                                        amortizationRates:
+                                          currentValues.amortizationRates,
+                                        customInterestRates: newCustomRates,
+                                      });
+
+                                      // Check validation after removing custom rate
+                                      if (
+                                        !hasValidLoan({
+                                          amount: currentValues.loanAmount,
+                                          interestRates:
+                                            currentValues.interestRates,
+                                          amortizationRates:
+                                            currentValues.amortizationRates,
+                                          customInterestRates: newCustomRates,
+                                        })
+                                      ) {
+                                        setShowValidationError(true);
+                                      } else {
+                                        setShowValidationError(false);
+                                      }
+                                    }}
+                                    className="h-4 w-4 p-0 hover:bg-red-500/20"
+                                    aria-label={t("remove_custom_rate", {
+                                      rate,
+                                    })}
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </Button>
                                 </div>
                               </motion.div>
                             ))}

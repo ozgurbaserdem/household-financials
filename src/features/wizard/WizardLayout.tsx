@@ -19,6 +19,7 @@ import {
   getStepIndexFromName,
 } from "@/utils/navigation";
 import { useAppSelector } from "@/store/hooks";
+import { hasValidLoan } from "@/lib/types";
 
 const WizardContext = createContext<WizardContextProps | undefined>(undefined);
 
@@ -110,11 +111,8 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
     // If no loan amount, always allow navigation
     if (loanParameters.amount === 0) return true;
 
-    // If loan amount > 0, require at least one rate of each type
-    return (
-      loanParameters.interestRates.length > 0 &&
-      loanParameters.amortizationRates.length > 0
-    );
+    // Use the helper function for validation
+    return hasValidLoan(loanParameters);
   };
 
   const goNext = () => {

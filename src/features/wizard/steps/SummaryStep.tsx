@@ -35,12 +35,14 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { formatCurrency, getNetIncome } from "@/lib/calculations";
+import { formatPercentage } from "@/lib/formatting";
 import { expenseCategories } from "@/data/expenseCategories";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { StepDescription } from "@/components/ui/step-description";
+import { hasValidLoan, getFirstInterestRate } from "@/lib/types";
 
 interface Row {
   label: string;
@@ -144,6 +146,9 @@ export function SummaryStep() {
       : undefined,
   ].filter((row): row is Row => row !== undefined);
 
+  // Get the first available interest rate using helper function
+  const firstInterestRate = getFirstInterestRate(loanParameters);
+
   const loanRows: Row[] = [
     {
       label: tSummary("loanAmount"),
@@ -152,7 +157,7 @@ export function SummaryStep() {
     },
     {
       label: tSummary("interestRates"),
-      value: loanParameters.interestRates[0] ?? 0,
+      value: firstInterestRate,
       icon: <TrendingUp className="w-4 h-4" />,
     },
     {
@@ -180,15 +185,11 @@ export function SummaryStep() {
   const totalIncome = incomeRows
     .filter((row) => row.label !== tSummary("currentBuffer"))
     .reduce((sum, row) => sum + (row.net || row.value), 0);
-  const hasLoan =
-    loanParameters.amount > 0 &&
-    loanParameters.interestRates.length > 0 &&
-    loanParameters.amortizationRates.length > 0;
+  const hasLoan = hasValidLoan(loanParameters);
+
   const monthlyPayment = hasLoan
     ? loanParameters.amount *
-      ((loanParameters.interestRates[0] + loanParameters.amortizationRates[0]) /
-        100 /
-        12)
+      ((firstInterestRate + loanParameters.amortizationRates[0]) / 100 / 12)
     : 0;
 
   const nonZeroExpenses = expenseTotals.filter((e) => e.total > 0);
@@ -448,7 +449,7 @@ export function SummaryStep() {
                         <Text className="font-medium text-white">
                           {row.label === tSummary("loanAmount")
                             ? formatCurrency(row.value)
-                            : `${row.value}%`}
+                            : formatPercentage(row.value)}
                         </Text>
                       </motion.div>
                     ))

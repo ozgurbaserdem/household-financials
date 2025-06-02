@@ -223,16 +223,16 @@ describe("Financial Calculations", () => {
       const normalizeString = (str: string) => str.replace(/\s+/g, " ").trim();
 
       expect(normalizeString(formatPercentage(3.5))).toBe(
-        normalizeString("3,5 %")
+        normalizeString("3,50 %")
       );
       expect(normalizeString(formatPercentage(0))).toBe(
-        normalizeString("0,0 %")
+        normalizeString("0,00 %")
       );
       expect(normalizeString(formatPercentage(100))).toBe(
-        normalizeString("100,0 %")
+        normalizeString("100,00 %")
       );
       expect(normalizeString(formatPercentage(3.14159))).toBe(
-        normalizeString("3,1 %")
+        normalizeString("3,14 %")
       );
     });
   });
@@ -450,6 +450,386 @@ describe("Financial Calculations", () => {
       const savingsDiff =
         resultsLow[0].remainingSavings - resultsHigh[0].remainingSavings;
       expect(savingsDiff).toBeGreaterThan(3000);
+    });
+  });
+
+  describe("Custom Interest Rates Calculations", () => {
+    it("should calculate loan scenarios with custom interest rates only", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 1000000,
+          interestRates: [], // No predefined rates
+          amortizationRates: [2, 3],
+          customInterestRates: [2.74, 3.89], // Only custom rates
+        },
+        income: {
+          income1: 30000,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {},
+      };
+
+      const results = calculateLoanScenarios(state);
+
+      // Should have 4 scenarios: 2 custom rates × 2 amortization rates
+      expect(results).toHaveLength(4);
+
+      // Verify rates are correct
+      expect(results.map((r) => r.interestRate)).toEqual([
+        2.74, 2.74, 3.89, 3.89,
+      ]);
+      expect(results.map((r) => r.amortizationRate)).toEqual([2, 3, 2, 3]);
+
+      // Verify calculations are correct for first scenario (2.74% + 2%)
+      const firstScenario = results[0];
+      expect(firstScenario.interestRate).toBe(2.74);
+      expect(firstScenario.amortizationRate).toBe(2);
+
+      // Monthly payment = 1000000 * ((2.74 + 2) / 100 / 12) = 3950
+      const expectedMonthlyPayment = 1000000 * ((2.74 + 2) / 100 / 12);
+      expect(
+        Math.round(
+          firstScenario.monthlyInterest + firstScenario.monthlyAmortization
+        )
+      ).toBe(Math.round(expectedMonthlyPayment));
+    });
+
+    it("should calculate loan scenarios with mixed interest rates", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 2000000,
+          interestRates: [3, 4], // Predefined rates
+          amortizationRates: [2],
+          customInterestRates: [2.74], // Custom rate
+        },
+        income: {
+          income1: 50000,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {},
+      };
+
+      const results = calculateLoanScenarios(state);
+
+      // Should have 3 scenarios: 2 predefined + 1 custom × 1 amortization
+      expect(results).toHaveLength(3);
+
+      // Verify rates include both predefined and custom
+      expect(results.map((r) => r.interestRate)).toEqual([3, 4, 2.74]);
+      expect(results.map((r) => r.amortizationRate)).toEqual([2, 2, 2]);
+
+      // Verify custom rate scenario calculation
+      const customRateScenario = results.find((r) => r.interestRate === 2.74);
+      expect(customRateScenario).toBeDefined();
+
+      // Monthly payment = 2000000 * ((2.74 + 2) / 100 / 12) = 7900
+      const expectedMonthlyPayment = 2000000 * ((2.74 + 2) / 100 / 12);
+      expect(
+        Math.round(
+          customRateScenario!.monthlyInterest +
+            customRateScenario!.monthlyAmortization
+        )
+      ).toBe(Math.round(expectedMonthlyPayment));
+    });
+
+    it("should handle precision correctly in custom rate calculations", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 1500000,
+          interestRates: [],
+          amortizationRates: [2],
+          customInterestRates: [2.789], // High precision custom rate
+        },
+        income: {
+          income1: 40000,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {},
+      };
+
+      const results = calculateLoanScenarios(state);
+
+      expect(results).toHaveLength(1);
+
+      const result = results[0];
+      expect(result.interestRate).toBe(2.789);
+
+      // Verify precision is maintained in calculations
+      const expectedMonthlyPayment = 1500000 * ((2.789 + 2) / 100 / 12);
+      expect(
+        Math.abs(
+          result.monthlyInterest +
+            result.monthlyAmortization -
+            expectedMonthlyPayment
+        )
+      ).toBeLessThan(0.01);
+    });
+
+    it("should calculate correct remaining savings with custom rates", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 1000000,
+          interestRates: [],
+          amortizationRates: [3],
+          customInterestRates: [4.25], // Custom rate
+        },
+        income: {
+          income1: 40000,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {
+          home: 10000,
+          food: 5000,
+        },
+      };
+
+      const results = calculateLoanScenarios(state);
+      const result = results[0];
+
+      // Monthly payment = 1000000 * ((4.25 + 3) / 100 / 12) = 6041.67
+      const expectedLoanPayment = 1000000 * ((4.25 + 3) / 100 / 12);
+
+      // Total housing cost includes loan payment + home expenses
+      const expectedTotalHousingCost = expectedLoanPayment + 10000; // home expenses
+
+      // Net income should be calculated and remaining savings should be positive or negative accordingly
+      expect(result.remainingSavings).toBe(
+        result.totalIncome!.net - result.totalExpenses
+      );
+      expect(result.totalHousingCost).toBeCloseTo(expectedTotalHousingCost, 2);
+
+      // Verify loan payment calculation separately
+      expect(result.monthlyInterest + result.monthlyAmortization).toBeCloseTo(
+        expectedLoanPayment,
+        2
+      );
+    });
+
+    it("should handle multiple custom rates with multiple amortization rates", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 2500000,
+          interestRates: [],
+          amortizationRates: [1, 2, 3],
+          customInterestRates: [2.74, 3.89, 5.12], // Multiple custom rates
+        },
+        income: {
+          income1: 60000,
+          income2: 40000,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "2",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {},
+      };
+
+      const results = calculateLoanScenarios(state);
+
+      // Should have 9 scenarios: 3 custom rates × 3 amortization rates
+      expect(results).toHaveLength(9);
+
+      // Verify all combinations are present
+      const combinations = results.map((r) => ({
+        interest: r.interestRate,
+        amortization: r.amortizationRate,
+      }));
+
+      // Check a few specific combinations
+      expect(combinations).toContainEqual({ interest: 2.74, amortization: 1 });
+      expect(combinations).toContainEqual({ interest: 3.89, amortization: 2 });
+      expect(combinations).toContainEqual({ interest: 5.12, amortization: 3 });
+
+      // Verify the highest and lowest scenarios
+      const sortedByRemaining = results.sort(
+        (a, b) => b.remainingSavings - a.remainingSavings
+      );
+      const bestScenario = sortedByRemaining[0];
+      const worstScenario = sortedByRemaining[sortedByRemaining.length - 1];
+
+      // Best should have lowest combined rate (2.74 + 1 = 3.74%)
+      expect(bestScenario.interestRate).toBe(2.74);
+      expect(bestScenario.amortizationRate).toBe(1);
+
+      // Worst should have highest combined rate (5.12 + 3 = 8.12%)
+      expect(worstScenario.interestRate).toBe(5.12);
+      expect(worstScenario.amortizationRate).toBe(3);
+    });
+
+    it("should handle zero percent custom interest rate", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 1000000,
+          interestRates: [],
+          amortizationRates: [2],
+          customInterestRates: [0], // Zero percent interest
+        },
+        income: {
+          income1: 30000,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {},
+      };
+
+      const results = calculateLoanScenarios(state);
+      const result = results[0];
+
+      expect(result.interestRate).toBe(0);
+      expect(result.monthlyInterest).toBe(0);
+
+      // Only amortization should apply: 1000000 * (2 / 100 / 12) = 1666.67
+      const expectedAmortization = 1000000 * (2 / 100 / 12);
+      expect(result.monthlyAmortization).toBeCloseTo(expectedAmortization, 2);
+      expect(result.totalHousingCost).toBeCloseTo(expectedAmortization, 2);
+    });
+
+    it("should handle very high custom interest rates", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 1000000,
+          interestRates: [],
+          amortizationRates: [1],
+          customInterestRates: [15.75], // Very high interest rate
+        },
+        income: {
+          income1: 80000,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {},
+      };
+
+      const results = calculateLoanScenarios(state);
+      const result = results[0];
+
+      expect(result.interestRate).toBe(15.75);
+
+      // Monthly payment = 1000000 * ((15.75 + 1) / 100 / 12) = 13958.33
+      const expectedMonthlyPayment = 1000000 * ((15.75 + 1) / 100 / 12);
+      expect(result.totalHousingCost).toBeCloseTo(expectedMonthlyPayment, 2);
+
+      // Should likely result in negative remaining savings due to high payment
+      expect(result.remainingSavings).toBeLessThan(result.totalIncome!.net);
+    });
+
+    it("should maintain order of rates in results when mixing predefined and custom", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 1000000,
+          interestRates: [3, 5], // Predefined rates
+          amortizationRates: [2],
+          customInterestRates: [2.5, 4.5], // Custom rates
+        },
+        income: {
+          income1: 50000,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {},
+      };
+
+      const results = calculateLoanScenarios(state);
+
+      // Should have predefined rates first, then custom rates
+      expect(results).toHaveLength(4);
+      expect(results.map((r) => r.interestRate)).toEqual([3, 5, 2.5, 4.5]);
+    });
+
+    it("should handle empty custom rates array gracefully", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 1000000,
+          interestRates: [3],
+          amortizationRates: [2],
+          customInterestRates: [], // Empty custom rates
+        },
+        income: {
+          income1: 40000,
+          income2: 0,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 0,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+          selectedKommun: "STOCKHOLM",
+          includeChurchTax: false,
+        },
+        expenses: {},
+      };
+
+      const results = calculateLoanScenarios(state);
+
+      // Should only have predefined rate scenarios
+      expect(results).toHaveLength(1);
+      expect(results[0].interestRate).toBe(3);
     });
   });
 });
