@@ -152,8 +152,8 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
         {/* Summary Stats - Only show when there are multiple scenarios */}
         {!isSingleScenario && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
             className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
           >

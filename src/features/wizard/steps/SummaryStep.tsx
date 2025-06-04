@@ -42,7 +42,6 @@ import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
-import { StepDescription } from "@/components/ui/step-description";
 import { hasValidLoan, getFirstInterestRate } from "@/lib/types";
 
 interface Row {
@@ -201,7 +200,6 @@ export function SummaryStep() {
 
   return (
     <>
-      <StepDescription stepKey="summary" />
       <Card gradient glass>
         <CardHeader>
           <CardIcon>
@@ -230,8 +228,8 @@ export function SummaryStep() {
         <CardContent>
           {/* Quick Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
           >
@@ -574,8 +572,8 @@ export function SummaryStep() {
 
           {/* Summary Box */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
             className="mt-6 p-4 glass rounded-xl border border-blue-500/20 focus-within:ring-2 focus-within:ring-blue-400/50 focus-within:border-blue-400/50"
             tabIndex={0}

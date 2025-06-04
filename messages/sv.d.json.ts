@@ -36,7 +36,8 @@ declare const messages: {
     "custom_interest_rate": "Anpassad räntesats",
     "custom_interest_rate_placeholder": "t.ex. 2,74",
     "add_custom_rate": "Lägg till anpassad ränta",
-    "remove_custom_rate": "Ta bort anpassad ränta {rate}%"
+    "remove_custom_rate": "Ta bort anpassad ränta {rate}%",
+    "multiple_rates_info": "Du kan välja flera ränte- och amorteringssatser för att jämföra olika scenarier i sista steget"
   },
   "dialog_hushallskalkyl": {
     "close": "Stäng",

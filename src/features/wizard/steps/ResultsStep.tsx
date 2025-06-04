@@ -13,7 +13,6 @@ import { Text } from "@/components/ui/text";
 import { useTranslations, useLocale } from "next-intl";
 import { formatCurrency, calculateLoanScenarios } from "@/lib/calculations";
 import { motion } from "framer-motion";
-import { StepDescription } from "@/components/ui/step-description";
 export function ResultsStep() {
   const loanParameters = useAppSelector((state) => state.loanParameters);
   const income = useAppSelector((state) => state.income);
@@ -48,7 +47,6 @@ export function ResultsStep() {
 
   return (
     <Box className="space-y-6">
-      <StepDescription stepKey="results" />
       <ResultsTable calculatorState={calculatorState} />
       <ExpenseBreakdown expenses={expenses} />
       <Forecast calculatorState={calculatorState} />
@@ -56,8 +54,8 @@ export function ResultsStep() {
       {/* Compound Interest CTA */}
       {monthlySavings > 0 && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
           <Card gradient glass className="overflow-hidden relative">

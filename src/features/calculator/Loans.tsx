@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/modern-card";
 import { CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { HandCoins, Percent, Calendar } from "lucide-react";
+import { HandCoins, Percent, Calendar, Info } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
+import { Text } from "@/components/ui/text";
 import { FormMessage as BaseFormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
@@ -375,6 +376,12 @@ export function Loans({ onChange, values }: LoansFormProps) {
                       <FormLabel className="text-lg text-gray-200">
                         {t("interest_rates")}
                       </FormLabel>
+                    </Box>
+                    <Box className="flex items-start gap-2 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 mb-2">
+                      <Info className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                      <Text className="text-sm text-blue-200">
+                        {t("multiple_rates_info")}
+                      </Text>
                     </Box>
                     <Box
                       className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-4"

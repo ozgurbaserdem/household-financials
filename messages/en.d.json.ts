@@ -23,7 +23,8 @@ declare const messages: {
     "custom_interest_rate": "Custom interest rate",
     "custom_interest_rate_placeholder": "e.g. 2.74",
     "add_custom_rate": "Add custom rate",
-    "remove_custom_rate": "Remove custom rate {rate}%"
+    "remove_custom_rate": "Remove custom rate {rate}%",
+    "multiple_rates_info": "You can choose multiple interest and amortization rates to compare different scenarios in the final step"
   },
   "dialog": {
     "close": "Close",

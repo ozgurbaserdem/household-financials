@@ -2,7 +2,6 @@ import React from "react";
 import { Loans } from "@/features/calculator/Loans";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { updateLoanParameters } from "@/store/slices/calculatorSlice";
-import { StepDescription } from "@/components/ui/step-description";
 
 export function LoansStep() {
   const dispatch = useAppDispatch();
@@ -10,7 +9,6 @@ export function LoansStep() {
 
   return (
     <>
-      <StepDescription stepKey="loans" />
       <Loans
         values={{
           loanAmount: loanParameters.amount,

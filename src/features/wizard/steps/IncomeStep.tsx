@@ -2,7 +2,6 @@ import React from "react";
 import { Income } from "@/features/calculator/Income";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { updateIncome } from "@/store/slices/calculatorSlice";
-import { StepDescription } from "@/components/ui/step-description";
 
 export function IncomeStep() {
   const dispatch = useAppDispatch();
@@ -10,7 +9,6 @@ export function IncomeStep() {
 
   return (
     <>
-      <StepDescription stepKey="income" />
       <Income
         values={{
           income1: income.income1,

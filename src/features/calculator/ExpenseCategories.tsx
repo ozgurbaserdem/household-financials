@@ -180,8 +180,8 @@ export function ExpenseCategories({
               className="space-y-4"
             >
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
                 className="glass rounded-xl border-0 overflow-hidden p-6"
               >
@@ -403,8 +403,8 @@ export function ExpenseCategories({
         </AnimatePresence>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
           className="mt-6 p-6 glass rounded-xl"
         >

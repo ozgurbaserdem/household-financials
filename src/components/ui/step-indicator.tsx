@@ -106,8 +106,8 @@ const StepIndicator = React.forwardRef<HTMLButtonElement, StepIndicatorProps>(
             ref={ref}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay }}
             className={cn(
               stepIndicatorVariants({ size, variant, state }),
