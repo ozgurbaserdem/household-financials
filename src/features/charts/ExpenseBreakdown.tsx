@@ -17,6 +17,7 @@ import { formatCurrency } from "@/lib/calculations";
 import { expenseCategories } from "@/data/expenseCategories";
 import type { ExpensesByCategory } from "@/lib/types";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
 interface ExpenseBreakdownProps {
   expenses: ExpensesByCategory;
@@ -44,6 +45,7 @@ const colors = [
 export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
   const t = useTranslations("expense_categories");
   const expenseBreakdownT = useTranslations("expense_breakdown");
+  const isMobile = useIsTouchDevice();
 
   const chartData: ChartData[] = expenseCategories
     .map((category, idx) => {
@@ -59,7 +61,7 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
 
   if (chartData.length === 0) {
     return (
-      <Card gradient glass delay={0.3}>
+      <Card gradient glass delay={0.3} animate={!isMobile}>
         <CardHeader>
           <CardIcon>
             <PieChartIcon className="w-6 h-6 text-indigo-400" />
@@ -135,7 +137,7 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
   };
 
   return (
-    <Card gradient glass delay={0.3}>
+    <Card gradient glass delay={0.3} animate={!isMobile}>
       <CardHeader>
         <CardIcon>
           <PieChartIcon className="w-6 h-6 text-indigo-400" />

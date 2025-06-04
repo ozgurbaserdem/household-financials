@@ -25,6 +25,7 @@ import { useMediaQuery } from "@/lib/useMediaQuery";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Box } from "@/components/ui/box";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
 const AreaChart = dynamic(() =>
   import("recharts").then((mod) => ({ default: mod.AreaChart }))
@@ -46,6 +47,7 @@ interface ForecastData {
 export function Forecast({ calculatorState }: ForecastProps) {
   const t = useTranslations("forecast");
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const isTouchDevice = useIsTouchDevice();
 
   const formatCompactCurrency = (value: number) => {
     if (value >= 1000000) {
@@ -172,7 +174,7 @@ export function Forecast({ calculatorState }: ForecastProps) {
   const off = gradientOffset();
 
   return (
-    <Card gradient glass delay={0.4}>
+    <Card gradient glass delay={0.4} animate={!isTouchDevice}>
       <CardHeader>
         <CardIcon>
           <HandCoins className="w-6 h-6 text-purple-400" />

@@ -21,6 +21,7 @@ import { Text } from "@/components/ui/text";
 import { motion } from "framer-motion";
 import { ResultCard } from "./ResultCard";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
 interface ResultsTableProps {
   calculatorState: CalculatorState;
@@ -91,6 +92,7 @@ const HEAD_CELLS: HeadCell[] = [
 export function ResultsTable({ calculatorState }: ResultsTableProps) {
   const t = useTranslations("results");
   const titleRef = useFocusOnMount();
+  const isMobile = useIsTouchDevice();
   const results = useMemo(
     () => calculateLoanScenarios(calculatorState),
     [calculatorState]
@@ -123,7 +125,7 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
       ];
 
   return (
-    <Card gradient glass delay={0.3}>
+    <Card gradient glass delay={0.3} animate={!isMobile}>
       <CardHeader>
         <CardIcon>
           <BarChart3 className="w-6 h-6 text-blue-400" />
