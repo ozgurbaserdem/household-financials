@@ -170,7 +170,7 @@ export function Income({
     .reduce((sum, [, val]) => sum + (typeof val === "number" ? val : 0), 0);
 
   return (
-    <Card gradient glass animate={!isMobile}>
+    <Card gradient glass animate={!isMobile} hover={false}>
       <CardHeader>
         <CardIcon>
           <Wallet className="w-6 h-6 text-green-400" />

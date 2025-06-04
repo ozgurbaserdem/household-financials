@@ -110,7 +110,7 @@ export function ExpenseCategories({
   const grandTotal = calculateGrandTotal();
 
   return (
-    <Card gradient glass delay={0.2} animate={!isMobile}>
+    <Card gradient glass delay={0.2} animate={!isMobile} hover={false}>
       <CardHeader className="flex-col sm:flex-row">
         <Box className="flex items-start gap-4 flex-1 w-full sm:w-auto">
           <CardIcon>

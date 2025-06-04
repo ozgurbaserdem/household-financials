@@ -226,7 +226,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
   const paymentRange = calculatePaymentRange();
 
   return (
-    <Card gradient glass delay={0.1} animate={!isMobile}>
+    <Card gradient glass delay={0.1} animate={!isMobile} hover={false}>
       <CardHeader>
         <CardIcon>
           <HandCoins className="w-6 h-6 text-orange-400" />

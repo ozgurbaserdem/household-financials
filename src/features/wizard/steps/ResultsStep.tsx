@@ -65,6 +65,7 @@ export function ResultsStep() {
             glass
             className="overflow-hidden relative"
             animate={!isMobile}
+            hover={false}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
             <CardContent className="relative z-10 p-6">

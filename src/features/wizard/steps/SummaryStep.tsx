@@ -202,7 +202,7 @@ export function SummaryStep() {
 
   return (
     <>
-      <Card gradient glass animate={!isMobile}>
+      <Card gradient glass animate={!isMobile} hover={false}>
         <CardHeader>
           <CardIcon>
             <ListChecks className="w-6 h-6 text-purple-400" />

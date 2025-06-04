@@ -125,7 +125,7 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
       ];
 
   return (
-    <Card gradient glass delay={0.3} animate={!isMobile}>
+    <Card gradient glass delay={0.3} animate={!isMobile} hover={false}>
       <CardHeader>
         <CardIcon>
           <BarChart3 className="w-6 h-6 text-blue-400" />
