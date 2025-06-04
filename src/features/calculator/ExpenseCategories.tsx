@@ -41,6 +41,7 @@ import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory;
@@ -69,6 +70,7 @@ export function ExpenseCategories({
 }: ExpenseCategoriesProps) {
   const t = useTranslations("expense_categories");
   const titleRef = useFocusOnMount();
+  const isMobile = useIsTouchDevice();
   const dispatch = useAppDispatch();
   const expenseViewMode = useAppSelector((state) => state.expenseViewMode);
   const totalExpenses = useAppSelector((state) => state.totalExpenses);
@@ -108,7 +110,7 @@ export function ExpenseCategories({
   const grandTotal = calculateGrandTotal();
 
   return (
-    <Card gradient glass delay={0.2}>
+    <Card gradient glass delay={0.2} animate={!isMobile}>
       <CardHeader className="flex-col sm:flex-row">
         <Box className="flex items-start gap-4 flex-1 w-full sm:w-auto">
           <CardIcon>

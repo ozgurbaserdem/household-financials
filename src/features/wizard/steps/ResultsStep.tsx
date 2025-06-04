@@ -11,6 +11,7 @@ import { Link } from "@/i18n/navigation";
 import { TrendingUp, Calculator } from "lucide-react";
 import { Text } from "@/components/ui/text";
 import { useTranslations, useLocale } from "next-intl";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { formatCurrency, calculateLoanScenarios } from "@/lib/calculations";
 import { motion } from "framer-motion";
 export function ResultsStep() {
@@ -28,6 +29,7 @@ export function ResultsStep() {
   };
   const t = useTranslations("results");
   const locale = useLocale();
+  const isMobile = useIsTouchDevice();
 
   // Calculate loan scenarios and get the best scenario's remaining savings
   const loanScenarios = calculateLoanScenarios(calculatorState);
@@ -58,7 +60,7 @@ export function ResultsStep() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          <Card gradient glass className="overflow-hidden relative">
+          <Card gradient glass className="overflow-hidden relative" animate={!isMobile}>
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
             <CardContent className="relative z-10 p-6">
               <div className="flex flex-col lg:flex-row items-center gap-6">

@@ -42,6 +42,7 @@ import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { hasValidLoan, getFirstInterestRate } from "@/lib/types";
 
 interface Row {
@@ -63,6 +64,7 @@ export function SummaryStep() {
   const [showAllExpenses, setShowAllExpenses] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const titleRef = useFocusOnMount();
+  const isMobile = useIsTouchDevice();
 
   const incomeIcons: Record<string, React.ReactNode> = {
     income1: <Briefcase className="w-4 h-4" />,
@@ -200,7 +202,7 @@ export function SummaryStep() {
 
   return (
     <>
-      <Card gradient glass>
+      <Card gradient glass animate={!isMobile}>
         <CardHeader>
           <CardIcon>
             <ListChecks className="w-6 h-6 text-purple-400" />

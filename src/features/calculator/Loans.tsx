@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { Plus, X } from "lucide-react";
 import {
   hasInterestRates,
@@ -94,6 +95,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
 
   const t = useTranslations("loan_parameters");
   const titleRef = useFocusOnMount();
+  const isMobile = useIsTouchDevice();
 
   useEffect(() => {
     // Skip the first render and when user is toggling
@@ -224,7 +226,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
   const paymentRange = calculatePaymentRange();
 
   return (
-    <Card gradient glass delay={0.1}>
+    <Card gradient glass delay={0.1} animate={!isMobile}>
       <CardHeader>
         <CardIcon>
           <HandCoins className="w-6 h-6 text-orange-400" />

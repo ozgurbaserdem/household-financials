@@ -36,6 +36,7 @@ import {
 import kommunalskattData from "@/data/kommunalskatt_2025.json";
 import type { KommunData } from "@/lib/types";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
 const formSchema = z.object({
   income1: z.number().min(0),
@@ -86,6 +87,7 @@ export function Income({
   const t = useTranslations("income");
   const titleRef = useFocusOnMount();
   const kommunList = kommunalskattData as KommunData[];
+  const isMobile = useIsTouchDevice();
 
   useEffect(() => {
     if (values) {
@@ -168,7 +170,7 @@ export function Income({
     .reduce((sum, [, val]) => sum + (typeof val === "number" ? val : 0), 0);
 
   return (
-    <Card gradient glass>
+    <Card gradient glass animate={!isMobile}>
       <CardHeader>
         <CardIcon>
           <Wallet className="w-6 h-6 text-green-400" />
