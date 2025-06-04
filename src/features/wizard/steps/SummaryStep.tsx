@@ -148,7 +148,11 @@ export function SummaryStep() {
       : undefined,
   ].filter((row): row is Row => row !== undefined);
 
-  // Get the first available interest rate using helper function
+  // Get all interest rates (standard + custom)
+  const allInterestRates = [
+    ...loanParameters.interestRates,
+    ...(loanParameters.customInterestRates || []),
+  ];
   const firstInterestRate = getFirstInterestRate(loanParameters);
 
   const loanRows: Row[] = [
@@ -156,16 +160,6 @@ export function SummaryStep() {
       label: tSummary("loanAmount"),
       value: loanParameters.amount,
       icon: <Home className="w-4 h-4" />,
-    },
-    {
-      label: tSummary("interestRates"),
-      value: firstInterestRate,
-      icon: <TrendingUp className="w-4 h-4" />,
-    },
-    {
-      label: tSummary("amortizationRates"),
-      value: loanParameters.amortizationRates[0] ?? 0,
-      icon: <Receipt className="w-4 h-4" />,
     },
   ];
 
@@ -431,29 +425,92 @@ export function SummaryStep() {
               <AccordionContent className="px-4 pb-4">
                 <Box className="space-y-3 pt-2">
                   {hasLoan ? (
-                    loanRows.map((row, i) => (
+                    <>
+                      {/* Loan Amount */}
+                      {loanRows.map((row, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.05 }}
+                          className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
+                        >
+                          <Box className="flex items-center gap-3">
+                            <Box className="p-1.5 rounded-md bg-gray-800/50">
+                              {row.icon}
+                            </Box>
+                            <Text className="text-sm text-gray-300">
+                              {row.label}
+                            </Text>
+                          </Box>
+                          <Text className="font-medium text-white">
+                            {formatCurrency(row.value)}
+                          </Text>
+                        </motion.div>
+                      ))}
+
+                      {/* Interest Rates */}
                       <motion.div
-                        key={i}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.05 }}
+                        transition={{ delay: 0.1 }}
                         className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
                       >
                         <Box className="flex items-center gap-3">
                           <Box className="p-1.5 rounded-md bg-gray-800/50">
-                            {row.icon}
+                            <TrendingUp className="w-4 h-4" />
                           </Box>
                           <Text className="text-sm text-gray-300">
-                            {row.label}
+                            {tSummary("interestRates")}
                           </Text>
                         </Box>
-                        <Text className="font-medium text-white">
-                          {row.label === tSummary("loanAmount")
-                            ? formatCurrency(row.value)
-                            : formatPercentage(row.value)}
-                        </Text>
+                        <Box className="flex flex-wrap gap-1.5 justify-end">
+                          {allInterestRates.map((rate, index) => (
+                            <motion.span
+                              key={index}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 0.1 + index * 0.05 }}
+                              className="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30"
+                            >
+                              {formatPercentage(rate)}
+                            </motion.span>
+                          ))}
+                        </Box>
                       </motion.div>
-                    ))
+
+                      {/* Amortization Rates */}
+                      <motion.div
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.15 }}
+                        className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
+                      >
+                        <Box className="flex items-center gap-3">
+                          <Box className="p-1.5 rounded-md bg-gray-800/50">
+                            <Receipt className="w-4 h-4" />
+                          </Box>
+                          <Text className="text-sm text-gray-300">
+                            {tSummary("amortizationRates")}
+                          </Text>
+                        </Box>
+                        <Box className="flex flex-wrap gap-1.5 justify-end">
+                          {loanParameters.amortizationRates.map(
+                            (rate, index) => (
+                              <motion.span
+                                key={index}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.15 + index * 0.05 }}
+                                className="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full border border-purple-400/30"
+                              >
+                                {formatPercentage(rate)}
+                              </motion.span>
+                            )
+                          )}
+                        </Box>
+                      </motion.div>
+                    </>
                   ) : (
                     <Text className="text-sm text-gray-400 text-center py-4">
                       {tSummary("no_loan")}

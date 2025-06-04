@@ -29,6 +29,13 @@ vi.mock("framer-motion", () => ({
       children: React.ReactNode;
       [key: string]: unknown;
     }) => <p {...props}>{children}</p>,
+    span: ({
+      children,
+      ...props
+    }: {
+      children: React.ReactNode;
+      [key: string]: unknown;
+    }) => <span {...props}>{children}</span>,
   },
   AnimatePresence: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
