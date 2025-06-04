@@ -60,7 +60,12 @@ export function ResultsStep() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          <Card gradient glass className="overflow-hidden relative" animate={!isMobile}>
+          <Card
+            gradient
+            glass
+            className="overflow-hidden relative"
+            animate={!isMobile}
+          >
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
             <CardContent className="relative z-10 p-6">
               <div className="flex flex-col lg:flex-row items-center gap-6">
