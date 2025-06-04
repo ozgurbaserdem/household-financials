@@ -20,6 +20,8 @@ import {
 } from "@/utils/navigation";
 import { useAppSelector } from "@/store/hooks";
 import { hasValidLoan } from "@/lib/types";
+import { AnimatePresence, motion } from "framer-motion";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
 const WizardContext = createContext<WizardContextProps | undefined>(undefined);
 
@@ -34,6 +36,8 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
   const searchParams = useSearchParams();
   const t = useTranslations("wizard");
   const isSyncingRef = useRef(false);
+  const isMobile = useIsTouchDevice();
+  const [direction, setDirection] = useState(0);
 
   // Initialize stepIndex from URL to prevent flash
   const [stepIndex, setStepIndex] = useState(() => {
@@ -57,6 +61,7 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
       const idx = getStepIndexFromName(stepName, steps);
       if (idx >= 0 && idx < steps.length && idx !== stepIndex) {
         isSyncingRef.current = true;
+        setDirection(idx > stepIndex ? 1 : -1);
         setStepIndex(idx);
         setTimeout(() => {
           isSyncingRef.current = false;
@@ -121,16 +126,21 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
       // Don't navigate if validation fails
       return;
     }
+    setDirection(1);
     setStepIndex((i) => Math.min(i + 1, steps.length - 1));
   };
 
-  const goBack = () => setStepIndex((i) => Math.max(i - 1, 0));
+  const goBack = () => {
+    setDirection(-1);
+    setStepIndex((i) => Math.max(i - 1, 0));
+  };
 
   const handleStepClick = (idx: number) => {
     // If trying to navigate past loans step, validate
     if (stepIndex === 1 && idx > 1 && !canNavigateFromLoans()) {
       return;
     }
+    setDirection(idx > stepIndex ? 1 : -1);
     setStepIndex(idx);
   };
 
@@ -150,7 +160,45 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
           currentStep={stepIndex}
           onStepClick={handleStepClick}
         />
-        <Box className="mt-6">{steps[stepIndex].component}</Box>
+        <Box className="mt-6 relative overflow-hidden">
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={stepIndex}
+              initial={
+                isMobile
+                  ? {
+                      x: direction > 0 ? 100 : -100,
+                      opacity: 0,
+                    }
+                  : { opacity: 0 }
+              }
+              animate={{
+                x: 0,
+                opacity: 1,
+              }}
+              exit={
+                isMobile
+                  ? {
+                      x: direction > 0 ? -100 : 100,
+                      opacity: 0,
+                    }
+                  : { opacity: 0 }
+              }
+              transition={{
+                x: {
+                  duration: 0.25,
+                  ease: [0.25, 0.1, 0.25, 1],
+                },
+                opacity: {
+                  duration: 0.2,
+                  ease: "easeOut",
+                },
+              }}
+            >
+              {steps[stepIndex].component}
+            </motion.div>
+          </AnimatePresence>
+        </Box>
         <Box
           className={`flex mt-6 ${stepIndex === 0 ? "justify-end" : "justify-between"}`}
         >
