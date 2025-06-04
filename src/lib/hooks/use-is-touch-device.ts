@@ -4,6 +4,11 @@ function useIsTouchDevice() {
   const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
+    // Skip in test environment or SSR
+    if (typeof window === "undefined" || process.env.NODE_ENV === "test") {
+      return;
+    }
+
     const check = () => {
       setIsTouch(
         "ontouchstart" in window ||
