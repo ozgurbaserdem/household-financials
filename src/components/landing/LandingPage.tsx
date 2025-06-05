@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { getStepParam } from "@/utils/navigation";
 import { CalculatorPreviews } from "./CalculatorPreviews";
+import { XIcon } from "@/components/ui/x-icon";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -439,7 +440,20 @@ export function LandingPage() {
             className="mt-20 pt-12 border-t border-gray-800/50"
             variants={itemVariants}
           >
-            <p className="text-gray-500 text-sm">{t("footer.copyright")}</p>
+            <div className="flex flex-col items-center space-y-4">
+              <div className="flex items-center space-x-6">
+                <a
+                  href="https://x.com/budgetkollen"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors duration-200 group"
+                  aria-label={t("footer.follow_x")}
+                >
+                  <XIcon className="w-6 h-6 group-hover:scale-110 transition-transform duration-200" />
+                </a>
+              </div>
+              <p className="text-gray-500 text-sm">{t("footer.copyright")}</p>
+            </div>
           </motion.div>
         </motion.section>
       </motion.div>

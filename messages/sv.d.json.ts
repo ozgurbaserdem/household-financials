@@ -519,7 +519,8 @@ declare const messages: {
       "button": "Kom igång"
     },
     "footer": {
-      "copyright": "© 2024 BudgetKollen. Alla rättigheter förbehållna."
+      "copyright": "© 2024 BudgetKollen. Alla rättigheter förbehållna.",
+      "follow_x": "Följ oss på X (Twitter)"
     },
     "scrollIndicator": "Scrolla för mer",
     "other_calculators": {

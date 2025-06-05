@@ -527,7 +527,8 @@ declare const messages: {
       "button": "Get started"
     },
     "footer": {
-      "copyright": "© 2024 BudgetKollen. All rights reserved."
+      "copyright": "© 2024 BudgetKollen. All rights reserved.",
+      "follow_x": "Follow us on X (Twitter)"
     },
     "scrollIndicator": "Scroll for more",
     "other_calculators": {
