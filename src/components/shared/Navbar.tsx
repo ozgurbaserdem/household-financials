@@ -45,7 +45,11 @@ export function Navbar() {
             <NavigationMenu className="relative z-10">
               <NavigationMenuList className="flex items-center gap-2">
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="group inline-flex items-center gap-1 px-4 py-2 rounded-lg font-medium glass hover:bg-white/10 transition-all duration-200">
+                  <NavigationMenuTrigger
+                    className="group inline-flex items-center gap-1 px-4 py-2 rounded-lg font-medium glass hover:bg-white/10 transition-all duration-200"
+                    onPointerEnter={(event) => event.preventDefault()}
+                    onPointerLeave={(event) => event.preventDefault()}
+                  >
                     <span className="text-gray-300 group-hover:text-white">
                       {t("articles")}
                     </span>

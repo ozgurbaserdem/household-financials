@@ -331,7 +331,7 @@ export function CompoundInterestCalculator() {
                 className="mt-6 space-y-6"
               >
                 {/* Annual Savings Increase */}
-                <div className="space-y-2">
+                <div className="space-y-2 lg:flex-1">
                   <Label className="text-sm font-medium text-gray-200 block">
                     Årlig ökning av sparande
                   </Label>
@@ -407,7 +407,7 @@ export function CompoundInterestCalculator() {
                       className="space-y-4 pl-2"
                     >
                       {/* Withdrawal Type Selector */}
-                      <div className="space-y-2">
+                      <div className="space-y-2 lg:flex-1">
                         <Label className="text-xs font-medium text-gray-300">
                           Hur vill du göra ditt uttag?
                         </Label>
@@ -446,7 +446,7 @@ export function CompoundInterestCalculator() {
                       </div>
 
                       {/* Withdrawal Year */}
-                      <div className="space-y-2">
+                      <div className="space-y-2 lg:flex-1">
                         <Label className="text-xs font-medium text-gray-300">
                           När ska uttaget ske?
                         </Label>
@@ -484,7 +484,7 @@ export function CompoundInterestCalculator() {
 
                       {/* Withdrawal Amount/Percentage */}
                       {inputs.withdrawalType === "percentage" ? (
-                        <div className="space-y-2">
+                        <div className="space-y-2 lg:flex-1">
                           <Label className="text-xs font-medium text-gray-300">
                             Uttag per år (%)
                           </Label>
@@ -520,7 +520,7 @@ export function CompoundInterestCalculator() {
                           </div>
                         </div>
                       ) : (
-                        <div className="space-y-2">
+                        <div className="space-y-2 lg:flex-1">
                           <Label className="text-xs font-medium text-gray-300">
                             Uttag per år i kronor
                           </Label>
@@ -613,9 +613,9 @@ export function CompoundInterestCalculator() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1 }}
-              className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 min-h-[140px] flex flex-col"
+              className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
             >
-              <div className="flex-1 space-y-2">
+              <div className="space-y-2 lg:flex-1">
                 <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
                   Totalt portföljvärde (utan uttag)
                 </Text>
@@ -623,7 +623,7 @@ export function CompoundInterestCalculator() {
                   {formatCurrencyNoDecimals(finalValues.theoreticalTotalValue)}
                 </Text>
               </div>
-              <div className="w-full h-1 bg-gray-700 rounded-full mt-4">
+              <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
                   className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
                   style={{ width: "100%" }}
@@ -636,9 +636,9 @@ export function CompoundInterestCalculator() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 min-h-[140px] flex flex-col"
+              className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
             >
-              <div className="flex-1 space-y-2">
+              <div className="space-y-2 lg:flex-1">
                 <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.total_value")} (efter uttag)
                 </Text>
@@ -646,7 +646,7 @@ export function CompoundInterestCalculator() {
                   {formatCurrencyNoDecimals(finalValues.totalValue)}
                 </Text>
               </div>
-              <div className="w-full h-1 bg-gray-700 rounded-full mt-4">
+              <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
                   className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
                   style={{
@@ -660,9 +660,9 @@ export function CompoundInterestCalculator() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 }}
-              className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-blue-900/20 to-blue-800/20 hover:from-blue-900/30 hover:to-blue-800/30 transition-all duration-300 min-h-[140px] flex flex-col"
+              className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-blue-900/20 to-blue-800/20 hover:from-blue-900/30 hover:to-blue-800/30 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
             >
-              <div className="flex-1 space-y-2">
+              <div className="space-y-2 lg:flex-1">
                 <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.start_sum")}
                 </Text>
@@ -670,7 +670,7 @@ export function CompoundInterestCalculator() {
                   {formatCurrencyNoDecimals(finalValues.startSum)}
                 </Text>
               </div>
-              <div className="w-full h-1 bg-gray-700 rounded-full mt-4">
+              <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
                   className="h-full bg-blue-400 rounded-full"
                   style={{
@@ -684,9 +684,9 @@ export function CompoundInterestCalculator() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4 }}
-              className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-green-900/20 to-green-800/20 hover:from-green-900/30 hover:to-green-800/30 transition-all duration-300 min-h-[140px] flex flex-col"
+              className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-green-900/20 to-green-800/20 hover:from-green-900/30 hover:to-green-800/30 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
             >
-              <div className="flex-1 space-y-2">
+              <div className="space-y-2 lg:flex-1">
                 <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.total_savings")}
                 </Text>
@@ -694,7 +694,7 @@ export function CompoundInterestCalculator() {
                   {formatCurrencyNoDecimals(finalValues.totalSavings)}
                 </Text>
               </div>
-              <div className="w-full h-1 bg-gray-700 rounded-full mt-4">
+              <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
                   className="h-full bg-green-400 rounded-full"
                   style={{
@@ -708,9 +708,9 @@ export function CompoundInterestCalculator() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 }}
-              className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-purple-900/20 to-purple-800/20 hover:from-purple-900/30 hover:to-purple-800/30 transition-all duration-300 min-h-[140px] flex flex-col"
+              className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-purple-900/20 to-purple-800/20 hover:from-purple-900/30 hover:to-purple-800/30 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
             >
-              <div className="flex-1 space-y-2">
+              <div className="space-y-2 lg:flex-1">
                 <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.compound_returns")}
                 </Text>
@@ -718,7 +718,7 @@ export function CompoundInterestCalculator() {
                   {formatCurrencyNoDecimals(finalValues.totalReturns)}
                 </Text>
               </div>
-              <div className="w-full h-1 bg-gray-700 rounded-full mt-4">
+              <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
                   className="h-full bg-purple-400 rounded-full"
                   style={{
@@ -734,9 +734,9 @@ export function CompoundInterestCalculator() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6 }}
-                className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-red-900/20 to-red-800/20 hover:from-red-900/30 hover:to-red-800/30 transition-all duration-300 min-h-[140px] flex flex-col"
+                className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-red-900/20 to-red-800/20 hover:from-red-900/30 hover:to-red-800/30 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
               >
-                <div className="flex-1 space-y-2">
+                <div className="space-y-2 lg:flex-1">
                   <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                     Totalt uttaget
                   </Text>
@@ -744,7 +744,7 @@ export function CompoundInterestCalculator() {
                     {formatCurrencyNoDecimals(finalValues.totalWithdrawn)}
                   </Text>
                 </div>
-                <div className="w-full h-1 bg-gray-700 rounded-full mt-4">
+                <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                   <div
                     className="h-full bg-red-400 rounded-full"
                     style={{
