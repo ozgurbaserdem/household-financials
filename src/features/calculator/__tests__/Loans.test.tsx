@@ -36,6 +36,7 @@ describe("Loans", () => {
           interestRates: [],
           amortizationRates: [],
           customInterestRates: [],
+          hasLoan: false,
         }}
       />
     );
@@ -55,6 +56,7 @@ describe("Loans", () => {
           interestRates: [],
           amortizationRates: [],
           customInterestRates: [],
+          hasLoan: false,
         }}
       />
     );
@@ -63,13 +65,14 @@ describe("Loans", () => {
     const hasLoanButton = screen.getByRole("button", { name: "has_loan" });
     fireEvent.click(hasLoanButton);
 
-    // Should call onChange with default values
+    // Should call onChange with previous loan amount (0) and hasLoan: true
     await waitFor(() => {
       expect(mockOnChange).toHaveBeenCalledWith({
-        loanAmount: 1000000,
-        interestRates: [3],
-        amortizationRates: [3],
+        loanAmount: 0,
+        interestRates: [],
+        amortizationRates: [],
         customInterestRates: [],
+        hasLoan: true,
       });
     });
 
@@ -86,6 +89,7 @@ describe("Loans", () => {
           interestRates: [4, 5],
           amortizationRates: [2, 3],
           customInterestRates: [],
+          hasLoan: true,
         }}
       />
     );
@@ -101,6 +105,7 @@ describe("Loans", () => {
         interestRates: [],
         amortizationRates: [],
         customInterestRates: [],
+        hasLoan: false,
       });
     });
 
@@ -119,6 +124,7 @@ describe("Loans", () => {
           interestRates: [4],
           amortizationRates: [2],
           customInterestRates: [],
+          hasLoan: true,
         }}
       />
     );
@@ -135,6 +141,7 @@ describe("Loans", () => {
           interestRates: [],
           amortizationRates: [],
           customInterestRates: [],
+          hasLoan: false,
         }}
       />
     );
@@ -148,7 +155,7 @@ describe("Loans", () => {
     });
   });
 
-  it("shows validation error when loan amount is entered but no rates selected", async () => {
+  it("allows entering loan amount without rates (validation handled by wizard)", async () => {
     render(
       <Loans
         onChange={mockOnChange}
@@ -157,6 +164,7 @@ describe("Loans", () => {
           interestRates: [],
           amortizationRates: [],
           customInterestRates: [],
+          hasLoan: false,
         }}
       />
     );
@@ -168,13 +176,20 @@ describe("Loans", () => {
     const loanInput = screen.getByLabelText(/loan_amount_aria/i);
     fireEvent.change(loanInput, { target: { value: "1500000" } });
 
-    // Validation error should appear
+    // Should call onChange with loan amount even without rates
+    // (validation is now handled at wizard level, not form level)
     await waitFor(() => {
-      expect(screen.getByText("validation_rates_required")).toBeInTheDocument();
+      expect(mockOnChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          loanAmount: 1500000,
+          interestRates: [],
+          amortizationRates: [],
+        })
+      );
     });
   });
 
-  it("clears validation error when rates are selected", async () => {
+  it("allows selecting rates after entering loan amount", async () => {
     render(
       <Loans
         onChange={mockOnChange}
@@ -183,6 +198,7 @@ describe("Loans", () => {
           interestRates: [],
           amortizationRates: [],
           customInterestRates: [],
+          hasLoan: false,
         }}
       />
     );
@@ -190,13 +206,17 @@ describe("Loans", () => {
     // First toggle to has loan
     fireEvent.click(screen.getByRole("button", { name: "has_loan" }));
 
-    // Enter loan amount to trigger validation
+    // Enter loan amount
     const loanInput = screen.getByLabelText(/loan_amount_aria/i);
     fireEvent.change(loanInput, { target: { value: "1000000" } });
 
-    // Should show validation error after entering amount without rates
+    // Should allow entering amount without immediate validation error
     await waitFor(() => {
-      expect(screen.getByText("validation_rates_required")).toBeInTheDocument();
+      expect(mockOnChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          loanAmount: 1000000,
+        })
+      );
     });
 
     // Select interest rate
@@ -207,11 +227,9 @@ describe("Loans", () => {
     const amortizationRate = screen.getAllByText("2%")[0];
     fireEvent.click(amortizationRate.parentElement!);
 
-    // Validation error should disappear
+    // Should allow selection of rates
     await waitFor(() => {
-      expect(
-        screen.queryByText("validation_rates_required")
-      ).not.toBeInTheDocument();
+      expect(mockOnChange).toHaveBeenCalledTimes(4); // initial, loan amount, interest, amortization
     });
   });
 
@@ -224,6 +242,7 @@ describe("Loans", () => {
           interestRates: [3],
           amortizationRates: [2],
           customInterestRates: [],
+          hasLoan: true,
         }}
       />
     );
@@ -242,6 +261,7 @@ describe("Loans", () => {
       interestRates: [3.5, 4],
       amortizationRates: [2, 3],
       customInterestRates: [],
+      hasLoan: true,
     };
 
     render(<Loans onChange={mockOnChange} values={initialValues} />);
@@ -270,6 +290,7 @@ describe("Loans", () => {
           interestRates: [],
           amortizationRates: [],
           customInterestRates: [],
+          hasLoan: true,
         }}
       />
     );
@@ -314,6 +335,7 @@ describe("Loans", () => {
           interestRates: [],
           amortizationRates: [],
           customInterestRates: [],
+          hasLoan: false,
         }}
       />
     );
@@ -338,6 +360,7 @@ describe("Loans", () => {
             interestRates: [3],
             amortizationRates: [2],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -360,6 +383,7 @@ describe("Loans", () => {
             interestRates: [2, 4], // 2% and 4%
             amortizationRates: [1, 3], // 1% and 3%
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -384,6 +408,7 @@ describe("Loans", () => {
             interestRates: [],
             amortizationRates: [],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -405,6 +430,7 @@ describe("Loans", () => {
             interestRates: [3],
             amortizationRates: [2],
             customInterestRates: [],
+            hasLoan: false,
           }}
         />
       );
@@ -426,6 +452,7 @@ describe("Loans", () => {
             interestRates: [1, 2, 3], // 1%, 2%, 3%
             amortizationRates: [0, 1, 2], // 0%, 1%, 2%
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -450,6 +477,7 @@ describe("Loans", () => {
             interestRates: [],
             amortizationRates: [],
             customInterestRates: [],
+            hasLoan: false,
           }}
         />
       );
@@ -461,10 +489,11 @@ describe("Loans", () => {
       // Wait for the onChange to be called first
       await waitFor(() => {
         expect(mockOnChange).toHaveBeenCalledWith({
-          loanAmount: 1000000,
-          interestRates: [3],
-          amortizationRates: [3],
+          loanAmount: 0,
+          interestRates: [],
+          amortizationRates: [],
           customInterestRates: [],
+          hasLoan: true,
         });
       });
 
@@ -473,10 +502,11 @@ describe("Loans", () => {
         <Loans
           onChange={mockOnChange}
           values={{
-            loanAmount: 1000000,
-            interestRates: [3],
-            amortizationRates: [3],
+            loanAmount: 0,
+            interestRates: [],
+            amortizationRates: [],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -513,6 +543,7 @@ describe("Loans", () => {
             interestRates: [],
             amortizationRates: [],
             customInterestRates: [],
+            hasLoan: false,
           }}
         />
       );
@@ -524,10 +555,11 @@ describe("Loans", () => {
       // Wait for the onChange to be called first
       await waitFor(() => {
         expect(mockOnChange).toHaveBeenCalledWith({
-          loanAmount: 1000000,
-          interestRates: [3],
-          amortizationRates: [3],
+          loanAmount: 0,
+          interestRates: [],
+          amortizationRates: [],
           customInterestRates: [],
+          hasLoan: true,
         });
       });
 
@@ -536,10 +568,11 @@ describe("Loans", () => {
         <Loans
           onChange={mockOnChange}
           values={{
-            loanAmount: 1000000,
-            interestRates: [3],
-            amortizationRates: [3],
+            loanAmount: 0,
+            interestRates: [],
+            amortizationRates: [],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -580,6 +613,7 @@ describe("Loans", () => {
             interestRates: [],
             amortizationRates: [2],
             customInterestRates: [2.74, 3.89],
+            hasLoan: true,
           }}
         />
       );
@@ -600,6 +634,7 @@ describe("Loans", () => {
             interestRates: [],
             amortizationRates: [2],
             customInterestRates: [2.74, 3.89, 4.12],
+            hasLoan: true,
           }}
         />
       );
@@ -642,6 +677,7 @@ describe("Loans", () => {
             interestRates: [], // No predefined rates
             amortizationRates: [2],
             customInterestRates: [2.74], // Only custom rate
+            hasLoan: true,
           }}
         />
       );
@@ -655,7 +691,7 @@ describe("Loans", () => {
       expect(screen.getByText(/estimated_monthly_payment/)).toBeInTheDocument();
     });
 
-    it("should show validation error when removing last custom rate", async () => {
+    it("should allow removing last custom rate (validation handled by wizard)", async () => {
       render(
         <Loans
           onChange={mockOnChange}
@@ -664,6 +700,7 @@ describe("Loans", () => {
             interestRates: [], // No predefined rates
             amortizationRates: [2],
             customInterestRates: [2.74], // Only one custom rate
+            hasLoan: true,
           }}
         />
       );
@@ -685,11 +722,16 @@ describe("Loans", () => {
       // Remove the only custom rate
       fireEvent.click(removeButtons[0]);
 
-      // Should show validation error after removing the last rate
+      // Should allow removal (validation now happens at wizard level)
       await waitFor(() => {
-        expect(
-          screen.getByText("validation_rates_required")
-        ).toBeInTheDocument();
+        expect(mockOnChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            loanAmount: 1000000,
+            interestRates: [],
+            amortizationRates: [2],
+            customInterestRates: [],
+          })
+        );
       });
     });
 
@@ -702,6 +744,7 @@ describe("Loans", () => {
             interestRates: [3, 4], // 3% and 4% predefined
             amortizationRates: [2],
             customInterestRates: [2.74, 5.25], // Custom rates: 2.74% and 5.25%
+            hasLoan: true,
           }}
         />
       );
@@ -725,6 +768,7 @@ describe("Loans", () => {
             interestRates: [3],
             amortizationRates: [2],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -763,6 +807,7 @@ describe("Loans", () => {
             interestRates: [3],
             amortizationRates: [2],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -797,6 +842,7 @@ describe("Loans", () => {
             interestRates: [],
             amortizationRates: [2],
             customInterestRates: [2.74],
+            hasLoan: true,
           }}
         />
       );
@@ -825,6 +871,7 @@ describe("Loans", () => {
             interestRates: [], // No predefined rates initially
             amortizationRates: [],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -855,6 +902,7 @@ describe("Loans", () => {
             interestRates: [3],
             amortizationRates: [2],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -894,6 +942,7 @@ describe("Loans", () => {
             interestRates: [3], // Predefined rate
             amortizationRates: [2],
             customInterestRates: [2.74], // Custom rate is lower
+            hasLoan: true,
           }}
         />
       );
@@ -916,6 +965,7 @@ describe("Loans", () => {
             interestRates: [3, 4],
             amortizationRates: [2, 3],
             customInterestRates: [2.74, 5.25],
+            hasLoan: true,
           }}
         />
       );
@@ -938,6 +988,7 @@ describe("Loans", () => {
             interestRates: [3], // One predefined rate
             amortizationRates: [2],
             customInterestRates: [2.74], // One custom rate
+            hasLoan: true,
           }}
         />
       );
@@ -964,6 +1015,7 @@ describe("Loans", () => {
             interestRates: [3], // One predefined rate
             amortizationRates: [2],
             customInterestRates: [2.74], // One custom rate
+            hasLoan: true,
           }}
         />
       );
@@ -998,6 +1050,7 @@ describe("Loans", () => {
             interestRates: [3],
             amortizationRates: [2],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -1042,6 +1095,7 @@ describe("Loans", () => {
             interestRates: [3],
             amortizationRates: [2],
             customInterestRates: [],
+            hasLoan: true,
           }}
         />
       );
@@ -1079,6 +1133,7 @@ describe("Loans", () => {
             interestRates: [],
             amortizationRates: [2],
             customInterestRates: [2.74, 3.89],
+            hasLoan: true,
           }}
         />
       );

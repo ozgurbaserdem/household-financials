@@ -234,6 +234,19 @@
     "hushallskalkylTitle": "Household budget & calculator",
     "hushallskalkylDesc": "Easily create your household budget and calculator with Budgetkollen. Get full control of your finances and plan for the future.",
     "hushallskalkylCta": "Learn more",
+    "validation": {
+      "income_required": "Please enter at least one income source to continue",
+      "income_required_two_adults": "For two adults, at least one primary income is required",
+      "loan_amount_required": "Please enter a loan amount greater than 0 or select 'I have no loans'",
+      "loan_details_required": "When entering a loan amount, please provide interest rates and amortization rates",
+      "loan_interest_rate_required": "Please select at least one interest rate before proceeding",
+      "loan_amortization_rate_required": "Please select at least one amortization rate before proceeding",
+      "loan_both_rates_required": "Please select both interest and amortization rates before proceeding",
+      "expenses_required": "Please enter your monthly expenses to continue",
+      "expenses_required_simple": "Please enter total monthly expenses greater than 0",
+      "step_not_accessible": "Please complete the previous steps first",
+      "complete_previous_steps": "Complete previous steps to continue"
+    },
     "step_descriptions": {
       "income": {
         "description": "Enter all monthly income for your household. We automatically calculate net income after taxes based on your municipality."

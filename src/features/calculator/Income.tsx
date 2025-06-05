@@ -81,6 +81,7 @@ export function Income({
   const [showKommunDropdown, setShowKommunDropdown] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
     defaultValues: values,
   });
 

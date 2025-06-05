@@ -53,6 +53,7 @@ vi.mock("lucide-react", () => ({
   Check: () => <span>✓</span>,
   ChevronLeft: () => <span>←</span>,
   ChevronRight: () => <span>→</span>,
+  AlertCircle: () => <span>⚠</span>,
 }));
 
 // Mock navigation utils
@@ -125,6 +126,7 @@ describe("WizardLayout", () => {
         interestRates: [], // But no rates selected
         amortizationRates: [],
         customInterestRates: [],
+        hasLoan: true, // User explicitly said they have loan
       },
       expenses: {},
       expenseViewMode: "detailed" as const,
@@ -180,6 +182,7 @@ describe("WizardLayout", () => {
         interestRates: [],
         amortizationRates: [],
         customInterestRates: [],
+        hasLoan: false, // User explicitly said no loan
       },
       expenses: {},
       expenseViewMode: "detailed" as const,
@@ -238,6 +241,7 @@ describe("WizardLayout", () => {
         interestRates: [3, 4],
         amortizationRates: [2, 3],
         customInterestRates: [],
+        hasLoan: true, // User explicitly said they have loan
       },
       expenses: {},
       expenseViewMode: "detailed" as const,
@@ -278,7 +282,7 @@ describe("WizardLayout", () => {
     });
   });
 
-  it("allows navigation from income step even without income", async () => {
+  it("prevents navigation from income step when no income is provided", async () => {
     const store = createTestStore({
       income: {
         income1: 0, // No income
@@ -296,6 +300,7 @@ describe("WizardLayout", () => {
         interestRates: [],
         amortizationRates: [],
         customInterestRates: [],
+        hasLoan: false,
       },
       expenses: {},
       expenseViewMode: "detailed" as const,
@@ -323,16 +328,18 @@ describe("WizardLayout", () => {
     const nextButton = screen.getByText("next");
     fireEvent.click(nextButton);
 
-    // Should navigate to loans step (no validation on income)
+    // Should not navigate - income validation should prevent navigation
     await waitFor(() => {
-      expect(mockReplace).toHaveBeenCalledWith(
+      expect(mockReplace).not.toHaveBeenCalledWith(
         expect.objectContaining({
-          pathname: "/householdbudget",
           query: expect.objectContaining({
             steg: "lan",
           }),
         })
       );
     });
+
+    // Should show validation error
+    expect(screen.getByText("validation.income_required")).toBeInTheDocument();
   });
 });

@@ -5,9 +5,10 @@ import { DEFAULT_EXPENSES } from "@/data/expenseCategories";
 const initialState: CalculatorState = {
   loanParameters: {
     amount: 0,
-    interestRates: [3],
-    amortizationRates: [3],
+    interestRates: [],
+    amortizationRates: [],
     customInterestRates: [],
+    hasLoan: false,
   },
   income: {
     income1: 0,

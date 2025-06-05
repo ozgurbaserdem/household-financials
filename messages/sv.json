@@ -239,6 +239,19 @@
     "hushallskalkylTitle": "Hushållskalkyl & Hushållsbudget",
     "hushallskalkylDesc": "Skapa din hushållsbudget och hushållskalkyl enkelt med Budgetkollen. Få full kontroll över din ekonomi och planera för framtiden.",
     "hushallskalkylCta": "Läs mer",
+    "validation": {
+      "income_required": "Vänligen ange minst en inkomstkälla för att fortsätta",
+      "income_required_two_adults": "För två vuxna krävs minst en huvudinkomst",
+      "loan_amount_required": "Vänligen ange ett lånebelopp större än 0 eller välj 'Jag har inga lån'",
+      "loan_details_required": "När du anger ett lånebelopp, vänligen ange räntor och amorteringsräntor",
+      "loan_interest_rate_required": "Vänligen välj minst en ränta innan du fortsätter",
+      "loan_amortization_rate_required": "Vänligen välj minst en amorteringsränta innan du fortsätter",
+      "loan_both_rates_required": "Vänligen välj både räntor och amorteringsräntor innan du fortsätter",
+      "expenses_required": "Vänligen ange dina månatliga utgifter för att fortsätta",
+      "expenses_required_simple": "Vänligen ange totala månatliga utgifter större än 0",
+      "step_not_accessible": "Vänligen slutför de föregående stegen först",
+      "complete_previous_steps": "Slutför föregående steg för att fortsätta"
+    },
     "step_descriptions": {
       "income": {
         "description": "Ange alla månatliga inkomster för hushållet. Vi beräknar automatiskt nettoinkomsten efter skatt baserat på din kommun."

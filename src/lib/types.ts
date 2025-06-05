@@ -3,6 +3,7 @@ export interface LoanParameters {
   interestRates: number[];
   amortizationRates: number[];
   customInterestRates: number[];
+  hasLoan: boolean;
 }
 
 // Helper functions for loan parameters
@@ -104,12 +105,7 @@ export interface FinancialHealthScore {
 }
 
 export interface CalculatorState {
-  loanParameters: {
-    amount: number;
-    interestRates: number[];
-    amortizationRates: number[];
-    customInterestRates: number[];
-  };
+  loanParameters: LoanParameters;
   expenses: ExpensesByCategory;
   income: IncomeState;
   expenseViewMode: "detailed" | "simple";

@@ -5,6 +5,9 @@ import React, {
   useState,
   useRef,
 } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { ProgressStepper } from "./ProgressStepper";
 import { Box } from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
@@ -19,11 +22,22 @@ import {
   getStepIndexFromName,
 } from "@/utils/navigation";
 import { useAppSelector } from "@/store/hooks";
-import { hasValidLoan } from "@/lib/types";
+import {
+  getMaxAllowedStep,
+  canAccessStep,
+  getStepValidationErrorKey,
+  getCurrentStepValidationError,
+} from "@/lib/validation/stepValidation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import { Form, FormMessage } from "@/components/ui/form";
 
 const WizardContext = createContext<WizardContextProps | undefined>(undefined);
+
+// Schema for wizard-level validation
+const wizardValidationSchema = z.object({
+  wizard: z.string().optional(),
+});
 
 interface WizardLayoutProps {
   steps: WizardStepConfig[];
@@ -39,7 +53,19 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
   const isMobile = useIsTouchDevice();
   const [direction, setDirection] = useState(0);
 
+  // React Hook Form for wizard-level validation
+  const form = useForm<z.infer<typeof wizardValidationSchema>>({
+    resolver: zodResolver(wizardValidationSchema),
+    mode: "onChange",
+    defaultValues: {
+      wizard: undefined,
+    },
+  });
+
   // Initialize stepIndex from URL to prevent flash
+  // Get calculator state for validation
+  const calculatorState = useAppSelector((state) => state);
+
   const [stepIndex, setStepIndex] = useState(() => {
     const param = getStepParam(locale);
     const stepName = searchParams.get(param);
@@ -50,7 +76,41 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
     return 0;
   });
 
-  // Effect 1: Sync stepIndex from URL (only when URL/searchParams changes)
+  // Effect 1: Validate current step access and redirect if necessary
+  useEffect(() => {
+    if (isSyncingRef.current) return;
+
+    // Always validate if the current stepIndex is accessible
+    if (!canAccessStep(stepIndex, calculatorState)) {
+      const maxStep = getMaxAllowedStep(calculatorState);
+      const param = getStepParam(locale);
+      const redirectStepName = getStepName(steps[maxStep], locale);
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(param, redirectStepName);
+
+      isSyncingRef.current = true;
+      router.replace({
+        pathname,
+        query: Object.fromEntries(params.entries()),
+      });
+
+      setStepIndex(maxStep);
+      setTimeout(() => {
+        isSyncingRef.current = false;
+      }, 0);
+      return;
+    }
+  }, [
+    stepIndex,
+    calculatorState,
+    locale,
+    pathname,
+    router,
+    steps,
+    searchParams,
+  ]);
+
+  // Effect 2: Sync stepIndex from URL (only when URL/searchParams changes)
   useEffect(() => {
     if (isSyncingRef.current) return;
 
@@ -70,9 +130,9 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
     }
     // ESLint disabled: stepIndex is intentionally excluded to prevent circular dependency
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locale, searchParams, steps]);
+  }, [locale, searchParams, steps, pathname, router]);
 
-  // Effect 2: Sync URL from stepIndex (only when stepIndex changes)
+  // Effect 3: Sync URL from stepIndex (only when stepIndex changes)
   useEffect(() => {
     if (isSyncingRef.current) return;
 
@@ -97,7 +157,7 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
     }
   }, [stepIndex, locale, pathname, router, steps, searchParams]);
 
-  // Effect 3: Reset to step 1 when navigating to root path
+  // Effect 4: Reset to step 1 when navigating to root path
   useEffect(() => {
     // Check if we're on the root path without any step parameter
     const param = getStepParam(locale);
@@ -109,37 +169,62 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
     }
   }, [pathname, searchParams, stepIndex, locale]);
 
-  // Get loan state for validation
-  const loanParameters = useAppSelector((state) => state.loanParameters);
-
-  const canNavigateFromLoans = () => {
-    // If no loan amount, always allow navigation
-    if (loanParameters.amount === 0) return true;
-
-    // Use the helper function for validation
-    return hasValidLoan(loanParameters);
-  };
-
   const goNext = () => {
-    // Validate loan step before moving forward
-    if (stepIndex === 1 && !canNavigateFromLoans()) {
-      // Don't navigate if validation fails
+    const nextStep = Math.min(stepIndex + 1, steps.length - 1);
+
+    // Check if user can access the next step
+    if (!canAccessStep(nextStep, calculatorState)) {
+      // Set validation error using React Hook Form
+      const errorKey = getCurrentStepValidationError(
+        stepIndex,
+        calculatorState
+      );
+      if (errorKey) {
+        const message = t(
+          errorKey.replace("wizard.validation.", "validation.")
+        );
+        form.setError("wizard", {
+          type: "validation",
+          message,
+        });
+      }
       return;
     }
+
+    // Clear any validation errors when navigation succeeds
+    form.clearErrors("wizard");
+
     setDirection(1);
-    setStepIndex((i) => Math.min(i + 1, steps.length - 1));
+    setStepIndex(nextStep);
   };
 
   const goBack = () => {
+    // Clear any validation errors when going back
+    form.clearErrors("wizard");
+
     setDirection(-1);
     setStepIndex((i) => Math.max(i - 1, 0));
   };
 
   const handleStepClick = (idx: number) => {
-    // If trying to navigate past loans step, validate
-    if (stepIndex === 1 && idx > 1 && !canNavigateFromLoans()) {
+    // Check if user can access the target step
+    if (!canAccessStep(idx, calculatorState)) {
+      const errorKey = getStepValidationErrorKey(idx, calculatorState);
+      if (errorKey) {
+        const message = t(
+          errorKey.replace("wizard.validation.", "validation.")
+        );
+        form.setError("wizard", {
+          type: "validation",
+          message,
+        });
+      }
       return;
     }
+
+    // Clear any validation errors when navigation succeeds
+    form.clearErrors("wizard");
+
     setDirection(idx > stepIndex ? 1 : -1);
     setStepIndex(idx);
   };
@@ -154,68 +239,82 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
         steps,
       }}
     >
-      <Box className="max-w-5xl mx-auto w-full">
-        <ProgressStepper
-          steps={steps}
-          currentStep={stepIndex}
-          onStepClick={handleStepClick}
-        />
-        <Box className="mt-6 relative overflow-hidden">
-          <AnimatePresence mode="popLayout">
-            <motion.div
-              key={stepIndex}
-              initial={
-                isMobile
-                  ? {
-                      x: direction > 0 ? 100 : -100,
-                      opacity: 0,
-                    }
-                  : { opacity: 0 }
-              }
-              animate={{
-                x: 0,
-                opacity: 1,
-              }}
-              exit={
-                isMobile
-                  ? {
-                      x: direction > 0 ? -100 : 100,
-                      opacity: 0,
-                    }
-                  : { opacity: 0 }
-              }
-              transition={{
-                x: {
-                  duration: 0.25,
-                  ease: [0.25, 0.1, 0.25, 1],
-                },
-                opacity: {
-                  duration: 0.2,
-                  ease: "easeOut",
-                },
-              }}
+      <Form {...form}>
+        <Box className="max-w-5xl mx-auto w-full">
+          <ProgressStepper
+            steps={steps}
+            currentStep={stepIndex}
+            onStepClick={handleStepClick}
+          />
+          <Box className="mt-6 relative overflow-hidden">
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={stepIndex}
+                initial={
+                  isMobile
+                    ? {
+                        x: direction > 0 ? 100 : -100,
+                        opacity: 0,
+                      }
+                    : { opacity: 0 }
+                }
+                animate={{
+                  x: 0,
+                  opacity: 1,
+                }}
+                exit={
+                  isMobile
+                    ? {
+                        x: direction > 0 ? -100 : 100,
+                        opacity: 0,
+                      }
+                    : { opacity: 0 }
+                }
+                transition={{
+                  x: {
+                    duration: 0.25,
+                    ease: [0.25, 0.1, 0.25, 1],
+                  },
+                  opacity: {
+                    duration: 0.2,
+                    ease: "easeOut",
+                  },
+                }}
+              >
+                {steps[stepIndex].component}
+              </motion.div>
+            </AnimatePresence>
+          </Box>
+          <Box className="mt-6">
+            {/* Validation Message using React Hook Form */}
+            {form.formState.errors.wizard && (
+              <Box className="mb-4">
+                <FormMessage className="flex items-center gap-2 text-sm font-medium text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+                  {form.formState.errors.wizard.message}
+                </FormMessage>
+              </Box>
+            )}
+
+            {/* Navigation Buttons */}
+            <Box
+              className={`flex ${stepIndex === 0 ? "justify-end" : "justify-between"}`}
             >
-              {steps[stepIndex].component}
-            </motion.div>
-          </AnimatePresence>
+              {stepIndex > 0 && (
+                <Button onClick={goBack} variant="secondary">
+                  <ChevronLeft className="w-4 h-4 mr-1" />
+                  {t("back")}
+                </Button>
+              )}
+              {stepIndex < steps.length - 1 && (
+                <Button onClick={goNext} variant="gradient">
+                  {t("next")}
+                  <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+              )}
+            </Box>
+          </Box>
         </Box>
-        <Box
-          className={`flex mt-6 ${stepIndex === 0 ? "justify-end" : "justify-between"}`}
-        >
-          {stepIndex > 0 && (
-            <Button onClick={goBack} variant="secondary">
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              {t("back")}
-            </Button>
-          )}
-          {stepIndex < steps.length - 1 && (
-            <Button onClick={goNext} variant="gradient">
-              {t("next")}
-              <ChevronRight className="w-4 h-4 ml-1" />
-            </Button>
-          )}
-        </Box>
-      </Box>
+      </Form>
     </WizardContext.Provider>
   );
 }

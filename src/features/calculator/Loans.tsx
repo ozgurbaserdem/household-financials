@@ -30,11 +30,7 @@ import { Button } from "@/components/ui/button";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { Plus, X } from "lucide-react";
-import {
-  hasInterestRates,
-  getAllInterestRates,
-  hasValidLoan,
-} from "@/lib/types";
+import { getAllInterestRates, hasValidLoan } from "@/lib/types";
 
 const formSchema = z
   .object({
@@ -47,22 +43,27 @@ const formSchema = z
   })
   .refine(
     (data) => {
-      // If has loan and amount > 0, must have at least one rate of each type
-      if (data.hasLoan && data.loanAmount > 0) {
-        return (
-          hasInterestRates({
-            interestRates: data.interestRates,
-            customInterestRates: data.customInterestRates,
-            amount: data.loanAmount,
-            amortizationRates: data.amortizationRates,
-          }) && data.amortizationRates.length > 0
-        );
-      }
+      // If user says they have no loan, validation passes
+      if (!data.hasLoan) return true;
+
+      // If they have a loan, they must provide:
+      // 1. Loan amount > 0
+      if (data.loanAmount <= 0) return false;
+
+      // 2. At least one interest rate (preset or custom)
+      const hasInterestRate =
+        data.interestRates.length > 0 || data.customInterestRates.length > 0;
+      if (!hasInterestRate) return false;
+
+      // 3. At least one amortization rate
+      if (data.amortizationRates.length === 0) return false;
+
       return true;
     },
     {
-      message: "validation_rates_required",
-      path: ["interestRates"],
+      message:
+        "When you have loans, you must provide loan amount, interest rate, and amortization rate",
+      path: ["hasLoan"],
     }
   );
 
@@ -71,24 +72,26 @@ export type LoansFormValues = {
   interestRates: number[];
   amortizationRates: number[];
   customInterestRates: number[];
+  hasLoan: boolean;
 };
 
 interface LoansFormProps {
   onChange: (values: LoansFormValues) => void;
-  values?: LoansFormValues;
+  values: LoansFormValues;
 }
 
 export function Loans({ onChange, values }: LoansFormProps) {
-  const [showValidationError, setShowValidationError] = useState(false);
   const [isUserToggling, setIsUserToggling] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
     defaultValues: {
-      hasLoan: values?.loanAmount ? values.loanAmount > 0 : false,
-      loanAmount: values?.loanAmount ?? 0,
-      interestRates: values?.interestRates ?? [],
-      amortizationRates: values?.amortizationRates ?? [],
-      customInterestRates: values?.customInterestRates ?? [],
+      hasLoan: values.hasLoan,
+      loanAmount: values.loanAmount,
+      interestRates: values.interestRates,
+      amortizationRates: values.amortizationRates,
+      customInterestRates: values.customInterestRates,
       customInterestRate: undefined,
     },
   });
@@ -98,24 +101,27 @@ export function Loans({ onChange, values }: LoansFormProps) {
   const isMobile = useIsTouchDevice();
 
   useEffect(() => {
-    // Skip the first render and when user is toggling
-    if (values && !isUserToggling) {
-      // Only update form values, not the hasLoan state which is controlled by user interaction
+    // Initialize the form once with props values
+    if (!isInitialized) {
+      form.setValue("hasLoan", values.hasLoan);
+      form.setValue("loanAmount", values.loanAmount);
+      form.setValue("interestRates", values.interestRates);
+      form.setValue("amortizationRates", values.amortizationRates);
+      form.setValue("customInterestRates", values.customInterestRates);
+      setIsInitialized(true);
+    }
+    // After initialization, only sync non-hasLoan values when not toggling
+    else if (isInitialized && !isUserToggling) {
       form.setValue("loanAmount", values.loanAmount);
       form.setValue("interestRates", values.interestRates);
       form.setValue("amortizationRates", values.amortizationRates);
       form.setValue("customInterestRates", values.customInterestRates);
     }
-  }, [values, form, isUserToggling]);
+  }, [values, form, isUserToggling, isInitialized]);
   const handleFieldChange = (forceHasLoan?: boolean) => {
     const currentValues = form.getValues();
     const hasLoan =
       forceHasLoan !== undefined ? forceHasLoan : currentValues.hasLoan;
-
-    // Clear validation error when switching states
-    if (forceHasLoan !== undefined) {
-      setShowValidationError(false);
-    }
 
     // If no loan, reset values
     if (!hasLoan) {
@@ -124,65 +130,24 @@ export function Loans({ onChange, values }: LoansFormProps) {
         interestRates: [],
         amortizationRates: [],
         customInterestRates: [],
+        hasLoan: false,
       });
     } else {
-      // When switching to "has loan", use previous values or sensible defaults
-      const prevLoanAmount = values?.loanAmount || 0;
-      const defaultLoanAmount = prevLoanAmount > 0 ? prevLoanAmount : 1000000; // Default 1M SEK if no previous amount
+      // When switching to "has loan", use previous values or start with 0
+      const prevLoanAmount = values.loanAmount || 0;
 
-      // If we're just updating (not toggling), keep the current loan amount even if it's 0
+      // If we're just updating (not toggling), keep the current loan amount
+      // If toggling to "has loan", start with previous amount or 0
       const loanAmountToUse =
-        forceHasLoan === undefined
-          ? currentValues.loanAmount
-          : currentValues.loanAmount || defaultLoanAmount;
+        forceHasLoan === undefined ? currentValues.loanAmount : prevLoanAmount;
 
       onChange({
         loanAmount: loanAmountToUse,
-        interestRates:
-          currentValues.interestRates.length > 0
-            ? currentValues.interestRates
-            : values?.interestRates && values.interestRates.length > 0
-              ? values.interestRates
-              : // Only set default if no custom rates either
-                hasInterestRates({
-                    amount: 0,
-                    interestRates: [],
-                    amortizationRates: [],
-                    customInterestRates:
-                      currentValues.customInterestRates ||
-                      values?.customInterestRates ||
-                      [],
-                  })
-                ? []
-                : [3], // Default 3% if no rates selected
-        amortizationRates:
-          currentValues.amortizationRates.length > 0
-            ? currentValues.amortizationRates
-            : values?.amortizationRates && values.amortizationRates.length > 0
-              ? values.amortizationRates
-              : [3], // Default 3% if no rates selected
-        customInterestRates:
-          currentValues.customInterestRates &&
-          currentValues.customInterestRates.length > 0
-            ? currentValues.customInterestRates
-            : values?.customInterestRates || [],
+        interestRates: currentValues.interestRates,
+        amortizationRates: currentValues.amortizationRates,
+        customInterestRates: currentValues.customInterestRates || [],
+        hasLoan: true,
       });
-    }
-
-    // Only validate when updating loan amount or rates (not when toggling)
-    if (hasLoan && currentValues.loanAmount > 0 && forceHasLoan === undefined) {
-      if (
-        !hasValidLoan({
-          amount: currentValues.loanAmount,
-          interestRates: currentValues.interestRates,
-          amortizationRates: currentValues.amortizationRates,
-          customInterestRates: currentValues.customInterestRates || [],
-        })
-      ) {
-        setShowValidationError(true);
-      } else {
-        setShowValidationError(false);
-      }
     }
   };
 
@@ -200,6 +165,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
       interestRates,
       amortizationRates,
       customInterestRates: customInterestRates || [],
+      hasLoan: hasLoan,
     };
 
     const allInterestRates = getAllInterestRates(loanParams);
@@ -301,7 +267,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                             field.onChange(true);
                             handleFieldChange(true);
                             // Reset the flag after a short delay
-                            setTimeout(() => setIsUserToggling(false), 100);
+                            setTimeout(() => setIsUserToggling(false), 300);
                           }}
                           className="flex-1"
                         >
@@ -315,7 +281,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                             field.onChange(false);
                             handleFieldChange(false);
                             // Reset the flag after a short delay
-                            setTimeout(() => setIsUserToggling(false), 100);
+                            setTimeout(() => setIsUserToggling(false), 300);
                           }}
                           className="flex-1"
                         >
@@ -346,7 +312,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                             type="number"
                             min={0}
                             {...field}
-                            value={field.value === 0 ? "" : field.value}
+                            value={field.value || ""}
                             placeholder="0"
                             aria-label={t("loan_amount_aria")}
                             onChange={(e) => {
@@ -417,33 +383,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                                                 (r: number) => r !== rate
                                               );
                                           field.onChange(newValue);
-
-                                          // If we're removing the last interest rate but have custom rates, directly call onChange
-                                          if (
-                                            !checked &&
-                                            newValue.length === 0 &&
-                                            hasInterestRates({
-                                              amount: 0,
-                                              interestRates: [],
-                                              amortizationRates: [],
-                                              customInterestRates:
-                                                customInterestRates || [],
-                                            })
-                                          ) {
-                                            const currentValues =
-                                              form.getValues();
-                                            onChange({
-                                              loanAmount:
-                                                currentValues.loanAmount,
-                                              interestRates: newValue,
-                                              amortizationRates:
-                                                currentValues.amortizationRates,
-                                              customInterestRates:
-                                                currentValues.customInterestRates,
-                                            });
-                                          } else {
-                                            handleFieldChange();
-                                          }
+                                          handleFieldChange();
                                         }}
                                         className="sr-only"
                                       />
@@ -574,33 +514,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                                         "customInterestRates",
                                         newCustomRates
                                       );
-
-                                      // Directly call onChange with updated values
-                                      const currentValues = form.getValues();
-                                      onChange({
-                                        loanAmount: currentValues.loanAmount,
-                                        interestRates:
-                                          currentValues.interestRates,
-                                        amortizationRates:
-                                          currentValues.amortizationRates,
-                                        customInterestRates: newCustomRates,
-                                      });
-
-                                      // Check validation after removing custom rate
-                                      if (
-                                        !hasValidLoan({
-                                          amount: currentValues.loanAmount,
-                                          interestRates:
-                                            currentValues.interestRates,
-                                          amortizationRates:
-                                            currentValues.amortizationRates,
-                                          customInterestRates: newCustomRates,
-                                        })
-                                      ) {
-                                        setShowValidationError(true);
-                                      } else {
-                                        setShowValidationError(false);
-                                      }
+                                      handleFieldChange();
                                     }}
                                     aria-label={t("remove_custom_rate", {
                                       rate,
@@ -621,33 +535,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                                         "customInterestRates",
                                         newCustomRates
                                       );
-
-                                      // Directly call onChange with updated values
-                                      const currentValues = form.getValues();
-                                      onChange({
-                                        loanAmount: currentValues.loanAmount,
-                                        interestRates:
-                                          currentValues.interestRates,
-                                        amortizationRates:
-                                          currentValues.amortizationRates,
-                                        customInterestRates: newCustomRates,
-                                      });
-
-                                      // Check validation after removing custom rate
-                                      if (
-                                        !hasValidLoan({
-                                          amount: currentValues.loanAmount,
-                                          interestRates:
-                                            currentValues.interestRates,
-                                          amortizationRates:
-                                            currentValues.amortizationRates,
-                                          customInterestRates: newCustomRates,
-                                        })
-                                      ) {
-                                        setShowValidationError(true);
-                                      } else {
-                                        setShowValidationError(false);
-                                      }
+                                      handleFieldChange();
                                     }}
                                     className="h-4 w-4 p-0 hover:bg-red-500/20"
                                     aria-label={t("remove_custom_rate", {
@@ -716,21 +604,21 @@ export function Loans({ onChange, values }: LoansFormProps) {
                       ))}
                     </Box>
                   </Box>
-
-                  {/* Validation Error Message */}
-                  {showValidationError && loanAmount > 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20"
-                    >
-                      <p className="text-sm text-red-400">
-                        {t("validation_rates_required")}
-                      </p>
-                    </motion.div>
-                  )}
                 </motion.div>
               </>
+            )}
+
+            {/* Show any form-level validation errors */}
+            {form.formState.errors.root && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4"
+              >
+                <BaseFormMessage className="text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+                  {form.formState.errors.root.message}
+                </BaseFormMessage>
+              </motion.div>
             )}
           </form>
         </Form>
