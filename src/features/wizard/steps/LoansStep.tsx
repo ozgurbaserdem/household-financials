@@ -6,6 +6,7 @@ import { updateLoanParameters } from "@/store/slices/calculatorSlice";
 export function LoansStep() {
   const dispatch = useAppDispatch();
   const loanParameters = useAppSelector((state) => state.loanParameters);
+  const numberOfAdults = useAppSelector((state) => state.income.numberOfAdults);
 
   return (
     <>
@@ -17,6 +18,7 @@ export function LoansStep() {
           customInterestRates: loanParameters.customInterestRates || [],
           hasLoan: loanParameters.hasLoan,
         }}
+        numberOfAdults={numberOfAdults}
         onChange={(values) => {
           dispatch(
             updateLoanParameters({

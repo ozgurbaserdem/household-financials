@@ -78,9 +78,10 @@ export type LoansFormValues = {
 interface LoansFormProps {
   onChange: (values: LoansFormValues) => void;
   values: LoansFormValues;
+  numberOfAdults: "1" | "2";
 }
 
-export function Loans({ onChange, values }: LoansFormProps) {
+export function Loans({ onChange, values, numberOfAdults }: LoansFormProps) {
   const [isUserToggling, setIsUserToggling] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -237,7 +238,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                 </span>
               </>
             ) : (
-              t("no_loan")
+              t("no_loan", { count: parseInt(numberOfAdults) })
             )}
           </motion.p>
         </Box>
@@ -271,7 +272,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                           }}
                           className="flex-1"
                         >
-                          {t("has_loan")}
+                          {t("has_loan", { count: parseInt(numberOfAdults) })}
                         </Button>
                         <Button
                           type="button"
@@ -285,7 +286,7 @@ export function Loans({ onChange, values }: LoansFormProps) {
                           }}
                           className="flex-1"
                         >
-                          {t("no_loan")}
+                          {t("no_loan", { count: parseInt(numberOfAdults) })}
                         </Button>
                       </Box>
                     </FormControl>

@@ -22,12 +22,14 @@ import {
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 const formatCurrencyNoDecimals = (amount: number): string => {
-  return new Intl.NumberFormat("sv-SE", {
+  const formatted = new Intl.NumberFormat("sv-SE", {
     style: "currency",
     currency: "SEK",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
+  // Replace regular space with non-breaking space before "kr" to prevent line breaks
+  return formatted.replace(/\s+kr$/, "\u00A0kr");
 };
 import {
   calculateCompoundInterest,
@@ -614,10 +616,10 @@ export function CompoundInterestCalculator() {
               className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 min-h-[140px] flex flex-col"
             >
               <div className="flex-1 space-y-2">
-                <Text className="text-xs text-gray-400 font-medium block">
+                <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
                   Totalt portföljvärde (utan uttag)
                 </Text>
-                <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words block">
+                <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block">
                   {formatCurrencyNoDecimals(finalValues.theoreticalTotalValue)}
                 </Text>
               </div>
@@ -637,10 +639,10 @@ export function CompoundInterestCalculator() {
               className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 min-h-[140px] flex flex-col"
             >
               <div className="flex-1 space-y-2">
-                <Text className="text-xs text-gray-400 font-medium block">
+                <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.total_value")} (efter uttag)
                 </Text>
-                <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words block">
+                <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block">
                   {formatCurrencyNoDecimals(finalValues.totalValue)}
                 </Text>
               </div>
@@ -661,10 +663,10 @@ export function CompoundInterestCalculator() {
               className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-blue-900/20 to-blue-800/20 hover:from-blue-900/30 hover:to-blue-800/30 transition-all duration-300 min-h-[140px] flex flex-col"
             >
               <div className="flex-1 space-y-2">
-                <Text className="text-sm text-gray-400 font-medium block">
+                <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.start_sum")}
                 </Text>
-                <Text className="text-lg lg:text-xl font-semibold text-blue-400 leading-relaxed break-words block">
+                <Text className="text-lg lg:text-xl font-semibold text-blue-400 leading-relaxed break-words whitespace-nowrap block">
                   {formatCurrencyNoDecimals(finalValues.startSum)}
                 </Text>
               </div>
@@ -685,10 +687,10 @@ export function CompoundInterestCalculator() {
               className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-green-900/20 to-green-800/20 hover:from-green-900/30 hover:to-green-800/30 transition-all duration-300 min-h-[140px] flex flex-col"
             >
               <div className="flex-1 space-y-2">
-                <Text className="text-sm text-gray-400 font-medium block">
+                <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.total_savings")}
                 </Text>
-                <Text className="text-lg lg:text-xl font-semibold text-green-400 leading-relaxed break-words block">
+                <Text className="text-lg lg:text-xl font-semibold text-green-400 leading-relaxed break-words whitespace-nowrap block">
                   {formatCurrencyNoDecimals(finalValues.totalSavings)}
                 </Text>
               </div>
@@ -709,10 +711,10 @@ export function CompoundInterestCalculator() {
               className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-purple-900/20 to-purple-800/20 hover:from-purple-900/30 hover:to-purple-800/30 transition-all duration-300 min-h-[140px] flex flex-col"
             >
               <div className="flex-1 space-y-2">
-                <Text className="text-sm text-gray-400 font-medium block">
+                <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.compound_returns")}
                 </Text>
-                <Text className="text-lg lg:text-xl font-semibold text-purple-400 leading-relaxed break-words block">
+                <Text className="text-lg lg:text-xl font-semibold text-purple-400 leading-relaxed break-words whitespace-nowrap block">
                   {formatCurrencyNoDecimals(finalValues.totalReturns)}
                 </Text>
               </div>
@@ -735,10 +737,10 @@ export function CompoundInterestCalculator() {
                 className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-red-900/20 to-red-800/20 hover:from-red-900/30 hover:to-red-800/30 transition-all duration-300 min-h-[140px] flex flex-col"
               >
                 <div className="flex-1 space-y-2">
-                  <Text className="text-sm text-gray-400 font-medium block">
+                  <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                     Totalt uttaget
                   </Text>
-                  <Text className="text-lg lg:text-xl font-semibold text-red-400 leading-relaxed break-words block">
+                  <Text className="text-lg lg:text-xl font-semibold text-red-400 leading-relaxed break-words whitespace-nowrap block">
                     {formatCurrencyNoDecimals(finalValues.totalWithdrawn)}
                   </Text>
                 </div>
@@ -752,21 +754,6 @@ export function CompoundInterestCalculator() {
                 </div>
               </motion.div>
             )}
-          </div>
-
-          {/* Growth Summary */}
-          <div className="mt-6 p-6 glass rounded-xl border border-gray-700/50 bg-gradient-to-r from-gray-800/30 to-gray-900/30">
-            <Text className="text-sm text-gray-300 text-center leading-relaxed max-w-4xl mx-auto">
-              {t("results.growth_summary", {
-                startSum: formatCurrencyNoDecimals(finalValues.startSum),
-                totalSavings: formatCurrencyNoDecimals(
-                  finalValues.totalSavings
-                ),
-                returns: formatCurrencyNoDecimals(finalValues.totalReturns),
-                total: formatCurrencyNoDecimals(finalValues.totalValue),
-                years: inputs.investmentHorizon,
-              })}
-            </Text>
           </div>
         </CardContent>
       </Card>

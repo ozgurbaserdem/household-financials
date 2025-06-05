@@ -26,8 +26,8 @@
     "estimated_monthly_payment": "Beräknad månadskostnad",
     "monthly": "Månadskostnad",
     "total_interest": "Total ränta",
-    "no_loan": "Jag har inga lån",
-    "has_loan": "Jag har lån",
+    "no_loan": "{count, plural, =1 {Jag har inga lån} other {Vi har inga lån}}",
+    "has_loan": "{count, plural, =1 {Jag har lån} other {Vi har lån}}",
     "validation_rates_required": "Välj minst en räntesats och en amorteringssats när du anger ett lånebelopp",
     "validation_loan_amount_required": "Ange ett lånebelopp när du väljer räntor",
     "custom_interest_rate": "Anpassad räntesats",
@@ -158,7 +158,7 @@
     "tooltip": {
       "remaining_loan": "Återstående lånebelopp",
       "yearly_cost": "Årlig lånekostnad",
-      "monthly_cost": "Månadsvis lånekostnad",
+      "monthly_cost": "Månatlig lånekostnad",
       "monthly_income": "Månadsinkomst",
       "monthly_savings": "Kvar att spara"
     },
@@ -536,7 +536,7 @@
       "budget_results_alt": "Budgetkalkylatorns resultat som visar ekonomisk analys och rekommendationer",
       "compound_interest_title": "Visualisera din förmögenhetstillväxt",
       "compound_interest_description": "Se hur ränta på ränta får ditt sparande att växa över tid med interaktiva diagram och prognoser",
-      "compound_interest_alt": "Ränta på ränta-kalkylator som visar investeringstillväxt över tid",
+      "compound_interest_alt": "Ränta på ränta-kalkylator som visar avkastning över tid",
       "budget_wizard_title": "Enkel steg-för-steg-process",
       "budget_wizard_description": "Enkelt och intuitivt gränssnitt guidar dig genom att ange din ekonomiska information",
       "budget_wizard_alt": "Budgetkalkylatorns guidegränssnitt som visar utgiftskategorier",
@@ -581,29 +581,29 @@
       "investment_horizon_description": "Hur länge du planerar att hålla dina pengar investerade"
     },
     "results": {
-      "title": "Din investeringstillväxt",
+      "title": "Din avkastning",
       "description": "Här är hur dina pengar kan växa över {years} år",
       "total_value": "Total portföljvärde",
       "start_sum": "Initial investering",
       "total_savings": "Totalt sparat tillagt",
-      "compound_returns": "Investeringstillväxt",
+      "compound_returns": "Avkastning",
       "growth_summary": "Börjar med {startSum} och sparar {totalSavings} över {years} år, kan dina investeringar växa med {returns} för att nå ett totalt värde på {total}."
     },
     "chart": {
-      "title": "Investeringstillväxt över tid",
+      "title": "Avkastning över tid",
       "description": "Se hur din portfölj växer genom sparande och sammansatt avkastning",
-      "aria_title": "Investeringstillväxt visualisering som visar fördelningen av portföljvärde över tid"
+      "aria_title": "Avkastning visualisering som visar fördelningen av portföljvärde över tid"
     },
     "legend": {
       "start_sum": "Initial investering",
       "accumulated_savings": "Månatligt sparande",
-      "compound_returns": "Investeringsavkastning"
+      "compound_returns": "Avkastning"
     },
     "tooltip": {
       "year": "År {year}",
       "start_sum": "Initial investering",
       "accumulated_savings": "Totalt sparat tillagt",
-      "compound_returns": "Investeringstillväxt",
+      "compound_returns": "Avkastning",
       "total_value": "Total portföljvärde"
     },
     "tips": {

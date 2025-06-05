@@ -506,7 +506,7 @@ async function CompoundInterestContent(locale: string) {
                 </Text>
               </div>
               <div className="flex justify-center">
-                <Link href="/">
+                <Link href="/hushallsbudget">
                   <Button
                     size="lg"
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500"
