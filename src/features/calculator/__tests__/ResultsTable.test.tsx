@@ -39,7 +39,6 @@ vi.mock("@/lib/calculations", () => ({
     metrics: {
       debtToIncomeRatio: 0.3,
       emergencyFundCoverage: 3,
-      savingsRate: 0.2,
       housingCostRatio: 0.25,
       discretionaryIncomeRatio: 0.15,
     },

@@ -208,10 +208,6 @@ export class FinancialCalculationService {
       calculatorState,
       totalExpenses
     );
-    const savingsRate = safeDiv(
-      totalIncomeResult.net - totalExpenses,
-      totalIncomeResult.net
-    );
     const housingCostRatio = safeDiv(totalHousingCost, totalIncomeResult.net);
     const discretionaryIncomeRatio = safeDiv(
       totalIncomeResult.net - totalExpenses,
@@ -222,7 +218,6 @@ export class FinancialCalculationService {
     const overallScore = this.calculateOverallScore({
       debtToIncomeRatio,
       emergencyFundCoverage,
-      savingsRate,
       housingCostRatio,
       discretionaryIncomeRatio,
     });
@@ -231,7 +226,6 @@ export class FinancialCalculationService {
     const recommendations = this.generateRecommendations({
       debtToIncomeRatio,
       emergencyFundCoverage,
-      savingsRate,
       housingCostRatio,
       discretionaryIncomeRatio,
     });
@@ -241,7 +235,6 @@ export class FinancialCalculationService {
       metrics: {
         debtToIncomeRatio,
         emergencyFundCoverage,
-        savingsRate,
         housingCostRatio,
         discretionaryIncomeRatio,
       },
@@ -313,16 +306,14 @@ export class FinancialCalculationService {
   private calculateOverallScore(metrics: {
     debtToIncomeRatio: number;
     emergencyFundCoverage: number;
-    savingsRate: number;
     housingCostRatio: number;
     discretionaryIncomeRatio: number;
   }): number {
     const weights = {
-      debtToIncomeRatio: 0.25,
-      emergencyFundCoverage: 0.25,
-      savingsRate: 0.2,
-      housingCostRatio: 0.15,
-      discretionaryIncomeRatio: 0.15,
+      debtToIncomeRatio: 0.3,
+      emergencyFundCoverage: 0.3,
+      housingCostRatio: 0.2,
+      discretionaryIncomeRatio: 0.2,
     };
 
     const scores = {
@@ -331,7 +322,6 @@ export class FinancialCalculationService {
         100 * (1 - Math.min(metrics.debtToIncomeRatio, 2) / 2)
       ),
       emergencyFundCoverage: Math.min(100, metrics.emergencyFundCoverage * 100),
-      savingsRate: Math.min(100, metrics.savingsRate * 200),
       housingCostRatio: Math.max(0, 100 * (1 - metrics.housingCostRatio / 0.3)),
       discretionaryIncomeRatio: Math.min(
         100,
@@ -359,7 +349,6 @@ export class FinancialCalculationService {
   private generateRecommendations(metrics: {
     debtToIncomeRatio: number;
     emergencyFundCoverage: number;
-    savingsRate: number;
     housingCostRatio: number;
     discretionaryIncomeRatio: number;
   }): string[] {
@@ -370,9 +359,6 @@ export class FinancialCalculationService {
     }
     if (metrics.emergencyFundCoverage < 3) {
       recommendations.push("recommendation_emergency_fund");
-    }
-    if (metrics.savingsRate < 0.2) {
-      recommendations.push("recommendation_savings_rate");
     }
     if (metrics.housingCostRatio > 0.3) {
       recommendations.push("recommendation_housing_cost");

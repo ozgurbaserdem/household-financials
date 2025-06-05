@@ -120,13 +120,6 @@ export function FinancialHealthScore({
             showTooltip={showTooltips}
           />
           <MetricCard
-            title={t("savings_rate")}
-            value={safeDisplay(score.metrics.savingsRate)}
-            format={formatPercent}
-            tooltip={t("tooltips.savings_rate")}
-            showTooltip={showTooltips}
-          />
-          <MetricCard
             title={t("housing_cost")}
             value={safeDisplay(score.metrics.housingCostRatio)}
             format={formatPercent}

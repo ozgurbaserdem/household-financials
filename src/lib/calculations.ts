@@ -111,7 +111,6 @@ export function calculateFinancialHealthScoreForResult(
   const debtToIncomeRatio = safeDiv(loanAmount, totalGrossIncome * 12);
   const emergencyFundCoverage =
     totalExpenses > 0 ? result.currentBuffer / totalExpenses : 0;
-  const savingsRate = safeDiv(totalIncome - totalExpenses, totalIncome);
   const housingCostRatio = safeDiv(housingCost, totalIncome);
   const discretionaryIncomeRatio = safeDiv(
     totalIncome - totalExpenses,
@@ -120,11 +119,10 @@ export function calculateFinancialHealthScoreForResult(
 
   // Use same scoring and recommendation logic as service
   const weights = {
-    debtToIncomeRatio: 0.25,
-    emergencyFundCoverage: 0.25,
-    savingsRate: 0.2,
-    housingCostRatio: 0.15,
-    discretionaryIncomeRatio: 0.15,
+    debtToIncomeRatio: 0.3,
+    emergencyFundCoverage: 0.3,
+    housingCostRatio: 0.2,
+    discretionaryIncomeRatio: 0.2,
   };
 
   const scores = {
@@ -133,7 +131,6 @@ export function calculateFinancialHealthScoreForResult(
       100 * (1 - Math.min(debtToIncomeRatio, 2) / 2)
     ),
     emergencyFundCoverage: Math.min(100, emergencyFundCoverage * 100),
-    savingsRate: Math.min(100, savingsRate * 200),
     housingCostRatio: Math.max(0, 100 * (1 - housingCostRatio / 0.3)),
     discretionaryIncomeRatio: Math.min(100, discretionaryIncomeRatio * 200),
   };
@@ -159,9 +156,6 @@ export function calculateFinancialHealthScoreForResult(
   if (emergencyFundCoverage < 3) {
     recommendations.push("recommendation_emergency_fund");
   }
-  if (savingsRate < 0.2) {
-    recommendations.push("recommendation_savings_rate");
-  }
   if (housingCostRatio > 0.3) {
     recommendations.push("recommendation_housing_cost");
   }
@@ -174,7 +168,6 @@ export function calculateFinancialHealthScoreForResult(
     metrics: {
       debtToIncomeRatio,
       emergencyFundCoverage,
-      savingsRate,
       housingCostRatio,
       discretionaryIncomeRatio,
     },

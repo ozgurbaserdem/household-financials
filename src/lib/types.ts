@@ -97,7 +97,6 @@ export interface FinancialHealthScore {
   metrics: {
     debtToIncomeRatio: number;
     emergencyFundCoverage: number;
-    savingsRate: number;
     housingCostRatio: number;
     discretionaryIncomeRatio: number;
   };
