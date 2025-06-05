@@ -150,12 +150,12 @@ describe("CompoundInterestCalculator", () => {
 
     // Try to enter value above maximum
     await user.clear(input);
-    await user.type(input, "150000");
+    await user.type(input, "15000000");
     await user.keyboard("{Enter}");
 
-    // Should cap at maximum (100000)
+    // Should cap at maximum (10000000)
     await waitFor(() => {
-      expect(screen.getByText("100 000 kr/mån")).toBeInTheDocument();
+      expect(screen.getByText("10 000 000 kr/mån")).toBeInTheDocument();
     });
   });
 
@@ -226,14 +226,21 @@ describe("CompoundInterestCalculator", () => {
 
     fireEvent.change(sliders[0], { target: { value: "0" } }); // Start sum
     fireEvent.change(sliders[1], { target: { value: "0" } }); // Monthly savings
-    fireEvent.change(sliders[2], { target: { value: "1" } }); // Return
+    fireEvent.change(sliders[2], { target: { value: "0" } }); // Return (minimum is 0)
     fireEvent.change(sliders[3], { target: { value: "1" } }); // Horizon
 
     await waitFor(() => {
       const zeroKrElements = screen.getAllByText("0 kr");
       expect(zeroKrElements.length).toBeGreaterThan(0); // Start sum
       expect(screen.getByText("0 kr/mån")).toBeInTheDocument(); // Monthly savings
-      expect(screen.getByText("1%")).toBeInTheDocument();
+
+      // Debug: print all text content to see what's actually rendered
+      const allTextContent = screen
+        .getAllByText(/%/)
+        .map((el) => el.textContent);
+      console.log("Percentage values found:", allTextContent);
+
+      expect(screen.getByText("0%")).toBeInTheDocument(); // Minimum is 0%
       expect(screen.getByText("1 år")).toBeInTheDocument();
     });
   });
@@ -312,11 +319,11 @@ describe("CompoundInterestCalculator", () => {
     // Test various percentage values
     const returnSlider = screen.getByLabelText(/yearly_return_label/i);
 
-    // Test 15% (maximum allowed)
-    fireEvent.change(returnSlider, { target: { value: "15" } });
+    // Test 100% (maximum allowed)
+    fireEvent.change(returnSlider, { target: { value: "100" } });
 
     await waitFor(() => {
-      // Even with maximum 15% return, values should never exceed reasonable bounds
+      // Even with maximum 100% return, values should never exceed reasonable bounds
       const totalElements = screen.getAllByText(/kr/);
       const hasAstronomicalValues = totalElements.some((el) => {
         const text = el.textContent || "";
@@ -339,7 +346,7 @@ describe("CompoundInterestCalculator", () => {
     const sliders = screen.getAllByRole("slider");
     fireEvent.change(sliders[0], { target: { value: "0" } }); // Start sum = 0
     fireEvent.change(sliders[1], { target: { value: "0" } }); // Monthly savings = 0
-    fireEvent.change(sliders[2], { target: { value: "1" } }); // Return = 1% (minimum)
+    fireEvent.change(sliders[2], { target: { value: "0" } }); // Return = 0% (minimum)
     fireEvent.change(sliders[3], { target: { value: "1" } }); // Horizon = 1 year
 
     await waitFor(() => {
@@ -353,10 +360,10 @@ describe("CompoundInterestCalculator", () => {
 
     // Set to maximum allowed values
     const sliders = screen.getAllByRole("slider");
-    fireEvent.change(sliders[0], { target: { value: "10000000" } }); // Max start sum
-    fireEvent.change(sliders[1], { target: { value: "100000" } }); // Max monthly savings
-    fireEvent.change(sliders[2], { target: { value: "15" } }); // Max return
-    fireEvent.change(sliders[3], { target: { value: "50" } }); // Max horizon
+    fireEvent.change(sliders[0], { target: { value: "1000000000" } }); // Max start sum
+    fireEvent.change(sliders[1], { target: { value: "10000000" } }); // Max monthly savings
+    fireEvent.change(sliders[2], { target: { value: "100" } }); // Max return
+    fireEvent.change(sliders[3], { target: { value: "100" } }); // Max horizon
 
     await waitFor(() => {
       // Should still show finite, reasonable values (not Infinity or astronomical numbers)
