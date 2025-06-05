@@ -13,7 +13,14 @@ import { CardContent } from "@/components/ui/card";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { Label } from "@/components/ui/label";
-import { Calculator, TrendingUp } from "lucide-react";
+import {
+  Calculator,
+  TrendingUp,
+  Settings2,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 const formatCurrencyNoDecimals = (amount: number): string => {
   return new Intl.NumberFormat("sv-SE", {
     style: "currency",
@@ -44,7 +51,15 @@ export function CompoundInterestCalculator() {
       : 5000,
     yearlyReturn: 7,
     investmentHorizon: 20,
+    age: 30,
+    withdrawalType: "none",
+    withdrawalYear: 10,
+    withdrawalAmount: 100000,
+    withdrawalPercentage: 10,
+    annualSavingsIncrease: 0,
   });
+
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const [editingField, setEditingField] = useState<
     keyof CompoundInterestInputs | null
@@ -70,7 +85,7 @@ export function CompoundInterestCalculator() {
       label: t("inputs.start_sum_label"),
       description: t("inputs.start_sum_description"),
       min: 0,
-      max: 1000000000,
+      max: 10000000,
       step: 10000,
       prefix: "",
       suffix: " kr",
@@ -80,7 +95,7 @@ export function CompoundInterestCalculator() {
       label: t("inputs.monthly_savings_label"),
       description: t("inputs.monthly_savings_description"),
       min: 0,
-      max: 10000000,
+      max: 100000,
       step: 500,
       prefix: "",
       suffix: " kr/mån",
@@ -90,8 +105,8 @@ export function CompoundInterestCalculator() {
       label: t("inputs.yearly_return_label"),
       description: t("inputs.yearly_return_description"),
       min: 0,
-      max: 1000,
-      step: 0.5,
+      max: 200,
+      step: 1,
       prefix: "",
       suffix: "%",
     },
@@ -100,6 +115,16 @@ export function CompoundInterestCalculator() {
       label: t("inputs.investment_horizon_label"),
       description: t("inputs.investment_horizon_description"),
       min: 1,
+      max: 100,
+      step: 1,
+      prefix: "",
+      suffix: " år",
+    },
+    {
+      key: "age" as const,
+      label: "Din ålder",
+      description: "Din nuvarande ålder för att visa din ålder vid varje år",
+      min: 18,
       max: 100,
       step: 1,
       prefix: "",
@@ -133,23 +158,14 @@ export function CompoundInterestCalculator() {
 
   const handleEditStart = (field: keyof CompoundInterestInputs) => {
     setEditingField(field);
-    setTempValue(inputs[field].toString());
+    setTempValue((inputs[field] ?? 0).toString());
   };
 
   const handleEditEnd = (field: keyof CompoundInterestInputs) => {
     const numValue = parseFloat(tempValue.replace(/[^\d.-]/g, ""));
     if (!isNaN(numValue)) {
-      // Find the config for this field to apply min/max constraints
-      const config = inputConfigs.find((c) => c.key === field);
-      if (config) {
-        const clampedValue = Math.max(
-          config.min,
-          Math.min(config.max, numValue)
-        );
-        handleInputChange(field, clampedValue);
-      } else {
-        handleInputChange(field, numValue);
-      }
+      // Input fields are not constrained by min/max limits
+      handleInputChange(field, numValue);
     }
     setEditingField(null);
     setTempValue("");
@@ -218,7 +234,7 @@ export function CompoundInterestCalculator() {
                       min={config.min}
                       max={config.max}
                       step={config.step}
-                      value={inputs[config.key]}
+                      value={inputs[config.key] ?? config.min}
                       onChange={(e) =>
                         handleInputChange(config.key, Number(e.target.value))
                       }
@@ -226,8 +242,8 @@ export function CompoundInterestCalculator() {
                       style={{
                         background: `linear-gradient(to right, 
                           rgb(59 130 246) 0%, 
-                          rgb(147 51 234) ${((inputs[config.key] - config.min) / (config.max - config.min)) * 100}%, 
-                          rgb(55 65 81) ${((inputs[config.key] - config.min) / (config.max - config.min)) * 100}%, 
+                          rgb(147 51 234) ${(((inputs[config.key] ?? config.min) - config.min) / (config.max - config.min)) * 100}%, 
+                          rgb(55 65 81) ${(((inputs[config.key] ?? config.min) - config.min) / (config.max - config.min)) * 100}%, 
                           rgb(55 65 81) 100%)`,
                       }}
                     />
@@ -249,7 +265,9 @@ export function CompoundInterestCalculator() {
                         >
                           <Text className="text-sm font-semibold text-white">
                             {config.prefix}
-                            {inputs[config.key].toLocaleString("sv-SE")}
+                            {(inputs[config.key] ?? config.min).toLocaleString(
+                              "sv-SE"
+                            )}
                             {config.suffix}
                           </Text>
                         </button>
@@ -259,6 +277,314 @@ export function CompoundInterestCalculator() {
                 </div>
               </motion.div>
             ))}
+          </div>
+
+          {/* Advanced Settings Toggle */}
+          <div className="mt-6 border-t border-gray-700/50 pt-6">
+            <button
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              className="flex items-center justify-between w-full p-4 rounded-xl bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-700/30 hover:border-blue-500/50 transition-all duration-300 hover:from-blue-900/30 hover:to-purple-900/30 group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors">
+                  <Settings2 className="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors" />
+                </div>
+                <div className="text-left">
+                  <Text className="text-base font-semibold text-white group-hover:text-blue-100 transition-colors block">
+                    Avancerade inställningar
+                  </Text>
+                  <Text className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors block">
+                    Årlig ökning, uttag och mer
+                  </Text>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  {!showAdvanced && inputs.withdrawalType !== "none" && (
+                    <span className="px-2 py-1 text-xs font-medium bg-green-500/20 text-green-300 rounded-full border border-green-500/30">
+                      Aktiv
+                    </span>
+                  )}
+                  {!showAdvanced && (inputs.annualSavingsIncrease || 0) > 0 && (
+                    <span className="px-2 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full border border-purple-500/30">
+                      +{inputs.annualSavingsIncrease}%
+                    </span>
+                  )}
+                </div>
+                {showAdvanced ? (
+                  <ChevronUp className="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors" />
+                )}
+              </div>
+            </button>
+
+            {/* Advanced Settings Content */}
+            {showAdvanced && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mt-6 space-y-6"
+              >
+                {/* Annual Savings Increase */}
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-200 block">
+                    Årlig ökning av sparande
+                  </Label>
+                  <Text className="text-xs text-gray-400 block">
+                    Hur mycket ditt månadssparande ökar varje år
+                  </Text>
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="range"
+                      min={0}
+                      max={50}
+                      step={0.5}
+                      value={inputs.annualSavingsIncrease || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "annualSavingsIncrease",
+                          Number(e.target.value)
+                        )
+                      }
+                      className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                      style={{
+                        background: `linear-gradient(to right, 
+                          rgb(59 130 246) 0%, 
+                          rgb(147 51 234) ${((inputs.annualSavingsIncrease || 0) / 50) * 100}%, 
+                          rgb(55 65 81) ${((inputs.annualSavingsIncrease || 0) / 50) * 100}%, 
+                          rgb(55 65 81) 100%)`,
+                      }}
+                    />
+                    <div className="flex-shrink-0">
+                      <button className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center">
+                        <Text className="text-sm font-semibold text-white">
+                          {inputs.annualSavingsIncrease || 0}%/år
+                        </Text>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Withdrawal Settings */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Label className="text-sm font-medium text-gray-200 block">
+                        Planerat uttag
+                      </Label>
+                      <Text className="text-xs text-gray-400 block mt-1">
+                        Gör ett uttag från ditt sparande efter ett antal år
+                      </Text>
+                    </div>
+                    <Switch
+                      checked={inputs.withdrawalType !== "none"}
+                      onCheckedChange={(checked) => {
+                        if (!checked) {
+                          setInputs((prev) => ({
+                            ...prev,
+                            withdrawalType: "none",
+                          }));
+                        } else {
+                          setInputs((prev) => ({
+                            ...prev,
+                            withdrawalType: "percentage",
+                          }));
+                        }
+                      }}
+                      className="data-[state=checked]:bg-blue-500"
+                    />
+                  </div>
+
+                  {inputs.withdrawalType !== "none" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="space-y-4 pl-2"
+                    >
+                      {/* Withdrawal Type Selector */}
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-gray-300">
+                          Hur vill du göra ditt uttag?
+                        </Label>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() =>
+                              setInputs((prev) => ({
+                                ...prev,
+                                withdrawalType: "percentage",
+                              }))
+                            }
+                            className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
+                              inputs.withdrawalType === "percentage"
+                                ? "bg-blue-500 text-white"
+                                : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                            }`}
+                          >
+                            Procent av totalt värde
+                          </button>
+                          <button
+                            onClick={() =>
+                              setInputs((prev) => ({
+                                ...prev,
+                                withdrawalType: "amount",
+                              }))
+                            }
+                            className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
+                              inputs.withdrawalType === "amount"
+                                ? "bg-blue-500 text-white"
+                                : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                            }`}
+                          >
+                            Specifik summa
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Withdrawal Year */}
+                      <div className="space-y-2">
+                        <Label className="text-xs font-medium text-gray-300">
+                          När ska uttaget ske?
+                        </Label>
+                        <div className="flex items-center gap-4">
+                          <input
+                            type="range"
+                            min={1}
+                            max={inputs.investmentHorizon}
+                            step={1}
+                            value={inputs.withdrawalYear || 10}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "withdrawalYear",
+                                Number(e.target.value)
+                              )
+                            }
+                            className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                            style={{
+                              background: `linear-gradient(to right, 
+                                rgb(59 130 246) 0%, 
+                                rgb(147 51 234) ${(((inputs.withdrawalYear || 10) - 1) / (inputs.investmentHorizon - 1)) * 100}%, 
+                                rgb(55 65 81) ${(((inputs.withdrawalYear || 10) - 1) / (inputs.investmentHorizon - 1)) * 100}%, 
+                                rgb(55 65 81) 100%)`,
+                            }}
+                          />
+                          <div className="flex-shrink-0">
+                            <button className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center">
+                              <Text className="text-sm font-semibold text-white">
+                                År {inputs.withdrawalYear || 10}
+                              </Text>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Withdrawal Amount/Percentage */}
+                      {inputs.withdrawalType === "percentage" ? (
+                        <div className="space-y-2">
+                          <Label className="text-xs font-medium text-gray-300">
+                            Uttag per år (%)
+                          </Label>
+                          <div className="flex items-center gap-4">
+                            <input
+                              type="range"
+                              min={0}
+                              max={100}
+                              step={1}
+                              value={inputs.withdrawalPercentage || 10}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  "withdrawalPercentage",
+                                  Number(e.target.value)
+                                )
+                              }
+                              className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                              style={{
+                                background: `linear-gradient(to right, 
+                                  rgb(59 130 246) 0%, 
+                                  rgb(147 51 234) ${inputs.withdrawalPercentage || 10}%, 
+                                  rgb(55 65 81) ${inputs.withdrawalPercentage || 10}%, 
+                                  rgb(55 65 81) 100%)`,
+                              }}
+                            />
+                            <div className="flex-shrink-0">
+                              <button className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center">
+                                <Text className="text-sm font-semibold text-white">
+                                  {inputs.withdrawalPercentage || 10}%
+                                </Text>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          <Label className="text-xs font-medium text-gray-300">
+                            Uttag per år i kronor
+                          </Label>
+                          <div className="flex items-center gap-4">
+                            <input
+                              type="range"
+                              min={0}
+                              max={10000000}
+                              step={10000}
+                              value={inputs.withdrawalAmount || 100000}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  "withdrawalAmount",
+                                  Number(e.target.value)
+                                )
+                              }
+                              className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                              style={{
+                                background: `linear-gradient(to right, 
+                                  rgb(59 130 246) 0%, 
+                                  rgb(147 51 234) ${((inputs.withdrawalAmount || 100000) / 10000000) * 100}%, 
+                                  rgb(55 65 81) ${((inputs.withdrawalAmount || 100000) / 10000000) * 100}%, 
+                                  rgb(55 65 81) 100%)`,
+                              }}
+                            />
+                            <div className="flex-shrink-0">
+                              {editingField === "withdrawalAmount" ? (
+                                <input
+                                  type="text"
+                                  value={tempValue}
+                                  onChange={(e) => setTempValue(e.target.value)}
+                                  onBlur={() =>
+                                    handleEditEnd("withdrawalAmount")
+                                  }
+                                  onKeyDown={(e) =>
+                                    handleKeyDown(e, "withdrawalAmount")
+                                  }
+                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-32 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
+                                  autoFocus
+                                />
+                              ) : (
+                                <button
+                                  onClick={() =>
+                                    handleEditStart(
+                                      "withdrawalAmount" as keyof CompoundInterestInputs
+                                    )
+                                  }
+                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-32 text-center cursor-text"
+                                >
+                                  <Text className="text-sm font-semibold text-white">
+                                    {(
+                                      inputs.withdrawalAmount || 100000
+                                    ).toLocaleString("sv-SE")}{" "}
+                                    kr
+                                  </Text>
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -277,7 +603,33 @@ export function CompoundInterestCalculator() {
           </Box>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${finalValues.totalWithdrawn > 0 ? "lg:grid-cols-6" : "lg:grid-cols-4"}`}
+          >
+            {/* Theoretical Total Value (without withdrawals) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 }}
+              className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 min-h-[140px] flex flex-col"
+            >
+              <div className="flex-1 space-y-2">
+                <Text className="text-xs text-gray-400 font-medium block">
+                  Totalt portföljvärde (utan uttag)
+                </Text>
+                <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words block">
+                  {formatCurrencyNoDecimals(finalValues.theoreticalTotalValue)}
+                </Text>
+              </div>
+              <div className="w-full h-1 bg-gray-700 rounded-full mt-4">
+                <div
+                  className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
+                  style={{ width: "100%" }}
+                />
+              </div>
+            </motion.div>
+
+            {/* Current Total Value (after withdrawals) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -285,17 +637,19 @@ export function CompoundInterestCalculator() {
               className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 min-h-[140px] flex flex-col"
             >
               <div className="flex-1 space-y-2">
-                <Text className="text-sm text-gray-400 font-medium block">
-                  {t("results.total_value")}
+                <Text className="text-xs text-gray-400 font-medium block">
+                  {t("results.total_value")} (efter uttag)
                 </Text>
-                <Text className="text-xl lg:text-2xl font-bold text-white leading-relaxed break-words block">
+                <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words block">
                   {formatCurrencyNoDecimals(finalValues.totalValue)}
                 </Text>
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-4">
                 <div
                   className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
-                  style={{ width: "100%" }}
+                  style={{
+                    width: `${(finalValues.totalValue / finalValues.theoreticalTotalValue) * 100}%`,
+                  }}
                 />
               </div>
             </motion.div>
@@ -342,7 +696,7 @@ export function CompoundInterestCalculator() {
                 <div
                   className="h-full bg-green-400 rounded-full"
                   style={{
-                    width: `${(finalValues.totalSavings / finalValues.totalValue) * 100}%`,
+                    width: `${(finalValues.totalSavings / finalValues.theoreticalTotalValue) * 100}%`,
                   }}
                 />
               </div>
@@ -366,11 +720,38 @@ export function CompoundInterestCalculator() {
                 <div
                   className="h-full bg-purple-400 rounded-full"
                   style={{
-                    width: `${(finalValues.totalReturns / finalValues.totalValue) * 100}%`,
+                    width: `${(finalValues.totalReturns / finalValues.theoreticalTotalValue) * 100}%`,
                   }}
                 />
               </div>
             </motion.div>
+
+            {/* Total Withdrawn (show only if there have been withdrawals) */}
+            {finalValues.totalWithdrawn > 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6 }}
+                className="glass p-6 rounded-xl border border-gray-700/50 bg-gradient-to-br from-red-900/20 to-red-800/20 hover:from-red-900/30 hover:to-red-800/30 transition-all duration-300 min-h-[140px] flex flex-col"
+              >
+                <div className="flex-1 space-y-2">
+                  <Text className="text-sm text-gray-400 font-medium block">
+                    Totalt uttaget
+                  </Text>
+                  <Text className="text-lg lg:text-xl font-semibold text-red-400 leading-relaxed break-words block">
+                    {formatCurrencyNoDecimals(finalValues.totalWithdrawn)}
+                  </Text>
+                </div>
+                <div className="w-full h-1 bg-gray-700 rounded-full mt-4">
+                  <div
+                    className="h-full bg-red-400 rounded-full"
+                    style={{
+                      width: `${Math.min(100, (finalValues.totalWithdrawn / (finalValues.totalValue + finalValues.totalWithdrawn)) * 100)}%`,
+                    }}
+                  />
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* Growth Summary */}

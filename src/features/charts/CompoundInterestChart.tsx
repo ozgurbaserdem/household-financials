@@ -30,6 +30,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   TooltipProps,
+  ReferenceLine,
 } from "recharts";
 import type { CompoundInterestData } from "@/lib/compound-interest";
 
@@ -69,6 +70,11 @@ export function CompoundInterestChart({
         <div className="bg-gray-800/30 backdrop-blur-md p-4 rounded-lg border border-gray-600 shadow-lg space-y-2">
           <p className="text-white font-medium">
             {t("tooltip.year", { year: label || data.year })}
+            {data.userAge && (
+              <span className="text-gray-300 text-sm ml-2">
+                (Ålder: {data.userAge} år)
+              </span>
+            )}
           </p>
           <div className="space-y-1 text-sm">
             <div className="flex justify-between items-center gap-4">
@@ -93,6 +99,26 @@ export function CompoundInterestChart({
                 {formatCurrencyNoDecimals(data.compoundReturns)}
               </span>
             </div>
+            {data.withdrawal && data.withdrawal > 0 && (
+              <div className="flex justify-between items-center gap-4">
+                <span className="text-gray-300">Uttag:</span>
+                <span className="text-red-400 font-medium">
+                  -{formatCurrencyNoDecimals(data.withdrawal)}
+                </span>
+              </div>
+            )}
+            {data.currentMonthlySavings !== undefined && (
+              <div className="flex justify-between items-center gap-4">
+                <span className="text-gray-300">Månadssparande:</span>
+                <span
+                  className={`font-medium ${data.currentMonthlySavings === 0 ? "text-red-400" : "text-gray-400"}`}
+                >
+                  {data.currentMonthlySavings === 0
+                    ? "Inga nya sparanden (uttag pågår)"
+                    : `${formatCurrencyNoDecimals(data.currentMonthlySavings)}/mån`}
+                </span>
+              </div>
+            )}
             <div className="border-t border-gray-600 pt-1 mt-2">
               <div className="flex justify-between items-center gap-4">
                 <span className="text-white font-medium">
@@ -112,6 +138,11 @@ export function CompoundInterestChart({
 
   const maxValue = Math.max(...data.map((d) => d.totalValue));
   const yAxisMax = Math.ceil((maxValue * 1.1) / 100000) * 100000;
+
+  // Check if there's a withdrawal in the data
+  const withdrawalYear = data.find(
+    (d) => d.withdrawal && d.withdrawal > 0
+  )?.year;
 
   return (
     <Card gradient glass delay={0.3}>
@@ -172,32 +203,46 @@ export function CompoundInterestChart({
                 cursor={{ fill: "rgba(107, 114, 128, 0.2)" }}
               />
 
-              {/* Start Sum (Bottom) */}
+              {/* Stacked bars for accumulation phase, single bars for withdrawal phase */}
               <Bar
-                dataKey="startSum"
+                dataKey="chartStartSum"
                 stackId="portfolio"
                 fill="#3B82F6"
                 name={t("legend.start_sum")}
                 radius={[0, 0, 0, 0]}
               />
-
-              {/* Accumulated Savings (Middle) */}
               <Bar
-                dataKey="accumulatedSavings"
+                dataKey="chartSavings"
                 stackId="portfolio"
                 fill="#10B981"
                 name={t("legend.accumulated_savings")}
                 radius={[0, 0, 0, 0]}
               />
-
-              {/* Compound Returns (Top) */}
               <Bar
-                dataKey="compoundReturns"
+                dataKey="chartReturns"
                 stackId="portfolio"
                 fill="#8B5CF6"
                 name={t("legend.compound_returns")}
                 radius={[4, 4, 0, 0]}
               />
+              {/* Single bar for withdrawal phase - overlays the stacked bars */}
+              <Bar
+                dataKey="withdrawalPhaseValue"
+                fill="#F87171"
+                name="Portföljvärde"
+                radius={[4, 4, 0, 0]}
+              />
+
+              {/* Reference line for withdrawal year */}
+              {withdrawalYear && (
+                <ReferenceLine
+                  x={withdrawalYear}
+                  stroke="#EF4444"
+                  strokeDasharray="5 5"
+                  strokeWidth={2}
+                  label={{ value: "Uttag", position: "top", fill: "#EF4444" }}
+                />
+              )}
             </BarChart>
           </ResponsiveContainer>
         </div>

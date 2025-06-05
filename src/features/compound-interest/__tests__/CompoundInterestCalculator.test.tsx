@@ -54,6 +54,28 @@ vi.mock("recharts", () => ({
     <div data-testid="legend" data-custom={content ? "true" : "false"} />
   ),
   CartesianGrid: () => <div data-testid="cartesian-grid" />,
+  ReferenceLine: ({
+    x,
+    stroke,
+    strokeDasharray,
+    strokeWidth,
+    label,
+  }: {
+    x: number;
+    stroke: string;
+    strokeDasharray: string;
+    strokeWidth: number;
+    label: { value: string; position: string; fill: string };
+  }) => (
+    <div
+      data-testid="reference-line"
+      data-x={x}
+      data-stroke={stroke}
+      data-stroke-dasharray={strokeDasharray}
+      data-stroke-width={strokeWidth}
+      data-label={label.value}
+    />
+  ),
 }));
 
 // DON'T MOCK THE CALCULATION FUNCTIONS - We want to test the real logic!
@@ -138,7 +160,7 @@ describe("CompoundInterestCalculator", () => {
     });
   });
 
-  it("should validate manual input within bounds", async () => {
+  it("should allow manual input without bounds constraints", async () => {
     const user = userEvent.setup();
     render(<CompoundInterestCalculator />);
 
@@ -148,14 +170,14 @@ describe("CompoundInterestCalculator", () => {
 
     const input = screen.getByRole("textbox");
 
-    // Try to enter value above maximum
+    // Enter value above slider maximum - should be allowed in input field
     await user.clear(input);
     await user.type(input, "15000000");
     await user.keyboard("{Enter}");
 
-    // Should cap at maximum (10000000)
+    // Input fields are not constrained, so should accept the value
     await waitFor(() => {
-      expect(screen.getByText("10 000 000 kr/mån")).toBeInTheDocument();
+      expect(screen.getByText("15 000 000 kr/mån")).toBeInTheDocument();
     });
   });
 
@@ -358,11 +380,11 @@ describe("CompoundInterestCalculator", () => {
   it("should handle maximum values without overflow", async () => {
     render(<CompoundInterestCalculator />);
 
-    // Set to maximum allowed values
+    // Set to maximum allowed slider values
     const sliders = screen.getAllByRole("slider");
-    fireEvent.change(sliders[0], { target: { value: "1000000000" } }); // Max start sum
-    fireEvent.change(sliders[1], { target: { value: "10000000" } }); // Max monthly savings
-    fireEvent.change(sliders[2], { target: { value: "100" } }); // Max return
+    fireEvent.change(sliders[0], { target: { value: "10000000" } }); // Max start sum (10M)
+    fireEvent.change(sliders[1], { target: { value: "100000" } }); // Max monthly savings (100k)
+    fireEvent.change(sliders[2], { target: { value: "200" } }); // Max return (200%)
     fireEvent.change(sliders[3], { target: { value: "100" } }); // Max horizon
 
     await waitFor(() => {
@@ -406,6 +428,847 @@ describe("CompoundInterestCalculator", () => {
         return false;
       });
       expect(hasReasonableGrowth).toBe(true);
+    });
+  });
+
+  // NEW COMPREHENSIVE TESTS FOR ADVANCED FEATURES
+
+  describe("Advanced Settings", () => {
+    it("should show advanced settings toggle with proper styling", () => {
+      render(<CompoundInterestCalculator />);
+
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      expect(advancedToggle).toBeInTheDocument();
+      expect(advancedToggle).toHaveClass("p-4", "rounded-xl");
+
+      // Should show description
+      expect(
+        screen.getByText("Årlig ökning, uttag och mer")
+      ).toBeInTheDocument();
+    });
+
+    it("should toggle advanced settings when clicked", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+
+      // Advanced settings should be hidden initially
+      expect(
+        screen.queryByText("Årlig ökning av sparande")
+      ).not.toBeInTheDocument();
+
+      // Click to expand
+      await user.click(advancedToggle);
+
+      // Should show advanced settings
+      await waitFor(() => {
+        expect(
+          screen.getByText("Årlig ökning av sparande")
+        ).toBeInTheDocument();
+        expect(screen.getByText("Planerat uttag")).toBeInTheDocument();
+      });
+
+      // Click to collapse
+      await user.click(advancedToggle);
+
+      // Should hide advanced settings
+      await waitFor(() => {
+        expect(
+          screen.queryByText("Årlig ökning av sparande")
+        ).not.toBeInTheDocument();
+      });
+    });
+
+    it("should show status indicators when advanced features are active", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Open advanced settings
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      // Enable withdrawals
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      // Close advanced settings
+      await user.click(advancedToggle);
+
+      // Should show "Aktiv" badge when withdrawal is enabled
+      await waitFor(() => {
+        expect(screen.getByText("Aktiv")).toBeInTheDocument();
+      });
+    });
+
+    it("should show percentage badge for annual savings increase", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Open advanced settings
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      // Wait for advanced settings to appear
+      await waitFor(() => {
+        expect(
+          screen.getByText("Årlig ökning av sparande")
+        ).toBeInTheDocument();
+      });
+
+      // Find the annual increase slider by looking for the specific input with the unique attributes
+      const annualIncreaseSlider = screen
+        .getByRole("slider", { name: "" })
+        .closest("div")
+        ?.parentElement?.querySelector('input[min="0"][max="50"][step="0.5"]');
+      if (!annualIncreaseSlider) {
+        // Alternative: find by unique attribute combination
+        const allSliders = screen.getAllByRole("slider");
+        const targetSlider = allSliders.find(
+          (slider) =>
+            slider.getAttribute("min") === "0" &&
+            slider.getAttribute("max") === "50" &&
+            slider.getAttribute("step") === "0.5"
+        );
+        expect(targetSlider).toBeTruthy();
+        fireEvent.change(targetSlider!, { target: { value: "5" } });
+      } else {
+        fireEvent.change(annualIncreaseSlider, { target: { value: "5" } });
+      }
+
+      // Close advanced settings
+      await user.click(advancedToggle);
+
+      // Should show "+5%" badge
+      await waitFor(() => {
+        expect(screen.getByText("+5%")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Annual Savings Increase", () => {
+    it("should handle annual savings increase slider", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Open advanced settings
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      // Wait for advanced settings to appear
+      await waitFor(() => {
+        expect(
+          screen.getByText("Årlig ökning av sparande")
+        ).toBeInTheDocument();
+      });
+
+      // Find annual savings increase slider by its unique attributes
+      const allSliders = screen.getAllByRole("slider");
+      const annualIncreaseSlider = allSliders.find(
+        (slider) =>
+          slider.getAttribute("min") === "0" &&
+          slider.getAttribute("max") === "50" &&
+          slider.getAttribute("step") === "0.5"
+      );
+      expect(annualIncreaseSlider).toBeTruthy();
+      expect(annualIncreaseSlider).toHaveAttribute("min", "0");
+      expect(annualIncreaseSlider).toHaveAttribute("max", "50");
+      expect(annualIncreaseSlider).toHaveAttribute("step", "0.5");
+
+      // Change to 10%
+      fireEvent.change(annualIncreaseSlider!, { target: { value: "10" } });
+
+      await waitFor(() => {
+        expect(screen.getByText("10%/år")).toBeInTheDocument();
+      });
+    });
+
+    it("should affect calculation results with annual increase", async () => {
+      render(<CompoundInterestCalculator />);
+
+      // Set base values
+      const sliders = screen.getAllByRole("slider");
+      fireEvent.change(sliders[0], { target: { value: "100000" } }); // Start sum
+      fireEvent.change(sliders[1], { target: { value: "5000" } }); // Monthly savings
+      fireEvent.change(sliders[2], { target: { value: "7" } }); // Return
+      fireEvent.change(sliders[3], { target: { value: "10" } }); // Years
+
+      // Open advanced settings first
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await userEvent.setup().click(advancedToggle);
+
+      // Wait for advanced settings to appear and get the annual increase slider
+      await waitFor(() => {
+        expect(
+          screen.getByText("Årlig ökning av sparande")
+        ).toBeInTheDocument();
+      });
+
+      // Find the annual increase slider by its unique attributes
+      const allSliders = screen.getAllByRole("slider");
+      const annualIncreaseSlider = allSliders.find(
+        (slider) =>
+          slider.getAttribute("min") === "0" &&
+          slider.getAttribute("max") === "50" &&
+          slider.getAttribute("step") === "0.5"
+      );
+      expect(annualIncreaseSlider).toBeTruthy();
+
+      fireEvent.change(annualIncreaseSlider!, { target: { value: "5" } });
+
+      await waitFor(() => {
+        // With 5% annual increase, total should be higher
+        const newResults = screen.getAllByText(/kr/);
+        const hasHigherValue = newResults.some((el) => {
+          const text = el.textContent || "";
+          const value = parseInt(text.replace(/[^\d]/g, ""));
+          return value > 800000; // Should be significantly higher with annual increases
+        });
+        expect(hasHigherValue).toBe(true);
+      });
+    });
+  });
+
+  describe("Withdrawal Settings", () => {
+    it("should enable withdrawal settings when switch is toggled", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Open advanced settings
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      // Withdrawal settings should be hidden initially
+      expect(
+        screen.queryByText("Hur vill du göra ditt uttag?")
+      ).not.toBeInTheDocument();
+
+      // Enable withdrawals
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      // Should show withdrawal options
+      await waitFor(() => {
+        expect(
+          screen.getByText("Hur vill du göra ditt uttag?")
+        ).toBeInTheDocument();
+        expect(screen.getByText("Procent av totalt värde")).toBeInTheDocument();
+        expect(screen.getByText("Specifik summa")).toBeInTheDocument();
+      });
+    });
+
+    it("should switch between percentage and amount withdrawal types", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Open advanced settings and enable withdrawals
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      await waitFor(() => {
+        expect(screen.getByText("Procent av totalt värde")).toBeInTheDocument();
+      });
+
+      // Should default to percentage mode
+      expect(screen.getByText("Uttag per år (%)")).toBeInTheDocument();
+
+      // Switch to amount mode
+      const amountButton = screen.getByText("Specifik summa");
+      await user.click(amountButton);
+
+      await waitFor(() => {
+        expect(screen.getByText("Uttag per år i kronor")).toBeInTheDocument();
+      });
+
+      // Switch back to percentage mode
+      const percentageButton = screen.getByText("Procent av totalt värde");
+      await user.click(percentageButton);
+
+      await waitFor(() => {
+        expect(screen.getByText("Uttag per år (%)")).toBeInTheDocument();
+      });
+    });
+
+    it("should handle withdrawal year slider", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Set investment horizon to 20 years first
+      const sliders = screen.getAllByRole("slider");
+      fireEvent.change(sliders[3], { target: { value: "20" } });
+
+      // Open advanced settings and enable withdrawals
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      await waitFor(() => {
+        expect(screen.getByText("När ska uttaget ske?")).toBeInTheDocument();
+      });
+
+      // Find withdrawal year slider by its unique attributes (min=1, max=20)
+      const allSliders = screen.getAllByRole("slider");
+      const withdrawalYearSlider = allSliders.find(
+        (slider) =>
+          slider.getAttribute("min") === "1" &&
+          slider.getAttribute("max") === "20"
+      );
+      expect(withdrawalYearSlider).toBeTruthy();
+      expect(withdrawalYearSlider).toHaveAttribute("min", "1");
+      expect(withdrawalYearSlider).toHaveAttribute("max", "20"); // Should match investment horizon
+
+      // Change withdrawal year
+      fireEvent.change(withdrawalYearSlider!, { target: { value: "15" } });
+
+      await waitFor(() => {
+        expect(screen.getByText("År 15")).toBeInTheDocument();
+      });
+    });
+
+    it("should handle percentage withdrawal slider", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Open advanced settings and enable withdrawals
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      await waitFor(() => {
+        expect(screen.getByText("Uttag per år (%)")).toBeInTheDocument();
+      });
+
+      // Find percentage withdrawal slider by its unique attributes (min=0, max=100, step=1)
+      const allSliders = screen.getAllByRole("slider");
+      const percentageSlider = allSliders.find(
+        (slider) =>
+          slider.getAttribute("min") === "0" &&
+          slider.getAttribute("max") === "100" &&
+          slider.getAttribute("step") === "1" &&
+          slider.getAttribute("value") === "10"
+      );
+      expect(percentageSlider).toBeTruthy();
+      expect(percentageSlider).toHaveAttribute("min", "0");
+      expect(percentageSlider).toHaveAttribute("max", "100");
+
+      // Change percentage
+      fireEvent.change(percentageSlider!, { target: { value: "25" } });
+
+      await waitFor(() => {
+        expect(screen.getByText("25%")).toBeInTheDocument();
+      });
+    });
+
+    it("should handle amount withdrawal with editable input", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Open advanced settings and enable withdrawals
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      // Switch to amount mode
+      // Switch to amount mode
+      const amountButton = screen.getByText("Specifik summa");
+      await user.click(amountButton);
+
+      await waitFor(() => {
+        expect(screen.getByText("Uttag per år i kronor")).toBeInTheDocument();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText("Uttag per år i kronor")).toBeInTheDocument();
+      });
+
+      // Default should show 100,000 kr
+      expect(screen.getByText("100 000 kr")).toBeInTheDocument();
+
+      // Click to edit the withdrawal amount
+      const withdrawalValue = screen.getByText("100 000 kr");
+      await user.click(withdrawalValue);
+
+      // Should show input field
+      const input = screen.getByRole("textbox");
+      expect(input).toBeInTheDocument();
+      expect(input).toHaveValue("100000");
+
+      // Change value
+      await user.clear(input);
+      await user.type(input, "200000");
+      await user.keyboard("{Enter}");
+
+      // Should update display
+      await waitFor(() => {
+        expect(screen.getByText("200 000 kr")).toBeInTheDocument();
+      });
+    });
+
+    it("should disable withdrawals when switch is turned off", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Open advanced settings and enable withdrawals
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      await waitFor(() => {
+        expect(
+          screen.getByText("Hur vill du göra ditt uttag?")
+        ).toBeInTheDocument();
+      });
+
+      // Disable withdrawals
+      await user.click(withdrawalSwitch);
+
+      await waitFor(() => {
+        expect(
+          screen.queryByText("Hur vill du göra ditt uttag?")
+        ).not.toBeInTheDocument();
+      });
+    });
+
+    it("should show withdrawal impact in results", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Set up scenario with withdrawals
+      const sliders = screen.getAllByRole("slider");
+      fireEvent.change(sliders[0], { target: { value: "1000000" } }); // 1M start
+      fireEvent.change(sliders[1], { target: { value: "0" } }); // No monthly savings
+      fireEvent.change(sliders[2], { target: { value: "7" } }); // 7% return
+      fireEvent.change(sliders[3], { target: { value: "20" } }); // 20 years
+
+      // Enable withdrawals
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      // Set withdrawal year to 10 and percentage to 4%
+      await waitFor(() => {
+        expect(screen.getByText("När ska uttaget ske?")).toBeInTheDocument();
+      });
+
+      const withdrawalTestSliders = screen.getAllByRole("slider");
+      const withdrawalYearSlider = withdrawalTestSliders.find(
+        (slider) =>
+          slider.getAttribute("min") === "1" &&
+          slider.getAttribute("value") === "10"
+      );
+      expect(withdrawalYearSlider).toBeTruthy();
+      fireEvent.change(withdrawalYearSlider!, { target: { value: "10" } });
+
+      const percentageSlider = withdrawalTestSliders.find(
+        (slider) =>
+          slider.getAttribute("min") === "0" &&
+          slider.getAttribute("max") === "100" &&
+          slider.getAttribute("step") === "1" &&
+          slider.getAttribute("value") === "10"
+      );
+      expect(percentageSlider).toBeTruthy();
+      fireEvent.change(percentageSlider!, { target: { value: "4" } });
+
+      await waitFor(() => {
+        // Should show withdrawal column in results
+        expect(screen.getByText("Totalt uttaget")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Age Tracking", () => {
+    it("should display and allow editing of user age", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Should show age input with default value
+      expect(screen.getByText("30 år")).toBeInTheDocument();
+
+      // Click to edit age
+      const ageValue = screen.getByText("30 år");
+      await user.click(ageValue);
+
+      // Should show input field
+      const input = screen.getByRole("textbox");
+      expect(input).toHaveValue("30");
+
+      // Change age
+      await user.clear(input);
+      await user.type(input, "25");
+      await user.keyboard("{Enter}");
+
+      await waitFor(() => {
+        expect(screen.getByText("25 år")).toBeInTheDocument();
+      });
+    });
+
+    it("should handle age slider", () => {
+      render(<CompoundInterestCalculator />);
+
+      const ageSlider = screen.getByLabelText("Din ålder");
+      expect(ageSlider).toHaveAttribute("min", "18");
+      expect(ageSlider).toHaveAttribute("max", "100");
+      expect(ageSlider).toHaveAttribute("step", "1");
+
+      // Change age via slider
+      fireEvent.change(ageSlider, { target: { value: "45" } });
+
+      expect(screen.getByText("45 år")).toBeInTheDocument();
+    });
+  });
+
+  describe("Enhanced Input Fields", () => {
+    it("should allow input values beyond slider limits", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Test start sum beyond 10M limit
+      const startSumValue = screen.getAllByText("0 kr")[0];
+      await user.click(startSumValue);
+
+      const input = screen.getByRole("textbox");
+      await user.clear(input);
+      await user.type(input, "50000000"); // 50M, well above 10M slider limit
+      await user.keyboard("{Enter}");
+
+      await waitFor(() => {
+        expect(screen.getAllByText("50 000 000 kr")[0]).toBeInTheDocument();
+      });
+    });
+
+    it("should handle very large monthly savings input", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Test monthly savings beyond 100k limit
+      const monthlyValue = screen.getByText("5 000 kr/mån");
+      await user.click(monthlyValue);
+
+      const input = screen.getByRole("textbox");
+      await user.clear(input);
+      await user.type(input, "500000"); // 500k, well above 100k slider limit
+      await user.keyboard("{Enter}");
+
+      await waitFor(() => {
+        expect(screen.getByText("500 000 kr/mån")).toBeInTheDocument();
+      });
+    });
+
+    it("should handle yearly return beyond slider limits", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Test yearly return beyond 200% limit
+      const returnValue = screen.getByText("7%");
+      await user.click(returnValue);
+
+      const input = screen.getByRole("textbox");
+      await user.clear(input);
+      await user.type(input, "500"); // 500%, well above 200% slider limit
+      await user.keyboard("{Enter}");
+
+      await waitFor(() => {
+        expect(screen.getByText("500%")).toBeInTheDocument();
+      });
+    });
+
+    it("should handle negative values in input fields", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Test negative start sum
+      const startSumValue = screen.getAllByText("0 kr")[0];
+      await user.click(startSumValue);
+
+      const input = screen.getByRole("textbox");
+      await user.clear(input);
+      await user.type(input, "-100000");
+      await user.keyboard("{Enter}");
+
+      await waitFor(() => {
+        // The input parsing extracts numbers, so -100000 becomes 100000
+        // But we can check that the input was processed and a value was set
+        const allKrElements = screen.getAllByText(/\d.*kr/);
+        const hasProcessedValue = allKrElements.some((el) => {
+          const text = el.textContent || "";
+          return text.includes("100") && text.includes("kr");
+        });
+        expect(hasProcessedValue).toBe(true);
+      });
+    });
+
+    it("should handle decimal values in input fields", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Test decimal return rate
+      const returnValue = screen.getByText("7%");
+      await user.click(returnValue);
+
+      const input = screen.getByRole("textbox");
+      await user.clear(input);
+      await user.type(input, "7.25");
+      await user.keyboard("{Enter}");
+
+      await waitFor(() => {
+        expect(screen.getByText("7,25%")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Results Display with Advanced Features", () => {
+    it("should show theoretical total value when withdrawals are enabled", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Set up scenario
+      const sliders = screen.getAllByRole("slider");
+      fireEvent.change(sliders[0], { target: { value: "100000" } });
+      fireEvent.change(sliders[1], { target: { value: "5000" } });
+      fireEvent.change(sliders[2], { target: { value: "7" } });
+      fireEvent.change(sliders[3], { target: { value: "10" } });
+
+      // Enable withdrawals
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      await waitFor(() => {
+        // Should show both theoretical and actual total values
+        expect(
+          screen.getByText("Totalt portföljvärde (utan uttag)")
+        ).toBeInTheDocument();
+        expect(screen.getByText(/efter uttag/)).toBeInTheDocument();
+      });
+    });
+
+    it("should calculate and display results with all advanced features combined", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Set up complex scenario
+      const sliders = screen.getAllByRole("slider");
+      fireEvent.change(sliders[0], { target: { value: "500000" } }); // 500k start
+      fireEvent.change(sliders[1], { target: { value: "10000" } }); // 10k monthly
+      fireEvent.change(sliders[2], { target: { value: "8" } }); // 8% return
+      fireEvent.change(sliders[3], { target: { value: "25" } }); // 25 years
+
+      // Open advanced settings
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      // Wait for advanced settings to appear
+      await waitFor(() => {
+        expect(
+          screen.getByText("Årlig ökning av sparande")
+        ).toBeInTheDocument();
+      });
+
+      // Set annual savings increase
+      const allSliders = screen.getAllByRole("slider");
+      const annualIncreaseSlider = allSliders.find(
+        (slider) =>
+          slider.getAttribute("min") === "0" &&
+          slider.getAttribute("max") === "50" &&
+          slider.getAttribute("step") === "0.5"
+      );
+      expect(annualIncreaseSlider).toBeTruthy();
+      fireEvent.change(annualIncreaseSlider!, { target: { value: "3" } });
+
+      // Enable withdrawals
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      await waitFor(() => {
+        expect(screen.getByText("När ska uttaget ske?")).toBeInTheDocument();
+      });
+
+      // Set withdrawal parameters
+      const withdrawalSliders = screen.getAllByRole("slider");
+      const withdrawalYearSlider = withdrawalSliders.find(
+        (slider) =>
+          slider.getAttribute("min") === "1" &&
+          slider.getAttribute("value") === "10"
+      );
+      expect(withdrawalYearSlider).toBeTruthy();
+      fireEvent.change(withdrawalYearSlider!, { target: { value: "20" } });
+
+      const percentageSlider = withdrawalSliders.find(
+        (slider) =>
+          slider.getAttribute("min") === "0" &&
+          slider.getAttribute("max") === "100" &&
+          slider.getAttribute("step") === "1" &&
+          slider.getAttribute("value") === "10"
+      );
+      expect(percentageSlider).toBeTruthy();
+      fireEvent.change(percentageSlider!, { target: { value: "5" } });
+
+      await waitFor(() => {
+        // Should show all result components
+        expect(
+          screen.getByText("Totalt portföljvärde (utan uttag)")
+        ).toBeInTheDocument();
+        expect(screen.getByText(/efter uttag/)).toBeInTheDocument();
+        expect(screen.getByText("Totalt uttaget")).toBeInTheDocument();
+
+        // Should have realistic values (not astronomical)
+        const totalElements = screen.getAllByText(/kr/);
+        const hasReasonableValues = totalElements.some((el) => {
+          const text = el.textContent || "";
+          const numbers = text.replace(/[^\d]/g, "");
+          if (numbers.length > 0) {
+            const value = parseInt(numbers);
+            return value >= 1000000 && value <= 50000000; // Should be in reasonable range
+          }
+          return false;
+        });
+        expect(hasReasonableValues).toBe(true);
+      });
+    });
+  });
+
+  describe("Error Handling and Edge Cases", () => {
+    it("should handle extreme input values gracefully", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Test extremely high values
+      const startSumValue = screen.getAllByText("0 kr")[0];
+      await user.click(startSumValue);
+
+      const input = screen.getByRole("textbox");
+      await user.clear(input);
+      await user.type(input, "999999999999"); // Nearly trillion
+      await user.keyboard("{Enter}");
+
+      await waitFor(() => {
+        // Should handle without crashing - look for the value in the input area
+        const inputElements = screen.getAllByText("999 999 999 999 kr");
+        expect(inputElements.length).toBeGreaterThan(0);
+      });
+    });
+
+    it("should handle withdrawal year exceeding investment horizon", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      // Set investment horizon to 5 years
+      const sliders = screen.getAllByRole("slider");
+      fireEvent.change(sliders[3], { target: { value: "5" } });
+
+      // Open advanced settings and enable withdrawals
+      const advancedToggle = screen.getByRole("button", {
+        name: /avancerade inställningar/i,
+      });
+      await user.click(advancedToggle);
+
+      const withdrawalSwitch = screen.getByRole("switch");
+      await user.click(withdrawalSwitch);
+
+      await waitFor(() => {
+        expect(screen.getByText("När ska uttaget ske?")).toBeInTheDocument();
+      });
+
+      // Withdrawal year slider max should be limited to investment horizon
+      // First need to wait for the component to update with the new investment horizon
+      await waitFor(() => {
+        const allSliders = screen.getAllByRole("slider");
+        const withdrawalYearSlider = allSliders.find(
+          (slider) =>
+            slider.getAttribute("min") === "1" &&
+            slider.getAttribute("max") === "5" // Should be limited to investment horizon
+        );
+        expect(withdrawalYearSlider).toBeTruthy();
+        expect(withdrawalYearSlider).toHaveAttribute("max", "5");
+      });
+    });
+
+    it("should handle empty and invalid input gracefully", async () => {
+      const user = userEvent.setup();
+      render(<CompoundInterestCalculator />);
+
+      const startSumValue = screen.getAllByText("0 kr")[0];
+      await user.click(startSumValue);
+
+      const input = screen.getByRole("textbox");
+
+      // Test empty input
+      await user.clear(input);
+      await user.keyboard("{Enter}");
+
+      await waitFor(() => {
+        // Should revert to previous value or 0
+        expect(screen.getAllByText("0 kr")[0]).toBeInTheDocument();
+      });
+
+      // Test invalid characters - click again to get fresh input
+      const startSumValue2 = screen.getAllByText("0 kr")[0];
+      await user.click(startSumValue2);
+
+      // Wait for input to appear
+      await waitFor(() => {
+        expect(screen.getByRole("textbox")).toBeInTheDocument();
+      });
+
+      const input2 = screen.getByRole("textbox");
+      await user.clear(input2);
+      await user.type(input2, "abc123def");
+      await user.keyboard("{Enter}");
+
+      await waitFor(() => {
+        // Should extract only numbers
+        const allKrElements = screen.getAllByText(/\d.*kr/);
+        const hasExtractedNumbers = allKrElements.some((el) => {
+          const text = el.textContent || "";
+          return text.includes("123") && text.includes("kr");
+        });
+        expect(hasExtractedNumbers).toBe(true);
+      });
     });
   });
 });

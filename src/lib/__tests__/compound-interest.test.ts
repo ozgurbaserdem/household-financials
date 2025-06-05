@@ -213,4 +213,114 @@ describe("calculateCompoundInterest", () => {
       expect(year.compoundReturns).not.toBeNaN();
     });
   });
+
+  it("should stop monthly savings from withdrawal year onwards and withdraw every year", () => {
+    const inputs: CompoundInterestInputs = {
+      startSum: 50000, // Start with more money to support withdrawals
+      monthlySavings: 1000,
+      yearlyReturn: 0.07,
+      investmentHorizon: 5,
+      withdrawalType: "amount",
+      withdrawalYear: 3,
+      withdrawalAmount: 5000, // Smaller withdrawal amount
+    };
+
+    const result = calculateCompoundInterest(inputs);
+
+    // Years 1-2: Should have monthly savings
+    expect(result[0].currentMonthlySavings).toBe(1000);
+    expect(result[1].currentMonthlySavings).toBe(1000);
+
+    // Years 3-5: Should have no monthly savings (withdrawal phase)
+    expect(result[2].currentMonthlySavings).toBe(0);
+    expect(result[3].currentMonthlySavings).toBe(0);
+    expect(result[4].currentMonthlySavings).toBe(0);
+
+    // Years 3-5: Should have withdrawals every year
+    expect(result[2].withdrawal).toBe(5000);
+    expect(result[3].withdrawal).toBe(5000);
+    expect(result[4].withdrawal).toBe(5000);
+  });
+
+  it("should handle percentage withdrawal with stopped savings every year", () => {
+    const inputs: CompoundInterestInputs = {
+      startSum: 100000,
+      monthlySavings: 5000,
+      yearlyReturn: 0.07,
+      investmentHorizon: 3,
+      withdrawalType: "percentage",
+      withdrawalYear: 2,
+      withdrawalPercentage: 10,
+    };
+
+    const result = calculateCompoundInterest(inputs);
+
+    // Year 1: Normal savings
+    expect(result[0].currentMonthlySavings).toBe(5000);
+
+    // Years 2-3: No more savings
+    expect(result[1].currentMonthlySavings).toBe(0);
+    expect(result[2].currentMonthlySavings).toBe(0);
+
+    // Years 2-3: Should have withdrawals every year
+    expect(result[1].withdrawal).toBeGreaterThan(0);
+    expect(result[2].withdrawal).toBeGreaterThan(0);
+
+    // The second year withdrawal should be less than the first (smaller portfolio)
+    expect(result[2].withdrawal).toBeLessThan(result[1].withdrawal!);
+  });
+
+  it("should continue annual savings increase until withdrawal year", () => {
+    const inputs: CompoundInterestInputs = {
+      startSum: 0,
+      monthlySavings: 1000,
+      yearlyReturn: 0.05,
+      investmentHorizon: 5,
+      withdrawalType: "amount",
+      withdrawalYear: 4,
+      withdrawalAmount: 5000,
+      annualSavingsIncrease: 10, // 10% increase per year
+    };
+
+    const result = calculateCompoundInterest(inputs);
+
+    // Year 1: 1000/month
+    expect(result[0].currentMonthlySavings).toBe(1000);
+
+    // Year 2: 1100/month (10% increase)
+    expect(result[1].currentMonthlySavings).toBe(1100);
+
+    // Year 3: 1210/month (10% increase)
+    expect(result[2].currentMonthlySavings).toBe(1210);
+
+    // Years 4-5: 0/month (withdrawal phase, no more increases)
+    expect(result[3].currentMonthlySavings).toBe(0);
+    expect(result[4].currentMonthlySavings).toBe(0);
+  });
+
+  it("should handle the specific scenario: 1M portfolio, 100k annual withdrawals", () => {
+    const inputs: CompoundInterestInputs = {
+      startSum: 1000000, // Start with 1M
+      monthlySavings: 0, // No monthly savings
+      yearlyReturn: 0.07, // 7% annual return
+      investmentHorizon: 3,
+      withdrawalType: "amount",
+      withdrawalYear: 1, // Start withdrawing immediately
+      withdrawalAmount: 100000, // 100k per year
+    };
+
+    const result = calculateCompoundInterest(inputs);
+
+    // Year 1: Start with 1M, withdraw 100k, left with 900k, grow to ~963k
+    expect(result[0].withdrawal).toBe(100000);
+    expect(result[0].totalValue).toBeCloseTo(963000, -1); // Within ~1000
+
+    // Year 2: Start with ~963k, withdraw 100k, left with ~863k, grow to ~923k
+    expect(result[1].withdrawal).toBe(100000);
+    expect(result[1].totalValue).toBeCloseTo(923410, 0); // More precise value
+
+    // Year 3: Start with ~923k, withdraw 100k, left with ~823k, grow to ~881k
+    expect(result[2].withdrawal).toBe(100000);
+    expect(result[2].totalValue).toBeCloseTo(881049, 0); // More precise value
+  });
 });
