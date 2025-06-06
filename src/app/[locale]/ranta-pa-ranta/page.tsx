@@ -25,13 +25,20 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "compound_interest" });
 
   const isSwedish = locale === "sv";
 
-  const title = t("meta.title");
-  const description = t("meta.description");
-  const keywords = t("meta.keywords");
+  const title = isSwedish
+    ? "Ränta på Ränta Kalkylator - Beräkna Din Framtida Förmögenhet | Budgetkollen"
+    : "Compound Interest Calculator - Calculate Your Future Wealth | Budgetkollen";
+
+  const description = isSwedish
+    ? "Beräkna hur dina investeringar växer med ränta på ränta! ✓ Gratis kalkylator ✓ Visualiserade resultat ✓ Se hur små belopp blir miljoner över tid."
+    : "Calculate how your investments grow with compound interest! ✓ Free calculator ✓ Visual results ✓ See how small amounts become millions over time.";
+
+  const keywords = isSwedish
+    ? "ränta på ränta, ränta-på-ränta, compund interest, sparkalkylator, investeringskalkylator, sparande, investering, budgetkollen, privatekonomi, finansiell planering, sparmål, kapitalförmögenhet, pensionssparande, fonder, avkastning, ekonomi kalkylator"
+    : "compound interest, savings calculator, investment calculator, saving, investing, budgetkollen, personal finance, financial planning, savings goals, wealth building, retirement savings, funds, returns, finance calculator";
 
   // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
   const canonicalUrl = isSwedish
@@ -47,6 +54,10 @@ export async function generateMetadata({
     publisher: "Budgetkollen",
     category: "Finance",
     classification: "Investment Calculator Tool",
+    applicationName: "Budgetkollen",
+    generator: "Next.js",
+    referrer: "origin-when-cross-origin",
+    manifest: "/manifest.json",
     formatDetection: {
       email: false,
       address: false,
@@ -66,6 +77,7 @@ export async function generateMetadata({
       url: canonicalUrl,
       siteName: "Budgetkollen",
       locale: isSwedish ? "sv_SE" : "en_US",
+      alternateLocale: isSwedish ? "en_US" : "sv_SE",
       type: "website",
       images: [
         {
@@ -75,6 +87,7 @@ export async function generateMetadata({
           alt: isSwedish
             ? "Ränta på Ränta Kalkylator - Budgetkollen"
             : "Compound Interest Calculator - Budgetkollen",
+          type: "image/png",
         },
       ],
     },
@@ -83,6 +96,8 @@ export async function generateMetadata({
       title,
       description,
       images: ["/compound-interest-og.png?v=2"],
+      creator: "@budgetkollen",
+      site: "@budgetkollen",
     },
     robots: {
       index: true,
@@ -97,6 +112,9 @@ export async function generateMetadata({
         "max-snippet": -1,
       },
     },
+    verification: {
+      google: "G2E34AZZPQ97qu8fxJbgKwM0dUveivxfv84F97tMqV8",
+    },
     other: {
       "revisit-after": "7 days",
       distribution: "global",
@@ -104,8 +122,16 @@ export async function generateMetadata({
       language: isSwedish ? "Swedish" : "English",
       "geo.region": "SE",
       "geo.country": "Sweden",
-      "apple-mobile-web-app-status-bar-style": "#0055FF",
-      "apple-mobile-web-app-title": title,
+      "og:locale:alternate": isSwedish ? "en_US" : "sv_SE",
+      "article:author": "Budgetkollen",
+      "article:section": "Finance",
+      "apple-mobile-web-app-capable": "yes",
+      "apple-mobile-web-app-status-bar-style": "black-translucent",
+      "msapplication-TileColor": "#1a1a1a",
+      "format-detection": "telephone=no",
+      "mobile-web-app-capable": "yes",
+      "dns-prefetch": "https://www.googletagmanager.com",
+      preconnect: "https://www.google-analytics.com",
     },
   };
 }
