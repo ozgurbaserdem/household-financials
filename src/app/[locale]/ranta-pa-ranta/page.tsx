@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import { CompoundInterestCalculator } from "@/features/compound-interest/CompoundInterestCalculator";
+import { CompoundInterestClient } from "@/features/compound-interest/CompoundInterestClient";
 import {
   Card,
   CardHeader,
@@ -437,7 +437,7 @@ async function CompoundInterestContent(locale: string) {
           </Card>
 
           {/* Calculator */}
-          <CompoundInterestCalculator />
+          <CompoundInterestClient />
 
           {/* Tips Section */}
           <Card gradient glass>
