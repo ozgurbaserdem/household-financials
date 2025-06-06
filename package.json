@@ -100,7 +100,11 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "npm test"
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write"
     ]
   }
 }
