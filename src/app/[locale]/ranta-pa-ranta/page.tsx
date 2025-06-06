@@ -69,7 +69,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "/compound-interest-og.png",
+          url: "/compound-interest-og.png?v=2",
           width: 1200,
           height: 630,
           alt: isSwedish
@@ -82,7 +82,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: ["/compound-interest-og.png"],
+      images: ["/compound-interest-og.png?v=2"],
     },
     robots: {
       index: true,
