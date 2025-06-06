@@ -21,7 +21,13 @@
     "custom_interest_rate_placeholder": "e.g. 2.74",
     "add_custom_rate": "Add custom rate",
     "remove_custom_rate": "Remove custom rate {rate}%",
-    "multiple_rates_info": "You can choose multiple interest and amortization rates to compare different scenarios in the final step"
+    "multiple_rates_info": "You can choose multiple interest and amortization rates to compare different scenarios in the final step",
+    "interest_rate": "Interest rate (%)",
+    "interest_rate_aria": "Interest rate for the loan",
+    "interest_rate_help": "Annual interest rate for the loan",
+    "amortization_rate": "Amortization rate (%)",
+    "amortization_rate_aria": "Amortization rate for the loan",
+    "amortization_rate_help": "Annual amortization rate for the loan"
   },
   "dialog": {
     "close": "Close",
@@ -125,6 +131,8 @@
     "remaining_savings_tooltip": "Surplus or deficit after all costs and taxes are deducted.",
     "show_financial_health_score_details": "Show financial health score",
     "hide_financial_health_score_details": "Hide financial health score",
+    "financial_health_score_description": "Click to see your financial health breakdown",
+    "financial_health_score_title": "Financial health analysis",
     "comparing_scenarios": "Comparing {count} loan scenarios",
     "best_scenario": "Best scenario",
     "worst_scenario": "Worst scenario",
@@ -135,7 +143,10 @@
       "title": "Grow your savings with compound interest",
       "description": "You can save {savings} kr every month! See how much this amount can grow with compound interest over time.",
       "button": "Calculate compound interest"
-    }
+    },
+    "current_scenario": "Current scenario",
+    "adjust_rates_title": "Adjust loan rates",
+    "adjust_rates_description": "Modify the interest and amortization rates to see how they affect your monthly budget"
   },
   "export_import": {
     "export_csv": "Export CSV",

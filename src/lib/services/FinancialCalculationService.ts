@@ -5,7 +5,6 @@ import type {
   FinancialHealthScore,
   IncomeState,
 } from "../types";
-import { getFirstInterestRate } from "../types";
 import {
   TaxCalculationService,
   taxCalculationService,
@@ -277,9 +276,7 @@ export class FinancialCalculationService {
     monthlyAmortization: number;
     monthlyInterest: number;
   } {
-    const { amount, amortizationRates } = state.loanParameters;
-    const interestRate = getFirstInterestRate(state.loanParameters);
-    const amortizationRate = amortizationRates[0] ?? 0;
+    const { amount, interestRate, amortizationRate } = state.loanParameters;
 
     return {
       monthlyInterest: (amount * (interestRate / 100)) / 12,

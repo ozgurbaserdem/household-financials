@@ -6,6 +6,8 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import calculatorReducer from "@/store/slices/calculatorSlice";
 import { ReactNode } from "react";
+import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
 
 // Types for motion components
 interface MotionProps {
@@ -56,14 +58,26 @@ function createTestStore(preloadedState?: CalculatorState) {
   });
 }
 
+// Wrapper component to provide form context
+function FormWrapper({ children }: { children: ReactNode }) {
+  const form = useForm({
+    defaultValues: {
+      interestRate: 3.5,
+      amortizationRate: 2,
+    },
+  });
+
+  return <Form {...form}>{children}</Form>;
+}
+
 const createMockState = (
   overrides?: Partial<CalculatorState>
 ): CalculatorState => ({
   loanParameters: {
     amount: 3000000,
-    interestRates: [3.5],
-    amortizationRates: [2],
-    customInterestRates: [],
+    interestRate: 3.5,
+    amortizationRate: 2,
+    hasLoan: true,
   },
   income: {
     income1: 35000,
@@ -124,7 +138,9 @@ describe("ResultsTable", () => {
       const store = createTestStore();
       render(
         <Provider store={store}>
-          <ResultsTable calculatorState={createMockState()} />
+          <FormWrapper>
+            <ResultsTable calculatorState={createMockState()} />
+          </FormWrapper>
         </Provider>
       );
 
@@ -163,7 +179,9 @@ describe("ResultsTable", () => {
       const store = createTestStore();
       render(
         <Provider store={store}>
-          <ResultsTable calculatorState={createMockState()} />
+          <FormWrapper>
+            <ResultsTable calculatorState={createMockState()} />
+          </FormWrapper>
         </Provider>
       );
 
@@ -219,28 +237,27 @@ describe("ResultsTable", () => {
       const store = createTestStore();
       render(
         <Provider store={store}>
-          <ResultsTable
-            calculatorState={createMockState({
-              loanParameters: {
-                amount: 3000000,
-                interestRates: [3, 4],
-                amortizationRates: [2, 3],
-                customInterestRates: [],
-              },
-            })}
-          />
+          <FormWrapper>
+            <ResultsTable
+              calculatorState={createMockState({
+                loanParameters: {
+                  amount: 3000000,
+                  interestRate: 3,
+                  amortizationRate: 2,
+                  hasLoan: true,
+                },
+              })}
+            />
+          </FormWrapper>
         </Provider>
       );
 
-      // Best/worst scenario sections should be present (using getAllByText for multiple occurrences)
-      expect(screen.getAllByText("best_option")).toHaveLength(2); // Summary + badge
-      expect(screen.getAllByText("worst_option")).toHaveLength(2); // Summary + badge
+      // Since ResultsTable now only shows single scenarios, check for current_scenario
+      expect(screen.getByText("current_scenario")).toBeInTheDocument();
 
-      // Should show the correct values in summary cards
-      // The values are rendered inside the summary stats section
-      const summarySection =
-        screen.getAllByText("best_option")[0].parentElement?.parentElement;
-      expect(summarySection).toBeTruthy();
+      // Should display a single result card with the basic structure
+      expect(screen.getAllByText("interest_rate")).toHaveLength(2); // One in result card, one in slider
+      expect(screen.getByText("remaining_savings")).toBeInTheDocument();
     });
 
     it("should show badges on best and worst scenario cards", () => {
@@ -288,22 +305,27 @@ describe("ResultsTable", () => {
       const store = createTestStore();
       render(
         <Provider store={store}>
-          <ResultsTable
-            calculatorState={createMockState({
-              loanParameters: {
-                amount: 3000000,
-                interestRates: [3, 4],
-                amortizationRates: [2, 3],
-                customInterestRates: [],
-              },
-            })}
-          />
+          <FormWrapper>
+            <ResultsTable
+              calculatorState={createMockState({
+                loanParameters: {
+                  amount: 3000000,
+                  interestRate: 3,
+                  amortizationRate: 2,
+                  hasLoan: true,
+                },
+              })}
+            />
+          </FormWrapper>
         </Provider>
       );
 
-      // Badges should be present (text has been updated)
-      expect(screen.getAllByText("best_option")).toHaveLength(2); // Summary + badge
-      expect(screen.getAllByText("worst_option")).toHaveLength(2); // Summary + badge
+      // Since ResultsTable now only shows single scenarios, check for current_scenario
+      expect(screen.getByText("current_scenario")).toBeInTheDocument();
+
+      // Should not show any badges since only one scenario is displayed
+      expect(screen.queryByText("best_option")).not.toBeInTheDocument();
+      expect(screen.queryByText("worst_option")).not.toBeInTheDocument();
     });
   });
 
@@ -337,9 +359,9 @@ describe("ResultsTable", () => {
             calculatorState={createMockState({
               loanParameters: {
                 amount: 0,
-                interestRates: [],
-                amortizationRates: [],
-                customInterestRates: [],
+                interestRate: 0,
+                amortizationRate: 0,
+                hasLoan: false,
               },
             })}
           />
@@ -378,7 +400,9 @@ describe("ResultsTable", () => {
       const store = createTestStore();
       render(
         <Provider store={store}>
-          <ResultsTable calculatorState={createMockState()} />
+          <FormWrapper>
+            <ResultsTable calculatorState={createMockState()} />
+          </FormWrapper>
         </Provider>
       );
 
@@ -412,26 +436,27 @@ describe("ResultsTable", () => {
       const store = createTestStore();
       render(
         <Provider store={store}>
-          <ResultsTable
-            calculatorState={createMockState({
-              loanParameters: {
-                amount: 3000000,
-                interestRates: [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7],
-                amortizationRates: [2, 3, 4],
-                customInterestRates: [],
-              },
-            })}
-          />
+          <FormWrapper>
+            <ResultsTable
+              calculatorState={createMockState({
+                loanParameters: {
+                  amount: 3000000,
+                  interestRate: 3,
+                  amortizationRate: 2,
+                  hasLoan: true,
+                },
+              })}
+            />
+          </FormWrapper>
         </Provider>
       );
 
-      // Should show best/worst summaries
-      expect(screen.getAllByText("best_option")).toHaveLength(2); // Summary + badge
-      expect(screen.getAllByText("worst_option")).toHaveLength(2); // Summary + badge
+      // Since ResultsTable now only shows single scenarios, check for current_scenario
+      expect(screen.getByText("current_scenario")).toBeInTheDocument();
 
-      // Should show all scenarios (9 total, but displayed uniquely)
-      const housingCosts = screen.getAllByText(/housing_cost/i);
-      expect(housingCosts.length).toBeGreaterThan(0);
+      // Should show a single result card regardless of how many scenarios we provide
+      expect(screen.getByText("housing_cost")).toBeInTheDocument();
+      expect(screen.getAllByText("interest_rate")).toHaveLength(2); // One in result card, one in slider
     });
   });
 
@@ -461,14 +486,18 @@ describe("ResultsTable", () => {
       const store = createTestStore();
       render(
         <Provider store={store}>
-          <ResultsTable calculatorState={createMockState()} />
+          <FormWrapper>
+            <ResultsTable calculatorState={createMockState()} />
+          </FormWrapper>
         </Provider>
       );
 
-      // Should still show best/worst (even though they're the same)
-      // When scenarios are identical, both cards show "best" badge due to isBest priority
-      expect(screen.getAllByText("best_option")).toHaveLength(3); // Summary + 2 badges (both cards show best)
-      expect(screen.getAllByText("worst_option")).toHaveLength(1); // Summary only (badges prioritize best)
+      // Since ResultsTable now only shows single scenarios, check for current_scenario
+      expect(screen.getByText("current_scenario")).toBeInTheDocument();
+
+      // Should not show any badges or multiple scenarios even when given identical data
+      expect(screen.queryByText("best_option")).not.toBeInTheDocument();
+      expect(screen.queryByText("worst_option")).not.toBeInTheDocument();
     });
 
     it("should show correct scenario count in subtitle", () => {
@@ -498,12 +527,14 @@ describe("ResultsTable", () => {
       const store = createTestStore();
       render(
         <Provider store={store}>
-          <ResultsTable calculatorState={createMockState()} />
+          <FormWrapper>
+            <ResultsTable calculatorState={createMockState()} />
+          </FormWrapper>
         </Provider>
       );
 
-      // Check for scenario count in subtitle (mocked translation key with count)
-      expect(screen.getByText(/comparing_scenarios/)).toBeInTheDocument();
+      // Since ResultsTable now only shows single scenarios, check for current_scenario
+      expect(screen.getByText("current_scenario")).toBeInTheDocument();
     });
   });
 });

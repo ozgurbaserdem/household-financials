@@ -123,9 +123,8 @@ describe("WizardLayout", () => {
       },
       loanParameters: {
         amount: 1000000, // Has loan amount
-        interestRates: [], // But no rates selected
-        amortizationRates: [],
-        customInterestRates: [],
+        interestRate: 0, // But no rate selected
+        amortizationRate: 0,
         hasLoan: true, // User explicitly said they have loan
       },
       expenses: {},
@@ -179,9 +178,8 @@ describe("WizardLayout", () => {
       },
       loanParameters: {
         amount: 0,
-        interestRates: [],
-        amortizationRates: [],
-        customInterestRates: [],
+        interestRate: 0,
+        amortizationRate: 0,
         hasLoan: false, // User explicitly said no loan
       },
       expenses: {},
@@ -238,9 +236,8 @@ describe("WizardLayout", () => {
       },
       loanParameters: {
         amount: 1000000,
-        interestRates: [3, 4],
-        amortizationRates: [2, 3],
-        customInterestRates: [],
+        interestRate: 3,
+        amortizationRate: 2,
         hasLoan: true, // User explicitly said they have loan
       },
       expenses: {},
@@ -297,9 +294,8 @@ describe("WizardLayout", () => {
       },
       loanParameters: {
         amount: 0,
-        interestRates: [],
-        amortizationRates: [],
-        customInterestRates: [],
+        interestRate: 0,
+        amortizationRate: 0,
         hasLoan: false,
       },
       expenses: {},

@@ -43,7 +43,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { hasValidLoan, getFirstInterestRate } from "@/lib/types";
+import { hasValidLoan } from "@/lib/types";
 
 interface Row {
   label: string;
@@ -148,12 +148,9 @@ export function SummaryStep() {
       : undefined,
   ].filter((row): row is Row => row !== undefined);
 
-  // Get all interest rates (standard + custom)
-  const allInterestRates = [
-    ...loanParameters.interestRates,
-    ...(loanParameters.customInterestRates || []),
-  ];
-  const firstInterestRate = getFirstInterestRate(loanParameters);
+  // Get current interest and amortization rates
+  const interestRate = loanParameters.interestRate;
+  const amortizationRate = loanParameters.amortizationRate;
 
   const loanRows: Row[] = [
     {
@@ -184,8 +181,7 @@ export function SummaryStep() {
   const hasLoan = hasValidLoan(loanParameters);
 
   const monthlyPayment = hasLoan
-    ? loanParameters.amount *
-      ((firstInterestRate + loanParameters.amortizationRates[0]) / 100 / 12)
+    ? loanParameters.amount * ((interestRate + amortizationRate) / 100 / 12)
     : 0;
 
   const nonZeroExpenses = expenseTotals.filter((e) => e.total > 0);
@@ -464,19 +460,14 @@ export function SummaryStep() {
                             {tSummary("interestRates")}
                           </Text>
                         </Box>
-                        <Box className="flex flex-wrap gap-1.5 justify-end">
-                          {allInterestRates.map((rate, index) => (
-                            <motion.span
-                              key={index}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ delay: 0.1 + index * 0.05 }}
-                              className="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30"
-                            >
-                              {formatPercentage(rate)}
-                            </motion.span>
-                          ))}
-                        </Box>
+                        <motion.span
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.1 }}
+                          className="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30"
+                        >
+                          {formatPercentage(interestRate)}
+                        </motion.span>
                       </motion.div>
 
                       {/* Amortization Rates */}
@@ -494,21 +485,14 @@ export function SummaryStep() {
                             {tSummary("amortizationRates")}
                           </Text>
                         </Box>
-                        <Box className="flex flex-wrap gap-1.5 justify-end">
-                          {loanParameters.amortizationRates.map(
-                            (rate, index) => (
-                              <motion.span
-                                key={index}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.15 + index * 0.05 }}
-                                className="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full border border-purple-400/30"
-                              >
-                                {formatPercentage(rate)}
-                              </motion.span>
-                            )
-                          )}
-                        </Box>
+                        <motion.span
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.15 }}
+                          className="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full border border-purple-400/30"
+                        >
+                          {formatPercentage(amortizationRate)}
+                        </motion.span>
                       </motion.div>
                     </>
                   ) : (

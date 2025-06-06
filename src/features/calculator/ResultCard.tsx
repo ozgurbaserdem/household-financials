@@ -10,7 +10,14 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { Info, TrendingUp, TrendingDown } from "lucide-react";
+import {
+  Info,
+  TrendingUp,
+  TrendingDown,
+  Activity,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import { calculateFinancialHealthScoreForResult } from "@/lib/calculations";
 import { FinancialHealthScore } from "./FinancialHealthScore";
 import { motion } from "framer-motion";
@@ -73,6 +80,8 @@ function ResultCard({
             }
           )}
           format={cell.format}
+          smoothMode={true}
+          maxDuration={0.3}
         />
       );
     }
@@ -82,7 +91,7 @@ function ResultCard({
   return (
     <Box
       className={cn(
-        "glass p-6 rounded-xl transition-all duration-300",
+        "glass p-4 md:p-4 rounded-xl transition-all duration-300",
         "hover:bg-white/5 hover:border-white/20",
         isBest && "border-green-500/30 bg-green-500/5",
         isWorst && "border-red-500/30 bg-red-500/5"
@@ -108,7 +117,7 @@ function ResultCard({
         </motion.div>
       )}
 
-      <Box className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <Box className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
         {gridOrder.map((key) => {
           const cell = HEAD_CELLS.find((c) => c.key === key);
           if (!cell) return null;
@@ -161,23 +170,30 @@ function ResultCard({
       </Box>
 
       {/* Toggle Financial Health Score */}
-      <Box className="mt-4 pt-4 border-t border-gray-500/50">
+      <Box className="mt-3">
         <button
           onClick={() => setShowHealthScore(!showHealthScore)}
-          className="w-full text-left text-sm text-gray-300 hover:text-white transition-colors flex items-center justify-between group min-h-[44px] py-2"
+          className="flex items-center justify-between w-full p-2 rounded-xl bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-700/30 hover:border-green-500/50 transition-all duration-300 hover:from-green-900/30 hover:to-emerald-900/30 group"
         >
-          <span>
-            {showHealthScore
-              ? t("hide_financial_health_score_details")
-              : t("show_financial_health_score_details")}
-          </span>
-          <motion.div
-            animate={{ rotate: showHealthScore ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-            className="flex items-center justify-center min-w-[44px] min-h-[44px] -mr-2"
-          >
-            <Info className="w-6 h-6 group-hover:text-blue-400" />
-          </motion.div>
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-green-500/20 group-hover:bg-green-500/30 transition-colors">
+              <Activity className="w-5 h-5 text-green-400 group-hover:text-green-300 transition-colors" />
+            </div>
+            <div className="text-left">
+              <Text className="text-base font-semibold text-white group-hover:text-green-100 transition-colors">
+                {showHealthScore
+                  ? t("hide_financial_health_score_details")
+                  : t("show_financial_health_score_details")}
+              </Text>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            {showHealthScore ? (
+              <ChevronUp className="w-5 h-5 text-green-400 group-hover:text-green-300 transition-colors" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-green-400 group-hover:text-green-300 transition-colors" />
+            )}
+          </div>
         </button>
 
         {showHealthScore && (

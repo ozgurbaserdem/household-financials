@@ -20,9 +20,9 @@ const cardVariants = cva(
           "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg hover:shadow-xl",
       },
       padding: {
-        default: "p-6",
-        sm: "p-4",
-        lg: "p-8",
+        default: "p-4 md:p-4",
+        sm: "p-3 md:p-4",
+        lg: "p-6 md:p-8",
         none: "p-0",
       },
       hover: {

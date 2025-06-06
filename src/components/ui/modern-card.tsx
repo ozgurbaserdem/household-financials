@@ -45,7 +45,7 @@ const ModernCard = React.forwardRef<HTMLDivElement, ModernCardProps>(
         >
           <Box
             className={cn(
-              "relative z-10 flex flex-col gap-6 rounded-2xl p-6",
+              "relative z-10 flex flex-col gap-4 md:gap-6 rounded-2xl p-4 md:p-4",
               !glass &&
                 "bg-gray-900/80 backdrop-blur-xl border border-gray-800/50",
               "shadow-xl"
@@ -71,7 +71,7 @@ const ModernCard = React.forwardRef<HTMLDivElement, ModernCardProps>(
       >
         <Box
           className={cn(
-            "relative z-10 flex flex-col gap-6 rounded-2xl p-6",
+            "relative z-10 flex flex-col gap-4 md:gap-6 rounded-2xl p-4 md:p-4",
             !glass &&
               "bg-gray-900/80 backdrop-blur-xl border border-gray-800/50",
             "shadow-xl"

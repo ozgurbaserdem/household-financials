@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Stepper } from "@/components/ui/step-indicator";
 import { useAppSelector } from "@/store/hooks";
 import { getMaxAllowedStep } from "@/lib/validation/stepValidation";
@@ -14,7 +14,24 @@ export function ProgressStepper({
   currentStep,
   onStepClick,
 }: ProgressStepperProps) {
-  const calculatorState = useAppSelector((state) => state);
+  // Get calculator state for validation using individual selectors to avoid object creation
+  const loanParameters = useAppSelector((state) => state.loanParameters);
+  const income = useAppSelector((state) => state.income);
+  const expenses = useAppSelector((state) => state.expenses);
+  const expenseViewMode = useAppSelector((state) => state.expenseViewMode);
+  const totalExpenses = useAppSelector((state) => state.totalExpenses);
+
+  // Memoize the calculator state object
+  const calculatorState = useMemo(
+    () => ({
+      loanParameters,
+      income,
+      expenses,
+      expenseViewMode,
+      totalExpenses,
+    }),
+    [loanParameters, income, expenses, expenseViewMode, totalExpenses]
+  );
   const maxAllowedStep = getMaxAllowedStep(calculatorState);
 
   // Add disabled property to steps based on validation

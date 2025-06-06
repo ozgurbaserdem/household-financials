@@ -20,7 +20,6 @@ import {
 import { useMemo } from "react";
 import type { CalculatorState } from "@/lib/types";
 import { formatCurrency, calculateTotalNetIncome } from "@/lib/calculations";
-import { getFirstInterestRate } from "@/lib/types";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
@@ -63,9 +62,9 @@ export function Forecast({ calculatorState }: ForecastProps) {
 
     const initialLoan = calculatorState.loanParameters.amount;
     const amortizationRate =
-      calculatorState.loanParameters.amortizationRates[0] / 100 || 0.03;
+      calculatorState.loanParameters.amortizationRate / 100 || 0.03;
     const interestRate =
-      getFirstInterestRate(calculatorState.loanParameters) / 100 || 0.03;
+      calculatorState.loanParameters.interestRate / 100 || 0.03;
     const salaryIncreaseRate = 0.025;
 
     const netMonthlyIncome = calculateTotalNetIncome(calculatorState);

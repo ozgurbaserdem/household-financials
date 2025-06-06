@@ -65,13 +65,9 @@ export function validateIncomeStep(
 export function validateLoansStep(
   loanParameters: CalculatorState["loanParameters"]
 ): StepValidationResult {
-  const hasAnyRates =
-    loanParameters.interestRates.length > 0 ||
-    loanParameters.amortizationRates.length > 0 ||
-    (loanParameters.customInterestRates &&
-      loanParameters.customInterestRates.length > 0);
-
   const hasLoanAmount = loanParameters.amount > 0;
+  const hasInterestRate = loanParameters.interestRate > 0;
+  const hasAmortizationRate = loanParameters.amortizationRate > 0;
 
   // If user explicitly said they have loans, they need to provide loan data
   if (loanParameters.hasLoan) {
@@ -83,32 +79,18 @@ export function validateLoansStep(
       };
     }
 
-    // If they have amount but no rates
-    if (hasLoanAmount && !hasAnyRates) {
-      return {
-        isValid: false,
-        errorKey: VALIDATION_KEYS.LOAN_BOTH_RATES_REQUIRED,
-      };
-    }
-
     // Check for specific missing rates
-    const hasInterest =
-      loanParameters.interestRates.length > 0 ||
-      (loanParameters.customInterestRates &&
-        loanParameters.customInterestRates.length > 0);
-    const hasAmortization = loanParameters.amortizationRates.length > 0;
-
-    if (!hasInterest && !hasAmortization) {
+    if (!hasInterestRate && !hasAmortizationRate) {
       return {
         isValid: false,
         errorKey: VALIDATION_KEYS.LOAN_BOTH_RATES_REQUIRED,
       };
-    } else if (!hasInterest) {
+    } else if (!hasInterestRate) {
       return {
         isValid: false,
         errorKey: VALIDATION_KEYS.LOAN_INTEREST_RATE_REQUIRED,
       };
-    } else if (!hasAmortization) {
+    } else if (!hasAmortizationRate) {
       return {
         isValid: false,
         errorKey: VALIDATION_KEYS.LOAN_AMORTIZATION_RATE_REQUIRED,
@@ -117,7 +99,7 @@ export function validateLoansStep(
   }
 
   // If user has loan data but didn't explicitly say they have loans, that's inconsistent
-  if (!loanParameters.hasLoan && (hasLoanAmount || hasAnyRates)) {
+  if (!loanParameters.hasLoan && hasLoanAmount) {
     return {
       isValid: false,
       errorKey: VALIDATION_KEYS.LOAN_AMOUNT_REQUIRED,

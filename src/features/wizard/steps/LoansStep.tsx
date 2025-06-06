@@ -13,9 +13,8 @@ export function LoansStep() {
       <Loans
         values={{
           loanAmount: loanParameters.amount,
-          interestRates: loanParameters.interestRates,
-          amortizationRates: loanParameters.amortizationRates,
-          customInterestRates: loanParameters.customInterestRates || [],
+          interestRate: loanParameters.interestRate,
+          amortizationRate: loanParameters.amortizationRate,
           hasLoan: loanParameters.hasLoan,
         }}
         numberOfAdults={numberOfAdults}
@@ -23,9 +22,8 @@ export function LoansStep() {
           dispatch(
             updateLoanParameters({
               amount: values.loanAmount,
-              interestRates: values.interestRates,
-              amortizationRates: values.amortizationRates,
-              customInterestRates: values.customInterestRates || [],
+              interestRate: values.interestRate,
+              amortizationRate: values.amortizationRate,
               hasLoan: values.hasLoan,
             })
           );

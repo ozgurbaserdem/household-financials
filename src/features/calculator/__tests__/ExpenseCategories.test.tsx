@@ -33,9 +33,9 @@ describe("ExpenseCategories", () => {
     const defaultState: CalculatorState = {
       loanParameters: {
         amount: 0,
-        interestRates: [3],
-        amortizationRates: [3],
-        customInterestRates: [],
+        interestRate: 3,
+        amortizationRate: 3,
+        hasLoan: false,
       },
       income: {
         income1: 0,

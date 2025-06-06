@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState,
   useRef,
+  useMemo,
 } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -63,8 +64,24 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
   });
 
   // Initialize stepIndex from URL to prevent flash
-  // Get calculator state for validation
-  const calculatorState = useAppSelector((state) => state);
+  // Get calculator state for validation using individual selectors to avoid object creation
+  const loanParameters = useAppSelector((state) => state.loanParameters);
+  const income = useAppSelector((state) => state.income);
+  const expenses = useAppSelector((state) => state.expenses);
+  const expenseViewMode = useAppSelector((state) => state.expenseViewMode);
+  const totalExpenses = useAppSelector((state) => state.totalExpenses);
+
+  // Memoize the calculator state object
+  const calculatorState = useMemo(
+    () => ({
+      loanParameters,
+      income,
+      expenses,
+      expenseViewMode,
+      totalExpenses,
+    }),
+    [loanParameters, income, expenses, expenseViewMode, totalExpenses]
+  );
 
   const [stepIndex, setStepIndex] = useState(() => {
     const param = getStepParam(locale);
@@ -246,7 +263,7 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
             currentStep={stepIndex}
             onStepClick={handleStepClick}
           />
-          <Box className="mt-6 relative overflow-hidden">
+          <Box className="mt-4 md:mt-6 relative overflow-hidden">
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={stepIndex}
@@ -285,7 +302,7 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
               </motion.div>
             </AnimatePresence>
           </Box>
-          <Box className="mt-6">
+          <Box className="mt-4 md:mt-6">
             {/* Validation Message using React Hook Form */}
             {form.formState.errors.wizard && (
               <Box className="mb-4">

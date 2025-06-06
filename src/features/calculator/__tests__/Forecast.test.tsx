@@ -57,9 +57,9 @@ vi.mock("recharts", async () => {
 const mockCalculatorState: CalculatorState = {
   loanParameters: {
     amount: 9000000,
-    interestRates: [0.03],
-    amortizationRates: [0.03],
-    customInterestRates: [],
+    interestRate: 0.03,
+    amortizationRate: 0.03,
+    hasLoan: true,
   },
   income: {
     income1: 50000,
@@ -217,8 +217,8 @@ describe("Forecast", () => {
       ...mockCalculatorState,
       loanParameters: {
         ...mockCalculatorState.loanParameters,
-        interestRates: [0.02],
-        amortizationRates: [0.04],
+        interestRate: 0.02,
+        amortizationRate: 0.04,
       },
       income: { ...mockCalculatorState.income },
       expenses: {},
@@ -279,7 +279,7 @@ describe("Forecast", () => {
       loanParameters: {
         ...mockCalculatorState.loanParameters,
         amount: 100000,
-        amortizationRates: [0.1], // 10% amortization
+        amortizationRate: 0.1, // 10% amortization
       },
       income: { ...mockCalculatorState.income },
       expenses: {},
@@ -315,7 +315,7 @@ describe("Forecast", () => {
       ...mockCalculatorState,
       loanParameters: {
         ...mockCalculatorState.loanParameters,
-        amortizationRates: [0.001], // 0.1% amortization
+        amortizationRate: 0.001, // 0.1% amortization
       },
       income: { ...mockCalculatorState.income },
       expenses: {},

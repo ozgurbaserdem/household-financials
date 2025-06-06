@@ -107,6 +107,23 @@ vi.mock("framer-motion", () => ({
   },
 }));
 
+// Mock form components that require FormProvider
+vi.mock("@/components/ui/form", () => ({
+  FormLabel: ({
+    children,
+    className,
+    ...props
+  }: {
+    children: React.ReactNode;
+    className?: string;
+    [key: string]: unknown;
+  }) => (
+    <label className={className} {...props}>
+      {children}
+    </label>
+  ),
+}));
+
 // Mock calculation functions
 
 vi.mock("@/lib/calculations", () => ({
@@ -184,9 +201,9 @@ describe("ResultsStep", () => {
     const baseInitialState: CalculatorState = {
       loanParameters: {
         amount: 2000000,
-        interestRates: [3.5],
-        amortizationRates: [2],
-        customInterestRates: [],
+        interestRate: 3.5,
+        amortizationRate: 2,
+        hasLoan: true,
       },
       income: {
         income1: 50000,

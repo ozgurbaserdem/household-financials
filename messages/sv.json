@@ -34,7 +34,13 @@
     "custom_interest_rate_placeholder": "t.ex. 2,74",
     "add_custom_rate": "Lägg till anpassad ränta",
     "remove_custom_rate": "Ta bort anpassad ränta {rate}%",
-    "multiple_rates_info": "Du kan välja flera ränte- och amorteringssatser för att jämföra olika scenarier i sista steget"
+    "multiple_rates_info": "Du kan välja flera ränte- och amorteringssatser för att jämföra olika scenarier i sista steget",
+    "interest_rate": "Ränta (%)",
+    "interest_rate_aria": "Räntesats för lånet",
+    "interest_rate_help": "Årlig räntesats för lånet",
+    "amortization_rate": "Amortering (%)",
+    "amortization_rate_aria": "Amorteringssats för lånet",
+    "amortization_rate_help": "Årlig amorteringssats för lånet"
   },
   "dialog_hushallskalkyl": {
     "close": "Stäng",
@@ -130,6 +136,8 @@
     "remaining_savings_tooltip": "Överskott eller underskott efter alla kostnader och skatter.",
     "show_financial_health_score_details": "Visa ekonomiskt hälsotillstånd",
     "hide_financial_health_score_details": "Dölj ekonomiskt hälsotillstånd",
+    "financial_health_score_description": "Klicka för att se din ekonomiska hälsouppdelning",
+    "financial_health_score_title": "Ekonomisk hälsoanalys",
     "comparing_scenarios": "Jämför {count} lånescenarion",
     "best_scenario": "Bästa scenariot",
     "worst_scenario": "Sämsta scenariot",
@@ -140,7 +148,10 @@
       "title": "Maximera ditt sparande med ränta på ränta",
       "description": "Du kan spara {savings} kr varje månad! Se hur mycket det kan växa över tid.",
       "button": "Beräkna ränta på ränta"
-    }
+    },
+    "current_scenario": "Nuvarande scenario",
+    "adjust_rates_title": "Justera låneräntor",
+    "adjust_rates_description": "Ändra ränte- och amorteringssatserna för att se hur de påverkar din månadsbudget"
   },
   "export_import": {
     "export_csv": "Exportera CSV",

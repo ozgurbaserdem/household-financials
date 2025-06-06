@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/modern-card";
 import { CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { HandCoins, Percent, Calendar, Info } from "lucide-react";
+import { HandCoins, Percent, Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
@@ -19,7 +19,6 @@ import { Text } from "@/components/ui/text";
 import { FormMessage as BaseFormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   FormField,
   FormItem,
@@ -29,17 +28,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { Plus, X } from "lucide-react";
-import { getAllInterestRates, hasValidLoan } from "@/lib/types";
 
 const formSchema = z
   .object({
     hasLoan: z.boolean(),
     loanAmount: z.number().min(0),
-    interestRates: z.array(z.number()),
-    amortizationRates: z.array(z.number()),
-    customInterestRates: z.array(z.number()),
-    customInterestRate: z.number().optional(),
+    interestRate: z.number().min(0.01).max(20),
+    amortizationRate: z.number().min(0.01).max(10),
   })
   .refine(
     (data) => {
@@ -50,13 +45,12 @@ const formSchema = z
       // 1. Loan amount > 0
       if (data.loanAmount <= 0) return false;
 
-      // 2. At least one interest rate (preset or custom)
-      const hasInterestRate =
-        data.interestRates.length > 0 || data.customInterestRates.length > 0;
-      if (!hasInterestRate) return false;
+      // 2. Interest rate must be provided (must be > 0)
+      if (data.interestRate <= 0 || data.interestRate > 20) return false;
 
-      // 3. At least one amortization rate
-      if (data.amortizationRates.length === 0) return false;
+      // 3. Amortization rate must be provided (must be > 0)
+      if (data.amortizationRate <= 0 || data.amortizationRate > 10)
+        return false;
 
       return true;
     },
@@ -69,9 +63,8 @@ const formSchema = z
 
 export type LoansFormValues = {
   loanAmount: number;
-  interestRates: number[];
-  amortizationRates: number[];
-  customInterestRates: number[];
+  interestRate: number;
+  amortizationRate: number;
   hasLoan: boolean;
 };
 
@@ -90,10 +83,8 @@ export function Loans({ onChange, values, numberOfAdults }: LoansFormProps) {
     defaultValues: {
       hasLoan: values.hasLoan,
       loanAmount: values.loanAmount,
-      interestRates: values.interestRates,
-      amortizationRates: values.amortizationRates,
-      customInterestRates: values.customInterestRates,
-      customInterestRate: undefined,
+      interestRate: values.interestRate,
+      amortizationRate: values.amortizationRate,
     },
   });
 
@@ -106,17 +97,15 @@ export function Loans({ onChange, values, numberOfAdults }: LoansFormProps) {
     if (!isInitialized) {
       form.setValue("hasLoan", values.hasLoan);
       form.setValue("loanAmount", values.loanAmount);
-      form.setValue("interestRates", values.interestRates);
-      form.setValue("amortizationRates", values.amortizationRates);
-      form.setValue("customInterestRates", values.customInterestRates);
+      form.setValue("interestRate", values.interestRate);
+      form.setValue("amortizationRate", values.amortizationRate);
       setIsInitialized(true);
     }
     // After initialization, only sync non-hasLoan values when not toggling
     else if (isInitialized && !isUserToggling) {
       form.setValue("loanAmount", values.loanAmount);
-      form.setValue("interestRates", values.interestRates);
-      form.setValue("amortizationRates", values.amortizationRates);
-      form.setValue("customInterestRates", values.customInterestRates);
+      form.setValue("interestRate", values.interestRate);
+      form.setValue("amortizationRate", values.amortizationRate);
     }
   }, [values, form, isUserToggling, isInitialized]);
   const handleFieldChange = (forceHasLoan?: boolean) => {
@@ -128,69 +117,57 @@ export function Loans({ onChange, values, numberOfAdults }: LoansFormProps) {
     if (!hasLoan) {
       onChange({
         loanAmount: 0,
-        interestRates: [],
-        amortizationRates: [],
-        customInterestRates: [],
+        interestRate: 3.5, // Default interest rate
+        amortizationRate: 2, // Default amortization rate
         hasLoan: false,
       });
     } else {
-      // When switching to "has loan", use previous values or start with 0
+      // When switching to "has loan", use previous values or defaults
       const prevLoanAmount = values.loanAmount || 0;
+      const prevInterestRate = values.interestRate || 3.5;
+      const prevAmortizationRate = values.amortizationRate || 2;
 
-      // If we're just updating (not toggling), keep the current loan amount
-      // If toggling to "has loan", start with previous amount or 0
+      // If we're just updating (not toggling), keep the current values
+      // If toggling to "has loan", start with previous values or defaults
       const loanAmountToUse =
         forceHasLoan === undefined ? currentValues.loanAmount : prevLoanAmount;
+      const interestRateToUse =
+        forceHasLoan === undefined
+          ? currentValues.interestRate
+          : prevInterestRate;
+      const amortizationRateToUse =
+        forceHasLoan === undefined
+          ? currentValues.amortizationRate
+          : prevAmortizationRate;
 
       onChange({
         loanAmount: loanAmountToUse,
-        interestRates: currentValues.interestRates,
-        amortizationRates: currentValues.amortizationRates,
-        customInterestRates: currentValues.customInterestRates || [],
+        interestRate: interestRateToUse,
+        amortizationRate: amortizationRateToUse,
         hasLoan: true,
       });
     }
   };
 
-  // Calculate monthly payment range for display
+  // Calculate monthly payment for display
   const hasLoan = form.watch("hasLoan");
   const loanAmount = form.watch("loanAmount");
-  const interestRates = form.watch("interestRates");
-  const amortizationRates = form.watch("amortizationRates");
-  const customInterestRates = form.watch("customInterestRates") || [];
+  const interestRate = form.watch("interestRate");
+  const amortizationRate = form.watch("amortizationRate");
 
-  // Calculate range of monthly payments based on selected rates
-  const calculatePaymentRange = () => {
-    const loanParams = {
-      amount: loanAmount,
-      interestRates,
-      amortizationRates,
-      customInterestRates: customInterestRates || [],
-      hasLoan: hasLoan,
-    };
-
-    const allInterestRates = getAllInterestRates(loanParams);
-
-    if (!hasLoan || !hasValidLoan(loanParams)) {
-      return { min: 0, max: 0 };
+  // Calculate monthly payment based on current rates
+  const calculateMonthlyPayment = () => {
+    if (!hasLoan || loanAmount <= 0) {
+      return 0;
     }
 
-    let minPayment = Infinity;
-    let maxPayment = 0;
+    const monthlyPayment =
+      loanAmount * ((interestRate + amortizationRate) / 100 / 12);
 
-    allInterestRates.forEach((interestRate) => {
-      amortizationRates.forEach((amortizationRate) => {
-        const monthlyPayment =
-          loanAmount * ((interestRate + amortizationRate) / 100 / 12);
-        minPayment = Math.min(minPayment, monthlyPayment);
-        maxPayment = Math.max(maxPayment, monthlyPayment);
-      });
-    });
-
-    return { min: minPayment, max: maxPayment };
+    return monthlyPayment;
   };
 
-  const paymentRange = calculatePaymentRange();
+  const monthlyPayment = calculateMonthlyPayment();
 
   return (
     <Card gradient glass delay={0.1} animate={!isMobile} hover={false}>
@@ -213,28 +190,15 @@ export function Loans({ onChange, values, numberOfAdults }: LoansFormProps) {
             transition={{ delay: 0.3 }}
             className="text-sm text-gray-300 mt-1"
           >
-            {hasLoan && paymentRange.max > 0 ? (
+            {hasLoan && monthlyPayment > 0 ? (
               <>
                 {t("estimated_monthly_payment")}:{" "}
                 <span className="text-orange-400 font-semibold">
-                  {paymentRange.min === paymentRange.max
-                    ? new Intl.NumberFormat("sv-SE", {
-                        style: "currency",
-                        currency: "SEK",
-                        maximumFractionDigits: 0,
-                      }).format(paymentRange.min)
-                    : `${new Intl.NumberFormat("sv-SE", {
-                        style: "currency",
-                        currency: "SEK",
-                        maximumFractionDigits: 0,
-                      }).format(paymentRange.min)} - ${new Intl.NumberFormat(
-                        "sv-SE",
-                        {
-                          style: "currency",
-                          currency: "SEK",
-                          maximumFractionDigits: 0,
-                        }
-                      ).format(paymentRange.max)}`}
+                  {new Intl.NumberFormat("sv-SE", {
+                    style: "currency",
+                    currency: "SEK",
+                    maximumFractionDigits: 0,
+                  }).format(monthlyPayment)}
                 </span>
               </>
             ) : (
@@ -337,274 +301,109 @@ export function Loans({ onChange, values, numberOfAdults }: LoansFormProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="space-y-4"
+                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
                 >
-                  <Box className="space-y-3">
-                    <Box className="flex items-center gap-2">
-                      <Percent className="w-4 h-4 text-blue-400" />
-                      <FormLabel className="text-lg text-gray-200">
-                        {t("interest_rates")}
-                      </FormLabel>
-                    </Box>
-                    <Box className="flex items-start gap-2 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 mb-2">
-                      <Info className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                      <Text className="text-sm text-blue-200">
-                        {t("multiple_rates_info")}
-                      </Text>
-                    </Box>
-                    <Box
-                      className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-4"
-                      aria-label={t("interest_rates_aria")}
-                    >
-                      {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6].map(
-                        (rate) => (
-                          <motion.div
-                            key={rate}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <FormField
-                              control={form.control}
-                              name="interestRates"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <label
-                                      className={`
-                                    chip cursor-pointer select-none
-                                    ${field.value.includes(rate) ? "active" : ""}
-                                  `}
-                                    >
-                                      <Checkbox
-                                        checked={field.value.includes(rate)}
-                                        onCheckedChange={(checked) => {
-                                          const newValue = checked
-                                            ? [...field.value, rate]
-                                            : field.value.filter(
-                                                (r: number) => r !== rate
-                                              );
-                                          field.onChange(newValue);
-                                          handleFieldChange();
-                                        }}
-                                        className="sr-only"
-                                      />
-                                      <span>{rate}%</span>
-                                    </label>
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </motion.div>
-                        )
-                      )}
-                    </Box>
-
-                    {/* Custom Interest Rates */}
-                    <Box className="space-y-3">
-                      <Box className="flex items-center gap-2">
-                        <Plus className="w-4 h-4 text-green-400" />
-                        <FormLabel className="text-lg text-gray-200">
-                          {t("custom_interest_rate")}
+                  <FormField
+                    control={form.control}
+                    name="interestRate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Percent className="w-4 h-4 text-blue-400" />
+                          {t("interest_rate")}
                         </FormLabel>
-                      </Box>
-
-                      {/* Custom Interest Rate Input */}
-                      <Box className="flex gap-2">
-                        <FormField
-                          control={form.control}
-                          name="customInterestRate"
-                          render={({ field }) => (
-                            <FormItem className="flex-1">
-                              <FormControl>
-                                <Input
-                                  type="number"
-                                  step="0.01"
-                                  min={0}
-                                  max={20}
-                                  placeholder={t(
-                                    "custom_interest_rate_placeholder"
-                                  )}
-                                  {...field}
-                                  value={field.value || ""}
-                                  onChange={(e) => {
-                                    let value: number | undefined;
-                                    if (e.target.value === "") {
-                                      value = undefined;
-                                    } else {
-                                      // Handle both comma and dot decimal separators
-                                      const normalizedValue =
-                                        e.target.value.replace(",", ".");
-                                      const numValue = Number(normalizedValue);
-                                      value = isNaN(numValue)
-                                        ? undefined
-                                        : numValue;
-                                    }
-                                    field.onChange(value);
-                                  }}
-                                  className="modern-input"
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                        <Button
-                          type="button"
-                          variant="secondary"
-                          size="sm"
-                          onClick={() => {
-                            const customRate =
-                              form.getValues("customInterestRate");
-                            if (
-                              customRate &&
-                              !isNaN(customRate) &&
-                              customRate > 0 &&
-                              customRate <= 20
-                            ) {
-                              const currentCustomRates = form.getValues(
-                                "customInterestRates"
-                              );
-                              // Round to 2 decimal places for comparison
-                              const roundedRate =
-                                Math.round(customRate * 100) / 100;
-                              if (
-                                !currentCustomRates.some(
-                                  (rate) =>
-                                    Math.round(rate * 100) / 100 === roundedRate
-                                )
-                              ) {
-                                const newCustomRates = [
-                                  ...currentCustomRates,
-                                  roundedRate,
-                                ];
-                                form.setValue(
-                                  "customInterestRates",
-                                  newCustomRates
-                                );
-                                form.setValue("customInterestRate", undefined);
-                                handleFieldChange();
-                              }
-                            }
-                          }}
-                          className="px-3"
-                        >
-                          <Plus className="w-4 h-4" />
-                        </Button>
-                      </Box>
-
-                      {/* Display Custom Interest Rates */}
-                      {customInterestRates &&
-                        customInterestRates.length > 0 && (
-                          <Box className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                            {customInterestRates.map((rate, index) => (
-                              <motion.div
-                                key={`custom-${rate}-${index}`}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.8 }}
-                                className="relative"
-                              >
-                                <div className="chip active w-full flex items-center justify-between gap-1 pr-1 relative group">
-                                  <span
-                                    className="flex-1 cursor-pointer"
-                                    onClick={() => {
-                                      const newCustomRates =
-                                        customInterestRates.filter(
-                                          (_, i) => i !== index
-                                        );
-                                      form.setValue(
-                                        "customInterestRates",
-                                        newCustomRates
-                                      );
-                                      handleFieldChange();
-                                    }}
-                                    aria-label={t("remove_custom_rate", {
-                                      rate,
-                                    })}
-                                  >
-                                    {rate}%
-                                  </span>
-                                  <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => {
-                                      const newCustomRates =
-                                        customInterestRates.filter(
-                                          (_, i) => i !== index
-                                        );
-                                      form.setValue(
-                                        "customInterestRates",
-                                        newCustomRates
-                                      );
-                                      handleFieldChange();
-                                    }}
-                                    className="h-4 w-4 p-0 hover:bg-red-500/20"
-                                    aria-label={t("remove_custom_rate", {
-                                      rate,
-                                    })}
-                                  >
-                                    <X className="w-3 h-3" />
-                                  </Button>
+                        <FormControl>
+                          <div className="space-y-3">
+                            <div className="relative flex items-center gap-4">
+                              <input
+                                type="range"
+                                min={0.05}
+                                max={20}
+                                step={0.05}
+                                value={field.value || 3.5}
+                                onChange={(e) => {
+                                  const value = Number(e.target.value);
+                                  field.onChange(value);
+                                  handleFieldChange();
+                                }}
+                                aria-label={t("interest_rate_aria")}
+                                className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                                style={{
+                                  background: `linear-gradient(to right, 
+                                    rgb(59 130 246) 0%, 
+                                    rgb(147 51 234) ${(((field.value || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
+                                    rgb(55 65 81) ${(((field.value || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
+                                    rgb(55 65 81) 100%)`,
+                                }}
+                              />
+                              <div className="flex-shrink-0">
+                                <div className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 w-20 text-center">
+                                  <Text className="text-sm font-semibold text-white">
+                                    {(field.value || 3.5).toFixed(2)}%
+                                  </Text>
                                 </div>
-                              </motion.div>
-                            ))}
-                          </Box>
-                        )}
-                    </Box>
-                  </Box>
+                              </div>
+                            </div>
+                          </div>
+                        </FormControl>
+                        <Text className="text-xs text-gray-400 mt-1">
+                          {t("interest_rate_help")}
+                        </Text>
+                        <BaseFormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                  <Box className="space-y-3">
-                    <Box className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-purple-400" />
-                      <FormLabel className="text-lg text-gray-200">
-                        {t("amortization_rates")}
-                      </FormLabel>
-                    </Box>
-                    <Box
-                      className="grid grid-cols-2 sm:grid-cols-3 gap-4"
-                      aria-label={t("amortization_rates_aria")}
-                    >
-                      {[0, 1, 2, 3, 4, 5].map((rate) => (
-                        <motion.div
-                          key={rate}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <FormField
-                            control={form.control}
-                            name="amortizationRates"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormControl>
-                                  <label
-                                    className={`
-                                    chip cursor-pointer select-none
-                                    ${field.value.includes(rate) ? "active" : ""}
-                                  `}
-                                  >
-                                    <Checkbox
-                                      checked={field.value.includes(rate)}
-                                      onCheckedChange={(checked) => {
-                                        const newValue = checked
-                                          ? [...field.value, rate]
-                                          : field.value.filter(
-                                              (r: number) => r !== rate
-                                            );
-                                        field.onChange(newValue);
-                                        handleFieldChange();
-                                      }}
-                                      className="sr-only"
-                                    />
-                                    <span>{rate}%</span>
-                                  </label>
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
-                        </motion.div>
-                      ))}
-                    </Box>
-                  </Box>
+                  <FormField
+                    control={form.control}
+                    name="amortizationRate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-purple-400" />
+                          {t("amortization_rate")}
+                        </FormLabel>
+                        <FormControl>
+                          <div className="space-y-3">
+                            <div className="relative flex items-center gap-4">
+                              <input
+                                type="range"
+                                min={0.05}
+                                max={10}
+                                step={0.05}
+                                value={field.value || 2}
+                                onChange={(e) => {
+                                  const value = Number(e.target.value);
+                                  field.onChange(value);
+                                  handleFieldChange();
+                                }}
+                                aria-label={t("amortization_rate_aria")}
+                                className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                                style={{
+                                  background: `linear-gradient(to right, 
+                                    rgb(59 130 246) 0%, 
+                                    rgb(147 51 234) ${(((field.value || 2) - 0.01) / (10 - 0.01)) * 100}%, 
+                                    rgb(55 65 81) ${(((field.value || 2) - 0.01) / (10 - 0.01)) * 100}%, 
+                                    rgb(55 65 81) 100%)`,
+                                }}
+                              />
+                              <div className="flex-shrink-0">
+                                <div className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 w-20 text-center">
+                                  <Text className="text-sm font-semibold text-white">
+                                    {(field.value || 2).toFixed(2)}%
+                                  </Text>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </FormControl>
+                        <Text className="text-xs text-gray-400 mt-1">
+                          {t("amortization_rate_help")}
+                        </Text>
+                        <BaseFormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </motion.div>
               </>
             )}

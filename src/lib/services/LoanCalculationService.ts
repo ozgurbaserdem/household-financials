@@ -18,25 +18,17 @@ export class LoanCalculationService {
   };
 
   /**
-   * Calculate all possible loan scenarios from given parameters
+   * Calculate loan scenario from given parameters
    */
   calculateLoanScenarios(
     loanParameters: LoanParameters,
     options: LoanCalculationOptions = {}
   ): LoanScenario[] {
     const config = { ...this.defaultOptions, ...options };
-    const { amount, interestRates, amortizationRates } = loanParameters;
-    const customInterestRates = loanParameters.customInterestRates || [];
-
-    // Combine regular and custom interest rates
-    const allInterestRates = [...interestRates, ...customInterestRates];
+    const { amount, interestRate, amortizationRate, hasLoan } = loanParameters;
 
     // Handle case where there are no loans
-    if (
-      amount === 0 ||
-      allInterestRates.length === 0 ||
-      amortizationRates.length === 0
-    ) {
+    if (!hasLoan || amount === 0) {
       return [
         {
           interestRate: 0,
@@ -48,21 +40,14 @@ export class LoanCalculationService {
       ];
     }
 
-    const scenarios: LoanScenario[] = [];
+    const scenario = this.calculateSingleScenario(
+      amount,
+      interestRate,
+      amortizationRate,
+      config.roundToDecimals!
+    );
 
-    for (const interestRate of allInterestRates) {
-      for (const amortizationRate of amortizationRates) {
-        const scenario = this.calculateSingleScenario(
-          amount,
-          interestRate,
-          amortizationRate,
-          config.roundToDecimals!
-        );
-        scenarios.push(scenario);
-      }
-    }
-
-    return scenarios;
+    return [scenario];
   }
 
   /**
@@ -192,37 +177,24 @@ export class LoanCalculationService {
       errors.push("Loan amount cannot be negative");
     }
 
-    if (loanParameters.interestRates.some((rate) => rate < 0 || rate > 100)) {
-      errors.push("Interest rates must be between 0 and 100");
+    if (loanParameters.interestRate < 0 || loanParameters.interestRate > 100) {
+      errors.push("Interest rate must be between 0 and 100");
     }
 
     if (
-      loanParameters.customInterestRates &&
-      loanParameters.customInterestRates.some((rate) => rate < 0 || rate > 100)
+      loanParameters.amortizationRate < 0 ||
+      loanParameters.amortizationRate > 100
     ) {
-      errors.push("Custom interest rates must be between 0 and 100");
+      errors.push("Amortization rate must be between 0 and 100");
     }
 
-    if (
-      loanParameters.amortizationRates.some((rate) => rate < 0 || rate > 100)
-    ) {
-      errors.push("Amortization rates must be between 0 and 100");
-    }
-
-    if (loanParameters.amount > 0) {
-      const totalInterestRates =
-        loanParameters.interestRates.length +
-        (loanParameters.customInterestRates?.length || 0);
-      if (totalInterestRates === 0) {
-        errors.push(
-          "At least one interest rate is required when loan amount > 0"
-        );
+    if (loanParameters.hasLoan && loanParameters.amount > 0) {
+      if (loanParameters.interestRate < 0) {
+        errors.push("Interest rate is required when loan amount > 0");
       }
 
-      if (loanParameters.amortizationRates.length === 0) {
-        errors.push(
-          "At least one amortization rate is required when loan amount > 0"
-        );
+      if (loanParameters.amortizationRate < 0) {
+        errors.push("Amortization rate is required when loan amount > 0");
       }
     }
 

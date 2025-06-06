@@ -29,9 +29,8 @@ export function importFromCsv(
         flat[key] = values[i];
       });
 
-      const interestRatesRaw = flat.interestRates ?? flat.interestRate ?? "";
-      const amortizationRatesRaw =
-        flat.amortizationRates ?? flat.amortizationRate ?? "";
+      const interestRate = Number(flat.interestRate ?? 3.5);
+      const amortizationRate = Number(flat.amortizationRate ?? 2);
 
       const income1 = Number(flat.income1 ?? 0);
       const income2 = Number(flat.income2 ?? 0);
@@ -43,15 +42,10 @@ export function importFromCsv(
 
       const state: Partial<CalculatorState> = {
         loanParameters: {
-          amount: Number(flat.loanAmount),
-          interestRates: interestRatesRaw
-            ? interestRatesRaw.split("|").map(Number)
-            : [],
-          amortizationRates: amortizationRatesRaw
-            ? amortizationRatesRaw.split("|").map(Number)
-            : [],
-          customInterestRates: [],
-          hasLoan: Number(flat.loanAmount) > 0,
+          amount: Number(flat.loanAmount ?? 0),
+          interestRate,
+          amortizationRate,
+          hasLoan: Number(flat.loanAmount ?? 0) > 0,
         },
         income: {
           income1,

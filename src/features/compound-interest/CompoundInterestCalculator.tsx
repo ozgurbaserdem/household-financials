@@ -286,7 +286,7 @@ export function CompoundInterestCalculator() {
           <div className="mt-6 border-t border-gray-700/50 pt-6">
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="flex items-center justify-between w-full p-4 rounded-xl bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-700/30 hover:border-blue-500/50 transition-all duration-300 hover:from-blue-900/30 hover:to-purple-900/30 group"
+              className="flex items-center justify-between w-full p-2 rounded-xl bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-700/30 hover:border-blue-500/50 transition-all duration-300 hover:from-blue-900/30 hover:to-purple-900/30 group"
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors">

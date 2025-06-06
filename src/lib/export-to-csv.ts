@@ -15,8 +15,8 @@ export function exportToCsv(state: CalculatorState) {
   const flatExpenses = flattenExpenses(expenses);
   const columns = [
     "loanAmount",
-    "interestRates",
-    "amortizationRates",
+    "interestRate",
+    "amortizationRate",
     "income1",
     "income2",
     "secondaryIncome1",
@@ -28,8 +28,8 @@ export function exportToCsv(state: CalculatorState) {
   ];
   const values = [
     loanParameters.amount,
-    loanParameters.interestRates.join("|"),
-    loanParameters.amortizationRates.join("|"),
+    loanParameters.interestRate,
+    loanParameters.amortizationRate,
     income.income1 ?? 0,
     income.income2 ?? 0,
     income.secondaryIncome1 ?? 0,

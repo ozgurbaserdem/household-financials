@@ -10,9 +10,9 @@ describe("Expense Calculations and Net Income", () => {
   const getInitialState = (): CalculatorState => ({
     loanParameters: {
       amount: 5000000,
-      interestRates: [3.5],
-      amortizationRates: [2],
-      customInterestRates: [],
+      interestRate: 3.5,
+      amortizationRate: 2,
+      hasLoan: true,
     },
     income: {
       income1: 50000,

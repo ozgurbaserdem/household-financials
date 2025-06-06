@@ -20,6 +20,7 @@ export function ResultsStep() {
   const expenses = useAppSelector((state) => state.expenses);
   const expenseViewMode = useAppSelector((state) => state.expenseViewMode);
   const totalExpenses = useAppSelector((state) => state.totalExpenses);
+
   const calculatorState = {
     loanParameters,
     income,
@@ -31,24 +32,13 @@ export function ResultsStep() {
   const locale = useLocale();
   const isMobile = useIsTouchDevice();
 
-  // Calculate loan scenarios and get the best scenario's remaining savings
+  // Calculate loan scenario with current rates
   const loanScenarios = calculateLoanScenarios(calculatorState);
-
-  // Get the best scenario (highest remaining savings)
-  const bestScenario =
-    loanScenarios.length > 0
-      ? loanScenarios.reduce(
-          (best, current) =>
-            current.remainingSavings > best.remainingSavings ? current : best,
-          loanScenarios[0]
-        )
-      : null;
-
-  // Use the best scenario's remaining savings as monthly savings
-  const monthlySavings = bestScenario ? bestScenario.remainingSavings : 0;
+  const scenario = loanScenarios[0]; // Now we only have one scenario
+  const monthlySavings = scenario ? scenario.remainingSavings : 0;
 
   return (
-    <Box className="space-y-6">
+    <Box className="space-y-4 md:space-y-6">
       <ResultsTable calculatorState={calculatorState} />
       <ExpenseBreakdown expenses={expenses} />
       <Forecast calculatorState={calculatorState} />
@@ -68,7 +58,7 @@ export function ResultsStep() {
             hover={false}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
-            <CardContent className="relative z-10 p-6">
+            <CardContent className="relative z-10">
               <div className="flex flex-col lg:flex-row items-center gap-6">
                 <div className="flex-1 text-center lg:text-left space-y-4">
                   <div className="flex items-center justify-center lg:justify-start gap-3">

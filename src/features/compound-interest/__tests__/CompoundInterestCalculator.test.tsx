@@ -257,10 +257,11 @@ describe("CompoundInterestCalculator", () => {
       expect(screen.getByText("0 kr/mån")).toBeInTheDocument(); // Monthly savings
 
       // Debug: print all text content to see what's actually rendered
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const allTextContent = screen
         .getAllByText(/%/)
         .map((el) => el.textContent);
-      console.log("Percentage values found:", allTextContent);
+      // console.log("Percentage values found:", allTextContent); // Commented out to remove console output
 
       expect(screen.getByText("0%")).toBeInTheDocument(); // Minimum is 0%
       expect(screen.getByText("1 år")).toBeInTheDocument();
@@ -441,7 +442,7 @@ describe("CompoundInterestCalculator", () => {
         name: /advanced_settings\.title/i,
       });
       expect(advancedToggle).toBeInTheDocument();
-      expect(advancedToggle).toHaveClass("p-4", "rounded-xl");
+      expect(advancedToggle).toHaveClass("p-2", "rounded-xl");
 
       // Should show description
       expect(
