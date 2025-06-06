@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
-import { getTranslations } from "next-intl/server";
-import Image from "next/image";
+import React from "react";
+import { Main } from "@/components/ui/main";
 import { CompoundInterestClient } from "@/features/compound-interest/CompoundInterestClient";
+import { setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
+import Image from "next/image";
 import {
   Card,
   CardHeader,
@@ -15,15 +16,12 @@ import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { TrendingUp, AlertTriangle, Lightbulb } from "lucide-react";
-import { Main } from "@/components/ui/main";
 
-interface PageProps {
+type Props = {
   params: Promise<{ locale: string }>;
-}
+};
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
 
   const isSwedish = locale === "sv";
@@ -140,140 +138,45 @@ export function generateStaticParams() {
   return [{ locale: "sv" }, { locale: "en" }];
 }
 
-async function CompoundInterestContent(locale: string) {
-  await setRequestLocale(locale);
-  const t = await getTranslations("compound_interest");
+export default async function RantaPaRantaPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
 
-  const jsonLd = {
+  // Structured data for SEO
+  const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: t("schema.app_name"),
-    description: t("schema.app_description"),
-    url:
-      locale === "sv"
-        ? "https://www.budgetkollen.se/ranta-pa-ranta"
-        : "https://www.budgetkollen.se/en/compound-interest",
-    image: "https://www.budgetkollen.se/einstein-optimized.png",
+    name: "Budgetkollen",
     applicationCategory: "FinanceApplication",
-    applicationSubCategory: "InvestmentCalculator",
-    operatingSystem: "All",
-    browserRequirements: "HTML5, JavaScript",
-    inLanguage: locale,
-    isAccessibleForFree: true,
-    keywords: t("meta.keywords").split(", "),
-    category: "Finance",
-    datePublished: "2024-01-01",
-    dateModified: "2025-01-06",
+    operatingSystem: "Any",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "SEK",
-      availability: "https://schema.org/InStock",
     },
-    publisher: {
-      "@type": "Organization",
-      name: "Budgetkollen",
-      url: "https://www.budgetkollen.se",
-      logo: "https://www.budgetkollen.se/favicon.svg",
-    },
-    potentialAction: {
-      "@type": "UseAction",
-      target:
-        locale === "sv"
-          ? "https://www.budgetkollen.se/ranta-pa-ranta"
-          : "https://www.budgetkollen.se/en/compound-interest",
-    },
-  };
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name:
-          locale === "sv"
-            ? "Vad är ränta på ränta?"
-            : "What is compound interest?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "sv"
-              ? "Ränta på ränta är när du får avkastning inte bara på ditt ursprungliga kapital, utan även på den ränta du redan tjänat. Detta skapar en exponentiell tillväxt över tid."
-              : "Compound interest is when you earn returns not only on your original capital, but also on the interest you have already earned. This creates exponential growth over time.",
-        },
-      },
-      {
-        "@type": "Question",
-        name:
-          locale === "sv"
-            ? "Hur fungerar månadssparande med ränta på ränta?"
-            : "How does monthly saving work with compound interest?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "sv"
-              ? "När du sparar månadsvis får varje insättning ränta från den tidpunkt den sätts in. Över tid växer ditt sparande exponentiellt tack vare ränta-på-ränta-effekten."
-              : "When you save monthly, each deposit earns interest from the time it is made. Over time, your savings grow exponentially thanks to the compound interest effect.",
-        },
-      },
-      {
-        "@type": "Question",
-        name:
-          locale === "sv"
-            ? "Hur mycket kan jag tjäna på ränta på ränta?"
-            : "How much can I earn with compound interest?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "sv"
-              ? "Det beror på startkapital, månadssparande, ränta och tid. Med vår kalkylator kan du se exakt hur mycket ditt sparande kan växa."
-              : "It depends on starting capital, monthly savings, interest rate, and time. With our calculator, you can see exactly how much your savings can grow.",
-        },
-      },
-      {
-        "@type": "Question",
-        name:
-          locale === "sv"
-            ? "Hur använder jag ränta på ränta kalkylatorn?"
-            : "How do I use the compound interest calculator?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "sv"
-              ? "1) Ange ditt startkapital 2) Välj månatligt sparande 3) Sätt förväntad årlig avkastning 4) Välj tidsperiod 5) Klicka 'Beräkna' för att se resultatet."
-              : "1) Enter your starting capital 2) Choose monthly savings 3) Set expected annual return 4) Select time period 5) Click 'Calculate' to see the result.",
-        },
-      },
-      {
-        "@type": "Question",
-        name:
-          locale === "sv"
-            ? "Är kalkylatorn gratis att använda?"
-            : "Is the calculator free to use?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "sv"
-              ? "Ja, vår ränta på ränta kalkylator är helt gratis att använda. Inga registreringar eller nedladdningar krävs."
-              : "Yes, our compound interest calculator is completely free to use. No registrations or downloads required.",
-        },
-      },
+    description:
+      locale === "sv"
+        ? "Gratis ränta på ränta kalkylator för sparande och investering"
+        : "Free compound interest calculator for savings and investments",
+    featureList: [
+      locale === "sv"
+        ? "Ränta på ränta beräkning"
+        : "Compound interest calculation",
+      locale === "sv" ? "Månadssparande" : "Monthly savings",
+      locale === "sv" ? "Visualiserade resultat" : "Visual results",
+      locale === "sv" ? "Avancerade inställningar" : "Advanced settings",
     ],
   };
 
-  const breadcrumbJsonLd = {
+  const breadcrumbData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
         "@type": "ListItem",
         position: 1,
-        name: locale === "sv" ? "Hem" : "Home",
-        item:
-          locale === "sv"
-            ? "https://www.budgetkollen.se"
-            : "https://www.budgetkollen.se/en",
+        name: "Budgetkollen",
+        item: "https://www.budgetkollen.se",
       },
       {
         "@type": "ListItem",
@@ -290,80 +193,142 @@ async function CompoundInterestContent(locale: string) {
     ],
   };
 
-  const howToJsonLd = {
+  const faqData = {
     "@context": "https://schema.org",
-    "@type": "HowTo",
-    name:
-      locale === "sv"
-        ? "Hur man använder ränta på ränta kalkylatorn"
-        : "How to use the compound interest calculator",
-    image: {
-      "@type": "ImageObject",
-      url: "https://www.budgetkollen.se/einstein-optimized.png",
-    },
-    step: [
+    "@type": "FAQPage",
+    mainEntity: [
       {
-        "@type": "HowToStep",
-        position: 1,
-        text:
+        "@type": "Question",
+        name:
           locale === "sv"
-            ? "Ange ditt nuvarande startkapital i kalkylatorn."
-            : "Enter your current starting capital in the calculator.",
+            ? "Vad är ränta på ränta?"
+            : "What is compound interest?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text:
+            locale === "sv"
+              ? "Ränta på ränta är när du får avkastning på både ditt kapital och tidigare avkastning."
+              : "Compound interest is when you earn returns on both your capital and previous returns.",
+        },
       },
       {
-        "@type": "HowToStep",
-        position: 2,
-        text:
+        "@type": "Question",
+        name:
           locale === "sv"
-            ? "Välj hur mycket du planerar att spara varje månad."
-            : "Choose how much you plan to save each month.",
-      },
-      {
-        "@type": "HowToStep",
-        position: 3,
-        text:
-          locale === "sv"
-            ? "Sätt din förväntade årliga avkastning (t.ex. 7% för indexfonder)."
-            : "Set your expected annual return (e.g., 7% for index funds).",
-      },
-      {
-        "@type": "HowToStep",
-        position: 4,
-        text:
-          locale === "sv"
-            ? "Välj tidsperioden du vill spara över."
-            : "Choose the time period you want to save over.",
-      },
-      {
-        "@type": "HowToStep",
-        position: 5,
-        text:
-          locale === "sv"
-            ? "Se resultatet och hur ränta på ränta gör dina pengar till miljoner!"
-            : "See the result and how compound interest makes your money grow to millions!",
+            ? "Är kalkylatorn gratis att använda?"
+            : "Is the calculator free to use?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text:
+            locale === "sv"
+              ? "Ja, vår ränta på ränta kalkylator är helt gratis att använda."
+              : "Yes, our compound interest calculator is completely free to use.",
+        },
       },
     ],
   };
 
+  // Canonical URL for structured data
+  const canonicalUrl =
+    locale === "sv"
+      ? "https://www.budgetkollen.se/ranta-pa-ranta"
+      : "https://www.budgetkollen.se/en/compound-interest";
+
+  const financialProductSchema = {
+    "@context": "https://schema.org",
+    "@type": "FinancialProduct",
+    name:
+      locale === "sv"
+        ? "Budgetkollen Ränta på Ränta Kalkylator"
+        : "Budgetkollen Compound Interest Calculator",
+    description:
+      locale === "sv"
+        ? "Komplett sparkalkylator med ränta på ränta beräkning och visualiserade resultat"
+        : "Complete savings calculator with compound interest calculation and visual results",
+    provider: {
+      "@type": "Organization",
+      name: "Budgetkollen",
+      url: "https://www.budgetkollen.se",
+      logo: "https://www.budgetkollen.se/og-image.png",
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "Sweden",
+    },
+    audience: {
+      "@type": "Audience",
+      audienceType: locale === "sv" ? "Svenska sparare" : "Swedish savers",
+    },
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: canonicalUrl,
+      serviceType: "Online",
+    },
+  };
+
   return (
     <>
+      {/* SEO: Structured Data Scripts with proper typing */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+        key="structured-data"
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbData),
+        }}
+        key="breadcrumb-data"
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqData),
+        }}
+        key="faq-data"
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(financialProductSchema),
+        }}
+        key="financial-product"
       />
+
       <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
+        <noscript>
+          <div className="min-h-screen bg-gray-950 flex items-center justify-center p-8">
+            <div className="max-w-md text-center bg-gray-900 rounded-lg p-8 border border-gray-800">
+              <h2 className="text-2xl font-bold text-white mb-4">
+                {locale === "sv" ? "JavaScript krävs" : "JavaScript Required"}
+              </h2>
+              <p className="text-gray-400 mb-6">
+                {locale === "sv"
+                  ? "För att använda Budgetkollens kalkylator behöver du aktivera JavaScript i din webbläsare."
+                  : "To use Budgetkollen's calculator, you need to enable JavaScript in your browser."}
+              </p>
+              <a
+                href="https://www.enable-javascript.com/"
+                className="text-blue-400 hover:text-blue-300 underline"
+                rel="noopener noreferrer"
+              >
+                {locale === "sv"
+                  ? "Läs hur du aktiverar JavaScript"
+                  : "Learn how to enable JavaScript"}
+              </a>
+            </div>
+          </div>
+        </noscript>
+        {/* SEO: Hidden H1 for screen readers and search engines */}
+        <h1 className="sr-only">
+          {locale === "sv"
+            ? "Budgetkollen - Ränta på Ränta Kalkylator för Sverige"
+            : "Budgetkollen - Compound Interest Calculator for Sweden"}
+        </h1>
+
         {/* Animated gradient mesh background */}
         <div className="gradient-mesh" />
 
@@ -375,10 +340,14 @@ async function CompoundInterestContent(locale: string) {
           {/* Hero Section */}
           <header className="text-center space-y-6 py-4">
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent leading-tight">
-              {t("page_title")}
+              {locale === "sv"
+                ? "Ränta på Ränta Kalkylator"
+                : "Compound Interest Calculator"}
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              {t("page_subtitle")}
+              {locale === "sv"
+                ? "Se hur ditt sparande växer exponentiellt med kraften av sammansatt ränta"
+                : "See how your savings grow exponentially with the power of compound interest"}
             </p>
           </header>
 
@@ -389,12 +358,18 @@ async function CompoundInterestContent(locale: string) {
                 <TrendingUp className="w-6 h-6 text-purple-400" />
               </CardIcon>
               <Box className="flex-1">
-                <CardTitle>{t("intro.title")}</CardTitle>
+                <CardTitle>
+                  {locale === "sv"
+                    ? "Världens åttonde underverk"
+                    : "The Eighth Wonder of the World"}
+                </CardTitle>
               </Box>
             </CardHeader>
             <CardContent className="space-y-4">
               <Text className="text-gray-300 leading-relaxed">
-                {t("intro.description")}
+                {locale === "sv"
+                  ? "Ränta på ränta är en av de mest kraftfulla finansiella koncepten som kan hjälpa dig bygga långsiktig förmögenhet. När du sparar regelbundet och låter din avkastning växa över tid, skapar du en snöbollseffekt där dina pengar arbetar för dig."
+                  : "Compound interest is one of the most powerful financial concepts that can help you build long-term wealth. When you save regularly and let your returns grow over time, you create a snowball effect where your money works for you."}
               </Text>
 
               <div className="relative py-6 px-4">
@@ -404,13 +379,18 @@ async function CompoundInterestContent(locale: string) {
                       &ldquo;
                     </div>
                     <Text className="text-gray-300 italic text-lg leading-relaxed pl-8 pt-2">
-                      {t("intro.einstein_quote")}
+                      {locale === "sv"
+                        ? "Ränta på ränta är världens åttonde underverk. Den som förstår det, tjänar på det - den som inte gör det, betalar för det."
+                        : "Compound interest is the eighth wonder of the world. He who understands it, earns it - he who doesn't, pays it."}
                     </Text>
                     <div className="text-6xl text-purple-400/30 font-serif absolute -bottom-6 right-0">
                       &rdquo;
                     </div>
                     <Text className="text-gray-400 text-sm mt-4 pl-8">
-                      — {t("intro.einstein_attribution")}
+                      —{" "}
+                      {locale === "sv"
+                        ? "Albert Einstein (påstås)"
+                        : "Albert Einstein (attributed)"}
                     </Text>
                   </div>
                   <div className="flex justify-center md:justify-start md:order-1">
@@ -427,11 +407,15 @@ async function CompoundInterestContent(locale: string) {
               </div>
 
               <Text className="text-gray-300 leading-relaxed">
-                {t("intro.why_important")}
+                {locale === "sv"
+                  ? "Genom att förstå och utnyttja ränta på ränta kan du förvandla små månadsbelopp till betydande förmögenhet över tid. Vårt verktyg hjälper dig visualisera denna kraftfulla effekt."
+                  : "By understanding and leveraging compound interest, you can transform small monthly amounts into significant wealth over time. Our tool helps you visualize this powerful effect."}
               </Text>
 
               <Text className="text-gray-300 leading-relaxed">
-                {t("intro.connection_to_budget")}
+                {locale === "sv"
+                  ? "Kombinera denna sparkalkylator med vår hushållsbudget för att hitta mer pengar att spara varje månad."
+                  : "Combine this savings calculator with our household budget to find more money to save each month."}
               </Text>
             </CardContent>
           </Card>
@@ -446,21 +430,50 @@ async function CompoundInterestContent(locale: string) {
                 <Lightbulb className="w-6 h-6 text-yellow-400" />
               </CardIcon>
               <Box className="flex-1">
-                <CardTitle>{t("tips.title")}</CardTitle>
+                <CardTitle>
+                  {locale === "sv"
+                    ? "Tips för bättre sparande"
+                    : "Tips for Better Saving"}
+                </CardTitle>
               </Box>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[1, 2, 3, 4, 5, 6].map((num) => (
+                {[
+                  {
+                    sv: "Börja tidigt - tid är din bästa vän när det gäller ränta på ränta",
+                    en: "Start early - time is your best friend when it comes to compound interest",
+                  },
+                  {
+                    sv: "Spara regelbundet - även små belopp månadsvis gör stor skillnad",
+                    en: "Save regularly - even small monthly amounts make a big difference",
+                  },
+                  {
+                    sv: "Höj sparandet årligen - öka med löneökningen för att accelerera tillväxten",
+                    en: "Increase savings annually - grow with salary increases to accelerate growth",
+                  },
+                  {
+                    sv: "Välj rätt placering - 7% årlig avkastning är realistiskt för breda indexfonder",
+                    en: "Choose the right investment - 7% annual return is realistic for broad index funds",
+                  },
+                  {
+                    sv: "Undvik att röra sparandet - låt det växa ostört för maximal effekt",
+                    en: "Avoid touching savings - let it grow undisturbed for maximum effect",
+                  },
+                  {
+                    sv: "Automatisera sparandet - gör det enkelt genom automatiska överföringar",
+                    en: "Automate savings - make it easy with automatic transfers",
+                  },
+                ].map((tip, index) => (
                   <div
-                    key={num}
+                    key={index}
                     className="flex items-center gap-4 p-6 glass rounded-lg"
                   >
                     <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
-                      {num}
+                      {index + 1}
                     </div>
                     <Text className="text-gray-300 text-sm leading-relaxed">
-                      {t(`tips.tip${num}`)}
+                      {locale === "sv" ? tip.sv : tip.en}
                     </Text>
                   </div>
                 ))}
@@ -471,33 +484,53 @@ async function CompoundInterestContent(locale: string) {
           {/* FAQ Section for SEO */}
           <section className="space-y-4">
             <h2 className="text-2xl font-bold text-white text-center mb-8">
-              {t("faq.title")}
+              {locale === "sv"
+                ? "Vanliga frågor"
+                : "Frequently Asked Questions"}
             </h2>
             <div className="grid gap-4">
               <Card gradient glass>
                 <CardContent className="pt-6">
                   <h3 className="text-lg font-semibold text-white mb-2">
-                    {t("faq.q1.question")}
+                    {locale === "sv"
+                      ? "Vad är ränta på ränta?"
+                      : "What is compound interest?"}
                   </h3>
-                  <Text className="text-gray-300">{t("faq.q1.answer")}</Text>
+                  <Text className="text-gray-300">
+                    {locale === "sv"
+                      ? "Ränta på ränta innebär att du får avkastning inte bara på ditt ursprungliga kapital, utan även på tidigare års avkastning. Detta skapar en exponentiell tillväxt över tid."
+                      : "Compound interest means you earn returns not only on your original capital, but also on previous years' returns. This creates exponential growth over time."}
+                  </Text>
                 </CardContent>
               </Card>
 
               <Card gradient glass>
                 <CardContent className="pt-6">
                   <h3 className="text-lg font-semibold text-white mb-2">
-                    {t("faq.q2.question")}
+                    {locale === "sv"
+                      ? "Hur mycket kan jag tjäna på ränta på ränta?"
+                      : "How much can I earn with compound interest?"}
                   </h3>
-                  <Text className="text-gray-300">{t("faq.q2.answer")}</Text>
+                  <Text className="text-gray-300">
+                    {locale === "sv"
+                      ? "Det beror på startkapital, månadssparande, avkastning och tid. Med 7% årlig avkastning kan 1000 kr per månad växa till över 1 miljon kr på 25 år."
+                      : "It depends on starting capital, monthly savings, returns, and time. With 7% annual returns, 1000 SEK per month can grow to over 1 million SEK in 25 years."}
+                  </Text>
                 </CardContent>
               </Card>
 
               <Card gradient glass>
                 <CardContent className="pt-6">
                   <h3 className="text-lg font-semibold text-white mb-2">
-                    {t("faq.q3.question")}
+                    {locale === "sv"
+                      ? "Är kalkylatorn gratis att använda?"
+                      : "Is the calculator free to use?"}
                   </h3>
-                  <Text className="text-gray-300">{t("faq.q3.answer")}</Text>
+                  <Text className="text-gray-300">
+                    {locale === "sv"
+                      ? "Ja, vår ränta på ränta kalkylator är helt gratis att använda. Inga registreringar eller nedladdningar krävs."
+                      : "Yes, our compound interest calculator is completely free to use. No registrations or downloads required."}
+                  </Text>
                 </CardContent>
               </Card>
             </div>
@@ -510,12 +543,18 @@ async function CompoundInterestContent(locale: string) {
                 <AlertTriangle className="w-6 h-6 text-yellow-500" />
               </CardIcon>
               <Box className="flex-1">
-                <CardTitle>{t("disclaimer.title")}</CardTitle>
+                <CardTitle>
+                  {locale === "sv"
+                    ? "Viktig information"
+                    : "Important Information"}
+                </CardTitle>
               </Box>
             </CardHeader>
             <CardContent>
               <Text className="text-gray-300 leading-relaxed">
-                {t("disclaimer.text")}
+                {locale === "sv"
+                  ? "Denna kalkylator är endast för illustrativa syften. Faktisk avkastning kan variera beroende på marknadsförhållanden. All investering innebär risk och du kan förlora pengar. Konsultera alltid en finansiell rådgivare för personlig rådgivning."
+                  : "This calculator is for illustrative purposes only. Actual returns may vary depending on market conditions. All investments involve risk and you may lose money. Always consult a financial advisor for personal advice."}
               </Text>
             </CardContent>
           </Card>
@@ -525,10 +564,14 @@ async function CompoundInterestContent(locale: string) {
             <CardContent className="text-center space-y-6">
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-white">
-                  {t("cta.title")}
+                  {locale === "sv"
+                    ? "Redo att optimera din ekonomi?"
+                    : "Ready to optimize your finances?"}
                 </h2>
                 <Text className="text-gray-300 max-w-2xl mx-auto">
-                  {t("cta.subtitle")}
+                  {locale === "sv"
+                    ? "Använd vår hushållsbudget för att hitta mer pengar att spara varje månad."
+                    : "Use our household budget to find more money to save each month."}
                 </Text>
               </div>
               <div className="flex justify-center">
@@ -537,7 +580,9 @@ async function CompoundInterestContent(locale: string) {
                     size="lg"
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500"
                   >
-                    {t("cta.button")}
+                    {locale === "sv"
+                      ? "Skapa hushållsbudget"
+                      : "Create household budget"}
                   </Button>
                 </Link>
               </div>
@@ -547,10 +592,4 @@ async function CompoundInterestContent(locale: string) {
       </Main>
     </>
   );
-}
-
-export default async function RantaPaRantaPage({ params }: PageProps) {
-  const { locale } = await params;
-  await setRequestLocale(locale);
-  return await CompoundInterestContent(locale);
 }
