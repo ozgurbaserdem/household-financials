@@ -88,7 +88,7 @@ export function CompoundInterestCalculator() {
       label: t("inputs.start_sum_label"),
       description: t("inputs.start_sum_description"),
       min: 0,
-      max: 10000000,
+      max: 2000000,
       step: 10000,
       prefix: "",
       suffix: " kr",
@@ -362,11 +362,26 @@ export function CompoundInterestCalculator() {
                       }}
                     />
                     <div className="flex-shrink-0">
-                      <button className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center">
-                        <Text className="text-sm font-semibold text-white">
-                          {inputs.annualSavingsIncrease || 0}%/år
-                        </Text>
-                      </button>
+                      {editingField === "annualSavingsIncrease" ? (
+                        <input
+                          type="text"
+                          value={tempValue}
+                          onChange={(e) => setTempValue(e.target.value)}
+                          onBlur={() => handleEditEnd("annualSavingsIncrease")}
+                          onKeyDown={(e) => handleKeyDown(e, "annualSavingsIncrease")}
+                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
+                          autoFocus
+                        />
+                      ) : (
+                        <button
+                          onClick={() => handleEditStart("annualSavingsIncrease")}
+                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
+                        >
+                          <Text className="text-sm font-semibold text-white">
+                            {inputs.annualSavingsIncrease || 0}%/år
+                          </Text>
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -486,14 +501,29 @@ export function CompoundInterestCalculator() {
                             }}
                           />
                           <div className="flex-shrink-0">
-                            <button className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center">
-                              <Text className="text-sm font-semibold text-white">
-                                {t(
-                                  "advanced_settings.planned_withdrawal.year_prefix"
-                                )}{" "}
-                                {inputs.withdrawalYear || 10}
-                              </Text>
-                            </button>
+                            {editingField === "withdrawalYear" ? (
+                              <input
+                                type="text"
+                                value={tempValue}
+                                onChange={(e) => setTempValue(e.target.value)}
+                                onBlur={() => handleEditEnd("withdrawalYear")}
+                                onKeyDown={(e) => handleKeyDown(e, "withdrawalYear")}
+                                className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
+                                autoFocus
+                              />
+                            ) : (
+                              <button
+                                onClick={() => handleEditStart("withdrawalYear")}
+                                className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
+                              >
+                                <Text className="text-sm font-semibold text-white">
+                                  {t(
+                                    "advanced_settings.planned_withdrawal.year_prefix"
+                                  )}{" "}
+                                  {inputs.withdrawalYear || 10}
+                                </Text>
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -529,11 +559,26 @@ export function CompoundInterestCalculator() {
                               }}
                             />
                             <div className="flex-shrink-0">
-                              <button className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center">
-                                <Text className="text-sm font-semibold text-white">
-                                  {inputs.withdrawalPercentage || 10}%
-                                </Text>
-                              </button>
+                              {editingField === "withdrawalPercentage" ? (
+                                <input
+                                  type="text"
+                                  value={tempValue}
+                                  onChange={(e) => setTempValue(e.target.value)}
+                                  onBlur={() => handleEditEnd("withdrawalPercentage")}
+                                  onKeyDown={(e) => handleKeyDown(e, "withdrawalPercentage")}
+                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
+                                  autoFocus
+                                />
+                              ) : (
+                                <button
+                                  onClick={() => handleEditStart("withdrawalPercentage")}
+                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center cursor-text"
+                                >
+                                  <Text className="text-sm font-semibold text-white">
+                                    {inputs.withdrawalPercentage || 10}%
+                                  </Text>
+                                </button>
+                              )}
                             </div>
                           </div>
                         </div>

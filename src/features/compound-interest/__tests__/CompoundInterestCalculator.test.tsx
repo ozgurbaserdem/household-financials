@@ -285,10 +285,10 @@ describe("CompoundInterestCalculator", () => {
     const startSumSlider = screen.getByLabelText(/start_sum_label/i);
 
     // Set to large value
-    fireEvent.change(startSumSlider, { target: { value: "5000000" } });
+    fireEvent.change(startSumSlider, { target: { value: "2000000" } });
 
     await waitFor(() => {
-      expect(screen.getAllByText("5 000 000 kr")[0]).toBeInTheDocument();
+      expect(screen.getAllByText("2 000 000 kr")[0]).toBeInTheDocument();
     });
   });
 
