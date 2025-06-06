@@ -417,7 +417,11 @@ export function CompoundInterestCalculator() {
                         <div className="flex gap-2">
                           <Button
                             type="button"
-                            variant={inputs.withdrawalType === "percentage" ? "gradient" : "secondary"}
+                            variant={
+                              inputs.withdrawalType === "percentage"
+                                ? "gradient"
+                                : "secondary"
+                            }
                             onClick={() =>
                               setInputs((prev) => ({
                                 ...prev,
@@ -432,7 +436,11 @@ export function CompoundInterestCalculator() {
                           </Button>
                           <Button
                             type="button"
-                            variant={inputs.withdrawalType === "amount" ? "gradient" : "secondary"}
+                            variant={
+                              inputs.withdrawalType === "amount"
+                                ? "gradient"
+                                : "secondary"
+                            }
                             onClick={() =>
                               setInputs((prev) => ({
                                 ...prev,
