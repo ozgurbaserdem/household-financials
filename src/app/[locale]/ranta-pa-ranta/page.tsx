@@ -81,7 +81,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "/compound-interest-og.png?v=2",
+          url: "/compound-interest-og.png",
           width: 1200,
           height: 630,
           alt: isSwedish
@@ -95,7 +95,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: ["/compound-interest-og.png?v=2"],
+      images: ["/compound-interest-og.png"],
       creator: "@budgetkollen",
       site: "@budgetkollen",
     },
