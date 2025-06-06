@@ -19,7 +19,7 @@ async function generateOGImage() {
     await page.setViewport({
       width: 1200,
       height: 630,
-      deviceScaleFactor: 2 // For crisp rendering
+      deviceScaleFactor: 1 // Correct dimensions without doubling
     });
 
     // Read the HTML file
@@ -30,9 +30,9 @@ async function generateOGImage() {
     await page.setContent(htmlContent, {
       waitUntil: 'networkidle0'
     });
-
+
     // Wait a bit for fonts to load
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Take PNG screenshot
     const pngPath = path.join(__dirname, 'public', 'compound-interest-og.png');

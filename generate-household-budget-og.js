@@ -19,7 +19,7 @@ async function generateHouseholdBudgetOGImage() {
     await page.setViewport({
       width: 1200,
       height: 630,
-      deviceScaleFactor: 2, // For crisp rendering
+      deviceScaleFactor: 1, // Correct dimensions without doubling
     });
 
     // Read the HTML file
