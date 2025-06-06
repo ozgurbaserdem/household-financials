@@ -368,13 +368,17 @@ export function CompoundInterestCalculator() {
                           value={tempValue}
                           onChange={(e) => setTempValue(e.target.value)}
                           onBlur={() => handleEditEnd("annualSavingsIncrease")}
-                          onKeyDown={(e) => handleKeyDown(e, "annualSavingsIncrease")}
+                          onKeyDown={(e) =>
+                            handleKeyDown(e, "annualSavingsIncrease")
+                          }
                           className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
                           autoFocus
                         />
                       ) : (
                         <button
-                          onClick={() => handleEditStart("annualSavingsIncrease")}
+                          onClick={() =>
+                            handleEditStart("annualSavingsIncrease")
+                          }
                           className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
                         >
                           <Text className="text-sm font-semibold text-white">
@@ -507,13 +511,17 @@ export function CompoundInterestCalculator() {
                                 value={tempValue}
                                 onChange={(e) => setTempValue(e.target.value)}
                                 onBlur={() => handleEditEnd("withdrawalYear")}
-                                onKeyDown={(e) => handleKeyDown(e, "withdrawalYear")}
+                                onKeyDown={(e) =>
+                                  handleKeyDown(e, "withdrawalYear")
+                                }
                                 className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
                                 autoFocus
                               />
                             ) : (
                               <button
-                                onClick={() => handleEditStart("withdrawalYear")}
+                                onClick={() =>
+                                  handleEditStart("withdrawalYear")
+                                }
                                 className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
                               >
                                 <Text className="text-sm font-semibold text-white">
@@ -564,14 +572,20 @@ export function CompoundInterestCalculator() {
                                   type="text"
                                   value={tempValue}
                                   onChange={(e) => setTempValue(e.target.value)}
-                                  onBlur={() => handleEditEnd("withdrawalPercentage")}
-                                  onKeyDown={(e) => handleKeyDown(e, "withdrawalPercentage")}
+                                  onBlur={() =>
+                                    handleEditEnd("withdrawalPercentage")
+                                  }
+                                  onKeyDown={(e) =>
+                                    handleKeyDown(e, "withdrawalPercentage")
+                                  }
                                   className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
                                   autoFocus
                                 />
                               ) : (
                                 <button
-                                  onClick={() => handleEditStart("withdrawalPercentage")}
+                                  onClick={() =>
+                                    handleEditStart("withdrawalPercentage")
+                                  }
                                   className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center cursor-text"
                                 >
                                   <Text className="text-sm font-semibold text-white">
