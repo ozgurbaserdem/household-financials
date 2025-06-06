@@ -1,158 +1,183 @@
 <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
       <foreignObject width="1200" height="630">
         <div xmlns="http://www.w3.org/1999/xhtml">
-          <!DOCTYPE html>
+          <!doctype html>
 
-
-
+  
+  
     <div class="og-container">
-        <!-- Background orbs -->
-        <div class="bg-orb orb-1"></div>
-        <div class="bg-orb orb-2"></div>
-        
-        <div class="content">
-            <!-- Left side - Text and Logo -->
-            <div class="left-side">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <div class="logo-check"></div>
-                    </div>
-                    <div class="logo-text">Budgetkollen</div>
-                </div>
-                
-                <h1 class="heading">Ränta på ränta<br>kalkylator</h1>
-                <p class="subheading">Se hur ditt sparande växer exponentiellt</p>
+      <!-- Background orbs -->
+      <div class="bg-orb orb-1"></div>
+      <div class="bg-orb orb-2"></div>
+
+      <div class="content">
+        <!-- Left side - Text and Logo -->
+        <div class="left-side">
+          <div class="logo">
+            <div class="logo-icon">
+              <div class="logo-check"></div>
             </div>
-            
-            <!-- Right side - Chart -->
-            <div class="right-side">
-                <div class="chart-container">
-                    <div class="chart">
-                        <!-- Year 1-10 (building/accumulation phase) -->
-                        <!-- SIMPLE: column + justify-end. First = bottom, Last = top -->
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 35px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 48px;"></div>
-                            <div class="bar-segment growth" style="height: 6px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 62px;"></div>
-                            <div class="bar-segment growth" style="height: 16px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 75px;"></div>
-                            <div class="bar-segment growth" style="height: 28px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 88px;"></div>
-                            <div class="bar-segment growth" style="height: 42px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 100px;"></div>
-                            <div class="bar-segment growth" style="height: 58px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 112px;"></div>
-                            <div class="bar-segment growth" style="height: 76px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 125px;"></div>
-                            <div class="bar-segment growth" style="height: 96px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 138px;"></div>
-                            <div class="bar-segment growth" style="height: 118px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment initial" style="height: 12px;"></div>
-                            <div class="bar-segment monthly" style="height: 150px;"></div>
-                            <div class="bar-segment growth" style="height: 142px;"></div>
-                        </div>
-                        
-                        <!-- Red divider line (withdrawal phase indicator) -->
-                        <div style="position: relative; width: 3px; background: #ef4444; height: 100%; margin: 0 8px; display: flex; align-items: start; justify-content: center;">
-                            <div style="width: 3px; height: 100%; background: #ef4444; border: 1px dashed #ef4444; opacity: 0.8;"></div>
-                        </div>
-                        
-                        <!-- Year 11-20 (withdrawal/decumulation phase) -->
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 280px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 260px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 240px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 220px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 200px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 180px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 160px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 140px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 120px;"></div>
-                        </div>
-                        <div class="bar">
-                            <div class="bar-segment withdrawal" style="height: 100px;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="legend">
-                        <div class="legend-item">
-                            <div class="legend-color initial"></div>
-                            <span>Initial investering</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color monthly"></div>
-                            <span>Månatligt sparande</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color growth"></div>
-                            <span>Avkastning</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="logo-text">Budgetkollen</div>
+          </div>
+
+          <h1 class="heading">Ränta på ränta<br />kalkylator</h1>
+          <p class="subheading">Se hur ditt sparande växer exponentiellt</p>
         </div>
-        
-        <!-- Stats overlay -->
-        <div class="stats">
-            <h3>År 11 (Ålder: 41 år)</h3>
-            <div class="stat-row">
-                <span class="stat-label">Totalt sparat:</span>
-                <span class="stat-value">640 000 kr</span>
+
+        <!-- Right side - Chart -->
+        <div class="right-side">
+          <div class="chart-container">
+            <div class="withdrawal-indicator">Uttag påbörjas</div>
+            <div class="chart">
+              <!-- Year 1-10 (building/accumulation phase) -->
+              <!-- SIMPLE: column + justify-end. First = bottom, Last = top -->
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 35px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 48px"></div>
+                <div class="bar-segment growth" style="height: 6px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 62px"></div>
+                <div class="bar-segment growth" style="height: 16px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 75px"></div>
+                <div class="bar-segment growth" style="height: 28px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 88px"></div>
+                <div class="bar-segment growth" style="height: 42px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 100px"></div>
+                <div class="bar-segment growth" style="height: 58px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 112px"></div>
+                <div class="bar-segment growth" style="height: 76px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 125px"></div>
+                <div class="bar-segment growth" style="height: 96px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 138px"></div>
+                <div class="bar-segment growth" style="height: 118px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment initial" style="height: 12px"></div>
+                <div class="bar-segment monthly" style="height: 150px"></div>
+                <div class="bar-segment growth" style="height: 142px"></div>
+              </div>
+
+              <!-- Red divider line (withdrawal phase indicator) -->
+              <div
+                style="
+                  position: relative;
+                  width: 3px;
+                  height: 100%;
+                  margin: 0 8px;
+                  display: flex;
+                  align-items: start;
+                  justify-content: center;
+                "
+              >
+                <div
+                  style="
+                    width: 2px;
+                    height: 100%;
+                    background: repeating-linear-gradient(
+                      to bottom,
+                      #ef4444 0,
+                      #ef4444 8px,
+                      transparent 8px,
+                      transparent 16px
+                    );
+                    opacity: 0.8;
+                  "
+                ></div>
+              </div>
+
+              <!-- Year 11-20 (withdrawal/decumulation phase) -->
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 280px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 260px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 240px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 220px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 200px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 180px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 160px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 140px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 120px"></div>
+              </div>
+              <div class="bar">
+                <div class="bar-segment withdrawal" style="height: 100px"></div>
+              </div>
             </div>
-            <div class="stat-row">
-                <span class="stat-label">Avkastning:</span>
-                <span class="stat-value growth">397 887 kr</span>
+
+            <div class="legend">
+              <div class="legend-item">
+                <div class="legend-color initial"></div>
+                <span>Initial investering</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color monthly"></div>
+                <span>Månatligt sparande</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color growth"></div>
+                <span>Avkastning</span>
+              </div>
             </div>
-            <div class="stat-row">
-                <span class="stat-label">Portföljvärde:</span>
-                <span class="stat-value">837 887 kr</span>
-            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Stats overlay -->
+      <div class="stats">
+        <h3>År 11 (Ålder: 41 år)</h3>
+        <div class="stat-row">
+          <span class="stat-label">Totalt sparat:</span>
+          <span class="stat-value">640 000 kr</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Avkastning:</span>
+          <span class="stat-value growth">397 887 kr</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Portföljvärde:</span>
+          <span class="stat-value">837 887 kr</span>
+        </div>
+      </div>
     </div>
+  
 
 
         </div>
