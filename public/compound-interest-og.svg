@@ -159,23 +159,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Stats overlay -->
-      <div class="stats">
-        <h3>År 11 (Ålder: 41 år)</h3>
-        <div class="stat-row">
-          <span class="stat-label">Totalt sparat:</span>
-          <span class="stat-value">640 000 kr</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Avkastning:</span>
-          <span class="stat-value growth">397 887 kr</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Portföljvärde:</span>
-          <span class="stat-value">837 887 kr</span>
-        </div>
-      </div>
     </div>
   
 
