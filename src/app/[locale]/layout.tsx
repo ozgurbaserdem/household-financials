@@ -72,7 +72,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "/Budgetkollen.png",
+          url: "/og-image.png",
           width: 1200,
           height: 630,
           type: "image/png",
@@ -89,7 +89,7 @@ export async function generateMetadata({
       creator: "@budgetkollen",
       title,
       description,
-      images: ["/Budgetkollen.png"],
+      images: ["/og-image.png"],
     },
     robots: {
       index: true,
@@ -146,17 +146,45 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        {/* Primary SVG favicon for modern browsers */}
+        {/* Primary multi-resolution ICO favicon (contains 16x16 through 256x256) */}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+        {/* Google-recommended 48x48 PNG favicon for search results */}
         <link
           rel="icon"
-          href="/favicon-32.svg"
-          sizes="any"
-          type="image/svg+xml"
+          type="image/png"
+          sizes="48x48"
+          href="/favicon-48x48.png"
         />
-        {/* ICO fallback for older browsers and SEO */}
-        <link rel="icon" href="/favicon.ico" sizes="32x32" />
-        {/* Apple Touch Icon for iOS devices */}
-        <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+
+        {/* Additional PNG favicons for various uses */}
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+
+        {/* Apple Touch Icon (PNG) for iOS devices */}
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+
+        {/* Manifest for PWA */}
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* SVG favicon for scalable support */}
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+        {/* Font preconnects */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -210,7 +238,7 @@ export default async function LocaleLayout({
                   "@id": "https://www.budgetkollen.se#organization",
                   name: "Budgetkollen",
                   url: "https://www.budgetkollen.se",
-                  logo: "https://www.budgetkollen.se/favicon-32.svg",
+                  logo: "https://www.budgetkollen.se/favicon.svg",
                   sameAs: ["https://x.com/budgetkollen"],
                   address: {
                     "@type": "PostalAddress",

@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /_next/
-Allow: /_next/static/
-Allow: /_next/image/
-
-Sitemap: https://www.budgetkollen.se/sitemap.xml 

@@ -113,7 +113,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "/Budgetkollen.png",
+          url: "/og-image.png",
           width: 1200,
           height: 630,
           alt:
@@ -128,7 +128,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: ["/Budgetkollen.png"],
+      images: ["/og-image.png"],
       creator: "@budgetkollen",
       site: "@budgetkollen",
     },
@@ -284,7 +284,7 @@ export default async function HushallsbudgetPage({
       "@type": "Organization",
       name: "Budgetkollen",
       url: "https://www.budgetkollen.se",
-      logo: "https://www.budgetkollen.se/Budgetkollen.png",
+      logo: "https://www.budgetkollen.se/og-image.png",
     },
     areaServed: {
       "@type": "Country",
