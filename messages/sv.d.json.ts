@@ -581,7 +581,9 @@ declare const messages: {
       "yearly_return_label": "Förväntad årlig avkastning (%)",
       "yearly_return_description": "Den genomsnittliga årliga avkastningen du förväntar dig på dina investeringar",
       "investment_horizon_label": "Investeringsperiod (år)",
-      "investment_horizon_description": "Hur länge du planerar att hålla dina pengar investerade"
+      "investment_horizon_description": "Hur länge du planerar att hålla dina pengar investerade",
+      "age_label": "Din ålder",
+      "age_description": "Din nuvarande ålder för att visa din ålder vid varje år"
     },
     "results": {
       "title": "Din avkastning",
@@ -590,7 +592,10 @@ declare const messages: {
       "start_sum": "Initial investering",
       "total_savings": "Totalt sparat tillagt",
       "compound_returns": "Avkastning",
-      "growth_summary": "Börjar med {startSum} och sparar {totalSavings} över {years} år, kan dina investeringar växa med {returns} för att nå ett totalt värde på {total}."
+      "growth_summary": "Börjar med {startSum} och sparar {totalSavings} över {years} år, kan dina investeringar växa med {returns} för att nå ett totalt värde på {total}.",
+      "theoretical_total_value": "Totalt portföljvärde (utan uttag)",
+      "total_value_after_withdrawals": "Total portföljvärde (efter uttag)",
+      "total_withdrawn": "Totalt uttaget"
     },
     "chart": {
       "title": "Avkastning över tid",
@@ -640,6 +645,26 @@ declare const messages: {
       "q3": {
         "question": "Hur använder jag en ränta på ränta kalkylator?",
         "answer": "Vår ränta på ränta kalkylator är enkel att använda. Fyll i ditt startbelopp, hur mycket du vill spara varje månad, förväntad årlig avkastning och antal år. Klicka sedan på 'Beräkna' för att se resultatet."
+      }
+    },
+    "advanced_settings": {
+      "title": "Avancerade inställningar",
+      "description": "Årlig ökning, uttag och mer",
+      "active_badge": "Aktiv",
+      "annual_savings_increase": {
+        "label": "Årlig ökning av sparande",
+        "description": "Hur mycket ditt månadssparande ökar varje år"
+      },
+      "planned_withdrawal": {
+        "title": "Planerat uttag",
+        "description": "Gör ett uttag från ditt sparande efter ett antal år",
+        "withdrawal_type_question": "Hur vill du göra ditt uttag?",
+        "percentage_option": "Procent av totalt värde",
+        "amount_option": "Specifik summa",
+        "withdrawal_year_question": "När ska uttaget ske?",
+        "withdrawal_percentage_label": "Uttag per år (%)",
+        "withdrawal_amount_label": "Uttag per år i kronor",
+        "year_prefix": "År"
       }
     }
   }

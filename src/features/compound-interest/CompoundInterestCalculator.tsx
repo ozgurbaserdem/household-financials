@@ -21,6 +21,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 const formatCurrencyNoDecimals = (amount: number): string => {
   const formatted = new Intl.NumberFormat("sv-SE", {
     style: "currency",
@@ -124,8 +125,8 @@ export function CompoundInterestCalculator() {
     },
     {
       key: "age" as const,
-      label: "Din ålder",
-      description: "Din nuvarande ålder för att visa din ålder vid varje år",
+      label: t("inputs.age_label"),
+      description: t("inputs.age_description"),
       min: 18,
       max: 100,
       step: 1,
@@ -293,10 +294,10 @@ export function CompoundInterestCalculator() {
                 </div>
                 <div className="text-left">
                   <Text className="text-base font-semibold text-white group-hover:text-blue-100 transition-colors block">
-                    Avancerade inställningar
+                    {t("advanced_settings.title")}
                   </Text>
                   <Text className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors block">
-                    Årlig ökning, uttag och mer
+                    {t("advanced_settings.description")}
                   </Text>
                 </div>
               </div>
@@ -304,7 +305,7 @@ export function CompoundInterestCalculator() {
                 <div className="flex items-center gap-2">
                   {!showAdvanced && inputs.withdrawalType !== "none" && (
                     <span className="px-2 py-1 text-xs font-medium bg-green-500/20 text-green-300 rounded-full border border-green-500/30">
-                      Aktiv
+                      {t("advanced_settings.active_badge")}
                     </span>
                   )}
                   {!showAdvanced && (inputs.annualSavingsIncrease || 0) > 0 && (
@@ -333,10 +334,10 @@ export function CompoundInterestCalculator() {
                 {/* Annual Savings Increase */}
                 <div className="space-y-2 lg:flex-1">
                   <Label className="text-sm font-medium text-gray-200 block">
-                    Årlig ökning av sparande
+                    {t("advanced_settings.annual_savings_increase.label")}
                   </Label>
                   <Text className="text-xs text-gray-400 block">
-                    Hur mycket ditt månadssparande ökar varje år
+                    {t("advanced_settings.annual_savings_increase.description")}
                   </Text>
                   <div className="flex items-center gap-4">
                     <input
@@ -375,10 +376,10 @@ export function CompoundInterestCalculator() {
                   <div className="flex items-center justify-between">
                     <div>
                       <Label className="text-sm font-medium text-gray-200 block">
-                        Planerat uttag
+                        {t("advanced_settings.planned_withdrawal.title")}
                       </Label>
                       <Text className="text-xs text-gray-400 block mt-1">
-                        Gör ett uttag från ditt sparande efter ett antal år
+                        {t("advanced_settings.planned_withdrawal.description")}
                       </Text>
                     </div>
                     <Switch
@@ -409,46 +410,50 @@ export function CompoundInterestCalculator() {
                       {/* Withdrawal Type Selector */}
                       <div className="space-y-2 lg:flex-1">
                         <Label className="text-xs font-medium text-gray-300">
-                          Hur vill du göra ditt uttag?
+                          {t(
+                            "advanced_settings.planned_withdrawal.withdrawal_type_question"
+                          )}
                         </Label>
                         <div className="flex gap-2">
-                          <button
+                          <Button
+                            type="button"
+                            variant={inputs.withdrawalType === "percentage" ? "gradient" : "secondary"}
                             onClick={() =>
                               setInputs((prev) => ({
                                 ...prev,
                                 withdrawalType: "percentage",
                               }))
                             }
-                            className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
-                              inputs.withdrawalType === "percentage"
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                            }`}
+                            className="flex-1"
                           >
-                            Procent av totalt värde
-                          </button>
-                          <button
+                            {t(
+                              "advanced_settings.planned_withdrawal.percentage_option"
+                            )}
+                          </Button>
+                          <Button
+                            type="button"
+                            variant={inputs.withdrawalType === "amount" ? "gradient" : "secondary"}
                             onClick={() =>
                               setInputs((prev) => ({
                                 ...prev,
                                 withdrawalType: "amount",
                               }))
                             }
-                            className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
-                              inputs.withdrawalType === "amount"
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                            }`}
+                            className="flex-1"
                           >
-                            Specifik summa
-                          </button>
+                            {t(
+                              "advanced_settings.planned_withdrawal.amount_option"
+                            )}
+                          </Button>
                         </div>
                       </div>
 
                       {/* Withdrawal Year */}
                       <div className="space-y-2 lg:flex-1">
                         <Label className="text-xs font-medium text-gray-300">
-                          När ska uttaget ske?
+                          {t(
+                            "advanced_settings.planned_withdrawal.withdrawal_year_question"
+                          )}
                         </Label>
                         <div className="flex items-center gap-4">
                           <input
@@ -475,7 +480,10 @@ export function CompoundInterestCalculator() {
                           <div className="flex-shrink-0">
                             <button className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center">
                               <Text className="text-sm font-semibold text-white">
-                                År {inputs.withdrawalYear || 10}
+                                {t(
+                                  "advanced_settings.planned_withdrawal.year_prefix"
+                                )}{" "}
+                                {inputs.withdrawalYear || 10}
                               </Text>
                             </button>
                           </div>
@@ -486,7 +494,9 @@ export function CompoundInterestCalculator() {
                       {inputs.withdrawalType === "percentage" ? (
                         <div className="space-y-2 lg:flex-1">
                           <Label className="text-xs font-medium text-gray-300">
-                            Uttag per år (%)
+                            {t(
+                              "advanced_settings.planned_withdrawal.withdrawal_percentage_label"
+                            )}
                           </Label>
                           <div className="flex items-center gap-4">
                             <input
@@ -522,7 +532,9 @@ export function CompoundInterestCalculator() {
                       ) : (
                         <div className="space-y-2 lg:flex-1">
                           <Label className="text-xs font-medium text-gray-300">
-                            Uttag per år i kronor
+                            {t(
+                              "advanced_settings.planned_withdrawal.withdrawal_amount_label"
+                            )}
                           </Label>
                           <div className="flex items-center gap-4">
                             <input
@@ -617,7 +629,7 @@ export function CompoundInterestCalculator() {
             >
               <div className="space-y-2 lg:flex-1">
                 <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
-                  Totalt portföljvärde (utan uttag)
+                  {t("results.theoretical_total_value")}
                 </Text>
                 <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block">
                   {formatCurrencyNoDecimals(finalValues.theoreticalTotalValue)}
@@ -640,7 +652,7 @@ export function CompoundInterestCalculator() {
             >
               <div className="space-y-2 lg:flex-1">
                 <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
-                  {t("results.total_value")} (efter uttag)
+                  {t("results.total_value_after_withdrawals")}
                 </Text>
                 <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block">
                   {formatCurrencyNoDecimals(finalValues.totalValue)}
@@ -738,7 +750,7 @@ export function CompoundInterestCalculator() {
               >
                 <div className="space-y-2 lg:flex-1">
                   <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
-                    Totalt uttaget
+                    {t("results.total_withdrawn")}
                   </Text>
                   <Text className="text-lg lg:text-xl font-semibold text-red-400 leading-relaxed break-words whitespace-nowrap block">
                     {formatCurrencyNoDecimals(finalValues.totalWithdrawn)}

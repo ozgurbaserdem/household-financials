@@ -586,7 +586,9 @@
       "yearly_return_label": "Expected annual return (%)",
       "yearly_return_description": "The average yearly return you expect on your investments",
       "investment_horizon_label": "Investment period (years)",
-      "investment_horizon_description": "How long you plan to keep your money invested"
+      "investment_horizon_description": "How long you plan to keep your money invested",
+      "age_label": "Your age",
+      "age_description": "Your current age to show your age at each year"
     },
     "results": {
       "title": "Your investment growth",
@@ -595,7 +597,10 @@
       "start_sum": "Initial investment",
       "total_savings": "Total savings added",
       "compound_returns": "Investment growth",
-      "growth_summary": "Starting with {startSum} and saving {totalSavings} over {years} years, your investments could grow by {returns} to reach a total value of {total}."
+      "growth_summary": "Starting with {startSum} and saving {totalSavings} over {years} years, your investments could grow by {returns} to reach a total value of {total}.",
+      "theoretical_total_value": "Total portfolio value (without withdrawals)",
+      "total_value_after_withdrawals": "Total portfolio value (after withdrawals)",
+      "total_withdrawn": "Total withdrawn"
     },
     "chart": {
       "title": "Investment growth over time",
@@ -645,6 +650,26 @@
       "q3": {
         "question": "How do I use a compound interest calculator?",
         "answer": "Our compound interest calculator is easy to use. Fill in your starting amount, how much you want to save each month, expected annual return and number of years. Then click 'Calculate' to see the result."
+      }
+    },
+    "advanced_settings": {
+      "title": "Advanced settings",
+      "description": "Annual increase, withdrawals and more",
+      "active_badge": "Active",
+      "annual_savings_increase": {
+        "label": "Annual savings increase",
+        "description": "How much your monthly savings increases each year"
+      },
+      "planned_withdrawal": {
+        "title": "Planned withdrawal",
+        "description": "Make a withdrawal from your savings after a number of years",
+        "withdrawal_type_question": "How do you want to make your withdrawal?",
+        "percentage_option": "Percentage of total value",
+        "amount_option": "Specific amount",
+        "withdrawal_year_question": "When should the withdrawal occur?",
+        "withdrawal_percentage_label": "Withdrawal per year (%)",
+        "withdrawal_amount_label": "Withdrawal per year in SEK",
+        "year_prefix": "Year"
       }
     }
   }
