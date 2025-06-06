@@ -104,7 +104,7 @@ export function FinancialHealthScore({
         <Text className="text-xs text-gray-600 dark:text-gray-300">
           {t("metrics")}
         </Text>
-        <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Box className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <MetricCard
             title={t("debt_to_income")}
             value={safeDisplay(score.metrics.debtToIncomeRatio)}
