@@ -134,7 +134,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-
 export default async function RantaPaRantaPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
