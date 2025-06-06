@@ -23,8 +23,8 @@ export async function generateMetadata({
   // Dynamic title based on current step
   let title =
     locale === "sv"
-      ? "Hushållsbudget - Gratis budgetverktyg | Budgetkollen"
-      : "Household Budget - Free Budget Tool | Budgetkollen";
+      ? "Hushållsbudget Kalkylator - Gratis Budgetverktyg | Budgetkollen"
+      : "Household Budget Calculator - Free Budget Tool | Budgetkollen";
 
   // Add step-specific context to title if available
   if (currentStep && typeof currentStep === "string") {
@@ -51,17 +51,15 @@ export async function generateMetadata({
     }
   }
 
-  // Compelling meta descriptions with call-to-action (150-160 chars)
   const description =
     locale === "sv"
-      ? "Beräkna din hushållsbudget på 3 minuter! ✓ Skatteuträkning ✓ Lånekalkylator ✓ 13 utgiftskategorier."
-      : "Calculate your household budget in 3 minutes! ✓ Tax calculation ✓ Loan calculator ✓ 13 expense categories.";
+      ? "Skapa din hushållsbudget på 3 minuter med vårt gratis verktyg. Beräkna inkomster, utgifter och lån för bättre kontroll över din privatekonomi."
+      : "Create your household budget in 3 minutes with our free tool. Calculate income, expenses and loans for better control of your personal finances.";
 
-  // Comprehensive keyword list including long-tail keywords
   const keywords =
     locale === "sv"
-      ? "ränta på ränta, ränta-på-ränta, hushållsbudget, hushållskalkyl, budgetkalkylator, budgetkollen, privatekonomi, ekonomi kalkylator, lånekalkylator, sparande, hushållsekonomi, budgetplanering, finansiell planering, månadsbudget, familjebudget, ekonomisk rådgivning, skatteuträkning, disponibel inkomst, levnadskostnader sverige, budgetmall, ekonomiplanering, sparkalkylatorer"
-      : "compound interest,household budget, budget calculator, personal finance, loan calculator, savings calculator, financial planning, monthly budget, family budget, budgetkollen, sweden budget tool, disposable income calculator, living costs sweden, budget template, expense tracker, financial advisor sweden";
+      ? "hushållsbudget, budgetkalkylator, privatekonomi, månadsbudget, budgetplanering, budgetkollen"
+      : "household budget, budget calculator, personal finance, monthly budget, budget planning, budgetkollen";
 
   // Canonical URLs with proper localization
   let canonicalUrl =
@@ -74,34 +72,17 @@ export async function generateMetadata({
     canonicalUrl += `?${stepParam}=${currentStep}`;
   }
 
-  // Alternate language URLs for hreflang
-  const alternateUrls = {
-    sv: "https://www.budgetkollen.se/hushallsbudget",
-    en: "https://www.budgetkollen.se/en/household-budget",
-  };
-
   return {
     title,
     description,
     keywords,
-    authors: [{ name: "Budgetkollen", url: "https://www.budgetkollen.se" }],
-    creator: "Budgetkollen",
-    publisher: "Budgetkollen",
-    category: "Finance",
-    classification: "Personal Finance Tool",
-    applicationName: "Budgetkollen",
-    generator: "Next.js",
-    referrer: "origin-when-cross-origin",
-    manifest: "/manifest.json",
-    formatDetection: {
-      email: false,
-      address: false,
-      telephone: false,
-    },
     metadataBase: new URL("https://www.budgetkollen.se"),
     alternates: {
       canonical: canonicalUrl,
-      languages: alternateUrls,
+      languages: {
+        sv: "/hushallsbudget",
+        en: "/en/household-budget",
+      },
     },
     openGraph: {
       title,
@@ -109,7 +90,6 @@ export async function generateMetadata({
       url: canonicalUrl,
       siteName: "Budgetkollen",
       locale: locale === "sv" ? "sv_SE" : "en_US",
-      alternateLocale: locale === "sv" ? "en_US" : "sv_SE",
       type: "website",
       images: [
         {
@@ -132,40 +112,6 @@ export async function generateMetadata({
       creator: "@budgetkollen",
       site: "@budgetkollen",
     },
-    robots: {
-      index: true,
-      follow: true,
-      nocache: false,
-      googleBot: {
-        index: true,
-        follow: true,
-        noimageindex: false,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-    verification: {
-      google: "G2E34AZZPQ97qu8fxJbgKwM0dUveivxfv84F97tMqV8",
-    },
-    other: {
-      "revisit-after": "7 days",
-      distribution: "global",
-      rating: "general",
-      language: locale === "sv" ? "Swedish" : "English",
-      "geo.region": "SE",
-      "geo.country": "Sweden",
-      "og:locale:alternate": locale === "sv" ? "en_US" : "sv_SE",
-      "article:author": "Budgetkollen",
-      "article:section": "Finance",
-      "apple-mobile-web-app-capable": "yes",
-      "apple-mobile-web-app-status-bar-style": "black-translucent",
-      "msapplication-TileColor": "#1a1a1a",
-      "format-detection": "telephone=no",
-      "mobile-web-app-capable": "yes",
-      "dns-prefetch": "https://www.googletagmanager.com",
-      preconnect: "https://www.google-analytics.com",
-    },
   };
 }
 
@@ -179,11 +125,15 @@ export default async function HushallsbudgetPage({
   // but is not used in the server component itself (used by the client component)
   setRequestLocale(locale);
 
-  // Structured data for SEO
-  const structuredData = {
+  // Essential structured data for 2025 SEO
+  const webApplicationSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Budgetkollen",
+    "@id": "https://www.budgetkollen.se/hushallsbudget",
+    name:
+      locale === "sv"
+        ? "Budgetkollen Hushållsbudget"
+        : "Budgetkollen Household Budget",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     offers: {
@@ -191,177 +141,29 @@ export default async function HushallsbudgetPage({
       price: "0",
       priceCurrency: "SEK",
     },
-    description:
-      locale === "sv"
-        ? "Gratis budgetkalkylator för svenska hushåll med skatteuträkning och lånekalkylator"
-        : "Free budget calculator for Swedish households with tax calculation and loan calculator",
-    featureList: [
-      locale === "sv" ? "Skatteuträkning" : "Tax calculation",
-      locale === "sv" ? "Lånekalkylator" : "Loan calculator",
-      locale === "sv" ? "13 utgiftskategorier" : "13 expense categories",
-      locale === "sv" ? "Finansiell hälsopoäng" : "Financial health score",
-    ],
-  };
-
-  const breadcrumbData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Budgetkollen",
-        item: "https://www.budgetkollen.se",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name:
-          locale === "sv"
-            ? "Hushållsbudget Kalkylator"
-            : "Household Budget Calculator",
-        item:
-          locale === "sv"
-            ? "https://www.budgetkollen.se/hushallsbudget"
-            : "https://www.budgetkollen.se/en/household-budget",
-      },
-    ],
-  };
-
-  const faqData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name:
-          locale === "sv"
-            ? "Hur lång tid tar det att fylla i budgetkalkylatorn?"
-            : "How long does it take to complete the budget calculator?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "sv"
-              ? "Det tar ungefär 3 minuter att fylla i alla steg i budgetkalkylatorn."
-              : "It takes approximately 3 minutes to complete all steps in the budget calculator.",
-        },
-      },
-      {
-        "@type": "Question",
-        name:
-          locale === "sv"
-            ? "Är Budgetkollen gratis att använda?"
-            : "Is Budgetkollen free to use?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "sv"
-              ? "Ja, Budgetkollen är helt gratis att använda utan några dolda avgifter."
-              : "Yes, Budgetkollen is completely free to use with no hidden fees.",
-        },
-      },
-    ],
-  };
-
-  // Canonical URL for structured data
-  const canonicalUrl =
-    locale === "sv"
-      ? "https://www.budgetkollen.se/hushallsbudget"
-      : "https://www.budgetkollen.se/en/household-budget";
-
-  const financialProductSchema = {
-    "@context": "https://schema.org",
-    "@type": "FinancialProduct",
-    name:
-      locale === "sv"
-        ? "Budgetkollen Hushållsbudgetkalkylator"
-        : "Budgetkollen Household Budget Calculator",
-    description:
-      locale === "sv"
-        ? "Komplett budgetkalkylator med skatteuträkning, lånekalkylator och finansiell hälsoanalys"
-        : "Complete budget calculator with tax calculation, loan calculator and financial health analysis",
     provider: {
       "@type": "Organization",
       name: "Budgetkollen",
       url: "https://www.budgetkollen.se",
-      logo: "https://www.budgetkollen.se/og-image.png",
-    },
-    areaServed: {
-      "@type": "Country",
-      name: "Sweden",
-    },
-    audience: {
-      "@type": "Audience",
-      audienceType: locale === "sv" ? "Svenska hushåll" : "Swedish households",
-    },
-    availableChannel: {
-      "@type": "ServiceChannel",
-      serviceUrl: canonicalUrl,
-      serviceType: "Online",
     },
   };
 
   return (
     <>
-      {/* SEO: Structured Data Scripts with proper typing */}
+      {/* Essential structured data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
+          __html: JSON.stringify(webApplicationSchema),
         }}
-        key="structured-data"
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbData),
-        }}
-        key="breadcrumb-data"
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqData),
-        }}
-        key="faq-data"
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(financialProductSchema),
-        }}
-        key="financial-product"
       />
 
       <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
-        <noscript>
-          <div className="min-h-screen bg-gray-950 flex items-center justify-center p-8">
-            <div className="max-w-md text-center bg-gray-900 rounded-lg p-8 border border-gray-800">
-              <h2 className="text-2xl font-bold text-white mb-4">
-                {locale === "sv" ? "JavaScript krävs" : "JavaScript Required"}
-              </h2>
-              <p className="text-gray-400 mb-6">
-                {locale === "sv"
-                  ? "För att använda Budgetkollens kalkylator behöver du aktivera JavaScript i din webbläsare."
-                  : "To use Budgetkollen's calculator, you need to enable JavaScript in your browser."}
-              </p>
-              <a
-                href="https://www.enable-javascript.com/"
-                className="text-blue-400 hover:text-blue-300 underline"
-                rel="noopener noreferrer"
-              >
-                {locale === "sv"
-                  ? "Läs hur du aktiverar JavaScript"
-                  : "Learn how to enable JavaScript"}
-              </a>
-            </div>
-          </div>
-        </noscript>
-        {/* SEO: Hidden H1 for screen readers and search engines */}
+        {/* SEO-friendly H1 - visually hidden but accessible to screen readers and search engines */}
         <h1 className="sr-only">
           {locale === "sv"
-            ? "Budgetkollen - Hushållsbudget Kalkylator för Sverige"
-            : "Budgetkollen - Household Budget Calculator for Sweden"}
+            ? "Hushållsbudget Kalkylator - Skapa Din Budget"
+            : "Household Budget Calculator - Create Your Budget"}
         </h1>
 
         {/* Animated gradient mesh background */}

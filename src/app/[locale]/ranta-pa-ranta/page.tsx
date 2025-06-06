@@ -24,43 +24,31 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
 
-  const isSwedish = locale === "sv";
+  const title =
+    locale === "sv"
+      ? "Ränta på Ränta Kalkylator - Sparkalkylator Gratis | Budgetkollen"
+      : "Compound Interest Calculator - Free Savings Calculator | Budgetkollen";
 
-  const title = isSwedish
-    ? "Ränta på Ränta Kalkylator - Beräkna Din Framtida Förmögenhet | Budgetkollen"
-    : "Compound Interest Calculator - Calculate Your Future Wealth | Budgetkollen";
+  const description =
+    locale === "sv"
+      ? "Gratis ränta på ränta kalkylator som visar hur ditt sparande växer över tid. Beräkna framtida förmögenhet med månatligt sparande och visualiserade resultat."
+      : "Free compound interest calculator showing how your savings grow over time. Calculate future wealth with monthly savings and visual results.";
 
-  const description = isSwedish
-    ? "Beräkna hur dina investeringar växer med ränta på ränta! ✓ Gratis kalkylator ✓ Visualiserade resultat ✓ Se hur små belopp blir miljoner över tid."
-    : "Calculate how your investments grow with compound interest! ✓ Free calculator ✓ Visual results ✓ See how small amounts become millions over time.";
-
-  const keywords = isSwedish
-    ? "ränta på ränta, ränta-på-ränta, compund interest, sparkalkylator, investeringskalkylator, sparande, investering, budgetkollen, privatekonomi, finansiell planering, sparmål, kapitalförmögenhet, pensionssparande, fonder, avkastning, ekonomi kalkylator"
-    : "compound interest, savings calculator, investment calculator, saving, investing, budgetkollen, personal finance, financial planning, savings goals, wealth building, retirement savings, funds, returns, finance calculator";
+  const keywords =
+    locale === "sv"
+      ? "ränta på ränta, sparkalkylator, investeringskalkylator, sparande, privatekonomi, budgetkollen"
+      : "compound interest, savings calculator, investment calculator, personal finance, budgetkollen";
 
   // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
-  const canonicalUrl = isSwedish
-    ? `https://www.budgetkollen.se/ranta-pa-ranta`
-    : `https://www.budgetkollen.se/en/compound-interest`;
+  const canonicalUrl =
+    locale === "sv"
+      ? `https://www.budgetkollen.se/ranta-pa-ranta`
+      : `https://www.budgetkollen.se/en/compound-interest`;
 
   return {
     title,
     description,
     keywords,
-    authors: [{ name: "Budgetkollen", url: "https://www.budgetkollen.se" }],
-    creator: "Budgetkollen",
-    publisher: "Budgetkollen",
-    category: "Finance",
-    classification: "Investment Calculator Tool",
-    applicationName: "Budgetkollen",
-    generator: "Next.js",
-    referrer: "origin-when-cross-origin",
-    manifest: "/manifest.json",
-    formatDetection: {
-      email: false,
-      address: false,
-      telephone: false,
-    },
     metadataBase: new URL("https://www.budgetkollen.se"),
     alternates: {
       canonical: canonicalUrl,
@@ -74,15 +62,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       url: canonicalUrl,
       siteName: "Budgetkollen",
-      locale: isSwedish ? "sv_SE" : "en_US",
-      alternateLocale: isSwedish ? "en_US" : "sv_SE",
+      locale: locale === "sv" ? "sv_SE" : "en_US",
       type: "website",
       images: [
         {
           url: "/compound-interest-og.png",
           width: 1200,
           height: 630,
-          alt: isSwedish
+          alt: locale === "sv"
             ? "Ränta på Ränta Kalkylator - Budgetkollen"
             : "Compound Interest Calculator - Budgetkollen",
           type: "image/png",
@@ -97,40 +84,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       creator: "@budgetkollen",
       site: "@budgetkollen",
     },
-    robots: {
-      index: true,
-      follow: true,
-      nocache: false,
-      googleBot: {
-        index: true,
-        follow: true,
-        noimageindex: false,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-    verification: {
-      google: "G2E34AZZPQ97qu8fxJbgKwM0dUveivxfv84F97tMqV8",
-    },
-    other: {
-      "revisit-after": "7 days",
-      distribution: "global",
-      rating: "general",
-      language: isSwedish ? "Swedish" : "English",
-      "geo.region": "SE",
-      "geo.country": "Sweden",
-      "og:locale:alternate": isSwedish ? "en_US" : "sv_SE",
-      "article:author": "Budgetkollen",
-      "article:section": "Finance",
-      "apple-mobile-web-app-capable": "yes",
-      "apple-mobile-web-app-status-bar-style": "black-translucent",
-      "msapplication-TileColor": "#1a1a1a",
-      "format-detection": "telephone=no",
-      "mobile-web-app-capable": "yes",
-      "dns-prefetch": "https://www.googletagmanager.com",
-      preconnect: "https://www.google-analytics.com",
-    },
   };
 }
 
@@ -138,11 +91,18 @@ export default async function RantaPaRantaPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  // Structured data for SEO
-  const structuredData = {
+  // Essential structured data for 2025 SEO
+  const webApplicationSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Budgetkollen",
+    "@id":
+      locale === "sv"
+        ? "https://www.budgetkollen.se/ranta-pa-ranta"
+        : "https://www.budgetkollen.se/en/compound-interest",
+    name:
+      locale === "sv"
+        ? "Budgetkollen Ränta på Ränta"
+        : "Budgetkollen Compound Interest",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     offers: {
@@ -150,181 +110,24 @@ export default async function RantaPaRantaPage({ params }: Props) {
       price: "0",
       priceCurrency: "SEK",
     },
-    description:
-      locale === "sv"
-        ? "Gratis ränta på ränta kalkylator för sparande och investering"
-        : "Free compound interest calculator for savings and investments",
-    featureList: [
-      locale === "sv"
-        ? "Ränta på ränta beräkning"
-        : "Compound interest calculation",
-      locale === "sv" ? "Månadssparande" : "Monthly savings",
-      locale === "sv" ? "Visualiserade resultat" : "Visual results",
-      locale === "sv" ? "Avancerade inställningar" : "Advanced settings",
-    ],
-  };
-
-  const breadcrumbData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Budgetkollen",
-        item: "https://www.budgetkollen.se",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name:
-          locale === "sv"
-            ? "Ränta på Ränta Kalkylator"
-            : "Compound Interest Calculator",
-        item:
-          locale === "sv"
-            ? "https://www.budgetkollen.se/ranta-pa-ranta"
-            : "https://www.budgetkollen.se/en/compound-interest",
-      },
-    ],
-  };
-
-  const faqData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name:
-          locale === "sv"
-            ? "Vad är ränta på ränta?"
-            : "What is compound interest?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "sv"
-              ? "Ränta på ränta är när du får avkastning på både ditt kapital och tidigare avkastning."
-              : "Compound interest is when you earn returns on both your capital and previous returns.",
-        },
-      },
-      {
-        "@type": "Question",
-        name:
-          locale === "sv"
-            ? "Är kalkylatorn gratis att använda?"
-            : "Is the calculator free to use?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "sv"
-              ? "Ja, vår ränta på ränta kalkylator är helt gratis att använda."
-              : "Yes, our compound interest calculator is completely free to use.",
-        },
-      },
-    ],
-  };
-
-  // Canonical URL for structured data
-  const canonicalUrl =
-    locale === "sv"
-      ? "https://www.budgetkollen.se/ranta-pa-ranta"
-      : "https://www.budgetkollen.se/en/compound-interest";
-
-  const financialProductSchema = {
-    "@context": "https://schema.org",
-    "@type": "FinancialProduct",
-    name:
-      locale === "sv"
-        ? "Budgetkollen Ränta på Ränta Kalkylator"
-        : "Budgetkollen Compound Interest Calculator",
-    description:
-      locale === "sv"
-        ? "Komplett sparkalkylator med ränta på ränta beräkning och visualiserade resultat"
-        : "Complete savings calculator with compound interest calculation and visual results",
     provider: {
       "@type": "Organization",
       name: "Budgetkollen",
       url: "https://www.budgetkollen.se",
-      logo: "https://www.budgetkollen.se/og-image.png",
-    },
-    areaServed: {
-      "@type": "Country",
-      name: "Sweden",
-    },
-    audience: {
-      "@type": "Audience",
-      audienceType: locale === "sv" ? "Svenska sparare" : "Swedish savers",
-    },
-    availableChannel: {
-      "@type": "ServiceChannel",
-      serviceUrl: canonicalUrl,
-      serviceType: "Online",
     },
   };
 
   return (
     <>
-      {/* SEO: Structured Data Scripts with proper typing */}
+      {/* Essential structured data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
+          __html: JSON.stringify(webApplicationSchema),
         }}
-        key="structured-data"
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbData),
-        }}
-        key="breadcrumb-data"
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqData),
-        }}
-        key="faq-data"
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(financialProductSchema),
-        }}
-        key="financial-product"
       />
 
       <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
-        <noscript>
-          <div className="min-h-screen bg-gray-950 flex items-center justify-center p-8">
-            <div className="max-w-md text-center bg-gray-900 rounded-lg p-8 border border-gray-800">
-              <h2 className="text-2xl font-bold text-white mb-4">
-                {locale === "sv" ? "JavaScript krävs" : "JavaScript Required"}
-              </h2>
-              <p className="text-gray-400 mb-6">
-                {locale === "sv"
-                  ? "För att använda Budgetkollens kalkylator behöver du aktivera JavaScript i din webbläsare."
-                  : "To use Budgetkollen's calculator, you need to enable JavaScript in your browser."}
-              </p>
-              <a
-                href="https://www.enable-javascript.com/"
-                className="text-blue-400 hover:text-blue-300 underline"
-                rel="noopener noreferrer"
-              >
-                {locale === "sv"
-                  ? "Läs hur du aktiverar JavaScript"
-                  : "Learn how to enable JavaScript"}
-              </a>
-            </div>
-          </div>
-        </noscript>
-        {/* SEO: Hidden H1 for screen readers and search engines */}
-        <h1 className="sr-only">
-          {locale === "sv"
-            ? "Budgetkollen - Ränta på Ränta Kalkylator för Sverige"
-            : "Budgetkollen - Compound Interest Calculator for Sweden"}
-        </h1>
-
         {/* Animated gradient mesh background */}
         <div className="gradient-mesh" />
 
@@ -346,7 +149,6 @@ export default async function RantaPaRantaPage({ params }: Props) {
                 : "See how your savings grow exponentially with the power of compound interest"}
             </p>
           </header>
-
           {/* Introduction Section */}
           <Card gradient glass>
             <CardHeader>
