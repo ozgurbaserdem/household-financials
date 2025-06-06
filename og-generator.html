@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenGraph Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .og-container {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e293b 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        /* Background decorative elements */
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.1;
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #3b82f6;
+            top: -100px;
+            left: -100px;
+        }
+        
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #8b5cf6;
+            bottom: -150px;
+            right: -150px;
+        }
+        
+        /* Main content layout */
+        .content {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Left side - Text and Logo */
+        .left-side {
+            flex: 1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
+        }
+        
+        .logo-icon::before {
+            content: 'B';
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .logo-check {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 24px;
+            height: 24px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-check::before {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .logo-text {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Main heading */
+        .heading {
+            font-size: 56px;
+            font-weight: bold;
+            color: white;
+            line-height: 1.1;
+            margin: 0;
+        }
+        
+        .subheading {
+            font-size: 24px;
+            color: #94a3b8;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        /* Right side - Chart */
+        .right-side {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Chart container */
+        .chart-container {
+            width: 100%;
+            height: 450px;
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+        
+        /* Chart bars */
+        .chart {
+            display: flex;
+            align-items: end;
+            height: 320px;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow: visible;
+        }
+        
+        .bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            gap: 0;
+        }
+        
+        .bar-segment {
+            width: 100%;
+            border-radius: 2px;
+        }
+        
+        .initial {
+            background: #3b82f6;
+        }
+        
+        .monthly {
+            background: #10b981;
+        }
+        
+        .growth {
+            background: #8b5cf6;
+        }
+        
+        .withdrawal {
+            background: #ef4444;
+        }
+        
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        
+        /* Stats overlay */
+        .stats {
+            position: absolute;
+            top: 60px;
+            right: 60px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            backdrop-filter: blur(10px);
+            min-width: 200px;
+        }
+        
+        .stats h3 {
+            color: white;
+            font-size: 18px;
+            margin: 0 0 15px 0;
+            font-weight: 600;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .stat-label {
+            color: #94a3b8;
+        }
+        
+        .stat-value {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        .stat-value.growth {
+            color: #8b5cf6;
+        }
+    </style>
+</head>
+<body>
+    <div class="og-container">
+        <!-- Background orbs -->
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        
+        <div class="content">
+            <!-- Left side - Text and Logo -->
+            <div class="left-side">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <div class="logo-check"></div>
+                    </div>
+                    <div class="logo-text">Budgetkollen</div>
+                </div>
+                
+                <h1 class="heading">Ränta på ränta<br>kalkylator</h1>
+                <p class="subheading">Se hur ditt sparande växer exponentiellt</p>
+            </div>
+            
+            <!-- Right side - Chart -->
+            <div class="right-side">
+                <div class="chart-container">
+                    <div class="chart">
+                        <!-- Year 1-10 (building/accumulation phase) -->
+                        <!-- SIMPLE: column + justify-end. First = bottom, Last = top -->
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 35px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 48px;"></div>
+                            <div class="bar-segment growth" style="height: 6px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 62px;"></div>
+                            <div class="bar-segment growth" style="height: 16px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 75px;"></div>
+                            <div class="bar-segment growth" style="height: 28px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 88px;"></div>
+                            <div class="bar-segment growth" style="height: 42px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 100px;"></div>
+                            <div class="bar-segment growth" style="height: 58px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 112px;"></div>
+                            <div class="bar-segment growth" style="height: 76px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 125px;"></div>
+                            <div class="bar-segment growth" style="height: 96px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 138px;"></div>
+                            <div class="bar-segment growth" style="height: 118px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment initial" style="height: 12px;"></div>
+                            <div class="bar-segment monthly" style="height: 150px;"></div>
+                            <div class="bar-segment growth" style="height: 142px;"></div>
+                        </div>
+                        
+                        <!-- Red divider line (withdrawal phase indicator) -->
+                        <div style="position: relative; width: 3px; background: #ef4444; height: 100%; margin: 0 8px; display: flex; align-items: start; justify-content: center;">
+                            <div style="width: 3px; height: 100%; background: #ef4444; border: 1px dashed #ef4444; opacity: 0.8;"></div>
+                        </div>
+                        
+                        <!-- Year 11-20 (withdrawal/decumulation phase) -->
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 280px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 260px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 240px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 220px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 200px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 180px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 160px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 140px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 120px;"></div>
+                        </div>
+                        <div class="bar">
+                            <div class="bar-segment withdrawal" style="height: 100px;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color initial"></div>
+                            <span>Initial investering</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color monthly"></div>
+                            <span>Månatligt sparande</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color growth"></div>
+                            <span>Avkastning</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats overlay -->
+        <div class="stats">
+            <h3>År 11 (Ålder: 41 år)</h3>
+            <div class="stat-row">
+                <span class="stat-label">Totalt sparat:</span>
+                <span class="stat-value">640 000 kr</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Avkastning:</span>
+                <span class="stat-value growth">397 887 kr</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Portföljvärde:</span>
+                <span class="stat-value">837 887 kr</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

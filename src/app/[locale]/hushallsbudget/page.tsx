@@ -113,13 +113,13 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "/og-image.png",
+          url: "/household-budget-og.png",
           width: 1200,
           height: 630,
           alt:
             locale === "sv"
-              ? "Budgetkollen - Sveriges bästa budgetkalkylator för hushåll"
-              : "Budgetkollen - Sweden's best household budget calculator",
+              ? "Hushållsbudget Kalkylator - Budgetkollen"
+              : "Household Budget Calculator - Budgetkollen",
           type: "image/png",
         },
       ],
@@ -128,7 +128,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image.png"],
+      images: ["/household-budget-og.png"],
       creator: "@budgetkollen",
       site: "@budgetkollen",
     },

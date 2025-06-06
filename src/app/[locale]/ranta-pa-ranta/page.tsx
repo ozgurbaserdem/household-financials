@@ -69,7 +69,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "/einstein-optimized.png",
+          url: "/compound-interest-og.png",
           width: 1200,
           height: 630,
           alt: isSwedish
@@ -79,10 +79,10 @@ export async function generateMetadata({
       ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
-      images: ["/einstein-optimized.png"],
+      images: ["/compound-interest-og.png"],
     },
     robots: {
       index: true,

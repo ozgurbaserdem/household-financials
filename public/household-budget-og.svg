@@ -1,0 +1,93 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+      <foreignObject width="1200" height="630">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+          <!DOCTYPE html>
+
+
+
+    <div class="og-container">
+        <!-- Background orbs -->
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        
+        <div class="content">
+            <!-- Left side - Text and Logo -->
+            <div class="left-side">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <div class="logo-check"></div>
+                    </div>
+                    <div class="logo-text">Budgetkollen</div>
+                </div>
+                
+                <h1 class="heading">Hushållsbudget<br>kalkylator</h1>
+                <p class="subheading">Få koll på din ekonomi med vår 5-stegs guide</p>
+            </div>
+            
+            <!-- Right side - Progress and Results -->
+            <div class="right-side">
+                <!-- Progress stepper -->
+                <div class="progress-stepper">
+                    <div class="step">
+                        <div class="step-circle completed"></div>
+                        <div class="step-label">Inkomst</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle completed"></div>
+                        <div class="step-label">Lån</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle completed"></div>
+                        <div class="step-label">Utgifter</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle completed"></div>
+                        <div class="step-label">Sammanfattning</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle current"></div>
+                        <div class="step-label">Resultat</div>
+                    </div>
+                </div>
+                
+                <!-- Results card -->
+                <div class="results-card">
+                    <div class="results-title">
+                        <div class="results-icon"></div>
+                        Beräkningsresultat
+                    </div>
+                    
+                    <div class="results-grid">
+                        <div class="result-item best">
+                            <div class="result-label best">Bästa scenario</div>
+                            <div class="result-value best">28 888 kr</div>
+                            <div class="result-details">@ 2,50 % / 2,00 %</div>
+                        </div>
+                        
+                        <div class="result-item worst">
+                            <div class="result-label worst">Sämsta scenario</div>
+                            <div class="result-value worst">28 638 kr</div>
+                            <div class="result-details">@ 3,00 % / 3,00 %</div>
+                        </div>
+                        
+                        <div class="health-score">
+                            <div class="health-score-label">Ekonomiskt hälsotillstånd</div>
+                            <div class="health-score-value">76</div>
+                            <div class="health-score-bar">
+                                <div class="health-score-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+      </foreignObject>
+    </svg>

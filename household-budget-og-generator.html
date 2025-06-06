@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenGraph Generator - Household Budget</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .og-container {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e293b 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        /* Background decorative elements */
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.1;
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #3b82f6;
+            top: -100px;
+            left: -100px;
+        }
+        
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #8b5cf6;
+            bottom: -150px;
+            right: -150px;
+        }
+        
+        /* Main content layout */
+        .content {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Left side - Text and Logo */
+        .left-side {
+            flex: 1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
+        }
+        
+        .logo-icon::before {
+            content: 'B';
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .logo-check {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 24px;
+            height: 24px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-check::before {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .logo-text {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Main heading */
+        .heading {
+            font-size: 56px;
+            font-weight: bold;
+            color: white;
+            line-height: 1.1;
+            margin: 0;
+        }
+        
+        .subheading {
+            font-size: 24px;
+            color: #94a3b8;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        /* Right side - Progress and Results */
+        .right-side {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        /* Progress stepper */
+        .progress-stepper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .step-circle.completed {
+            background: #10b981;
+        }
+        
+        .step-circle.current {
+            background: #3b82f6;
+        }
+        
+        .step-circle.pending {
+            background: #374151;
+            border: 2px solid #4b5563;
+        }
+        
+        .step-circle.completed::before {
+            content: '✓';
+            font-size: 16px;
+        }
+        
+        .step-circle.current::before {
+            content: '5';
+            font-size: 18px;
+        }
+        
+        .step-line {
+            width: 40px;
+            height: 2px;
+            background: #10b981;
+        }
+        
+        .step-line.pending {
+            background: #374151;
+        }
+        
+        .step-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-align: center;
+            white-space: nowrap;
+        }
+        
+        /* Results card */
+        .results-card {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .results-title {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .results-icon {
+            width: 24px;
+            height: 24px;
+            background: #3b82f6;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .results-icon::before {
+            content: '📊';
+            font-size: 14px;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .result-item {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        
+        .result-item.best {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .result-item.worst {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .result-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .result-label.best::before {
+            content: '↗';
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .result-label.worst::before {
+            content: '↘';
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .result-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .result-value.best {
+            color: #10b981;
+        }
+        
+        .result-value.worst {
+            color: #ef4444;
+        }
+        
+        .result-details {
+            font-size: 10px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+        
+        /* Health score */
+        .health-score {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            grid-column: span 2;
+            text-align: center;
+        }
+        
+        .health-score-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        
+        .health-score-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #f59e0b;
+            margin-bottom: 5px;
+        }
+        
+        .health-score-bar {
+            width: 100%;
+            height: 8px;
+            background: #374151;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .health-score-fill {
+            height: 100%;
+            width: 76%;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="og-container">
+        <!-- Background orbs -->
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        
+        <div class="content">
+            <!-- Left side - Text and Logo -->
+            <div class="left-side">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <div class="logo-check"></div>
+                    </div>
+                    <div class="logo-text">Budgetkollen</div>
+                </div>
+                
+                <h1 class="heading">Hushållsbudget<br>kalkylator</h1>
+                <p class="subheading">Få koll på din ekonomi med vår 5-stegs guide</p>
+            </div>
+            
+            <!-- Right side - Progress and Results -->
+            <div class="right-side">
+                <!-- Progress stepper -->
+                <div class="progress-stepper">
+                    <div class="step">
+                        <div class="step-circle completed"></div>
+                        <div class="step-label">Inkomst</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle completed"></div>
+                        <div class="step-label">Lån</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle completed"></div>
+                        <div class="step-label">Utgifter</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle completed"></div>
+                        <div class="step-label">Sammanfattning</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle current"></div>
+                        <div class="step-label">Resultat</div>
+                    </div>
+                </div>
+                
+                <!-- Results card -->
+                <div class="results-card">
+                    <div class="results-title">
+                        <div class="results-icon"></div>
+                        Beräkningsresultat
+                    </div>
+                    
+                    <div class="results-grid">
+                        <div class="result-item best">
+                            <div class="result-label best">Bästa scenario</div>
+                            <div class="result-value best">28 888 kr</div>
+                            <div class="result-details">@ 2,50 % / 2,00 %</div>
+                        </div>
+                        
+                        <div class="result-item worst">
+                            <div class="result-label worst">Sämsta scenario</div>
+                            <div class="result-value worst">28 638 kr</div>
+                            <div class="result-details">@ 3,00 % / 3,00 %</div>
+                        </div>
+                        
+                        <div class="health-score">
+                            <div class="health-score-label">Ekonomiskt hälsotillstånd</div>
+                            <div class="health-score-value">76</div>
+                            <div class="health-score-bar">
+                                <div class="health-score-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
