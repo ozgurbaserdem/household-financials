@@ -69,9 +69,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: "/compound-interest-og.png",
           width: 1200,
           height: 630,
-          alt: locale === "sv"
-            ? "Ränta på Ränta Kalkylator - Budgetkollen"
-            : "Compound Interest Calculator - Budgetkollen",
+          alt:
+            locale === "sv"
+              ? "Ränta på Ränta Kalkylator - Budgetkollen"
+              : "Compound Interest Calculator - Budgetkollen",
           type: "image/png",
         },
       ],
