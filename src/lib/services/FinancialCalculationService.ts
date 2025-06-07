@@ -25,6 +25,18 @@ export interface ExpenseCalculationResult {
   otherExpenses: number;
 }
 
+/**
+ * Comprehensive financial calculation service for Swedish household budget analysis.
+ *
+ * This service handles all core financial calculations including:
+ * - Income calculations with Swedish tax rules
+ * - Expense analysis and categorization
+ * - Loan scenario modeling with multiple interest/amortization rates
+ * - Financial health scoring and recommendations
+ *
+ * The service integrates with tax and loan calculation services to provide
+ * complete financial analysis for Swedish households.
+ */
 export class FinancialCalculationService {
   constructor(
     private taxService: TaxCalculationService = taxCalculationService,
@@ -32,7 +44,21 @@ export class FinancialCalculationService {
   ) {}
 
   /**
-   * Calculate total net income from all sources
+   * Calculates total net income from all income sources.
+   *
+   * Handles multiple income types with different tax treatments:
+   * - Primary incomes (subject to municipal tax)
+   * - Secondary incomes (different tax rules)
+   * - Non-taxable incomes (benefits, allowances)
+   *
+   * @param incomeState - Complete income state with all income sources
+   * @returns Object containing gross and net income totals
+   *
+   * @example
+   * ```typescript
+   * const result = service.calculateTotalIncome(incomeState);
+   * console.log(result); // { gross: 120000, net: 85000 }
+   * ```
    */
   calculateTotalIncome = (
     incomeState: IncomeState
@@ -92,7 +118,22 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Calculate total expenses broken down by category
+   * Calculates total expenses with detailed breakdown by category.
+   *
+   * Provides comprehensive expense analysis including:
+   * - Total monthly expenses
+   * - Housing-specific expenses
+   * - All other expense categories
+   *
+   * @param expenses - Expenses organized by category
+   * @param state - Optional calculator state for context-aware calculations
+   * @returns Detailed expense breakdown object
+   *
+   * @example
+   * ```typescript
+   * const result = service.calculateExpenses(expenses, state);
+   * console.log(result); // { totalExpenses: 25000, housingExpenses: 15000, otherExpenses: 10000 }
+   * ```
    */
   calculateExpenses = (
     expenses: ExpensesByCategory,
@@ -112,7 +153,24 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Calculate all loan scenarios with comprehensive results
+   * Calculates comprehensive loan scenarios with multiple rate combinations.
+   *
+   * Generates a matrix of loan scenarios by combining different interest rates
+   * with different amortization rates. Each scenario includes:
+   * - Monthly payment calculations
+   * - Total housing costs including base expenses
+   * - Remaining savings after all expenses
+   * - Detailed income breakdown
+   *
+   * @param calculatorState - Complete calculator state with all financial data
+   * @returns Array of detailed calculation results for each scenario
+   *
+   * @example
+   * ```typescript
+   * const scenarios = service.calculateLoanScenarios(state);
+   * console.log(scenarios.length); // 9 scenarios (3x3 matrix)
+   * console.log(scenarios[0].remainingSavings); // 12000
+   * ```
    */
   calculateLoanScenarios = (
     calculatorState: CalculatorState
@@ -180,7 +238,25 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Calculate financial health score
+   * Calculates comprehensive financial health score with actionable insights.
+   *
+   * The financial health score (0-100) is calculated using weighted metrics:
+   * - Debt-to-income ratio (30% weight): Lower ratios score higher
+   * - Emergency fund coverage (30% weight): More months of coverage score higher
+   * - Housing cost ratio (20% weight): Lower housing cost percentage scores higher
+   * - Discretionary income ratio (20% weight): More leftover income scores higher
+   *
+   * Also generates personalized recommendations based on metric thresholds.
+   *
+   * @param calculatorState - Complete financial state for analysis
+   * @returns Financial health score with metrics and recommendations
+   *
+   * @example
+   * ```typescript
+   * const health = service.calculateFinancialHealthScore(state);
+   * console.log(health.overallScore); // 75
+   * console.log(health.recommendations); // ["recommendation_emergency_fund"]
+   * ```
    */
   calculateFinancialHealthScore = (
     calculatorState: CalculatorState
@@ -244,7 +320,15 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Calculate housing expenses from expense categories
+   * Extracts housing-related expenses from expense categories.
+   *
+   * Currently focuses on the 'home' category but designed to be
+   * extensible for more granular housing expense tracking.
+   *
+   * @param expenses - All expense categories
+   * @returns Total housing expenses in SEK
+   *
+   * @private
    */
   private calculateHousingExpenses = (expenses: ExpensesByCategory): number => {
     // In the simplified version, we just return the home category total
@@ -252,7 +336,15 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Calculate total expenses from all categories
+   * Sums all expenses across all categories.
+   *
+   * Safely handles string and number inputs, treating invalid
+   * values as zero to prevent calculation errors.
+   *
+   * @param expenses - Expenses by category object
+   * @returns Total monthly expenses in SEK
+   *
+   * @private
    */
   private calculateTotalExpenses = (expenses: ExpensesByCategory): number => {
     return Object.values(expenses).reduce((total, amount) => {
@@ -262,7 +354,16 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Get effective total expenses based on view mode
+   * Determines total expenses based on the current expense view mode.
+   *
+   * Supports different expense input modes:
+   * - Simple mode: Uses single total expense value
+   * - Detailed mode: Calculates from individual categories
+   *
+   * @param state - Calculator state with expense mode and data
+   * @returns Effective total expenses for calculations
+   *
+   * @private
    */
   private getEffectiveTotalExpenses = (state: CalculatorState): number => {
     if (state.expenseViewMode === "simple") {
@@ -272,7 +373,15 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Get main loan costs using primary rates
+   * Calculates loan costs using the primary interest and amortization rates.
+   *
+   * Used for financial health calculations where a single representative
+   * loan cost is needed rather than multiple scenarios.
+   *
+   * @param state - Calculator state with loan parameters
+   * @returns Monthly interest and amortization amounts
+   *
+   * @private
    */
   private getMainLoanCosts = (
     state: CalculatorState
@@ -289,7 +398,16 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Calculate emergency fund coverage
+   * Calculates how many months of expenses the emergency fund covers.
+   *
+   * Emergency fund coverage is a key financial health metric,
+   * with 3+ months generally considered healthy.
+   *
+   * @param state - Calculator state with emergency fund amount
+   * @param totalExpenses - Optional pre-calculated total expenses
+   * @returns Number of months of expense coverage
+   *
+   * @private
    */
   private calculateEmergencyFundCoverage = (
     state: CalculatorState,
@@ -302,7 +420,16 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Calculate overall financial health score
+   * Calculates weighted overall financial health score (0-100).
+   *
+   * Uses scientifically-backed financial health metrics with
+   * appropriate weightings. Handles edge cases like NaN values
+   * to ensure robust scoring.
+   *
+   * @param metrics - Individual financial health metrics
+   * @returns Overall score from 0-100
+   *
+   * @private
    */
   private calculateOverallScore = (metrics: {
     debtToIncomeRatio: number;
@@ -345,7 +472,15 @@ export class FinancialCalculationService {
   };
 
   /**
-   * Generate financial recommendations
+   * Generates personalized financial recommendations based on metrics.
+   *
+   * Analyzes each financial health metric against established thresholds
+   * and provides specific, actionable recommendations for improvement.
+   *
+   * @param metrics - Calculated financial health metrics
+   * @returns Array of recommendation keys for internationalization
+   *
+   * @private
    */
   private generateRecommendations = (metrics: {
     debtToIncomeRatio: number;

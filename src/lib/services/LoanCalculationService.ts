@@ -12,13 +12,44 @@ export interface LoanCalculationOptions {
   roundToDecimals?: number;
 }
 
+/**
+ * Loan calculation service for Swedish mortgage and lending scenarios.
+ *
+ * Provides comprehensive loan calculations including:
+ * - Monthly payment calculations (interest + amortization)
+ * - Scenario modeling with different rates
+ * - Total loan cost projections over time
+ * - Loan parameter validation
+ * - Optimal and worst-case scenario analysis
+ *
+ * Follows Swedish lending practices where loans typically include
+ * both interest payments and mandatory amortization.
+ */
 export class LoanCalculationService {
   private readonly defaultOptions: LoanCalculationOptions = {
     roundToDecimals: 2,
   };
 
   /**
-   * Calculate loan scenario from given parameters
+   * Calculates loan scenarios based on given parameters.
+   *
+   * Handles both active loans and no-loan scenarios. For active loans,
+   * calculates monthly payments split between interest and amortization.
+   *
+   * @param loanParameters - Loan configuration including amount and rates
+   * @param options - Optional calculation settings (e.g., decimal precision)
+   * @returns Array of loan scenarios (single scenario for current implementation)
+   *
+   * @example
+   * ```typescript
+   * const scenarios = service.calculateLoanScenarios({
+   *   amount: 3000000,
+   *   interestRate: 3.5,
+   *   amortizationRate: 2.0,
+   *   hasLoan: true
+   * });
+   * console.log(scenarios[0].totalMonthlyPayment); // 13750
+   * ```
    */
   calculateLoanScenarios = (
     loanParameters: LoanParameters,
@@ -51,7 +82,19 @@ export class LoanCalculationService {
   };
 
   /**
-   * Calculate a single loan scenario
+   * Calculates a single loan scenario with specified rates.
+   *
+   * Computes monthly interest and amortization payments separately,
+   * which is important for Swedish loan analysis where amortization
+   * requirements are regulated.
+   *
+   * @param amount - Loan amount in SEK
+   * @param interestRate - Annual interest rate as percentage
+   * @param amortizationRate - Annual amortization rate as percentage
+   * @param roundToDecimals - Number of decimal places for rounding
+   * @returns Complete loan scenario with payment breakdown
+   *
+   * @private
    */
   private calculateSingleScenario = (
     amount: number,
@@ -84,7 +127,19 @@ export class LoanCalculationService {
   };
 
   /**
-   * Calculate the optimal loan scenario (lowest total monthly payment)
+   * Finds the loan scenario with the lowest total monthly payment.
+   *
+   * Useful for comparing multiple scenarios to find the most
+   * affordable option from a cash flow perspective.
+   *
+   * @param loanParameters - Loan configuration
+   * @returns Scenario with lowest monthly payment, or null if no scenarios
+   *
+   * @example
+   * ```typescript
+   * const optimal = service.getOptimalScenario(loanParams);
+   * console.log(optimal?.totalMonthlyPayment); // 12500
+   * ```
    */
   getOptimalScenario = (
     loanParameters: LoanParameters
@@ -101,7 +156,18 @@ export class LoanCalculationService {
   };
 
   /**
-   * Calculate the worst-case scenario (highest total monthly payment)
+   * Finds the loan scenario with the highest total monthly payment.
+   *
+   * Useful for stress testing and understanding maximum payment obligations.
+   *
+   * @param loanParameters - Loan configuration
+   * @returns Scenario with highest monthly payment, or null if no scenarios
+   *
+   * @example
+   * ```typescript
+   * const worstCase = service.getWorstCaseScenario(loanParams);
+   * console.log(worstCase?.totalMonthlyPayment); // 15750
+   * ```
    */
   getWorstCaseScenario = (
     loanParameters: LoanParameters
@@ -116,7 +182,21 @@ export class LoanCalculationService {
   };
 
   /**
-   * Calculate loan payment for a single set of parameters
+   * Calculates total monthly payment for a specific set of loan parameters.
+   *
+   * Simple utility function that combines interest and amortization
+   * into a single monthly payment amount.
+   *
+   * @param amount - Loan amount in SEK
+   * @param interestRate - Annual interest rate as percentage
+   * @param amortizationRate - Annual amortization rate as percentage
+   * @returns Total monthly payment amount
+   *
+   * @example
+   * ```typescript
+   * const payment = service.calculateMonthlyPayment(3000000, 3.5, 2.0);
+   * console.log(payment); // 13750
+   * ```
    */
   calculateMonthlyPayment = (
     amount: number,
@@ -132,7 +212,24 @@ export class LoanCalculationService {
   };
 
   /**
-   * Calculate total loan cost over time
+   * Calculates comprehensive loan costs over a specified time period.
+   *
+   * Provides detailed analysis of loan costs including total interest paid,
+   * total amortization, and remaining principal balance. Useful for
+   * long-term financial planning.
+   *
+   * @param amount - Loan amount in SEK
+   * @param interestRate - Annual interest rate as percentage
+   * @param amortizationRate - Annual amortization rate as percentage
+   * @param years - Number of years to calculate costs for
+   * @returns Comprehensive cost breakdown over the specified period
+   *
+   * @example
+   * ```typescript
+   * const costs = service.calculateTotalLoanCost(3000000, 3.5, 2.0, 10);
+   * console.log(costs.totalInterest); // 1050000
+   * console.log(costs.remainingPrincipal); // 2400000
+   * ```
    */
   calculateTotalLoanCost = (
     amount: number,
@@ -169,7 +266,23 @@ export class LoanCalculationService {
   };
 
   /**
-   * Validate loan parameters
+   * Validates loan parameters for correctness and business rules.
+   *
+   * Checks for common validation issues including:
+   * - Negative amounts or rates
+   * - Rates outside reasonable bounds (0-100%)
+   * - Missing required parameters when loan is active
+   *
+   * @param loanParameters - Loan parameters to validate
+   * @returns Validation result with boolean flag and error messages
+   *
+   * @example
+   * ```typescript
+   * const validation = service.validateLoanParameters(params);
+   * if (!validation.isValid) {
+   *   console.error(validation.errors);
+   * }
+   * ```
    */
   validateLoanParameters = (
     loanParameters: LoanParameters
@@ -211,7 +324,13 @@ export class LoanCalculationService {
   };
 
   /**
-   * Helper function to round numbers to specified decimal places
+   * Rounds numbers to specified decimal places for consistent formatting.
+   *
+   * @param value - Number to round
+   * @param decimals - Number of decimal places
+   * @returns Rounded number
+   *
+   * @private
    */
   private roundToDecimals = (value: number, decimals: number): number => {
     return Number(value.toFixed(decimals));

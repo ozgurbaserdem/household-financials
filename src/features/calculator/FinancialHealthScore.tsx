@@ -14,35 +14,97 @@ import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { useState } from "react";
 import { AnimatedScramble } from "@/components/ui/animated-scramble";
 
+/**
+ * Props for the FinancialHealthScore component.
+ */
 interface FinancialHealthScoreProps {
+  /** Financial health score data including metrics and recommendations */
   score: FinancialHealthScoreType;
+  /** Whether to show informational tooltips for metrics */
   showTooltips?: boolean;
 }
 
+/**
+ * Formats a decimal value as a percentage string.
+ *
+ * @param value - Decimal value (e.g., 0.25 for 25%)
+ * @returns Formatted percentage string with 1 decimal place
+ *
+ * @example
+ * ```typescript
+ * formatPercent(0.254); // "25.4%"
+ * ```
+ */
 const formatPercent = (value: number) => `${(value * 100).toFixed(1)}%`;
 
+/**
+ * Financial Health Score component displaying comprehensive financial wellness metrics.
+ *
+ * Shows an overall financial health score (0-100) with detailed breakdown of:
+ * - Debt-to-income ratio
+ * - Emergency fund coverage
+ * - Housing cost ratio
+ * - Discretionary income ratio
+ *
+ * Also displays personalized recommendations based on the metrics.
+ * Includes interactive tooltips for metric explanations.
+ *
+ * @param props - Component props
+ * @returns JSX element displaying financial health analysis
+ *
+ * @example
+ * ```typescript
+ * <FinancialHealthScore
+ *   score={healthScore}
+ *   showTooltips={true}
+ * />
+ * ```
+ */
 export const FinancialHealthScore = ({
   score,
   showTooltips = true,
 }: FinancialHealthScoreProps) => {
   const t = useTranslations("financial_health");
 
+  /**
+   * Determines the color class for score display based on score value.
+   *
+   * @param score - Score value (0-100)
+   * @returns Tailwind CSS color class string
+   */
   const getScoreColor = (score: number) => {
     if (score >= 80) return "text-green-600 dark:text-green-400";
     if (score >= 60) return "text-yellow-600 dark:text-yellow-400";
     return "text-red-600 dark:text-red-400";
   };
 
+  /**
+   * Determines the progress bar color based on score value.
+   *
+   * @param score - Score value (0-100)
+   * @returns Tailwind CSS background color class string
+   */
   const getProgressColor = (score: number) => {
     if (score >= 80) return "bg-green-600 dark:bg-green-400";
     if (score >= 60) return "bg-yellow-600 dark:bg-yellow-400";
     return "bg-red-600 dark:bg-red-400";
   };
 
+  /**
+   * Safely handles potentially undefined or infinite numeric values for display.
+   *
+   * @param value - Numeric value that might be undefined or infinite
+   * @returns The value if finite, undefined otherwise
+   */
   const safeDisplay = (value: number | undefined) =>
     Number.isFinite(value) ? value : undefined;
 
-  // Custom formatter for DTI as ratio
+  /**
+   * Formats debt-to-income ratio as a multiplier (e.g., "2.5x").
+   *
+   * @param value - DTI ratio value
+   * @returns Formatted ratio string with 1 decimal place and "x" suffix
+   */
   const formatDTIRatio = (value: number) => `${value.toFixed(1)}x`;
 
   return (
@@ -160,14 +222,31 @@ export const FinancialHealthScore = ({
   );
 };
 
+/**
+ * Props for the MetricCard component.
+ */
 interface MetricCardProps {
+  /** Display title for the metric */
   title: string;
+  /** Numeric value of the metric (may be undefined for invalid/missing data) */
   value: number | undefined;
+  /** Function to format the value for display */
   format: (value: number) => string;
+  /** Tooltip text explaining the metric */
   tooltip: string;
+  /** Whether to show the informational tooltip */
   showTooltip?: boolean;
 }
 
+/**
+ * Individual metric card component for displaying a single financial health metric.
+ *
+ * Displays a metric with its formatted value and an optional tooltip for explanation.
+ * Handles touch devices appropriately for tooltip interaction.
+ *
+ * @param props - Component props
+ * @returns JSX element for metric display
+ */
 const MetricCard = ({
   title,
   value,
