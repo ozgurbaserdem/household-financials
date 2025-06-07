@@ -238,7 +238,7 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="mt-6 pt-6 border-t border-gray-700/50"
+              className="mt-0 pt-6"
             >
               <Box className="space-y-4">
                 <div className="flex items-center gap-3">
@@ -288,9 +288,6 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
                         </div>
                       </div>
                     </div>
-                    <Text className="text-xs text-gray-400">
-                      {tLoan("interest_rate_help")}
-                    </Text>
                   </Box>
                   <Box className="space-y-2">
                     <FormLabel className="flex items-center gap-2">
@@ -327,9 +324,6 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
                         </div>
                       </div>
                     </div>
-                    <Text className="text-xs text-gray-400">
-                      {tLoan("amortization_rate_help")}
-                    </Text>
                   </Box>
                 </Box>
               </Box>

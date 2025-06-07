@@ -10,14 +10,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import {
-  Info,
-  TrendingUp,
-  TrendingDown,
-  Activity,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
+import { Info, TrendingUp, TrendingDown } from "lucide-react";
 import { calculateFinancialHealthScoreForResult } from "@/lib/calculations";
 import { FinancialHealthScore } from "./FinancialHealthScore";
 import { motion } from "framer-motion";
@@ -49,7 +42,6 @@ function ResultCard({
 }: ResultCardProps) {
   const t = useTranslations("results");
   const [showAnimation, setShowAnimation] = useState(false);
-  const [showHealthScore, setShowHealthScore] = useState(false);
   const gridOrder = [
     "interest_rate",
     "amortization",
@@ -91,10 +83,9 @@ function ResultCard({
   return (
     <Box
       className={cn(
-        "glass p-4 md:p-4 rounded-xl transition-all duration-300",
-        "hover:bg-white/5 hover:border-white/20",
-        isBest && "border-green-500/30 bg-green-500/5",
-        isWorst && "border-red-500/30 bg-red-500/5"
+        "transition-all duration-300",
+        isBest && "border-l-4 border-green-500/50 pl-4",
+        isWorst && "border-l-4 border-red-500/50 pl-4"
       )}
     >
       {/* Header Badge */}
@@ -169,46 +160,12 @@ function ResultCard({
         })}
       </Box>
 
-      {/* Toggle Financial Health Score */}
-      <Box className="mt-3">
-        <button
-          onClick={() => setShowHealthScore(!showHealthScore)}
-          className="flex items-center justify-between w-full p-2 rounded-xl bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-700/30 hover:border-green-500/50 transition-all duration-300 hover:from-green-900/30 hover:to-emerald-900/30 group"
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-green-500/20 group-hover:bg-green-500/30 transition-colors">
-              <Activity className="w-5 h-5 text-green-400 group-hover:text-green-300 transition-colors" />
-            </div>
-            <div className="text-left">
-              <Text className="text-base font-semibold text-white group-hover:text-green-100 transition-colors">
-                {showHealthScore
-                  ? t("hide_financial_health_score_details")
-                  : t("show_financial_health_score_details")}
-              </Text>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            {showHealthScore ? (
-              <ChevronUp className="w-5 h-5 text-green-400 group-hover:text-green-300 transition-colors" />
-            ) : (
-              <ChevronDown className="w-5 h-5 text-green-400 group-hover:text-green-300 transition-colors" />
-            )}
-          </div>
-        </button>
-
-        {showHealthScore && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="mt-4"
-          >
-            <FinancialHealthScore
-              score={calculateFinancialHealthScoreForResult(result)}
-              showTooltips={showTooltips}
-            />
-          </motion.div>
-        )}
+      {/* Financial Health Score */}
+      <Box className="mt-4 pt-4 border-t border-gray-700/30">
+        <FinancialHealthScore
+          score={calculateFinancialHealthScoreForResult(result)}
+          showTooltips={showTooltips}
+        />
       </Box>
     </Box>
   );

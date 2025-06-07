@@ -368,8 +368,8 @@ describe("ResultsTable", () => {
         </Provider>
       );
 
-      // Should render without errors
-      expect(screen.getByText("title")).toBeInTheDocument();
+      // Should render without errors - use aria-label to target the specific title
+      expect(screen.getByLabelText("aria.title")).toBeInTheDocument();
       // Check that we have a result card (no need to check specific values due to AnimatedScramble)
       const interestRateLabels = screen.getAllByText("interest_rate");
       expect(interestRateLabels.length).toBeGreaterThan(0);
@@ -455,7 +455,7 @@ describe("ResultsTable", () => {
       expect(screen.getByText("current_scenario")).toBeInTheDocument();
 
       // Should show a single result card regardless of how many scenarios we provide
-      expect(screen.getByText("housing_cost")).toBeInTheDocument();
+      expect(screen.getAllByText("housing_cost").length).toBeGreaterThan(0);
       expect(screen.getAllByText("interest_rate")).toHaveLength(2); // One in result card, one in slider
     });
   });
