@@ -82,9 +82,11 @@ const ExportImportButtons = ({ state, onImport }: ExportImportButtonsProps) => {
         />
       </Box>
       {importError && (
-        <ValidationMessage variant="inline" role="alert">
-          {t("import_error", { error: importError })}
-        </ValidationMessage>
+        <ValidationMessage
+          message={t("import_error", { error: importError })}
+          show={true}
+          variant="inline"
+        />
       )}
     </Box>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import LanguageSwitcher from "./LanguageSwitcher";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslations } from "next-intl";
 import {
   NavigationMenu,

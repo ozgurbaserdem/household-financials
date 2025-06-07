@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { Progress } from "@/components/ui/progress";
-import type { FinancialHealthScore } from "@/lib/types";
+import type { FinancialHealthScore as FinancialHealthScoreType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -15,7 +15,7 @@ import { useState } from "react";
 import { AnimatedScramble } from "@/components/ui/animated-scramble";
 
 interface FinancialHealthScoreProps {
-  score: FinancialHealthScore;
+  score: FinancialHealthScoreType;
   showTooltips?: boolean;
 }
 
