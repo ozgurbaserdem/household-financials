@@ -90,3 +90,92 @@ export interface CalculatorState {
   expenseViewMode: "detailed" | "simple";
   totalExpenses: number;
 }
+
+// Enhanced Chart Types
+export interface ChartDataPoint {
+  name: string;
+  value: number;
+  color: string;
+}
+
+export interface CompoundInterestDataPoint {
+  year: number;
+  principal: number;
+  interest: number;
+  total: number;
+}
+
+// Financial Calculation Types
+export interface TaxCalculationResult {
+  gross: number;
+  net: number;
+  municipalTax: number;
+  stateTax: number;
+  socialFees: number;
+  churchTax?: number;
+  jobTaxDeduction: number;
+}
+
+export interface LoanScenario {
+  interestRate: number;
+  amortizationRate: number;
+  monthlyPayment: number;
+  totalMonthlyCost: number;
+  remainingAfterExpenses: number;
+}
+
+export interface CompoundInterestInput {
+  principal: number;
+  monthlyContribution: number;
+  annualRate: number;
+  years: number;
+  frequency: number;
+}
+
+export interface CompoundInterestResult {
+  finalAmount: number;
+  totalContributions: number;
+  totalInterest: number;
+  yearlyData: CompoundInterestDataPoint[];
+}
+
+// Form Types
+export interface FormValidationError {
+  field: string;
+  message: string;
+  type: "required" | "min" | "max" | "invalid";
+}
+
+export interface StepValidationResult {
+  isValid: boolean;
+  errors: FormValidationError[];
+}
+
+// UI Component Types
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
+export interface ValidationProps {
+  isValid?: boolean;
+  errorMessage?: string;
+}
+
+// API Response Types
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  timestamp: string;
+}
+
+export interface ExportData {
+  calculatorState: CalculatorState;
+  results: CalculationResult[];
+  metadata: {
+    exportDate: string;
+    version: string;
+    locale: string;
+  };
+}

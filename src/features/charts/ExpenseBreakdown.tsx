@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -15,7 +14,7 @@ import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { formatCurrency } from "@/lib/calculations";
 import { expenseCategories } from "@/data/expenseCategories";
-import type { ExpensesByCategory } from "@/lib/types";
+import type { ExpensesByCategory, ChartDataPoint } from "@/lib/types";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
@@ -23,10 +22,20 @@ interface ExpenseBreakdownProps {
   expenses: ExpensesByCategory;
 }
 
-interface ChartData {
-  name: string;
-  value: number;
-  color: string;
+interface TooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    payload: ChartDataPoint;
+  }>;
+}
+
+interface LabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
 }
 
 const colors = [
@@ -47,7 +56,7 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
   const expenseBreakdownT = useTranslations("expense_breakdown");
   const isMobile = useIsTouchDevice();
 
-  const chartData: ChartData[] = expenseCategories
+  const chartData: ChartDataPoint[] = expenseCategories
     .map((category, idx) => {
       const categoryTotal = Number(expenses[category.id]) || 0;
       return {
@@ -86,7 +95,7 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
 
   const total = chartData.reduce((sum, item) => sum + item.value, 0);
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: TooltipProps) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const percentage = ((data.value / total) * 100).toFixed(1);
@@ -115,7 +124,7 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
     innerRadius,
     outerRadius,
     percent,
-  }: any) => {
+  }: LabelProps) => {
     if (percent < 0.05) return null; // Don't show labels for small slices
 
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;

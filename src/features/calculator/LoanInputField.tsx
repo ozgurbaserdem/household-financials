@@ -15,7 +15,12 @@ interface LoanInputFieldProps {
   label: string;
   ariaLabel: string;
   onBlur?: () => void;
-  [key: string]: unknown;
+  className?: string;
+  disabled?: boolean;
+  placeholder?: string;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 const LoanInputField = ({
@@ -24,7 +29,12 @@ const LoanInputField = ({
   label,
   ariaLabel,
   onBlur,
-  ...rest
+  className,
+  disabled,
+  placeholder = "0",
+  min = 0,
+  max,
+  step,
 }: LoanInputFieldProps) => {
   return (
     <FormField
@@ -45,14 +55,17 @@ const LoanInputField = ({
             <FormControl>
               <Input
                 type="number"
-                min={0}
+                min={min}
+                max={max}
+                step={step}
                 {...field}
                 value={value}
-                placeholder="0"
+                placeholder={placeholder}
                 aria-label={ariaLabel}
+                className={className}
+                disabled={disabled}
                 onChange={(e) => field.onChange(Number(e.target.value))}
                 onBlur={onBlur}
-                {...rest}
               />
             </FormControl>
             <FormMessage />

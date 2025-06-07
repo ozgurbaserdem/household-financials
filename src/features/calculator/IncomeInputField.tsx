@@ -16,7 +16,9 @@ interface IncomeInputFieldProps {
   ariaLabel: string;
   hidden?: boolean;
   onBlur?: () => void;
-  [key: string]: unknown;
+  className?: string;
+  disabled?: boolean;
+  placeholder?: string;
 }
 
 const IncomeInputField = ({
@@ -26,7 +28,9 @@ const IncomeInputField = ({
   ariaLabel,
   hidden = false,
   onBlur,
-  ...rest
+  className,
+  disabled,
+  placeholder = "0",
 }: IncomeInputFieldProps) => {
   return (
     <FormField
@@ -45,11 +49,12 @@ const IncomeInputField = ({
                   ? field.value
                   : ""
               }
-              placeholder="0"
+              placeholder={placeholder}
               aria-label={ariaLabel}
+              className={className}
+              disabled={disabled}
               onChange={(e) => field.onChange(Number(e.target.value))}
               onBlur={onBlur}
-              {...rest}
             />
           </FormControl>
           <FormMessage />

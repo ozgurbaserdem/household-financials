@@ -108,7 +108,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
       form.setValue("amortizationRate", values.amortizationRate);
     }
   }, [values, form, isUserToggling, isInitialized]);
-  const handleFieldChange = (forceHasLoan?: boolean) => {
+  const handleFieldChange = (forceHasLoan?: boolean): void => {
     const currentValues = form.getValues();
     const hasLoan =
       forceHasLoan !== undefined ? forceHasLoan : currentValues.hasLoan;
@@ -156,7 +156,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
   const amortizationRate = form.watch("amortizationRate");
 
   // Calculate monthly payment based on current rates
-  const calculateMonthlyPayment = () => {
+  const calculateMonthlyPayment = (): number => {
     if (!hasLoan || loanAmount <= 0) {
       return 0;
     }
