@@ -14,7 +14,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { formatCurrency, calculateLoanScenarios } from "@/lib/calculations";
 import { motion } from "framer-motion";
-export function ResultsStep() {
+export const ResultsStep = () => {
   const loanParameters = useAppSelector((state) => state.loanParameters);
   const income = useAppSelector((state) => state.income);
   const expenses = useAppSelector((state) => state.expenses);
@@ -130,4 +130,4 @@ export function ResultsStep() {
       )}
     </Box>
   );
-}
+};

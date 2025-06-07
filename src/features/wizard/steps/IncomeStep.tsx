@@ -3,7 +3,7 @@ import { Income } from "@/features/calculator/Income";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { updateIncome } from "@/store/slices/calculatorSlice";
 
-export function IncomeStep() {
+export const IncomeStep = () => {
   const dispatch = useAppDispatch();
   const income = useAppSelector((state) => state.income);
 
@@ -30,4 +30,4 @@ export function IncomeStep() {
       />
     </>
   );
-}
+};

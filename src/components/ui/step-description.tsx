@@ -7,7 +7,10 @@ interface StepDescriptionProps {
   className?: string;
 }
 
-export function StepDescription({ stepKey, className }: StepDescriptionProps) {
+export const StepDescription = ({
+  stepKey,
+  className,
+}: StepDescriptionProps) => {
   const t = useTranslations("wizard.step_descriptions");
 
   return (
@@ -24,4 +27,4 @@ export function StepDescription({ stepKey, className }: StepDescriptionProps) {
       </div>
     </div>
   );
-}
+};

@@ -74,7 +74,7 @@ interface LoansFormProps {
   numberOfAdults: "1" | "2";
 }
 
-export function Loans({ onChange, values, numberOfAdults }: LoansFormProps) {
+export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
   const [isUserToggling, setIsUserToggling] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -425,4 +425,4 @@ export function Loans({ onChange, values, numberOfAdults }: LoansFormProps) {
       </CardContent>
     </Card>
   );
-}
+};

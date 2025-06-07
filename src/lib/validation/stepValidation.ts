@@ -24,9 +24,9 @@ export const VALIDATION_KEYS = {
 /**
  * Validates if the income step has required data
  */
-export function validateIncomeStep(
+export const validateIncomeStep = (
   income: CalculatorState["income"]
-): StepValidationResult {
+): StepValidationResult => {
   // At least one income source must be provided
   const hasIncome =
     income.income1 > 0 ||
@@ -57,14 +57,14 @@ export function validateIncomeStep(
   }
 
   return { isValid: true };
-}
+};
 
 /**
  * Validates if the loans step has valid data when a loan amount is entered
  */
-export function validateLoansStep(
+export const validateLoansStep = (
   loanParameters: CalculatorState["loanParameters"]
-): StepValidationResult {
+): StepValidationResult => {
   const hasLoanAmount = loanParameters.amount > 0;
   const hasInterestRate = loanParameters.interestRate > 0;
   const hasAmortizationRate = loanParameters.amortizationRate > 0;
@@ -108,16 +108,16 @@ export function validateLoansStep(
 
   // If user explicitly said no loans or no data at all, that's valid
   return { isValid: true };
-}
+};
 
 /**
  * Validates if the expenses step has some data
  */
-export function validateExpensesStep(
+export const validateExpensesStep = (
   expenses: CalculatorState["expenses"],
   totalExpenses: number,
   expenseViewMode: CalculatorState["expenseViewMode"]
-): StepValidationResult {
+): StepValidationResult => {
   if (expenseViewMode === "simple") {
     // In simple mode, just check if total expenses is provided
     if (totalExpenses <= 0) {
@@ -138,14 +138,14 @@ export function validateExpensesStep(
   }
 
   return { isValid: true };
-}
+};
 
 /**
  * Validates if the summary step prerequisites are met
  */
-export function validateSummaryStep(
+export const validateSummaryStep = (
   state: CalculatorState
-): StepValidationResult {
+): StepValidationResult => {
   const incomeValidation = validateIncomeStep(state.income);
   if (!incomeValidation.isValid) {
     return incomeValidation;
@@ -166,21 +166,21 @@ export function validateSummaryStep(
   }
 
   return { isValid: true };
-}
+};
 
 /**
  * Validates if the results step prerequisites are met (same as summary)
  */
-export function validateResultsStep(
+export const validateResultsStep = (
   state: CalculatorState
-): StepValidationResult {
+): StepValidationResult => {
   return validateSummaryStep(state);
-}
+};
 
 /**
  * Gets the maximum allowed step index based on completed validations
  */
-export function getMaxAllowedStep(state: CalculatorState): number {
+export const getMaxAllowedStep = (state: CalculatorState): number => {
   // Step 0 (Income) is always accessible
   let maxStep = 0;
 
@@ -219,26 +219,26 @@ export function getMaxAllowedStep(state: CalculatorState): number {
   }
 
   return maxStep;
-}
+};
 
 /**
  * Checks if a specific step can be accessed
  */
-export function canAccessStep(
+export const canAccessStep = (
   targetStep: number,
   state: CalculatorState
-): boolean {
+): boolean => {
   const maxAllowed = getMaxAllowedStep(state);
   return targetStep <= maxAllowed;
-}
+};
 
 /**
  * Gets validation error key for a specific step (what's blocking access to that step)
  */
-export function getStepValidationErrorKey(
+export const getStepValidationErrorKey = (
   stepIndex: number,
   state: CalculatorState
-): string | null {
+): string | null => {
   switch (stepIndex) {
     case 0:
       return null; // Income step is always accessible
@@ -267,15 +267,15 @@ export function getStepValidationErrorKey(
     default:
       return null;
   }
-}
+};
 
 /**
  * Gets validation error for the current step (what needs to be fixed to proceed)
  */
-export function getCurrentStepValidationError(
+export const getCurrentStepValidationError = (
   currentStepIndex: number,
   state: CalculatorState
-): string | null {
+): string | null => {
   switch (currentStepIndex) {
     case 0: // Income step - validate income data
       const incomeValidation = validateIncomeStep(state.income);
@@ -302,4 +302,4 @@ export function getCurrentStepValidationError(
     default:
       return null;
   }
-}
+};

@@ -9,11 +9,11 @@ interface ProgressStepperProps {
   onStepClick?: (idx: number) => void;
 }
 
-export function ProgressStepper({
+export const ProgressStepper = ({
   steps,
   currentStep,
   onStepClick,
-}: ProgressStepperProps) {
+}: ProgressStepperProps) => {
   // Get calculator state for validation using individual selectors to avoid object creation
   const loanParameters = useAppSelector((state) => state.loanParameters);
   const income = useAppSelector((state) => state.income);
@@ -57,4 +57,4 @@ export function ProgressStepper({
       className="mb-8"
     />
   );
-}
+};

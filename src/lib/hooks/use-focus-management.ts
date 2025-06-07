@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export function useFocusOnMount() {
+export const useFocusOnMount = () => {
   const ref = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -15,9 +15,9 @@ export function useFocusOnMount() {
   }, []);
 
   return ref;
-}
+};
 
-export function useFocusManagement() {
+export const useFocusManagement = () => {
   const focusElement = (element: HTMLElement | null) => {
     if (element) {
       // Small delay to ensure DOM is ready
@@ -33,4 +33,4 @@ export function useFocusManagement() {
   };
 
   return { focusElement };
-}
+};

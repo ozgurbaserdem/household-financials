@@ -98,7 +98,7 @@ const HEAD_CELLS: HeadCell[] = [
   },
 ];
 
-export function ResultsTable({ calculatorState }: ResultsTableProps) {
+export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
   const dispatch = useAppDispatch();
   const t = useTranslations("results");
   const tLoan = useTranslations("loan_parameters");
@@ -332,4 +332,4 @@ export function ResultsTable({ calculatorState }: ResultsTableProps) {
       </CardContent>
     </Card>
   );
-}
+};

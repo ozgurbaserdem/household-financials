@@ -18,14 +18,14 @@ interface LoanInputFieldProps {
   [key: string]: unknown;
 }
 
-function LoanInputField({
+const LoanInputField = ({
   form,
   name,
   label,
   ariaLabel,
   onBlur,
   ...rest
-}: LoanInputFieldProps) {
+}: LoanInputFieldProps) => {
   return (
     <FormField
       control={form.control}
@@ -61,6 +61,6 @@ function LoanInputField({
       }}
     />
   );
-}
+};
 
 export { LoanInputField };

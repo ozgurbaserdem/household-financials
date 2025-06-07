@@ -1,10 +1,10 @@
 import { WizardStepConfig } from "@/types/wizard";
 
-export function getStepParam(locale: string) {
+export const getStepParam = (locale: string) => {
   return locale === "sv" ? "steg" : "step";
-}
+};
 
-export function getStepName(step: WizardStepConfig, locale: string) {
+export const getStepName = (step: WizardStepConfig, locale: string) => {
   // Create a mapping from any label to URL-friendly name
   const labelToUrlName: Record<string, string> = {
     // English labels
@@ -22,9 +22,12 @@ export function getStepName(step: WizardStepConfig, locale: string) {
   };
 
   return labelToUrlName[step.label] || step.label.toLowerCase();
-}
+};
 
-export function getStepIndexFromName(name: string, steps: WizardStepConfig[]) {
+export const getStepIndexFromName = (
+  name: string,
+  steps: WizardStepConfig[]
+) => {
   // Create reverse mapping from URL name to possible step labels
   const urlNameToLabels: Record<string, string[]> = {
     income: ["Income", "Inkomst"],
@@ -50,4 +53,4 @@ export function getStepIndexFromName(name: string, steps: WizardStepConfig[]) {
   }
 
   return -1;
-}
+};

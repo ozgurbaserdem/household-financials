@@ -7,11 +7,11 @@ interface BudgetkollenLogoProps {
   className?: string;
 }
 
-const BudgetkollenLogo: React.FC<BudgetkollenLogoProps> = ({
+const BudgetkollenLogo = ({
   variant = "b-check",
   size = "md",
   className = "",
-}) => {
+}: BudgetkollenLogoProps) => {
   const sizeClasses = {
     sm: { text: "text-lg", container: "h-8", icon: 16, padding: "p-1" },
     md: { text: "text-2xl", container: "h-12", icon: 20, padding: "p-2" },
@@ -107,4 +107,4 @@ const BudgetkollenLogo: React.FC<BudgetkollenLogoProps> = ({
   return null;
 };
 
-export default BudgetkollenLogo;
+export { BudgetkollenLogo };

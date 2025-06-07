@@ -44,7 +44,7 @@ export interface CardProps
   extends React.ComponentProps<"div">,
     VariantProps<typeof cardVariants> {}
 
-function Card({ className, variant, padding, hover, ...props }: CardProps) {
+const Card = ({ className, variant, padding, hover, ...props }: CardProps) => {
   return (
     <Box
       data-slot="card"
@@ -52,7 +52,7 @@ function Card({ className, variant, padding, hover, ...props }: CardProps) {
       {...props}
     />
   );
-}
+};
 
 const cardHeaderVariants = cva("@container/card-header", {
   variants: {
@@ -71,7 +71,7 @@ interface CardHeaderProps
   extends React.ComponentProps<"div">,
     VariantProps<typeof cardHeaderVariants> {}
 
-function CardHeader({ className, layout, ...props }: CardHeaderProps) {
+const CardHeader = ({ className, layout, ...props }: CardHeaderProps) => {
   return (
     <Box
       data-slot="card-header"
@@ -79,7 +79,7 @@ function CardHeader({ className, layout, ...props }: CardHeaderProps) {
       {...props}
     />
   );
-}
+};
 
 const cardTitleVariants = cva("leading-none font-semibold", {
   variants: {
@@ -110,7 +110,7 @@ interface CardTitleProps
   extends React.ComponentProps<"div">,
     VariantProps<typeof cardTitleVariants> {}
 
-function CardTitle({ className, size, gradient, ...props }: CardTitleProps) {
+const CardTitle = ({ className, size, gradient, ...props }: CardTitleProps) => {
   return (
     <Box
       data-slot="card-title"
@@ -118,9 +118,12 @@ function CardTitle({ className, size, gradient, ...props }: CardTitleProps) {
       {...props}
     />
   );
-}
+};
 
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
+const CardDescription = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
   return (
     <Box
       data-slot="card-description"
@@ -131,9 +134,9 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   );
-}
+};
 
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
+const CardAction = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <Box
       data-slot="card-action"
@@ -144,15 +147,15 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   );
-}
+};
 
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
+const CardContent = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <Box data-slot="card-content" className={cn("", className)} {...props} />
   );
-}
+};
 
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
+const CardFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <Box
       data-slot="card-footer"
@@ -160,7 +163,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   );
-}
+};
 
 const cardIconVariants = cva(
   "flex items-center justify-center rounded-xl transition-all duration-200",
@@ -193,7 +196,7 @@ interface CardIconProps
   extends React.ComponentProps<"div">,
     VariantProps<typeof cardIconVariants> {}
 
-function CardIcon({ className, variant, size, ...props }: CardIconProps) {
+const CardIcon = ({ className, variant, size, ...props }: CardIconProps) => {
   return (
     <Box
       data-slot="card-icon"
@@ -201,7 +204,7 @@ function CardIcon({ className, variant, size, ...props }: CardIconProps) {
       {...props}
     />
   );
-}
+};
 
 export {
   Card,

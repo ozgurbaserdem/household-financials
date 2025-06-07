@@ -11,7 +11,7 @@ import { ResultsStep } from "@/features/wizard/steps/ResultsStep";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
-export function WizardClient() {
+export const WizardClient = () => {
   const t = useTranslations("wizard");
 
   const steps = useMemo(
@@ -36,4 +36,4 @@ export function WizardClient() {
       </motion.div>
     </Box>
   );
-}
+};

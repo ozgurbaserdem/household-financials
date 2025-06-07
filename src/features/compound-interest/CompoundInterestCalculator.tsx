@@ -40,7 +40,7 @@ import {
 import { CompoundInterestChart } from "@/features/charts/CompoundInterestChart";
 import { motion } from "framer-motion";
 
-export function CompoundInterestCalculator() {
+export const CompoundInterestCalculator = () => {
   const t = useTranslations("compound_interest");
   const searchParams = useSearchParams();
 
@@ -844,4 +844,4 @@ export function CompoundInterestCalculator() {
       />
     </Box>
   );
-}
+};

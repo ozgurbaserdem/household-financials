@@ -8,7 +8,7 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { locale } = await params;
 
   const title =
@@ -61,9 +61,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "article:section": "Personal Finance",
     },
   };
-}
+};
 
-export default async function HushallskalkylPage({ params }: Props) {
+const HushallskalkylPage = async ({ params }: Props) => {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -175,4 +175,7 @@ export default async function HushallskalkylPage({ params }: Props) {
       </Box>
     </Main>
   );
-}
+};
+
+export { generateMetadata };
+export default HushallskalkylPage;

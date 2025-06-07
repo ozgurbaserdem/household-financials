@@ -86,12 +86,12 @@ vi.mock("@/utils/navigation", () => ({
 
 import calculatorReducer from "@/store/slices/calculatorSlice";
 
-function createTestStore(preloadedState?: CalculatorState) {
+const createTestStore = (preloadedState?: CalculatorState) => {
   return configureStore({
     reducer: calculatorReducer,
     preloadedState: preloadedState,
   });
-}
+};
 
 describe("WizardLayout", () => {
   const mockPush = vi.fn();

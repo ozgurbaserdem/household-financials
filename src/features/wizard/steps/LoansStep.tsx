@@ -3,7 +3,7 @@ import { Loans } from "@/features/calculator/Loans";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { updateLoanParameters } from "@/store/slices/calculatorSlice";
 
-export function LoansStep() {
+export const LoansStep = () => {
   const dispatch = useAppDispatch();
   const loanParameters = useAppSelector((state) => state.loanParameters);
   const numberOfAdults = useAppSelector((state) => state.income.numberOfAdults);
@@ -31,4 +31,4 @@ export function LoansStep() {
       />
     </>
   );
-}
+};

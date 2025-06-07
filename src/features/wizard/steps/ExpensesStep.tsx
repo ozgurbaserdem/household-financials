@@ -3,7 +3,7 @@ import { ExpenseCategories } from "@/features/calculator/ExpenseCategories";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { updateExpenses } from "@/store/slices/calculatorSlice";
 
-export function ExpensesStep() {
+export const ExpensesStep = () => {
   const dispatch = useAppDispatch();
   const expenses = useAppSelector((state) => state.expenses);
 
@@ -15,4 +15,4 @@ export function ExpensesStep() {
       />
     </>
   );
-}
+};

@@ -43,7 +43,7 @@ interface ForecastData {
   monthlySavings: number;
 }
 
-export function Forecast({ calculatorState }: ForecastProps) {
+export const Forecast = ({ calculatorState }: ForecastProps) => {
   const t = useTranslations("forecast");
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isTouchDevice = useIsTouchDevice();
@@ -259,4 +259,4 @@ export function Forecast({ calculatorState }: ForecastProps) {
       </CardContent>
     </Card>
   );
-}
+};

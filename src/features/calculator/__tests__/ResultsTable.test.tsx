@@ -51,15 +51,15 @@ vi.mock("@/lib/calculations", () => ({
 import { calculateLoanScenarios } from "@/lib/calculations";
 const mockCalculateLoanScenarios = vi.mocked(calculateLoanScenarios);
 
-function createTestStore(preloadedState?: CalculatorState) {
+const createTestStore = (preloadedState?: CalculatorState) => {
   return configureStore({
     reducer: calculatorReducer,
     preloadedState: preloadedState,
   });
-}
+};
 
 // Wrapper component to provide form context
-function FormWrapper({ children }: { children: ReactNode }) {
+const FormWrapper = ({ children }: { children: ReactNode }) => {
   const form = useForm({
     defaultValues: {
       interestRate: 3.5,
@@ -68,7 +68,7 @@ function FormWrapper({ children }: { children: ReactNode }) {
   });
 
   return <Form {...form}>{children}</Form>;
-}
+};
 
 const createMockState = (
   overrides?: Partial<CalculatorState>

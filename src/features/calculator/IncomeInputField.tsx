@@ -19,7 +19,7 @@ interface IncomeInputFieldProps {
   [key: string]: unknown;
 }
 
-function IncomeInputField({
+const IncomeInputField = ({
   form,
   name,
   label,
@@ -27,7 +27,7 @@ function IncomeInputField({
   hidden = false,
   onBlur,
   ...rest
-}: IncomeInputFieldProps) {
+}: IncomeInputFieldProps) => {
   return (
     <FormField
       control={form.control}
@@ -57,6 +57,6 @@ function IncomeInputField({
       )}
     />
   );
-}
+};
 
 export { IncomeInputField };

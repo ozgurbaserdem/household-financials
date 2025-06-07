@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 
-async function exportLogos() {
+const exportLogos = async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
@@ -46,22 +46,22 @@ async function exportLogos() {
   await page.waitForLoadState("domcontentloaded");
 
   // Take high-resolution screenshots with transparent background
-  await page.locator("#b-check").screenshot({ 
+  await page.locator("#b-check").screenshot({
     path: "public/b-check-logo.png",
     scale: "device",
     animations: "disabled",
-    omitBackground: true
+    omitBackground: true,
   });
-  
-  await page.locator("#text-check").screenshot({ 
+
+  await page.locator("#text-check").screenshot({
     path: "public/text-check-logo.png",
-    scale: "device", 
+    scale: "device",
     animations: "disabled",
-    omitBackground: true
+    omitBackground: true,
   });
 
   await browser.close();
   console.log("Logos exported to public/ directory");
-}
+};
 
 exportLogos().catch(console.error);

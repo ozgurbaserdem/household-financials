@@ -8,10 +8,10 @@ interface NumberOfAdultsRadioGroupProps {
   onChange: (value: "1" | "2") => void;
 }
 
-function NumberOfAdultsRadioGroup({
+const NumberOfAdultsRadioGroup = ({
   value,
   onChange,
-}: NumberOfAdultsRadioGroupProps) {
+}: NumberOfAdultsRadioGroupProps) => {
   const t = useTranslations("income");
   return (
     <fieldset>
@@ -45,6 +45,6 @@ function NumberOfAdultsRadioGroup({
       </FormControl>
     </fieldset>
   );
-}
+};
 
 export { NumberOfAdultsRadioGroup };

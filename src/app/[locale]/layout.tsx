@@ -17,11 +17,11 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
 });
 
-export async function generateMetadata({
+const generateMetadata = async ({
   params,
 }: {
   params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
+}): Promise<Metadata> => {
   const { locale } = await params;
 
   const title =
@@ -119,15 +119,15 @@ export async function generateMetadata({
       "geo.country": "Sweden",
     },
   };
-}
+};
 
-export default async function LocaleLayout({
+const LocaleLayout = async ({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
-}) {
+}) => {
   const { locale } = await params;
 
   if (!hasLocale(routing.locales, locale)) {
@@ -294,4 +294,7 @@ export default async function LocaleLayout({
       </body>
     </html>
   );
-}
+};
+
+export { generateMetadata };
+export default LocaleLayout;

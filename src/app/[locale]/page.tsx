@@ -7,7 +7,7 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { locale } = await params;
 
   const title =
@@ -99,11 +99,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "geo.country": "Sweden",
     },
   };
-}
+};
 
-export default async function Home({ params }: Props) {
+const Home = async ({ params }: Props) => {
   const { locale } = await params;
   setRequestLocale(locale);
 
   return <LandingPage />;
-}
+};
+
+export { generateMetadata };
+export default Home;

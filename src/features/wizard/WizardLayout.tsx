@@ -44,7 +44,7 @@ interface WizardLayoutProps {
   steps: WizardStepConfig[];
 }
 
-export function WizardLayout({ steps }: WizardLayoutProps) {
+export const WizardLayout = ({ steps }: WizardLayoutProps) => {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -334,10 +334,10 @@ export function WizardLayout({ steps }: WizardLayoutProps) {
       </Form>
     </WizardContext.Provider>
   );
-}
+};
 
-export function useWizard() {
+export const useWizard = () => {
   const ctx = useContext(WizardContext);
   if (!ctx) throw new Error("useWizard must be used within WizardLayout");
   return ctx;
-}
+};

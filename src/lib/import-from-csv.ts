@@ -1,21 +1,21 @@
 import type { CalculatorState, ExpensesByCategory } from "./types";
 import { expenseCategories } from "@/data/expenseCategories";
 
-function unflattenExpenses(
+const unflattenExpenses = (
   flat: Record<string, string | number>
-): ExpensesByCategory {
+): ExpensesByCategory => {
   const result: ExpensesByCategory = {};
   for (const category of expenseCategories) {
     result[category.id] = Number(flat[category.id] ?? 0);
   }
   return result;
-}
+};
 
-export function importFromCsv(
+export const importFromCsv = (
   file: File,
   onSuccess: (state: Partial<CalculatorState>) => void,
   onError: (err: Error) => void
-) {
+) => {
   const reader = new FileReader();
   reader.onload = () => {
     try {
@@ -67,4 +67,4 @@ export function importFromCsv(
   };
   reader.onerror = () => onError(new Error("File read error"));
   reader.readAsText(file);
-}
+};

@@ -40,9 +40,9 @@ export interface FinalValues {
   totalWithdrawn: number;
 }
 
-export function calculateCompoundInterest(
+export const calculateCompoundInterest = (
   inputs: CompoundInterestInputs
-): CompoundInterestData[] {
+): CompoundInterestData[] => {
   const {
     startSum,
     monthlySavings: initialMonthlySavings,
@@ -165,11 +165,11 @@ export function calculateCompoundInterest(
   }
 
   return data;
-}
+};
 
-export function calculateFinalValues(
+export const calculateFinalValues = (
   inputs: CompoundInterestInputs
-): FinalValues {
+): FinalValues => {
   const data = calculateCompoundInterest(inputs);
   const finalYear = data[data.length - 1];
 
@@ -201,4 +201,4 @@ export function calculateFinalValues(
     totalReturns: finalYear.compoundReturns, // Show total historical returns
     totalWithdrawn, // Add total withdrawals
   };
-}
+};

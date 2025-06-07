@@ -71,12 +71,12 @@ interface IncomeFormProps {
   onNumberOfAdultsChange: (value: "1" | "2") => void;
 }
 
-export function Income({
+export const Income = ({
   values,
   onChange,
   numberOfAdults,
   onNumberOfAdultsChange,
-}: IncomeFormProps) {
+}: IncomeFormProps) => {
   const [kommunSearch, setKommunSearch] = useState("");
   const [showKommunDropdown, setShowKommunDropdown] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -484,6 +484,6 @@ export function Income({
       </CardContent>
     </Card>
   );
-}
+};
 
 export type { IncomeFormValues };

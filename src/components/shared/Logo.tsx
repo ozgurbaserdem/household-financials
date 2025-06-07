@@ -5,13 +5,13 @@ import { Calculator } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { motion } from "framer-motion";
 import { Box } from "@/components/ui/box";
-import BudgetkollenLogo from "../ui/BudgetKollen.logo";
+import { BudgetkollenLogo } from "../ui/BudgetKollen.logo";
 
 interface LogoProps {
   onLogoClick?: () => void;
 }
 
-export function Logo({ onLogoClick }: LogoProps) {
+export const Logo = ({ onLogoClick }: LogoProps) => {
   const router = useRouter();
 
   const handleLogoClick = () => {
@@ -43,4 +43,4 @@ export function Logo({ onLogoClick }: LogoProps) {
       </motion.span>
     </button>
   );
-}
+};

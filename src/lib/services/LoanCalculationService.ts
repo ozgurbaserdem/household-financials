@@ -20,10 +20,10 @@ export class LoanCalculationService {
   /**
    * Calculate loan scenario from given parameters
    */
-  calculateLoanScenarios(
+  calculateLoanScenarios = (
     loanParameters: LoanParameters,
     options: LoanCalculationOptions = {}
-  ): LoanScenario[] {
+  ): LoanScenario[] => {
     const config = { ...this.defaultOptions, ...options };
     const { amount, interestRate, amortizationRate, hasLoan } = loanParameters;
 
@@ -48,17 +48,17 @@ export class LoanCalculationService {
     );
 
     return [scenario];
-  }
+  };
 
   /**
    * Calculate a single loan scenario
    */
-  private calculateSingleScenario(
+  private calculateSingleScenario = (
     amount: number,
     interestRate: number,
     amortizationRate: number,
     roundToDecimals: number
-  ): LoanScenario {
+  ): LoanScenario => {
     const monthlyInterest = this.roundToDecimals(
       (amount * (interestRate / 100)) / 12,
       roundToDecimals
@@ -81,12 +81,14 @@ export class LoanCalculationService {
       monthlyAmortization,
       totalMonthlyPayment,
     };
-  }
+  };
 
   /**
    * Calculate the optimal loan scenario (lowest total monthly payment)
    */
-  getOptimalScenario(loanParameters: LoanParameters): LoanScenario | null {
+  getOptimalScenario = (
+    loanParameters: LoanParameters
+  ): LoanScenario | null => {
     const scenarios = this.calculateLoanScenarios(loanParameters);
 
     if (scenarios.length === 0) return null;
@@ -96,12 +98,14 @@ export class LoanCalculationService {
         ? current
         : optimal
     );
-  }
+  };
 
   /**
    * Calculate the worst-case scenario (highest total monthly payment)
    */
-  getWorstCaseScenario(loanParameters: LoanParameters): LoanScenario | null {
+  getWorstCaseScenario = (
+    loanParameters: LoanParameters
+  ): LoanScenario | null => {
     const scenarios = this.calculateLoanScenarios(loanParameters);
 
     if (scenarios.length === 0) return null;
@@ -109,28 +113,28 @@ export class LoanCalculationService {
     return scenarios.reduce((worst, current) =>
       current.totalMonthlyPayment > worst.totalMonthlyPayment ? current : worst
     );
-  }
+  };
 
   /**
    * Calculate loan payment for a single set of parameters
    */
-  calculateMonthlyPayment(
+  calculateMonthlyPayment = (
     amount: number,
     interestRate: number,
     amortizationRate: number
-  ): number {
+  ): number => {
     if (amount <= 0) return 0;
 
     const monthlyInterest = (amount * (interestRate / 100)) / 12;
     const monthlyAmortization = (amount * (amortizationRate / 100)) / 12;
 
     return monthlyInterest + monthlyAmortization;
-  }
+  };
 
   /**
    * Calculate total loan cost over time
    */
-  calculateTotalLoanCost(
+  calculateTotalLoanCost = (
     amount: number,
     interestRate: number,
     amortizationRate: number,
@@ -140,7 +144,7 @@ export class LoanCalculationService {
     totalAmortization: number;
     totalPayments: number;
     remainingPrincipal: number;
-  } {
+  } => {
     const monthlyPayment = this.calculateMonthlyPayment(
       amount,
       interestRate,
@@ -162,15 +166,17 @@ export class LoanCalculationService {
       totalPayments: this.roundToDecimals(totalPayments, 2),
       remainingPrincipal: this.roundToDecimals(remainingPrincipal, 2),
     };
-  }
+  };
 
   /**
    * Validate loan parameters
    */
-  validateLoanParameters(loanParameters: LoanParameters): {
+  validateLoanParameters = (
+    loanParameters: LoanParameters
+  ): {
     isValid: boolean;
     errors: string[];
-  } {
+  } => {
     const errors: string[] = [];
 
     if (loanParameters.amount < 0) {
@@ -202,14 +208,14 @@ export class LoanCalculationService {
       isValid: errors.length === 0,
       errors,
     };
-  }
+  };
 
   /**
    * Helper function to round numbers to specified decimal places
    */
-  private roundToDecimals(value: number, decimals: number): number {
+  private roundToDecimals = (value: number, decimals: number): number => {
     return Number(value.toFixed(decimals));
-  }
+  };
 }
 
 // Export singleton instance

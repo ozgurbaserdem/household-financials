@@ -9,10 +9,10 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({
+const generateMetadata = async ({
   params,
   searchParams,
-}: Props): Promise<Metadata> {
+}: Props): Promise<Metadata> => {
   const { locale } = await params;
   const resolvedSearchParams = await searchParams;
 
@@ -113,13 +113,13 @@ export async function generateMetadata({
       site: "@budgetkollen",
     },
   };
-}
+};
 
-export default async function HushallsbudgetPage({
+const HushallsbudgetPage = async ({
   params,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   searchParams,
-}: Props) {
+}: Props) => {
   const { locale } = await params;
   // searchParams is included in Props to satisfy Next.js page component requirements
   // but is not used in the server component itself (used by the client component)
@@ -177,4 +177,7 @@ export default async function HushallsbudgetPage({
       </Main>
     </>
   );
-}
+};
+
+export { generateMetadata };
+export default HushallsbudgetPage;

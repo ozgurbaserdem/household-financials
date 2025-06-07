@@ -59,7 +59,7 @@ interface StepIconProps {
   Icon: React.ComponentType<{ className?: string }>;
 }
 
-function StepIcon({ step, Icon }: StepIconProps) {
+const StepIcon = ({ step, Icon }: StepIconProps) => {
   return (
     <div className="relative flex flex-col items-center">
       {/* Step number and icon container */}
@@ -84,9 +84,9 @@ function StepIcon({ step, Icon }: StepIconProps) {
       </div>
     </div>
   );
-}
+};
 
-export function LandingPage() {
+export const LandingPage = () => {
   const t = useTranslations("landing");
   const locale = useLocale();
   const router = useRouter();
@@ -459,4 +459,4 @@ export function LandingPage() {
       </motion.div>
     </Box>
   );
-}
+};

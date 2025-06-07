@@ -38,12 +38,12 @@ export class TaxCalculationService {
   /**
    * Calculate net income from gross income with comprehensive tax calculation
    */
-  calculateNetIncome(
+  calculateNetIncome = (
     gross: number,
     isSecondary = false,
     selectedKommun?: string,
     includeChurchTax?: boolean
-  ): TaxCalculationResult {
+  ): TaxCalculationResult => {
     if (gross <= 0) {
       return {
         gross: 0,
@@ -60,16 +60,16 @@ export class TaxCalculationService {
       includeChurchTax
     );
     return this.calculateTaxes(gross, config);
-  }
+  };
 
   /**
    * Get the appropriate tax configuration based on parameters
    */
-  private getTaxConfig(
+  private getTaxConfig = (
     isSecondary: boolean,
     selectedKommun?: string,
     includeChurchTax?: boolean
-  ): TaxCalculationConfig {
+  ): TaxCalculationConfig => {
     if (isSecondary) {
       return this.secondaryIncomeConfig;
     }
@@ -88,15 +88,15 @@ export class TaxCalculationService {
     }
 
     return baseConfig;
-  }
+  };
 
   /**
    * Perform the actual tax calculation
    */
-  private calculateTaxes(
+  private calculateTaxes = (
     gross: number,
     config: TaxCalculationConfig
-  ): TaxCalculationResult {
+  ): TaxCalculationResult => {
     const taxableIncome = Math.max(0, gross - config.grundavdrag);
 
     // Calculate kommunal tax
@@ -124,33 +124,33 @@ export class TaxCalculationService {
       kommunalskatt: kommunalTax,
       statligSkatt: statligTax,
     };
-  }
+  };
 
   /**
    * Get available kommun options for selection
    */
-  getKommunOptions(): KommunData[] {
+  getKommunOptions = (): KommunData[] => {
     return this.kommunList;
-  }
+  };
 
   /**
    * Find kommun data by name
    */
-  findKommun(kommunNamn: string): KommunData | undefined {
+  findKommun = (kommunNamn: string): KommunData | undefined => {
     return this.kommunList.find((k) => k.kommunNamn === kommunNamn);
-  }
+  };
 
   /**
    * Batch calculate net income for multiple income sources
    */
-  calculateMultipleIncomes(
+  calculateMultipleIncomes = (
     incomes: Array<{
       amount: number;
       isSecondary?: boolean;
       selectedKommun?: string;
       includeChurchTax?: boolean;
     }>
-  ): TaxCalculationResult[] {
+  ): TaxCalculationResult[] => {
     return incomes.map(
       ({ amount, isSecondary, selectedKommun, includeChurchTax }) =>
         this.calculateNetIncome(
@@ -160,7 +160,7 @@ export class TaxCalculationService {
           includeChurchTax
         )
     );
-  }
+  };
 }
 
 // Export singleton instance

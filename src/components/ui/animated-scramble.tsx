@@ -10,7 +10,7 @@ interface AnimatedScrambleProps {
   maxDuration?: number; // Maximum animation duration to prevent long animations
 }
 
-export function AnimatedScramble({
+export const AnimatedScramble = ({
   value,
   duration = 0.8,
   className = "",
@@ -18,7 +18,7 @@ export function AnimatedScramble({
   threshold = 100, // Default threshold: animate if change is > 100 (works well for currency values)
   smoothMode = false, // Enable for real-time smooth updates
   maxDuration = 0.3, // Maximum animation duration for smooth mode
-}: AnimatedScrambleProps) {
+}: AnimatedScrambleProps) => {
   const [displayValue, setDisplayValue] = useState(value);
   const [done, setDone] = useState(true);
   const [lastAnimatedValue, setLastAnimatedValue] = useState(value);
@@ -136,4 +136,4 @@ export function AnimatedScramble({
       ))}
     </span>
   );
-}
+};

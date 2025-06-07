@@ -33,13 +33,13 @@ interface ResultCardProps {
   isWorst?: boolean;
 }
 
-function ResultCard({
+const ResultCard = ({
   result,
   showTooltips,
   HEAD_CELLS,
   isBest,
   isWorst,
-}: ResultCardProps) {
+}: ResultCardProps) => {
   const t = useTranslations("results");
   const [showAnimation, setShowAnimation] = useState(false);
   const gridOrder = [
@@ -169,6 +169,6 @@ function ResultCard({
       </Box>
     </Box>
   );
-}
+};
 
 export { ResultCard };

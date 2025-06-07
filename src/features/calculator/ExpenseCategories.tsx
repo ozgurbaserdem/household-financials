@@ -64,10 +64,10 @@ const categoryIcons: Record<string, React.ReactNode> = {
   loansTaxFees: <DollarSign className="w-4 h-4" />,
 };
 
-export function ExpenseCategories({
+export const ExpenseCategories = ({
   expenses,
   onChange,
-}: ExpenseCategoriesProps) {
+}: ExpenseCategoriesProps) => {
   const t = useTranslations("expense_categories");
   const titleRef = useFocusOnMount();
   const isMobile = useIsTouchDevice();
@@ -430,4 +430,4 @@ export function ExpenseCategories({
       </CardContent>
     </Card>
   );
-}
+};

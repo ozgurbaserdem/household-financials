@@ -5,7 +5,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "@/store";
 import { ThemeProvider } from "next-themes";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     /* Disable until we have solved the issue with Light Theme then switch back to this <ThemeProvider attribute="class" defaultTheme="system" enableSystem>*/
     <ThemeProvider attribute="class" forcedTheme="dark" enableSystem={false}>
@@ -16,4 +16,4 @@ export function Providers({ children }: { children: React.ReactNode }) {
       </Provider>
     </ThemeProvider>
   );
-}
+};

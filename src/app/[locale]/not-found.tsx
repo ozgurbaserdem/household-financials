@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
 
-export default function NotFound() {
+const NotFound = () => {
   const t = useTranslations();
 
   return (
@@ -31,4 +31,6 @@ export default function NotFound() {
       </Box>
     </Box>
   );
-}
+};
+
+export default NotFound;

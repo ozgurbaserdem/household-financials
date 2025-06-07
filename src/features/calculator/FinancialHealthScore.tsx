@@ -21,10 +21,10 @@ interface FinancialHealthScoreProps {
 
 const formatPercent = (value: number) => `${(value * 100).toFixed(1)}%`;
 
-export function FinancialHealthScore({
+export const FinancialHealthScore = ({
   score,
   showTooltips = true,
-}: FinancialHealthScoreProps) {
+}: FinancialHealthScoreProps) => {
   const t = useTranslations("financial_health");
 
   const getScoreColor = (score: number) => {
@@ -158,7 +158,7 @@ export function FinancialHealthScore({
       )}
     </Box>
   );
-}
+};
 
 interface MetricCardProps {
   title: string;
@@ -168,13 +168,13 @@ interface MetricCardProps {
   showTooltip?: boolean;
 }
 
-function MetricCard({
+const MetricCard = ({
   title,
   value,
   format,
   tooltip,
   showTooltip = true,
-}: MetricCardProps) {
+}: MetricCardProps) => {
   const isTouch = useIsTouchDevice();
   const [open, setOpen] = useState(false);
   return (
@@ -226,4 +226,4 @@ function MetricCard({
       />
     </Box>
   );
-}
+};

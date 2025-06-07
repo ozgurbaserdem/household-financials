@@ -7,7 +7,7 @@ import { Text } from "@/components/ui/text";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-export default function LanguageSwitcher() {
+const LanguageSwitcher = () => {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
@@ -58,4 +58,6 @@ export default function LanguageSwitcher() {
       </Button>
     </motion.div>
   );
-}
+};
+
+export { LanguageSwitcher };

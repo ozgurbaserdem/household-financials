@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import HushallskalkylContent from "@/features/hushallskalkyl/HushallskalkylContent";
 
-export function HushallskalkylDialog() {
+export const HushallskalkylDialog = () => {
   const t = useTranslations("dialog_hushallskalkyl");
   const [open, setOpen] = useState(false);
 
@@ -44,4 +44,4 @@ export function HushallskalkylDialog() {
       </DialogContent>
     </Dialog>
   );
-}
+};

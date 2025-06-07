@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
-export function CalculatorPreviews() {
+export const CalculatorPreviews = () => {
   const t = useTranslations("landing");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -141,4 +141,4 @@ export function CalculatorPreviews() {
       </Dialog>
     </motion.section>
   );
-}
+};

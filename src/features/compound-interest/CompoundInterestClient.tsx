@@ -4,7 +4,7 @@ import React from "react";
 import { CompoundInterestCalculator } from "./CompoundInterestCalculator";
 import { motion } from "framer-motion";
 
-export function CompoundInterestClient() {
+export const CompoundInterestClient = () => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -14,4 +14,4 @@ export function CompoundInterestClient() {
       <CompoundInterestCalculator />
     </motion.div>
   );
-}
+};

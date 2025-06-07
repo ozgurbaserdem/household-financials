@@ -83,7 +83,7 @@ describe("Income", () => {
   });
 
   it("hides income2 and income4 fields when 1 adult is selected", () => {
-    function Wrapper() {
+    const Wrapper = () => {
       const [adults, setAdults] = React.useState<"2" | "1">("1");
       return (
         <Income
@@ -102,7 +102,7 @@ describe("Income", () => {
           }}
         />
       );
-    }
+    };
 
     render(<Wrapper />);
 
@@ -143,7 +143,7 @@ describe("Income", () => {
   });
 
   it("clears income2 and income4 values when switching from 2 to 1 adult", async () => {
-    function Wrapper() {
+    const Wrapper = () => {
       const [adults, setAdults] = React.useState<"2" | "1">("2");
       return (
         <Income
@@ -162,7 +162,7 @@ describe("Income", () => {
           }}
         />
       );
-    }
+    };
 
     render(<Wrapper />);
 
@@ -195,7 +195,7 @@ describe("Income", () => {
   });
 
   it("clears income2 and income4 values when toggling to 1 adult and back to 2 adults", async () => {
-    function Wrapper() {
+    const Wrapper = () => {
       const [adults, setAdults] = React.useState<"2" | "1">("2");
       return (
         <Income
@@ -214,7 +214,7 @@ describe("Income", () => {
           }}
         />
       );
-    }
+    };
 
     render(<Wrapper />);
 

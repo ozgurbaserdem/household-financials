@@ -21,7 +21,7 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { locale } = await params;
 
   const title =
@@ -86,9 +86,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       site: "@budgetkollen",
     },
   };
-}
+};
 
-export default async function RantaPaRantaPage({ params }: Props) {
+const RantaPaRantaPage = async ({ params }: Props) => {
   const { locale } = await params;
   setRequestLocale(locale);
 
@@ -391,4 +391,7 @@ export default async function RantaPaRantaPage({ params }: Props) {
       </Main>
     </>
   );
-}
+};
+
+export { generateMetadata };
+export default RantaPaRantaPage;

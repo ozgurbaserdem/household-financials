@@ -42,7 +42,7 @@ const colors = [
   "#6366f1", // indigo
 ];
 
-export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
+export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
   const t = useTranslations("expense_categories");
   const expenseBreakdownT = useTranslations("expense_breakdown");
   const isMobile = useIsTouchDevice();
@@ -205,4 +205,4 @@ export function ExpenseBreakdown({ expenses }: ExpenseBreakdownProps) {
       </CardContent>
     </Card>
   );
-}
+};

@@ -2,15 +2,17 @@ import { saveAs } from "file-saver";
 import type { CalculatorState, ExpensesByCategory } from "./types";
 import { expenseCategories } from "@/data/expenseCategories";
 
-function flattenExpenses(expenses: ExpensesByCategory): Record<string, number> {
+const flattenExpenses = (
+  expenses: ExpensesByCategory
+): Record<string, number> => {
   const flat: Record<string, number> = {};
   for (const category of expenseCategories) {
     flat[category.id] = expenses?.[category.id] ?? 0;
   }
   return flat;
-}
+};
 
-export function exportToCsv(state: CalculatorState) {
+export const exportToCsv = (state: CalculatorState) => {
   const { loanParameters, expenses, income } = state;
   const flatExpenses = flattenExpenses(expenses);
   const columns = [
@@ -42,4 +44,4 @@ export function exportToCsv(state: CalculatorState) {
   const csv = [columns.join(","), values.join(",")].join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
   saveAs(blob, "financial-data.csv");
-}
+};

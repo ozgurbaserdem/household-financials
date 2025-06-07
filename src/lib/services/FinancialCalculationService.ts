@@ -34,7 +34,9 @@ export class FinancialCalculationService {
   /**
    * Calculate total net income from all sources
    */
-  calculateTotalIncome(incomeState: IncomeState): IncomeCalculationResult {
+  calculateTotalIncome = (
+    incomeState: IncomeState
+  ): IncomeCalculationResult => {
     const { selectedKommun, includeChurchTax } = incomeState;
 
     // Calculate primary incomes (subject to kommun tax)
@@ -87,15 +89,15 @@ export class FinancialCalculationService {
       gross: grossTotal,
       net: netTotal,
     };
-  }
+  };
 
   /**
    * Calculate total expenses broken down by category
    */
-  calculateExpenses(
+  calculateExpenses = (
     expenses: ExpensesByCategory,
     state?: CalculatorState
-  ): ExpenseCalculationResult {
+  ): ExpenseCalculationResult => {
     const housingExpenses = this.calculateHousingExpenses(expenses);
     const totalExpenses = state
       ? this.getEffectiveTotalExpenses(state)
@@ -107,14 +109,14 @@ export class FinancialCalculationService {
       housingExpenses,
       otherExpenses,
     };
-  }
+  };
 
   /**
    * Calculate all loan scenarios with comprehensive results
    */
-  calculateLoanScenarios(
+  calculateLoanScenarios = (
     calculatorState: CalculatorState
-  ): CalculationResult[] {
+  ): CalculationResult[] => {
     const { loanParameters, expenses, income } = calculatorState;
 
     const totalIncomeResult = this.calculateTotalIncome(income);
@@ -175,14 +177,14 @@ export class FinancialCalculationService {
         totalIncome: totalIncomeResult,
       };
     });
-  }
+  };
 
   /**
    * Calculate financial health score
    */
-  calculateFinancialHealthScore(
+  calculateFinancialHealthScore = (
     calculatorState: CalculatorState
-  ): FinancialHealthScore {
+  ): FinancialHealthScore => {
     const totalIncomeResult = this.calculateTotalIncome(calculatorState.income);
     const expenseResult = this.calculateExpenses(
       calculatorState.expenses,
@@ -239,73 +241,75 @@ export class FinancialCalculationService {
       },
       recommendations,
     };
-  }
+  };
 
   /**
    * Calculate housing expenses from expense categories
    */
-  private calculateHousingExpenses(expenses: ExpensesByCategory): number {
+  private calculateHousingExpenses = (expenses: ExpensesByCategory): number => {
     // In the simplified version, we just return the home category total
     return Number(expenses["home"]) || 0;
-  }
+  };
 
   /**
    * Calculate total expenses from all categories
    */
-  private calculateTotalExpenses(expenses: ExpensesByCategory): number {
+  private calculateTotalExpenses = (expenses: ExpensesByCategory): number => {
     return Object.values(expenses).reduce((total, amount) => {
       const numericAmount = Number(amount) || 0;
       return total + numericAmount;
     }, 0);
-  }
+  };
 
   /**
    * Get effective total expenses based on view mode
    */
-  private getEffectiveTotalExpenses(state: CalculatorState): number {
+  private getEffectiveTotalExpenses = (state: CalculatorState): number => {
     if (state.expenseViewMode === "simple") {
       return Number(state.totalExpenses) || 0;
     }
     return this.calculateTotalExpenses(state.expenses);
-  }
+  };
 
   /**
    * Get main loan costs using primary rates
    */
-  private getMainLoanCosts(state: CalculatorState): {
+  private getMainLoanCosts = (
+    state: CalculatorState
+  ): {
     monthlyAmortization: number;
     monthlyInterest: number;
-  } {
+  } => {
     const { amount, interestRate, amortizationRate } = state.loanParameters;
 
     return {
       monthlyInterest: (amount * (interestRate / 100)) / 12,
       monthlyAmortization: (amount * (amortizationRate / 100)) / 12,
     };
-  }
+  };
 
   /**
    * Calculate emergency fund coverage
    */
-  private calculateEmergencyFundCoverage(
+  private calculateEmergencyFundCoverage = (
     state: CalculatorState,
     totalExpenses?: number
-  ): number {
+  ): number => {
     const monthlyExpenses =
       totalExpenses ?? this.getEffectiveTotalExpenses(state);
     const emergencyFund = state.income.currentBuffer || 0;
     return monthlyExpenses > 0 ? emergencyFund / monthlyExpenses : 0;
-  }
+  };
 
   /**
    * Calculate overall financial health score
    */
-  private calculateOverallScore(metrics: {
+  private calculateOverallScore = (metrics: {
     debtToIncomeRatio: number;
     emergencyFundCoverage: number;
     housingCostRatio: number;
     discretionaryIncomeRatio: number;
-  }): number {
+  }): number => {
     const weights = {
       debtToIncomeRatio: 0.3,
       emergencyFundCoverage: 0.3,
@@ -338,17 +342,17 @@ export class FinancialCalculationService {
     }, 0);
 
     return Math.round(total);
-  }
+  };
 
   /**
    * Generate financial recommendations
    */
-  private generateRecommendations(metrics: {
+  private generateRecommendations = (metrics: {
     debtToIncomeRatio: number;
     emergencyFundCoverage: number;
     housingCostRatio: number;
     discretionaryIncomeRatio: number;
-  }): string[] {
+  }): string[] => {
     const recommendations: string[] = [];
 
     if (metrics.debtToIncomeRatio > 4.3) {
@@ -365,7 +369,7 @@ export class FinancialCalculationService {
     }
 
     return recommendations;
-  }
+  };
 }
 
 // Export singleton instance

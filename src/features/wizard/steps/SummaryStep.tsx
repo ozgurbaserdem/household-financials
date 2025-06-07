@@ -52,7 +52,7 @@ interface Row {
   icon: React.ReactNode;
 }
 
-export function SummaryStep() {
+export const SummaryStep = () => {
   const { setStepIndex } = useWizard();
   const income = useAppSelector((state) => state.income);
   const loanParameters = useAppSelector((state) => state.loanParameters);
@@ -677,4 +677,4 @@ export function SummaryStep() {
       </Card>
     </>
   );
-}
+};

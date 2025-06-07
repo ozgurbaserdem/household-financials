@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import { Logo } from "./Logo";
 
-export function Navbar() {
+export const Navbar = () => {
   const t = useTranslations("navbar");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -242,4 +242,4 @@ export function Navbar() {
       </AnimatePresence>
     </motion.nav>
   );
-}
+};

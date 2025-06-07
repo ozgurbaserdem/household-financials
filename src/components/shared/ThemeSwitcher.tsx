@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function ThemeSwitcher() {
+const ThemeSwitcher = () => {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -62,4 +62,6 @@ export default function ThemeSwitcher() {
       </Button>
     </motion.div>
   );
-}
+};
+
+export { ThemeSwitcher };

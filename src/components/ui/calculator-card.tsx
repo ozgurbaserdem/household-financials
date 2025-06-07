@@ -7,12 +7,12 @@ interface CalculatorCardProps {
   children: React.ReactNode;
 }
 
-export function CalculatorCard({
+export const CalculatorCard = ({
   title,
   description,
   icon,
   children,
-}: CalculatorCardProps) {
+}: CalculatorCardProps) => {
   return (
     <Box className="bg-white dark:bg-gray-900 dark:text-gray-100 rounded-lg shadow-md p-6">
       <Box className="flex items-center gap-4 mb-4">
@@ -25,4 +25,4 @@ export function CalculatorCard({
       <Box className="space-y-4">{children}</Box>
     </Box>
   );
-}
+};

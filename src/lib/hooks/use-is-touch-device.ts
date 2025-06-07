@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function useIsTouchDevice() {
+const useIsTouchDevice = () => {
   const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
@@ -21,6 +21,6 @@ function useIsTouchDevice() {
   }, []);
 
   return isTouch;
-}
+};
 
 export { useIsTouchDevice };

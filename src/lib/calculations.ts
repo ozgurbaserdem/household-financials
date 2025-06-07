@@ -6,12 +6,12 @@ import type {
 } from "./types";
 import { taxCalculationService, financialCalculationService } from "./services";
 
-export function getNetIncome(
+export const getNetIncome = (
   gross: number,
   isSecondary = false,
   selectedKommun?: string,
   includeChurchTax?: boolean
-): number {
+): number => {
   const result = taxCalculationService.calculateNetIncome(
     gross,
     isSecondary,
@@ -19,80 +19,84 @@ export function getNetIncome(
     includeChurchTax
   );
   return result.net;
-}
+};
 
-export function getIncomeWithNet(
+export const getIncomeWithNet = (
   gross: number,
   isSecondary = false,
   selectedKommun?: string,
   includeChurchTax?: boolean
-) {
+) => {
   return {
     gross,
     net: getNetIncome(gross, isSecondary, selectedKommun, includeChurchTax),
   };
-}
+};
 
-export function calculateTotalNetIncome(state: CalculatorState): number {
+export const calculateTotalNetIncome = (state: CalculatorState): number => {
   const totalIncome = financialCalculationService.calculateTotalIncome(
     state.income
   );
   return totalIncome.net;
-}
+};
 
-export function calculateLoanScenarios(
+export const calculateLoanScenarios = (
   state: CalculatorState
-): CalculationResult[] {
+): CalculationResult[] => {
   return financialCalculationService.calculateLoanScenarios(state);
-}
+};
 
-export function calculateTotalExpenses(expenses: ExpensesByCategory): number {
+export const calculateTotalExpenses = (
+  expenses: ExpensesByCategory
+): number => {
   return Object.values(expenses).reduce((total, amount) => {
     const numericAmount = Number(amount) || 0;
     return total + numericAmount;
   }, 0);
-}
+};
 
-export function formatCurrency(amount: number): string {
+export const formatCurrency = (amount: number): string => {
   return new Intl.NumberFormat("sv-SE", {
     style: "currency",
     currency: "SEK",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
-}
+};
 
-export function formatPercentage(value: number): string {
+export const formatPercentage = (value: number): string => {
   return new Intl.NumberFormat("sv-SE", {
     style: "percent",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value / 100);
-}
+};
 
-export function calculateSelectedHousingExpenses(
+export const calculateSelectedHousingExpenses = (
   expenses: ExpensesByCategory
-): number {
+): number => {
   // In the simplified version, we just return the home category total
   return Number(expenses["home"]) || 0;
-}
+};
 
-export function calculateTotalIncome(state: CalculatorState): {
+export const calculateTotalIncome = (
+  state: CalculatorState
+): {
   gross: number;
   net: number;
-} {
+} => {
   return financialCalculationService.calculateTotalIncome(state.income);
-}
+};
 
-export function calculateFinancialHealthScore(
+export const calculateFinancialHealthScore = (
   state: CalculatorState
-): FinancialHealthScore {
+): FinancialHealthScore => {
   return financialCalculationService.calculateFinancialHealthScore(state);
-}
+};
 
-export function calculateFinancialHealthScoreForResult(
+export const calculateFinancialHealthScoreForResult = (
   result: CalculationResult
-): FinancialHealthScore {
+): FinancialHealthScore => {
   // This function provides a specialized calculation for a specific result
   // For now, we'll create a temporary state object to use the service
   // In a future refactor, this could be moved to the service layer as well
@@ -173,4 +177,4 @@ export function calculateFinancialHealthScoreForResult(
     },
     recommendations,
   };
-}
+};

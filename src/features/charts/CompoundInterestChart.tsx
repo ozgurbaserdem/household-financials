@@ -52,10 +52,10 @@ interface CustomTooltipProps extends TooltipProps<number, string> {
   label?: string;
 }
 
-export function CompoundInterestChart({
+export const CompoundInterestChart = ({
   data,
   isVisible = true,
-}: CompoundInterestChartProps) {
+}: CompoundInterestChartProps) => {
   const t = useTranslations("compound_interest");
 
   if (!isVisible || data.length === 0) {
@@ -271,4 +271,4 @@ export function CompoundInterestChart({
       </CardContent>
     </Card>
   );
-}
+};

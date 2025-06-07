@@ -8,7 +8,7 @@ import fs from "fs";
 const SKATTEVERKET_API_URL =
   "https://skatteverket.entryscape.net/rowstore/dataset/c67b320b-ffee-4876-b073-dd9236cd2a99";
 
-async function fetchTaxData() {
+const fetchTaxData = async () => {
   try {
     console.log("Hämtar data för 2025 från Skatteverkets API...");
 
@@ -113,9 +113,9 @@ async function fetchTaxData() {
     console.error("❌ Fel vid hämtning av data:", error);
     throw error;
   }
-}
+};
 
-function processKommunData(rawData) {
+const processKommunData = (rawData) => {
   console.log("Bearbetar kommundata för 2025...");
 
   if (!Array.isArray(rawData)) {
@@ -192,9 +192,9 @@ function processKommunData(rawData) {
 
   console.log(`Bearbetat data för ${processedData.length} kommuner`);
   return processedData;
-}
+};
 
-function saveToFile(data, filename = "kommunalskatt_2025.json") {
+const saveToFile = (data, filename = "kommunalskatt_2025.json") => {
   try {
     fs.writeFileSync(filename, JSON.stringify(data, null, 2), "utf8");
     console.log(`✅ Data sparad till ${filename}`);
@@ -206,9 +206,9 @@ function saveToFile(data, filename = "kommunalskatt_2025.json") {
       JSON.stringify(data.slice(0, 3), null, 2)
     );
   }
-}
+};
 
-async function main() {
+const main = async () => {
   try {
     console.log("=== 🇸🇪 Skatteverket API Data Processor ===\n");
 
@@ -232,7 +232,7 @@ async function main() {
     console.error("❌ Fel i huvudprocessen:", error);
     process.exit(1);
   }
-}
+};
 
 // Exportera för användning som modul
 export { main, fetchTaxData, processKommunData };

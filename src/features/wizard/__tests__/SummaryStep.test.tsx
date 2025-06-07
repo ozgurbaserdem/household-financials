@@ -66,7 +66,7 @@ interface TestStoreState {
   expenses?: Record<string, number>;
 }
 
-function createTestStore(preloadedState?: TestStoreState) {
+const createTestStore = (preloadedState?: TestStoreState) => {
   const initialState = {
     loanParameters: {
       amount: 0,
@@ -96,7 +96,7 @@ function createTestStore(preloadedState?: TestStoreState) {
     reducer: calculatorReducer,
     preloadedState: initialState,
   });
-}
+};
 
 describe("SummaryStep", () => {
   beforeEach(() => {

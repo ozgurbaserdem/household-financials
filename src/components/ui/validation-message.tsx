@@ -13,12 +13,12 @@ interface ValidationMessageProps {
   variant?: "inline" | "floating";
 }
 
-export function ValidationMessage({
+export const ValidationMessage = ({
   message,
   show = false,
   className,
   variant = "inline",
-}: ValidationMessageProps) {
+}: ValidationMessageProps) => {
   if (!message || !show) return null;
 
   const baseClasses = "flex items-center gap-2 text-sm font-medium";
@@ -60,4 +60,4 @@ export function ValidationMessage({
       )}
     </AnimatePresence>
   );
-}
+};
