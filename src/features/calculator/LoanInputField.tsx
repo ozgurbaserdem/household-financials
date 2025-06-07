@@ -1,11 +1,4 @@
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { CurrencyInput } from "@/components/ui/currency-input";
 import type { UseFormReturn } from "react-hook-form";
 import type { LoansFormValues } from "./Loans";
 
@@ -37,41 +30,18 @@ const LoanInputField = ({
   step,
 }: LoanInputFieldProps) => {
   return (
-    <FormField
-      control={form.control}
+    <CurrencyInput
+      form={form}
       name={name}
-      render={({ field }) => {
-        // Only pass a number or empty string to Input value
-        const value = Array.isArray(field.value)
-          ? ""
-          : typeof field.value === "number" &&
-              !isNaN(field.value) &&
-              field.value !== 0
-            ? field.value
-            : "";
-        return (
-          <FormItem>
-            <FormLabel>{label}</FormLabel>
-            <FormControl>
-              <Input
-                type="number"
-                min={min}
-                max={max}
-                step={step}
-                {...field}
-                value={value}
-                placeholder={placeholder}
-                aria-label={ariaLabel}
-                className={className}
-                disabled={disabled}
-                onChange={(e) => field.onChange(Number(e.target.value))}
-                onBlur={onBlur}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        );
-      }}
+      label={label}
+      ariaLabel={ariaLabel}
+      onBlur={onBlur}
+      className={className}
+      disabled={disabled}
+      placeholder={placeholder}
+      min={min}
+      max={max}
+      step={step}
     />
   );
 };

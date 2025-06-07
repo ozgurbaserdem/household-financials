@@ -10,7 +10,6 @@ import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { expenseCategories } from "@/data/expenseCategories";
-import { formatCurrency } from "@/lib/calculations";
 import type { ExpensesByCategory } from "@/lib/types";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import {
@@ -42,6 +41,7 @@ import { Text } from "@/components/ui/text";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import { CurrencyDisplay } from "@/components/ui/currency-display";
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory;
@@ -419,12 +419,14 @@ export const ExpenseCategories = ({
                 {t("total_expenses")}
               </Text>
             </Box>
-            <Text
-              className={`text-2xl font-bold ${getCurrentTotal() > 0 ? "text-red-400" : "text-gray-500"}`}
+            <CurrencyDisplay
+              amount={getCurrentTotal()}
+              variant={getCurrentTotal() > 0 ? "negative" : "neutral"}
+              size="xl"
+              showDecimals={false}
+              className="text-2xl font-bold"
               data-testid="grand-total"
-            >
-              {formatCurrency(getCurrentTotal())}
-            </Text>
+            />
           </Box>
         </motion.div>
       </CardContent>

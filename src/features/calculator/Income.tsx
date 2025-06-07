@@ -37,6 +37,7 @@ import kommunalskattData from "@/data/kommunalskatt_2025.json";
 import type { KommunData } from "@/lib/types";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import { CurrencyDisplay } from "@/components/ui/currency-display";
 
 const formSchema = z.object({
   income1: z.number().min(0),
@@ -192,13 +193,13 @@ export const Income = ({
             className="text-sm text-gray-300 mt-1"
           >
             {t("total_monthly_income")}:{" "}
-            <span className="text-green-400 font-semibold">
-              {new Intl.NumberFormat("sv-SE", {
-                style: "currency",
-                currency: "SEK",
-                maximumFractionDigits: 0,
-              }).format(totalIncome)}
-            </span>
+            <CurrencyDisplay
+              amount={totalIncome}
+              variant="positive"
+              size="md"
+              showDecimals={false}
+              className="font-semibold"
+            />
           </motion.p>
         </Box>
         <motion.div

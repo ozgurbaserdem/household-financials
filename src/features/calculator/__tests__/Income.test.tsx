@@ -189,9 +189,13 @@ describe("Income", () => {
       );
     });
 
-    // Should not be in the DOM
-    expect(screen.queryAllByLabelText(/income2_aria/i).length).toBe(0);
-    expect(screen.queryAllByLabelText(/secondaryIncome2_aria/i).length).toBe(0);
+    // Wait for the animation to complete and fields to be removed from DOM
+    await waitFor(() => {
+      expect(screen.queryAllByLabelText(/income2_aria/i).length).toBe(0);
+      expect(screen.queryAllByLabelText(/secondaryIncome2_aria/i).length).toBe(
+        0
+      );
+    });
   });
 
   it("clears income2 and income4 values when toggling to 1 adult and back to 2 adults", async () => {

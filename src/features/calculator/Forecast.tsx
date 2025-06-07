@@ -19,7 +19,8 @@ import {
 } from "recharts";
 import { useMemo } from "react";
 import type { CalculatorState } from "@/lib/types";
-import { formatCurrency, calculateTotalNetIncome } from "@/lib/calculations";
+import { calculateTotalNetIncome } from "@/lib/calculations";
+import { CurrencyDisplay } from "@/components/ui/currency-display";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
@@ -125,35 +126,48 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
           <div className="space-y-1 text-sm">
             <p className="text-gray-300">
               {t("tooltip.remaining_loan")}:{" "}
-              <span className="text-blue-400 font-semibold">
-                {formatCurrency(data.remainingLoan)}
-              </span>
+              <CurrencyDisplay
+                amount={data.remainingLoan}
+                variant="neutral"
+                showDecimals={false}
+                className="text-blue-400 font-semibold"
+              />
             </p>
             <p className="text-gray-300">
               {t("tooltip.yearly_cost")}:{" "}
-              <span className="text-orange-400 font-semibold">
-                {formatCurrency(data.yearlyCost)}
-              </span>
+              <CurrencyDisplay
+                amount={data.yearlyCost}
+                variant="neutral"
+                showDecimals={false}
+                className="text-orange-400 font-semibold"
+              />
             </p>
             <p className="text-gray-300">
               {t("tooltip.monthly_cost")}:{" "}
-              <span className="text-orange-300 font-semibold">
-                {formatCurrency(data.monthlyCost)}
-              </span>
+              <CurrencyDisplay
+                amount={data.monthlyCost}
+                variant="neutral"
+                showDecimals={false}
+                className="text-orange-300 font-semibold"
+              />
             </p>
             <p className="text-gray-300">
               {t("tooltip.monthly_income")}:{" "}
-              <span className="text-green-300 font-semibold">
-                {formatCurrency(data.monthlyIncome)}
-              </span>
+              <CurrencyDisplay
+                amount={data.monthlyIncome}
+                variant="neutral"
+                showDecimals={false}
+                className="text-green-300 font-semibold"
+              />
             </p>
             <p className="text-gray-300">
               {t("tooltip.monthly_savings")}:{" "}
-              <span
-                className={`font-semibold ${data.monthlySavings >= 0 ? "text-green-400" : "text-red-400"}`}
-              >
-                {formatCurrency(data.monthlySavings)}
-              </span>
+              <CurrencyDisplay
+                amount={data.monthlySavings}
+                variant={data.monthlySavings >= 0 ? "positive" : "negative"}
+                showDecimals={false}
+                className="font-semibold"
+              />
             </p>
           </div>
         </motion.div>

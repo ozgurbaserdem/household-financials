@@ -1,17 +1,9 @@
 "use client";
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-} from "@/components/ui/modern-card";
-import { CardContent } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
 import React from "react";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
+import { ChartContainer, ChartLegend } from "@/components/ui/chart-container";
 
 const formatCurrencyNoDecimals = (amount: number): string => {
   return new Intl.NumberFormat("sv-SE", {
@@ -28,7 +20,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
   TooltipProps,
   ReferenceLine,
 } from "recharts";
@@ -144,131 +135,101 @@ export const CompoundInterestChart = ({
     (d) => d.withdrawal && d.withdrawal > 0
   )?.year;
 
+  const legendItems = [
+    { color: "#3B82F6", label: t("legend.start_sum") },
+    { color: "#10B981", label: t("legend.accumulated_savings") },
+    { color: "#8B5CF6", label: t("legend.compound_returns") },
+  ];
+
   return (
-    <Card gradient glass delay={0.3}>
-      <CardHeader>
-        <CardIcon>
-          <TrendingUp className="w-6 h-6 text-purple-400" />
-        </CardIcon>
-        <Box className="flex-1">
-          <CardTitle tabIndex={0} aria-label={t("chart.aria_title")}>
-            {t("chart.title")}
-          </CardTitle>
-          <Text className="text-sm text-gray-300 mt-1">
-            {t("chart.description")}
-          </Text>
-        </Box>
-      </CardHeader>
+    <ChartContainer
+      title={t("chart.title")}
+      description={t("chart.description")}
+      icon={TrendingUp}
+      iconColor="text-purple-400"
+      height={400}
+      testId="compound-interest-chart"
+      ariaLabel={t("chart.aria_title")}
+      delay={0.3}
+      legend={<ChartLegend items={legendItems} />}
+    >
+      <BarChart
+        data={data}
+        margin={{
+          top: 20,
+          right: 10,
+          left: -20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+        <XAxis
+          dataKey="year"
+          tick={{ fill: "#9CA3AF", fontSize: 12 }}
+          axisLine={{ stroke: "#6B7280" }}
+          tickLine={{ stroke: "#6B7280" }}
+        />
+        <YAxis
+          tick={{ fill: "#9CA3AF", fontSize: 12 }}
+          axisLine={{ stroke: "#6B7280" }}
+          tickLine={{ stroke: "#6B7280" }}
+          tickFormatter={(value: number) => {
+            if (value >= 1000000) {
+              return `${Math.round(value / 1000000)}m`;
+            }
+            if (value >= 1000) {
+              return `${Math.round(value / 1000)}k`;
+            }
+            return value.toString();
+          }}
+          domain={[0, yAxisMax]}
+        />
+        <Tooltip
+          content={<CustomTooltip />}
+          cursor={{ fill: "rgba(107, 114, 128, 0.2)" }}
+        />
 
-      <CardContent>
-        <div className="h-[400px] w-full" data-testid="compound-interest-chart">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={data}
-              margin={{
-                top: 20,
-                right: 10,
-                left: -20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="#374151"
-                opacity={0.3}
-              />
-              <XAxis
-                dataKey="year"
-                tick={{ fill: "#9CA3AF", fontSize: 12 }}
-                axisLine={{ stroke: "#6B7280" }}
-                tickLine={{ stroke: "#6B7280" }}
-              />
-              <YAxis
-                tick={{ fill: "#9CA3AF", fontSize: 12 }}
-                axisLine={{ stroke: "#6B7280" }}
-                tickLine={{ stroke: "#6B7280" }}
-                tickFormatter={(value: number) => {
-                  if (value >= 1000000) {
-                    return `${Math.round(value / 1000000)}m`;
-                  }
-                  if (value >= 1000) {
-                    return `${Math.round(value / 1000)}k`;
-                  }
-                  return value.toString();
-                }}
-                domain={[0, yAxisMax]}
-              />
-              <Tooltip
-                content={<CustomTooltip />}
-                cursor={{ fill: "rgba(107, 114, 128, 0.2)" }}
-              />
+        {/* Stacked bars for accumulation phase, single bars for withdrawal phase */}
+        <Bar
+          dataKey="chartStartSum"
+          stackId="portfolio"
+          fill="#3B82F6"
+          name={t("legend.start_sum")}
+          radius={[0, 0, 0, 0]}
+        />
+        <Bar
+          dataKey="chartSavings"
+          stackId="portfolio"
+          fill="#10B981"
+          name={t("legend.accumulated_savings")}
+          radius={[0, 0, 0, 0]}
+        />
+        <Bar
+          dataKey="chartReturns"
+          stackId="portfolio"
+          fill="#8B5CF6"
+          name={t("legend.compound_returns")}
+          radius={[4, 4, 0, 0]}
+        />
+        {/* Single bar for withdrawal phase - overlays the stacked bars */}
+        <Bar
+          dataKey="withdrawalPhaseValue"
+          fill="#F87171"
+          name="Portföljvärde"
+          radius={[4, 4, 0, 0]}
+        />
 
-              {/* Stacked bars for accumulation phase, single bars for withdrawal phase */}
-              <Bar
-                dataKey="chartStartSum"
-                stackId="portfolio"
-                fill="#3B82F6"
-                name={t("legend.start_sum")}
-                radius={[0, 0, 0, 0]}
-              />
-              <Bar
-                dataKey="chartSavings"
-                stackId="portfolio"
-                fill="#10B981"
-                name={t("legend.accumulated_savings")}
-                radius={[0, 0, 0, 0]}
-              />
-              <Bar
-                dataKey="chartReturns"
-                stackId="portfolio"
-                fill="#8B5CF6"
-                name={t("legend.compound_returns")}
-                radius={[4, 4, 0, 0]}
-              />
-              {/* Single bar for withdrawal phase - overlays the stacked bars */}
-              <Bar
-                dataKey="withdrawalPhaseValue"
-                fill="#F87171"
-                name="Portföljvärde"
-                radius={[4, 4, 0, 0]}
-              />
-
-              {/* Reference line for withdrawal year */}
-              {withdrawalYear && (
-                <ReferenceLine
-                  x={withdrawalYear}
-                  stroke="#EF4444"
-                  strokeDasharray="5 5"
-                  strokeWidth={2}
-                  label={{ value: "Uttag", position: "top", fill: "#EF4444" }}
-                />
-              )}
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Legend */}
-        <Box className="flex flex-wrap justify-center gap-6 mt-4 pt-4 border-t border-gray-700">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-blue-500"></div>
-            <Text className="text-sm text-gray-300">
-              {t("legend.start_sum")}
-            </Text>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-green-500"></div>
-            <Text className="text-sm text-gray-300">
-              {t("legend.accumulated_savings")}
-            </Text>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-purple-500"></div>
-            <Text className="text-sm text-gray-300">
-              {t("legend.compound_returns")}
-            </Text>
-          </div>
-        </Box>
-      </CardContent>
-    </Card>
+        {/* Reference line for withdrawal year */}
+        {withdrawalYear && (
+          <ReferenceLine
+            x={withdrawalYear}
+            stroke="#EF4444"
+            strokeDasharray="5 5"
+            strokeWidth={2}
+            label={{ value: "Uttag", position: "top", fill: "#EF4444" }}
+          />
+        )}
+      </BarChart>
+    </ChartContainer>
   );
 };
