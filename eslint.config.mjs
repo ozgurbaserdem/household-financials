@@ -23,6 +23,28 @@ const eslintConfig = [
     rules: {
       "react/jsx-curly-spacing": "off",
       "unused-imports/no-unused-imports": "error",
+
+      // Function style conventions
+      "prefer-arrow-callback": "error",
+      "func-style": ["error", "expression", { allowArrowFunctions: true }],
+
+      // React specific conventions
+      "react/function-component-definition": [
+        "error",
+        {
+          namedComponents: "arrow-function",
+          unnamedComponents: "arrow-function",
+        },
+      ],
+
+      // Basic naming conventions (allow underscores and PascalCase for imports)
+      camelcase: [
+        "error",
+        {
+          properties: "never",
+          allow: ["^[A-Z][a-zA-Z_]*$"],
+        },
+      ],
     },
   },
 ];
