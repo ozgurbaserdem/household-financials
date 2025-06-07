@@ -3,7 +3,7 @@ import { FinancialCard } from "./financial-card";
 import { Box } from "./box";
 import { Text } from "./text";
 import type { LucideIcon } from "lucide-react";
-import type { ReactNode } from "react";
+import type { ReactElement } from "react";
 
 interface ChartContainerProps {
   title: string;
@@ -11,8 +11,8 @@ interface ChartContainerProps {
   icon: LucideIcon;
   iconColor?: string;
   height?: number;
-  children: ReactNode;
-  legend?: ReactNode;
+  children: ReactElement;
+  legend?: ReactElement;
   testId?: string;
   ariaLabel?: string;
   delay?: number;
