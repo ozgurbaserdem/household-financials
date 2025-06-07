@@ -28,6 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import { CurrencyDisplay } from "@/components/ui/currency-display";
 
 const formSchema = z
   .object({
@@ -193,13 +194,12 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
             {hasLoan && monthlyPayment > 0 ? (
               <>
                 {t("estimated_monthly_payment")}:{" "}
-                <span className="text-orange-400 font-semibold">
-                  {new Intl.NumberFormat("sv-SE", {
-                    style: "currency",
-                    currency: "SEK",
-                    maximumFractionDigits: 0,
-                  }).format(monthlyPayment)}
-                </span>
+                <CurrencyDisplay
+                  amount={monthlyPayment}
+                  variant="neutral"
+                  showDecimals={false}
+                  className="text-orange-400 font-semibold"
+                />
               </>
             ) : (
               t("no_loan", { count: parseInt(numberOfAdults) })

@@ -5,7 +5,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
-import { formatCurrency } from "@/lib/calculations";
+import { formatCurrencyNoDecimals } from "@/lib/formatting";
 import { expenseCategories } from "@/data/expenseCategories";
 import type { ExpensesByCategory, ChartDataPoint } from "@/lib/types";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
@@ -96,7 +96,7 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
           <p className="text-sm text-gray-300">
             {expenseBreakdownT("legend_label", {
               name: data.name,
-              amount: formatCurrency(data.value),
+              amount: formatCurrencyNoDecimals(data.value),
               percentage,
             })}
           </p>
@@ -139,7 +139,7 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
     <FinancialCard
       title={expenseBreakdownT("title")}
       description={expenseBreakdownT("total", {
-        amount: formatCurrency(total),
+        amount: formatCurrencyNoDecimals(total),
       })}
       icon={PieChartIcon}
       iconColor="text-indigo-400"
@@ -192,7 +192,7 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
               </Box>
               <Text className="text-sm font-medium text-gray-200">
                 {expenseBreakdownT("legend_amount", {
-                  amount: formatCurrency(item.value),
+                  amount: formatCurrencyNoDecimals(item.value),
                 })}
               </Text>
             </div>

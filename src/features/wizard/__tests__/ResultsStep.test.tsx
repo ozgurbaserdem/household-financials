@@ -107,6 +107,17 @@ vi.mock("framer-motion", () => ({
   },
 }));
 
+// Mock CurrencyDisplay
+vi.mock("@/components/ui/currency-display", () => ({
+  CurrencyDisplay: ({
+    amount,
+    className,
+  }: {
+    amount: number;
+    className?: string;
+  }) => <span className={className}>{amount.toLocaleString("en-US")} kr</span>,
+}));
+
 // Mock form components that require FormProvider
 vi.mock("@/components/ui/form", () => ({
   FormLabel: ({
@@ -483,8 +494,8 @@ describe("ResultsStep", () => {
   it("should display formatted currency correctly", () => {
     renderWithProviders(<ResultsStep />);
 
-    // Check for formatted currency display in the badge - the text should include both amount and period
-    expect(screen.getByText("3,000 kr / month")).toBeInTheDocument();
+    // Check for formatted currency display - the test should find the mocked CurrencyDisplay output
+    expect(screen.getByText("3,000 kr")).toBeInTheDocument();
   });
 
   it("should show potential wealth badge for English", () => {

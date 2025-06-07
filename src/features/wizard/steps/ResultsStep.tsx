@@ -12,7 +12,9 @@ import { TrendingUp, Calculator } from "lucide-react";
 import { Text } from "@/components/ui/text";
 import { useTranslations, useLocale } from "next-intl";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { formatCurrency, calculateLoanScenarios } from "@/lib/calculations";
+import { calculateLoanScenarios } from "@/lib/calculations";
+import { CurrencyDisplay } from "@/components/ui/currency-display";
+import { formatCurrencyNoDecimals } from "@/lib/formatting";
 import { motion } from "framer-motion";
 export const ResultsStep = () => {
   const loanParameters = useAppSelector((state) => state.loanParameters);
@@ -72,15 +74,18 @@ export const ResultsStep = () => {
                   <div className="space-y-2">
                     <Text className="text-gray-300 leading-relaxed">
                       {t("compound_interest_cta.description", {
-                        savings: monthlySavings.toLocaleString(
-                          locale === "sv" ? "sv-SE" : "en-US"
-                        ),
+                        savings: formatCurrencyNoDecimals(monthlySavings),
                       })}
                     </Text>
                     <div className="flex items-center justify-center lg:justify-start gap-2 text-sm">
                       <div className="px-3 py-1 rounded-full bg-green-500/20 text-green-400 font-medium">
-                        {formatCurrency(monthlySavings)} /{" "}
-                        {locale === "sv" ? "månad" : "month"}
+                        <CurrencyDisplay
+                          amount={monthlySavings}
+                          variant="positive"
+                          showDecimals={false}
+                          className="inline"
+                        />{" "}
+                        / {locale === "sv" ? "månad" : "month"}
                       </div>
                       <span className="text-gray-400">→</span>
                       <div className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 font-medium">

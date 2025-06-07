@@ -35,8 +35,9 @@ import {
   MoreHorizontal,
   ListChecks,
 } from "lucide-react";
-import { formatCurrency, getNetIncome } from "@/lib/calculations";
-import { formatPercentage } from "@/lib/formatting";
+import { getNetIncome } from "@/lib/calculations";
+import { formatPercentage, formatCurrencyNoDecimals } from "@/lib/formatting";
+import { CurrencyDisplay } from "@/components/ui/currency-display";
 import { expenseCategories } from "@/data/expenseCategories";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -230,7 +231,7 @@ export const SummaryStep = () => {
               tabIndex={0}
               role="group"
               aria-label={tSummary("aria.net_income_card", {
-                amount: formatCurrency(totalIncome),
+                amount: formatCurrencyNoDecimals(totalIncome),
               })}
             >
               <Box className="flex items-center gap-3 mb-2">
@@ -239,9 +240,13 @@ export const SummaryStep = () => {
                   {tSummary("net_income")}
                 </Text>
               </Box>
-              <Text className="text-2xl font-bold text-green-400">
-                {formatCurrency(totalIncome)}
-              </Text>
+              <CurrencyDisplay
+                amount={totalIncome}
+                variant="positive"
+                size="xl"
+                showDecimals={false}
+                className="text-2xl font-bold"
+              />
               <Text className="text-base text-gray-200 font-medium mt-1">
                 {tSummary("per_month")}
               </Text>
@@ -252,7 +257,9 @@ export const SummaryStep = () => {
               tabIndex={0}
               role="group"
               aria-label={tSummary("aria.loan_payment_card", {
-                amount: hasLoan ? formatCurrency(monthlyPayment) : "-",
+                amount: hasLoan
+                  ? formatCurrencyNoDecimals(monthlyPayment)
+                  : "-",
               })}
             >
               <Box className="flex items-center gap-3 mb-2">
@@ -261,9 +268,17 @@ export const SummaryStep = () => {
                   {tSummary("loan_payment")}
                 </Text>
               </Box>
-              <Text className="text-2xl font-bold text-orange-400">
-                {hasLoan ? formatCurrency(monthlyPayment) : "-"}
-              </Text>
+              {hasLoan ? (
+                <CurrencyDisplay
+                  amount={monthlyPayment}
+                  variant="neutral"
+                  size="xl"
+                  showDecimals={false}
+                  className="text-2xl font-bold text-orange-400"
+                />
+              ) : (
+                <Text className="text-2xl font-bold text-orange-400">-</Text>
+              )}
               <Text className="text-base text-gray-200 font-medium mt-1">
                 {tSummary("per_month")}
               </Text>
@@ -274,7 +289,7 @@ export const SummaryStep = () => {
               tabIndex={0}
               role="group"
               aria-label={tSummary("aria.total_expenses_card", {
-                amount: formatCurrency(currentExpensesTotal),
+                amount: formatCurrencyNoDecimals(currentExpensesTotal),
               })}
             >
               <Box className="flex items-center gap-3 mb-2">
@@ -286,9 +301,13 @@ export const SummaryStep = () => {
                   {tSummary("totalExpenses")}
                 </Text>
               </Box>
-              <Text className="text-2xl font-bold text-red-400">
-                {formatCurrency(currentExpensesTotal)}
-              </Text>
+              <CurrencyDisplay
+                amount={currentExpensesTotal}
+                variant="negative"
+                size="xl"
+                showDecimals={false}
+                className="text-2xl font-bold"
+              />
               <Text className="text-base text-gray-200 font-medium mt-1">
                 {tSummary("per_month")}
               </Text>
@@ -364,12 +383,21 @@ export const SummaryStep = () => {
                         </Text>
                       </Box>
                       <Box className="flex flex-col items-end">
-                        <Text className="font-medium text-white text-right">
-                          {formatCurrency(row.value)}
-                        </Text>
+                        <CurrencyDisplay
+                          amount={row.value}
+                          variant="neutral"
+                          showDecimals={false}
+                          className="font-medium text-white text-right"
+                        />
                         {row.net && (
                           <Text className="text-xs text-gray-300 font-medium mt-0.5 text-right">
-                            {tSummary("net")}: {formatCurrency(row.net)}
+                            {tSummary("net")}:{" "}
+                            <CurrencyDisplay
+                              amount={row.net}
+                              variant="neutral"
+                              showDecimals={false}
+                              className="inline"
+                            />
                           </Text>
                         )}
                       </Box>
@@ -439,9 +467,12 @@ export const SummaryStep = () => {
                               {row.label}
                             </Text>
                           </Box>
-                          <Text className="font-medium text-white">
-                            {formatCurrency(row.value)}
-                          </Text>
+                          <CurrencyDisplay
+                            amount={row.value}
+                            variant="neutral"
+                            showDecimals={false}
+                            className="font-medium text-white"
+                          />
                         </motion.div>
                       ))}
 
@@ -568,9 +599,12 @@ export const SummaryStep = () => {
                               className="h-full bg-gradient-to-r from-orange-500 to-red-500"
                             />
                           </Box>
-                          <Text className="font-medium text-white min-w-[80px] text-right">
-                            {formatCurrency(row.total)}
-                          </Text>
+                          <CurrencyDisplay
+                            amount={row.total}
+                            variant="neutral"
+                            showDecimals={false}
+                            className="font-medium text-white min-w-[80px] text-right"
+                          />
                         </Box>
                       </motion.div>
                     )
@@ -593,9 +627,12 @@ export const SummaryStep = () => {
                     <Text className="font-semibold text-gray-300">
                       {tSummary("totalExpenses")}
                     </Text>
-                    <Text className="font-bold text-xl gradient-text">
-                      {formatCurrency(currentExpensesTotal)}
-                    </Text>
+                    <CurrencyDisplay
+                      amount={currentExpensesTotal}
+                      variant="neutral"
+                      showDecimals={false}
+                      className="font-bold text-xl gradient-text"
+                    />
                   </Box>
 
                   <Button
@@ -624,12 +661,12 @@ export const SummaryStep = () => {
             aria-label={
               totalIncome - monthlyPayment - currentExpensesTotal >= 0
                 ? tSummary("aria.monthly_surplus_summary", {
-                    amount: formatCurrency(
+                    amount: formatCurrencyNoDecimals(
                       totalIncome - monthlyPayment - currentExpensesTotal
                     ),
                   })
                 : tSummary("aria.monthly_deficit_summary", {
-                    amount: formatCurrency(
+                    amount: formatCurrencyNoDecimals(
                       totalIncome - monthlyPayment - currentExpensesTotal
                     ),
                   })
@@ -666,9 +703,16 @@ export const SummaryStep = () => {
                       : "text-red-400"
                   )}
                 >
-                  {formatCurrency(
-                    totalIncome - monthlyPayment - currentExpensesTotal
-                  )}
+                  <CurrencyDisplay
+                    amount={totalIncome - monthlyPayment - currentExpensesTotal}
+                    variant={
+                      totalIncome - monthlyPayment - currentExpensesTotal >= 0
+                        ? "positive"
+                        : "negative"
+                    }
+                    showDecimals={false}
+                    className="inline"
+                  />
                 </Text>
               </Box>
             </Box>

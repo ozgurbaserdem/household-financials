@@ -336,6 +336,109 @@ Object.keys(scores).forEach((key) => {
 - Calculation explanations provided in multiple languages
 - Clear error messages for invalid inputs
 
+## Business Logic Organization
+
+### Core Calculation Modules
+
+#### `/lib/calculations.ts`
+
+Main financial calculation engine containing:
+
+- Swedish tax calculations (municipal, state, church tax)
+- Loan scenario modeling and amortization
+- Income and expense processing
+- Financial health score algorithms
+
+#### `/lib/compound-interest.ts`
+
+Investment calculation engine for:
+
+- Compound interest projections
+- Monthly savings accumulation
+- Withdrawal scenarios and planning
+- Long-term investment horizon modeling
+
+#### `/lib/forecast.ts`
+
+Loan forecasting utilities containing:
+
+- Loan amortization projections over time
+- Income growth modeling with salary increases
+- Monthly savings potential calculations
+- Loan payoff timeline analysis
+
+#### `/lib/financial-health.ts`
+
+Financial wellness assessment utilities:
+
+- Score categorization and color coding
+- Safe value display handling
+- Performance threshold validation
+- Score-based recommendation logic
+
+#### `/lib/formatting.ts`
+
+Data presentation utilities for:
+
+- Swedish currency formatting (SEK)
+- Percentage and ratio display
+- Compact number formatting for charts
+- Safe handling of undefined/infinite values
+
+### Service Layer Architecture
+
+#### `/lib/services/FinancialCalculationService.ts`
+
+High-level orchestration of financial calculations:
+
+- Coordinates tax, loan, and expense calculations
+- Generates comprehensive financial scenarios
+- Manages calculation state and dependencies
+
+#### `/lib/services/TaxCalculationService.ts`
+
+Specialized Swedish tax processing:
+
+- Municipal tax lookup by kommun
+- Primary vs secondary income handling
+- Deduction and credit application
+- Church tax optional calculations
+
+#### `/lib/services/LoanCalculationService.ts`
+
+Mortgage and loan scenario generation:
+
+- Multiple interest rate scenarios
+- Amortization requirement compliance
+- Monthly payment calculations
+- Loan-to-value ratio analysis
+
+### Pure Business Logic Separation
+
+#### Component Logic Extraction
+
+Business logic has been extracted from UI components into dedicated utility modules:
+
+- **FinancialHealthScore Component**: Color logic and formatting moved to `/lib/financial-health.ts`
+- **Forecast Component**: Calculation logic moved to `/lib/forecast.ts`
+- **CompoundInterestCalculator**: Formatting utilities moved to `/lib/formatting.ts`
+
+#### Benefits of Separation
+
+1. **Testability**: Pure functions can be unit tested independently
+2. **Reusability**: Business logic can be shared across components
+3. **Maintainability**: Changes to calculations don't affect UI
+4. **Performance**: Logic can be memoized and optimized
+
+#### Testing Strategy
+
+Comprehensive test coverage for all extracted business logic:
+
+- Unit tests for utility functions
+- Integration tests for service layer
+- Property-based testing for calculation accuracy
+- Edge case validation for financial scenarios
+
 ## Future Enhancements
 
 ### Planned Features
@@ -350,3 +453,4 @@ Object.keys(scores).forEach((key) => {
 - Modular calculation services for easy extension
 - Plugin architecture for additional financial products
 - API design for potential mobile application support
+- Pure business logic enables server-side calculations

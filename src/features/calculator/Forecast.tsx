@@ -19,13 +19,19 @@ import {
 } from "recharts";
 import { useMemo } from "react";
 import type { CalculatorState } from "@/lib/types";
-import { calculateTotalNetIncome } from "@/lib/calculations";
 import { CurrencyDisplay } from "@/components/ui/currency-display";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Box } from "@/components/ui/box";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import {
+  calculateForecast,
+  calculateLoanPayoffYears,
+  validateForecastInputs,
+  type ForecastData,
+} from "@/lib/forecast";
+import { formatCompactCurrency } from "@/lib/formatting";
 
 const AreaChart = dynamic(() =>
   import("recharts").then((mod) => ({ default: mod.AreaChart }))
@@ -35,73 +41,20 @@ interface ForecastProps {
   calculatorState: CalculatorState;
 }
 
-interface ForecastData {
-  year: number;
-  remainingLoan: number;
-  yearlyCost: number;
-  monthlyCost: number;
-  monthlyIncome: number;
-  monthlySavings: number;
-}
-
 export const Forecast = ({ calculatorState }: ForecastProps) => {
   const t = useTranslations("forecast");
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isTouchDevice = useIsTouchDevice();
 
-  const formatCompactCurrency = (value: number) => {
-    if (value >= 1000000) {
-      return `${(value / 1000000).toFixed(value >= 10000000 ? 0 : 1)}m`;
-    } else if (value >= 1000) {
-      return `${(value / 1000).toFixed(value >= 10000 ? 0 : 1)}k`;
-    }
-    return value.toString();
-  };
-
   const forecastData = useMemo(() => {
-    if (!calculatorState.loanParameters.amount) return [];
-
-    const initialLoan = calculatorState.loanParameters.amount;
-    const amortizationRate =
-      calculatorState.loanParameters.amortizationRate / 100 || 0.03;
-    const interestRate =
-      calculatorState.loanParameters.interestRate / 100 || 0.03;
-    const salaryIncreaseRate = 0.025;
-
-    const netMonthlyIncome = calculateTotalNetIncome(calculatorState);
-    const netYearlyIncome0 = netMonthlyIncome * 12;
-
-    const data: ForecastData[] = [];
-    let remainingLoan = initialLoan;
-    let currentYear = 0;
-
-    while (remainingLoan > 0 && currentYear < 50) {
-      const yearlyAmortization = initialLoan * amortizationRate;
-      const yearlyInterest = remainingLoan * interestRate;
-      const yearlyCost = yearlyAmortization + yearlyInterest;
-      const monthlyCost = yearlyCost / 12;
-      const currentYearNetYearlyIncome =
-        netYearlyIncome0 * Math.pow(1 + salaryIncreaseRate, currentYear);
-      const monthlyIncome = currentYearNetYearlyIncome / 12;
-      const monthlySavings = monthlyIncome - monthlyCost;
-
-      data.push({
-        year: currentYear,
-        remainingLoan,
-        yearlyCost,
-        monthlyCost,
-        monthlyIncome,
-        monthlySavings,
-      });
-
-      remainingLoan -= yearlyAmortization;
-      currentYear++;
-    }
-
-    return data;
+    return calculateForecast(calculatorState);
   }, [calculatorState]);
 
-  if (!calculatorState.loanParameters.amount || forecastData.length === 0) {
+  const payoffYears = useMemo(() => {
+    return calculateLoanPayoffYears(calculatorState);
+  }, [calculatorState]);
+
+  if (!validateForecastInputs(calculatorState) || forecastData.length === 0) {
     return null;
   }
 
@@ -202,7 +155,7 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
             transition={{ delay: 0.6 }}
             className="text-sm text-gray-300 mt-1"
           >
-            {t("loan_payoff_in_years", { years: forecastData.length })}
+            {t("loan_payoff_in_years", { years: payoffYears })}
           </motion.p>
         </Box>
         <TrendingUp className="w-8 h-8 text-purple-400" />

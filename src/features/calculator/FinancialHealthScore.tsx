@@ -13,6 +13,12 @@ import {
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { useState } from "react";
 import { AnimatedScramble } from "@/components/ui/animated-scramble";
+import {
+  getScoreColor,
+  getProgressColor,
+  getSafeDisplayValues,
+} from "@/lib/financial-health";
+import { formatPercent, formatDTIRatio } from "@/lib/formatting";
 
 /**
  * Props for the FinancialHealthScore component.
@@ -23,19 +29,6 @@ interface FinancialHealthScoreProps {
   /** Whether to show informational tooltips for metrics */
   showTooltips?: boolean;
 }
-
-/**
- * Formats a decimal value as a percentage string.
- *
- * @param value - Decimal value (e.g., 0.25 for 25%)
- * @returns Formatted percentage string with 1 decimal place
- *
- * @example
- * ```typescript
- * formatPercent(0.254); // "25.4%"
- * ```
- */
-const formatPercent = (value: number) => `${(value * 100).toFixed(1)}%`;
 
 /**
  * Financial Health Score component displaying comprehensive financial wellness metrics.
@@ -66,46 +59,8 @@ export const FinancialHealthScore = ({
 }: FinancialHealthScoreProps) => {
   const t = useTranslations("financial_health");
 
-  /**
-   * Determines the color class for score display based on score value.
-   *
-   * @param score - Score value (0-100)
-   * @returns Tailwind CSS color class string
-   */
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-green-600 dark:text-green-400";
-    if (score >= 60) return "text-yellow-600 dark:text-yellow-400";
-    return "text-red-600 dark:text-red-400";
-  };
-
-  /**
-   * Determines the progress bar color based on score value.
-   *
-   * @param score - Score value (0-100)
-   * @returns Tailwind CSS background color class string
-   */
-  const getProgressColor = (score: number) => {
-    if (score >= 80) return "bg-green-600 dark:bg-green-400";
-    if (score >= 60) return "bg-yellow-600 dark:bg-yellow-400";
-    return "bg-red-600 dark:bg-red-400";
-  };
-
-  /**
-   * Safely handles potentially undefined or infinite numeric values for display.
-   *
-   * @param value - Numeric value that might be undefined or infinite
-   * @returns The value if finite, undefined otherwise
-   */
-  const safeDisplay = (value: number | undefined) =>
-    Number.isFinite(value) ? value : undefined;
-
-  /**
-   * Formats debt-to-income ratio as a multiplier (e.g., "2.5x").
-   *
-   * @param value - DTI ratio value
-   * @returns Formatted ratio string with 1 decimal place and "x" suffix
-   */
-  const formatDTIRatio = (value: number) => `${value.toFixed(1)}x`;
+  // Use extracted business logic functions
+  const displayValues = getSafeDisplayValues(score);
 
   return (
     <Box className="space-y-6">
@@ -146,17 +101,17 @@ export const FinancialHealthScore = ({
         </Box>
         <Box className="flex items-center gap-4">
           <AnimatedScramble
-            value={Number.isFinite(score.overallScore) ? score.overallScore : 0}
+            value={displayValues.overallScore}
             className={cn(
               "text-3xl font-bold",
-              getScoreColor(score.overallScore)
+              getScoreColor(displayValues.overallScore)
             )}
             format={(v) => (Number.isFinite(v) ? String(v) : "–")}
           />
           <Progress
-            value={Number.isFinite(score.overallScore) ? score.overallScore : 0}
+            value={displayValues.overallScore}
             className="flex-1 h-2"
-            indicatorClassName={getProgressColor(score.overallScore)}
+            indicatorClassName={getProgressColor(displayValues.overallScore)}
           />
         </Box>
       </Box>
@@ -169,28 +124,28 @@ export const FinancialHealthScore = ({
         <Box className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <MetricCard
             title={t("debt_to_income")}
-            value={safeDisplay(score.metrics.debtToIncomeRatio)}
+            value={displayValues.debtToIncomeRatio}
             format={formatDTIRatio}
             tooltip={t("tooltips.debt_to_income")}
             showTooltip={showTooltips}
           />
           <MetricCard
             title={t("emergency_fund")}
-            value={safeDisplay(score.metrics.emergencyFundCoverage)}
+            value={displayValues.emergencyFundCoverage}
             format={formatPercent}
             tooltip={t("tooltips.emergency_fund")}
             showTooltip={showTooltips}
           />
           <MetricCard
             title={t("housing_cost")}
-            value={safeDisplay(score.metrics.housingCostRatio)}
+            value={displayValues.housingCostRatio}
             format={formatPercent}
             tooltip={t("tooltips.housing_cost")}
             showTooltip={showTooltips}
           />
           <MetricCard
             title={t("discretionary_income")}
-            value={safeDisplay(score.metrics.discretionaryIncomeRatio)}
+            value={displayValues.discretionaryIncomeRatio}
             format={formatPercent}
             tooltip={t("tooltips.discretionary_income")}
             showTooltip={showTooltips}

@@ -4,15 +4,8 @@ import { TrendingUp } from "lucide-react";
 import React from "react";
 import { useTranslations } from "next-intl";
 import { ChartContainer, ChartLegend } from "@/components/ui/chart-container";
+import { formatCurrencyNoDecimals } from "@/lib/formatting";
 
-const formatCurrencyNoDecimals = (amount: number): string => {
-  return new Intl.NumberFormat("sv-SE", {
-    style: "currency",
-    currency: "SEK",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-};
 import {
   BarChart,
   Bar,

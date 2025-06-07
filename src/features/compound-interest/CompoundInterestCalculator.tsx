@@ -22,21 +22,12 @@ import {
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-const formatCurrencyNoDecimals = (amount: number): string => {
-  const formatted = new Intl.NumberFormat("sv-SE", {
-    style: "currency",
-    currency: "SEK",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-  // Replace regular space with non-breaking space before "kr" to prevent line breaks
-  return formatted.replace(/\s+kr$/, "\u00A0kr");
-};
 import {
   calculateCompoundInterest,
   calculateFinalValues,
   type CompoundInterestInputs,
 } from "@/lib/compound-interest";
+import { CurrencyDisplay } from "@/components/ui/currency-display";
 import { CompoundInterestChart } from "@/features/charts/CompoundInterestChart";
 import { motion } from "framer-motion";
 
@@ -698,9 +689,13 @@ export const CompoundInterestCalculator = () => {
                 <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.theoretical_total_value")}
                 </Text>
-                <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block">
-                  {formatCurrencyNoDecimals(finalValues.theoreticalTotalValue)}
-                </Text>
+                <CurrencyDisplay
+                  amount={finalValues.theoreticalTotalValue}
+                  variant="neutral"
+                  size="lg"
+                  showDecimals={false}
+                  className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block"
+                />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
@@ -721,9 +716,13 @@ export const CompoundInterestCalculator = () => {
                 <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.total_value_after_withdrawals")}
                 </Text>
-                <Text className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block">
-                  {formatCurrencyNoDecimals(finalValues.totalValue)}
-                </Text>
+                <CurrencyDisplay
+                  amount={finalValues.totalValue}
+                  variant="neutral"
+                  size="lg"
+                  showDecimals={false}
+                  className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block"
+                />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
@@ -745,9 +744,13 @@ export const CompoundInterestCalculator = () => {
                 <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.start_sum")}
                 </Text>
-                <Text className="text-lg lg:text-xl font-semibold text-blue-400 leading-relaxed break-words whitespace-nowrap block">
-                  {formatCurrencyNoDecimals(finalValues.startSum)}
-                </Text>
+                <CurrencyDisplay
+                  amount={finalValues.startSum}
+                  variant="neutral"
+                  size="lg"
+                  showDecimals={false}
+                  className="text-lg lg:text-xl font-semibold text-blue-400 leading-relaxed break-words whitespace-nowrap block"
+                />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
@@ -769,9 +772,13 @@ export const CompoundInterestCalculator = () => {
                 <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.total_savings")}
                 </Text>
-                <Text className="text-lg lg:text-xl font-semibold text-green-400 leading-relaxed break-words whitespace-nowrap block">
-                  {formatCurrencyNoDecimals(finalValues.totalSavings)}
-                </Text>
+                <CurrencyDisplay
+                  amount={finalValues.totalSavings}
+                  variant="neutral"
+                  size="lg"
+                  showDecimals={false}
+                  className="text-lg lg:text-xl font-semibold text-green-400 leading-relaxed break-words whitespace-nowrap block"
+                />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
@@ -793,9 +800,13 @@ export const CompoundInterestCalculator = () => {
                 <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                   {t("results.compound_returns")}
                 </Text>
-                <Text className="text-lg lg:text-xl font-semibold text-purple-400 leading-relaxed break-words whitespace-nowrap block">
-                  {formatCurrencyNoDecimals(finalValues.totalReturns)}
-                </Text>
+                <CurrencyDisplay
+                  amount={finalValues.totalReturns}
+                  variant="neutral"
+                  size="lg"
+                  showDecimals={false}
+                  className="text-lg lg:text-xl font-semibold text-purple-400 leading-relaxed break-words whitespace-nowrap block"
+                />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                 <div
@@ -819,9 +830,13 @@ export const CompoundInterestCalculator = () => {
                   <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
                     {t("results.total_withdrawn")}
                   </Text>
-                  <Text className="text-lg lg:text-xl font-semibold text-red-400 leading-relaxed break-words whitespace-nowrap block">
-                    {formatCurrencyNoDecimals(finalValues.totalWithdrawn)}
-                  </Text>
+                  <CurrencyDisplay
+                    amount={finalValues.totalWithdrawn}
+                    variant="neutral"
+                    size="lg"
+                    showDecimals={false}
+                    className="text-lg lg:text-xl font-semibold text-red-400 leading-relaxed break-words whitespace-nowrap block"
+                  />
                 </div>
                 <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
                   <div
