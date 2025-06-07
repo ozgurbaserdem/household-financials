@@ -4,7 +4,7 @@ import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { Progress } from "@/components/ui/progress";
 import type { FinancialHealthScore as FinancialHealthScoreType } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/general";
 import {
   Tooltip,
   TooltipTrigger,

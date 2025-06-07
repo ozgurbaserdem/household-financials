@@ -20,7 +20,7 @@ import {
 import { useMemo } from "react";
 import type { CalculatorState } from "@/lib/types";
 import { CurrencyDisplay } from "@/components/ui/currency-display";
-import { useMediaQuery } from "@/lib/useMediaQuery";
+import { useMediaQuery } from "@/lib/hooks/use-media-query";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Box } from "@/components/ui/box";

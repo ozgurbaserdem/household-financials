@@ -21,7 +21,7 @@ import {
   getStepParam,
   getStepName,
   getStepIndexFromName,
-} from "@/utils/navigation";
+} from "@/lib/utils/navigation";
 import { useAppSelector } from "@/store/hooks";
 import {
   getMaxAllowedStep,

@@ -7,7 +7,7 @@ import {
 import { CardContent } from "@/components/ui/card";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/general";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 

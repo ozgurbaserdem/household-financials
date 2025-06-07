@@ -41,7 +41,7 @@ import { CurrencyDisplay } from "@/components/ui/currency-display";
 import { expenseCategories } from "@/data/expenseCategories";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/general";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { hasValidLoan } from "@/lib/types";

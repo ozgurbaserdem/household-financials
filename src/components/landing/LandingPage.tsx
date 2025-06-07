@@ -30,7 +30,7 @@ import {
   Wallet,
   TrendingUp,
 } from "lucide-react";
-import { getStepParam } from "@/utils/navigation";
+import { getStepParam } from "@/lib/utils/navigation";
 import { CalculatorPreviews } from "./CalculatorPreviews";
 import { XIcon } from "@/components/ui/x-icon";
 

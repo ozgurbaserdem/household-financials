@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Box } from "./box";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/general";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const cardVariants = cva(

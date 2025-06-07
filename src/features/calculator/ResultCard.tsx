@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/general";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { AnimatedScramble } from "@/components/ui/animated-scramble";

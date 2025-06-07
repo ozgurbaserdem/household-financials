@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Box } from "./box";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/general";
 import { motion } from "framer-motion";
 
 interface ModernCardProps extends React.HTMLAttributes<HTMLDivElement> {
