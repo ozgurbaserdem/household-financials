@@ -1,12 +1,12 @@
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
-import { Button } from "@/components/ui/button";
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/ui/Dialog";
 import { useState } from "react";
 import HushallskalkylContent from "@/features/hushallskalkyl/HushallskalkylContent";
 

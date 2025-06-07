@@ -1,5 +1,5 @@
 import React from "react";
-import { Main } from "@/components/ui/main";
+import { Main } from "@/components/ui/Main";
 import { WizardClient } from "@/components/WizardClient";
 import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";

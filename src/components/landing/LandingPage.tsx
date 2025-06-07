@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import { Box } from "@/components/ui/box";
-import { Button } from "@/components/ui/button";
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardIcon,
-} from "@/components/ui/card";
+} from "@/components/ui/Card";
 import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { getStepParam } from "@/lib/utils/navigation";
 import { CalculatorPreviews } from "./CalculatorPreviews";
-import { XIcon } from "@/components/ui/x-icon";
+import { XIcon } from "@/components/ui/XIcon";
 
 const containerVariants = {
   hidden: { opacity: 0 },

@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { useWizard } from "../WizardLayout";
 import { useAppSelector } from "@/store/hooks";
-import { Box } from "@/components/ui/box";
-import { Button } from "@/components/ui/button";
-import { Text } from "@/components/ui/text";
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
+import { Text } from "@/components/ui/Text";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardIcon,
-} from "@/components/ui/modern-card";
-import { CardContent } from "@/components/ui/card";
+} from "@/components/ui/ModernCard";
+import { CardContent } from "@/components/ui/Card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@/components/ui/Accordion";
 import {
   BadgeDollarSign,
   HandCoins,
@@ -37,7 +37,7 @@ import {
 } from "lucide-react";
 import { getNetIncome } from "@/lib/calculations";
 import { formatPercentage, formatCurrencyNoDecimals } from "@/lib/formatting";
-import { CurrencyDisplay } from "@/components/ui/currency-display";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import { expenseCategories } from "@/data/expenseCategories";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";

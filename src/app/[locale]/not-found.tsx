@@ -2,7 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
+import { Box } from "@/components/ui/Box";
 
 const NotFound = () => {
   const t = useTranslations();

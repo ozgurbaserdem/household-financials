@@ -3,10 +3,10 @@ import {
   CardHeader,
   CardTitle,
   CardIcon,
-} from "@/components/ui/modern-card";
-import { CardContent } from "@/components/ui/card";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
+} from "@/components/ui/ModernCard";
+import { CardContent } from "@/components/ui/Card";
+import { Box } from "@/components/ui/Box";
+import { Text } from "@/components/ui/Text";
 import { cn } from "@/lib/utils/general";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";

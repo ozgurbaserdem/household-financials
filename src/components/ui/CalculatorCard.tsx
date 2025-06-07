@@ -1,4 +1,4 @@
-import { Box } from "@/components/ui/box";
+import { Box } from "@/components/ui/Box";
 
 interface CalculatorCardProps {
   title: string;

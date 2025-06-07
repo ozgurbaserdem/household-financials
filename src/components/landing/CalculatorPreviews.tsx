@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
-import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Box } from "@/components/ui/Box";
+import { Card } from "@/components/ui/Card";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export const CalculatorPreviews = () => {

@@ -495,7 +495,7 @@ describe("ResultsStep", () => {
     renderWithProviders(<ResultsStep />);
 
     // Check for formatted currency display - the test should find the mocked CurrencyDisplay output
-    expect(screen.getByText("3,000 kr")).toBeInTheDocument();
+    expect(screen.getByText("3 000 kr")).toBeInTheDocument();
   });
 
   it("should show potential wealth badge for English", () => {

@@ -8,11 +8,11 @@ import {
   CardHeader,
   CardTitle,
   CardIcon,
-} from "@/components/ui/modern-card";
-import { CardContent } from "@/components/ui/card";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui/ModernCard";
+import { CardContent } from "@/components/ui/Card";
+import { Box } from "@/components/ui/Box";
+import { Text } from "@/components/ui/Text";
+import { Label } from "@/components/ui/Label";
 import {
   Calculator,
   TrendingUp,
@@ -20,14 +20,14 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/Switch";
+import { Button } from "@/components/ui/Button";
 import {
   calculateCompoundInterest,
   calculateFinalValues,
   type CompoundInterestInputs,
 } from "@/lib/compound-interest";
-import { CurrencyDisplay } from "@/components/ui/currency-display";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import { CompoundInterestChart } from "@/features/charts/CompoundInterestChart";
 import { motion } from "framer-motion";
 

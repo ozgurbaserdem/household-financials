@@ -1,5 +1,5 @@
-import { Main } from "@/components/ui/main";
-import { Box } from "@/components/ui/box";
+import { Main } from "@/components/ui/Main";
+import { Box } from "@/components/ui/Box";
 import HushallskalkylContent from "@/features/hushallskalkyl/HushallskalkylContent";
 import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";

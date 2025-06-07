@@ -7,7 +7,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import calculatorReducer from "@/store/slices/calculatorSlice";
 import { ReactNode } from "react";
 import { useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
+import { Form } from "@/components/ui/Form";
 
 // Types for motion components
 interface MotionProps {

@@ -10,8 +10,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { ProgressStepper } from "./ProgressStepper";
-import { Box } from "@/components/ui/box";
-import { Button } from "@/components/ui/button";
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/navigation";
@@ -31,7 +31,7 @@ import {
 } from "@/lib/validation/stepValidation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { Form, FormMessage } from "@/components/ui/form";
+import { Form, FormMessage } from "@/components/ui/Form";
 
 const WizardContext = createContext<WizardContextProps | undefined>(undefined);
 

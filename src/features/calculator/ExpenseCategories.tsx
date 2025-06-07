@@ -5,10 +5,10 @@ import {
   CardHeader,
   CardTitle,
   CardIcon,
-} from "@/components/ui/modern-card";
-import { CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
+} from "@/components/ui/ModernCard";
+import { CardContent } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Switch } from "@/components/ui/Switch";
 import { expenseCategories } from "@/data/expenseCategories";
 import type { ExpensesByCategory } from "@/lib/types";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
@@ -36,12 +36,12 @@ import {
   Minus,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
+import { Box } from "@/components/ui/Box";
+import { Text } from "@/components/ui/Text";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { CurrencyDisplay } from "@/components/ui/currency-display";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory;

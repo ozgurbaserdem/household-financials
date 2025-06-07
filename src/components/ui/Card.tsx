@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Box } from "./box";
+import { Box } from "./Box";
 import { cn } from "@/lib/utils/general";
 import { cva, type VariantProps } from "class-variance-authority";
 

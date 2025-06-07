@@ -8,27 +8,27 @@ import {
   CardHeader,
   CardTitle,
   CardIcon,
-} from "@/components/ui/modern-card";
-import { CardContent } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
+} from "@/components/ui/ModernCard";
+import { CardContent } from "@/components/ui/Card";
+import { Form } from "@/components/ui/Form";
 import { HandCoins, Percent, Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
-import { FormMessage as BaseFormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Box } from "@/components/ui/Box";
+import { Text } from "@/components/ui/Text";
+import { FormMessage as BaseFormMessage } from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 import { motion } from "framer-motion";
 import {
   FormField,
   FormItem,
   FormControl,
   FormLabel,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/Form";
+import { Button } from "@/components/ui/Button";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { CurrencyDisplay } from "@/components/ui/currency-display";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 
 const formSchema = z
   .object({

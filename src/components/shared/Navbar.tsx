@@ -16,9 +16,9 @@ import {
 import { Menu, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
-import { Button } from "@/components/ui/button";
+import { Box } from "@/components/ui/Box";
+import { Text } from "@/components/ui/Text";
+import { Button } from "@/components/ui/Button";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import { Logo } from "./Logo";
 

@@ -8,36 +8,36 @@ import {
   CardHeader,
   CardTitle,
   CardIcon,
-} from "@/components/ui/modern-card";
-import { CardContent } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
+} from "@/components/ui/ModernCard";
+import { CardContent } from "@/components/ui/Card";
+import { Form } from "@/components/ui/Form";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@/components/ui/Accordion";
 import { TrendingUp, Wallet, Search } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
+import { Box } from "@/components/ui/Box";
 import { IncomeInputField } from "./IncomeInputField";
 import { NumberOfAdultsRadioGroup } from "./NumberOfAdultsRadioGroup";
 import { motion, AnimatePresence } from "framer-motion";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/Label";
+import { Input } from "@/components/ui/Input";
+import { Checkbox } from "@/components/ui/Checkbox";
 import {
   FormField,
   FormItem,
   FormLabel,
   FormControl,
-} from "@/components/ui/form";
+} from "@/components/ui/Form";
 import kommunalskattData from "@/data/kommunalskatt_2025.json";
 import type { KommunData } from "@/lib/types";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { CurrencyDisplay } from "@/components/ui/currency-display";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 
 const formSchema = z.object({
   income1: z.number().min(0),

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Box } from "@/components/ui/box";
+import { Box } from "@/components/ui/Box";
 import { WizardLayout } from "@/features/wizard/WizardLayout";
 import { IncomeStep } from "@/features/wizard/steps/IncomeStep";
 import { LoansStep } from "@/features/wizard/steps/LoansStep";

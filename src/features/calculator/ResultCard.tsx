@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/general";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
-import { AnimatedScramble } from "@/components/ui/animated-scramble";
+import { Box } from "@/components/ui/Box";
+import { Text } from "@/components/ui/Text";
+import { AnimatedScramble } from "@/components/ui/AnimatedScramble";
 import type { CalculationResult } from "@/lib/types";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from "@/components/ui/tooltip";
+} from "@/components/ui/Tooltip";
 import { Info, TrendingUp, TrendingDown } from "lucide-react";
 import { calculateFinancialHealthScoreForResult } from "@/lib/calculations";
 import { FinancialHealthScore } from "./FinancialHealthScore";

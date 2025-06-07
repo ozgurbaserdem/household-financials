@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Stepper } from "@/components/ui/step-indicator";
+import { Stepper } from "@/components/ui/StepIndicator";
 import { useAppSelector } from "@/store/hooks";
 import { getMaxAllowedStep } from "@/lib/validation/stepValidation";
 

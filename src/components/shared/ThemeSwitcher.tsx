@@ -1,7 +1,7 @@
 "use client";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 

@@ -3,7 +3,7 @@
 import { TrendingUp } from "lucide-react";
 import React from "react";
 import { useTranslations } from "next-intl";
-import { ChartContainer, ChartLegend } from "@/components/ui/chart-container";
+import { ChartContainer, ChartLegend } from "@/components/ui/ChartContainer";
 import { formatCurrencyNoDecimals } from "@/lib/formatting";
 
 import {

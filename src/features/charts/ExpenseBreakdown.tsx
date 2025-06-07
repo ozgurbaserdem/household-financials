@@ -3,15 +3,15 @@
 import { PieChart as PieChartIcon, TrendingDown } from "lucide-react";
 import React from "react";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
+import { Box } from "@/components/ui/Box";
+import { Text } from "@/components/ui/Text";
 import { formatCurrencyNoDecimals } from "@/lib/formatting";
 import { expenseCategories } from "@/data/expenseCategories";
 import type { ExpensesByCategory, ChartDataPoint } from "@/lib/types";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { ChartContainer } from "@/components/ui/chart-container";
-import { FinancialCard } from "@/components/ui/financial-card";
+import { ChartContainer } from "@/components/ui/ChartContainer";
+import { FinancialCard } from "@/components/ui/FinancialCard";
 
 interface ExpenseBreakdownProps {
   expenses: ExpensesByCategory;

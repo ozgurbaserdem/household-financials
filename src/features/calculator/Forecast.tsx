@@ -6,8 +6,8 @@ import {
   CardHeader,
   CardTitle,
   CardIcon,
-} from "@/components/ui/modern-card";
-import { CardContent } from "@/components/ui/card";
+} from "@/components/ui/ModernCard";
+import { CardContent } from "@/components/ui/Card";
 import { HandCoins, TrendingUp } from "lucide-react";
 import {
   XAxis,
@@ -19,11 +19,11 @@ import {
 } from "recharts";
 import { useMemo } from "react";
 import type { CalculatorState } from "@/lib/types";
-import { CurrencyDisplay } from "@/components/ui/currency-display";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import { useMediaQuery } from "@/lib/hooks/use-media-query";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import { Box } from "@/components/ui/box";
+import { Box } from "@/components/ui/Box";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import {
   calculateForecast,

@@ -4,8 +4,8 @@ import React from "react";
 import { Calculator } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { motion } from "framer-motion";
-import { Box } from "@/components/ui/box";
-import { BudgetkollenLogo } from "../ui/BudgetKollen.logo";
+import { Box } from "@/components/ui/Box";
+import { BudgetkollenLogo } from "../ui/BudgetKollenLogo";
 
 interface LogoProps {
   onLogoClick?: () => void;

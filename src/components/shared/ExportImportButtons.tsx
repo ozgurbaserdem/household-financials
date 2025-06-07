@@ -4,10 +4,10 @@ import React, { useRef, useState } from "react";
 import { exportToCsv } from "@/lib/export-to-csv";
 import { importFromCsv } from "@/lib/import-from-csv";
 import type { CalculatorState } from "@/lib/types";
-import { Button } from "@/components/ui/button";
-import { ValidationMessage } from "@/components/ui/validation-message";
+import { Button } from "@/components/ui/Button";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
+import { Box } from "@/components/ui/Box";
 
 interface ExportImportButtonsProps {
   state: CalculatorState;

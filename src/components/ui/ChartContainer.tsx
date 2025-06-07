@@ -1,7 +1,7 @@
 import { ResponsiveContainer } from "recharts";
-import { FinancialCard } from "./financial-card";
-import { Box } from "./box";
-import { Text } from "./text";
+import { FinancialCard } from "./FinancialCard";
+import { Box } from "./Box";
+import { Text } from "./Text";
 import type { LucideIcon } from "lucide-react";
 import type { ReactElement } from "react";
 

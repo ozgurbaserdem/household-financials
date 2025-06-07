@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils/general";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
-import { Box } from "./box";
+import { Box } from "./Box";
 
 const stepIndicatorVariants = cva(
   "relative rounded-full flex items-center justify-center font-bold border-2 transition-all duration-300",

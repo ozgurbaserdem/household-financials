@@ -1,18 +1,18 @@
 import { HeartPulse, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
-import { Progress } from "@/components/ui/progress";
+import { Box } from "@/components/ui/Box";
+import { Text } from "@/components/ui/Text";
+import { Progress } from "@/components/ui/Progress";
 import type { FinancialHealthScore as FinancialHealthScoreType } from "@/lib/types";
 import { cn } from "@/lib/utils/general";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from "@/components/ui/tooltip";
+} from "@/components/ui/Tooltip";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { useState } from "react";
-import { AnimatedScramble } from "@/components/ui/animated-scramble";
+import { AnimatedScramble } from "@/components/ui/AnimatedScramble";
 import {
   getScoreColor,
   getProgressColor,

@@ -5,8 +5,8 @@ import {
   CardHeader,
   CardTitle,
   CardIcon,
-} from "@/components/ui/modern-card";
-import { CardContent } from "@/components/ui/card";
+} from "@/components/ui/ModernCard";
+import { CardContent } from "@/components/ui/Card";
 import {
   formatCurrency,
   formatPercentage,
@@ -22,13 +22,13 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import { Box } from "@/components/ui/box";
+import { Box } from "@/components/ui/Box";
 import { motion } from "framer-motion";
 import { ResultCard } from "./ResultCard";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { FormLabel } from "@/components/ui/form";
-import { Text } from "@/components/ui/text";
+import { FormLabel } from "@/components/ui/Form";
+import { Text } from "@/components/ui/Text";
 import { useAppDispatch } from "@/store/hooks";
 import { updateLoanParameters } from "@/store/slices/calculatorSlice";
 

@@ -4,7 +4,7 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils/general";
-import { Text } from "./text";
+import { Text } from "./Text";
 
 interface ValidationMessageProps {
   message?: string;

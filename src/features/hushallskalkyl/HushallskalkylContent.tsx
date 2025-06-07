@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/box";
-import { Button } from "@/components/ui/button";
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";

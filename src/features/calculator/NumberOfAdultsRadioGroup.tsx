@@ -1,5 +1,5 @@
-import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { FormControl, FormItem, FormLabel } from "@/components/ui/Form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 import { useTranslations } from "next-intl";
 import React from "react";
 

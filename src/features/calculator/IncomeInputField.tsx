@@ -1,4 +1,4 @@
-import { CurrencyInput } from "@/components/ui/currency-input";
+import { CurrencyInput } from "@/components/ui/CurrencyInput";
 import type { UseFormReturn } from "react-hook-form";
 import type { IncomeFormValues } from "./Income";
 

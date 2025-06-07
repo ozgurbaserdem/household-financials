@@ -1,9 +1,9 @@
 "use client";
 import { useRouter, usePathname } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useLocale } from "next-intl";
-import { Box } from "@/components/ui/box";
-import { Text } from "@/components/ui/text";
+import { Box } from "@/components/ui/Box";
+import { Text } from "@/components/ui/Text";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
