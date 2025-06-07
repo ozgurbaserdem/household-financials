@@ -214,7 +214,7 @@ export const Income = ({
       <CardContent>
         <Form {...form}>
           <form data-testid="income-form">
-            <Box className="space-y-6">
+            <Box className="space-y-4">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}

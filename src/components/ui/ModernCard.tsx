@@ -127,7 +127,7 @@ const CardIcon = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
       <Box
         ref={ref}
         className={cn(
-          "p-3 rounded-xl bg-gradient-to-br from-blue-600/20 to-purple-600/20",
+          "p-2 rounded-xl bg-gradient-to-br from-blue-600/20 to-purple-600/20",
           "border border-blue-500/20 backdrop-blur-xl",
           className
         )}

@@ -101,6 +101,8 @@ declare const messages: {
       simple: "Simple view";
       simple_description: "Enter your total monthly expenses";
     };
+    simple_helper: "Enter your monthly spending";
+    monthly_expenses: "Monthly expenses";
   };
   expense_breakdown: {
     title: "Expense breakdown";

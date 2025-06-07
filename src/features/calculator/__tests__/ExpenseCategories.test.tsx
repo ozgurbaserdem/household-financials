@@ -248,9 +248,9 @@ describe("ExpenseCategories", () => {
     );
 
     // Should show the simple view inputs (both mobile and desktop)
-    expect(screen.getAllByLabelText("Total Expenses").length).toBeGreaterThan(
-      0
-    );
+    expect(
+      screen.getAllByLabelText("Enter your total monthly expenses").length
+    ).toBeGreaterThan(0);
     expect(screen.getAllByDisplayValue("10000").length).toBeGreaterThan(0);
     expect(
       screen.getAllByText("Enter your total monthly expenses").length
@@ -320,7 +320,9 @@ describe("ExpenseCategories", () => {
       </TestWrapper>
     );
 
-    const totalInputs = screen.getAllByLabelText("Total Expenses");
+    const totalInputs = screen.getAllByLabelText(
+      "Enter your total monthly expenses"
+    );
     fireEvent.change(totalInputs[0], { target: { value: "8000" } });
 
     // Should update the Redux state, not call the onChange prop

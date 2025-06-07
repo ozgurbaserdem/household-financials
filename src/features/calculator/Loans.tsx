@@ -210,7 +210,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
 
       <CardContent className="pb-6">
         <Form {...form}>
-          <form data-testid="loan-form" className="space-y-6">
+          <form data-testid="loan-form" className="space-y-4">
             {/* Has Loan Toggle */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

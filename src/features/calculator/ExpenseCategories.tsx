@@ -34,6 +34,7 @@ import {
   DollarSign,
   Menu,
   Minus,
+  Sigma,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/Box";
@@ -135,12 +136,7 @@ export const ExpenseCategories = ({
             </motion.p>
           </Box>
         </Box>
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-          className="flex items-center gap-4 mt-4 sm:mt-0 w-full sm:w-auto justify-center sm:justify-end"
-        >
+        <div className="flex items-center gap-4 mt-4 sm:mt-0 w-full sm:w-auto justify-center sm:justify-end">
           <Box className="flex items-center gap-2">
             <Text className="text-sm text-gray-300">
               {t("view_toggle.detailed")}
@@ -167,7 +163,7 @@ export const ExpenseCategories = ({
               <Menu className="w-8 h-8 text-red-400" />
             )}
           </motion.div>
-        </motion.div>
+        </div>
       </CardHeader>
 
       <CardContent className="pb-6">
@@ -185,78 +181,76 @@ export const ExpenseCategories = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className="glass rounded-xl border-0 overflow-hidden p-6"
+                className="glass rounded-xl border-0 overflow-hidden p-4"
               >
-                <Box className="flex flex-col gap-4">
-                  {/* Mobile layout - stacked */}
-                  <Box className="flex flex-col gap-4 sm:hidden">
-                    <Box className="flex items-center gap-3">
-                      <Box className="p-2 rounded-lg bg-gradient-to-br from-red-600/20 to-pink-600/20">
-                        <TrendingDown className="w-5 h-5 text-red-400" />
-                      </Box>
-                      <label
-                        htmlFor="total-expenses-input"
-                        className="text-lg font-medium text-gray-200 cursor-pointer"
-                      >
-                        {t("total_expenses")}
-                      </label>
-                    </Box>
-                    <Text className="text-sm text-gray-300">
-                      {t("view_toggle.simple_description")}
-                    </Text>
-                    <Input
-                      id="total-expenses-input"
-                      type="number"
-                      min={0}
-                      className="w-full modern-input text-right text-xl"
-                      value={
-                        totalExpenses && totalExpenses !== 0
-                          ? totalExpenses
-                          : ""
-                      }
-                      placeholder="0"
-                      onChange={(e) => handleTotalExpenseChange(e.target.value)}
-                      onFocus={(e) => e.target.select()}
-                      aria-label={t("total_expenses")}
-                    />
-                  </Box>
-
-                  {/* Desktop layout - inline */}
-                  <Box className="hidden sm:flex flex-col gap-3">
-                    <Box className="flex items-center justify-between gap-4">
-                      <Box className="flex items-center gap-3 flex-1">
-                        <Box className="p-2 rounded-lg bg-gradient-to-br from-red-600/20 to-pink-600/20">
-                          <TrendingDown className="w-5 h-5 text-red-400" />
-                        </Box>
-                        <label
-                          htmlFor="total-expenses-input-desktop"
-                          className="text-lg font-medium text-gray-200 cursor-pointer"
-                        >
-                          {t("total_expenses")}
-                        </label>
-                      </Box>
-                      <Input
-                        id="total-expenses-input-desktop"
-                        type="number"
-                        min={0}
-                        className="w-48 modern-input text-right text-xl"
-                        value={
-                          totalExpenses && totalExpenses !== 0
-                            ? totalExpenses
-                            : ""
-                        }
-                        placeholder="0"
-                        onChange={(e) =>
-                          handleTotalExpenseChange(e.target.value)
-                        }
-                        onFocus={(e) => e.target.select()}
-                        aria-label={t("total_expenses")}
+                {/* Mobile layout - stacked */}
+                <Box className="flex flex-col gap-3 sm:hidden">
+                  <Box className="flex items-center gap-3">
+                    <Box
+                      className={`
+                      p-2 rounded-lg bg-gradient-to-br transition-colors duration-300
+                      ${totalExpenses > 0 ? "from-orange-600/20 to-red-600/20" : "from-gray-600/20 to-gray-700/20"}
+                    `}
+                    >
+                      <Sigma
+                        className={`w-4 h-4 transition-colors duration-300`}
                       />
                     </Box>
-                    <Text className="text-sm text-gray-300">
+                    <label
+                      htmlFor="total-expenses-input"
+                      className="text-sm font-medium text-gray-200 cursor-pointer"
+                    >
                       {t("view_toggle.simple_description")}
-                    </Text>
+                    </label>
                   </Box>
+                  <Input
+                    id="total-expenses-input"
+                    type="number"
+                    min={0}
+                    className="w-full modern-input text-right"
+                    value={
+                      totalExpenses && totalExpenses !== 0 ? totalExpenses : ""
+                    }
+                    placeholder="0"
+                    onChange={(e) => handleTotalExpenseChange(e.target.value)}
+                    onFocus={(e) => e.target.select()}
+                    aria-label={t("view_toggle.simple_description")}
+                  />
+                </Box>
+
+                {/* Desktop layout - inline */}
+                <Box className="hidden sm:flex items-center justify-between gap-4">
+                  <Box className="flex items-center gap-3 flex-1">
+                    <Box
+                      className={`
+                      p-2 rounded-lg bg-gradient-to-br transition-colors duration-300
+                      ${totalExpenses > 0 ? "from-orange-600/20 to-red-600/20" : "from-gray-600/20 to-gray-700/20"}
+                    `}
+                    >
+                      <Sigma
+                        className={`w-4 h-4 transition-colors duration-300`}
+                      />
+                    </Box>
+                    <label
+                      htmlFor="total-expenses-input-desktop"
+                      className="text-sm font-medium text-gray-200 cursor-pointer"
+                    >
+                      {t("view_toggle.simple_description")}
+                    </label>
+                  </Box>
+                  <Input
+                    id="total-expenses-input-desktop"
+                    type="number"
+                    min={0}
+                    className="w-40 modern-input text-right"
+                    value={
+                      totalExpenses && totalExpenses !== 0 ? totalExpenses : ""
+                    }
+                    placeholder="0"
+                    onChange={(e) => handleTotalExpenseChange(e.target.value)}
+                    onFocus={(e) => e.target.select()}
+                    aria-label={t("view_toggle.simple_description")}
+                  />
                 </Box>
               </motion.div>
             </motion.div>
@@ -408,14 +402,14 @@ export const ExpenseCategories = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="mt-6 p-6 glass rounded-xl"
+          className="mt-4 p-4 glass rounded-xl"
         >
           <Box className="flex items-center justify-between">
             <Box className="flex items-center gap-3">
               <Box className="p-2 rounded-lg bg-gradient-to-br from-red-600/20 to-pink-600/20">
                 <TrendingDown className="w-5 h-5 text-red-400" />
               </Box>
-              <Text className="text-lg font-medium text-gray-200">
+              <Text className="text-md font-medium text-gray-200">
                 {t("total_expenses")}
               </Text>
             </Box>
@@ -424,7 +418,7 @@ export const ExpenseCategories = ({
               variant={getCurrentTotal() > 0 ? "negative" : "neutral"}
               size="xl"
               showDecimals={false}
-              className="text-2xl font-bold"
+              className="text-lg font-bold"
               data-testid="grand-total"
             />
           </Box>

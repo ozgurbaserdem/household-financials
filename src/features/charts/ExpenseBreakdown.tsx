@@ -10,7 +10,6 @@ import { expenseCategories } from "@/data/expenseCategories";
 import type { ExpensesByCategory, ChartDataPoint } from "@/lib/types";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { ChartContainer } from "@/components/ui/ChartContainer";
 import { FinancialCard } from "@/components/ui/FinancialCard";
 
 interface ExpenseBreakdownProps {
@@ -33,17 +32,17 @@ interface LabelProps {
   percent: number;
 }
 
-const colors = [
-  "#3b82f6", // blue
-  "#8b5cf6", // purple
-  "#f59e0b", // amber
-  "#ef4444", // red
-  "#10b981", // emerald
-  "#f97316", // orange
-  "#06b6d4", // cyan
-  "#ec4899", // pink
-  "#84cc16", // lime
-  "#6366f1", // indigo
+const chartColors = [
+  "#3b82f6", // blue-500
+  "#8b5cf6", // purple-500
+  "#f59e0b", // amber-500
+  "#ef4444", // red-500
+  "#10b981", // emerald-500
+  "#f97316", // orange-500
+  "#06b6d4", // cyan-500
+  "#ec4899", // pink-500
+  "#84cc16", // lime-500
+  "#6366f1", // indigo-500
 ];
 
 export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
@@ -57,7 +56,7 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
       return {
         name: t(`${category.id}.name`),
         value: categoryTotal,
-        color: colors[idx % colors.length],
+        color: chartColors[idx % chartColors.length],
       };
     })
     .filter((data) => data.value > 0)
@@ -149,13 +148,8 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
     >
       <Box className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Chart */}
-        <ChartContainer
-          title=""
-          icon={PieChartIcon}
-          height={300}
-          animate={false}
-        >
-          <PieChart>
+        <Box className="flex items-center justify-center h-[300px]">
+          <PieChart width={300} height={300}>
             <Pie
               data={chartData}
               cx="50%"
@@ -174,7 +168,7 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
             </Pie>
             <Tooltip content={<CustomTooltip />} />
           </PieChart>
-        </ChartContainer>
+        </Box>
 
         {/* Legend */}
         <Box className="flex flex-col justify-center space-y-2">

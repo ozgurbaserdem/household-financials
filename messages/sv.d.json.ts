@@ -106,6 +106,8 @@ declare const messages: {
       simple: "Enkel vy";
       simple_description: "Ange dina totala månatliga utgifter";
     };
+    simple_helper: "Ange dina månatliga utgifter";
+    monthly_expenses: "Månatliga utgifter";
   };
   expense_breakdown: {
     title: "Utgiftsfördelning";

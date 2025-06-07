@@ -131,9 +131,9 @@ describe("SummaryStep", () => {
       </Provider>
     );
 
-    // Should show "-" for loan payment in quick stats
-    const loanPaymentElements = screen.getAllByText("-");
-    expect(loanPaymentElements.length).toBeGreaterThan(0);
+    // Should show "no_loan" text for loan payment in quick stats
+    const loanPaymentElements = screen.getAllByText("no_loan");
+    expect(loanPaymentElements.length).toBeGreaterThanOrEqual(1);
 
     // Click on the loans section to expand it
     const loansSection = screen.getByText("loansTitle");
@@ -145,9 +145,10 @@ describe("SummaryStep", () => {
     expect(accordionTrigger).toBeTruthy();
     fireEvent.click(accordionTrigger!);
 
-    // Wait for and verify the no loan message
+    // Wait for and verify the no loan message in the expanded section
     await waitFor(() => {
-      expect(screen.getByText("no_loan")).toBeInTheDocument();
+      const noLoanElements = screen.getAllByText("no_loan");
+      expect(noLoanElements.length).toBeGreaterThanOrEqual(2); // One in quick stats, one in expanded section
     });
   });
 

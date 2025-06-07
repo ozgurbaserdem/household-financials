@@ -245,7 +245,7 @@ export const SummaryStep = () => {
                 variant="positive"
                 size="xl"
                 showDecimals={false}
-                className="text-2xl font-bold"
+                className="text-lg font-bold"
               />
               <Text className="text-base text-gray-200 font-medium mt-1">
                 {tSummary("per_month")}
@@ -256,11 +256,13 @@ export const SummaryStep = () => {
               className="p-4 glass rounded-xl border border-orange-500/20 focus-within:ring-2 focus-within:ring-orange-400/50 focus-within:border-orange-400/50"
               tabIndex={0}
               role="group"
-              aria-label={tSummary("aria.loan_payment_card", {
-                amount: hasLoan
-                  ? formatCurrencyNoDecimals(monthlyPayment)
-                  : "-",
-              })}
+              aria-label={
+                hasLoan
+                  ? tSummary("aria.loan_payment_card", {
+                      amount: formatCurrencyNoDecimals(monthlyPayment),
+                    })
+                  : `${tSummary("loan_payment")}: ${tSummary("no_loan")}`
+              }
             >
               <Box className="flex items-center gap-3 mb-2">
                 <HandCoins className="w-5 h-5 text-orange-400" />
@@ -269,19 +271,29 @@ export const SummaryStep = () => {
                 </Text>
               </Box>
               {hasLoan ? (
-                <CurrencyDisplay
-                  amount={monthlyPayment}
-                  variant="neutral"
-                  size="xl"
-                  showDecimals={false}
-                  className="text-2xl font-bold text-orange-400"
-                />
+                <>
+                  <CurrencyDisplay
+                    amount={monthlyPayment}
+                    variant="neutral"
+                    size="xl"
+                    showDecimals={false}
+                    className="text-lg font-bold text-orange-400"
+                  />
+                  <Text className="text-base text-gray-200 font-medium mt-1">
+                    {tSummary("per_month")}
+                  </Text>
+                </>
               ) : (
-                <Text className="text-2xl font-bold text-orange-400">-</Text>
+                <>
+                  <Text className="text-lg font-bold text-gray-400">
+                    {tSummary("no_loan")}
+                  </Text>
+                  <Text className="text-base text-gray-400 font-medium mt-1">
+                    {/* Empty space to maintain layout consistency */}
+                    &nbsp;
+                  </Text>
+                </>
               )}
-              <Text className="text-base text-gray-200 font-medium mt-1">
-                {tSummary("per_month")}
-              </Text>
             </Box>
 
             <Box
@@ -306,7 +318,7 @@ export const SummaryStep = () => {
                 variant="negative"
                 size="xl"
                 showDecimals={false}
-                className="text-2xl font-bold"
+                className="text-lg font-bold"
               />
               <Text className="text-base text-gray-200 font-medium mt-1">
                 {tSummary("per_month")}
@@ -375,7 +387,7 @@ export const SummaryStep = () => {
                       className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
                     >
                       <Box className="flex items-center gap-3">
-                        <Box className="p-1.5 rounded-md bg-gray-800/50">
+                        <Box className="p-2 rounded-md bg-gray-800/50">
                           {row.icon}
                         </Box>
                         <Text className="text-sm text-gray-300">
@@ -460,7 +472,7 @@ export const SummaryStep = () => {
                           className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
                         >
                           <Box className="flex items-center gap-3">
-                            <Box className="p-1.5 rounded-md bg-gray-800/50">
+                            <Box className="p-2 rounded-md bg-gray-800/50">
                               {row.icon}
                             </Box>
                             <Text className="text-sm text-gray-300">
@@ -484,7 +496,7 @@ export const SummaryStep = () => {
                         className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
                       >
                         <Box className="flex items-center gap-3">
-                          <Box className="p-1.5 rounded-md bg-gray-800/50">
+                          <Box className="p-2 rounded-md bg-gray-800/50">
                             <TrendingUp className="w-4 h-4" />
                           </Box>
                           <Text className="text-sm text-gray-300">
@@ -509,7 +521,7 @@ export const SummaryStep = () => {
                         className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
                       >
                         <Box className="flex items-center gap-3">
-                          <Box className="p-1.5 rounded-md bg-gray-800/50">
+                          <Box className="p-2 rounded-md bg-gray-800/50">
                             <Receipt className="w-4 h-4" />
                           </Box>
                           <Text className="text-sm text-gray-300">
@@ -631,7 +643,7 @@ export const SummaryStep = () => {
                       amount={currentExpensesTotal}
                       variant="neutral"
                       showDecimals={false}
-                      className="font-bold text-xl gradient-text"
+                      className="font-bold text-lg text-white"
                     />
                   </Box>
 
@@ -655,7 +667,7 @@ export const SummaryStep = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mt-6 p-4 glass rounded-xl border border-blue-500/20 focus-within:ring-2 focus-within:ring-blue-400/50 focus-within:border-blue-400/50"
+            className="mt-6 p-3 glass rounded-xl border border-blue-500/20 focus-within:ring-2 focus-within:ring-blue-400/50 focus-within:border-blue-400/50"
             tabIndex={0}
             role="group"
             aria-label={
@@ -672,22 +684,22 @@ export const SummaryStep = () => {
                   })
             }
           >
-            <Box className="flex flex-col sm:flex-row items-center gap-4">
+            <Box className="flex items-center gap-3">
               <Box
                 className={cn(
-                  "p-4 rounded-full flex-shrink-0",
+                  "p-2 rounded-lg flex-shrink-0",
                   totalIncome - monthlyPayment - currentExpensesTotal >= 0
                     ? "bg-green-500/10"
                     : "bg-red-500/10"
                 )}
               >
                 {totalIncome - monthlyPayment - currentExpensesTotal >= 0 ? (
-                  <TrendingUp className="w-8 h-8 text-green-400" />
+                  <TrendingUp className="w-5 h-5 text-green-400" />
                 ) : (
-                  <TrendingDown className="w-8 h-8 text-red-400" />
+                  <TrendingDown className="w-5 h-5 text-red-400" />
                 )}
               </Box>
-              <Box className="flex-1 text-center sm:text-left">
+              <Box className="flex-1 text-left">
                 <Text className="text-base text-gray-200 font-medium">
                   {totalIncome - monthlyPayment - currentExpensesTotal >= 0
                     ? tSummary("estimated_monthly_surplus")
@@ -695,25 +707,16 @@ export const SummaryStep = () => {
                 </Text>
               </Box>
               <Box className="flex-shrink-0">
-                <Text
-                  className={cn(
-                    "text-2xl sm:text-3xl font-bold text-center",
+                <CurrencyDisplay
+                  amount={totalIncome - monthlyPayment - currentExpensesTotal}
+                  variant={
                     totalIncome - monthlyPayment - currentExpensesTotal >= 0
-                      ? "text-green-400"
-                      : "text-red-400"
-                  )}
-                >
-                  <CurrencyDisplay
-                    amount={totalIncome - monthlyPayment - currentExpensesTotal}
-                    variant={
-                      totalIncome - monthlyPayment - currentExpensesTotal >= 0
-                        ? "positive"
-                        : "negative"
-                    }
-                    showDecimals={false}
-                    className="inline"
-                  />
-                </Text>
+                      ? "positive"
+                      : "negative"
+                  }
+                  showDecimals={false}
+                  className="text-lg font-semibold"
+                />
               </Box>
             </Box>
           </motion.div>

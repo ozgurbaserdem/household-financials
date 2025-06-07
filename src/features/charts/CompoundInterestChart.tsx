@@ -128,10 +128,18 @@ export const CompoundInterestChart = ({
     (d) => d.withdrawal && d.withdrawal > 0
   )?.year;
 
+  const chartColors = {
+    blue: "#3B82F6", // blue-500
+    emerald: "#10B981", // emerald-500
+    purple: "#8B5CF6", // purple-500
+    red: "#F87171", // red-400
+    redStroke: "#EF4444", // red-500
+  };
+
   const legendItems = [
-    { color: "#3B82F6", label: t("legend.start_sum") },
-    { color: "#10B981", label: t("legend.accumulated_savings") },
-    { color: "#8B5CF6", label: t("legend.compound_returns") },
+    { color: chartColors.blue, label: t("legend.start_sum") },
+    { color: chartColors.emerald, label: t("legend.accumulated_savings") },
+    { color: chartColors.purple, label: t("legend.compound_returns") },
   ];
 
   return (
@@ -186,28 +194,28 @@ export const CompoundInterestChart = ({
         <Bar
           dataKey="chartStartSum"
           stackId="portfolio"
-          fill="#3B82F6"
+          fill={chartColors.blue}
           name={t("legend.start_sum")}
           radius={[0, 0, 0, 0]}
         />
         <Bar
           dataKey="chartSavings"
           stackId="portfolio"
-          fill="#10B981"
+          fill={chartColors.emerald}
           name={t("legend.accumulated_savings")}
           radius={[0, 0, 0, 0]}
         />
         <Bar
           dataKey="chartReturns"
           stackId="portfolio"
-          fill="#8B5CF6"
+          fill={chartColors.purple}
           name={t("legend.compound_returns")}
           radius={[4, 4, 0, 0]}
         />
         {/* Single bar for withdrawal phase - overlays the stacked bars */}
         <Bar
           dataKey="withdrawalPhaseValue"
-          fill="#F87171"
+          fill={chartColors.red}
           name="Portföljvärde"
           radius={[4, 4, 0, 0]}
         />
@@ -216,7 +224,7 @@ export const CompoundInterestChart = ({
         {withdrawalYear && (
           <ReferenceLine
             x={withdrawalYear}
-            stroke="#EF4444"
+            stroke={chartColors.redStroke}
             strokeDasharray="5 5"
             strokeWidth={2}
             label={{ value: "Uttag", position: "top", fill: "#EF4444" }}
