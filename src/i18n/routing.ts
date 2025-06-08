@@ -10,8 +10,8 @@ export const routing = defineRouting({
   // Always show locale in URL
   localePrefix: "as-needed",
 
-  // Enable locale detection
-  localeDetection: true,
+  // Disable automatic locale detection to always show Swedish by default
+  localeDetection: false,
 
   // Now that we're using Vercel (not static export), we can use localized pathnames
   pathnames: {
