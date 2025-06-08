@@ -386,21 +386,23 @@ export const Income = ({
                     value="secondary-income"
                   >
                     <AccordionTrigger
-                      className="glass hover:bg-white/10 border border-gray-600 text-gray-100 
+                      className="bg-gray-800/30 hover:bg-gray-800/50 border border-gray-700/50 text-gray-200 
                                  px-4 py-3 rounded-lg group transition-all duration-300
                                  hover:no-underline [&[data-state=open]]:rounded-b-none"
                       data-testid="extra-incomes-toggle"
                     >
                       <span className="flex items-center justify-between w-full">
-                        <span>{t("add_extra_incomes")}</span>
-                        <span className="text-xs text-gray-400 group-hover:text-gray-300 mr-2">
+                        <span className="text-sm font-medium">
+                          {t("add_extra_incomes")}
+                        </span>
+                        <span className="text-xs text-gray-500 group-hover:text-gray-400 mr-2">
                           {t("optional")}
                         </span>
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="pt-0 pb-0">
                       <Box
-                        className="p-4 glass rounded-b-lg border border-t-0 border-gray-600"
+                        className="p-4 bg-gray-800/20 rounded-b-lg border border-t-0 border-gray-700/50"
                         id="extra-incomes-section"
                       >
                         <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">

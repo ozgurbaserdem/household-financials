@@ -188,9 +188,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                     </div>
                     <Text className="text-gray-400 text-sm mt-4 pl-8">
                       —{" "}
-                      {locale === "sv"
-                        ? "Albert Einstein (påstås)"
-                        : "Albert Einstein (attributed)"}
+                      {locale === "sv" ? "Albert Einstein" : "Albert Einstein"}
                     </Text>
                   </div>
                   <div className="flex justify-center md:justify-start md:order-1">
