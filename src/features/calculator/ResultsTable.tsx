@@ -114,6 +114,10 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
   const [amortizationRate, setAmortizationRate] = useState(
     calculatorState.loanParameters.amortizationRate
   );
+  const [editingField, setEditingField] = useState<
+    "interestRate" | "amortizationRate" | null
+  >(null);
+  const [temporaryValue, setTemporaryValue] = useState<string>("");
 
   // Refs for debounce timeouts (for Redux updates only)
   const interestRateTimeoutReference = useRef<NodeJS.Timeout | null>(null);
@@ -190,6 +194,43 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
       }
     };
   }, []);
+
+  // Handle input field editing
+  const handleEditStart = (field: "interestRate" | "amortizationRate") => {
+    setEditingField(field);
+    const currentValue =
+      field === "interestRate" ? interestRate : amortizationRate;
+    setTemporaryValue(currentValue.toString());
+  };
+
+  const handleEditEnd = (field: "interestRate" | "amortizationRate") => {
+    const numValue = parseFloat(temporaryValue.replace(/[^\d.-]/g, ""));
+    if (!Number.isNaN(numValue)) {
+      if (field === "interestRate" && numValue > 0 && numValue <= 20) {
+        handleInterestRateChange(numValue);
+      } else if (
+        field === "amortizationRate" &&
+        numValue > 0 &&
+        numValue <= 10
+      ) {
+        handleAmortizationRateChange(numValue);
+      }
+    }
+    setEditingField(null);
+    setTemporaryValue("");
+  };
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent,
+    field: "interestRate" | "amortizationRate"
+  ) => {
+    if (e.key === "Enter") {
+      handleEditEnd(field);
+    } else if (e.key === "Escape") {
+      setEditingField(null);
+      setTemporaryValue("");
+    }
+  };
 
   return (
     <Card glass gradient animate={!isMobile} delay={0.3} hover={false}>
@@ -282,11 +323,30 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
                           }}
                         />
                         <div className="flex-shrink-0">
-                          <div className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 w-20 text-center">
-                            <Text className="text-sm font-semibold text-white">
-                              {(interestRate || 3.5).toFixed(2)}%
-                            </Text>
-                          </div>
+                          {editingField === "interestRate" ? (
+                            <input
+                              autoFocus
+                              className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
+                              type="text"
+                              value={temporaryValue}
+                              onBlur={() => handleEditEnd("interestRate")}
+                              onChange={(e) =>
+                                setTemporaryValue(e.target.value)
+                              }
+                              onKeyDown={(e) =>
+                                handleKeyDown(e, "interestRate")
+                              }
+                            />
+                          ) : (
+                            <button
+                              className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
+                              onClick={() => handleEditStart("interestRate")}
+                            >
+                              <Text className="text-sm font-semibold text-white">
+                                {(interestRate || 3.5).toFixed(2)}%
+                              </Text>
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -318,11 +378,32 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
                           }}
                         />
                         <div className="flex-shrink-0">
-                          <div className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 w-20 text-center">
-                            <Text className="text-sm font-semibold text-white">
-                              {(amortizationRate || 2).toFixed(2)}%
-                            </Text>
-                          </div>
+                          {editingField === "amortizationRate" ? (
+                            <input
+                              autoFocus
+                              className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
+                              type="text"
+                              value={temporaryValue}
+                              onBlur={() => handleEditEnd("amortizationRate")}
+                              onChange={(e) =>
+                                setTemporaryValue(e.target.value)
+                              }
+                              onKeyDown={(e) =>
+                                handleKeyDown(e, "amortizationRate")
+                              }
+                            />
+                          ) : (
+                            <button
+                              className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
+                              onClick={() =>
+                                handleEditStart("amortizationRate")
+                              }
+                            >
+                              <Text className="text-sm font-semibold text-white">
+                                {(amortizationRate || 2).toFixed(2)}%
+                              </Text>
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
