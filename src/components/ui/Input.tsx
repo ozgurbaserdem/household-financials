@@ -1,22 +1,30 @@
 "use client";
 
 import * as React from "react";
+
 import { cn } from "@/lib/utils/general";
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     // Defensive: never pass NaN or undefined to value
-    const value =
-      typeof props.value === "number"
-        ? isNaN(props.value)
-          ? ""
-          : props.value
-        : (props.value ?? "");
+    let value: string | number = "";
+    if (typeof props.value === "number") {
+      if (Number.isNaN(props.value)) {
+        value = "";
+      } else {
+        value = props.value;
+      }
+    } else if (Array.isArray(props.value)) {
+      value = props.value.join(",");
+    } else if (typeof props.value === "string") {
+      value = props.value;
+    } else if (props.value == null) {
+      value = "";
+    }
 
     return (
       <input
-        type={type}
-        data-slot="input"
+        ref={ref}
         className={cn(
           // Light mode
           "bg-white border-gray-300 text-gray-900 placeholder-gray-400",
@@ -32,7 +40,8 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
           type === "number" ? "no-spinner" : "",
           className
         )}
-        ref={ref}
+        data-slot="input"
+        type={type}
         {...props}
         value={value}
       />

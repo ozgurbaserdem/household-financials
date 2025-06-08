@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+
 import {
   calculateCompoundInterest,
   calculateFinalValues,
@@ -246,12 +247,13 @@ describe("Compound Interest Calculations - Integration Tests", () => {
 
       const result = calculateCompoundInterest(inputs);
 
-      result.forEach((year) => {
+      result.map((year) => {
         const calculatedReturns =
           year.totalValue - year.startSum - year.accumulatedSavings;
         expect(Math.abs(year.compoundReturns - calculatedReturns)).toBeLessThan(
           0.01
         ); // Allow tiny rounding differences
+        return year;
       });
     });
   });

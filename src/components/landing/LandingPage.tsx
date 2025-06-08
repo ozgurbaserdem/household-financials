@@ -1,18 +1,5 @@
 "use client";
 
-import React from "react";
-import { Box } from "@/components/ui/Box";
-import { Button } from "@/components/ui/Button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardIcon,
-} from "@/components/ui/Card";
-import { motion } from "framer-motion";
-import { useTranslations, useLocale } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
 import {
   FlagIcon as TargetIcon,
   BanknotesIcon as PiggyBankIcon,
@@ -22,6 +9,7 @@ import {
   ChevronDownIcon,
   CalculatorIcon,
 } from "@heroicons/react/24/outline";
+import { motion } from "framer-motion";
 import {
   BarChart3,
   HandCoins,
@@ -30,9 +18,23 @@ import {
   Wallet,
   TrendingUp,
 } from "lucide-react";
-import { getStepParam } from "@/lib/utils/navigation";
-import { CalculatorPreviews } from "./CalculatorPreviews";
+import { useTranslations, useLocale } from "next-intl";
+import React from "react";
+
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardIcon,
+} from "@/components/ui/Card";
 import { XIcon } from "@/components/ui/XIcon";
+import { useRouter } from "@/i18n/navigation";
+import { getStepParameter } from "@/lib/utils/navigation";
+
+import { CalculatorPreviews } from "./CalculatorPreviews";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -66,8 +68,8 @@ const StepIcon = ({ step, Icon }: StepIconProps) => {
       <div className="relative">
         <motion.div
           className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-500/20 backdrop-blur-xl flex items-center justify-center relative"
-          whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300 }}
+          whileHover={{ scale: 1.05 }}
         >
           {/* Animated gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
@@ -104,7 +106,7 @@ export const LandingPage = () => {
   }, []);
 
   const handleStartAnalysis = () => {
-    const param = getStepParam(locale);
+    const param = getStepParameter(locale);
     const stepValue = locale === "sv" ? "inkomst" : "income";
     router.push({
       pathname: "/hushallsbudget",
@@ -187,13 +189,13 @@ export const LandingPage = () => {
 
       {/* Scroll Indicator - Fixed Position */}
       <motion.div
-        className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
-        initial={{ opacity: 0, y: 20 }}
         animate={{
           opacity: showScrollIndicator ? 1 : 0,
           y: showScrollIndicator ? [0, 8, 0] : 20,
           pointerEvents: showScrollIndicator ? "auto" : "none",
         }}
+        className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
+        initial={{ opacity: 0, y: 20 }}
         transition={{
           opacity: { duration: 0.3 },
           y: showScrollIndicator
@@ -215,10 +217,10 @@ export const LandingPage = () => {
       </motion.div>
 
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-        variants={containerVariants}
-        initial="hidden"
         animate="visible"
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        initial="hidden"
+        variants={containerVariants}
       >
         {/* Hero Section */}
         <motion.section
@@ -244,10 +246,10 @@ export const LandingPage = () => {
 
           <motion.div variants={itemVariants}>
             <Button
-              onClick={handleStartAnalysis}
-              variant="gradient"
-              size="lg"
               className="text-lg px-8 py-4 rounded-xl group"
+              size="lg"
+              variant="gradient"
+              onClick={handleStartAnalysis}
             >
               {t("hero.cta")}
               <ArrowRightIcon className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -258,8 +260,8 @@ export const LandingPage = () => {
         {/* How It Works Section */}
         <motion.section
           className="py-24"
-          variants={itemVariants}
           data-section="how-it-works"
+          variants={itemVariants}
         >
           <motion.div className="text-center mb-16" variants={itemVariants}>
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
@@ -273,13 +275,13 @@ export const LandingPage = () => {
             <div className="flex flex-col md:flex-row justify-center items-center md:items-start max-w-6xl mx-auto relative space-y-16 md:space-y-0 md:space-x-8 lg:space-x-16 px-4">
               {steps.map((step, index) => (
                 <motion.div
-                  key={index}
+                  key={step.title}
                   className="flex flex-col items-center max-w-xs text-center relative"
+                  transition={{ type: "spring", stiffness: 300 }}
                   variants={itemVariants}
                   whileHover={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <StepIcon step={index + 1} Icon={step.icon} />
+                  <StepIcon Icon={step.icon} step={index + 1} />
 
                   <div className="mt-6">
                     <h3 className="text-xl font-semibold text-white mb-3">
@@ -307,23 +309,23 @@ export const LandingPage = () => {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+            {features.map((feature) => (
               <motion.div
-                key={index}
+                key={feature.title}
+                transition={{ type: "spring", stiffness: 300 }}
                 variants={itemVariants}
                 whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
               >
                 <Card
-                  variant="modern"
-                  hover="glow"
                   className="h-full text-center group"
+                  hover="glow"
+                  variant="modern"
                 >
-                  <CardHeader layout="vertical" className="items-center">
+                  <CardHeader className="items-center" layout="vertical">
                     <CardIcon
-                      variant="gradient"
-                      size="lg"
                       className={`bg-gradient-to-br ${feature.gradient} group-hover:scale-110 transition-transform duration-300`}
+                      size="lg"
+                      variant="gradient"
                     >
                       <feature.icon
                         className={`w-8 h-8 ${feature.iconColor}`}
@@ -352,21 +354,21 @@ export const LandingPage = () => {
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <motion.div
+              transition={{ type: "spring", stiffness: 300 }}
               variants={itemVariants}
               whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
             >
               <Card
-                variant="modern"
-                hover="glow"
                 className="h-full group cursor-pointer"
+                hover="glow"
+                variant="modern"
                 onClick={() => router.push("/ranta-pa-ranta")}
               >
                 <CardHeader>
                   <CardIcon
-                    variant="gradient"
-                    size="lg"
                     className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 group-hover:scale-110 transition-transform duration-300"
+                    size="lg"
+                    variant="gradient"
                   >
                     <TrendingUp className="w-8 h-8 text-purple-400" />
                   </CardIcon>
@@ -383,21 +385,21 @@ export const LandingPage = () => {
             </motion.div>
 
             <motion.div
+              transition={{ type: "spring", stiffness: 300 }}
               variants={itemVariants}
               whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
             >
               <Card
-                variant="modern"
-                hover="glow"
                 className="h-full group cursor-pointer"
+                hover="glow"
+                variant="modern"
                 onClick={() => router.push("/hushallsbudget")}
               >
                 <CardHeader>
                   <CardIcon
-                    variant="gradient"
-                    size="lg"
                     className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 group-hover:scale-110 transition-transform duration-300"
+                    size="lg"
+                    variant="gradient"
                   >
                     <CalculatorIcon className="w-8 h-8 text-blue-400" />
                   </CardIcon>
@@ -425,10 +427,10 @@ export const LandingPage = () => {
               {t("finalCta.subtitle")}
             </p>
             <Button
-              onClick={handleStartAnalysis}
-              variant="gradient"
-              size="lg"
               className="text-lg px-8 py-4 rounded-xl group"
+              size="lg"
+              variant="gradient"
+              onClick={handleStartAnalysis}
             >
               {t("finalCta.button")}
               <ArrowRightIcon className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -443,11 +445,11 @@ export const LandingPage = () => {
             <div className="flex flex-col items-center space-y-4">
               <div className="flex items-center space-x-6">
                 <a
-                  href="https://x.com/budgetkollen"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors duration-200 group"
                   aria-label={t("footer.follow_x")}
+                  className="text-gray-400 hover:text-white transition-colors duration-200 group"
+                  href="https://x.com/budgetkollen"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   <XIcon className="w-6 h-6 group-hover:scale-110 transition-transform duration-200" />
                 </a>

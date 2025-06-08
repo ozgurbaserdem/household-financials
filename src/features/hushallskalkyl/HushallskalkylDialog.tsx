@@ -1,4 +1,6 @@
 import { useTranslations } from "next-intl";
+import { useState } from "react";
+
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
 import {
@@ -7,7 +9,6 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/Dialog";
-import { useState } from "react";
 import HushallskalkylContent from "@/features/hushallskalkyl/HushallskalkylContent";
 
 export const HushallskalkylDialog = () => {
@@ -24,19 +25,19 @@ export const HushallskalkylDialog = () => {
           </p>
         </div>
         <DialogTrigger asChild>
-          <Button variant="default" size="lg">
+          <Button size="lg" variant="default">
             {t("cta")}
           </Button>
         </DialogTrigger>
       </Box>
       <DialogContent className="max-w-lg w-full sm:max-w-xl px-0 sm:px-6">
         <HushallskalkylContent
-          showBackButton={false}
           showDialogRelatedContent
+          showBackButton={false}
         />
         <Box className="flex flex-col gap-4 mt-6">
           <DialogClose asChild>
-            <Button variant="outline" className="w-full">
+            <Button className="w-full" variant="outline">
               {t("close")}
             </Button>
           </DialogClose>

@@ -1,48 +1,49 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Baby,
+  Car,
+  DollarSign,
+  FileQuestion,
+  GraduationCap,
+  Heart,
+  Home,
+  List,
+  Menu,
+  Minus,
+  PiggyBank,
+  Pizza,
+  Plane,
+  ShoppingBag,
+  Sigma,
+  TrendingDown,
+  Umbrella,
+  Volleyball,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import { Box } from "@/components/ui/Box";
+import { CardContent } from "@/components/ui/Card";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
+import { Input } from "@/components/ui/Input";
 import {
   Card,
   CardHeader,
-  CardTitle,
   CardIcon,
+  CardTitle,
 } from "@/components/ui/ModernCard";
-import { CardContent } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
 import { Switch } from "@/components/ui/Switch";
+import { Text } from "@/components/ui/Text";
 import { expenseCategories } from "@/data/expenseCategories";
+import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import type { ExpensesByCategory } from "@/lib/types";
-import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   updateExpenseViewMode,
   updateTotalExpenses,
 } from "@/store/slices/calculatorSlice";
-import {
-  List,
-  TrendingDown,
-  Home,
-  Car,
-  ShoppingBag,
-  Heart,
-  Baby,
-  Umbrella,
-  PiggyBank,
-  Plane,
-  GraduationCap,
-  Pizza,
-  FileQuestion,
-  Volleyball,
-  DollarSign,
-  Menu,
-  Minus,
-  Sigma,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/Box";
-import { Text } from "@/components/ui/Text";
-import { motion, AnimatePresence } from "framer-motion";
-import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory;
@@ -70,7 +71,7 @@ export const ExpenseCategories = ({
   onChange,
 }: ExpenseCategoriesProps) => {
   const t = useTranslations("expense_categories");
-  const titleRef = useFocusOnMount();
+  const titleReference = useFocusOnMount();
   const isMobile = useIsTouchDevice();
   const dispatch = useAppDispatch();
   const expenseViewMode = useAppSelector((state) => state.expenseViewMode);
@@ -98,10 +99,13 @@ export const ExpenseCategories = ({
   };
 
   const calculateGrandTotal = () => {
-    return Object.values(expenses).reduce((sum, amount) => {
+    let sum = 0;
+    Object.values(expenses).map((amount) => {
       const numericAmount = Number(amount) || 0;
-      return sum + numericAmount;
-    }, 0);
+      sum += numericAmount;
+      return numericAmount;
+    });
+    return sum;
   };
 
   const getCurrentTotal = () => {
@@ -111,7 +115,7 @@ export const ExpenseCategories = ({
   const grandTotal = calculateGrandTotal();
 
   return (
-    <Card gradient glass delay={0.2} animate={!isMobile} hover={false}>
+    <Card glass gradient animate={!isMobile} delay={0.2} hover={false}>
       <CardHeader className="flex-col sm:flex-row">
         <Box className="flex items-start gap-4 flex-1 w-full sm:w-auto">
           <CardIcon>
@@ -119,18 +123,18 @@ export const ExpenseCategories = ({
           </CardIcon>
           <Box className="flex-1">
             <CardTitle
-              ref={titleRef}
-              tabIndex={0}
+              ref={titleReference}
               aria-label={t("aria.title")}
               className="focus:outline-none"
+              tabIndex={0}
             >
               {t("title")}
             </CardTitle>
             <motion.p
-              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
               className="text-sm text-gray-300 mt-1"
+              initial={{ opacity: 0 }}
+              transition={{ delay: 0.4 }}
             >
               {t("track_expenses")}
             </motion.p>
@@ -143,8 +147,8 @@ export const ExpenseCategories = ({
             </Text>
             <Switch
               checked={expenseViewMode === "simple"}
-              onCheckedChange={handleViewModeToggle}
               size="sm"
+              onCheckedChange={handleViewModeToggle}
             />
             <Text className="text-sm text-gray-300">
               {t("view_toggle.simple")}
@@ -171,17 +175,17 @@ export const ExpenseCategories = ({
           {expenseViewMode === "simple" ? (
             <motion.div
               key="simple-view"
-              initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 30 }}
-              transition={{ duration: 0.3 }}
               className="space-y-4"
+              exit={{ opacity: 0, x: 30 }}
+              initial={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.3 }}
             >
               <motion.div
-                initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.1 }}
                 className="glass rounded-xl border-0 overflow-hidden p-4"
+                initial={{ opacity: 0 }}
+                transition={{ delay: 0.1 }}
               >
                 {/* Mobile layout - stacked */}
                 <Box className="flex flex-col gap-3 sm:hidden">
@@ -197,24 +201,24 @@ export const ExpenseCategories = ({
                       />
                     </Box>
                     <label
-                      htmlFor="total-expenses-input"
                       className="text-sm font-medium text-gray-200 cursor-pointer"
+                      htmlFor="total-expenses-input"
                     >
                       {t("view_toggle.simple_description")}
                     </label>
                   </Box>
                   <Input
-                    id="total-expenses-input"
-                    type="number"
-                    min={0}
+                    aria-label={t("view_toggle.simple_description")}
                     className="w-full modern-input text-right"
+                    id="total-expenses-input"
+                    min={0}
+                    placeholder="0"
+                    type="number"
                     value={
                       totalExpenses && totalExpenses !== 0 ? totalExpenses : ""
                     }
-                    placeholder="0"
                     onChange={(e) => handleTotalExpenseChange(e.target.value)}
                     onFocus={(e) => e.target.select()}
-                    aria-label={t("view_toggle.simple_description")}
                   />
                 </Box>
 
@@ -232,24 +236,24 @@ export const ExpenseCategories = ({
                       />
                     </Box>
                     <label
-                      htmlFor="total-expenses-input-desktop"
                       className="text-sm font-medium text-gray-200 cursor-pointer"
+                      htmlFor="total-expenses-input-desktop"
                     >
                       {t("view_toggle.simple_description")}
                     </label>
                   </Box>
                   <Input
-                    id="total-expenses-input-desktop"
-                    type="number"
-                    min={0}
+                    aria-label={t("view_toggle.simple_description")}
                     className="w-40 modern-input text-right"
+                    id="total-expenses-input-desktop"
+                    min={0}
+                    placeholder="0"
+                    type="number"
                     value={
                       totalExpenses && totalExpenses !== 0 ? totalExpenses : ""
                     }
-                    placeholder="0"
                     onChange={(e) => handleTotalExpenseChange(e.target.value)}
                     onFocus={(e) => e.target.select()}
-                    aria-label={t("view_toggle.simple_description")}
                   />
                 </Box>
               </motion.div>
@@ -257,11 +261,11 @@ export const ExpenseCategories = ({
           ) : (
             <motion.div
               key="detailed-view"
-              initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.3 }}
               className="space-y-3 w-full"
+              exit={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: 30 }}
+              transition={{ duration: 0.3 }}
             >
               {expenseCategories.map((category, index) => {
                 const categoryAmount = getCategoryAmount(category.id);
@@ -271,14 +275,14 @@ export const ExpenseCategories = ({
                 return (
                   <motion.div
                     key={category.id}
-                    initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + index * 0.05 }}
                     className={`
                       glass rounded-xl border-0 overflow-hidden
                       p-4 transition-all duration-300
                       hover:bg-white/5
                     `}
+                    initial={{ opacity: 0, x: -20 }}
+                    transition={{ delay: 0.1 + index * 0.05 }}
                   >
                     {/* Mobile layout */}
                     <Box className="flex flex-col w-full gap-3 sm:hidden">
@@ -304,33 +308,33 @@ export const ExpenseCategories = ({
                         </Box>
                       </Box>
                       <Input
-                        id={`${category.id}-input`}
-                        type="number"
-                        min={0}
+                        aria-label={t(`${category.id}.name`)}
                         className="w-full modern-input text-right"
+                        id={`${category.id}-input`}
+                        min={0}
+                        placeholder="0"
+                        type="number"
                         value={
                           categoryAmount && categoryAmount !== 0
                             ? categoryAmount
                             : ""
                         }
-                        placeholder="0"
                         onChange={(e) =>
                           handleExpenseChange(category.id, e.target.value)
                         }
                         onFocus={(e) => e.target.select()}
-                        aria-label={t(`${category.id}.name`)}
                       />
                       {categoryAmount > 0 && (
                         <motion.div
-                          initial={{ width: 0 }}
                           animate={{ width: "100%" }}
                           className="h-1.5 bg-gray-700/50 rounded-full overflow-hidden w-full"
+                          initial={{ width: 0 }}
                         >
                           <motion.div
-                            initial={{ width: 0 }}
                             animate={{ width: `${categoryPercentage}%` }}
-                            transition={{ delay: 0.5, duration: 0.5 }}
                             className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full"
+                            initial={{ width: 0 }}
+                            transition={{ delay: 0.5, duration: 0.5 }}
                           />
                         </motion.div>
                       )}
@@ -360,34 +364,34 @@ export const ExpenseCategories = ({
                       <Box className="flex items-center gap-4">
                         {categoryAmount > 0 && (
                           <motion.div
-                            initial={{ width: 0 }}
                             animate={{ width: 60 }}
                             className="h-1.5 bg-gray-700/50 rounded-full overflow-hidden"
+                            initial={{ width: 0 }}
                           >
                             <motion.div
-                              initial={{ width: 0 }}
                               animate={{ width: `${categoryPercentage}%` }}
-                              transition={{ delay: 0.5, duration: 0.5 }}
                               className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full"
+                              initial={{ width: 0 }}
+                              transition={{ delay: 0.5, duration: 0.5 }}
                             />
                           </motion.div>
                         )}
                         <Input
-                          id={`${category.id}-input-desktop`}
-                          type="number"
-                          min={0}
+                          aria-label={t(`${category.id}.name`)}
                           className="w-40 modern-input text-right"
+                          id={`${category.id}-input-desktop`}
+                          min={0}
+                          placeholder="0"
+                          type="number"
                           value={
                             categoryAmount && categoryAmount !== 0
                               ? categoryAmount
                               : ""
                           }
-                          placeholder="0"
                           onChange={(e) =>
                             handleExpenseChange(category.id, e.target.value)
                           }
                           onFocus={(e) => e.target.select()}
-                          aria-label={t(`${category.id}.name`)}
                         />
                       </Box>
                     </Box>
@@ -399,10 +403,10 @@ export const ExpenseCategories = ({
         </AnimatePresence>
 
         <motion.div
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
           className="mt-4 p-4 glass rounded-xl"
+          initial={{ opacity: 0 }}
+          transition={{ delay: 0.6 }}
         >
           <Box className="flex items-center justify-between">
             <Box className="flex items-center gap-3">
@@ -415,11 +419,11 @@ export const ExpenseCategories = ({
             </Box>
             <CurrencyDisplay
               amount={getCurrentTotal()}
-              variant={getCurrentTotal() > 0 ? "negative" : "neutral"}
-              size="xl"
-              showDecimals={false}
               className="text-lg font-bold"
               data-testid="grand-total"
+              showDecimals={false}
+              size="xl"
+              variant={getCurrentTotal() > 0 ? "negative" : "neutral"}
             />
           </Box>
         </motion.div>

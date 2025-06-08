@@ -1,15 +1,16 @@
+import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
+
+import { Box } from "@/components/ui/Box";
+import { CardContent } from "@/components/ui/Card";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardIcon,
 } from "@/components/ui/ModernCard";
-import { CardContent } from "@/components/ui/Card";
-import { Box } from "@/components/ui/Box";
 import { Text } from "@/components/ui/Text";
 import { cn } from "@/lib/utils/general";
-import type { LucideIcon } from "lucide-react";
-import type { ReactNode } from "react";
 
 interface FinancialCardProps {
   title: string;
@@ -42,19 +43,19 @@ const FinancialCard = ({
 }: FinancialCardProps) => {
   return (
     <Card
-      gradient={gradient}
-      glass={glass}
       animate={animate}
-      hover={hover}
-      delay={delay}
       className={className}
+      delay={delay}
+      glass={glass}
+      gradient={gradient}
+      hover={hover}
     >
       <CardHeader>
         <CardIcon>
           <Icon className={cn("w-6 h-6", iconColor)} />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle tabIndex={0} aria-label={ariaLabel || title}>
+          <CardTitle aria-label={ariaLabel || title} tabIndex={0}>
             {title}
           </CardTitle>
           {description && (

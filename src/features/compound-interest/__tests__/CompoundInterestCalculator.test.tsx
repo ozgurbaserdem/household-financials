@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { CompoundInterestCalculator } from "@/features/compound-interest/CompoundInterestCalculator";
 import * as nextNavigation from "next/navigation";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { CompoundInterestCalculator } from "@/features/compound-interest/CompoundInterestCalculator";
 
 // Mock recharts to avoid rendering issues in tests
 vi.mock("recharts", () => ({
@@ -19,7 +20,7 @@ vi.mock("recharts", () => ({
     children: React.ReactNode;
     data: unknown;
   }) => (
-    <div data-testid="bar-chart" data-chart-data={JSON.stringify(data)}>
+    <div data-chart-data={JSON.stringify(data)} data-testid="bar-chart">
       {children}
     </div>
   ),
@@ -33,25 +34,25 @@ vi.mock("recharts", () => ({
     fill: string;
   }) => (
     <div
-      data-testid={`bar-${dataKey}`}
-      data-stack-id={stackId}
       data-fill={fill}
+      data-stack-id={stackId}
+      data-testid={`bar-${dataKey}`}
     />
   ),
   XAxis: ({ dataKey }: { dataKey: string }) => (
-    <div data-testid="x-axis" data-key={dataKey} />
+    <div data-key={dataKey} data-testid="x-axis" />
   ),
   YAxis: ({ tickFormatter }: { tickFormatter?: () => string }) => (
     <div
-      data-testid="y-axis"
       data-formatter={tickFormatter ? "custom" : "default"}
+      data-testid="y-axis"
     />
   ),
   Tooltip: ({ content }: { content?: React.ComponentType }) => (
-    <div data-testid="tooltip" data-custom={content ? "true" : "false"} />
+    <div data-custom={content ? "true" : "false"} data-testid="tooltip" />
   ),
   Legend: ({ content }: { content?: React.ComponentType }) => (
-    <div data-testid="legend" data-custom={content ? "true" : "false"} />
+    <div data-custom={content ? "true" : "false"} data-testid="legend" />
   ),
   CartesianGrid: () => <div data-testid="cartesian-grid" />,
   ReferenceLine: ({
@@ -68,12 +69,12 @@ vi.mock("recharts", () => ({
     label: { value: string; position: string; fill: string };
   }) => (
     <div
-      data-testid="reference-line"
-      data-x={x}
+      data-label={label.value}
       data-stroke={stroke}
       data-stroke-dasharray={strokeDasharray}
       data-stroke-width={strokeWidth}
-      data-label={label.value}
+      data-testid="reference-line"
+      data-x={x}
     />
   ),
 }));
@@ -128,8 +129,8 @@ describe("CompoundInterestCalculator", () => {
   });
 
   it("should handle URL parameter for monthly savings", () => {
-    const searchParams = new URLSearchParams({ monthlySavings: "8000" });
-    (nextNavigation.useSearchParams as any).mockReturnValue(searchParams);
+    const searchParameters = new URLSearchParams({ monthlySavings: "8000" });
+    (nextNavigation.useSearchParams as any).mockReturnValue(searchParameters);
 
     render(<CompoundInterestCalculator />);
 
@@ -269,8 +270,8 @@ describe("CompoundInterestCalculator", () => {
   });
 
   it("should highlight field when coming from query parameter", () => {
-    const searchParams = new URLSearchParams({ monthlySavings: "3000" });
-    (nextNavigation.useSearchParams as any).mockReturnValue(searchParams);
+    const searchParameters = new URLSearchParams({ monthlySavings: "3000" });
+    (nextNavigation.useSearchParams as any).mockReturnValue(searchParameters);
 
     render(<CompoundInterestCalculator />);
 
@@ -326,7 +327,7 @@ describe("CompoundInterestCalculator", () => {
         const text = el.textContent || "";
         const numbers = text.replace(/[^\d]/g, "");
         if (numbers.length > 0) {
-          const value = parseInt(numbers);
+          const value = Number.parseInt(numbers);
           // Should be between 100k and 10M kr (reasonable compound growth)
           return value >= 100000 && value <= 10000000;
         }
@@ -352,7 +353,7 @@ describe("CompoundInterestCalculator", () => {
         const text = el.textContent || "";
         const numbers = text.replace(/[^\d]/g, "");
         if (numbers.length > 0) {
-          const value = parseInt(numbers);
+          const value = Number.parseInt(numbers);
           // If we see values over 1 trillion kr, it's definitely the percentage bug
           return value > 1000000000000;
         }
@@ -421,7 +422,7 @@ describe("CompoundInterestCalculator", () => {
         const text = el.textContent || "";
         const numbers = text.replace(/[^\d]/g, "");
         if (numbers.length > 0) {
-          const value = parseInt(numbers);
+          const value = Number.parseInt(numbers);
           // For 10k start + 1k monthly + 10% return over 5 years,
           // realistic total should be roughly 80k-300k kr
           return value >= 70000 && value <= 500000;
@@ -544,7 +545,9 @@ describe("CompoundInterestCalculator", () => {
             slider.getAttribute("step") === "0.5"
         );
         expect(targetSlider).toBeTruthy();
-        fireEvent.change(targetSlider!, { target: { value: "5" } });
+        if (targetSlider) {
+          fireEvent.change(targetSlider, { target: { value: "5" } });
+        }
       } else {
         fireEvent.change(annualIncreaseSlider, { target: { value: "5" } });
       }
@@ -591,7 +594,9 @@ describe("CompoundInterestCalculator", () => {
       expect(annualIncreaseSlider).toHaveAttribute("step", "0.5");
 
       // Change to 10%
-      fireEvent.change(annualIncreaseSlider!, { target: { value: "10" } });
+      if (annualIncreaseSlider) {
+        fireEvent.change(annualIncreaseSlider, { target: { value: "10" } });
+      }
 
       await waitFor(() => {
         expect(screen.getByText("10%/år")).toBeInTheDocument();
@@ -631,14 +636,16 @@ describe("CompoundInterestCalculator", () => {
       );
       expect(annualIncreaseSlider).toBeTruthy();
 
-      fireEvent.change(annualIncreaseSlider!, { target: { value: "5" } });
+      if (annualIncreaseSlider) {
+        fireEvent.change(annualIncreaseSlider, { target: { value: "5" } });
+      }
 
       await waitFor(() => {
         // With 5% annual increase, total should be higher
         const newResults = screen.getAllByText(/kr/);
         const hasHigherValue = newResults.some((el) => {
           const text = el.textContent || "";
-          const value = parseInt(text.replace(/[^\d]/g, ""));
+          const value = Number.parseInt(text.replace(/[^\d]/g, ""));
           return value > 800000; // Should be significantly higher with annual increases
         });
         expect(hasHigherValue).toBe(true);
@@ -780,7 +787,9 @@ describe("CompoundInterestCalculator", () => {
       expect(withdrawalYearSlider).toHaveAttribute("max", "20"); // Should match investment horizon
 
       // Change withdrawal year
-      fireEvent.change(withdrawalYearSlider!, { target: { value: "15" } });
+      if (withdrawalYearSlider) {
+        fireEvent.change(withdrawalYearSlider, { target: { value: "15" } });
+      }
 
       await waitFor(() => {
         expect(
@@ -826,7 +835,9 @@ describe("CompoundInterestCalculator", () => {
       expect(percentageSlider).toHaveAttribute("max", "100");
 
       // Change percentage
-      fireEvent.change(percentageSlider!, { target: { value: "25" } });
+      if (percentageSlider) {
+        fireEvent.change(percentageSlider, { target: { value: "25" } });
+      }
 
       await waitFor(() => {
         expect(screen.getByText("25%")).toBeInTheDocument();
@@ -961,7 +972,9 @@ describe("CompoundInterestCalculator", () => {
           slider.getAttribute("value") === "10"
       );
       expect(withdrawalYearSlider).toBeTruthy();
-      fireEvent.change(withdrawalYearSlider!, { target: { value: "10" } });
+      if (withdrawalYearSlider) {
+        fireEvent.change(withdrawalYearSlider, { target: { value: "10" } });
+      }
 
       const percentageSlider = withdrawalTestSliders.find(
         (slider) =>
@@ -971,7 +984,9 @@ describe("CompoundInterestCalculator", () => {
           slider.getAttribute("value") === "10"
       );
       expect(percentageSlider).toBeTruthy();
-      fireEvent.change(percentageSlider!, { target: { value: "4" } });
+      if (percentageSlider) {
+        fireEvent.change(percentageSlider, { target: { value: "4" } });
+      }
 
       await waitFor(() => {
         // Should show withdrawal column in results
@@ -1185,7 +1200,9 @@ describe("CompoundInterestCalculator", () => {
           slider.getAttribute("step") === "0.5"
       );
       expect(annualIncreaseSlider).toBeTruthy();
-      fireEvent.change(annualIncreaseSlider!, { target: { value: "3" } });
+      if (annualIncreaseSlider) {
+        fireEvent.change(annualIncreaseSlider, { target: { value: "3" } });
+      }
 
       // Enable withdrawals
       const withdrawalSwitch = screen.getByRole("switch");
@@ -1207,7 +1224,9 @@ describe("CompoundInterestCalculator", () => {
           slider.getAttribute("value") === "10"
       );
       expect(withdrawalYearSlider).toBeTruthy();
-      fireEvent.change(withdrawalYearSlider!, { target: { value: "20" } });
+      if (withdrawalYearSlider) {
+        fireEvent.change(withdrawalYearSlider, { target: { value: "20" } });
+      }
 
       const percentageSlider = withdrawalSliders.find(
         (slider) =>
@@ -1217,7 +1236,9 @@ describe("CompoundInterestCalculator", () => {
           slider.getAttribute("value") === "10"
       );
       expect(percentageSlider).toBeTruthy();
-      fireEvent.change(percentageSlider!, { target: { value: "5" } });
+      if (percentageSlider) {
+        fireEvent.change(percentageSlider, { target: { value: "5" } });
+      }
 
       await waitFor(() => {
         // Should show all result components
@@ -1235,7 +1256,7 @@ describe("CompoundInterestCalculator", () => {
           const text = el.textContent || "";
           const numbers = text.replace(/[^\d]/g, "");
           if (numbers.length > 0) {
-            const value = parseInt(numbers);
+            const value = Number.parseInt(numbers);
             return value >= 1000000 && value <= 50000000; // Should be in reasonable range
           }
           return false;

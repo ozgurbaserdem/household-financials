@@ -1,18 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
-import { useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-} from "@/components/ui/ModernCard";
-import { CardContent } from "@/components/ui/Card";
-import { Box } from "@/components/ui/Box";
-import { Text } from "@/components/ui/Text";
-import { Label } from "@/components/ui/Label";
+import { motion } from "framer-motion";
 import {
   Calculator,
   TrendingUp,
@@ -20,28 +8,41 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { Switch } from "@/components/ui/Switch";
+import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useState, useMemo, useEffect } from "react";
+
+import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
+import { CardContent } from "@/components/ui/Card";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
+import { Label } from "@/components/ui/Label";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardIcon,
+} from "@/components/ui/ModernCard";
+import { Switch } from "@/components/ui/Switch";
+import { Text } from "@/components/ui/Text";
+import { CompoundInterestChart } from "@/features/charts/CompoundInterestChart";
 import {
   calculateCompoundInterest,
   calculateFinalValues,
   type CompoundInterestInputs,
 } from "@/lib/compound-interest";
-import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
-import { CompoundInterestChart } from "@/features/charts/CompoundInterestChart";
-import { motion } from "framer-motion";
 
 export const CompoundInterestCalculator = () => {
   const t = useTranslations("compound_interest");
-  const searchParams = useSearchParams();
+  const searchParameters = useSearchParams();
 
   // Get initial values from URL parameters
-  const initialMonthlySavings = searchParams.get("monthlySavings");
+  const initialMonthlySavings = searchParameters.get("monthlySavings");
 
   const [inputs, setInputs] = useState<CompoundInterestInputs>({
     startSum: 0,
     monthlySavings: initialMonthlySavings
-      ? parseInt(initialMonthlySavings)
+      ? Number.parseInt(initialMonthlySavings)
       : 5000,
     yearlyReturn: 7,
     investmentHorizon: 20,
@@ -58,7 +59,7 @@ export const CompoundInterestCalculator = () => {
   const [editingField, setEditingField] = useState<
     keyof CompoundInterestInputs | null
   >(null);
-  const [tempValue, setTempValue] = useState<string>("");
+  const [tempValue, setTemporaryValue] = useState<string>("");
   const [highlightedField, setHighlightedField] = useState<string | null>(null);
 
   // Highlight the monthly savings field if it came from URL
@@ -152,17 +153,17 @@ export const CompoundInterestCalculator = () => {
 
   const handleEditStart = (field: keyof CompoundInterestInputs) => {
     setEditingField(field);
-    setTempValue((inputs[field] ?? 0).toString());
+    setTemporaryValue((inputs[field] ?? 0).toString());
   };
 
   const handleEditEnd = (field: keyof CompoundInterestInputs) => {
     const numValue = parseFloat(tempValue.replace(/[^\d.-]/g, ""));
-    if (!isNaN(numValue)) {
+    if (!Number.isNaN(numValue)) {
       // Input fields are not constrained by min/max limits
       handleInputChange(field, numValue);
     }
     setEditingField(null);
-    setTempValue("");
+    setTemporaryValue("");
   };
 
   const handleKeyDown = (
@@ -173,14 +174,14 @@ export const CompoundInterestCalculator = () => {
       handleEditEnd(field);
     } else if (e.key === "Escape") {
       setEditingField(null);
-      setTempValue("");
+      setTemporaryValue("");
     }
   };
 
   return (
     <Box className="space-y-6">
       {/* Input Controls */}
-      <Card gradient glass>
+      <Card glass gradient>
         <CardHeader>
           <CardIcon>
             <Calculator className="w-6 h-6 text-blue-400" />
@@ -197,19 +198,19 @@ export const CompoundInterestCalculator = () => {
             {inputConfigs.map((config, index) => (
               <motion.div
                 key={config.key}
-                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
                 className={`space-y-2 ${
                   highlightedField === config.key
                     ? "ring-2 ring-purple-500 ring-offset-2 ring-offset-gray-950 rounded-lg p-4 bg-purple-500/10"
                     : ""
                 }`}
+                initial={{ opacity: 0, y: 20 }}
+                transition={{ delay: index * 0.1 }}
               >
                 <div className="space-y-1">
                   <Label
-                    htmlFor={config.key}
                     className="text-sm font-medium text-gray-200 block"
+                    htmlFor={config.key}
                   >
                     {config.label}
                   </Label>
@@ -223,16 +224,11 @@ export const CompoundInterestCalculator = () => {
                   {/* Custom styled range slider with value display at the end */}
                   <div className="relative flex items-center gap-4">
                     <input
-                      id={config.key}
-                      type="range"
-                      min={config.min}
-                      max={config.max}
-                      step={config.step}
-                      value={inputs[config.key] ?? config.min}
-                      onChange={(e) =>
-                        handleInputChange(config.key, Number(e.target.value))
-                      }
                       className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                      id={config.key}
+                      max={config.max}
+                      min={config.min}
+                      step={config.step}
                       style={{
                         background: `linear-gradient(to right, 
                           rgb(59 130 246) 0%, 
@@ -240,22 +236,27 @@ export const CompoundInterestCalculator = () => {
                           rgb(55 65 81) ${(((inputs[config.key] ?? config.min) - config.min) / (config.max - config.min)) * 100}%, 
                           rgb(55 65 81) 100%)`,
                       }}
+                      type="range"
+                      value={inputs[config.key] ?? config.min}
+                      onChange={(e) =>
+                        handleInputChange(config.key, Number(e.target.value))
+                      }
                     />
                     <div className="flex-shrink-0">
                       {editingField === config.key ? (
                         <input
+                          autoFocus
+                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-28 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
                           type="text"
                           value={tempValue}
-                          onChange={(e) => setTempValue(e.target.value)}
                           onBlur={() => handleEditEnd(config.key)}
+                          onChange={(e) => setTemporaryValue(e.target.value)}
                           onKeyDown={(e) => handleKeyDown(e, config.key)}
-                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-28 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                          autoFocus
                         />
                       ) : (
                         <button
-                          onClick={() => handleEditStart(config.key)}
                           className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-28 text-center cursor-text"
+                          onClick={() => handleEditStart(config.key)}
                         >
                           <Text className="text-sm font-semibold text-white">
                             {config.prefix}
@@ -276,8 +277,8 @@ export const CompoundInterestCalculator = () => {
           {/* Advanced Settings Toggle */}
           <div className="mt-6 border-t border-gray-700/50 pt-6">
             <button
-              onClick={() => setShowAdvanced(!showAdvanced)}
               className="flex items-center justify-between w-full p-2 rounded-xl bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-700/30 hover:border-blue-500/50 transition-all duration-300 hover:from-blue-900/30 hover:to-purple-900/30 group"
+              onClick={() => setShowAdvanced(!showAdvanced)}
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors">
@@ -316,11 +317,11 @@ export const CompoundInterestCalculator = () => {
             {/* Advanced Settings Content */}
             {showAdvanced && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
                 className="mt-6 space-y-6"
+                exit={{ opacity: 0, height: 0 }}
+                initial={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
               >
                 {/* Annual Savings Increase */}
                 <div className="space-y-2 lg:flex-1">
@@ -332,18 +333,10 @@ export const CompoundInterestCalculator = () => {
                   </Text>
                   <div className="flex items-center gap-4">
                     <input
-                      type="range"
-                      min={0}
-                      max={50}
-                      step={0.5}
-                      value={inputs.annualSavingsIncrease || 0}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "annualSavingsIncrease",
-                          Number(e.target.value)
-                        )
-                      }
                       className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                      max={50}
+                      min={0}
+                      step={0.5}
                       style={{
                         background: `linear-gradient(to right, 
                           rgb(59 130 246) 0%, 
@@ -351,26 +344,34 @@ export const CompoundInterestCalculator = () => {
                           rgb(55 65 81) ${((inputs.annualSavingsIncrease || 0) / 50) * 100}%, 
                           rgb(55 65 81) 100%)`,
                       }}
+                      type="range"
+                      value={inputs.annualSavingsIncrease || 0}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "annualSavingsIncrease",
+                          Number(e.target.value)
+                        )
+                      }
                     />
                     <div className="flex-shrink-0">
                       {editingField === "annualSavingsIncrease" ? (
                         <input
+                          autoFocus
+                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
                           type="text"
                           value={tempValue}
-                          onChange={(e) => setTempValue(e.target.value)}
                           onBlur={() => handleEditEnd("annualSavingsIncrease")}
+                          onChange={(e) => setTemporaryValue(e.target.value)}
                           onKeyDown={(e) =>
                             handleKeyDown(e, "annualSavingsIncrease")
                           }
-                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                          autoFocus
                         />
                       ) : (
                         <button
+                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
                           onClick={() =>
                             handleEditStart("annualSavingsIncrease")
                           }
-                          className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
                         >
                           <Text className="text-sm font-semibold text-white">
                             {inputs.annualSavingsIncrease || 0}%/år
@@ -394,6 +395,7 @@ export const CompoundInterestCalculator = () => {
                     </div>
                     <Switch
                       checked={inputs.withdrawalType !== "none"}
+                      className="data-[state=checked]:bg-blue-500"
                       onCheckedChange={(checked) => {
                         if (!checked) {
                           setInputs((prev) => ({
@@ -407,15 +409,14 @@ export const CompoundInterestCalculator = () => {
                           }));
                         }
                       }}
-                      className="data-[state=checked]:bg-blue-500"
                     />
                   </div>
 
                   {inputs.withdrawalType !== "none" && (
                     <motion.div
-                      initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="space-y-4 pl-2"
+                      initial={{ opacity: 0, y: -10 }}
                     >
                       {/* Withdrawal Type Selector */}
                       <div className="space-y-2 lg:flex-1">
@@ -426,6 +427,7 @@ export const CompoundInterestCalculator = () => {
                         </Label>
                         <div className="flex gap-2">
                           <Button
+                            className="flex-1"
                             type="button"
                             variant={
                               inputs.withdrawalType === "percentage"
@@ -438,13 +440,13 @@ export const CompoundInterestCalculator = () => {
                                 withdrawalType: "percentage",
                               }))
                             }
-                            className="flex-1"
                           >
                             {t(
                               "advanced_settings.planned_withdrawal.percentage_option"
                             )}
                           </Button>
                           <Button
+                            className="flex-1"
                             type="button"
                             variant={
                               inputs.withdrawalType === "amount"
@@ -457,7 +459,6 @@ export const CompoundInterestCalculator = () => {
                                 withdrawalType: "amount",
                               }))
                             }
-                            className="flex-1"
                           >
                             {t(
                               "advanced_settings.planned_withdrawal.amount_option"
@@ -475,18 +476,10 @@ export const CompoundInterestCalculator = () => {
                         </Label>
                         <div className="flex items-center gap-4">
                           <input
-                            type="range"
-                            min={1}
-                            max={inputs.investmentHorizon}
-                            step={1}
-                            value={inputs.withdrawalYear || 10}
-                            onChange={(e) =>
-                              handleInputChange(
-                                "withdrawalYear",
-                                Number(e.target.value)
-                              )
-                            }
                             className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                            max={inputs.investmentHorizon}
+                            min={1}
+                            step={1}
                             style={{
                               background: `linear-gradient(to right, 
                                 rgb(59 130 246) 0%, 
@@ -494,26 +487,36 @@ export const CompoundInterestCalculator = () => {
                                 rgb(55 65 81) ${(((inputs.withdrawalYear || 10) - 1) / (inputs.investmentHorizon - 1)) * 100}%, 
                                 rgb(55 65 81) 100%)`,
                             }}
+                            type="range"
+                            value={inputs.withdrawalYear || 10}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "withdrawalYear",
+                                Number(e.target.value)
+                              )
+                            }
                           />
                           <div className="flex-shrink-0">
                             {editingField === "withdrawalYear" ? (
                               <input
+                                autoFocus
+                                className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
                                 type="text"
                                 value={tempValue}
-                                onChange={(e) => setTempValue(e.target.value)}
                                 onBlur={() => handleEditEnd("withdrawalYear")}
+                                onChange={(e) =>
+                                  setTemporaryValue(e.target.value)
+                                }
                                 onKeyDown={(e) =>
                                   handleKeyDown(e, "withdrawalYear")
                                 }
-                                className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                                autoFocus
                               />
                             ) : (
                               <button
+                                className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
                                 onClick={() =>
                                   handleEditStart("withdrawalYear")
                                 }
-                                className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
                               >
                                 <Text className="text-sm font-semibold text-white">
                                   {t(
@@ -537,18 +540,10 @@ export const CompoundInterestCalculator = () => {
                           </Label>
                           <div className="flex items-center gap-4">
                             <input
-                              type="range"
-                              min={0}
-                              max={100}
-                              step={1}
-                              value={inputs.withdrawalPercentage || 10}
-                              onChange={(e) =>
-                                handleInputChange(
-                                  "withdrawalPercentage",
-                                  Number(e.target.value)
-                                )
-                              }
                               className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                              max={100}
+                              min={0}
+                              step={1}
                               style={{
                                 background: `linear-gradient(to right, 
                                   rgb(59 130 246) 0%, 
@@ -556,28 +551,38 @@ export const CompoundInterestCalculator = () => {
                                   rgb(55 65 81) ${inputs.withdrawalPercentage || 10}%, 
                                   rgb(55 65 81) 100%)`,
                               }}
+                              type="range"
+                              value={inputs.withdrawalPercentage || 10}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  "withdrawalPercentage",
+                                  Number(e.target.value)
+                                )
+                              }
                             />
                             <div className="flex-shrink-0">
                               {editingField === "withdrawalPercentage" ? (
                                 <input
+                                  autoFocus
+                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
                                   type="text"
                                   value={tempValue}
-                                  onChange={(e) => setTempValue(e.target.value)}
                                   onBlur={() =>
                                     handleEditEnd("withdrawalPercentage")
+                                  }
+                                  onChange={(e) =>
+                                    setTemporaryValue(e.target.value)
                                   }
                                   onKeyDown={(e) =>
                                     handleKeyDown(e, "withdrawalPercentage")
                                   }
-                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                                  autoFocus
                                 />
                               ) : (
                                 <button
+                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center cursor-text"
                                   onClick={() =>
                                     handleEditStart("withdrawalPercentage")
                                   }
-                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-16 text-center cursor-text"
                                 >
                                   <Text className="text-sm font-semibold text-white">
                                     {inputs.withdrawalPercentage || 10}%
@@ -596,18 +601,10 @@ export const CompoundInterestCalculator = () => {
                           </Label>
                           <div className="flex items-center gap-4">
                             <input
-                              type="range"
-                              min={0}
-                              max={10000000}
-                              step={10000}
-                              value={inputs.withdrawalAmount || 100000}
-                              onChange={(e) =>
-                                handleInputChange(
-                                  "withdrawalAmount",
-                                  Number(e.target.value)
-                                )
-                              }
                               className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                              max={10000000}
+                              min={0}
+                              step={10000}
                               style={{
                                 background: `linear-gradient(to right, 
                                   rgb(59 130 246) 0%, 
@@ -615,30 +612,40 @@ export const CompoundInterestCalculator = () => {
                                   rgb(55 65 81) ${((inputs.withdrawalAmount || 100000) / 10000000) * 100}%, 
                                   rgb(55 65 81) 100%)`,
                               }}
+                              type="range"
+                              value={inputs.withdrawalAmount || 100000}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  "withdrawalAmount",
+                                  Number(e.target.value)
+                                )
+                              }
                             />
                             <div className="flex-shrink-0">
                               {editingField === "withdrawalAmount" ? (
                                 <input
+                                  autoFocus
+                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-32 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
                                   type="text"
                                   value={tempValue}
-                                  onChange={(e) => setTempValue(e.target.value)}
                                   onBlur={() =>
                                     handleEditEnd("withdrawalAmount")
+                                  }
+                                  onChange={(e) =>
+                                    setTemporaryValue(e.target.value)
                                   }
                                   onKeyDown={(e) =>
                                     handleKeyDown(e, "withdrawalAmount")
                                   }
-                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-32 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                                  autoFocus
                                 />
                               ) : (
                                 <button
+                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-32 text-center cursor-text"
                                   onClick={() =>
                                     handleEditStart(
                                       "withdrawalAmount" as keyof CompoundInterestInputs
                                     )
                                   }
-                                  className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-32 text-center cursor-text"
                                 >
                                   <Text className="text-sm font-semibold text-white">
                                     {(
@@ -662,7 +669,7 @@ export const CompoundInterestCalculator = () => {
       </Card>
 
       {/* Results Summary */}
-      <Card gradient glass>
+      <Card glass gradient>
         <CardHeader>
           <CardIcon>
             <TrendingUp className="w-6 h-6 text-green-400" />
@@ -680,10 +687,10 @@ export const CompoundInterestCalculator = () => {
           >
             {/* Theoretical Total Value (without withdrawals) */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 }}
               className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+              initial={{ opacity: 0, scale: 0.9 }}
+              transition={{ delay: 0.1 }}
             >
               <div className="space-y-2 lg:flex-1">
                 <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
@@ -691,10 +698,10 @@ export const CompoundInterestCalculator = () => {
                 </Text>
                 <CurrencyDisplay
                   amount={finalValues.theoreticalTotalValue}
-                  variant="neutral"
-                  size="lg"
-                  showDecimals={false}
                   className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block"
+                  showDecimals={false}
+                  size="lg"
+                  variant="neutral"
                 />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
@@ -707,10 +714,10 @@ export const CompoundInterestCalculator = () => {
 
             {/* Current Total Value (after withdrawals) */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
               className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-gray-800/40 to-gray-900/40 hover:from-gray-800/60 hover:to-gray-900/60 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+              initial={{ opacity: 0, scale: 0.9 }}
+              transition={{ delay: 0.2 }}
             >
               <div className="space-y-2 lg:flex-1">
                 <Text className="text-xs text-gray-400 font-medium break-words hyphens-auto block">
@@ -718,10 +725,10 @@ export const CompoundInterestCalculator = () => {
                 </Text>
                 <CurrencyDisplay
                   amount={finalValues.totalValue}
-                  variant="neutral"
-                  size="lg"
-                  showDecimals={false}
                   className="text-lg lg:text-xl font-bold text-white leading-relaxed break-words whitespace-nowrap block"
+                  showDecimals={false}
+                  size="lg"
+                  variant="neutral"
                 />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
@@ -735,10 +742,10 @@ export const CompoundInterestCalculator = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 }}
               className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-blue-900/20 to-blue-800/20 hover:from-blue-900/30 hover:to-blue-800/30 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+              initial={{ opacity: 0, scale: 0.9 }}
+              transition={{ delay: 0.3 }}
             >
               <div className="space-y-2 lg:flex-1">
                 <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
@@ -746,10 +753,10 @@ export const CompoundInterestCalculator = () => {
                 </Text>
                 <CurrencyDisplay
                   amount={finalValues.startSum}
-                  variant="neutral"
-                  size="lg"
-                  showDecimals={false}
                   className="text-lg lg:text-xl font-semibold text-blue-400 leading-relaxed break-words whitespace-nowrap block"
+                  showDecimals={false}
+                  size="lg"
+                  variant="neutral"
                 />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
@@ -763,10 +770,10 @@ export const CompoundInterestCalculator = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4 }}
               className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-green-900/20 to-green-800/20 hover:from-green-900/30 hover:to-green-800/30 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+              initial={{ opacity: 0, scale: 0.9 }}
+              transition={{ delay: 0.4 }}
             >
               <div className="space-y-2 lg:flex-1">
                 <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
@@ -774,10 +781,10 @@ export const CompoundInterestCalculator = () => {
                 </Text>
                 <CurrencyDisplay
                   amount={finalValues.totalSavings}
-                  variant="neutral"
-                  size="lg"
-                  showDecimals={false}
                   className="text-lg lg:text-xl font-semibold text-green-400 leading-relaxed break-words whitespace-nowrap block"
+                  showDecimals={false}
+                  size="lg"
+                  variant="neutral"
                 />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
@@ -791,10 +798,10 @@ export const CompoundInterestCalculator = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 }}
               className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-purple-900/20 to-purple-800/20 hover:from-purple-900/30 hover:to-purple-800/30 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+              initial={{ opacity: 0, scale: 0.9 }}
+              transition={{ delay: 0.5 }}
             >
               <div className="space-y-2 lg:flex-1">
                 <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
@@ -802,10 +809,10 @@ export const CompoundInterestCalculator = () => {
                 </Text>
                 <CurrencyDisplay
                   amount={finalValues.totalReturns}
-                  variant="neutral"
-                  size="lg"
-                  showDecimals={false}
                   className="text-lg lg:text-xl font-semibold text-purple-400 leading-relaxed break-words whitespace-nowrap block"
+                  showDecimals={false}
+                  size="lg"
+                  variant="neutral"
                 />
               </div>
               <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
@@ -821,10 +828,10 @@ export const CompoundInterestCalculator = () => {
             {/* Total Withdrawn (show only if there have been withdrawals) */}
             {finalValues.totalWithdrawn > 0 && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.6 }}
                 className="glass p-3 rounded-xl border border-gray-700/50 bg-gradient-to-br from-red-900/20 to-red-800/20 hover:from-red-900/30 hover:to-red-800/30 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+                initial={{ opacity: 0, scale: 0.9 }}
+                transition={{ delay: 0.6 }}
               >
                 <div className="space-y-2 lg:flex-1">
                   <Text className="text-sm text-gray-400 font-medium break-words hyphens-auto block">
@@ -832,10 +839,10 @@ export const CompoundInterestCalculator = () => {
                   </Text>
                   <CurrencyDisplay
                     amount={finalValues.totalWithdrawn}
-                    variant="neutral"
-                    size="lg"
-                    showDecimals={false}
                     className="text-lg lg:text-xl font-semibold text-red-400 leading-relaxed break-words whitespace-nowrap block"
+                    showDecimals={false}
+                    size="lg"
+                    variant="neutral"
                   />
                 </div>
                 <div className="w-full h-1 bg-gray-700 rounded-full mt-1">

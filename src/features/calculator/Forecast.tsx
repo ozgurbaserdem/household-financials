@@ -1,14 +1,10 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-} from "@/components/ui/ModernCard";
-import { CardContent } from "@/components/ui/Card";
+import { motion } from "framer-motion";
 import { HandCoins, TrendingUp } from "lucide-react";
+import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 import {
   XAxis,
   YAxis,
@@ -17,14 +13,16 @@ import {
   Area,
   ResponsiveContainer,
 } from "recharts";
-import { useMemo } from "react";
-import type { CalculatorState } from "@/lib/types";
-import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
-import { useMediaQuery } from "@/lib/hooks/use-media-query";
-import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+
 import { Box } from "@/components/ui/Box";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import { CardContent } from "@/components/ui/Card";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardIcon,
+} from "@/components/ui/ModernCard";
 import {
   calculateForecast,
   calculateLoanPayoffYears,
@@ -32,6 +30,9 @@ import {
   type ForecastData,
 } from "@/lib/forecast";
 import { formatCompactCurrency } from "@/lib/formatting";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import { useMediaQuery } from "@/lib/hooks/use-media-query";
+import type { CalculatorState } from "@/lib/types";
 
 const AreaChart = dynamic(() =>
   import("recharts").then((mod) => ({ default: mod.AreaChart }))
@@ -69,9 +70,9 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
       const data = payload[0].payload as ForecastData;
       return (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="bg-gray-800/30 backdrop-blur-md p-4 rounded-lg border border-gray-600 shadow-lg space-y-2"
+          initial={{ opacity: 0, scale: 0.9 }}
         >
           <p className="font-semibold mb-2 text-white">
             {t("year", { year: data.year })}
@@ -81,45 +82,45 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
               {t("tooltip.remaining_loan")}:{" "}
               <CurrencyDisplay
                 amount={data.remainingLoan}
-                variant="neutral"
-                showDecimals={false}
                 className="text-blue-400 font-semibold"
+                showDecimals={false}
+                variant="neutral"
               />
             </p>
             <p className="text-gray-300">
               {t("tooltip.yearly_cost")}:{" "}
               <CurrencyDisplay
                 amount={data.yearlyCost}
-                variant="neutral"
-                showDecimals={false}
                 className="text-orange-400 font-semibold"
+                showDecimals={false}
+                variant="neutral"
               />
             </p>
             <p className="text-gray-300">
               {t("tooltip.monthly_cost")}:{" "}
               <CurrencyDisplay
                 amount={data.monthlyCost}
-                variant="neutral"
-                showDecimals={false}
                 className="text-orange-300 font-semibold"
+                showDecimals={false}
+                variant="neutral"
               />
             </p>
             <p className="text-gray-300">
               {t("tooltip.monthly_income")}:{" "}
               <CurrencyDisplay
                 amount={data.monthlyIncome}
-                variant="neutral"
-                showDecimals={false}
                 className="text-green-300 font-semibold"
+                showDecimals={false}
+                variant="neutral"
               />
             </p>
             <p className="text-gray-300">
               {t("tooltip.monthly_savings")}:{" "}
               <CurrencyDisplay
                 amount={data.monthlySavings}
-                variant={data.monthlySavings >= 0 ? "positive" : "negative"}
-                showDecimals={false}
                 className="font-semibold"
+                showDecimals={false}
+                variant={data.monthlySavings >= 0 ? "positive" : "negative"}
               />
             </p>
           </div>
@@ -140,20 +141,20 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
   const off = gradientOffset();
 
   return (
-    <Card gradient glass delay={0.4} animate={!isTouchDevice}>
+    <Card glass gradient animate={!isTouchDevice} delay={0.4}>
       <CardHeader>
         <CardIcon>
           <HandCoins className="w-6 h-6 text-purple-400" />
         </CardIcon>
         <Box className="flex-1">
-          <CardTitle tabIndex={0} aria-label={t("aria.title")}>
+          <CardTitle aria-label={t("aria.title")} tabIndex={0}>
             {t("title")}
           </CardTitle>
           <motion.p
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
             className="text-sm text-gray-300 mt-1"
+            initial={{ opacity: 0 }}
+            transition={{ delay: 0.6 }}
           >
             {t("loan_payoff_in_years", { years: payoffYears })}
           </motion.p>
@@ -163,13 +164,13 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
 
       <CardContent>
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
-          className={isMobile ? "h-[300px] w-full" : "h-[400px] w-full"}
           aria-label={t("aria.graph")}
+          className={isMobile ? "h-[300px] w-full" : "h-[400px] w-full"}
+          initial={{ opacity: 0, scale: 0.95 }}
+          transition={{ delay: 0.5 }}
         >
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer height="100%" width="100%">
             <AreaChart
               data={forecastData}
               margin={
@@ -179,7 +180,7 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
               }
             >
               <defs>
-                <linearGradient id="loanGradient" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="loanGradient" x1="0" x2="0" y1="0" y2="1">
                   <stop offset={off} stopColor="#8b5cf6" stopOpacity={0.8} />
                   <stop offset={off} stopColor="#3b82f6" stopOpacity={0.8} />
                 </linearGradient>
@@ -190,35 +191,35 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
               </defs>
 
               <CartesianGrid
-                strokeDasharray="3 3"
                 stroke="url(#gridGradient)"
+                strokeDasharray="3 3"
                 strokeOpacity={0.5}
               />
 
               <XAxis
                 dataKey="year"
                 interval={isMobile ? "preserveStartEnd" : 5}
-                tick={{ fill: "#9CA3AF" }}
                 stroke="#374151"
+                tick={{ fill: "#9CA3AF" }}
               />
 
               <YAxis
-                tickFormatter={formatCompactCurrency}
-                tick={{ fill: "#9CA3AF", fontSize: 12 }}
                 stroke="#374151"
+                tick={{ fill: "#9CA3AF", fontSize: 12 }}
+                tickFormatter={formatCompactCurrency}
                 width={35}
               />
 
               <Tooltip content={<CustomTooltip />} />
 
               <Area
-                type="monotone"
-                dataKey="remainingLoan"
-                stroke="#8b5cf6"
-                strokeWidth={2}
-                fill="url(#loanGradient)"
                 animationDuration={1500}
                 animationEasing="ease-out"
+                dataKey="remainingLoan"
+                fill="url(#loanGradient)"
+                stroke="#8b5cf6"
+                strokeWidth={2}
+                type="monotone"
               />
             </AreaChart>
           </ResponsiveContainer>

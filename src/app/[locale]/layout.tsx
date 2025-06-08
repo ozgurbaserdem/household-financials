@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
-import "../globals.css";
-import { Providers } from "@/components/shared/Providers";
-import { Navbar } from "@/components/shared/Navbar";
-import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
-import { setRequestLocale } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata } from "next";
+import { Space_Grotesk } from "next/font/google";
+import { notFound } from "next/navigation";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+
+import { Navbar } from "@/components/shared/Navbar";
+import { Providers } from "@/components/shared/Providers";
+import { routing } from "@/i18n/routing";
+
+import "../globals.css";
 
 const spaceGrotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -144,57 +146,56 @@ const LocaleLayout = async ({
       : `https://www.budgetkollen.se/en`;
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html suppressHydrationWarning lang={locale}>
       <head>
         {/* Primary multi-resolution ICO favicon (contains 16x16 through 256x256) */}
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link href="/favicon.ico" rel="icon" type="image/x-icon" />
 
         {/* Google-recommended 48x48 PNG favicon for search results */}
         <link
-          rel="icon"
-          type="image/png"
-          sizes="48x48"
           href="/favicon-48x48.png"
+          rel="icon"
+          sizes="48x48"
+          type="image/png"
         />
 
         {/* Additional PNG favicons for various uses */}
         <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
           href="/favicon-32x32.png"
+          rel="icon"
+          sizes="32x32"
+          type="image/png"
         />
         <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
           href="/favicon-16x16.png"
+          rel="icon"
+          sizes="16x16"
+          type="image/png"
         />
 
         {/* Apple Touch Icon (PNG) for iOS devices */}
         <link
+          href="/apple-touch-icon.png"
           rel="apple-touch-icon"
           sizes="180x180"
-          href="/apple-touch-icon.png"
         />
 
         {/* Manifest for PWA */}
-        <link rel="manifest" href="/manifest.json" />
+        <link href="/manifest.json" rel="manifest" />
 
         {/* SVG favicon for scalable support */}
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
 
         {/* Font preconnects */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
+          href="https://fonts.gstatic.com"
+          rel="preconnect"
         />
 
         {/* Enhanced Schema.org markup */}
         <script
-          type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -273,6 +274,7 @@ const LocaleLayout = async ({
               ],
             }),
           }}
+          type="application/ld+json"
         />
       </head>
       <body
@@ -281,8 +283,8 @@ const LocaleLayout = async ({
         <NextIntlClientProvider
           locale={locale}
           messages={messages}
-          timeZone="Europe/Stockholm"
           now={new Date()}
+          timeZone="Europe/Stockholm"
         >
           <Providers>
             <Navbar />

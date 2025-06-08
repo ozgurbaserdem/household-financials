@@ -1,11 +1,9 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import React from "react";
 import { useTranslations } from "next-intl";
-import { ChartContainer, ChartLegend } from "@/components/ui/ChartContainer";
-import { formatCurrencyNoDecimals } from "@/lib/formatting";
-
+import React from "react";
+import type { TooltipProps } from "recharts";
 import {
   BarChart,
   Bar,
@@ -13,10 +11,12 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  TooltipProps,
   ReferenceLine,
 } from "recharts";
+
+import { ChartContainer, ChartLegend } from "@/components/ui/ChartContainer";
 import type { CompoundInterestData } from "@/lib/compound-interest";
+import { formatCurrencyNoDecimals } from "@/lib/formatting";
 
 interface CompoundInterestChartProps {
   data: CompoundInterestData[];
@@ -144,15 +144,15 @@ export const CompoundInterestChart = ({
 
   return (
     <ChartContainer
-      title={t("chart.title")}
-      description={t("chart.description")}
-      icon={TrendingUp}
-      iconColor="text-purple-400"
-      height={400}
-      testId="compound-interest-chart"
       ariaLabel={t("chart.aria_title")}
       delay={0.3}
+      description={t("chart.description")}
+      height={400}
+      icon={TrendingUp}
+      iconColor="text-purple-400"
       legend={<ChartLegend items={legendItems} />}
+      testId="compound-interest-chart"
+      title={t("chart.title")}
     >
       <BarChart
         data={data}
@@ -163,17 +163,17 @@ export const CompoundInterestChart = ({
           bottom: 5,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+        <CartesianGrid opacity={0.3} stroke="#374151" strokeDasharray="3 3" />
         <XAxis
+          axisLine={{ stroke: "#6B7280" }}
           dataKey="year"
           tick={{ fill: "#9CA3AF", fontSize: 12 }}
-          axisLine={{ stroke: "#6B7280" }}
           tickLine={{ stroke: "#6B7280" }}
         />
         <YAxis
-          tick={{ fill: "#9CA3AF", fontSize: 12 }}
           axisLine={{ stroke: "#6B7280" }}
-          tickLine={{ stroke: "#6B7280" }}
+          domain={[0, yAxisMax]}
+          tick={{ fill: "#9CA3AF", fontSize: 12 }}
           tickFormatter={(value: number) => {
             if (value >= 1000000) {
               return `${Math.round(value / 1000000)}m`;
@@ -183,7 +183,7 @@ export const CompoundInterestChart = ({
             }
             return value.toString();
           }}
-          domain={[0, yAxisMax]}
+          tickLine={{ stroke: "#6B7280" }}
         />
         <Tooltip
           content={<CustomTooltip />}
@@ -193,24 +193,24 @@ export const CompoundInterestChart = ({
         {/* Stacked bars for accumulation phase, single bars for withdrawal phase */}
         <Bar
           dataKey="chartStartSum"
-          stackId="portfolio"
           fill={chartColors.blue}
           name={t("legend.start_sum")}
           radius={[0, 0, 0, 0]}
+          stackId="portfolio"
         />
         <Bar
           dataKey="chartSavings"
-          stackId="portfolio"
           fill={chartColors.emerald}
           name={t("legend.accumulated_savings")}
           radius={[0, 0, 0, 0]}
+          stackId="portfolio"
         />
         <Bar
           dataKey="chartReturns"
-          stackId="portfolio"
           fill={chartColors.purple}
           name={t("legend.compound_returns")}
           radius={[4, 4, 0, 0]}
+          stackId="portfolio"
         />
         {/* Single bar for withdrawal phase - overlays the stacked bars */}
         <Bar
@@ -223,11 +223,11 @@ export const CompoundInterestChart = ({
         {/* Reference line for withdrawal year */}
         {withdrawalYear && (
           <ReferenceLine
-            x={withdrawalYear}
+            label={{ value: "Uttag", position: "top", fill: "#EF4444" }}
             stroke={chartColors.redStroke}
             strokeDasharray="5 5"
             strokeWidth={2}
-            label={{ value: "Uttag", position: "top", fill: "#EF4444" }}
+            x={withdrawalYear}
           />
         )}
       </BarChart>

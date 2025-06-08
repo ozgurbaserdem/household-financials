@@ -1,7 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { Income } from "@/features/calculator/Income";
 import React from "react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { Income } from "@/features/calculator/Income";
 
 describe("Income", () => {
   const mockOnChange = vi.fn();
@@ -14,8 +15,6 @@ describe("Income", () => {
   it("renders correct fields for 1 adult", () => {
     render(
       <Income
-        onChange={mockOnChange}
-        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
         numberOfAdults={"1"}
         values={{
           income1: 0,
@@ -27,6 +26,8 @@ describe("Income", () => {
           otherIncomes: 0,
           currentBuffer: 0,
         }}
+        onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
       />
     );
     expect(screen.getByLabelText(/number_of_adults$/i)).toBeInTheDocument();
@@ -49,8 +50,6 @@ describe("Income", () => {
   it("renders all form fields for 2 adults", () => {
     render(
       <Income
-        onChange={mockOnChange}
-        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
         numberOfAdults={"2"}
         values={{
           income1: 0,
@@ -62,6 +61,8 @@ describe("Income", () => {
           otherIncomes: 0,
           currentBuffer: 0,
         }}
+        onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
       />
     );
     expect(screen.getByLabelText(/number_of_adults$/i)).toBeInTheDocument();
@@ -87,8 +88,6 @@ describe("Income", () => {
       const [adults, setAdults] = React.useState<"2" | "1">("1");
       return (
         <Income
-          onChange={mockOnChange}
-          onNumberOfAdultsChange={setAdults}
           numberOfAdults={adults}
           values={{
             income1: 0,
@@ -100,6 +99,8 @@ describe("Income", () => {
             otherIncomes: 0,
             currentBuffer: 0,
           }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={setAdults}
         />
       );
     };
@@ -114,8 +115,6 @@ describe("Income", () => {
   it("shows income2 and income4 fields when 2 adults is selected", () => {
     render(
       <Income
-        onChange={mockOnChange}
-        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
         numberOfAdults={"2"}
         values={{
           income1: 0,
@@ -127,6 +126,8 @@ describe("Income", () => {
           otherIncomes: 0,
           currentBuffer: 0,
         }}
+        onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
       />
     );
 
@@ -147,8 +148,6 @@ describe("Income", () => {
       const [adults, setAdults] = React.useState<"2" | "1">("2");
       return (
         <Income
-          onChange={mockOnChange}
-          onNumberOfAdultsChange={setAdults}
           numberOfAdults={adults}
           values={{
             income1: 0,
@@ -160,6 +159,8 @@ describe("Income", () => {
             otherIncomes: 0,
             currentBuffer: 0,
           }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={setAdults}
         />
       );
     };
@@ -203,8 +204,6 @@ describe("Income", () => {
       const [adults, setAdults] = React.useState<"2" | "1">("2");
       return (
         <Income
-          onChange={mockOnChange}
-          onNumberOfAdultsChange={setAdults}
           numberOfAdults={adults}
           values={{
             income1: 0,
@@ -216,6 +215,8 @@ describe("Income", () => {
             otherIncomes: 0,
             currentBuffer: 0,
           }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={setAdults}
         />
       );
     };
@@ -274,10 +275,10 @@ describe("Income", () => {
 
     render(
       <Income
-        onChange={mockOnChange}
-        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
         numberOfAdults={"2"}
         values={initialValues}
+        onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
       />
     );
 
@@ -295,8 +296,6 @@ describe("Income", () => {
   it("handles field changes with valid data", async () => {
     render(
       <Income
-        onChange={mockOnChange}
-        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
         numberOfAdults={"2"}
         values={{
           income1: 0,
@@ -308,6 +307,8 @@ describe("Income", () => {
           otherIncomes: 0,
           currentBuffer: 0,
         }}
+        onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
       />
     );
 
@@ -374,8 +375,6 @@ describe("Income", () => {
   it("toggles extra incomes section", () => {
     render(
       <Income
-        onChange={mockOnChange}
-        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
         numberOfAdults={"1"}
         values={{
           income1: 0,
@@ -387,6 +386,8 @@ describe("Income", () => {
           otherIncomes: 0,
           currentBuffer: 0,
         }}
+        onChange={mockOnChange}
+        onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
       />
     );
     const toggleButton = screen.getByTestId("extra-incomes-toggle");

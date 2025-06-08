@@ -1,5 +1,5 @@
-import React from "react";
 import { Check, CheckCircle } from "lucide-react";
+import React from "react";
 
 interface BudgetkollenLogoProps {
   variant?: "b-check" | "full-text" | "b-circle" | "text-check" | "minimal";
@@ -31,7 +31,7 @@ const BudgetkollenLogo = ({
           <span className={`${currentSize.text} font-bold text-white`}>B</span>
         </div>
         <div className="absolute -top-1 -right-1 bg-green-500 rounded-full p-1.5 shadow-md">
-          <Check size={currentSize.icon * 0.6} className="text-white" />
+          <Check className="text-white" size={currentSize.icon * 0.6} />
         </div>
       </div>
     );
@@ -42,7 +42,7 @@ const BudgetkollenLogo = ({
     return (
       <div className={`flex items-center gap-2 ${className}`}>
         <div className={`bg-green-500 rounded-lg ${currentSize.padding}`}>
-          <Check size={currentSize.icon} className="text-white" />
+          <Check className="text-white" size={currentSize.icon} />
         </div>
         <span
           className={`${currentSize.text} font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 bg-clip-text text-transparent`}
@@ -63,8 +63,8 @@ const BudgetkollenLogo = ({
           <span className={`${currentSize.text} font-bold text-white`}>B</span>
         </div>
         <CheckCircle
-          size={currentSize.icon * 1.8}
           className="absolute inset-0 text-green-400 opacity-30"
+          size={currentSize.icon * 1.8}
         />
       </div>
     );
@@ -81,7 +81,7 @@ const BudgetkollenLogo = ({
           <div
             className={`bg-gradient-to-r from-blue-400 to-purple-600 rounded-full p-1 mx-0.5`}
           >
-            <Check size={currentSize.icon * 0.5} className="text-white" />
+            <Check className="text-white" size={currentSize.icon * 0.5} />
           </div>
           <span>llen</span>
         </div>
@@ -99,7 +99,7 @@ const BudgetkollenLogo = ({
             kollen
           </span>
         </span>
-        <Check size={currentSize.icon * 0.7} className="text-green-500 ml-1" />
+        <Check className="text-green-500 ml-1" size={currentSize.icon * 0.7} />
       </div>
     );
   }

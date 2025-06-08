@@ -1,21 +1,23 @@
+import { motion } from "framer-motion";
+import { TrendingUp, Calculator } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
 import React from "react";
-import { useAppSelector } from "@/store/hooks";
+
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
+import { CardContent } from "@/components/ui/Card";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
+import { Card } from "@/components/ui/ModernCard";
+import { Text } from "@/components/ui/Text";
+import { Forecast } from "@/features/calculator/Forecast";
 import { ResultsTable } from "@/features/calculator/ResultsTable";
 import { ExpenseBreakdown } from "@/features/charts/ExpenseBreakdown";
-import { Forecast } from "@/features/calculator/Forecast";
-import { Box } from "@/components/ui/Box";
-import { Card } from "@/components/ui/ModernCard";
-import { CardContent } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
-import { TrendingUp, Calculator } from "lucide-react";
-import { Text } from "@/components/ui/Text";
-import { useTranslations, useLocale } from "next-intl";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { calculateLoanScenarios } from "@/lib/calculations";
-import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import { formatCurrencyNoDecimals } from "@/lib/formatting";
-import { motion } from "framer-motion";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import { useAppSelector } from "@/store/hooks";
+
 export const ResultsStep = () => {
   const loanParameters = useAppSelector((state) => state.loanParameters);
   const income = useAppSelector((state) => state.income);
@@ -48,15 +50,15 @@ export const ResultsStep = () => {
       {/* Compound Interest CTA */}
       {monthlySavings > 0 && (
         <motion.div
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
           transition={{ delay: 0.6 }}
         >
           <Card
-            gradient
             glass
-            className="overflow-hidden relative"
+            gradient
             animate={!isMobile}
+            className="overflow-hidden relative"
             hover={false}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
@@ -81,9 +83,9 @@ export const ResultsStep = () => {
                       <div className="px-3 py-1 rounded-full bg-green-500/20 text-green-400 font-medium">
                         <CurrencyDisplay
                           amount={monthlySavings}
-                          variant="positive"
-                          showDecimals={false}
                           className="inline"
+                          showDecimals={false}
+                          variant="positive"
                         />{" "}
                         / {locale === "sv" ? "månad" : "month"}
                       </div>
@@ -104,9 +106,9 @@ export const ResultsStep = () => {
                     }}
                   >
                     <Button
+                      className="group relative overflow-hidden"
                       size="lg"
                       variant="gradient"
-                      className="group relative overflow-hidden"
                     >
                       <span className="relative z-10 flex items-center gap-2 px-2">
                         <Calculator className="w-5 h-5 transition-transform group-hover:rotate-12" />
@@ -114,14 +116,14 @@ export const ResultsStep = () => {
                         <svg
                           className="w-4 h-4 transition-transform group-hover:translate-x-1"
                           fill="none"
-                          viewBox="0 0 24 24"
                           stroke="currentColor"
+                          viewBox="0 0 24 24"
                         >
                           <path
+                            d="M9 5l7 7-7 7"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M9 5l7 7-7 7"
                           />
                         </svg>
                       </span>

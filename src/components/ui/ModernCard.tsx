@@ -1,9 +1,11 @@
 "use client";
 
-import * as React from "react";
-import { Box } from "./Box";
-import { cn } from "@/lib/utils/general";
 import { motion } from "framer-motion";
+import * as React from "react";
+
+import { cn } from "@/lib/utils/general";
+
+import { Box } from "./Box";
 
 interface ModernCardProps extends React.HTMLAttributes<HTMLDivElement> {
   gradient?: boolean;
@@ -32,9 +34,7 @@ const ModernCard = React.forwardRef<HTMLDivElement, ModernCardProps>(
       return (
         <motion.div
           ref={ref}
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay, ease: "easeOut" }}
           className={cn(
             "relative overflow-hidden rounded-2xl",
             gradient && "gradient-border",
@@ -42,6 +42,8 @@ const ModernCard = React.forwardRef<HTMLDivElement, ModernCardProps>(
             hover && "card-hover",
             className
           )}
+          initial={{ opacity: 0 }}
+          transition={{ duration: 0.5, delay, ease: "easeOut" }}
         >
           <Box
             className={cn(

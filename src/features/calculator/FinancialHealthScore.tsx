@@ -1,24 +1,25 @@
 import { HeartPulse, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
+
+import { AnimatedScramble } from "@/components/ui/AnimatedScramble";
 import { Box } from "@/components/ui/Box";
-import { Text } from "@/components/ui/Text";
 import { Progress } from "@/components/ui/Progress";
-import type { FinancialHealthScore as FinancialHealthScoreType } from "@/lib/types";
-import { cn } from "@/lib/utils/general";
+import { Text } from "@/components/ui/Text";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/Tooltip";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { useState } from "react";
-import { AnimatedScramble } from "@/components/ui/AnimatedScramble";
 import {
   getScoreColor,
   getProgressColor,
   getSafeDisplayValues,
 } from "@/lib/financial-health";
 import { formatPercent, formatDTIRatio } from "@/lib/formatting";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import type { FinancialHealthScore as FinancialHealthScoreType } from "@/lib/types";
+import { cn } from "@/lib/utils/general";
 
 /**
  * Props for the FinancialHealthScore component.
@@ -81,18 +82,18 @@ export const FinancialHealthScore = ({
             <Tooltip delayDuration={100}>
               <TooltipTrigger asChild>
                 <button
-                  type="button"
-                  tabIndex={0}
                   aria-label={`Info: ${t("overall_score")}`}
                   className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-blue-500 transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
+                  tabIndex={0}
+                  type="button"
                 >
                   <Info className="w-4 h-4 text-gray-300" />
                 </button>
               </TooltipTrigger>
               <TooltipContent
+                className="z-50 max-w-xs p-3 text-xs"
                 side="top"
                 sideOffset={-8}
-                className="z-50 max-w-xs p-3 text-xs"
               >
                 {t("tooltips.overall_score")}
               </TooltipContent>
@@ -101,17 +102,17 @@ export const FinancialHealthScore = ({
         </Box>
         <Box className="flex items-center gap-4">
           <AnimatedScramble
-            value={displayValues.overallScore}
             className={cn(
               "text-3xl font-bold",
               getScoreColor(displayValues.overallScore)
             )}
             format={(v) => (Number.isFinite(v) ? String(v) : "–")}
+            value={displayValues.overallScore}
           />
           <Progress
-            value={displayValues.overallScore}
             className="flex-1 h-2"
             indicatorClassName={getProgressColor(displayValues.overallScore)}
+            value={displayValues.overallScore}
           />
         </Box>
       </Box>
@@ -123,32 +124,32 @@ export const FinancialHealthScore = ({
         </Text>
         <Box className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <MetricCard
-            title={t("debt_to_income")}
-            value={displayValues.debtToIncomeRatio}
             format={formatDTIRatio}
+            showTooltip={showTooltips}
+            title={t("debt_to_income")}
             tooltip={t("tooltips.debt_to_income")}
-            showTooltip={showTooltips}
+            value={displayValues.debtToIncomeRatio}
           />
           <MetricCard
+            format={formatPercent}
+            showTooltip={showTooltips}
             title={t("emergency_fund")}
-            value={displayValues.emergencyFundCoverage}
-            format={formatPercent}
             tooltip={t("tooltips.emergency_fund")}
-            showTooltip={showTooltips}
+            value={displayValues.emergencyFundCoverage}
           />
           <MetricCard
+            format={formatPercent}
+            showTooltip={showTooltips}
             title={t("housing_cost")}
-            value={displayValues.housingCostRatio}
-            format={formatPercent}
             tooltip={t("tooltips.housing_cost")}
-            showTooltip={showTooltips}
+            value={displayValues.housingCostRatio}
           />
           <MetricCard
-            title={t("discretionary_income")}
-            value={displayValues.discretionaryIncomeRatio}
             format={formatPercent}
-            tooltip={t("tooltips.discretionary_income")}
             showTooltip={showTooltips}
+            title={t("discretionary_income")}
+            tooltip={t("tooltips.discretionary_income")}
+            value={displayValues.discretionaryIncomeRatio}
           />
         </Box>
       </Box>
@@ -160,9 +161,9 @@ export const FinancialHealthScore = ({
             {t("recommendations")}
           </Text>
           <Box className="space-y-2">
-            {score.recommendations.map((recommendation, index) => (
+            {score.recommendations.map((recommendation) => (
               <Box
-                key={index}
+                key={recommendation}
                 className="flex items-start gap-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg"
               >
                 <Text className="text-sm text-blue-600 dark:text-blue-400">
@@ -225,10 +226,10 @@ const MetricCard = ({
           >
             <TooltipTrigger asChild>
               <button
-                type="button"
-                tabIndex={0}
                 aria-label={`Info: ${title}`}
                 className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-blue-500 transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
+                tabIndex={0}
+                type="button"
                 onClick={
                   isTouch
                     ? (e) => {
@@ -242,9 +243,9 @@ const MetricCard = ({
               </button>
             </TooltipTrigger>
             <TooltipContent
+              className="z-50 max-w-xs p-3 text-xs"
               side="top"
               sideOffset={-8}
-              className="z-50 max-w-xs p-3 text-xs"
             >
               {tooltip}
             </TooltipContent>
@@ -252,11 +253,11 @@ const MetricCard = ({
         )}
       </Box>
       <AnimatedScramble
-        value={typeof value === "number" && Number.isFinite(value) ? value : 0}
         className="font-medium"
         format={(v) =>
           typeof v === "number" && Number.isFinite(v) ? format(v) : "–"
         }
+        value={typeof value === "number" && Number.isFinite(value) ? value : 0}
       />
     </Box>
   );

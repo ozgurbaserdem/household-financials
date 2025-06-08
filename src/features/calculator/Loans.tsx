@@ -1,34 +1,35 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import { Calendar, HandCoins, Percent } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
+
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
+import { CardContent } from "@/components/ui/Card";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage as BaseFormMessage,
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 import {
   Card,
   CardHeader,
-  CardTitle,
   CardIcon,
+  CardTitle,
 } from "@/components/ui/ModernCard";
-import { CardContent } from "@/components/ui/Card";
-import { Form } from "@/components/ui/Form";
-import { HandCoins, Percent, Calendar } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/Box";
 import { Text } from "@/components/ui/Text";
-import { FormMessage as BaseFormMessage } from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
-import { motion } from "framer-motion";
-import {
-  FormField,
-  FormItem,
-  FormControl,
-  FormLabel,
-} from "@/components/ui/Form";
-import { Button } from "@/components/ui/Button";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 
 const formSchema = z
   .object({
@@ -62,12 +63,12 @@ const formSchema = z
     }
   );
 
-export type LoansFormValues = {
+export interface LoansFormValues {
   loanAmount: number;
   interestRate: number;
   amortizationRate: number;
   hasLoan: boolean;
-};
+}
 
 interface LoansFormProps {
   onChange: (values: LoansFormValues) => void;
@@ -90,7 +91,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
   });
 
   const t = useTranslations("loan_parameters");
-  const titleRef = useFocusOnMount();
+  const titleReference = useFocusOnMount();
   const isMobile = useIsTouchDevice();
 
   useEffect(() => {
@@ -171,38 +172,38 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
   const monthlyPayment = calculateMonthlyPayment();
 
   return (
-    <Card gradient glass delay={0.1} animate={!isMobile} hover={false}>
+    <Card glass gradient animate={!isMobile} delay={0.1} hover={false}>
       <CardHeader>
         <CardIcon>
           <HandCoins className="w-6 h-6 text-orange-400" />
         </CardIcon>
         <Box className="flex-1">
           <CardTitle
-            ref={titleRef}
-            tabIndex={0}
+            ref={titleReference}
             aria-label={t("title_aria")}
             className="focus:outline-none"
+            tabIndex={0}
           >
             {t("title")}
           </CardTitle>
           <motion.p
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
             className="text-sm text-gray-300 mt-1"
+            initial={{ opacity: 0 }}
+            transition={{ delay: 0.3 }}
           >
             {hasLoan && monthlyPayment > 0 ? (
               <>
                 {t("estimated_monthly_payment")}:{" "}
                 <CurrencyDisplay
                   amount={monthlyPayment}
-                  variant="neutral"
-                  showDecimals={false}
                   className="text-orange-400 font-semibold"
+                  showDecimals={false}
+                  variant="neutral"
                 />
               </>
             ) : (
-              t("no_loan", { count: parseInt(numberOfAdults) })
+              t("no_loan", { count: Number.parseInt(numberOfAdults) })
             )}
           </motion.p>
         </Box>
@@ -210,11 +211,11 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
 
       <CardContent className="pb-6">
         <Form {...form}>
-          <form data-testid="loan-form" className="space-y-4">
+          <form className="space-y-4" data-testid="loan-form">
             {/* Has Loan Toggle */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
               transition={{ delay: 0.15 }}
             >
               <FormField
@@ -225,6 +226,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                     <FormControl>
                       <Box className="flex items-center gap-3">
                         <Button
+                          className="flex-1"
                           type="button"
                           variant={field.value ? "gradient" : "secondary"}
                           onClick={() => {
@@ -234,11 +236,13 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                             // Reset the flag after a short delay
                             setTimeout(() => setIsUserToggling(false), 300);
                           }}
-                          className="flex-1"
                         >
-                          {t("has_loan", { count: parseInt(numberOfAdults) })}
+                          {t("has_loan", {
+                            count: Number.parseInt(numberOfAdults),
+                          })}
                         </Button>
                         <Button
+                          className="flex-1"
                           type="button"
                           variant={!field.value ? "gradient" : "secondary"}
                           onClick={() => {
@@ -248,9 +252,10 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                             // Reset the flag after a short delay
                             setTimeout(() => setIsUserToggling(false), 300);
                           }}
-                          className="flex-1"
                         >
-                          {t("no_loan", { count: parseInt(numberOfAdults) })}
+                          {t("no_loan", {
+                            count: Number.parseInt(numberOfAdults),
+                          })}
                         </Button>
                       </Box>
                     </FormControl>
@@ -262,8 +267,8 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
             {hasLoan && (
               <>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
                   transition={{ delay: 0.2 }}
                 >
                   <FormField
@@ -274,12 +279,13 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                         <FormLabel>{t("loan_amount")}</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
                             min={0}
+                            type="number"
                             {...field}
-                            value={field.value || ""}
-                            placeholder="0"
                             aria-label={t("loan_amount_aria")}
+                            className="modern-input text-lg"
+                            placeholder="0"
+                            value={field.value || ""}
                             onChange={(e) => {
                               const value =
                                 e.target.value === ""
@@ -288,7 +294,6 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                               field.onChange(value);
                               handleFieldChange();
                             }}
-                            className="modern-input text-lg"
                           />
                         </FormControl>
                         <BaseFormMessage />
@@ -298,10 +303,10 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
                   className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  transition={{ delay: 0.3 }}
                 >
                   <FormField
                     control={form.control}
@@ -316,24 +321,24 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                           <div className="space-y-3">
                             <div className="relative flex items-center gap-4">
                               <input
-                                type="range"
-                                min={0.05}
-                                max={20}
-                                step={0.05}
-                                value={field.value || 3.5}
-                                onChange={(e) => {
-                                  const value = Number(e.target.value);
-                                  field.onChange(value);
-                                  handleFieldChange();
-                                }}
                                 aria-label={t("interest_rate_aria")}
                                 className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                                max={20}
+                                min={0.05}
+                                step={0.05}
                                 style={{
                                   background: `linear-gradient(to right, 
                                     rgb(59 130 246) 0%, 
                                     rgb(147 51 234) ${(((field.value || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
                                     rgb(55 65 81) ${(((field.value || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
                                     rgb(55 65 81) 100%)`,
+                                }}
+                                type="range"
+                                value={field.value || 3.5}
+                                onChange={(e) => {
+                                  const value = Number(e.target.value);
+                                  field.onChange(value);
+                                  handleFieldChange();
                                 }}
                               />
                               <div className="flex-shrink-0">
@@ -367,24 +372,24 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                           <div className="space-y-3">
                             <div className="relative flex items-center gap-4">
                               <input
-                                type="range"
-                                min={0.05}
-                                max={10}
-                                step={0.05}
-                                value={field.value || 2}
-                                onChange={(e) => {
-                                  const value = Number(e.target.value);
-                                  field.onChange(value);
-                                  handleFieldChange();
-                                }}
                                 aria-label={t("amortization_rate_aria")}
                                 className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                                max={10}
+                                min={0.05}
+                                step={0.05}
                                 style={{
                                   background: `linear-gradient(to right, 
                                     rgb(59 130 246) 0%, 
                                     rgb(147 51 234) ${(((field.value || 2) - 0.01) / (10 - 0.01)) * 100}%, 
                                     rgb(55 65 81) ${(((field.value || 2) - 0.01) / (10 - 0.01)) * 100}%, 
                                     rgb(55 65 81) 100%)`,
+                                }}
+                                type="range"
+                                value={field.value || 2}
+                                onChange={(e) => {
+                                  const value = Number(e.target.value);
+                                  field.onChange(value);
+                                  handleFieldChange();
                                 }}
                               />
                               <div className="flex-shrink-0">
@@ -411,9 +416,9 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
             {/* Show any form-level validation errors */}
             {form.formState.errors.root && (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="mt-4"
+                initial={{ opacity: 0, y: 10 }}
               >
                 <BaseFormMessage className="text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
                   {form.formState.errors.root.message}

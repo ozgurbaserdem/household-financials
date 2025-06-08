@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+
 import { calculateCompoundInterest } from "@/lib/compound-interest";
 import type { CompoundInterestInputs } from "@/lib/compound-interest";
 
@@ -138,10 +139,10 @@ describe("calculateCompoundInterest", () => {
     const monthlyRate = Math.pow(1.12, 1 / 12) - 1;
 
     // Manual calculation for verification
-    let manualTotal = 100000;
-    for (let month = 0; month < 12; month++) {
-      manualTotal = manualTotal * (1 + monthlyRate) + 5000;
-    }
+    const manualTotal = Array.from({ length: 12 }).reduce(
+      (total: number) => total * (1 + monthlyRate) + 5000,
+      100000
+    );
 
     expect(finalYear.totalValue).toBeCloseTo(manualTotal, 0);
   });
@@ -157,9 +158,8 @@ describe("calculateCompoundInterest", () => {
     const result = calculateCompoundInterest(inputs);
 
     // Verify year-over-year growth
-    for (let i = 1; i < result.length; i++) {
-      const prevYear = result[i - 1];
-      const currYear = result[i];
+    result.slice(1).map((currYear, index) => {
+      const prevYear = result[index];
 
       // Start sum should remain constant
       expect(currYear.startSum).toBe(prevYear.startSum);
@@ -176,7 +176,8 @@ describe("calculateCompoundInterest", () => {
       expect(currYear.compoundReturns).toBeGreaterThan(
         prevYear.compoundReturns
       );
-    }
+      return currYear;
+    });
   });
 
   it("should handle maximum values", () => {
@@ -206,11 +207,12 @@ describe("calculateCompoundInterest", () => {
     const result = calculateCompoundInterest(inputs);
 
     // All values should be finite numbers
-    result.forEach((year) => {
+    result.map((year) => {
       expect(isFinite(year.totalValue)).toBe(true);
       expect(isFinite(year.compoundReturns)).toBe(true);
       expect(year.totalValue).not.toBeNaN();
       expect(year.compoundReturns).not.toBeNaN();
+      return year;
     });
   });
 
@@ -267,7 +269,8 @@ describe("calculateCompoundInterest", () => {
     expect(result[2].withdrawal).toBeGreaterThan(0);
 
     // The second year withdrawal should be less than the first (smaller portfolio)
-    expect(result[2].withdrawal).toBeLessThan(result[1].withdrawal!);
+    expect(result[1].withdrawal).toBeDefined();
+    expect(result[2].withdrawal).toBeLessThan(result[1].withdrawal ?? 0);
   });
 
   it("should continue annual savings increase until withdrawal year", () => {

@@ -1,5 +1,7 @@
-import { CurrencyInput } from "@/components/ui/CurrencyInput";
 import type { UseFormReturn } from "react-hook-form";
+
+import { CurrencyInput } from "@/components/ui/CurrencyInput";
+
 import type { IncomeFormValues } from "./Income";
 
 interface IncomeInputFieldProps {
@@ -27,15 +29,15 @@ const IncomeInputField = ({
 }: IncomeInputFieldProps) => {
   return (
     <CurrencyInput
-      form={form}
-      name={name}
-      label={label}
       ariaLabel={ariaLabel}
-      hidden={hidden}
-      onBlur={onBlur}
       className={className}
       disabled={disabled}
+      form={form}
+      hidden={hidden}
+      label={label}
+      name={name}
       placeholder={placeholder}
+      onBlur={onBlur}
     />
   );
 };

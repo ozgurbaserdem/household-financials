@@ -1,6 +1,8 @@
 import { saveAs } from "file-saver";
-import type { CalculatorState, ExpensesByCategory } from "./types";
+
 import { expenseCategories } from "@/data/expenseCategories";
+
+import type { CalculatorState, ExpensesByCategory } from "./types";
 
 /**
  * Flattens expense categories into a flat key-value structure for CSV export.
@@ -17,11 +19,14 @@ import { expenseCategories } from "@/data/expenseCategories";
 const flattenExpenses = (
   expenses: ExpensesByCategory
 ): Record<string, number> => {
-  const flat: Record<string, number> = {};
-  for (const category of expenseCategories) {
-    flat[category.id] = expenses?.[category.id] ?? 0;
-  }
-  return flat;
+  // eslint-disable-next-line unicorn/no-array-reduce
+  return expenseCategories.reduce(
+    (flat, category) => {
+      flat[category.id] = expenses?.[category.id] ?? 0;
+      return flat;
+    },
+    {} as Record<string, number>
+  );
 };
 
 /**

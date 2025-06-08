@@ -1,12 +1,13 @@
-import { Main } from "@/components/ui/Main";
-import { Box } from "@/components/ui/Box";
-import HushallskalkylContent from "@/features/hushallskalkyl/HushallskalkylContent";
-import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 
-type Props = {
+import { Box } from "@/components/ui/Box";
+import { Main } from "@/components/ui/Main";
+import HushallskalkylContent from "@/features/hushallskalkyl/HushallskalkylContent";
+
+interface Props {
   params: Promise<{ locale: string }>;
-};
+}
 
 const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { locale } = await params;

@@ -1,55 +1,60 @@
+import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import React from "react";
+
 import { Main } from "@/components/ui/Main";
 import { WizardClient } from "@/components/WizardClient";
-import { setRequestLocale } from "next-intl/server";
-import type { Metadata } from "next";
 
-type Props = {
+interface Props {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
+}
 
 const generateMetadata = async ({
   params,
   searchParams,
 }: Props): Promise<Metadata> => {
   const { locale } = await params;
-  const resolvedSearchParams = await searchParams;
+  const resolvedSearchParameters = await searchParams;
 
   // Get the current step from search params
-  const stepParam = locale === "sv" ? "steg" : "step";
-  const currentStep = resolvedSearchParams?.[stepParam];
+  const stepParameter = locale === "sv" ? "steg" : "step";
+  const currentStep = resolvedSearchParameters?.[stepParameter];
 
   // Dynamic title based on current step
-  let title =
-    locale === "sv"
-      ? "Hushållsbudget Kalkylator - Gratis Budgetverktyg | Budgetkollen"
-      : "Household Budget Calculator - Free Budget Tool | Budgetkollen";
+  const getTitle = () => {
+    const defaultTitle =
+      locale === "sv"
+        ? "Hushållsbudget Kalkylator - Gratis Budgetverktyg | Budgetkollen"
+        : "Household Budget Calculator - Free Budget Tool | Budgetkollen";
 
-  // Add step-specific context to title if available
-  if (currentStep && typeof currentStep === "string") {
-    const stepTitles: Record<string, Record<string, string>> = {
-      sv: {
-        inkomst: "Steg 1: Inkomster - Hushållsbudget | Budgetkollen",
-        lan: "Steg 2: Lån - Hushållsbudget | Budgetkollen",
-        utgifter: "Steg 3: Utgifter - Hushållsbudget | Budgetkollen",
-        sammanfattning:
-          "Steg 4: Sammanfattning - Hushållsbudget | Budgetkollen",
-        resultat: "Resultat - Hushållsbudget | Budgetkollen",
-      },
-      en: {
-        income: "Step 1: Income - Household Budget | Budgetkollen",
-        loans: "Step 2: Loans - Household Budget | Budgetkollen",
-        expenses: "Step 3: Expenses - Household Budget | Budgetkollen",
-        summary: "Step 4: Summary - Household Budget | Budgetkollen",
-        results: "Results - Household Budget | Budgetkollen",
-      },
-    };
+    // Add step-specific context to title if available
+    if (currentStep && typeof currentStep === "string") {
+      const stepTitles: Record<string, Record<string, string>> = {
+        sv: {
+          inkomst: "Steg 1: Inkomster - Hushållsbudget | Budgetkollen",
+          lan: "Steg 2: Lån - Hushållsbudget | Budgetkollen",
+          utgifter: "Steg 3: Utgifter - Hushållsbudget | Budgetkollen",
+          sammanfattning:
+            "Steg 4: Sammanfattning - Hushållsbudget | Budgetkollen",
+          resultat: "Resultat - Hushållsbudget | Budgetkollen",
+        },
+        en: {
+          income: "Step 1: Income - Household Budget | Budgetkollen",
+          loans: "Step 2: Loans - Household Budget | Budgetkollen",
+          expenses: "Step 3: Expenses - Household Budget | Budgetkollen",
+          summary: "Step 4: Summary - Household Budget | Budgetkollen",
+          results: "Results - Household Budget | Budgetkollen",
+        },
+      };
 
-    if (stepTitles[locale]?.[currentStep]) {
-      title = stepTitles[locale][currentStep];
+      return stepTitles[locale]?.[currentStep] || defaultTitle;
     }
-  }
+
+    return defaultTitle;
+  };
+
+  const title = getTitle();
 
   const description =
     locale === "sv"
@@ -62,15 +67,21 @@ const generateMetadata = async ({
       : "household budget, budget calculator, personal finance, monthly budget, budget planning, budgetkollen";
 
   // Canonical URLs with proper localization
-  let canonicalUrl =
-    locale === "sv"
-      ? "https://www.budgetkollen.se/hushallsbudget"
-      : "https://www.budgetkollen.se/en/household-budget";
+  const getCanonicalUrl = () => {
+    const baseUrl =
+      locale === "sv"
+        ? "https://www.budgetkollen.se/hushallsbudget"
+        : "https://www.budgetkollen.se/en/household-budget";
 
-  // Add step parameter to canonical URL if present
-  if (currentStep && typeof currentStep === "string") {
-    canonicalUrl += `?${stepParam}=${currentStep}`;
-  }
+    // Add step parameter to canonical URL if present
+    if (currentStep && typeof currentStep === "string") {
+      return `${baseUrl}?${stepParameter}=${currentStep}`;
+    }
+
+    return baseUrl;
+  };
+
+  const canonicalUrl = getCanonicalUrl();
 
   return {
     title,
@@ -152,10 +163,10 @@ const HushallsbudgetPage = async ({
     <>
       {/* Essential structured data for SEO */}
       <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(webApplicationSchema),
         }}
+        type="application/ld+json"
       />
 
       <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">

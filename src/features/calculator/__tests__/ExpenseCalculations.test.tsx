@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+
 import { calculateLoanScenarios } from "@/lib/calculations";
 import type {
   CalculatorState,

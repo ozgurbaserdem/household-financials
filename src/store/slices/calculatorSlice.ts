@@ -1,6 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CalculatorState, IncomeState, ExpensesByCategory } from "@/lib/types";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+
 import { DEFAULT_EXPENSES } from "@/data/expenseCategories";
+import type {
+  CalculatorState,
+  ExpensesByCategory,
+  IncomeState,
+} from "@/lib/types";
 
 const initialState: CalculatorState = {
   loanParameters: {

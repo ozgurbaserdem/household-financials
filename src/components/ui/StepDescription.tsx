@@ -1,6 +1,6 @@
-import React from "react";
-import { useTranslations } from "next-intl";
 import { Info } from "lucide-react";
+import { useTranslations } from "next-intl";
+import React from "react";
 
 interface StepDescriptionProps {
   stepKey: "income" | "loans" | "expenses" | "summary" | "results";

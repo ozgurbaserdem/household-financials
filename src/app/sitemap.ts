@@ -1,4 +1,4 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 const sitemap = (): MetadataRoute.Sitemap => {
   const baseUrl = "https://www.budgetkollen.se";

@@ -1,5 +1,6 @@
-import type { KommunData } from "../types";
 import kommunalskattData from "@/data/kommunalskatt_2025.json";
+
+import type { KommunData } from "../types";
 
 export interface TaxCalculationConfig {
   kommunalskatt: number;

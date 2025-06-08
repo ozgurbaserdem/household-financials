@@ -1,7 +1,8 @@
-import { FormControl, FormItem, FormLabel } from "@/components/ui/Form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 import { useTranslations } from "next-intl";
 import React from "react";
+
+import { FormControl, FormItem, FormLabel } from "@/components/ui/Form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 
 interface NumberOfAdultsRadioGroupProps {
   value: "1" | "2";
@@ -16,18 +17,18 @@ const NumberOfAdultsRadioGroup = ({
   return (
     <fieldset>
       <legend
-        id="adults-group-label"
-        className="calculator-form-label"
         aria-label={t("number_of_adults_full")}
+        className="calculator-form-label"
+        id="adults-group-label"
       >
         {t("number_of_adults")}
       </legend>
       <FormControl>
         <RadioGroup
           aria-labelledby="adults-group-label"
+          className="flex gap-4"
           value={value}
           onValueChange={(v) => onChange(v as "1" | "2")}
-          className="flex gap-4"
         >
           <FormItem className="flex items-center space-x-2">
             <FormControl>

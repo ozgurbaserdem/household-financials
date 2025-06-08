@@ -1,9 +1,11 @@
 "use client";
 
-import * as React from "react";
-import { Box } from "./Box";
-import { cn } from "@/lib/utils/general";
 import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
+
+import { cn } from "@/lib/utils/general";
+
+import { Box } from "./Box";
 
 const cardVariants = cva(
   "flex flex-col gap-6 rounded-xl shadow-sm transition-all duration-200",
@@ -47,8 +49,8 @@ export interface CardProps
 const Card = ({ className, variant, padding, hover, ...props }: CardProps) => {
   return (
     <Box
-      data-slot="card"
       className={cn(cardVariants({ variant, padding, hover }), className)}
+      data-slot="card"
       {...props}
     />
   );
@@ -74,8 +76,8 @@ interface CardHeaderProps
 const CardHeader = ({ className, layout, ...props }: CardHeaderProps) => {
   return (
     <Box
-      data-slot="card-header"
       className={cn(cardHeaderVariants({ layout }), className)}
+      data-slot="card-header"
       {...props}
     />
   );
@@ -113,8 +115,8 @@ interface CardTitleProps
 const CardTitle = ({ className, size, gradient, ...props }: CardTitleProps) => {
   return (
     <Box
-      data-slot="card-title"
       className={cn(cardTitleVariants({ size, gradient }), className)}
+      data-slot="card-title"
       {...props}
     />
   );
@@ -126,11 +128,11 @@ const CardDescription = ({
 }: React.ComponentProps<"div">) => {
   return (
     <Box
-      data-slot="card-description"
       className={cn(
         "text-muted-foreground dark:text-gray-400 text-sm leading-relaxed",
         className
       )}
+      data-slot="card-description"
       {...props}
     />
   );
@@ -139,11 +141,11 @@ const CardDescription = ({
 const CardAction = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <Box
-      data-slot="card-action"
       className={cn(
         "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
         className
       )}
+      data-slot="card-action"
       {...props}
     />
   );
@@ -151,15 +153,15 @@ const CardAction = ({ className, ...props }: React.ComponentProps<"div">) => {
 
 const CardContent = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
-    <Box data-slot="card-content" className={cn("", className)} {...props} />
+    <Box className={cn("", className)} data-slot="card-content" {...props} />
   );
 };
 
 const CardFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <Box
-      data-slot="card-footer"
       className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
+      data-slot="card-footer"
       {...props}
     />
   );
@@ -199,8 +201,8 @@ interface CardIconProps
 const CardIcon = ({ className, variant, size, ...props }: CardIconProps) => {
   return (
     <Box
-      data-slot="card-icon"
       className={cn(cardIconVariants({ variant, size }), className)}
+      data-slot="card-icon"
       {...props}
     />
   );

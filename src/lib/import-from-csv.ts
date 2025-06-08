@@ -1,5 +1,6 @@
-import type { CalculatorState, ExpensesByCategory } from "./types";
 import { expenseCategories } from "@/data/expenseCategories";
+
+import type { CalculatorState, ExpensesByCategory } from "./types";
 
 /**
  * Converts flattened CSV data back into structured expense categories.
@@ -15,11 +16,11 @@ import { expenseCategories } from "@/data/expenseCategories";
 const unflattenExpenses = (
   flat: Record<string, string | number>
 ): ExpensesByCategory => {
-  const result: ExpensesByCategory = {};
-  for (const category of expenseCategories) {
+  // eslint-disable-next-line unicorn/no-array-reduce
+  return expenseCategories.reduce((result, category) => {
     result[category.id] = Number(flat[category.id] ?? 0);
-  }
-  return result;
+    return result;
+  }, {} as ExpensesByCategory);
 };
 
 /**
@@ -73,10 +74,14 @@ export const importFromCsv = (
       const keys = header.split(",");
       const values = row.split(",");
       if (keys.length !== values.length) throw new Error("CSV column mismatch");
-      const flat: Record<string, string> = {};
-      keys.forEach((key, i) => {
-        flat[key] = values[i];
-      });
+      // eslint-disable-next-line unicorn/no-array-reduce
+      const flat: Record<string, string> = keys.reduce(
+        (result, key, i) => {
+          result[key] = values[i];
+          return result;
+        },
+        {} as Record<string, string>
+      );
 
       const interestRate = Number(flat.interestRate ?? 3.5);
       const amortizationRate = Number(flat.amortizationRate ?? 2);

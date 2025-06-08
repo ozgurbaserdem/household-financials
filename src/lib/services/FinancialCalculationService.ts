@@ -1,18 +1,15 @@
 import type {
-  CalculatorState,
   CalculationResult,
+  CalculatorState,
   ExpensesByCategory,
   FinancialHealthScore,
   IncomeState,
 } from "../types";
-import {
-  TaxCalculationService,
-  taxCalculationService,
-} from "./TaxCalculationService";
-import {
-  LoanCalculationService,
-  loanCalculationService,
-} from "./LoanCalculationService";
+
+import type { LoanCalculationService } from "./LoanCalculationService";
+import { loanCalculationService } from "./LoanCalculationService";
+import type { TaxCalculationService } from "./TaxCalculationService";
+import { taxCalculationService } from "./TaxCalculationService";
 
 export interface IncomeCalculationResult {
   gross: number;
@@ -65,16 +62,26 @@ export class FinancialCalculationService {
   ): IncomeCalculationResult => {
     const { selectedKommun, includeChurchTax } = incomeState;
 
+    const {
+      income1,
+      income2,
+      secondaryIncome1,
+      secondaryIncome2,
+      childBenefits,
+      otherBenefits,
+      otherIncomes,
+    } = incomeState;
+
     // Calculate primary incomes (subject to kommun tax)
     const income1Result = this.taxService.calculateNetIncome(
-      incomeState.income1,
+      income1,
       false,
       selectedKommun,
       includeChurchTax
     );
 
     const income2Result = this.taxService.calculateNetIncome(
-      incomeState.income2,
+      income2,
       false,
       selectedKommun,
       includeChurchTax
@@ -82,26 +89,23 @@ export class FinancialCalculationService {
 
     // Calculate secondary incomes (different tax rules)
     const secondaryIncome1Result = this.taxService.calculateNetIncome(
-      incomeState.secondaryIncome1,
+      secondaryIncome1,
       true
     );
 
     const secondaryIncome2Result = this.taxService.calculateNetIncome(
-      incomeState.secondaryIncome2,
+      secondaryIncome2,
       true
     );
 
     // Non-taxable incomes
-    const nonTaxableIncome =
-      incomeState.childBenefits +
-      incomeState.otherBenefits +
-      incomeState.otherIncomes;
+    const nonTaxableIncome = childBenefits + otherBenefits + otherIncomes;
 
     const grossTotal =
-      incomeState.income1 +
-      incomeState.income2 +
-      incomeState.secondaryIncome1 +
-      incomeState.secondaryIncome2 +
+      income1 +
+      income2 +
+      secondaryIncome1 +
+      secondaryIncome2 +
       nonTaxableIncome;
 
     const netTotal =
@@ -347,6 +351,7 @@ export class FinancialCalculationService {
    * @private
    */
   private calculateTotalExpenses = (expenses: ExpensesByCategory): number => {
+    // eslint-disable-next-line unicorn/no-array-reduce
     return Object.values(expenses).reduce((total, amount) => {
       const numericAmount = Number(amount) || 0;
       return total + numericAmount;
@@ -458,10 +463,11 @@ export class FinancialCalculationService {
     };
 
     // Handle NaN values
-    Object.keys(scores).forEach((key) => {
+    Object.keys(scores).map((key) => {
       if (!Number.isFinite(scores[key as keyof typeof scores])) {
         scores[key as keyof typeof scores] = 0;
       }
+      return key;
     });
 
     const total = Object.entries(weights).reduce((total, [key, weight]) => {

@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { LanguageSwitcher } from "./LanguageSwitcher";
-import { useTranslations } from "next-intl";
+import { CaretDownIcon } from "@radix-ui/react-icons";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,13 +11,17 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@radix-ui/react-navigation-menu";
-import { Menu, X } from "lucide-react";
-import { Link } from "@/i18n/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { useTranslations } from "next-intl";
+import React, { useState } from "react";
+
 import { Box } from "@/components/ui/Box";
-import { Text } from "@/components/ui/Text";
 import { Button } from "@/components/ui/Button";
-import { CaretDownIcon } from "@radix-ui/react-icons";
+import { Text } from "@/components/ui/Text";
+import { Link } from "@/i18n/navigation";
+
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Logo } from "./Logo";
 
 export const Navbar = () => {
@@ -28,12 +30,12 @@ export const Navbar = () => {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 100 }}
-      className="w-full glass-navbar sticky top-0 z-50"
-      role="navigation"
       aria-label="Main navigation"
+      className="w-full glass-navbar sticky top-0 z-50"
+      initial={{ y: -100 }}
+      role="navigation"
+      transition={{ type: "spring", stiffness: 100 }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-0">
         <div className="flex justify-between items-center h-16">
@@ -47,13 +49,13 @@ export const Navbar = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className="group inline-flex items-center gap-1 px-4 py-2 rounded-lg font-medium glass hover:bg-white/10 transition-all duration-200"
-                    onPointerDown={(event) => {
-                      if (event.pointerType === "mouse") {
+                    onClick={(event) => {
+                      if (event.detail > 0) {
                         event.preventDefault();
                       }
                     }}
-                    onClick={(event) => {
-                      if (event.detail > 0) {
+                    onPointerDown={(event) => {
+                      if (event.pointerType === "mouse") {
                         event.preventDefault();
                       }
                     }}
@@ -67,27 +69,27 @@ export const Navbar = () => {
                     {/* Arrow */}
                     <svg
                       className="absolute -top-2 left-1/2 transform -translate-x-1/2"
-                      width="16"
+                      fill="none"
                       height="8"
                       viewBox="0 0 16 8"
-                      fill="none"
+                      width="16"
                     >
                       <path
+                        className="text-gray-900/90"
                         d="M8 0L16 8H0L8 0Z"
                         fill="currentColor"
-                        className="text-gray-900/90"
                       />
                     </svg>
                     <motion.ul
-                      initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="grid gap-2"
+                      initial={{ opacity: 0, y: -10 }}
                     >
                       <li>
                         <NavigationMenuLink asChild>
                           <Link
-                            href="/hushallsbudget"
                             className="block p-3 hover:bg-white/10 transition-all duration-200 group"
+                            href="/hushallsbudget"
                           >
                             <div className="font-semibold text-base text-gray-200 group-hover:text-white">
                               {t("household_budget_label")}
@@ -101,8 +103,8 @@ export const Navbar = () => {
                       <li>
                         <NavigationMenuLink asChild>
                           <Link
-                            href="/ranta-pa-ranta"
                             className="block p-3 hover:bg-white/10 transition-all duration-200 group"
+                            href="/ranta-pa-ranta"
                           >
                             <div className="font-semibold text-base text-gray-200 group-hover:text-white">
                               {t("compound_interest_label")}
@@ -116,8 +118,8 @@ export const Navbar = () => {
                       <li>
                         <NavigationMenuLink asChild>
                           <Link
-                            href="/hushallskalkyl"
                             className="block p-3 hover:bg-white/10 transition-all duration-200 group"
+                            href="/hushallskalkyl"
                           >
                             <div className="font-semibold text-base text-gray-200 group-hover:text-white">
                               {t("main_article_label")}
@@ -145,19 +147,19 @@ export const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
+            className="md:hidden"
+            size="icon"
+            variant="ghost"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <AnimatePresence mode="wait">
               {mobileMenuOpen ? (
                 <motion.div
                   key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: 90, opacity: 0 }}
+                  initial={{ rotate: -90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
                   <X className="w-6 h-6" />
@@ -165,9 +167,9 @@ export const Navbar = () => {
               ) : (
                 <motion.div
                   key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: -90, opacity: 0 }}
+                  initial={{ rotate: 90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
                   <Menu className="w-6 h-6" />
@@ -182,11 +184,11 @@ export const Navbar = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
             className="md:hidden overflow-hidden"
+            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
           >
             <Box className="px-4 py-4 space-y-4 glass border-t border-gray-800">
               <Box className="space-y-2">
@@ -194,9 +196,9 @@ export const Navbar = () => {
                   {t("articles")}
                 </Text>
                 <Link
+                  className="block p-3 hover:bg-white/10 transition-all duration-200"
                   href="/hushallsbudget"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block p-3 hover:bg-white/10 transition-all duration-200"
                 >
                   <div className="font-semibold text-gray-200">
                     {t("household_budget_label")}
@@ -206,9 +208,9 @@ export const Navbar = () => {
                   </div>
                 </Link>
                 <Link
+                  className="block p-3 hover:bg-white/10 transition-all duration-200"
                   href="/ranta-pa-ranta"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block p-3 hover:bg-white/10 transition-all duration-200"
                 >
                   <div className="font-semibold text-gray-200">
                     {t("compound_interest_label")}
@@ -218,9 +220,9 @@ export const Navbar = () => {
                   </div>
                 </Link>
                 <Link
+                  className="block p-3 hover:bg-white/10 transition-all duration-200"
                   href="/hushallskalkyl"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block p-3 hover:bg-white/10 transition-all duration-200"
                 >
                   <div className="font-semibold text-gray-200">
                     {t("main_article_label")}

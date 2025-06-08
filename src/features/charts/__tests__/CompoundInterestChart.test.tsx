@@ -1,6 +1,7 @@
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+
 import { CompoundInterestChart } from "@/features/charts/CompoundInterestChart";
 import type { CompoundInterestData } from "@/lib/compound-interest";
 
@@ -16,7 +17,7 @@ vi.mock("recharts", () => ({
     children: React.ReactNode;
     data: unknown;
   }) => (
-    <div data-testid="bar-chart" data-chart-data={JSON.stringify(data)}>
+    <div data-chart-data={JSON.stringify(data)} data-testid="bar-chart">
       {children}
     </div>
   ),
@@ -30,25 +31,25 @@ vi.mock("recharts", () => ({
     fill: string;
   }) => (
     <div
-      data-testid={`bar-${dataKey}`}
-      data-stack-id={stackId}
       data-fill={fill}
+      data-stack-id={stackId}
+      data-testid={`bar-${dataKey}`}
     />
   ),
   XAxis: ({ dataKey }: { dataKey: string }) => (
-    <div data-testid="x-axis" data-key={dataKey} />
+    <div data-key={dataKey} data-testid="x-axis" />
   ),
   YAxis: ({ tickFormatter }: { tickFormatter?: () => string }) => (
     <div
-      data-testid="y-axis"
       data-formatter={tickFormatter ? "custom" : "default"}
+      data-testid="y-axis"
     />
   ),
   Tooltip: ({ content }: { content?: React.ComponentType }) => (
-    <div data-testid="tooltip" data-custom={content ? "true" : "false"} />
+    <div data-custom={content ? "true" : "false"} data-testid="tooltip" />
   ),
   Legend: ({ content }: { content?: React.ComponentType }) => (
-    <div data-testid="legend" data-custom={content ? "true" : "false"} />
+    <div data-custom={content ? "true" : "false"} data-testid="legend" />
   ),
   CartesianGrid: () => <div data-testid="cartesian-grid" />,
   ReferenceLine: ({
@@ -65,12 +66,12 @@ vi.mock("recharts", () => ({
     label: { value: string; position: string; fill: string };
   }) => (
     <div
-      data-testid="reference-line"
-      data-x={x}
+      data-label={label.value}
       data-stroke={stroke}
       data-stroke-dasharray={strokeDasharray}
       data-stroke-width={strokeWidth}
-      data-label={label.value}
+      data-testid="reference-line"
+      data-x={x}
     />
   ),
 }));
@@ -170,9 +171,7 @@ describe("CompoundInterestChart", () => {
     render(<CompoundInterestChart data={mockData} />);
 
     const barChart = screen.getByTestId("bar-chart");
-    const chartData = JSON.parse(
-      barChart.getAttribute("data-chart-data") || "[]"
-    );
+    const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
     expect(chartData).toHaveLength(5);
     expect(chartData[0]).toEqual(mockData[0]);
@@ -223,9 +222,7 @@ describe("CompoundInterestChart", () => {
     render(<CompoundInterestChart data={singlePoint} />);
 
     const barChart = screen.getByTestId("bar-chart");
-    const chartData = JSON.parse(
-      barChart.getAttribute("data-chart-data") || "[]"
-    );
+    const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
     expect(chartData).toHaveLength(1);
     expect(chartData[0]).toEqual(singlePoint[0]);
@@ -233,28 +230,28 @@ describe("CompoundInterestChart", () => {
 
   it("should handle large data sets", () => {
     // Create 50 years of data
-    const largeData: CompoundInterestData[] = [];
-    for (let year = 0; year <= 50; year++) {
-      const accumulatedSavings = 1000 * 12 * year;
-      const compoundReturns = year * year * 100;
-      largeData.push({
-        year,
-        startSum: 10000,
-        accumulatedSavings,
-        compoundReturns,
-        totalValue: 10000 + accumulatedSavings + compoundReturns,
-        chartStartSum: 10000,
-        chartSavings: accumulatedSavings,
-        chartReturns: compoundReturns,
-      });
-    }
+    const largeData: CompoundInterestData[] = Array.from(
+      { length: 51 },
+      (_, year) => {
+        const accumulatedSavings = 1000 * 12 * year;
+        const compoundReturns = year * year * 100;
+        return {
+          year,
+          startSum: 10000,
+          accumulatedSavings,
+          compoundReturns,
+          totalValue: 10000 + accumulatedSavings + compoundReturns,
+          chartStartSum: 10000,
+          chartSavings: accumulatedSavings,
+          chartReturns: compoundReturns,
+        };
+      }
+    );
 
     render(<CompoundInterestChart data={largeData} />);
 
     const barChart = screen.getByTestId("bar-chart");
-    const chartData = JSON.parse(
-      barChart.getAttribute("data-chart-data") || "[]"
-    );
+    const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
     expect(chartData).toHaveLength(51);
   });
@@ -293,9 +290,7 @@ describe("CompoundInterestChart", () => {
     render(<CompoundInterestChart data={dataWithLoss} />);
 
     const barChart = screen.getByTestId("bar-chart");
-    const chartData = JSON.parse(
-      barChart.getAttribute("data-chart-data") || "[]"
-    );
+    const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
     expect(chartData[1].compoundReturns).toBe(-5000);
   });
@@ -310,9 +305,9 @@ describe("CompoundInterestChart", () => {
       screen.getByTestId("bar-chartReturns"),
     ];
 
-    bars.forEach((bar) => {
-      expect(bar).toHaveAttribute("data-stack-id", "portfolio");
-    });
+    bars.map((bar) =>
+      expect(bar).toHaveAttribute("data-stack-id", "portfolio")
+    );
   });
 
   // NEW COMPREHENSIVE TESTS FOR ADVANCED CHART FEATURES
@@ -388,9 +383,7 @@ describe("CompoundInterestChart", () => {
 
       // Check that chart data includes withdrawal information
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       expect(chartData[1].withdrawal).toBe(18000);
       expect(chartData[1].withdrawalPhaseValue).toBe(162000);
@@ -447,9 +440,7 @@ describe("CompoundInterestChart", () => {
 
       // Check chart data integrity
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       expect(chartData).toHaveLength(3);
       expect(chartData[2].isWithdrawalPhase).toBe(true);
@@ -513,9 +504,7 @@ describe("CompoundInterestChart", () => {
 
       // Check that chart data includes withdrawal and savings information
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       expect(chartData[0].withdrawal).toBe(14000);
       expect(chartData[0].currentMonthlySavings).toBe(0);
@@ -539,9 +528,7 @@ describe("CompoundInterestChart", () => {
       render(<CompoundInterestChart data={dataWithMonthlySavings} />);
 
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       expect(chartData[0].currentMonthlySavings).toBe(5250);
     });
@@ -595,9 +582,7 @@ describe("CompoundInterestChart", () => {
       render(<CompoundInterestChart data={smallValueData} />);
 
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       expect(chartData[0].totalValue).toBe(235);
     });
@@ -621,9 +606,7 @@ describe("CompoundInterestChart", () => {
       render(<CompoundInterestChart data={zeroValueData} />);
 
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       expect(chartData[0]).toEqual(zeroValueData[0]);
     });
@@ -650,9 +633,7 @@ describe("CompoundInterestChart", () => {
       expect(screen.getByTestId("bar-chartReturns")).toBeInTheDocument();
 
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       expect(chartData[0].compoundReturns).toBe(-5000);
       expect(chartData[0].chartReturns).toBe(-5000);
@@ -680,9 +661,7 @@ describe("CompoundInterestChart", () => {
       render(<CompoundInterestChart data={complexData} />);
 
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       // All properties should be preserved
       expect(chartData[0]).toEqual(complexData[0]);
@@ -710,9 +689,7 @@ describe("CompoundInterestChart", () => {
       rerender(<CompoundInterestChart data={newData} />);
 
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       expect(chartData).toHaveLength(1);
       expect(chartData[0]).toEqual(newData[0]);
@@ -769,9 +746,7 @@ describe("CompoundInterestChart", () => {
       rerender(<CompoundInterestChart data={manyPoints} />);
 
       const barChart = screen.getByTestId("bar-chart");
-      const chartData = JSON.parse(
-        barChart.getAttribute("data-chart-data") || "[]"
-      );
+      const chartData = JSON.parse(barChart.dataset.chartData || "[]");
 
       expect(chartData).toHaveLength(50);
     });

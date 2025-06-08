@@ -1,3 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 import React, {
   createContext,
   useContext,
@@ -7,31 +12,28 @@ import React, {
   useMemo,
 } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ProgressStepper } from "./ProgressStepper";
+
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useTranslations, useLocale } from "next-intl";
+import { Form, FormMessage } from "@/components/ui/Form";
 import { useRouter, usePathname } from "@/i18n/navigation";
-import { useSearchParams } from "next/navigation";
-import { WizardContextProps, WizardStepConfig } from "@/types/wizard";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import {
-  getStepParam,
+  getStepParameter,
   getStepName,
   getStepIndexFromName,
 } from "@/lib/utils/navigation";
-import { useAppSelector } from "@/store/hooks";
 import {
   getMaxAllowedStep,
   canAccessStep,
   getStepValidationErrorKey,
   getCurrentStepValidationError,
 } from "@/lib/validation/stepValidation";
-import { AnimatePresence, motion } from "framer-motion";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { Form, FormMessage } from "@/components/ui/Form";
+import { useAppSelector } from "@/store/hooks";
+import type { WizardContextProps, WizardStepConfig } from "@/types/wizard";
+
+import { ProgressStepper } from "./ProgressStepper";
 
 const WizardContext = createContext<WizardContextProps | undefined>(undefined);
 
@@ -48,9 +50,9 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParameters = useSearchParams();
   const t = useTranslations("wizard");
-  const isSyncingRef = useRef(false);
+  const isSyncingReference = useRef(false);
   const isMobile = useIsTouchDevice();
   const [direction, setDirection] = useState(0);
 
@@ -84,8 +86,8 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
   );
 
   const [stepIndex, setStepIndex] = useState(() => {
-    const param = getStepParam(locale);
-    const stepName = searchParams.get(param);
+    const param = getStepParameter(locale);
+    const stepName = searchParameters.get(param);
     if (stepName) {
       const idx = getStepIndexFromName(stepName, steps);
       return idx >= 0 && idx < steps.length ? idx : 0;
@@ -95,17 +97,17 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
 
   // Effect 1: Validate current step access and redirect if necessary
   useEffect(() => {
-    if (isSyncingRef.current) return;
+    if (isSyncingReference.current) return;
 
     // Always validate if the current stepIndex is accessible
     if (!canAccessStep(stepIndex, calculatorState)) {
       const maxStep = getMaxAllowedStep(calculatorState);
-      const param = getStepParam(locale);
+      const param = getStepParameter(locale);
       const redirectStepName = getStepName(steps[maxStep], locale);
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParameters.toString());
       params.set(param, redirectStepName);
 
-      isSyncingRef.current = true;
+      isSyncingReference.current = true;
       router.replace({
         pathname,
         query: Object.fromEntries(params.entries()),
@@ -113,7 +115,7 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
 
       setStepIndex(maxStep);
       setTimeout(() => {
-        isSyncingRef.current = false;
+        isSyncingReference.current = false;
       }, 0);
       return;
     }
@@ -124,42 +126,42 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
     pathname,
     router,
     steps,
-    searchParams,
+    searchParameters,
   ]);
 
   // Effect 2: Sync stepIndex from URL (only when URL/searchParams changes)
   useEffect(() => {
-    if (isSyncingRef.current) return;
+    if (isSyncingReference.current) return;
 
-    const param = getStepParam(locale);
-    const stepName = searchParams.get(param);
+    const param = getStepParameter(locale);
+    const stepName = searchParameters.get(param);
 
     if (stepName) {
       const idx = getStepIndexFromName(stepName, steps);
       if (idx >= 0 && idx < steps.length && idx !== stepIndex) {
-        isSyncingRef.current = true;
+        isSyncingReference.current = true;
         setDirection(idx > stepIndex ? 1 : -1);
         setStepIndex(idx);
         setTimeout(() => {
-          isSyncingRef.current = false;
+          isSyncingReference.current = false;
         }, 0);
       }
     }
     // ESLint disabled: stepIndex is intentionally excluded to prevent circular dependency
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locale, searchParams, steps, pathname, router]);
+  }, [locale, searchParameters, steps, pathname, router]);
 
   // Effect 3: Sync URL from stepIndex (only when stepIndex changes)
   useEffect(() => {
-    if (isSyncingRef.current) return;
+    if (isSyncingReference.current) return;
 
-    const param = getStepParam(locale);
+    const param = getStepParameter(locale);
     const stepName = getStepName(steps[stepIndex], locale);
-    const currentStepName = searchParams.get(param);
+    const currentStepName = searchParameters.get(param);
 
     if (currentStepName !== stepName) {
-      isSyncingRef.current = true;
-      const params = new URLSearchParams(searchParams.toString());
+      isSyncingReference.current = true;
+      const params = new URLSearchParams(searchParameters.toString());
       params.set(param, stepName);
 
       // Use the router's replace method with the correct type
@@ -169,22 +171,22 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
       });
 
       setTimeout(() => {
-        isSyncingRef.current = false;
+        isSyncingReference.current = false;
       }, 0);
     }
-  }, [stepIndex, locale, pathname, router, steps, searchParams]);
+  }, [stepIndex, locale, pathname, router, steps, searchParameters]);
 
   // Effect 4: Reset to step 1 when navigating to root path
   useEffect(() => {
     // Check if we're on the root path without any step parameter
-    const param = getStepParam(locale);
-    const stepName = searchParams.get(param);
+    const param = getStepParameter(locale);
+    const stepName = searchParameters.get(param);
 
     // If no step parameter exists and we're not already on step 0
     if (!stepName && stepIndex !== 0) {
       setStepIndex(0);
     }
-  }, [pathname, searchParams, stepIndex, locale]);
+  }, [pathname, searchParameters, stepIndex, locale]);
 
   const goNext = () => {
     const nextStep = Math.min(stepIndex + 1, steps.length - 1);
@@ -259,22 +261,14 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
       <Form {...form}>
         <Box className="max-w-5xl mx-auto w-full">
           <ProgressStepper
-            steps={steps}
             currentStep={stepIndex}
+            steps={steps}
             onStepClick={handleStepClick}
           />
           <Box className="mt-4 md:mt-6 relative overflow-hidden">
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={stepIndex}
-                initial={
-                  isMobile
-                    ? {
-                        x: direction > 0 ? 100 : -100,
-                        opacity: 0,
-                      }
-                    : { opacity: 0 }
-                }
                 animate={{
                   x: 0,
                   opacity: 1,
@@ -283,6 +277,14 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
                   isMobile
                     ? {
                         x: direction > 0 ? -100 : 100,
+                        opacity: 0,
+                      }
+                    : { opacity: 0 }
+                }
+                initial={
+                  isMobile
+                    ? {
+                        x: direction > 0 ? 100 : -100,
                         opacity: 0,
                       }
                     : { opacity: 0 }
@@ -317,13 +319,13 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
               className={`flex ${stepIndex === 0 ? "justify-end" : "justify-between"}`}
             >
               {stepIndex > 0 && (
-                <Button onClick={goBack} variant="secondary">
+                <Button variant="secondary" onClick={goBack}>
                   <ChevronLeft className="w-4 h-4 mr-1" />
                   {t("back")}
                 </Button>
               )}
               {stepIndex < steps.length - 1 && (
-                <Button onClick={goNext} variant="gradient">
+                <Button variant="gradient" onClick={goNext}>
                   {t("next")}
                   <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>

@@ -1,10 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { configureStore } from "@reduxjs/toolkit";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { ExpenseCategories } from "@/features/calculator/ExpenseCategories";
-import calculatorReducer from "@/store/slices/calculatorSlice";
 import type { CalculatorState, ExpensesByCategory } from "@/lib/types";
+import calculatorReducer from "@/store/slices/calculatorSlice";
 
 // Mock next-intl
 vi.mock("next-intl", () => ({

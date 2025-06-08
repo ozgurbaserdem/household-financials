@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 interface AnimatedScrambleProps {
   value: number;
@@ -41,7 +41,7 @@ export const AnimatedScramble = ({
       );
 
       // Adaptive duration: smaller for small changes, capped at maxDuration
-      let adaptiveDuration;
+      let adaptiveDuration: number;
       if (changePercent < 0.1) {
         adaptiveDuration = 0.1; // Very small changes: 100ms
       } else if (changePercent < 0.5) {
@@ -131,8 +131,8 @@ export const AnimatedScramble = ({
 
   return (
     <span className={`inline-flex font-bold ${className}`}>
-      {paddedDisplay.split("").map((char, idx) => (
-        <span key={idx}>{char}</span>
+      {Array.from(paddedDisplay).map((char, idx) => (
+        <span key={`pos-${width - idx}-${char}`}>{char}</span>
       ))}
     </span>
   );

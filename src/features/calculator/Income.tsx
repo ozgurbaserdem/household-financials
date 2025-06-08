@@ -1,43 +1,45 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion, AnimatePresence } from "framer-motion";
+import { TrendingUp, Wallet, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState, useMemo } from "react";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-} from "@/components/ui/ModernCard";
-import { CardContent } from "@/components/ui/Card";
-import { Form } from "@/components/ui/Form";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/Accordion";
-import { TrendingUp, Wallet, Search } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
-import { useTranslations } from "next-intl";
 import { Box } from "@/components/ui/Box";
-import { IncomeInputField } from "./IncomeInputField";
-import { NumberOfAdultsRadioGroup } from "./NumberOfAdultsRadioGroup";
-import { motion, AnimatePresence } from "framer-motion";
-import { Label } from "@/components/ui/Label";
-import { Input } from "@/components/ui/Input";
+import { CardContent } from "@/components/ui/Card";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import {
+  Form,
   FormField,
   FormItem,
   FormLabel,
   FormControl,
 } from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardIcon,
+} from "@/components/ui/ModernCard";
 import kommunalskattData from "@/data/kommunalskatt_2025.json";
-import type { KommunData } from "@/lib/types";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
+import type { KommunData } from "@/lib/types";
+
+import { IncomeInputField } from "./IncomeInputField";
+import { NumberOfAdultsRadioGroup } from "./NumberOfAdultsRadioGroup";
 
 const formSchema = z.object({
   income1: z.number().min(0),
@@ -87,7 +89,7 @@ export const Income = ({
   });
 
   const t = useTranslations("income");
-  const titleRef = useFocusOnMount();
+  const titleReference = useFocusOnMount();
   const kommunList = kommunalskattData as KommunData[];
   const isMobile = useIsTouchDevice();
 
@@ -172,39 +174,39 @@ export const Income = ({
     .reduce((sum, [, val]) => sum + (typeof val === "number" ? val : 0), 0);
 
   return (
-    <Card gradient glass animate={!isMobile} hover={false}>
+    <Card glass gradient animate={!isMobile} hover={false}>
       <CardHeader>
         <CardIcon>
           <Wallet className="w-6 h-6 text-green-400" />
         </CardIcon>
         <Box className="flex-1">
           <CardTitle
-            ref={titleRef}
-            tabIndex={0}
+            ref={titleReference}
             aria-label={t("title_aria")}
             className="focus:outline-none"
+            tabIndex={0}
           >
             {t("title")}
           </CardTitle>
           <motion.p
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
             className="text-sm text-gray-300 mt-1"
+            initial={{ opacity: 0 }}
+            transition={{ delay: 0.2 }}
           >
             {t("total_monthly_income")}:{" "}
             <CurrencyDisplay
               amount={totalIncome}
-              variant="positive"
-              size="md"
-              showDecimals={false}
               className="font-semibold"
+              showDecimals={false}
+              size="md"
+              variant="positive"
             />
           </motion.p>
         </Box>
         <motion.div
-          initial={{ scale: 0 }}
           animate={{ scale: 1 }}
+          initial={{ scale: 0 }}
           transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
         >
           <TrendingUp className="w-8 h-8 text-green-400" />
@@ -216,8 +218,8 @@ export const Income = ({
           <form data-testid="income-form">
             <Box className="space-y-4">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, x: -20 }}
                 transition={{ delay: 0.1 }}
               >
                 <NumberOfAdultsRadioGroup
@@ -228,32 +230,32 @@ export const Income = ({
 
               {/* Kommun Selection and Church Tax */}
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.15 }}
                 className="space-y-4"
+                initial={{ opacity: 0, x: -20 }}
+                transition={{ delay: 0.15 }}
               >
                 {/* Kommun Select */}
                 <div className="relative">
                   <Label
-                    htmlFor="kommun-search"
                     className="text-sm font-medium text-gray-200 mb-2 block"
+                    htmlFor="kommun-search"
                   >
                     Välj kommun
                   </Label>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
+                      className="pl-10 modern-input"
                       id="kommun-search"
-                      type="text"
                       placeholder="Sök kommun..."
+                      type="text"
                       value={kommunSearch}
                       onChange={(e) => {
                         setKommunSearch(e.target.value);
                         setShowKommunDropdown(true);
                       }}
                       onFocus={() => setShowKommunDropdown(true)}
-                      className="pl-10 modern-input"
                     />
                     {selectedKommunData && (
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-300">
@@ -266,16 +268,16 @@ export const Income = ({
                   <AnimatePresence>
                     {showKommunDropdown && filteredKommuner.length > 0 && (
                       <motion.div
-                        initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
                         className="kommun-dropdown absolute z-50 w-full mt-1 max-h-60 overflow-y-auto bg-gray-900/70 backdrop-blur-md rounded-lg border border-gray-700 shadow-xl"
+                        exit={{ opacity: 0, y: -10 }}
+                        initial={{ opacity: 0, y: -10 }}
                       >
                         {filteredKommuner.slice(0, 10).map((kommun) => (
                           <button
                             key={kommun.kommunNamn}
-                            type="button"
                             className="w-full px-4 py-2 text-left hover:bg-gray-800 text-gray-100 text-sm transition-colors flex justify-between items-center"
+                            type="button"
                             onClick={() => {
                               form.setValue(
                                 "selectedKommun",
@@ -331,36 +333,36 @@ export const Income = ({
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
                 className="space-y-4"
+                initial={{ opacity: 0, x: -20 }}
+                transition={{ delay: 0.2 }}
               >
                 <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <IncomeInputField
-                    form={form}
-                    name="income1"
-                    label={t("income1")}
                     ariaLabel={t("income1_aria")}
-                    onBlur={handleFieldChange}
                     className="modern-input"
+                    form={form}
+                    label={t("income1")}
+                    name="income1"
+                    onBlur={handleFieldChange}
                   />
 
                   <AnimatePresence>
                     {numberOfAdults === "2" && (
                       <motion.div
-                        initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
                       >
                         <IncomeInputField
-                          form={form}
-                          name="income2"
-                          label={t("income2")}
                           ariaLabel={t("income2_aria")}
-                          onBlur={handleFieldChange}
                           className="modern-input"
+                          form={form}
+                          label={t("income2")}
+                          name="income2"
+                          onBlur={handleFieldChange}
                         />
                       </motion.div>
                     )}
@@ -370,15 +372,15 @@ export const Income = ({
 
               {/* Secondary Income Accordion */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
                 className="mt-6"
+                initial={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.3 }}
               >
-                <Accordion type="single" collapsible className="w-full">
+                <Accordion collapsible className="w-full" type="single">
                   <AccordionItem
-                    value="secondary-income"
                     className="border-none"
+                    value="secondary-income"
                   >
                     <AccordionTrigger
                       className="glass hover:bg-white/10 border border-gray-600 text-gray-100 
@@ -395,26 +397,26 @@ export const Income = ({
                     </AccordionTrigger>
                     <AccordionContent className="pt-0 pb-0">
                       <Box
-                        id="extra-incomes-section"
                         className="p-4 glass rounded-b-lg border border-t-0 border-gray-600"
+                        id="extra-incomes-section"
                       >
                         <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <IncomeInputField
-                            form={form}
-                            name="secondaryIncome1"
-                            label={t("secondaryIncome1")}
                             ariaLabel={t("secondaryIncome1_aria")}
-                            onBlur={handleFieldChange}
                             className="modern-input"
+                            form={form}
+                            label={t("secondaryIncome1")}
+                            name="secondaryIncome1"
+                            onBlur={handleFieldChange}
                           />
                           {numberOfAdults === "2" && (
                             <IncomeInputField
-                              form={form}
-                              name="secondaryIncome2"
-                              label={t("secondaryIncome2")}
                               ariaLabel={t("secondaryIncome2_aria")}
-                              onBlur={handleFieldChange}
                               className="modern-input"
+                              form={form}
+                              label={t("secondaryIncome2")}
+                              name="secondaryIncome2"
+                              onBlur={handleFieldChange}
                             />
                           )}
                         </Box>
@@ -426,31 +428,31 @@ export const Income = ({
 
               {/* Additional Income Fields with Icons */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
                 className="space-y-4"
+                initial={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.4 }}
               >
                 <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Box className="space-y-2">
                     <IncomeInputField
-                      form={form}
-                      name="childBenefits"
-                      label={t("child_benefits")}
                       ariaLabel={t("child_benefits_aria")}
-                      onBlur={handleFieldChange}
                       className="modern-input"
+                      form={form}
+                      label={t("child_benefits")}
+                      name="childBenefits"
+                      onBlur={handleFieldChange}
                     />
                   </Box>
 
                   <Box className="space-y-2">
                     <IncomeInputField
-                      form={form}
-                      name="otherBenefits"
-                      label={t("other_benefits")}
                       ariaLabel={t("other_benefits_aria")}
-                      onBlur={handleFieldChange}
                       className="modern-input"
+                      form={form}
+                      label={t("other_benefits")}
+                      name="otherBenefits"
+                      onBlur={handleFieldChange}
                     />
                   </Box>
                 </Box>
@@ -458,23 +460,23 @@ export const Income = ({
                 <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Box className="space-y-2">
                     <IncomeInputField
-                      form={form}
-                      name="otherIncomes"
-                      label={t("other_incomes")}
                       ariaLabel={t("other_incomes_aria")}
-                      onBlur={handleFieldChange}
                       className="modern-input"
+                      form={form}
+                      label={t("other_incomes")}
+                      name="otherIncomes"
+                      onBlur={handleFieldChange}
                     />
                   </Box>
 
                   <Box className="space-y-2">
                     <IncomeInputField
-                      form={form}
-                      name="currentBuffer"
-                      label={t("current_buffer_label")}
                       ariaLabel={t("current_buffer_aria")}
-                      onBlur={handleFieldChange}
                       className="modern-input"
+                      form={form}
+                      label={t("current_buffer_label")}
+                      name="currentBuffer"
+                      onBlur={handleFieldChange}
                     />
                   </Box>
                 </Box>

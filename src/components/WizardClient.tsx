@@ -1,15 +1,16 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import React, { useMemo } from "react";
+
 import { Box } from "@/components/ui/Box";
-import { WizardLayout } from "@/features/wizard/WizardLayout";
+import { ExpensesStep } from "@/features/wizard/steps/ExpensesStep";
 import { IncomeStep } from "@/features/wizard/steps/IncomeStep";
 import { LoansStep } from "@/features/wizard/steps/LoansStep";
-import { ExpensesStep } from "@/features/wizard/steps/ExpensesStep";
-import { SummaryStep } from "@/features/wizard/steps/SummaryStep";
 import { ResultsStep } from "@/features/wizard/steps/ResultsStep";
-import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { SummaryStep } from "@/features/wizard/steps/SummaryStep";
+import { WizardLayout } from "@/features/wizard/WizardLayout";
 
 export const WizardClient = () => {
   const t = useTranslations("wizard");
@@ -28,8 +29,8 @@ export const WizardClient = () => {
   return (
     <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10 relative z-10">
       <motion.div
-        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
         <WizardLayout steps={steps} />

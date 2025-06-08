@@ -1,8 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { SummaryStep } from "@/features/wizard/steps/SummaryStep";
-import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { SummaryStep } from "@/features/wizard/steps/SummaryStep";
 import calculatorReducer from "@/store/slices/calculatorSlice";
 
 // Mock wizard context
@@ -37,9 +38,7 @@ vi.mock("framer-motion", () => ({
       [key: string]: unknown;
     }) => <span {...props}>{children}</span>,
   },
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
 }));
 
 // Mock window.scrollTo
@@ -143,7 +142,9 @@ describe("SummaryStep", () => {
     // Click the accordion trigger to expand
     const accordionTrigger = loansSection.closest("button");
     expect(accordionTrigger).toBeTruthy();
-    fireEvent.click(accordionTrigger!);
+    if (accordionTrigger) {
+      fireEvent.click(accordionTrigger);
+    }
 
     // Wait for and verify the no loan message in the expanded section
     await waitFor(() => {
@@ -227,7 +228,9 @@ describe("SummaryStep", () => {
     // Click the accordion trigger to expand
     const accordionTrigger = loansSection.closest("button");
     expect(accordionTrigger).toBeTruthy();
-    fireEvent.click(accordionTrigger!);
+    if (accordionTrigger) {
+      fireEvent.click(accordionTrigger);
+    }
 
     // Wait for and verify loan information
     await waitFor(() => {
@@ -349,7 +352,9 @@ describe("SummaryStep", () => {
     // Click the accordion trigger to expand
     const accordionTrigger = incomeSection.closest("button");
     expect(accordionTrigger).toBeTruthy();
-    fireEvent.click(accordionTrigger!);
+    if (accordionTrigger) {
+      fireEvent.click(accordionTrigger);
+    }
 
     // Wait for and verify income information
     await waitFor(() => {
@@ -399,7 +404,9 @@ describe("SummaryStep", () => {
     // Click the accordion trigger to expand
     const accordionTrigger = incomeSection.closest("button");
     expect(accordionTrigger).toBeTruthy();
-    fireEvent.click(accordionTrigger!);
+    if (accordionTrigger) {
+      fireEvent.click(accordionTrigger);
+    }
 
     // Wait for the section to be expanded and content to be visible
     await waitFor(() => {

@@ -1,8 +1,9 @@
 "use client";
 
-import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+
 import { Box } from "@/components/ui/Box";
+import { Link } from "@/i18n/navigation";
 
 const NotFound = () => {
   const t = useTranslations();
@@ -22,8 +23,8 @@ const NotFound = () => {
         </p>
         <Box className="mt-6">
           <Link
-            href="/"
             className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300"
+            href="/"
           >
             {t("not_found.back_home") || "Go back home"}
           </Link>

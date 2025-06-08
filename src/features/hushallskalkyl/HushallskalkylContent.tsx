@@ -1,10 +1,10 @@
-import type { FC } from "react";
+import { DialogTitle, DialogDescription } from "@radix-ui/react-dialog";
 import { useTranslations } from "next-intl";
+import type { FC } from "react";
+
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
-import { DialogTitle } from "@radix-ui/react-dialog";
-import { DialogDescription } from "@radix-ui/react-dialog";
 
 interface Props {
   showBackButton?: boolean;
@@ -25,7 +25,7 @@ const HushallskalkylContent: FC<Props> = ({
   return (
     <Box className="max-w-5xl mx-auto w-full">
       {showBackButton && (
-        <Button asChild variant="outline" className="mb-6">
+        <Button asChild className="mb-6" variant="outline">
           <Link href="/">{backLabel}</Link>
         </Button>
       )}
@@ -54,32 +54,32 @@ const HushallskalkylContent: FC<Props> = ({
         <section className="mb-8">
           <h2 className="text-xl font-semibold mb-2">{t("tips_title")}</h2>
           <ul className="list-disc pl-6 space-y-1">
-            {tips.map((tip, i) => (
-              <li key={i}>{tip}</li>
+            {tips.map((tip) => (
+              <li key={tip}>{tip}</li>
             ))}
           </ul>
         </section>
         <section className="mb-8">
           <h2 className="text-xl font-semibold mb-2">{t("mistakes_title")}</h2>
           <ul className="list-disc pl-6 space-y-1">
-            {mistakes.map((m, i) => (
-              <li key={i}>{m}</li>
+            {mistakes.map((m) => (
+              <li key={m}>{m}</li>
             ))}
           </ul>
         </section>
         <section className="mb-8">
           <h2 className="text-xl font-semibold mb-2">{t("facts_title")}</h2>
           <ul className="list-disc pl-6 space-y-1">
-            {facts.map((fact, i) => (
-              <li key={i}>{fact}</li>
+            {facts.map((fact) => (
+              <li key={fact}>{fact}</li>
             ))}
           </ul>
         </section>
         <section className="mb-8">
           <h2 className="text-xl font-semibold mb-2">{t("faq_title")}</h2>
           <ul className="space-y-4">
-            {faq.map((item, i) => (
-              <li key={i}>
+            {faq.map((item) => (
+              <li key={item.question}>
                 <strong>{item.question}</strong>
                 <p>{item.answer}</p>
               </li>

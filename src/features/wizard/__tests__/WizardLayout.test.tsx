@@ -1,12 +1,15 @@
-import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { WizardLayout } from "@/features/wizard/WizardLayout";
-import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { useSearchParams } from "next/navigation";
+import type { ReactNode } from "react";
+import { Provider } from "react-redux";
+import type { Mock } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { WizardLayout } from "@/features/wizard/WizardLayout";
 import { useRouter, usePathname } from "@/i18n/navigation";
-import { ReactNode } from "react";
-import { CalculatorState } from "@/lib/types";
+import type { CalculatorState } from "@/lib/types";
+import calculatorReducer from "@/store/slices/calculatorSlice";
 
 // Types for motion components
 interface MotionProps {
@@ -40,12 +43,12 @@ vi.mock("framer-motion", () => ({
       <span {...props}>{children}</span>
     ),
   },
-  AnimatePresence: ({ children }: AnimatePresenceProps) => <>{children}</>,
+  AnimatePresence: ({ children }: AnimatePresenceProps) => children,
 }));
 
 // Mock radix-ui
 vi.mock("@radix-ui/react-slot", () => ({
-  Slot: ({ children }: { children: ReactNode }) => <>{children}</>,
+  Slot: ({ children }: { children: ReactNode }) => children,
 }));
 
 // Mock lucide-react
@@ -58,7 +61,7 @@ vi.mock("lucide-react", () => ({
 
 // Mock navigation utils
 vi.mock("@/lib/utils/navigation", () => ({
-  getStepParam: vi.fn(() => "steg"),
+  getStepParameter: vi.fn(() => "steg"),
   getStepName: vi.fn((step: { label: string }) => {
     const mapping: Record<string, string> = {
       Income: "inkomst",
@@ -84,8 +87,6 @@ vi.mock("@/lib/utils/navigation", () => ({
   ),
 }));
 
-import calculatorReducer from "@/store/slices/calculatorSlice";
-
 const createTestStore = (preloadedState?: CalculatorState) => {
   return configureStore({
     reducer: calculatorReducer,
@@ -96,7 +97,7 @@ const createTestStore = (preloadedState?: CalculatorState) => {
 describe("WizardLayout", () => {
   const mockPush = vi.fn();
   const mockReplace = vi.fn();
-  const mockSearchParams = new URLSearchParams();
+  const mockSearchParameters = new URLSearchParams();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -105,7 +106,7 @@ describe("WizardLayout", () => {
       replace: mockReplace,
     });
     (usePathname as Mock).mockReturnValue("/householdbudget");
-    (useSearchParams as Mock).mockReturnValue(mockSearchParams);
+    (useSearchParams as Mock).mockReturnValue(mockSearchParameters);
   });
 
   it("prevents navigation to next step when loan validation fails", async () => {
@@ -133,7 +134,7 @@ describe("WizardLayout", () => {
     });
 
     // Mock being on the loans step
-    mockSearchParams.set("steg", "lan");
+    mockSearchParameters.set("steg", "lan");
 
     render(
       <Provider store={store}>
@@ -188,9 +189,9 @@ describe("WizardLayout", () => {
     });
 
     // Mock being on the loans step
-    const testSearchParams = new URLSearchParams();
-    testSearchParams.set("steg", "lan");
-    (useSearchParams as Mock).mockReturnValue(testSearchParams);
+    const testSearchParameters = new URLSearchParams();
+    testSearchParameters.set("steg", "lan");
+    (useSearchParams as Mock).mockReturnValue(testSearchParameters);
 
     render(
       <Provider store={store}>
@@ -246,9 +247,9 @@ describe("WizardLayout", () => {
     });
 
     // Mock being on the loans step
-    const testSearchParams = new URLSearchParams();
-    testSearchParams.set("steg", "lan");
-    (useSearchParams as Mock).mockReturnValue(testSearchParams);
+    const testSearchParameters = new URLSearchParams();
+    testSearchParameters.set("steg", "lan");
+    (useSearchParams as Mock).mockReturnValue(testSearchParameters);
 
     render(
       <Provider store={store}>
@@ -304,9 +305,9 @@ describe("WizardLayout", () => {
     });
 
     // Mock being on the income step
-    const testSearchParams = new URLSearchParams();
-    testSearchParams.set("steg", "inkomst");
-    (useSearchParams as Mock).mockReturnValue(testSearchParams);
+    const testSearchParameters = new URLSearchParams();
+    testSearchParameters.set("steg", "inkomst");
+    (useSearchParams as Mock).mockReturnValue(testSearchParameters);
 
     render(
       <Provider store={store}>

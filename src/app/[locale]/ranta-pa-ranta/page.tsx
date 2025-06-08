@@ -1,25 +1,26 @@
-import React from "react";
-import { Main } from "@/components/ui/Main";
-import { CompoundInterestClient } from "@/features/compound-interest/CompoundInterestClient";
-import { setRequestLocale } from "next-intl/server";
+import { AlertTriangle, Lightbulb, TrendingUp } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import { setRequestLocale } from "next-intl/server";
+import React from "react";
+
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
+import { CardContent } from "@/components/ui/Card";
+import { Main } from "@/components/ui/Main";
 import {
   Card,
   CardHeader,
-  CardTitle,
   CardIcon,
+  CardTitle,
 } from "@/components/ui/ModernCard";
-import { CardContent } from "@/components/ui/Card";
-import { Box } from "@/components/ui/Box";
 import { Text } from "@/components/ui/Text";
-import { Button } from "@/components/ui/Button";
+import { CompoundInterestClient } from "@/features/compound-interest/CompoundInterestClient";
 import { Link } from "@/i18n/navigation";
-import { TrendingUp, AlertTriangle, Lightbulb } from "lucide-react";
 
-type Props = {
+interface Props {
   params: Promise<{ locale: string }>;
-};
+}
 
 const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { locale } = await params;
@@ -122,10 +123,10 @@ const RantaPaRantaPage = async ({ params }: Props) => {
     <>
       {/* Essential structured data for SEO */}
       <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(webApplicationSchema),
         }}
+        type="application/ld+json"
       />
 
       <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
@@ -151,7 +152,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
             </p>
           </header>
           {/* Introduction Section */}
-          <Card gradient glass>
+          <Card glass gradient>
             <CardHeader>
               <CardIcon>
                 <TrendingUp className="w-6 h-6 text-purple-400" />
@@ -194,12 +195,12 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                   </div>
                   <div className="flex justify-center md:justify-start md:order-1">
                     <Image
-                      src="/einstein-optimized.png"
-                      alt="Albert Einstein"
-                      width={80}
-                      height={80}
-                      className="rounded-full object-cover grayscale opacity-70 flex-shrink-0 ring-2 ring-purple-500/20"
                       priority
+                      alt="Albert Einstein"
+                      className="rounded-full object-cover grayscale opacity-70 flex-shrink-0 ring-2 ring-purple-500/20"
+                      height={80}
+                      src="/einstein-optimized.png"
+                      width={80}
                     />
                   </div>
                 </div>
@@ -223,7 +224,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           <CompoundInterestClient />
 
           {/* Tips Section */}
-          <Card gradient glass>
+          <Card glass gradient>
             <CardHeader>
               <CardIcon>
                 <Lightbulb className="w-6 h-6 text-yellow-400" />
@@ -263,13 +264,13 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                     sv: "Automatisera sparandet - gör det enkelt genom automatiska överföringar",
                     en: "Automate savings - make it easy with automatic transfers",
                   },
-                ].map((tip, index) => (
+                ].map((tip, tipIndex) => (
                   <div
-                    key={index}
+                    key={tip.en}
                     className="flex items-center gap-4 p-6 glass rounded-lg"
                   >
                     <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
-                      {index + 1}
+                      {tipIndex + 1}
                     </div>
                     <Text className="text-gray-300 text-sm leading-relaxed">
                       {locale === "sv" ? tip.sv : tip.en}
@@ -288,7 +289,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                 : "Frequently Asked Questions"}
             </h2>
             <div className="grid gap-4">
-              <Card gradient glass>
+              <Card glass gradient>
                 <CardContent className="pt-6">
                   <h3 className="text-lg font-semibold text-white mb-2">
                     {locale === "sv"
@@ -303,7 +304,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                 </CardContent>
               </Card>
 
-              <Card gradient glass>
+              <Card glass gradient>
                 <CardContent className="pt-6">
                   <h3 className="text-lg font-semibold text-white mb-2">
                     {locale === "sv"
@@ -318,7 +319,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                 </CardContent>
               </Card>
 
-              <Card gradient glass>
+              <Card glass gradient>
                 <CardContent className="pt-6">
                   <h3 className="text-lg font-semibold text-white mb-2">
                     {locale === "sv"
@@ -336,7 +337,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           </section>
 
           {/* Disclaimer */}
-          <Card gradient glass>
+          <Card glass gradient>
             <CardHeader>
               <CardIcon>
                 <AlertTriangle className="w-6 h-6 text-yellow-500" />
@@ -359,7 +360,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           </Card>
 
           {/* CTA Section */}
-          <Card gradient glass>
+          <Card glass gradient>
             <CardContent className="text-center space-y-6">
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-white">
@@ -376,8 +377,8 @@ const RantaPaRantaPage = async ({ params }: Props) => {
               <div className="flex justify-center">
                 <Link href="/hushallsbudget">
                   <Button
-                    size="lg"
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500"
+                    size="lg"
                   >
                     {locale === "sv"
                       ? "Skapa hushållsbudget"

@@ -18,10 +18,10 @@ vi.mock("next-intl", () => ({
   useTranslations: () => (key: string, values?: Record<string, unknown>) => {
     // Simple mock that returns the key with interpolation support
     if (values) {
-      let result = key;
-      Object.entries(values).forEach(([k, v]) => {
-        result = result.replace(`{${k}}`, String(v));
-      });
+      // eslint-disable-next-line unicorn/no-array-reduce
+      const result = Object.entries(values).reduce((acc, [k, v]) => {
+        return acc.replace(`{${k}}`, String(v));
+      }, key);
       return result;
     }
     return key;
@@ -64,13 +64,18 @@ const originalError = console.error;
 beforeAll(() => {
   console.error = (...args) => {
     const message = args[0];
-    if (
-      typeof message === "string" &&
-      (message.includes("React does not recognize") ||
-        message.includes("is unrecognized in this browser") ||
-        message.includes("is using incorrect casing"))
-    ) {
-      return;
+    if (typeof message === "string") {
+      const suppressedMessages = [
+        "React does not recognize",
+        "is unrecognized in this browser",
+        "is using incorrect casing",
+      ];
+      const shouldSuppress = suppressedMessages.some((suppressedMessage) =>
+        message.includes(suppressedMessage)
+      );
+      if (shouldSuppress) {
+        return;
+      }
     }
     originalError.call(console, ...args);
   };

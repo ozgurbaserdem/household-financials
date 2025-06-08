@@ -75,7 +75,7 @@ export class LoanCalculationService {
       amount,
       interestRate,
       amortizationRate,
-      config.roundToDecimals!
+      config.roundToDecimals ?? 2
     );
 
     return [scenario];
@@ -148,6 +148,7 @@ export class LoanCalculationService {
 
     if (scenarios.length === 0) return null;
 
+    // eslint-disable-next-line unicorn/no-array-reduce
     return scenarios.reduce((optimal, current) =>
       current.totalMonthlyPayment < optimal.totalMonthlyPayment
         ? current
@@ -176,6 +177,7 @@ export class LoanCalculationService {
 
     if (scenarios.length === 0) return null;
 
+    // eslint-disable-next-line unicorn/no-array-reduce
     return scenarios.reduce((worst, current) =>
       current.totalMonthlyPayment > worst.totalMonthlyPayment ? current : worst
     );

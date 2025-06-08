@@ -1,16 +1,17 @@
 "use client";
 
 import { PieChart as PieChartIcon, TrendingDown } from "lucide-react";
-import React from "react";
 import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/Box";
-import { Text } from "@/components/ui/Text";
-import { formatCurrencyNoDecimals } from "@/lib/formatting";
-import { expenseCategories } from "@/data/expenseCategories";
-import type { ExpensesByCategory, ChartDataPoint } from "@/lib/types";
+import React from "react";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+
+import { Box } from "@/components/ui/Box";
 import { FinancialCard } from "@/components/ui/FinancialCard";
+import { Text } from "@/components/ui/Text";
+import { expenseCategories } from "@/data/expenseCategories";
+import { formatCurrencyNoDecimals } from "@/lib/formatting";
+import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
+import type { ExpensesByCategory, ChartDataPoint } from "@/lib/types";
 
 interface ExpenseBreakdownProps {
   expenses: ExpensesByCategory;
@@ -65,12 +66,12 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
   if (chartData.length === 0) {
     return (
       <FinancialCard
-        title={expenseBreakdownT("title")}
-        icon={PieChartIcon}
-        iconColor="text-indigo-400"
-        delay={0.3}
         animate={!isMobile}
         ariaLabel={expenseBreakdownT("aria.title")}
+        delay={0.3}
+        icon={PieChartIcon}
+        iconColor="text-indigo-400"
+        title={expenseBreakdownT("title")}
       >
         <Box className="flex h-[300px] items-center justify-center">
           <div className="text-center">
@@ -122,12 +123,12 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
 
     return (
       <text
-        x={x}
-        y={y}
+        className="text-sm font-medium"
+        dominantBaseline="central"
         fill="white"
         textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-        className="text-sm font-medium"
+        x={x}
+        y={y}
       >
         {`${(percent * 100).toFixed(0)}%`}
       </text>
@@ -136,31 +137,31 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
 
   return (
     <FinancialCard
-      title={expenseBreakdownT("title")}
+      animate={!isMobile}
+      ariaLabel={expenseBreakdownT("aria.title")}
+      delay={0.3}
       description={expenseBreakdownT("total", {
         amount: formatCurrencyNoDecimals(total),
       })}
       icon={PieChartIcon}
       iconColor="text-indigo-400"
-      delay={0.3}
-      animate={!isMobile}
-      ariaLabel={expenseBreakdownT("aria.title")}
+      title={expenseBreakdownT("title")}
     >
       <Box className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Chart */}
         <Box className="flex items-center justify-center h-[300px]">
-          <PieChart width={300} height={300}>
+          <PieChart height={300} width={300}>
             <Pie
-              data={chartData}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              label={renderCustomizedLabel}
-              outerRadius={100}
-              fill="#8884d8"
-              dataKey="value"
               animationBegin={0}
               animationDuration={800}
+              cx="50%"
+              cy="50%"
+              data={chartData}
+              dataKey="value"
+              fill="#8884d8"
+              label={renderCustomizedLabel}
+              labelLine={false}
+              outerRadius={100}
             >
               {chartData.map((entry) => (
                 <Cell key={entry.name} fill={entry.color} />

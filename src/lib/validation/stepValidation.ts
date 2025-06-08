@@ -1,4 +1,4 @@
-import { CalculatorState } from "@/lib/types";
+import type { CalculatorState } from "@/lib/types";
 
 export interface StepValidationResult {
   isValid: boolean;
@@ -182,22 +182,15 @@ export const validateResultsStep = (
  */
 export const getMaxAllowedStep = (state: CalculatorState): number => {
   // Step 0 (Income) is always accessible
-  let maxStep = 0;
-
-  // Check if we can access Step 1 (Loans)
   const incomeValidation = validateIncomeStep(state.income);
-  if (incomeValidation.isValid) {
-    maxStep = 1;
-  } else {
-    return maxStep;
+  if (!incomeValidation.isValid) {
+    return 0;
   }
 
   // Check if we can access Step 2 (Expenses)
   const loansValidation = validateLoansStep(state.loanParameters);
-  if (loansValidation.isValid) {
-    maxStep = 2;
-  } else {
-    return maxStep;
+  if (!loansValidation.isValid) {
+    return 1;
   }
 
   // Check if we can access Step 3 (Summary)
@@ -206,19 +199,17 @@ export const getMaxAllowedStep = (state: CalculatorState): number => {
     state.totalExpenses,
     state.expenseViewMode
   );
-  if (expensesValidation.isValid) {
-    maxStep = 3;
-  } else {
-    return maxStep;
+  if (!expensesValidation.isValid) {
+    return 2;
   }
 
   // Check if we can access Step 4 (Results)
   const summaryValidation = validateSummaryStep(state);
-  if (summaryValidation.isValid) {
-    maxStep = 4;
+  if (!summaryValidation.isValid) {
+    return 3;
   }
 
-  return maxStep;
+  return 4;
 };
 
 /**

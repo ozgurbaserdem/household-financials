@@ -1,5 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { Loans } from "@/features/calculator/Loans";
 
 // Mock window.scrollTo
@@ -15,14 +16,14 @@ describe("Loans", () => {
   it("renders loan form with has loan/no loan toggle", () => {
     render(
       <Loans
-        onChange={mockOnChange}
+        numberOfAdults="1"
         values={{
           loanAmount: 0,
           interestRate: 3.5,
           amortizationRate: 2,
           hasLoan: false,
         }}
-        numberOfAdults="1"
+        onChange={mockOnChange}
       />
     );
 
@@ -35,14 +36,14 @@ describe("Loans", () => {
   it("toggles from no loan to has loan correctly", async () => {
     render(
       <Loans
-        onChange={mockOnChange}
+        numberOfAdults="1"
         values={{
           loanAmount: 0,
           interestRate: 3.5,
           amortizationRate: 2,
           hasLoan: false,
         }}
-        numberOfAdults="1"
+        onChange={mockOnChange}
       />
     );
 
@@ -62,14 +63,14 @@ describe("Loans", () => {
   it("toggles from has loan to no loan correctly", async () => {
     render(
       <Loans
-        onChange={mockOnChange}
+        numberOfAdults="1"
         values={{
           loanAmount: 100000,
           interestRate: 4.5,
           amortizationRate: 3,
           hasLoan: true,
         }}
-        numberOfAdults="1"
+        onChange={mockOnChange}
       />
     );
 
@@ -89,14 +90,14 @@ describe("Loans", () => {
   it("shows loan amount input when has loan is selected", () => {
     render(
       <Loans
-        onChange={mockOnChange}
+        numberOfAdults="1"
         values={{
           loanAmount: 0,
           interestRate: 3.5,
           amortizationRate: 2,
           hasLoan: true,
         }}
-        numberOfAdults="1"
+        onChange={mockOnChange}
       />
     );
 
@@ -108,14 +109,14 @@ describe("Loans", () => {
   it("updates loan amount correctly", async () => {
     render(
       <Loans
-        onChange={mockOnChange}
+        numberOfAdults="1"
         values={{
           loanAmount: 0,
           interestRate: 3.5,
           amortizationRate: 2,
           hasLoan: true,
         }}
-        numberOfAdults="1"
+        onChange={mockOnChange}
       />
     );
 
@@ -135,14 +136,14 @@ describe("Loans", () => {
   it("updates interest rate correctly", async () => {
     render(
       <Loans
-        onChange={mockOnChange}
+        numberOfAdults="1"
         values={{
           loanAmount: 100000,
           interestRate: 3.5,
           amortizationRate: 2,
           hasLoan: true,
         }}
-        numberOfAdults="1"
+        onChange={mockOnChange}
       />
     );
 
@@ -162,14 +163,14 @@ describe("Loans", () => {
   it("updates amortization rate correctly", async () => {
     render(
       <Loans
-        onChange={mockOnChange}
+        numberOfAdults="1"
         values={{
           loanAmount: 100000,
           interestRate: 3.5,
           amortizationRate: 2,
           hasLoan: true,
         }}
-        numberOfAdults="1"
+        onChange={mockOnChange}
       />
     );
 
@@ -191,14 +192,14 @@ describe("Loans", () => {
   it("calculates monthly payment display correctly", () => {
     render(
       <Loans
-        onChange={mockOnChange}
+        numberOfAdults="1"
         values={{
           loanAmount: 1000000,
           interestRate: 3.6,
           amortizationRate: 2.4,
           hasLoan: true,
         }}
-        numberOfAdults="1"
+        onChange={mockOnChange}
       />
     );
 
@@ -210,14 +211,14 @@ describe("Loans", () => {
   it("shows no loan message when hasLoan is false", () => {
     render(
       <Loans
-        onChange={mockOnChange}
+        numberOfAdults="2"
         values={{
           loanAmount: 0,
           interestRate: 3.5,
           amortizationRate: 2,
           hasLoan: false,
         }}
-        numberOfAdults="2"
+        onChange={mockOnChange}
       />
     );
 

@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+
 import {
   calculateLoanScenarios,
   calculateTotalExpenses,
@@ -552,8 +553,9 @@ describe("Financial Calculations", () => {
       const expectedTotalHousingCost = expectedLoanPayment + 10000; // home expenses
 
       // Net income should be calculated and remaining savings should be positive or negative accordingly
+      expect(result.totalIncome).toBeDefined();
       expect(result.remainingSavings).toBe(
-        result.totalIncome!.net - result.totalExpenses
+        (result.totalIncome?.net ?? 0) - result.totalExpenses
       );
       expect(result.totalHousingCost).toBeCloseTo(expectedTotalHousingCost, 2);
 
@@ -638,7 +640,10 @@ describe("Financial Calculations", () => {
       expect(result.totalHousingCost).toBeCloseTo(expectedMonthlyPayment, 2);
 
       // Should likely result in negative remaining savings due to high payment
-      expect(result.remainingSavings).toBeLessThan(result.totalIncome!.net);
+      expect(result.totalIncome).toBeDefined();
+      expect(result.remainingSavings).toBeLessThan(
+        result.totalIncome?.net ?? 0
+      );
     });
 
     it("should handle no loan scenario", () => {

@@ -1,11 +1,12 @@
 "use client";
-import { useRouter, usePathname } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
-import { useLocale } from "next-intl";
-import { Box } from "@/components/ui/Box";
-import { Text } from "@/components/ui/Text";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useLocale } from "next-intl";
+import { useEffect, useState } from "react";
+
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
+import { Text } from "@/components/ui/Text";
+import { useRouter, usePathname } from "@/i18n/navigation";
 
 const LanguageSwitcher = () => {
   const router = useRouter();
@@ -29,20 +30,20 @@ const LanguageSwitcher = () => {
   return (
     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
       <Button
+        aria-label={locale === "sv" ? "Switch to English" : "Byt till svenska"}
+        className="relative h-9 px-3 glass border-gray-700/50 hover:bg-white/10 overflow-hidden group"
         variant="outline"
         onClick={toggleLanguage}
-        className="relative h-9 px-3 glass border-gray-700/50 hover:bg-white/10 overflow-hidden group"
-        aria-label={locale === "sv" ? "Switch to English" : "Byt till svenska"}
       >
         <Box className="flex items-center justify-center gap-2">
           <Text className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
             {locale === "sv" ? "SV" : "EN"}
           </Text>
           <motion.div
-            initial={{ rotate: 0 }}
             animate={{ rotate: locale === "sv" ? 0 : 180 }}
-            transition={{ type: "spring", stiffness: 200 }}
             className="text-lg"
+            initial={{ rotate: 0 }}
+            transition={{ type: "spring", stiffness: 200 }}
           >
             {locale === "sv" ? "🇸🇪" : "🇬🇧"}
           </motion.div>
@@ -52,8 +53,8 @@ const LanguageSwitcher = () => {
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"
           initial={{ x: "-100%" }}
-          whileHover={{ x: 0 }}
           transition={{ type: "tween", duration: 0.3 }}
+          whileHover={{ x: 0 }}
         />
       </Button>
     </motion.div>

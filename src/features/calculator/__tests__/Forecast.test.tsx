@@ -1,5 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, waitFor, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+
 import { Forecast } from "@/features/calculator/Forecast";
 import type { CalculatorState } from "@/lib/types";
 
@@ -29,14 +30,14 @@ vi.mock("recharts", async () => {
     ...actual,
     ResponsiveContainer: ({ children }: { children: React.ReactNode }) => (
       <div
-        style={{ width: 500, height: 400 }}
         data-testid="responsive-container"
+        style={{ width: 500, height: 400 }}
       >
         {children}
       </div>
     ),
     AreaChart: ({ children, data }: LineChartProps) => (
-      <div data-testid="line-chart" data-chart-data={JSON.stringify(data)}>
+      <div data-chart-data={JSON.stringify(data)} data-testid="line-chart">
         {children}
       </div>
     ),

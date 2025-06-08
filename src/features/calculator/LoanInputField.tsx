@@ -1,5 +1,7 @@
-import { CurrencyInput } from "@/components/ui/CurrencyInput";
 import type { UseFormReturn } from "react-hook-form";
+
+import { CurrencyInput } from "@/components/ui/CurrencyInput";
+
 import type { LoansFormValues } from "./Loans";
 
 interface LoanInputFieldProps {
@@ -31,17 +33,17 @@ const LoanInputField = ({
 }: LoanInputFieldProps) => {
   return (
     <CurrencyInput
-      form={form}
-      name={name}
-      label={label}
       ariaLabel={ariaLabel}
-      onBlur={onBlur}
       className={className}
       disabled={disabled}
-      placeholder={placeholder}
-      min={min}
+      form={form}
+      label={label}
       max={max}
+      min={min}
+      name={name}
+      placeholder={placeholder}
       step={step}
+      onBlur={onBlur}
     />
   );
 };

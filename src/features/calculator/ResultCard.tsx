@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Info, TrendingDown, TrendingUp } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { cn } from "@/lib/utils/general";
+import React, { useEffect, useState } from "react";
+
+import { AnimatedScramble } from "@/components/ui/AnimatedScramble";
 import { Box } from "@/components/ui/Box";
 import { Text } from "@/components/ui/Text";
-import { AnimatedScramble } from "@/components/ui/AnimatedScramble";
-import type { CalculationResult } from "@/lib/types";
 import {
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipTrigger,
 } from "@/components/ui/Tooltip";
-import { Info, TrendingUp, TrendingDown } from "lucide-react";
 import { calculateFinancialHealthScoreForResult } from "@/lib/calculations";
+import type { CalculationResult } from "@/lib/types";
+import { cn } from "@/lib/utils/general";
+
 import { FinancialHealthScore } from "./FinancialHealthScore";
-import { motion } from "framer-motion";
 
 interface HeadCell {
   key: string;
@@ -59,12 +61,11 @@ const ResultCard = ({
     if (!cell.render) return null;
     if (!cell.getRawValue || !cell.format) return cell.render(result);
     const rawValue = cell.getRawValue(result);
-    if (typeof rawValue !== "number" || isNaN(rawValue))
+    if (typeof rawValue !== "number" || Number.isNaN(rawValue))
       return cell.render(result);
     if (showAnimation) {
       return (
         <AnimatedScramble
-          value={rawValue}
           className={cn(
             cell.key === "remaining_savings" && {
               "text-green-400": result.remainingSavings >= 0,
@@ -72,8 +73,9 @@ const ResultCard = ({
             }
           )}
           format={cell.format}
-          smoothMode={true}
           maxDuration={0.3}
+          smoothMode={true}
+          value={rawValue}
         />
       );
     }
@@ -91,13 +93,13 @@ const ResultCard = ({
       {/* Header Badge */}
       {(isBest || isWorst) && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className={cn(
             "mb-3 px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1",
             isBest && "bg-green-500/20 text-green-400",
             isWorst && "bg-red-500/20 text-red-400"
           )}
+          initial={{ opacity: 0, y: -10 }}
         >
           {isBest ? (
             <TrendingUp className="w-3 h-3" />
@@ -122,18 +124,18 @@ const ResultCard = ({
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <button
-                        type="button"
-                        tabIndex={0}
                         aria-label={t(cell.tooltipKey)}
                         className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-blue-400 transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
+                        tabIndex={0}
+                        type="button"
                       >
                         <Info className="w-4 h-4 text-gray-300" />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent
+                      className="z-50 max-w-xs p-3 text-xs glass"
                       side="top"
                       sideOffset={-8}
-                      className="z-50 max-w-xs p-3 text-xs glass"
                     >
                       {t(cell.tooltipKey)}
                     </TooltipContent>

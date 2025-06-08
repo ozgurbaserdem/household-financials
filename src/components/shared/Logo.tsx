@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
-import { Calculator } from "lucide-react";
-import { useRouter } from "@/i18n/navigation";
 import { motion } from "framer-motion";
+import { Calculator } from "lucide-react";
+import React from "react";
+
 import { Box } from "@/components/ui/Box";
+import { useRouter } from "@/i18n/navigation";
+
 import { BudgetkollenLogo } from "../ui/BudgetKollenLogo";
 
 interface LogoProps {
@@ -22,13 +24,13 @@ export const Logo = ({ onLogoClick }: LogoProps) => {
 
   return (
     <button
-      onClick={handleLogoClick}
       className="flex items-center gap-3 group cursor-pointer"
+      onClick={handleLogoClick}
     >
       <motion.div
-        whileHover={{ rotate: 180 }}
-        transition={{ duration: 0.5 }}
         className="relative"
+        transition={{ duration: 0.5 }}
+        whileHover={{ rotate: 180 }}
       >
         <Box className="p-2 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 shadow-lg shadow-blue-500/25">
           <Calculator className="w-6 h-6 text-white" />
@@ -36,8 +38,8 @@ export const Logo = ({ onLogoClick }: LogoProps) => {
         <Box className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 blur-md opacity-50" />
       </motion.div>
       <motion.span
-        whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 400 }}
+        whileHover={{ scale: 1.05 }}
       >
         <BudgetkollenLogo variant="text-check" />
       </motion.span>

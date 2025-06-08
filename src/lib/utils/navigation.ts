@@ -1,6 +1,6 @@
-import { WizardStepConfig } from "@/types/wizard";
+import type { WizardStepConfig } from "@/types/wizard";
 
-export const getStepParam = (locale: string): string => {
+export const getStepParameter = (locale: string): string => {
   return locale === "sv" ? "steg" : "step";
 };
 
@@ -45,12 +45,12 @@ export const getStepIndexFromName = (
   const possibleLabels = urlNameToLabels[name.toLowerCase()] || [];
 
   // Find the first matching step
-  for (const label of possibleLabels) {
+  // eslint-disable-next-line unicorn/no-array-reduce
+  const foundIndex = possibleLabels.reduce((acc, label) => {
+    if (acc !== -1) return acc; // Already found a match
     const index = steps.findIndex((s) => s.label === label);
-    if (index !== -1) {
-      return index;
-    }
-  }
+    return index !== -1 ? index : acc;
+  }, -1);
 
-  return -1;
+  return foundIndex;
 };

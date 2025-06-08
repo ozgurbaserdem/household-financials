@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi } from "vitest";
-import type { CalculatorState } from "@/lib/types";
+
 import { importFromCsv } from "@/lib/import-from-csv";
+import type { CalculatorState } from "@/lib/types";
 
 describe("CSV Import", () => {
   it("should import data correctly from CSV", async () => {

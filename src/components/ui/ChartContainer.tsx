@@ -1,9 +1,10 @@
-import { ResponsiveContainer } from "recharts";
-import { FinancialCard } from "./FinancialCard";
-import { Box } from "./Box";
-import { Text } from "./Text";
 import type { LucideIcon } from "lucide-react";
 import type { ReactElement } from "react";
+import { ResponsiveContainer } from "recharts";
+
+import { Box } from "./Box";
+import { FinancialCard } from "./FinancialCard";
+import { Text } from "./Text";
 
 interface ChartContainerProps {
   title: string;
@@ -34,16 +35,16 @@ const ChartContainer = ({
 }: ChartContainerProps) => {
   return (
     <FinancialCard
-      title={title}
+      animate={animate}
+      ariaLabel={ariaLabel}
+      delay={delay}
       description={description}
       icon={icon}
       iconColor={iconColor}
-      delay={delay}
-      animate={animate}
-      ariaLabel={ariaLabel}
+      title={title}
     >
       <div className={`h-[${height}px] w-full`} data-testid={testId}>
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer height="100%" width="100%">
           {children}
         </ResponsiveContainer>
       </div>
@@ -66,8 +67,8 @@ interface ChartLegendProps {
 const ChartLegend = ({ items, className }: ChartLegendProps) => {
   return (
     <Box className={`flex flex-wrap justify-center gap-6 ${className || ""}`}>
-      {items.map((item, index) => (
-        <div key={index} className="flex items-center gap-2">
+      {items.map((item) => (
+        <div key={item.label} className="flex items-center gap-2">
           <div
             className="w-4 h-4 rounded"
             style={{ backgroundColor: item.color }}

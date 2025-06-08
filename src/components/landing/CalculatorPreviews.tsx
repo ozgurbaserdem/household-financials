@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
+import React, { useState } from "react";
+
 import { Box } from "@/components/ui/Box";
 import { Card } from "@/components/ui/Card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export const CalculatorPreviews = () => {
   const t = useTranslations("landing");
@@ -41,16 +42,16 @@ export const CalculatorPreviews = () => {
     <motion.section
       className="py-24"
       initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
       transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      whileInView={{ opacity: 1 }}
     >
       <motion.div
         className="text-center mb-16"
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
         transition={{ delay: 0.2 }}
+        viewport={{ once: true }}
+        whileInView={{ opacity: 1, y: 0 }}
       >
         <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
           {t("previews.title")}
@@ -65,14 +66,14 @@ export const CalculatorPreviews = () => {
           <motion.div
             key={preview.id}
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ delay: index * 0.2 + 0.3 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, y: 0 }}
           >
             <Card
-              variant="modern"
-              hover="glow"
               className="overflow-hidden group h-full cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 transition-shadow duration-500 flex flex-col"
+              hover="glow"
+              variant="modern"
             >
               <Box className="p-6 space-y-4 flex-shrink-0">
                 <h3 className="text-xl font-semibold text-white group-hover:text-blue-300 transition-colors">
@@ -88,14 +89,14 @@ export const CalculatorPreviews = () => {
                 onClick={() => setSelectedImage(preview.src)}
               >
                 <Image
-                  src={preview.src}
-                  alt={preview.alt}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-contain object-center group-hover:scale-110 transition-transform duration-700 ease-out bg-gray-950"
-                  quality={100}
-                  placeholder="blur"
+                  alt={preview.alt}
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                  className="object-contain object-center group-hover:scale-110 transition-transform duration-700 ease-out bg-gray-950"
+                  placeholder="blur"
+                  quality={100}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  src={preview.src}
                 />
 
                 {/* Magnifying glass icon overlay */}
@@ -127,13 +128,13 @@ export const CalculatorPreviews = () => {
           <div className="relative w-full h-full">
             {selectedImage && (
               <Image
-                src={selectedImage}
-                alt="Full size preview"
-                width={2400}
-                height={1600}
-                className="w-full h-full object-contain"
-                quality={100}
                 priority
+                alt="Full size preview"
+                className="w-full h-full object-contain"
+                height={1600}
+                quality={100}
+                src={selectedImage}
+                width={2400}
               />
             )}
           </div>

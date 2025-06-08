@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle } from "lucide-react";
+import React from "react";
+
 import { cn } from "@/lib/utils/general";
+
 import { Text } from "./Text";
 
 interface ValidationMessageProps {
@@ -34,25 +36,25 @@ export const ValidationMessage = ({
     <AnimatePresence mode="wait">
       {show && (
         <motion.div
-          initial={{
-            opacity: 0,
-            y: variant === "floating" ? -10 : 5,
-            scale: 0.95,
-          }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
+          aria-live="polite"
+          className={cn(baseClasses, variantClasses[variant], className)}
           exit={{
             opacity: 0,
             y: variant === "floating" ? -10 : 5,
             scale: 0.95,
           }}
+          initial={{
+            opacity: 0,
+            y: variant === "floating" ? -10 : 5,
+            scale: 0.95,
+          }}
+          role="alert"
           transition={{
             duration: 0.2,
             ease: "easeOut",
             layout: { duration: 0.15 },
           }}
-          className={cn(baseClasses, variantClasses[variant], className)}
-          role="alert"
-          aria-live="polite"
         >
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           <Text className="text-inherit">{message}</Text>

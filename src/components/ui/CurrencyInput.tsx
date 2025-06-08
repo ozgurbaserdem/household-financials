@@ -1,12 +1,13 @@
+import type { FieldPath, FieldValues, UseFormReturn } from "react-hook-form";
+
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
-import type { UseFormReturn, FieldPath, FieldValues } from "react-hook-form";
 
 interface CurrencyInputProps<T extends FieldValues> {
   form: UseFormReturn<T>;
@@ -42,31 +43,36 @@ const CurrencyInput = <T extends FieldValues>({
       control={form.control}
       name={name}
       render={({ field }) => {
-        const value = Array.isArray(field.value)
-          ? ""
-          : typeof field.value === "number" &&
-              !isNaN(field.value) &&
-              field.value !== 0
-            ? field.value
-            : "";
+        const isValidNumber =
+          typeof field.value === "number" &&
+          !Number.isNaN(field.value) &&
+          field.value !== 0;
+        let value: string | number;
+        if (Array.isArray(field.value)) {
+          value = "";
+        } else if (isValidNumber) {
+          value = field.value;
+        } else {
+          value = "";
+        }
 
         return (
           <FormItem className={hidden ? "hidden" : ""}>
             <FormLabel className="calculator-form-label">{label}</FormLabel>
             <FormControl>
               <Input
-                type="number"
-                min={min}
                 max={max}
+                min={min}
                 step={step}
+                type="number"
                 {...field}
-                value={value}
-                placeholder={placeholder}
                 aria-label={ariaLabel}
                 className={className}
                 disabled={disabled}
-                onChange={(e) => field.onChange(Number(e.target.value))}
+                placeholder={placeholder}
+                value={value}
                 onBlur={onBlur}
+                onChange={(e) => field.onChange(Number(e.target.value))}
               />
             </FormControl>
             <FormMessage />

@@ -1,5 +1,6 @@
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
+import * as React from "react";
+
 import { cn } from "@/lib/utils/general";
 
 export interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -9,7 +10,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
 const Text = React.forwardRef<HTMLSpanElement, TextProps>(
   ({ className, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "span";
-    return <Comp className={cn(className)} ref={ref} {...props} />;
+    return <Comp ref={ref} className={cn(className)} {...props} />;
   }
 );
 Text.displayName = "Text";

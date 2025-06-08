@@ -1,15 +1,18 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import type { Store } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { render, screen } from "@testing-library/react";
-import { ResultsStep } from "@/features/wizard/steps/ResultsStep";
+import { NextIntlClientProvider, useLocale } from "next-intl";
 import { Provider } from "react-redux";
-import { configureStore, Store } from "@reduxjs/toolkit";
-import calculatorReducer from "@/store/slices/calculatorSlice";
-import {
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { ResultsStep } from "@/features/wizard/steps/ResultsStep";
+import { calculateLoanScenarios } from "@/lib/calculations";
+import type {
   CalculatorState,
   CalculationResult,
   ExpensesByCategory,
 } from "@/lib/types";
-import { NextIntlClientProvider, useLocale } from "next-intl";
+import calculatorReducer from "@/store/slices/calculatorSlice";
 
 // Mock useLocale directly
 const mockUseLocale = vi.mocked(useLocale);
@@ -49,8 +52,8 @@ interface LinkProps {
 vi.mock("@/features/calculator/ResultsTable", () => ({
   ResultsTable: ({ calculatorState }: ResultsTableProps) => (
     <div
-      data-testid="results-table"
       data-state={JSON.stringify(calculatorState)}
+      data-testid="results-table"
     >
       Results Table
     </div>
@@ -60,8 +63,8 @@ vi.mock("@/features/calculator/ResultsTable", () => ({
 vi.mock("@/features/charts/ExpenseBreakdown", () => ({
   ExpenseBreakdown: ({ expenses }: ExpenseBreakdownProps) => (
     <div
-      data-testid="expense-breakdown"
       data-expenses={JSON.stringify(expenses)}
+      data-testid="expense-breakdown"
     >
       Expense Breakdown
     </div>
@@ -70,7 +73,7 @@ vi.mock("@/features/charts/ExpenseBreakdown", () => ({
 
 vi.mock("@/features/calculator/Forecast", () => ({
   Forecast: ({ calculatorState }: ForecastProps) => (
-    <div data-testid="forecast" data-state={JSON.stringify(calculatorState)}>
+    <div data-state={JSON.stringify(calculatorState)} data-testid="forecast">
       Forecast
     </div>
   ),
@@ -78,16 +81,12 @@ vi.mock("@/features/calculator/Forecast", () => ({
 
 vi.mock("@/i18n/navigation", () => ({
   Link: ({ href, children }: LinkProps) => {
-    let hrefString: string;
-    if (typeof href === "string") {
-      hrefString = href;
-    } else {
-      // For testing, we'll use a simplified approach
-      // The actual behavior will be tested through the component
-      hrefString = `${href.pathname}${href.query ? "?" + new URLSearchParams(href.query as Record<string, string>).toString() : ""}`;
-    }
+    const hrefString: string =
+      typeof href === "string"
+        ? href
+        : `${href.pathname}${href.query ? "?" + new URLSearchParams(href.query as Record<string, string>).toString() : ""}`;
     return (
-      <a href={hrefString} data-testid="compound-interest-link">
+      <a data-testid="compound-interest-link" href={hrefString}>
         {children}
       </a>
     );
@@ -198,7 +197,6 @@ vi.mock("@/lib/calculations", () => ({
 }));
 
 // Import after mocks are set up
-import { calculateLoanScenarios } from "@/lib/calculations";
 
 // Define a type for store overrides
 interface MockStoreOverrides {
@@ -262,7 +260,7 @@ describe("ResultsStep", () => {
   ) => {
     return render(
       <Provider store={store}>
-        <NextIntlClientProvider messages={{}} locale="en">
+        <NextIntlClientProvider locale="en" messages={{}}>
           {ui}
         </NextIntlClientProvider>
       </Provider>

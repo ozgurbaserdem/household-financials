@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
+
 import calculatorReducer from "./slices/calculatorSlice";
 
 const persistConfig = {

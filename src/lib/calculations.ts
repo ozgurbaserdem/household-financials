@@ -1,10 +1,10 @@
+import { taxCalculationService, financialCalculationService } from "./services";
 import type {
   CalculatorState,
   CalculationResult,
   ExpensesByCategory,
   FinancialHealthScore,
 } from "./types";
-import { taxCalculationService, financialCalculationService } from "./services";
 
 /**
  * Calculates net income from gross income after Swedish taxes.
@@ -121,10 +121,9 @@ export const calculateLoanScenarios = (
 export const calculateTotalExpenses = (
   expenses: ExpensesByCategory
 ): number => {
-  return Object.values(expenses).reduce((total, amount) => {
-    const numericAmount = Number(amount) || 0;
-    return total + numericAmount;
-  }, 0);
+  const amounts = Object.values(expenses).map((amount) => Number(amount) || 0);
+
+  return amounts.reduce((total, amount) => total + amount, 0);
 };
 
 /**
@@ -303,17 +302,22 @@ export const calculateFinancialHealthScoreForResult = (
   };
 
   // Handle NaN values
-  Object.keys(scores).forEach((key) => {
+  Object.keys(scores).map((key) => {
     if (!Number.isFinite(scores[key as keyof typeof scores])) {
       scores[key as keyof typeof scores] = 0;
     }
+    return key;
   });
 
-  const overallScore = Math.round(
-    Object.entries(weights).reduce((total, [key, weight]) => {
+  // Calculate weighted total score
+
+  const weightedTotal = Object.entries(weights).reduce(
+    (total, [key, weight]) => {
       return total + scores[key as keyof typeof scores] * weight;
-    }, 0)
+    },
+    0
   );
+  const overallScore = Math.round(weightedTotal);
 
   // Generate recommendations
   const recommendations: string[] = [];

@@ -1,11 +1,12 @@
-import React from "react";
-import { LandingPage } from "@/components/landing/LandingPage";
-import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
+import React from "react";
 
-type Props = {
+import { LandingPage } from "@/components/landing/LandingPage";
+
+interface Props {
   params: Promise<{ locale: string }>;
-};
+}
 
 const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { locale } = await params;

@@ -1,18 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-} from "@/components/ui/ModernCard";
-import { CardContent } from "@/components/ui/Card";
-import {
-  formatCurrency,
-  formatPercentage,
-  calculateLoanScenarios,
-} from "@/lib/calculations";
-import type { CalculationResult, CalculatorState } from "@/lib/types";
+import { motion } from "framer-motion";
 import { BarChart3, Percent, Calendar, Settings2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, {
@@ -22,15 +10,29 @@ import React, {
   useRef,
   useEffect,
 } from "react";
+
 import { Box } from "@/components/ui/Box";
-import { motion } from "framer-motion";
-import { ResultCard } from "./ResultCard";
+import { CardContent } from "@/components/ui/Card";
+import { FormLabel } from "@/components/ui/Form";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardIcon,
+} from "@/components/ui/ModernCard";
+import { Text } from "@/components/ui/Text";
+import {
+  formatCurrency,
+  formatPercentage,
+  calculateLoanScenarios,
+} from "@/lib/calculations";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import { FormLabel } from "@/components/ui/Form";
-import { Text } from "@/components/ui/Text";
+import type { CalculationResult, CalculatorState } from "@/lib/types";
 import { useAppDispatch } from "@/store/hooks";
 import { updateLoanParameters } from "@/store/slices/calculatorSlice";
+
+import { ResultCard } from "./ResultCard";
 
 interface ResultsTableProps {
   calculatorState: CalculatorState;
@@ -102,7 +104,7 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
   const dispatch = useAppDispatch();
   const t = useTranslations("results");
   const tLoan = useTranslations("loan_parameters");
-  const titleRef = useFocusOnMount();
+  const titleReference = useFocusOnMount();
   const isMobile = useIsTouchDevice();
 
   // Local state for rate adjustments
@@ -114,8 +116,8 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
   );
 
   // Refs for debounce timeouts (for Redux updates only)
-  const interestRateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const amortizationRateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const interestRateTimeoutReference = useRef<NodeJS.Timeout | null>(null);
+  const amortizationRateTimeoutReference = useRef<NodeJS.Timeout | null>(null);
 
   const results = useMemo(() => {
     // Create updated calculator state with real-time rates (immediate calculation)
@@ -136,11 +138,11 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
   // Debounced Redux update functions (only for persisting to global state)
   const debouncedUpdateInterestRate = useCallback(
     (value: number) => {
-      if (interestRateTimeoutRef.current) {
-        clearTimeout(interestRateTimeoutRef.current);
+      if (interestRateTimeoutReference.current) {
+        clearTimeout(interestRateTimeoutReference.current);
       }
 
-      interestRateTimeoutRef.current = setTimeout(() => {
+      interestRateTimeoutReference.current = setTimeout(() => {
         // Only update Redux if value is valid (> 0)
         if (value > 0 && value <= 20) {
           dispatch(updateLoanParameters({ interestRate: value }));
@@ -152,11 +154,11 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
 
   const debouncedUpdateAmortizationRate = useCallback(
     (value: number) => {
-      if (amortizationRateTimeoutRef.current) {
-        clearTimeout(amortizationRateTimeoutRef.current);
+      if (amortizationRateTimeoutReference.current) {
+        clearTimeout(amortizationRateTimeoutReference.current);
       }
 
-      amortizationRateTimeoutRef.current = setTimeout(() => {
+      amortizationRateTimeoutReference.current = setTimeout(() => {
         // Only update Redux if value is valid (> 0)
         if (value > 0 && value <= 10) {
           dispatch(updateLoanParameters({ amortizationRate: value }));
@@ -180,35 +182,35 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
   // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
-      if (interestRateTimeoutRef.current) {
-        clearTimeout(interestRateTimeoutRef.current);
+      if (interestRateTimeoutReference.current) {
+        clearTimeout(interestRateTimeoutReference.current);
       }
-      if (amortizationRateTimeoutRef.current) {
-        clearTimeout(amortizationRateTimeoutRef.current);
+      if (amortizationRateTimeoutReference.current) {
+        clearTimeout(amortizationRateTimeoutReference.current);
       }
     };
   }, []);
 
   return (
-    <Card gradient glass delay={0.3} animate={!isMobile} hover={false}>
+    <Card glass gradient animate={!isMobile} delay={0.3} hover={false}>
       <CardHeader>
         <CardIcon>
           <BarChart3 className="w-6 h-6 text-blue-400" />
         </CardIcon>
         <Box className="flex-1">
           <CardTitle
-            ref={titleRef}
-            tabIndex={0}
+            ref={titleReference}
             aria-label={t("aria.title")}
             className="focus:outline-none"
+            tabIndex={0}
           >
             {t("title")}
           </CardTitle>
           <motion.p
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
             className="text-sm text-gray-300 mt-1"
+            initial={{ opacity: 0 }}
+            transition={{ delay: 0.5 }}
           >
             {t("current_scenario")}
           </motion.p>
@@ -218,16 +220,16 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
       <CardContent>
         {/* Single Result Card */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           transition={{ delay: 0.5 }}
         >
           <ResultCard
-            result={result}
-            showTooltips={true}
             HEAD_CELLS={HEAD_CELLS}
             isBest={false}
             isWorst={false}
+            result={result}
+            showTooltips={true}
           />
         </motion.div>
 
@@ -235,10 +237,10 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
         {calculatorState.loanParameters.hasLoan &&
           calculatorState.loanParameters.amount > 0 && (
             <motion.div
-              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
               className="mt-0 pt-6"
+              initial={{ opacity: 0 }}
+              transition={{ delay: 0.7 }}
             >
               <Box className="space-y-4">
                 <div className="flex items-center gap-3">
@@ -261,22 +263,22 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
                     <div className="space-y-3">
                       <div className="relative flex items-center gap-4">
                         <input
-                          type="range"
-                          min={0.01}
-                          max={20}
-                          step={0.01}
-                          value={interestRate || 3.5}
-                          onChange={(e) => {
-                            const value = Number(e.target.value);
-                            handleInterestRateChange(value);
-                          }}
                           className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                          max={20}
+                          min={0.01}
+                          step={0.01}
                           style={{
                             background: `linear-gradient(to right, 
                               rgb(59 130 246) 0%, 
                               rgb(147 51 234) ${(((interestRate || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
                               rgb(55 65 81) ${(((interestRate || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
                               rgb(55 65 81) 100%)`,
+                          }}
+                          type="range"
+                          value={interestRate || 3.5}
+                          onChange={(e) => {
+                            const value = Number(e.target.value);
+                            handleInterestRateChange(value);
                           }}
                         />
                         <div className="flex-shrink-0">
@@ -297,22 +299,22 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
                     <div className="space-y-3">
                       <div className="relative flex items-center gap-4">
                         <input
-                          type="range"
-                          min={0.01}
-                          max={10}
-                          step={0.01}
-                          value={amortizationRate || 2}
-                          onChange={(e) => {
-                            const value = Number(e.target.value);
-                            handleAmortizationRateChange(value);
-                          }}
                           className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
+                          max={10}
+                          min={0.01}
+                          step={0.01}
                           style={{
                             background: `linear-gradient(to right, 
                               rgb(59 130 246) 0%, 
                               rgb(147 51 234) ${(((amortizationRate || 2) - 0.01) / (10 - 0.01)) * 100}%, 
                               rgb(55 65 81) ${(((amortizationRate || 2) - 0.01) / (10 - 0.01)) * 100}%, 
                               rgb(55 65 81) 100%)`,
+                          }}
+                          type="range"
+                          value={amortizationRate || 2}
+                          onChange={(e) => {
+                            const value = Number(e.target.value);
+                            handleAmortizationRateChange(value);
                           }}
                         />
                         <div className="flex-shrink-0">

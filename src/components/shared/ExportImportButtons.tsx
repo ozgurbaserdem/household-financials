@@ -1,13 +1,14 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React, { useRef, useState } from "react";
+
+import { Box } from "@/components/ui/Box";
+import { Button } from "@/components/ui/Button";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 import { exportToCsv } from "@/lib/export-to-csv";
 import { importFromCsv } from "@/lib/import-from-csv";
 import type { CalculatorState } from "@/lib/types";
-import { Button } from "@/components/ui/Button";
-import { ValidationMessage } from "@/components/ui/ValidationMessage";
-import { useTranslations } from "next-intl";
-import { Box } from "@/components/ui/Box";
 
 interface ExportImportButtonsProps {
   state: CalculatorState;
@@ -15,7 +16,7 @@ interface ExportImportButtonsProps {
 }
 
 const ExportImportButtons = ({ state, onImport }: ExportImportButtonsProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputReference = useRef<HTMLInputElement>(null);
   const [importError, setImportError] = useState<string | null>(null);
   const t = useTranslations("export_import");
 
@@ -25,7 +26,7 @@ const ExportImportButtons = ({ state, onImport }: ExportImportButtonsProps) => {
 
   const handleImportClick = () => {
     setImportError(null);
-    fileInputRef.current?.click();
+    fileInputReference.current?.click();
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,34 +51,34 @@ const ExportImportButtons = ({ state, onImport }: ExportImportButtonsProps) => {
     <Box className="space-y-2">
       <Box className="flex gap-2">
         <Button
-          type="button"
-          onClick={handleExport}
-          variant="outline"
+          suppressHydrationWarning
           className="
 						bg-white hover:bg-gray-100 text-black
 						dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
 					"
-          suppressHydrationWarning
+          type="button"
+          variant="outline"
+          onClick={handleExport}
         >
           {t("export_csv")}
         </Button>
         <Button
-          type="button"
-          onClick={handleImportClick}
-          variant="outline"
+          suppressHydrationWarning
           className="
 						bg-white hover:bg-gray-100 text-black
 						dark:bg-gray-900 dark:hover:bg-gray-800 dark:text-white
 					"
-          suppressHydrationWarning
+          type="button"
+          variant="outline"
+          onClick={handleImportClick}
         >
           {t("import_csv")}
         </Button>
         <input
-          type="file"
+          ref={fileInputReference}
           accept=".csv"
-          ref={fileInputRef}
           style={{ display: "none" }}
+          type="file"
           onChange={handleFileChange}
         />
       </Box>

@@ -1,7 +1,8 @@
 "use client";
 
-import * as React from "react";
 import { motion } from "framer-motion";
+import * as React from "react";
+
 import { cn } from "@/lib/utils/general";
 
 export interface SwitchProps {
@@ -40,11 +41,7 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
     return (
       <button
         ref={ref}
-        type="button"
-        role="switch"
         aria-checked={checked}
-        disabled={disabled}
-        onClick={() => !disabled && onCheckedChange(!checked)}
         className={cn(
           "relative inline-flex items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900",
           currentSize.switch,
@@ -54,19 +51,23 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
           disabled && "opacity-50 cursor-not-allowed",
           className
         )}
+        disabled={disabled}
+        role="switch"
+        type="button"
+        onClick={() => !disabled && onCheckedChange(!checked)}
       >
         <motion.div
-          className={cn("bg-white rounded-full shadow-lg", currentSize.thumb)}
           animate={{
             x: checked ? currentSize.translateX : 0,
+          }}
+          className={cn("bg-white rounded-full shadow-lg", currentSize.thumb)}
+          style={{
+            marginLeft: "2px",
           }}
           transition={{
             type: "spring",
             stiffness: 500,
             damping: 30,
-          }}
-          style={{
-            marginLeft: "2px",
           }}
         />
       </button>

@@ -5,8 +5,8 @@
  * income projections, and savings forecasts over time.
  */
 
-import type { CalculatorState } from "@/lib/types";
 import { calculateTotalNetIncome } from "@/lib/calculations";
+import type { CalculatorState } from "@/lib/types";
 
 /**
  * Interface representing forecast data for a single year.
@@ -63,32 +63,50 @@ export const calculateForecast = (
   const netMonthlyIncome = calculateTotalNetIncome(calculatorState);
   const netYearlyIncome0 = netMonthlyIncome * 12;
 
-  const data: ForecastData[] = [];
-  let remainingLoan = initialLoan;
-  let currentYear = 0;
-
-  while (remainingLoan > 0 && currentYear < maxYears) {
+  const generateYearData = (
+    year: number,
+    remainingLoan: number
+  ): { data: ForecastData; newRemainingLoan: number } => {
     const yearlyAmortization = initialLoan * amortizationRate;
     const yearlyInterest = remainingLoan * interestRate;
     const yearlyCost = yearlyAmortization + yearlyInterest;
     const monthlyCost = yearlyCost / 12;
     const currentYearNetYearlyIncome =
-      netYearlyIncome0 * Math.pow(1 + salaryIncreaseRate, currentYear);
+      netYearlyIncome0 * Math.pow(1 + salaryIncreaseRate, year);
     const monthlyIncome = currentYearNetYearlyIncome / 12;
     const monthlySavings = monthlyIncome - monthlyCost;
 
-    data.push({
-      year: currentYear,
-      remainingLoan,
-      yearlyCost,
-      monthlyCost,
-      monthlyIncome,
-      monthlySavings,
-    });
+    return {
+      data: {
+        year,
+        remainingLoan,
+        yearlyCost,
+        monthlyCost,
+        monthlyIncome,
+        monthlySavings,
+      },
+      newRemainingLoan: remainingLoan - yearlyAmortization,
+    };
+  };
 
-    remainingLoan -= yearlyAmortization;
-    currentYear++;
-  }
+  // Generate forecast data using functional approach
+  const { data } = Array.from({ length: maxYears }, (_, index) => index)
+    .map((year) => ({ year, remainingLoan: initialLoan }))
+    // eslint-disable-next-line unicorn/no-array-reduce
+    .reduce(
+      (acc, { year }) => {
+        if (acc.remainingLoan <= 0) {
+          return acc;
+        }
+
+        const yearResult = generateYearData(year, acc.remainingLoan);
+        return {
+          data: [...acc.data, yearResult.data],
+          remainingLoan: yearResult.newRemainingLoan,
+        };
+      },
+      { data: [] as ForecastData[], remainingLoan: initialLoan }
+    );
 
   return data;
 };
@@ -126,12 +144,12 @@ export const calculateTotalInterest = (
   calculatorState: CalculatorState
 ): number => {
   const forecast = calculateForecast(calculatorState);
+  const annualAmortization =
+    calculatorState.loanParameters.amount *
+    (calculatorState.loanParameters.amortizationRate / 100);
+
   return forecast.reduce(
-    (total, year) =>
-      total +
-      (year.yearlyCost -
-        calculatorState.loanParameters.amount *
-          (calculatorState.loanParameters.amortizationRate / 100)),
+    (total, year) => total + (year.yearlyCost - annualAmortization),
     0
   );
 };

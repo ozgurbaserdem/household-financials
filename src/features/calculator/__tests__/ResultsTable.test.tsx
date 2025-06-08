@@ -1,13 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { ResultsTable } from "@/features/calculator/ResultsTable";
-import { CalculatorState } from "@/lib/types";
-import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import calculatorReducer from "@/store/slices/calculatorSlice";
-import { ReactNode } from "react";
+import { render, screen } from "@testing-library/react";
+import type { ReactNode } from "react";
 import { useForm } from "react-hook-form";
+import { Provider } from "react-redux";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { Form } from "@/components/ui/Form";
+import { ResultsTable } from "@/features/calculator/ResultsTable";
+import { calculateLoanScenarios } from "@/lib/calculations";
+import type { CalculatorState } from "@/lib/types";
+import calculatorReducer from "@/store/slices/calculatorSlice";
 
 // Types for motion components
 interface MotionProps {
@@ -48,7 +50,6 @@ vi.mock("@/lib/calculations", () => ({
   }),
 }));
 
-import { calculateLoanScenarios } from "@/lib/calculations";
 const mockCalculateLoanScenarios = vi.mocked(calculateLoanScenarios);
 
 const createTestStore = (preloadedState?: CalculatorState) => {

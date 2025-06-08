@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
+
 import { Stepper } from "@/components/ui/StepIndicator";
-import { useAppSelector } from "@/store/hooks";
 import { getMaxAllowedStep } from "@/lib/validation/stepValidation";
+import { useAppSelector } from "@/store/hooks";
 
 interface ProgressStepperProps {
   steps: { label: string }[];
@@ -49,12 +50,12 @@ export const ProgressStepper = ({
 
   return (
     <Stepper
-      steps={stepsWithDisabled}
-      currentStep={currentStep}
-      onStepClick={handleStepClick}
       animate={true}
-      showGlow={true}
       className="mb-8"
+      currentStep={currentStep}
+      showGlow={true}
+      steps={stepsWithDisabled}
+      onStepClick={handleStepClick}
     />
   );
 };

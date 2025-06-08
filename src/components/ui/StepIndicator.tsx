@@ -1,10 +1,12 @@
 "use client";
 
-import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils/general";
-import { Check } from "lucide-react";
 import { motion } from "framer-motion";
+import { Check } from "lucide-react";
+import * as React from "react";
+
+import { cn } from "@/lib/utils/general";
+
 import { Box } from "./Box";
 
 const stepIndicatorVariants = cva(
@@ -96,26 +98,32 @@ const StepIndicator = React.forwardRef<HTMLButtonElement, StepIndicatorProps>(
     },
     ref
   ) => {
-    const IconSize =
-      size === "sm" ? "w-3 h-3" : size === "lg" ? "w-6 h-6" : "w-5 h-5";
+    let IconSize: string;
+    if (size === "sm") {
+      IconSize = "w-3 h-3";
+    } else if (size === "lg") {
+      IconSize = "w-6 h-6";
+    } else {
+      IconSize = "w-5 h-5";
+    }
 
     return (
       <Box className="flex flex-col items-center">
         {animate ? (
           <motion.button
             ref={ref}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay }}
+            aria-current={state === "active" ? "step" : undefined}
+            aria-label={label}
             className={cn(
               stepIndicatorVariants({ size, variant, state }),
               className
             )}
-            aria-current={state === "active" ? "step" : undefined}
-            aria-label={label}
             disabled={state === "disabled"}
+            initial={{ opacity: 0 }}
+            transition={{ delay }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             {...props}
           >
             {state === "completed" ? (
@@ -131,12 +139,12 @@ const StepIndicator = React.forwardRef<HTMLButtonElement, StepIndicatorProps>(
         ) : (
           <button
             ref={ref}
+            aria-current={state === "active" ? "step" : undefined}
+            aria-label={label}
             className={cn(
               stepIndicatorVariants({ size, variant, state }),
               className
             )}
-            aria-current={state === "active" ? "step" : undefined}
-            aria-label={label}
             disabled={state === "disabled"}
             {...props}
           >
@@ -154,9 +162,9 @@ const StepIndicator = React.forwardRef<HTMLButtonElement, StepIndicatorProps>(
 
         {label && (
           <motion.span
+            animate={animate ? { opacity: 1 } : undefined}
             className={cn(stepLabelVariants({ size, state }))}
             initial={animate ? { opacity: 0 } : undefined}
-            animate={animate ? { opacity: 1 } : undefined}
             transition={animate ? { delay: 0.2 + delay } : undefined}
           >
             {label}
@@ -222,11 +230,11 @@ const StepConnector = React.forwardRef<HTMLDivElement, StepConnectorProps>(
         <Box className="absolute inset-0 bg-gray-800 rounded-full" />
         {animate ? (
           <motion.div
+            animate={{ scaleX: completed ? 1 : 0 }}
             className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-full"
             initial={{ scaleX: 0 }}
-            animate={{ scaleX: completed ? 1 : 0 }}
-            transition={{ duration: 0.5, delay }}
             style={{ transformOrigin: "left" }}
+            transition={{ duration: 0.5, delay }}
           />
         ) : (
           <div
@@ -280,35 +288,38 @@ const Stepper = React.forwardRef<HTMLDivElement, StepperProps>(
         {...props}
       >
         {steps.map((step, index) => {
-          const state = step.disabled
-            ? "disabled"
-            : index === currentStep
-              ? "active"
-              : index < currentStep
-                ? "completed"
-                : "pending";
+          let state: "disabled" | "active" | "completed" | "pending";
+          if (step.disabled) {
+            state = "disabled";
+          } else if (index === currentStep) {
+            state = "active";
+          } else if (index < currentStep) {
+            state = "completed";
+          } else {
+            state = "pending";
+          }
 
           return (
-            <React.Fragment key={index}>
+            <React.Fragment key={step.label}>
               <StepIndicator
-                stepNumber={index + 1}
-                label={step.label}
-                size={size}
-                variant={variant}
-                state={state}
                 animate={animate}
                 delay={animate ? index * 0.1 : 0}
+                label={step.label}
                 showGlow={showGlow}
+                size={size}
+                state={state}
+                stepNumber={index + 1}
+                variant={variant}
                 onClick={() => onStepClick?.(index)}
               />
 
               {index < steps.length - 1 && (
                 <StepConnector
+                  animate={animate}
+                  completed={index < currentStep}
+                  delay={animate ? index * 0.1 : 0}
                   size={size}
                   variant={variant === "glass" ? "default" : variant}
-                  completed={index < currentStep}
-                  animate={animate}
-                  delay={animate ? index * 0.1 : 0}
                 />
               )}
             </React.Fragment>
