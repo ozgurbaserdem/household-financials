@@ -241,14 +241,14 @@ export const Income = ({
                     className="text-sm font-medium text-gray-200 mb-2 block"
                     htmlFor="kommun-search"
                   >
-                    Välj kommun
+                    {t("select_municipality")}
                   </Label>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
                       className="pl-10 modern-input"
                       id="kommun-search"
-                      placeholder="Sök kommun..."
+                      placeholder={t("search_municipality")}
                       type="text"
                       value={kommunSearch}
                       onChange={(e) => {
@@ -296,7 +296,10 @@ export const Income = ({
                         ))}
                         {filteredKommuner.length > 10 && (
                           <div className="px-4 py-2 text-xs text-gray-300 border-t border-gray-600">
-                            Visar {10} av {filteredKommuner.length} kommuner
+                            {t("showing_municipalities", {
+                              shown: 10,
+                              total: filteredKommuner.length,
+                            })}
                           </div>
                         )}
                       </motion.div>
@@ -320,7 +323,7 @@ export const Income = ({
                         />
                       </FormControl>
                       <FormLabel className="text-sm font-normal text-gray-200 cursor-pointer">
-                        Räkna med kyrkoavgift
+                        {t("include_church_tax")}
                         {selectedKommunData && field.value && (
                           <span className="text-gray-400 ml-2">
                             (+{selectedKommunData.kyrkoSkatt}%)

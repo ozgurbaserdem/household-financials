@@ -209,6 +209,10 @@ declare const messages: {
     current_buffer_aria: "How much do you have in your buffer account right now?";
     total_monthly_income: "Total monthly income";
     optional: "Optional";
+    select_municipality: "Select municipality";
+    search_municipality: "Search municipality...";
+    include_church_tax: "Include church tax";
+    showing_municipalities: "Showing {shown} of {total} municipalities";
   };
   financial_health: {
     title: "Financial health score";

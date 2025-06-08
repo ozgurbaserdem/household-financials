@@ -214,6 +214,10 @@ declare const messages: {
     current_buffer_aria: "Hur mycket har du på ditt buffertkonto just nu?";
     total_monthly_income: "Total månatlig inkomst";
     optional: "Valfritt";
+    select_municipality: "Välj kommun";
+    search_municipality: "Sök kommun...";
+    include_church_tax: "Räkna med kyrkoavgift";
+    showing_municipalities: "Visar {shown} av {total} kommuner";
   };
   financial_health: {
     title: "Ekonomiskt hälsotillstånd";
