@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { PieChart as PieChartIcon, TrendingDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React from "react";
@@ -91,8 +92,12 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
       const percentage = ((data.value / total) * 100).toFixed(1);
 
       return (
-        <div className="glass p-3 rounded-lg border border-gray-700">
-          <p className="text-white font-medium">{data.name}</p>
+        <motion.div
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gray-800/30 backdrop-blur-md p-4 rounded-lg border border-gray-600 shadow-lg space-y-2"
+          initial={{ opacity: 0, scale: 0.9 }}
+        >
+          <p className="text-white font-semibold">{data.name}</p>
           <p className="text-sm text-gray-300">
             {expenseBreakdownT("legend_label", {
               name: data.name,
@@ -100,7 +105,7 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
               percentage,
             })}
           </p>
-        </div>
+        </motion.div>
       );
     }
     return null;
