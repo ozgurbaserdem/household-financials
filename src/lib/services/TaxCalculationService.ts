@@ -1,4 +1,4 @@
-import kommunalskattData from "@/data/kommunalskatt_2025.json";
+import { kommunalskattData } from "@/data/kommunalskatt_2025";
 
 import type { KommunData } from "../types";
 

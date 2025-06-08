@@ -33,7 +33,7 @@ import {
   CardTitle,
   CardIcon,
 } from "@/components/ui/ModernCard";
-import kommunalskattData from "@/data/kommunalskatt_2025.json";
+import { kommunalskattData } from "@/data/kommunalskatt_2025";
 import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import type { KommunData } from "@/lib/types";
