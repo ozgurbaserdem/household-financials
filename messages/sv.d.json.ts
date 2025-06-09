@@ -19,7 +19,7 @@ declare const messages: {
     title: "Låneparametrar";
     add_loans: "Lägg till lån";
     hide_loans: "Dölj lån";
-    loan_amount: "Lånebelopp (SEK)";
+    loan_amount: "Lånebelopp";
     interest_rates: "Räntesatser (%)";
     amortization_rates: "Amorteringssatser (%)";
     title_aria: "Avsnitt för låneparametrar";
@@ -189,13 +189,13 @@ declare const messages: {
   };
   income: {
     title: "Inkomster";
-    income1: "Inkomst 1 (SEK)";
-    income2: "Inkomst 2 (SEK)";
-    secondaryIncome1: "Sidoinkomst 1 (SEK)";
-    secondaryIncome2: "Sidoinkomst 2 (SEK)";
-    child_benefits: "Barnbidrag (SEK)";
-    other_benefits: "Övriga bidrag (SEK)";
-    other_incomes: "Övriga inkomster (SEK)";
+    income1: "Inkomst 1";
+    income2: "Inkomst 2";
+    secondaryIncome1: "Sidoinkomst 1";
+    secondaryIncome2: "Sidoinkomst 2";
+    child_benefits: "Barnbidrag";
+    other_benefits: "Övriga bidrag";
+    other_incomes: "Övriga inkomster";
     add_extra_incomes: "Lägg till sidoinkomster";
     title_aria: "Inkomstsektion";
     income1_aria: "Månatlig bruttoinkomst för sökande 1 i SEK";
@@ -210,7 +210,7 @@ declare const messages: {
     one_adult: "1 vuxen";
     two_adults: "2 vuxna";
     number_of_adults_full: "Välj antal vuxna i hushållet";
-    current_buffer_label: "Buffertsparande (SEK)";
+    current_buffer_label: "Buffertsparande";
     current_buffer_aria: "Hur mycket har du på ditt buffertkonto just nu?";
     total_monthly_income: "Total månatlig inkomst";
     optional: "Valfritt";
@@ -242,7 +242,7 @@ declare const messages: {
       discretionary_income: "Disponibel inkomst = (Nettoinkomst - Utgifter) / Nettoinkomst. Visar hur stor andel av din inkomst som är kvar efter alla utgifter.";
       overall_score: "Totalpoängen sammanfattar din ekonomiska hälsa från 0 (svag) till 100 (utmärkt). Över 80 är starkt, 60-79 är okej, under 60 behöver förbättras. Använd rekommendationerna nedan för att förbättra din poäng.";
     };
-    current_buffer_label: "Buffertsparande (SEK)";
+    current_buffer_label: "Buffertsparande";
     current_buffer_aria: "Hur mycket har du på ditt buffertkonto just nu?";
   };
   wizard: {
@@ -591,9 +591,9 @@ declare const messages: {
       description: "Justera värdena för att se hur ditt månadssparande kan växa över tid";
     };
     inputs: {
-      start_sum_label: "Startbelopp (kr)";
+      start_sum_label: "Startbelopp";
       start_sum_description: "Det initiala beloppet du har att investera";
-      monthly_savings_label: "Månatligt sparande (kr)";
+      monthly_savings_label: "Månatligt sparande";
       monthly_savings_description: "Hur mycket du planerar att spara varje månad";
       yearly_return_label: "Förväntad årlig avkastning (%)";
       yearly_return_description: "Den genomsnittliga årliga avkastningen du förväntar dig på dina investeringar";
