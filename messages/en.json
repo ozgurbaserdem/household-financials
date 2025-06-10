@@ -244,6 +244,7 @@
     "loans": "Loans",
     "expenses": "Expenses",
     "summary": "Summary",
+    "summary_short": "Summary",
     "results": "Results",
     "hushallskalkylTitle": "Household budget & calculator",
     "hushallskalkylDesc": "Easily create your household budget and calculator with Budgetkollen. Get full control of your finances and plan for the future.",
@@ -379,7 +380,9 @@
   },
   "navbar": {
     "income": "Income",
+    "features": "Features",
     "articles": "Articles",
+    "pricing": "Pricing",
     "household_budget_label": "Budget Calculator",
     "household_budget_desc": "Take control of your finances in 3 minutes",
     "main_article_label": "Household budget",

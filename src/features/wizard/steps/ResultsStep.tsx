@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { TrendingUp, Calculator } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import React from "react";
@@ -49,38 +48,27 @@ export const ResultsStep = () => {
 
       {/* Compound Interest CTA */}
       {monthlySavings > 0 && (
-        <motion.div
-          animate={{ opacity: 1 }}
-          initial={{ opacity: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          <Card
-            glass
-            gradient
-            animate={!isMobile}
-            className="overflow-hidden relative"
-            hover={false}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
+        <div>
+          <Card className="overflow-hidden relative">
             <CardContent className="relative z-10">
               <div className="flex flex-col lg:flex-row items-center gap-6">
                 <div className="flex-1 text-center lg:text-left space-y-4">
                   <div className="flex items-center justify-center lg:justify-start gap-3">
-                    <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-sm">
-                      <TrendingUp className="w-6 h-6 text-purple-400" />
+                    <div className="p-2 rounded-lg bg-muted">
+                      <TrendingUp className="w-6 h-6 text-foreground" />
                     </div>
-                    <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                    <h3 className="text-2xl font-bold text-foreground">
                       {t("compound_interest_cta.title")}
                     </h3>
                   </div>
                   <div className="space-y-2">
-                    <Text className="text-gray-300 leading-relaxed">
+                    <Text className="text-muted-foreground leading-relaxed">
                       {t("compound_interest_cta.description", {
                         savings: formatCurrencyNoDecimals(monthlySavings),
                       })}
                     </Text>
                     <div className="flex items-center justify-center lg:justify-start gap-2 text-sm">
-                      <div className="px-3 py-1 rounded-full bg-green-500/20 text-green-400 font-medium">
+                      <div className="px-3 py-1 rounded-full bg-muted text-foreground font-medium border border-border">
                         <CurrencyDisplay
                           amount={monthlySavings}
                           className="inline"
@@ -89,8 +77,8 @@ export const ResultsStep = () => {
                         />{" "}
                         / {locale === "sv" ? "månad" : "month"}
                       </div>
-                      <span className="text-gray-400">→</span>
-                      <div className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 font-medium">
+                      <span className="text-muted-foreground">→</span>
+                      <div className="px-3 py-1 rounded-full bg-muted text-foreground font-medium border border-border">
                         {locale === "sv"
                           ? "Potentiell förmögenhet"
                           : "Potential wealth"}
@@ -108,7 +96,7 @@ export const ResultsStep = () => {
                     <Button
                       className="group relative overflow-hidden"
                       size="lg"
-                      variant="gradient"
+                      variant="default"
                     >
                       <span className="relative z-10 flex items-center gap-2 px-2">
                         <Calculator className="w-5 h-5 transition-transform group-hover:rotate-12" />
@@ -133,7 +121,7 @@ export const ResultsStep = () => {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </div>
       )}
     </Box>
   );

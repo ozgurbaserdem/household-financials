@@ -35,12 +35,9 @@ const ChartContainer = ({
 }: ChartContainerProps) => {
   return (
     <FinancialCard
-      animate={animate}
       ariaLabel={ariaLabel}
-      delay={delay}
       description={description}
       icon={icon}
-      iconColor={iconColor}
       title={title}
     >
       <div className={`h-[${height}px] w-full`} data-testid={testId}>

@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils/general";
 import { Box } from "./Box";
 
 const stepIndicatorVariants = cva(
-  "relative rounded-full flex items-center justify-center font-bold border-2 transition-all duration-300",
+  "relative rounded-full flex items-center justify-center font-medium border-2 transition-all duration-300",
   {
     variants: {
       size: {
@@ -25,13 +25,12 @@ const stepIndicatorVariants = cva(
       },
       state: {
         pending:
-          "bg-white/10 backdrop-blur-xl border border-white/20 text-gray-400 border-gray-700 hover:border-gray-600",
+          "bg-background border-border text-muted-foreground hover:border-foreground/50",
         active:
-          "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-purple-600 shadow-lg shadow-blue-500/25",
-        completed:
-          "bg-gradient-to-r from-green-400 to-green-600 text-white border-green-600 shadow-lg shadow-green-500/20",
+          "bg-primary text-primary-foreground border-primary borde-border scale-105 relative z-10",
+        completed: "bg-success text-success-foreground border-success",
         disabled:
-          "bg-gray-700 text-gray-500 border-gray-600 cursor-not-allowed",
+          "bg-muted text-muted-foreground border-border cursor-not-allowed opacity-50",
       },
     },
     defaultVariants: {
@@ -42,28 +41,25 @@ const stepIndicatorVariants = cva(
   }
 );
 
-const stepLabelVariants = cva(
-  "mt-2 text-center transition-colors duration-300",
-  {
-    variants: {
-      size: {
-        sm: "text-xs",
-        default: "text-xs",
-        lg: "text-sm",
-      },
-      state: {
-        pending: "text-gray-500",
-        active: "font-semibold text-white",
-        completed: "text-green-400",
-        disabled: "text-gray-600",
-      },
+const stepLabelVariants = cva("text-center transition-colors duration-300", {
+  variants: {
+    size: {
+      sm: "text-xs",
+      default: "text-xs",
+      lg: "text-sm",
     },
-    defaultVariants: {
-      size: "default",
-      state: "pending",
+    state: {
+      pending: "text-muted-foreground",
+      active: "font-bold text-foreground",
+      completed: "text-success font-medium",
+      disabled: "text-muted-foreground opacity-50",
     },
-  }
-);
+  },
+  defaultVariants: {
+    size: "default",
+    state: "pending",
+  },
+});
 
 export interface StepIndicatorProps
   extends Omit<
@@ -107,70 +103,55 @@ const StepIndicator = React.forwardRef<HTMLButtonElement, StepIndicatorProps>(
       IconSize = "w-5 h-5";
     }
 
-    return (
-      <Box className="flex flex-col items-center">
-        {animate ? (
-          <motion.button
-            ref={ref}
-            animate={{ opacity: 1 }}
-            aria-current={state === "active" ? "step" : undefined}
-            aria-label={label}
-            className={cn(
-              stepIndicatorVariants({ size, variant, state }),
-              className
-            )}
-            disabled={state === "disabled"}
-            initial={{ opacity: 0 }}
-            transition={{ delay }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            {...props}
-          >
-            {state === "completed" ? (
-              <Check className={IconSize} />
-            ) : (
-              <span>{stepNumber}</span>
-            )}
-
-            {state === "active" && showGlow && (
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 blur-md opacity-40" />
-            )}
-          </motion.button>
+    return animate ? (
+      <motion.button
+        ref={ref}
+        animate={{ opacity: 1 }}
+        aria-current={state === "active" ? "step" : undefined}
+        aria-label={label}
+        className={cn(
+          stepIndicatorVariants({ size, variant, state }),
+          className
+        )}
+        disabled={state === "disabled"}
+        initial={{ opacity: 0 }}
+        transition={{ delay }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        {...props}
+      >
+        {state === "completed" ? (
+          <Check className={IconSize} />
         ) : (
-          <button
-            ref={ref}
-            aria-current={state === "active" ? "step" : undefined}
-            aria-label={label}
-            className={cn(
-              stepIndicatorVariants({ size, variant, state }),
-              className
-            )}
-            disabled={state === "disabled"}
-            {...props}
-          >
-            {state === "completed" ? (
-              <Check className={IconSize} />
-            ) : (
-              <span>{stepNumber}</span>
-            )}
-
-            {state === "active" && showGlow && (
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 blur-md opacity-40" />
-            )}
-          </button>
+          <span>{stepNumber}</span>
         )}
 
-        {label && (
-          <motion.span
-            animate={animate ? { opacity: 1 } : undefined}
-            className={cn(stepLabelVariants({ size, state }))}
-            initial={animate ? { opacity: 0 } : undefined}
-            transition={animate ? { delay: 0.2 + delay } : undefined}
-          >
-            {label}
-          </motion.span>
+        {state === "active" && showGlow && (
+          <div className="absolute inset-0 rounded-full bg-primary blur-md opacity-30" />
         )}
-      </Box>
+      </motion.button>
+    ) : (
+      <button
+        ref={ref}
+        aria-current={state === "active" ? "step" : undefined}
+        aria-label={label}
+        className={cn(
+          stepIndicatorVariants({ size, variant, state }),
+          className
+        )}
+        disabled={state === "disabled"}
+        {...props}
+      >
+        {state === "completed" ? (
+          <Check className={IconSize} />
+        ) : (
+          <span>{stepNumber}</span>
+        )}
+
+        {state === "active" && showGlow && (
+          <div className="absolute inset-0 rounded-full bg-primary blur-md opacity-30" />
+        )}
+      </button>
     );
   }
 );
@@ -222,16 +203,16 @@ const StepConnector = React.forwardRef<HTMLDivElement, StepConnectorProps>(
         ref={ref}
         className={cn(
           stepConnectorVariants({ size, variant }),
-          "hidden md:block flex-1 max-w-24",
+          "w-full min-w-12",
           className
         )}
         {...props}
       >
-        <Box className="absolute inset-0 bg-gray-800 rounded-full" />
+        <Box className="absolute inset-0 bg-gray-400 rounded-full" />
         {animate ? (
           <motion.div
             animate={{ scaleX: completed ? 1 : 0 }}
-            className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-full"
+            className="absolute inset-0 bg-green-500 rounded-full"
             initial={{ scaleX: 0 }}
             style={{ transformOrigin: "left" }}
             transition={{ duration: 0.5, delay }}
@@ -239,7 +220,7 @@ const StepConnector = React.forwardRef<HTMLDivElement, StepConnectorProps>(
         ) : (
           <div
             className={cn(
-              "absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-full transition-transform duration-500",
+              "absolute inset-0 bg-green-500 rounded-full transition-transform duration-500",
               completed ? "scale-x-100" : "scale-x-0"
             )}
             style={{ transformOrigin: "left" }}
@@ -253,7 +234,7 @@ const StepConnector = React.forwardRef<HTMLDivElement, StepConnectorProps>(
 StepConnector.displayName = "StepConnector";
 
 export interface StepperProps {
-  steps: Array<{ label: string; disabled?: boolean }>;
+  steps: Array<{ label: string; labelShort?: string; disabled?: boolean }>;
   currentStep: number;
   onStepClick?: (index: number) => void;
   size?: VariantProps<typeof stepIndicatorVariants>["size"];
@@ -281,50 +262,103 @@ const Stepper = React.forwardRef<HTMLDivElement, StepperProps>(
     return (
       <Box
         ref={ref}
-        className={cn(
-          "flex items-center justify-between gap-2 w-full",
-          className
-        )}
+        className={cn("flex flex-col w-full", className)}
         {...props}
       >
-        {steps.map((step, index) => {
-          let state: "disabled" | "active" | "completed" | "pending";
-          if (step.disabled) {
-            state = "disabled";
-          } else if (index === currentStep) {
-            state = "active";
-          } else if (index < currentStep) {
-            state = "completed";
-          } else {
-            state = "pending";
-          }
+        {/* Step indicators and connectors row */}
+        <Box className="flex items-center justify-between w-full mb-2 gap-1 sm:gap-0">
+          {steps.map((step, index) => {
+            let state: "disabled" | "active" | "completed" | "pending";
+            if (step.disabled) {
+              state = "disabled";
+            } else if (index === currentStep) {
+              state = "active";
+            } else if (index < currentStep) {
+              state = "completed";
+            } else {
+              state = "pending";
+            }
 
-          return (
-            <React.Fragment key={step.label}>
-              <StepIndicator
-                animate={animate}
-                delay={animate ? index * 0.1 : 0}
-                label={step.label}
-                showGlow={showGlow}
-                size={size}
-                state={state}
-                stepNumber={index + 1}
-                variant={variant}
-                onClick={() => onStepClick?.(index)}
-              />
-
-              {index < steps.length - 1 && (
-                <StepConnector
+            return (
+              <React.Fragment key={step.label}>
+                <StepIndicator
                   animate={animate}
-                  completed={index < currentStep}
                   delay={animate ? index * 0.1 : 0}
+                  showGlow={showGlow}
                   size={size}
-                  variant={variant === "glass" ? "default" : variant}
+                  state={state}
+                  stepNumber={index + 1}
+                  variant={variant}
+                  onClick={() => onStepClick?.(index)}
                 />
-              )}
-            </React.Fragment>
-          );
-        })}
+
+                {index < steps.length - 1 && (
+                  <Box className="hidden sm:flex flex-1 mx-6">
+                    <StepConnector
+                      animate={animate}
+                      completed={index < currentStep}
+                      delay={animate ? index * 0.1 : 0}
+                      size={size}
+                      variant={variant === "glass" ? "default" : variant}
+                    />
+                  </Box>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </Box>
+
+        {/* Step labels row */}
+        <Box className="flex items-center justify-between w-full gap-1 sm:gap-0">
+          {steps.map((step, index) => {
+            let state: "disabled" | "active" | "completed" | "pending";
+            if (step.disabled) {
+              state = "disabled";
+            } else if (index === currentStep) {
+              state = "active";
+            } else if (index < currentStep) {
+              state = "completed";
+            } else {
+              state = "pending";
+            }
+
+            return (
+              <React.Fragment key={`${step.label}-label`}>
+                <Box
+                  className="flex justify-center"
+                  style={{
+                    width: (() => {
+                      if (size === "sm") return "32px";
+                      if (size === "lg") return "64px";
+                      return "48px";
+                    })(),
+                  }}
+                >
+                  <motion.span
+                    animate={animate ? { opacity: 1 } : undefined}
+                    className={cn(
+                      stepLabelVariants({ size, state }),
+                      "text-center text-xs sm:text-sm"
+                    )}
+                    initial={animate ? { opacity: 0 } : undefined}
+                    transition={
+                      animate ? { delay: 0.2 + index * 0.1 } : undefined
+                    }
+                  >
+                    <span className="sm:hidden">
+                      {step.labelShort || step.label}
+                    </span>
+                    <span className="hidden sm:inline">{step.label}</span>
+                  </motion.span>
+                </Box>
+
+                {index < steps.length - 1 && (
+                  <Box className="hidden sm:flex flex-1" />
+                )}
+              </React.Fragment>
+            );
+          })}
+        </Box>
       </Box>
     );
   }

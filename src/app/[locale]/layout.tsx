@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
-import { Navbar } from "@/components/shared/Navbar";
+import { ModernNavbar } from "@/components/shared/ModernNavbar";
 import { Providers } from "@/components/shared/Providers";
 import { routing } from "@/i18n/routing";
 
@@ -287,7 +287,7 @@ const LocaleLayout = async ({
           timeZone="Europe/Stockholm"
         >
           <Providers>
-            <Navbar />
+            <ModernNavbar />
             {children}
           </Providers>
         </NextIntlClientProvider>

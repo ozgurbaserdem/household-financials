@@ -1,7 +1,9 @@
 {
   "navbar": {
     "income": "Inkomst",
+    "features": "Funktioner",
     "articles": "Artiklar",
+    "pricing": "Prissättning",
     "household_budget_label": "Budgetkalkylator",
     "household_budget_desc": "Få koll på din ekonomi på 3 minuter",
     "main_article_label": "Hushållskalkyl",
@@ -248,7 +250,8 @@
     "income": "Inkomst",
     "loans": "Lån",
     "expenses": "Utgifter",
-    "summary": "Sammanfattning",
+    "summary": "Summering",
+    "summary_short": "Summering",
     "results": "Resultat",
     "hushallskalkylTitle": "Hushållskalkyl & Hushållsbudget",
     "hushallskalkylDesc": "Skapa din hushållsbudget och hushållskalkyl enkelt med Budgetkollen. Få full kontroll över din ekonomi och planera för framtiden.",
@@ -285,9 +288,9 @@
     }
   },
   "summary": {
-    "title": "Sammanfattning",
+    "title": "Summering",
     "aria": {
-      "title": "Sammanfattning sektion",
+      "title": "Summering sektion",
       "net_income_card": "Nettoinkomst är {amount} per månad",
       "loan_payment_card": "Lånebetalning är {amount} per månad",
       "total_expenses_card": "Totala utgifter är {amount} per månad",

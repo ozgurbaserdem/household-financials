@@ -18,7 +18,7 @@ const NumberOfAdultsRadioGroup = ({
     <fieldset>
       <legend
         aria-label={t("number_of_adults_full")}
-        className="calculator-form-label mb-2"
+        className="text-foreground font-medium text-sm mb-2"
         id="adults-group-label"
       >
         {t("number_of_adults")}

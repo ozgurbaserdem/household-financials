@@ -58,7 +58,9 @@ const CurrencyInput = <T extends FieldValues>({
 
         return (
           <FormItem className={hidden ? "hidden" : ""}>
-            <FormLabel className="calculator-form-label">{label}</FormLabel>
+            <FormLabel className="text-foreground font-medium text-sm">
+              {label}
+            </FormLabel>
             <FormControl>
               <Input
                 max={max}

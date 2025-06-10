@@ -69,7 +69,7 @@ const HushallskalkylPage = async ({ params }: Props) => {
   setRequestLocale(locale);
 
   return (
-    <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
+    <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden pt-20 lg:pt-24">
       {/* Animated gradient mesh background */}
       <div className="gradient-mesh" />
 

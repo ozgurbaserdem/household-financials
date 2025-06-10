@@ -1,8 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, Wallet, Search } from "lucide-react";
+import { TrendingUp, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -15,7 +14,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/Accordion";
 import { Box } from "@/components/ui/Box";
-import { CardContent } from "@/components/ui/Card";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import {
@@ -27,15 +25,8 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-} from "@/components/ui/ModernCard";
+import { StepHeader } from "@/components/ui/StepHeader";
 import { kommunalskattData } from "@/data/kommunalskatt_2025";
-import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import type { KommunData } from "@/lib/types";
 
 import { IncomeInputField } from "./IncomeInputField";
@@ -89,9 +80,7 @@ export const Income = ({
   });
 
   const t = useTranslations("income");
-  const titleReference = useFocusOnMount();
   const kommunList = kommunalskattData as KommunData[];
-  const isMobile = useIsTouchDevice();
 
   useEffect(() => {
     if (values) {
@@ -174,79 +163,48 @@ export const Income = ({
     .reduce((sum, [, val]) => sum + (typeof val === "number" ? val : 0), 0);
 
   return (
-    <Card glass gradient animate={!isMobile} hover={false}>
-      <CardHeader>
-        <CardIcon>
-          <Wallet className="w-6 h-6 text-green-400" />
-        </CardIcon>
-        <Box className="flex-1">
-          <CardTitle
-            ref={titleReference}
-            aria-label={t("title_aria")}
-            className="focus:outline-none"
-            tabIndex={0}
-          >
-            {t("title")}
-          </CardTitle>
-          <motion.p
-            animate={{ opacity: 1 }}
-            className="text-sm text-gray-300 mt-1"
-            initial={{ opacity: 0 }}
-            transition={{ delay: 0.2 }}
-          >
+    <div>
+      <StepHeader step="income">
+        <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <span>
             {t("total_monthly_income")}:{" "}
             <CurrencyDisplay
               amount={totalIncome}
               className="font-semibold"
               showDecimals={false}
               size="md"
-              variant="positive"
+              variant="neutral"
             />
-          </motion.p>
-        </Box>
-        <motion.div
-          animate={{ scale: 1 }}
-          initial={{ scale: 0 }}
-          transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-        >
-          <TrendingUp className="w-8 h-8 text-green-400" />
-        </motion.div>
-      </CardHeader>
+          </span>
+          <TrendingUp className="w-8 h-8 text-foreground" />
+        </div>
+      </StepHeader>
 
-      <CardContent>
+      <div>
         <Form {...form}>
           <form data-testid="income-form">
             <Box className="space-y-4">
-              <motion.div
-                animate={{ opacity: 1, x: 0 }}
-                initial={{ opacity: 0, x: -20 }}
-                transition={{ delay: 0.1 }}
-              >
+              <div>
                 <NumberOfAdultsRadioGroup
                   value={numberOfAdults}
                   onChange={handleAdultsChange}
                 />
-              </motion.div>
+              </div>
 
               {/* Kommun Selection and Church Tax */}
-              <motion.div
-                animate={{ opacity: 1, x: 0 }}
-                className="space-y-4"
-                initial={{ opacity: 0, x: -20 }}
-                transition={{ delay: 0.15 }}
-              >
+              <div className="space-y-4">
                 {/* Kommun Select */}
                 <div className="relative">
                   <Label
-                    className="text-sm font-medium text-gray-200 mb-2 block"
+                    className="text-sm font-medium text-foreground mb-2 block"
                     htmlFor="kommun-search"
                   >
                     {t("select_municipality")}
                   </Label>
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none z-10" />
                     <Input
-                      className="pl-10 modern-input"
+                      className="!pl-10"
                       id="kommun-search"
                       placeholder={t("search_municipality")}
                       type="text"
@@ -258,53 +216,43 @@ export const Income = ({
                       onFocus={() => setShowKommunDropdown(true)}
                     />
                     {selectedKommunData && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-300">
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
                         {selectedKommunData.kommunalSkatt}%
                       </div>
                     )}
                   </div>
 
                   {/* Dropdown */}
-                  <AnimatePresence>
-                    {showKommunDropdown && filteredKommuner.length > 0 && (
-                      <motion.div
-                        animate={{ opacity: 1, y: 0 }}
-                        className="kommun-dropdown absolute z-50 w-full mt-1 max-h-60 overflow-y-auto bg-gray-900/70 backdrop-blur-md rounded-lg border border-gray-700 shadow-xl"
-                        exit={{ opacity: 0, y: -10 }}
-                        initial={{ opacity: 0, y: -10 }}
-                      >
-                        {filteredKommuner.slice(0, 10).map((kommun) => (
-                          <button
-                            key={kommun.kommunNamn}
-                            className="w-full px-4 py-2 text-left hover:bg-gray-800 text-gray-100 text-sm transition-colors flex justify-between items-center"
-                            type="button"
-                            onClick={() => {
-                              form.setValue(
-                                "selectedKommun",
-                                kommun.kommunNamn
-                              );
-                              setKommunSearch(kommun.kommunNamn);
-                              setShowKommunDropdown(false);
-                              handleFieldChange();
-                            }}
-                          >
-                            <span>{kommun.kommunNamn}</span>
-                            <span className="text-gray-400">
-                              {kommun.kommunalSkatt}%
-                            </span>
-                          </button>
-                        ))}
-                        {filteredKommuner.length > 10 && (
-                          <div className="px-4 py-2 text-xs text-gray-300 border-t border-gray-600">
-                            {t("showing_municipalities", {
-                              shown: 10,
-                              total: filteredKommuner.length,
-                            })}
-                          </div>
-                        )}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {showKommunDropdown && filteredKommuner.length > 0 && (
+                    <div className="kommun-dropdown absolute z-50 w-full mt-1 max-h-60 overflow-y-auto bg-background/70 backdrop-blur-md rounded-lg border border-border shadow-xl">
+                      {filteredKommuner.slice(0, 10).map((kommun) => (
+                        <button
+                          key={kommun.kommunNamn}
+                          className="w-full px-4 py-2 text-left hover:bg-muted text-foreground text-sm transition-colors flex justify-between items-center"
+                          type="button"
+                          onClick={() => {
+                            form.setValue("selectedKommun", kommun.kommunNamn);
+                            setKommunSearch(kommun.kommunNamn);
+                            setShowKommunDropdown(false);
+                            handleFieldChange();
+                          }}
+                        >
+                          <span>{kommun.kommunNamn}</span>
+                          <span className="text-muted-foreground">
+                            {kommun.kommunalSkatt}%
+                          </span>
+                        </button>
+                      ))}
+                      {filteredKommuner.length > 10 && (
+                        <div className="px-4 py-2 text-xs text-muted-foreground border-t border-border">
+                          {t("showing_municipalities", {
+                            shown: 10,
+                            total: filteredKommuner.length,
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Church Tax Checkbox */}
@@ -322,10 +270,10 @@ export const Income = ({
                           }}
                         />
                       </FormControl>
-                      <FormLabel className="text-sm font-normal text-gray-200 cursor-pointer">
+                      <FormLabel className="text-sm font-normal text-foreground cursor-pointer">
                         {t("include_church_tax")}
                         {selectedKommunData && field.value && (
-                          <span className="text-gray-400 ml-2">
+                          <span className="text-muted-foreground ml-2">
                             (+{selectedKommunData.kyrkoSkatt}%)
                           </span>
                         )}
@@ -333,14 +281,9 @@ export const Income = ({
                     </FormItem>
                   )}
                 />
-              </motion.div>
+              </div>
 
-              <motion.div
-                animate={{ opacity: 1, x: 0 }}
-                className="space-y-4"
-                initial={{ opacity: 0, x: -20 }}
-                transition={{ delay: 0.2 }}
-              >
+              <div className="space-y-4">
                 <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <IncomeInputField
                     ariaLabel={t("income1_aria")}
@@ -351,43 +294,30 @@ export const Income = ({
                     onBlur={handleFieldChange}
                   />
 
-                  <AnimatePresence>
-                    {numberOfAdults === "2" && (
-                      <motion.div
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        initial={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <IncomeInputField
-                          ariaLabel={t("income2_aria")}
-                          className="modern-input"
-                          form={form}
-                          label={t("income2")}
-                          name="income2"
-                          onBlur={handleFieldChange}
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {numberOfAdults === "2" && (
+                    <div>
+                      <IncomeInputField
+                        ariaLabel={t("income2_aria")}
+                        className="modern-input"
+                        form={form}
+                        label={t("income2")}
+                        name="income2"
+                        onBlur={handleFieldChange}
+                      />
+                    </div>
+                  )}
                 </Box>
-              </motion.div>
+              </div>
 
               {/* Secondary Income Accordion */}
-              <motion.div
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-6"
-                initial={{ opacity: 0, y: 20 }}
-                transition={{ delay: 0.3 }}
-              >
+              <div className="mt-6">
                 <Accordion collapsible className="w-full" type="single">
                   <AccordionItem
                     className="border-none"
                     value="secondary-income"
                   >
                     <AccordionTrigger
-                      className="bg-gray-800/30 hover:bg-gray-800/50 border border-gray-700/50 text-gray-200 
-                                 px-4 py-3 rounded-lg group transition-all duration-300
+                      className="input-base group transition-all duration-300
                                  hover:no-underline [&[data-state=open]]:rounded-b-none"
                       data-testid="extra-incomes-toggle"
                     >
@@ -395,14 +325,14 @@ export const Income = ({
                         <span className="text-sm font-medium">
                           {t("add_extra_incomes")}
                         </span>
-                        <span className="text-xs text-gray-500 group-hover:text-gray-400 mr-2">
+                        <span className="text-xs text-muted-foreground group-hover:text-muted-foreground mr-2">
                           {t("optional")}
                         </span>
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="pt-0 pb-0">
                       <Box
-                        className="p-4 bg-gray-800/20 rounded-b-lg border border-t-0 border-gray-700/50"
+                        className="p-4 bg-muted/20 rounded-b-xl border border-t-0 border-[rgb(var(--border))]"
                         id="extra-incomes-section"
                       >
                         <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -429,15 +359,10 @@ export const Income = ({
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
-              </motion.div>
+              </div>
 
               {/* Additional Income Fields with Icons */}
-              <motion.div
-                animate={{ opacity: 1, y: 0 }}
-                className="space-y-4"
-                initial={{ opacity: 0, y: 20 }}
-                transition={{ delay: 0.4 }}
-              >
+              <div className="space-y-4">
                 <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Box className="space-y-2">
                     <IncomeInputField
@@ -485,12 +410,12 @@ export const Income = ({
                     />
                   </Box>
                 </Box>
-              </motion.div>
+              </div>
             </Box>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

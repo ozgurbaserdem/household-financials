@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import React, { useMemo } from "react";
 
@@ -20,7 +19,11 @@ export const WizardClient = () => {
       { label: t("income"), component: <IncomeStep /> },
       { label: t("loans"), component: <LoansStep /> },
       { label: t("expenses"), component: <ExpensesStep /> },
-      { label: t("summary"), component: <SummaryStep /> },
+      {
+        label: t("summary"),
+        labelShort: t("summary_short"),
+        component: <SummaryStep />,
+      },
       { label: t("results"), component: <ResultsStep /> },
     ],
     [t]
@@ -28,13 +31,7 @@ export const WizardClient = () => {
 
   return (
     <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10 relative z-10">
-      <motion.div
-        animate={{ opacity: 1 }}
-        initial={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <WizardLayout steps={steps} />
-      </motion.div>
+      <WizardLayout steps={steps} />
     </Box>
   );
 };

@@ -11,13 +11,13 @@ export const getStepName = (step: WizardStepConfig, locale: string): string => {
     Income: locale === "sv" ? "inkomst" : "income",
     Loans: locale === "sv" ? "lan" : "loans",
     Expenses: locale === "sv" ? "utgifter" : "expenses",
-    Summary: locale === "sv" ? "sammanfattning" : "summary",
+    Summary: locale === "sv" ? "summering" : "summary",
     Results: locale === "sv" ? "resultat" : "results",
     // Swedish labels
     Inkomst: locale === "sv" ? "inkomst" : "income",
     Lån: locale === "sv" ? "lan" : "loans",
     Utgifter: locale === "sv" ? "utgifter" : "expenses",
-    Sammanfattning: locale === "sv" ? "sammanfattning" : "summary",
+    summering: locale === "sv" ? "summering" : "summary",
     Resultat: locale === "sv" ? "resultat" : "results",
   };
 
@@ -36,8 +36,8 @@ export const getStepIndexFromName = (
     lan: ["Loans", "Lån"],
     expenses: ["Expenses", "Utgifter"],
     utgifter: ["Expenses", "Utgifter"],
-    summary: ["Summary", "Sammanfattning"],
-    sammanfattning: ["Summary", "Sammanfattning"],
+    summary: ["Summary", "summering"],
+    summering: ["Summary", "summering"],
     results: ["Results", "Resultat"],
     resultat: ["Results", "Resultat"],
   };

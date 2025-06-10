@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { BarChart3, Percent, Calendar, Settings2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, {
@@ -12,22 +11,15 @@ import React, {
 } from "react";
 
 import { Box } from "@/components/ui/Box";
-import { CardContent } from "@/components/ui/Card";
 import { FormLabel } from "@/components/ui/Form";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-} from "@/components/ui/ModernCard";
+import { SliderInput } from "@/components/ui/SliderInput";
+import { StepHeader } from "@/components/ui/StepHeader";
 import { Text } from "@/components/ui/Text";
 import {
   formatCurrency,
   formatPercentage,
   calculateLoanScenarios,
 } from "@/lib/calculations";
-import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import type { CalculationResult, CalculatorState } from "@/lib/types";
 import { useAppDispatch } from "@/store/hooks";
 import { updateLoanParameters } from "@/store/slices/calculatorSlice";
@@ -104,8 +96,6 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
   const dispatch = useAppDispatch();
   const t = useTranslations("results");
   const tLoan = useTranslations("loan_parameters");
-  const titleReference = useFocusOnMount();
-  const isMobile = useIsTouchDevice();
 
   // Local state for rate adjustments
   const [interestRate, setInterestRate] = useState(
@@ -114,10 +104,6 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
   const [amortizationRate, setAmortizationRate] = useState(
     calculatorState.loanParameters.amortizationRate
   );
-  const [editingField, setEditingField] = useState<
-    "interestRate" | "amortizationRate" | null
-  >(null);
-  const [temporaryValue, setTemporaryValue] = useState<string>("");
 
   // Refs for debounce timeouts (for Redux updates only)
   const interestRateTimeoutReference = useRef<NodeJS.Timeout | null>(null);
@@ -195,224 +181,77 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
     };
   }, []);
 
-  // Handle input field editing
-  const handleEditStart = (field: "interestRate" | "amortizationRate") => {
-    setEditingField(field);
-    const currentValue =
-      field === "interestRate" ? interestRate : amortizationRate;
-    setTemporaryValue(currentValue.toString());
-  };
-
-  const handleEditEnd = (field: "interestRate" | "amortizationRate") => {
-    const numValue = parseFloat(temporaryValue.replace(/[^\d.-]/g, ""));
-    if (!Number.isNaN(numValue)) {
-      if (field === "interestRate" && numValue > 0 && numValue <= 20) {
-        handleInterestRateChange(numValue);
-      } else if (
-        field === "amortizationRate" &&
-        numValue > 0 &&
-        numValue <= 10
-      ) {
-        handleAmortizationRateChange(numValue);
-      }
-    }
-    setEditingField(null);
-    setTemporaryValue("");
-  };
-
-  const handleKeyDown = (
-    e: React.KeyboardEvent,
-    field: "interestRate" | "amortizationRate"
-  ) => {
-    if (e.key === "Enter") {
-      handleEditEnd(field);
-    } else if (e.key === "Escape") {
-      setEditingField(null);
-      setTemporaryValue("");
-    }
-  };
-
   return (
-    <Card glass gradient animate={!isMobile} delay={0.3} hover={false}>
-      <CardHeader>
-        <CardIcon>
-          <BarChart3 className="w-6 h-6 text-blue-400" />
-        </CardIcon>
-        <Box className="flex-1">
-          <CardTitle
-            ref={titleReference}
-            aria-label={t("aria.title")}
-            className="focus:outline-none"
-            tabIndex={0}
-          >
-            {t("title")}
-          </CardTitle>
-          <motion.p
-            animate={{ opacity: 1 }}
-            className="text-sm text-gray-300 mt-1"
-            initial={{ opacity: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            {t("current_scenario")}
-          </motion.p>
-        </Box>
-      </CardHeader>
+    <div className="space-y-6">
+      <StepHeader step="results">
+        <div className="text-sm text-muted-foreground">
+          {t("current_scenario")}
+        </div>
+      </StepHeader>
+      {/* Single Result Card */}
+      <div>
+        <ResultCard
+          HEAD_CELLS={HEAD_CELLS}
+          isBest={false}
+          isWorst={false}
+          result={result}
+          showTooltips={true}
+        />
+      </div>
 
-      <CardContent>
-        {/* Single Result Card */}
-        <motion.div
-          animate={{ opacity: 1, scale: 1 }}
-          initial={{ opacity: 0, scale: 0.9 }}
-          transition={{ delay: 0.5 }}
-        >
-          <ResultCard
-            HEAD_CELLS={HEAD_CELLS}
-            isBest={false}
-            isWorst={false}
-            result={result}
-            showTooltips={true}
-          />
-        </motion.div>
-
-        {/* Loan Rate Adjustment Section - Only show if user has loan */}
-        {calculatorState.loanParameters.hasLoan &&
-          calculatorState.loanParameters.amount > 0 && (
-            <motion.div
-              animate={{ opacity: 1 }}
-              className="mt-0 pt-6"
-              initial={{ opacity: 0 }}
-              transition={{ delay: 0.7 }}
-            >
-              <Box className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-blue-500/20">
-                    <Settings2 className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-200">
-                    {t("adjust_rates_title")}
-                  </h3>
+      {/* Loan Rate Adjustment Section - Only show if user has loan */}
+      {calculatorState.loanParameters.hasLoan &&
+        calculatorState.loanParameters.amount > 0 && (
+          <div className="mt-0 pt-6">
+            <Box className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Settings2 className="w-5 h-5 text-primary" />
                 </div>
-                <Text className="text-sm text-gray-400">
-                  {t("adjust_rates_description")}
-                </Text>
-                <Box className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                  <Box className="space-y-2">
-                    <FormLabel className="flex items-center gap-2">
-                      <Percent className="w-4 h-4 text-blue-400" />
-                      {tLoan("interest_rate")}
-                    </FormLabel>
-                    <div className="space-y-3">
-                      <div className="relative flex items-center gap-4">
-                        <input
-                          className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
-                          max={20}
-                          min={0.01}
-                          step={0.01}
-                          style={{
-                            background: `linear-gradient(to right, 
-                              rgb(59 130 246) 0%, 
-                              rgb(147 51 234) ${(((interestRate || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
-                              rgb(55 65 81) ${(((interestRate || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
-                              rgb(55 65 81) 100%)`,
-                          }}
-                          type="range"
-                          value={interestRate || 3.5}
-                          onChange={(e) => {
-                            const value = Number(e.target.value);
-                            handleInterestRateChange(value);
-                          }}
-                        />
-                        <div className="flex-shrink-0">
-                          {editingField === "interestRate" ? (
-                            <input
-                              autoFocus
-                              className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                              type="text"
-                              value={temporaryValue}
-                              onBlur={() => handleEditEnd("interestRate")}
-                              onChange={(e) =>
-                                setTemporaryValue(e.target.value)
-                              }
-                              onKeyDown={(e) =>
-                                handleKeyDown(e, "interestRate")
-                              }
-                            />
-                          ) : (
-                            <button
-                              className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
-                              onClick={() => handleEditStart("interestRate")}
-                            >
-                              <Text className="text-sm font-semibold text-white">
-                                {(interestRate || 3.5).toFixed(2)}%
-                              </Text>
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </Box>
-                  <Box className="space-y-2">
-                    <FormLabel className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-purple-400" />
-                      {tLoan("amortization_rate")}
-                    </FormLabel>
-                    <div className="space-y-3">
-                      <div className="relative flex items-center gap-4">
-                        <input
-                          className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
-                          max={10}
-                          min={0.01}
-                          step={0.01}
-                          style={{
-                            background: `linear-gradient(to right, 
-                              rgb(59 130 246) 0%, 
-                              rgb(147 51 234) ${(((amortizationRate || 2) - 0.01) / (10 - 0.01)) * 100}%, 
-                              rgb(55 65 81) ${(((amortizationRate || 2) - 0.01) / (10 - 0.01)) * 100}%, 
-                              rgb(55 65 81) 100%)`,
-                          }}
-                          type="range"
-                          value={amortizationRate || 2}
-                          onChange={(e) => {
-                            const value = Number(e.target.value);
-                            handleAmortizationRateChange(value);
-                          }}
-                        />
-                        <div className="flex-shrink-0">
-                          {editingField === "amortizationRate" ? (
-                            <input
-                              autoFocus
-                              className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                              type="text"
-                              value={temporaryValue}
-                              onBlur={() => handleEditEnd("amortizationRate")}
-                              onChange={(e) =>
-                                setTemporaryValue(e.target.value)
-                              }
-                              onKeyDown={(e) =>
-                                handleKeyDown(e, "amortizationRate")
-                              }
-                            />
-                          ) : (
-                            <button
-                              className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
-                              onClick={() =>
-                                handleEditStart("amortizationRate")
-                              }
-                            >
-                              <Text className="text-sm font-semibold text-white">
-                                {(amortizationRate || 2).toFixed(2)}%
-                              </Text>
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </Box>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {t("adjust_rates_title")}
+                </h3>
+              </div>
+              <Text className="text-sm text-muted-foreground">
+                {t("adjust_rates_description")}
+              </Text>
+              <Box className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                <Box className="space-y-2">
+                  <FormLabel className="flex items-center gap-2">
+                    <Percent className="w-4 h-4 text-primary" />
+                    {tLoan("interest_rate")}
+                  </FormLabel>
+                  <div className="space-y-3">
+                    <SliderInput
+                      max={20}
+                      min={0.01}
+                      step={0.01}
+                      suffix="%"
+                      value={interestRate || 3.5}
+                      onChange={handleInterestRateChange}
+                    />
+                  </div>
+                </Box>
+                <Box className="space-y-2">
+                  <FormLabel className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-secondary" />
+                    {tLoan("amortization_rate")}
+                  </FormLabel>
+                  <div className="space-y-3">
+                    <SliderInput
+                      max={10}
+                      min={0.01}
+                      step={0.01}
+                      suffix="%"
+                      value={amortizationRate || 2}
+                      onChange={handleAmortizationRateChange}
+                    />
+                  </div>
                 </Box>
               </Box>
-            </motion.div>
-          )}
-      </CardContent>
-    </Card>
+            </Box>
+          </div>
+        )}
+    </div>
   );
 };

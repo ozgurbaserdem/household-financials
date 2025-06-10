@@ -46,8 +46,8 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
           "relative inline-flex items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900",
           currentSize.switch,
           checked
-            ? "bg-gradient-to-r from-blue-500 to-purple-600"
-            : "bg-gray-600",
+            ? "bg-gradient-to-r from-gray-300 to-gray-900"
+            : "bg-gray-300",
           disabled && "opacity-50 cursor-not-allowed",
           className
         )}

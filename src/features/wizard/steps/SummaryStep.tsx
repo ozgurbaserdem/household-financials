@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   Baby,
   BadgeDollarSign,
@@ -28,19 +27,12 @@ import {
 } from "@/components/ui/Accordion";
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import { CardContent } from "@/components/ui/Card";
 import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
-import {
-  Card,
-  CardHeader,
-  CardIcon,
-  CardTitle,
-} from "@/components/ui/ModernCard";
+import { StepHeader } from "@/components/ui/StepHeader";
 import { Text } from "@/components/ui/Text";
 import { expenseCategories } from "@/data/expenseCategories";
 import { getNetIncome } from "@/lib/calculations";
 import { formatCurrencyNoDecimals, formatPercentage } from "@/lib/formatting";
-import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
 import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { hasValidLoan } from "@/lib/types";
 import { cn } from "@/lib/utils/general";
@@ -66,7 +58,6 @@ export const SummaryStep = () => {
   const tCategories = useTranslations("expense_categories");
   const [showAllExpenses, setShowAllExpenses] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
-  const titleReference = useFocusOnMount();
   const isMobile = useIsTouchDevice();
 
   const incomeIcons: Record<string, React.ReactNode> = {
@@ -194,50 +185,30 @@ export const SummaryStep = () => {
   const showExpand = nonZeroExpenses.length > 3;
 
   return (
-    <Card glass gradient animate={!isMobile} hover={false}>
-      <CardHeader>
-        <CardIcon>
-          <ListChecks className="w-6 h-6 text-purple-400" />
-        </CardIcon>
-        <Box className="flex-1">
-          <CardTitle
-            ref={titleReference}
-            aria-label={tSummary("aria.title")}
-            className="focus:outline-none"
-            tabIndex={0}
-          >
-            {tSummary("title")}
-          </CardTitle>
-          <motion.p
-            animate={{ opacity: 1 }}
-            className="text-sm text-gray-300 mt-1"
-            initial={{ opacity: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            {tSummary("review_before_calculating")}
-          </motion.p>
-        </Box>
-      </CardHeader>
+    <div>
+      <StepHeader step="summary">
+        <div className="text-sm text-muted-foreground">
+          {tSummary("review_before_calculating")}
+        </div>
+      </StepHeader>
 
-      <CardContent>
+      <div>
         {/* Quick Stats */}
-        <motion.div
-          animate={{ opacity: 1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
-          initial={{ opacity: 0 }}
-          transition={{ delay: 0.2 }}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Box
             aria-label={tSummary("aria.net_income_card", {
               amount: formatCurrencyNoDecimals(totalIncome),
             })}
-            className="p-4 glass rounded-xl border border-green-500/20 focus-within:ring-2 focus-within:ring-green-400/50 focus-within:border-green-400/50"
+            className="p-4 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 focus-within:ring-2 focus-within:ring-ring focus-within:border-ring shadow-sm"
             role="group"
             tabIndex={0}
           >
             <Box className="flex items-center gap-3 mb-2">
-              <Wallet className="w-5 h-5 text-green-400" />
-              <Text className="text-sm text-gray-300" id="net-income-label">
+              <Wallet className="w-5 h-5 text-foreground" />
+              <Text
+                className="text-sm text-muted-foreground"
+                id="net-income-label"
+              >
                 {tSummary("net_income")}
               </Text>
             </Box>
@@ -246,9 +217,9 @@ export const SummaryStep = () => {
               className="text-lg font-bold"
               showDecimals={false}
               size="xl"
-              variant="positive"
+              variant="neutral"
             />
-            <Text className="text-base text-gray-200 font-medium mt-1">
+            <Text className="text-base text-foreground font-medium mt-1">
               {tSummary("per_month")}
             </Text>
           </Box>
@@ -261,13 +232,16 @@ export const SummaryStep = () => {
                   })
                 : `${tSummary("loan_payment")}: ${tSummary("no_loan")}`
             }
-            className="p-4 glass rounded-xl border border-orange-500/20 focus-within:ring-2 focus-within:ring-orange-400/50 focus-within:border-orange-400/50"
+            className="p-4 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 focus-within:ring-2 focus-within:ring-ring focus-within:border-ring shadow-sm"
             role="group"
             tabIndex={0}
           >
             <Box className="flex items-center gap-3 mb-2">
-              <HandCoins className="w-5 h-5 text-orange-400" />
-              <Text className="text-sm text-gray-300" id="loan-payment-label">
+              <HandCoins className="w-5 h-5 text-foreground" />
+              <Text
+                className="text-sm text-muted-foreground"
+                id="loan-payment-label"
+              >
                 {tSummary("loan_payment")}
               </Text>
             </Box>
@@ -275,21 +249,21 @@ export const SummaryStep = () => {
               <>
                 <CurrencyDisplay
                   amount={monthlyPayment}
-                  className="text-lg font-bold text-orange-400"
+                  className="text-lg font-bold text-foreground"
                   showDecimals={false}
                   size="xl"
                   variant="neutral"
                 />
-                <Text className="text-base text-gray-200 font-medium mt-1">
+                <Text className="text-base text-foreground font-medium mt-1">
                   {tSummary("per_month")}
                 </Text>
               </>
             ) : (
               <>
-                <Text className="text-lg font-bold text-gray-400">
+                <Text className="text-lg font-bold text-muted-foreground">
                   {tSummary("no_loan")}
                 </Text>
-                <Text className="text-base text-gray-400 font-medium mt-1">
+                <Text className="text-base text-muted-foreground font-medium mt-1">
                   {/* Empty space to maintain layout consistency */}
                   &nbsp;
                 </Text>
@@ -301,13 +275,16 @@ export const SummaryStep = () => {
             aria-label={tSummary("aria.total_expenses_card", {
               amount: formatCurrencyNoDecimals(currentExpensesTotal),
             })}
-            className="p-4 glass rounded-xl border border-red-500/20 focus-within:ring-2 focus-within:ring-red-400/50 focus-within:border-red-400/50"
+            className="p-4 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 focus-within:ring-2 focus-within:ring-ring focus-within:border-ring shadow-sm"
             role="group"
             tabIndex={0}
           >
             <Box className="flex items-center gap-3 mb-2">
-              <Receipt className="w-5 h-5 text-red-400" />
-              <Text className="text-sm text-gray-300" id="total-expenses-label">
+              <Receipt className="w-5 h-5 text-foreground" />
+              <Text
+                className="text-sm text-muted-foreground"
+                id="total-expenses-label"
+              >
                 {tSummary("totalExpenses")}
               </Text>
             </Box>
@@ -316,13 +293,13 @@ export const SummaryStep = () => {
               className="text-lg font-bold"
               showDecimals={false}
               size="xl"
-              variant="negative"
+              variant="neutral"
             />
-            <Text className="text-base text-gray-200 font-medium mt-1">
+            <Text className="text-base text-foreground font-medium mt-1">
               {tSummary("per_month")}
             </Text>
           </Box>
-        </motion.div>
+        </div>
 
         {/* Sections */}
         <Accordion
@@ -333,7 +310,7 @@ export const SummaryStep = () => {
         >
           {/* Income Section */}
           <AccordionItem
-            className="glass rounded-xl border-0 overflow-hidden"
+            className="bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden shadow-sm"
             value="income"
           >
             <AccordionTrigger
@@ -345,18 +322,18 @@ export const SummaryStep = () => {
                   ? tSummary("aria.collapse")
                   : tSummary("aria.expand"),
               })}
-              className="px-4 py-4 hover:bg-white/5 transition-colors"
+              className="px-4 py-4 hover:bg-muted/50 transition-colors"
             >
               <Box className="flex items-center justify-between w-full">
                 <Box className="flex items-center gap-3">
-                  <Box className="p-2 rounded-lg bg-gradient-to-br from-green-600/20 to-emerald-600/20">
-                    <BadgeDollarSign className="w-5 h-5 text-green-400" />
+                  <Box className="p-2 rounded-lg bg-primary/10">
+                    <BadgeDollarSign className="w-5 h-5 text-primary" />
                   </Box>
                   <Box>
-                    <Text className="font-semibold text-white">
+                    <Text className="font-semibold text-foreground">
                       {tSummary("incomeTitle")}
                     </Text>
-                    <Text className="text-xs text-gray-300">
+                    <Text className="text-xs text-muted-foreground">
                       <Box className="flex items-center gap-1">
                         {income.numberOfAdults === "2" ? (
                           <Users className="w-3 h-3" />
@@ -377,28 +354,27 @@ export const SummaryStep = () => {
             <AccordionContent className="px-4 pb-4">
               <Box className="space-y-3 pt-2" data-testid="income-content">
                 {incomeRows.map((row, i) => (
-                  <motion.div
+                  <div
                     key={row.label}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
-                    initial={{ opacity: 0, x: -10 }}
-                    transition={{ delay: i * 0.05 }}
+                    className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
                   >
                     <Box className="flex items-center gap-3">
-                      <Box className="p-2 rounded-md bg-gray-800/50">
+                      <Box className="p-2 rounded-md bg-muted/50">
                         {row.icon}
                       </Box>
-                      <Text className="text-sm text-gray-300">{row.label}</Text>
+                      <Text className="text-sm text-muted-foreground">
+                        {row.label}
+                      </Text>
                     </Box>
                     <Box className="flex flex-col items-end">
                       <CurrencyDisplay
                         amount={row.value}
-                        className="font-medium text-white text-right"
+                        className="font-medium text-foreground text-right"
                         showDecimals={false}
                         variant="neutral"
                       />
                       {row.net && (
-                        <Text className="text-xs text-gray-300 font-medium mt-0.5 text-right">
+                        <Text className="text-xs text-muted-foreground font-medium mt-0.5 text-right">
                           {tSummary("net")}:{" "}
                           <CurrencyDisplay
                             amount={row.net}
@@ -409,13 +385,13 @@ export const SummaryStep = () => {
                         </Text>
                       )}
                     </Box>
-                  </motion.div>
+                  </div>
                 ))}
                 <Button
                   aria-label={tSummary("aria.edit_income")}
                   className="mt-6 w-full font-medium group transition-colors"
                   size="sm"
-                  variant="gradientSecondary"
+                  variant="secondary"
                   onClick={() => setStepIndex(0)}
                 >
                   <Edit3 className="w-4 h-4 mr-2" />
@@ -427,7 +403,7 @@ export const SummaryStep = () => {
 
           {/* Loans Section */}
           <AccordionItem
-            className="glass rounded-xl border-0 overflow-hidden"
+            className="bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden shadow-sm"
             value="loans"
           >
             <AccordionTrigger
@@ -439,15 +415,15 @@ export const SummaryStep = () => {
                   ? tSummary("aria.collapse")
                   : tSummary("aria.expand"),
               })}
-              className="px-4 py-4 hover:bg-white/5 transition-colors"
+              className="px-4 py-4 hover:bg-muted/50 transition-colors"
             >
               <Box className="flex items-center justify-between w-full">
                 <Box className="flex items-center gap-3">
-                  <Box className="p-2 rounded-lg bg-gradient-to-br from-orange-500/20 to-amber-600/20">
-                    <HandCoins className="w-5 h-5 text-orange-400" />
+                  <Box className="p-2 rounded-lg bg-primary/10">
+                    <HandCoins className="w-5 h-5 text-primary" />
                   </Box>
                   <Box>
-                    <Text className="font-semibold text-white">
+                    <Text className="font-semibold text-foreground">
                       {tSummary("loansTitle")}
                     </Text>
                   </Box>
@@ -460,82 +436,59 @@ export const SummaryStep = () => {
                   <>
                     {/* Loan Amount */}
                     {loanRows.map((row, i) => (
-                      <motion.div
+                      <div
                         key={row.label}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
-                        initial={{ opacity: 0, x: -10 }}
-                        transition={{ delay: i * 0.05 }}
+                        className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
                       >
                         <Box className="flex items-center gap-3">
-                          <Box className="p-2 rounded-md bg-gray-800/50">
+                          <Box className="p-2 rounded-md bg-muted/50">
                             {row.icon}
                           </Box>
-                          <Text className="text-sm text-gray-300">
+                          <Text className="text-sm text-muted-foreground">
                             {row.label}
                           </Text>
                         </Box>
                         <CurrencyDisplay
                           amount={row.value}
-                          className="font-medium text-white"
+                          className="font-medium text-foreground"
                           showDecimals={false}
                           variant="neutral"
                         />
-                      </motion.div>
+                      </div>
                     ))}
 
                     {/* Interest Rates */}
-                    <motion.div
-                      animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
-                      initial={{ opacity: 0, x: -10 }}
-                      transition={{ delay: 0.1 }}
-                    >
+                    <div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors">
                       <Box className="flex items-center gap-3">
-                        <Box className="p-2 rounded-md bg-gray-800/50">
+                        <Box className="p-2 rounded-md bg-muted/50">
                           <TrendingUp className="w-4 h-4" />
                         </Box>
-                        <Text className="text-sm text-gray-300">
+                        <Text className="text-sm text-muted-foreground">
                           {tSummary("interestRates")}
                         </Text>
                       </Box>
-                      <motion.span
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        transition={{ delay: 0.1 }}
-                      >
+                      <Text className="text-sm text-foreground font-medium">
                         {formatPercentage(interestRate)}
-                      </motion.span>
-                    </motion.div>
+                      </Text>
+                    </div>
 
                     {/* Amortization Rates */}
-                    <motion.div
-                      animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
-                      initial={{ opacity: 0, x: -10 }}
-                      transition={{ delay: 0.15 }}
-                    >
+                    <div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors">
                       <Box className="flex items-center gap-3">
-                        <Box className="p-2 rounded-md bg-gray-800/50">
+                        <Box className="p-2 rounded-md bg-muted/50">
                           <Receipt className="w-4 h-4" />
                         </Box>
-                        <Text className="text-sm text-gray-300">
+                        <Text className="text-sm text-muted-foreground">
                           {tSummary("amortizationRates")}
                         </Text>
                       </Box>
-                      <motion.span
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full border border-purple-400/30"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        transition={{ delay: 0.15 }}
-                      >
+                      <Text className="text-sm text-foreground font-medium">
                         {formatPercentage(amortizationRate)}
-                      </motion.span>
-                    </motion.div>
+                      </Text>
+                    </div>
                   </>
                 ) : (
-                  <Text className="text-sm text-gray-400 text-center py-4">
+                  <Text className="text-sm text-muted-foreground text-center py-4">
                     {tSummary("no_loan")}
                   </Text>
                 )}
@@ -543,7 +496,7 @@ export const SummaryStep = () => {
                   aria-label={tSummary("aria.edit_loans")}
                   className="mt-6 w-full font-medium group transition-colors"
                   size="sm"
-                  variant="gradientSecondary"
+                  variant="secondary"
                   onClick={() => setStepIndex(1)}
                 >
                   <Edit3 className="w-4 h-4 mr-2" />
@@ -555,7 +508,7 @@ export const SummaryStep = () => {
 
           {/* Expenses Section */}
           <AccordionItem
-            className="glass rounded-xl border-0 overflow-hidden"
+            className="bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden shadow-sm"
             value="expenses"
           >
             <AccordionTrigger
@@ -567,15 +520,15 @@ export const SummaryStep = () => {
                   ? tSummary("aria.collapse")
                   : tSummary("aria.expand"),
               })}
-              className="px-4 py-4 hover:bg-white/5 transition-colors"
+              className="px-4 py-4 hover:bg-muted/50 transition-colors"
             >
               <Box className="flex items-center justify-between w-full">
                 <Box className="flex items-center gap-3">
-                  <Box className="p-2 rounded-lg bg-gradient-to-br from-orange-600/20 to-red-600/20">
-                    <List className="w-5 h-5 text-red-400" />
+                  <Box className="p-2 rounded-lg bg-primary/10">
+                    <List className="w-5 h-5 text-primary" />
                   </Box>
                   <Box>
-                    <Text className="font-semibold text-white">
+                    <Text className="font-semibold text-foreground">
                       {tSummary("expensesTitle")}
                     </Text>
                   </Box>
@@ -586,39 +539,36 @@ export const SummaryStep = () => {
               <Box className="space-y-3 pt-2">
                 {(showAllExpenses ? nonZeroExpenses : topExpenses).map(
                   (row, i) => (
-                    <motion.div
+                    <div
                       key={row.id}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors"
-                      initial={{ opacity: 0, x: -10 }}
-                      transition={{ delay: i * 0.05 }}
+                      className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
                     >
-                      <Text className="text-sm text-gray-300">{row.name}</Text>
+                      <Text className="text-sm text-muted-foreground">
+                        {row.name}
+                      </Text>
                       <Box className="flex items-center gap-3">
-                        <Box className="w-16 h-1.5 bg-gray-700/50 rounded-full overflow-hidden">
-                          <motion.div
-                            animate={{
+                        <Box className="w-16 h-1.5 bg-muted/50 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-primary"
+                            style={{
                               width: `${(row.total / currentExpensesTotal) * 100}%`,
                             }}
-                            className="h-full bg-gradient-to-r from-orange-500 to-red-500"
-                            initial={{ width: 0 }}
-                            transition={{ delay: 0.3 + i * 0.05 }}
                           />
                         </Box>
                         <CurrencyDisplay
                           amount={row.total}
-                          className="font-medium text-white min-w-[80px] text-right"
+                          className="font-medium text-foreground min-w-[80px] text-right"
                           showDecimals={false}
                           variant="neutral"
                         />
                       </Box>
-                    </motion.div>
+                    </div>
                   )
                 )}
 
                 {showExpand && (
                   <Button
-                    className="w-full text-gray-300 hover:text-white"
+                    className="w-full text-muted-foreground hover:text-foreground"
                     size="sm"
                     variant="ghost"
                     onClick={() => setShowAllExpenses((v) => !v)}
@@ -629,13 +579,13 @@ export const SummaryStep = () => {
                   </Button>
                 )}
 
-                <Box className="flex justify-between items-center pt-3 border-t border-gray-800">
-                  <Text className="font-semibold text-gray-300">
+                <Box className="flex justify-between items-center pt-3 border-t border-gray-200/50 dark:border-gray-700/50">
+                  <Text className="font-semibold text-muted-foreground">
                     {tSummary("totalExpenses")}
                   </Text>
                   <CurrencyDisplay
                     amount={currentExpensesTotal}
-                    className="font-bold text-lg text-white"
+                    className="font-bold text-lg text-foreground"
                     showDecimals={false}
                     variant="neutral"
                   />
@@ -645,7 +595,7 @@ export const SummaryStep = () => {
                   aria-label={tSummary("aria.edit_expenses")}
                   className="mt-6 w-full font-medium group transition-colors"
                   size="sm"
-                  variant="gradientSecondary"
+                  variant="secondary"
                   onClick={() => setStepIndex(2)}
                 >
                   <Edit3 className="w-4 h-4 mr-2" />
@@ -657,8 +607,7 @@ export const SummaryStep = () => {
         </Accordion>
 
         {/* Summary Box */}
-        <motion.div
-          animate={{ opacity: 1 }}
+        <div
           aria-label={
             totalIncome - monthlyPayment - currentExpensesTotal >= 0
               ? tSummary("aria.monthly_surplus_summary", {
@@ -672,29 +621,27 @@ export const SummaryStep = () => {
                   ),
                 })
           }
-          className="mt-6 p-3 glass rounded-xl border border-blue-500/20 focus-within:ring-2 focus-within:ring-blue-400/50 focus-within:border-blue-400/50"
-          initial={{ opacity: 0 }}
+          className="mt-6 p-3 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 focus-within:ring-2 focus-within:ring-ring focus-within:border-ring shadow-sm"
           role="group"
           tabIndex={0}
-          transition={{ delay: 0.4 }}
         >
           <Box className="flex items-center gap-3">
             <Box
               className={cn(
                 "p-2 rounded-lg flex-shrink-0",
                 totalIncome - monthlyPayment - currentExpensesTotal >= 0
-                  ? "bg-green-500/10"
-                  : "bg-red-500/10"
+                  ? "bg-muted"
+                  : "bg-muted"
               )}
             >
               {totalIncome - monthlyPayment - currentExpensesTotal >= 0 ? (
-                <TrendingUp className="w-5 h-5 text-green-400" />
+                <TrendingUp className="w-5 h-5 text-foreground" />
               ) : (
-                <TrendingDown className="w-5 h-5 text-red-400" />
+                <TrendingDown className="w-5 h-5 text-foreground" />
               )}
             </Box>
             <Box className="flex-1 text-left">
-              <Text className="text-base text-gray-200 font-medium">
+              <Text className="text-base text-foreground font-medium">
                 {totalIncome - monthlyPayment - currentExpensesTotal >= 0
                   ? tSummary("estimated_monthly_surplus")
                   : tSummary("estimated_monthly_deficit")}
@@ -707,14 +654,14 @@ export const SummaryStep = () => {
                 showDecimals={false}
                 variant={
                   totalIncome - monthlyPayment - currentExpensesTotal >= 0
-                    ? "positive"
-                    : "negative"
+                    ? "neutral"
+                    : "neutral"
                 }
               />
             </Box>
           </Box>
-        </motion.div>
-      </CardContent>
-    </Card>
+        </div>
+      </div>
+    </div>
   );
 };

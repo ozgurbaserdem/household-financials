@@ -9,7 +9,7 @@ const NotFound = () => {
   const t = useTranslations();
 
   return (
-    <Box className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 py-12 px-4 sm:px-6 lg:px-8">
+    <Box className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 pt-20 lg:pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <Box className="max-w-md w-full space-y-8 text-center">
         <h1 className="text-6xl font-extrabold text-gray-900 dark:text-gray-100">
           404

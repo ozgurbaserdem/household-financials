@@ -2,688 +2,691 @@
 // See: https://next-intl.dev/docs/workflows/typescript#messages-arguments
 
 declare const messages: {
-  navbar: {
-    income: "Inkomst";
-    articles: "Artiklar";
-    household_budget_label: "Budgetkalkylator";
-    household_budget_desc: "Få koll på din ekonomi på 3 minuter";
-    main_article_label: "Hushållskalkyl";
-    main_article_desc: "Hushållskalkylen hjälper dig att förstå din ekonomi bättre";
-    guides: "Guider";
-    budget_tools: "Budgetverktyg";
-    compound_interest: "Ränta-på-Ränta";
-    compound_interest_label: "Ränta-på-ränta kalkylator";
-    compound_interest_desc: "Se hur dina investeringar växer genom sammansatt avkastning";
-  };
-  loan_parameters: {
-    title: "Låneparametrar";
-    add_loans: "Lägg till lån";
-    hide_loans: "Dölj lån";
-    loan_amount: "Lånebelopp";
-    interest_rates: "Räntesatser (%)";
-    amortization_rates: "Amorteringssatser (%)";
-    title_aria: "Avsnitt för låneparametrar";
-    loan_amount_aria: "Lånebelopp i SEK";
-    interest_rates_aria: "Välj en eller flera räntesatser";
-    amortization_rates_aria: "Välj en eller flera amorteringssatser";
-    estimated_monthly_payment: "Beräknad månadskostnad";
-    monthly: "Månadskostnad";
-    total_interest: "Total ränta";
-    no_loan: "{count, plural, =1 {Jag har inga lån} other {Vi har inga lån}}";
-    has_loan: "{count, plural, =1 {Jag har lån} other {Vi har lån}}";
-    validation_rates_required: "Välj minst en räntesats och en amorteringssats när du anger ett lånebelopp";
-    validation_loan_amount_required: "Ange ett lånebelopp när du väljer räntor";
-    custom_interest_rate: "Anpassad räntesats";
-    custom_interest_rate_placeholder: "t.ex. 2,74";
-    add_custom_rate: "Lägg till anpassad ränta";
-    remove_custom_rate: "Ta bort anpassad ränta {rate}%";
-    multiple_rates_info: "Du kan välja flera ränte- och amorteringssatser för att jämföra olika scenarier i sista steget";
-    interest_rate: "Ränta (%)";
-    interest_rate_aria: "Räntesats för lånet";
-    interest_rate_help: "Årlig räntesats för lånet";
-    amortization_rate: "Amortering (%)";
-    amortization_rate_aria: "Amorteringssats för lånet";
-    amortization_rate_help: "Årlig amorteringssats för lånet";
-  };
-  dialog_hushallskalkyl: {
-    close: "Stäng";
-    title: "Hushållskalkyl & Hushållsbudget";
-    description: "Skapa din hushållsbudget och hushållskalkyl enkelt med Budgetkollen. Få full kontroll över din ekonomi och planera för framtiden.";
-    cta: "Läs mer";
-  };
-  expense_categories: {
-    title: "Utgiftskategorier";
-    add_expenses: "Lägg till utgifter";
-    hide_expenses: "Dölj utgifter";
-    total_expenses: "Totala utgifter";
-    home: {
-      name: "Hem";
-    };
-    carTransportation: {
-      name: "Bil och transport";
-    };
-    leisure: {
-      name: "Fritid";
-    };
-    shoppingServices: {
-      name: "Shopping och tjänster";
-    };
-    loansTaxFees: {
-      name: "Lån, skatt och avgifter";
-    };
-    healthBeauty: {
-      name: "Hälsa och skönhet";
-    };
-    children: {
-      name: "Barn";
-    };
-    uncategorized: {
-      name: "Okategoriserade utgifter";
-    };
-    insurance: {
-      name: "Försäkring";
-    };
-    savingsInvestments: {
-      name: "Sparande och investeringar";
-    };
-    vacationTraveling: {
-      name: "Semester och resor";
-    };
-    education: {
-      name: "Utbildning";
-    };
-    food: {
-      name: "Mat";
-    };
-    aria: {
-      title: "Utgiftskategorier sektion";
-      category: "Utgiftskategori: {{category}}";
-      subcategory_input: "Inmatning för {{subcategory}} i {{category}}";
-    };
-    track_expenses: "Följ dina månatliga utgifter per kategori";
-    view_toggle: {
-      detailed: "Detaljerad vy";
-      simple: "Enkel vy";
-      simple_description: "Ange dina totala månatliga utgifter";
-    };
-    simple_helper: "Ange dina månatliga utgifter";
-    monthly_expenses: "Månatliga utgifter";
-  };
-  expense_breakdown: {
-    title: "Utgiftsfördelning";
-    aria: {
-      title: "Utgiftsfördelning sektion";
-    };
-    no_expenses: "Inga utgifter att visa";
-    total: "Totalt: {amount}";
-    legend_amount: "{amount}";
-    legend_percentage: "{percentage}%";
-    legend_label: "{name}: {amount} ({percentage}%)";
-  };
-  results: {
-    title: "Beräkningsresultat";
-    page_title: "Beräkningsresultat";
-    page_title_aria: "Beräkningsresultat sektion";
-    aria: {
-      title: "Beräkningsresultat sektion";
-    };
-    interest_rate: "Ränta";
-    amortization: "Amortering";
-    housing_cost: "Boendekostnad";
-    total_expenses: "Totala utgifter";
-    total_income: "Total inkomst";
-    remaining_savings: "Kvar att spara";
-    interest_rate_tooltip: "Räntesatsen som används för låneberäkningen.";
-    amortization_tooltip: "Amorteringssatsen som används för låneberäkningen.";
-    housing_cost_tooltip: "Summa av amorteringar, räntebetalningar, hyra/månadsavgift, el/värme, bolån och vatten/sopor.";
-    total_expenses_tooltip: "Alla månatliga utgifter, inklusive boende och övriga kategorier.";
-    total_income_tooltip: "Total nettoinkomst efter skatt för alla inkomsttagare.";
-    remaining_savings_tooltip: "Överskott eller underskott efter alla kostnader och skatter.";
-    show_financial_health_score_details: "Visa ekonomiskt hälsotillstånd";
-    hide_financial_health_score_details: "Dölj ekonomiskt hälsotillstånd";
-    financial_health_score_description: "Klicka för att se din ekonomiska hälsouppdelning";
-    financial_health_score_title: "Ekonomisk hälsoanalys";
-    comparing_scenarios: "Jämför {count} lånescenarion";
-    best_scenario: "Bästa scenariot";
-    worst_scenario: "Sämsta scenariot";
-    at_interest_amortization: "@ {interest} / {amortization}";
-    best_option: "Bästa scenariot";
-    worst_option: "Sämsta scenariot";
-    compound_interest_cta: {
-      title: "Maximera ditt sparande med ränta på ränta";
-      description: "Du kan spara {savings} kr varje månad! Se hur mycket det kan växa över tid.";
-      button: "Beräkna ränta på ränta";
-    };
-    current_scenario: "Nuvarande scenario";
-    adjust_rates_title: "Justera låneräntor";
-    adjust_rates_description: "Ändra ränte- och amorteringssatserna för att se hur de påverkar din månadsbudget";
-  };
-  export_import: {
-    export_csv: "Exportera CSV";
-    import_csv: "Importera CSV";
-  };
-  app: {
-    title: "Budgetkollen";
-  };
-  forecast: {
-    title: "Låneprognos";
-    aria: {
-      title: "Låneprognos sektion";
-      graph: "Lånebelopp över tid graf";
-    };
-    tooltip: {
-      remaining_loan: "Återstående lånebelopp";
-      yearly_cost: "Årlig lånekostnad";
-      monthly_cost: "Månatlig lånekostnad";
-      monthly_income: "Månadsinkomst";
-      monthly_savings: "Kvar att spara";
-    };
-    no_loan: "Ange ett lånebelopp för att se prognosen";
-    year: "År {year}";
-    loan_payoff_in_years: "Lånet betalt om {years} år";
-  };
-  not_found: {
-    title: "Sidan kunde inte hittas";
-    description: "Sidan du letar efter finns inte.";
-    back_home: "Tillbaka till startsidan";
-  };
-  income: {
-    title: "Inkomster";
-    income1: "Inkomst 1";
-    income2: "Inkomst 2";
-    secondaryIncome1: "Sidoinkomst 1";
-    secondaryIncome2: "Sidoinkomst 2";
-    child_benefits: "Barnbidrag";
-    other_benefits: "Övriga bidrag";
-    other_incomes: "Övriga inkomster";
-    add_extra_incomes: "Lägg till sidoinkomster";
-    title_aria: "Inkomstsektion";
-    income1_aria: "Månatlig bruttoinkomst för sökande 1 i SEK";
-    income2_aria: "Månatlig bruttoinkomst för sökande 2 i SEK";
-    secondaryIncome1_aria: "Månatlig brutto sidoinkomst för sökande 1 i SEK (utan avdrag)";
-    secondaryIncome2_aria: "Månatlig brutto sidoinkomst för sökande 2 i SEK (utan avdrag)";
-    child_benefits_aria: "Månatligt barnbidrag i SEK";
-    other_benefits_aria: "Månatliga övriga bidrag i SEK";
-    other_incomes_aria: "Månatliga övriga inkomster i SEK";
-    save: "Spara";
-    number_of_adults: "Antal vuxna i hushållet";
-    one_adult: "1 vuxen";
-    two_adults: "2 vuxna";
-    number_of_adults_full: "Välj antal vuxna i hushållet";
-    current_buffer_label: "Buffertsparande";
-    current_buffer_aria: "Hur mycket har du på ditt buffertkonto just nu?";
-    total_monthly_income: "Total månatlig inkomst";
-    optional: "Valfritt";
-    select_municipality: "Välj kommun";
-    search_municipality: "Sök kommun...";
-    include_church_tax: "Räkna med kyrkoavgift";
-    showing_municipalities: "Visar {shown} av {total} kommuner";
-  };
-  financial_health: {
-    title: "Ekonomiskt hälsotillstånd";
-    aria: {
-      title: "Ekonomiskt hälsotillstånd sektion";
-    };
-    overall_score: "Totalpoäng";
-    metrics: "Nyckeltal";
-    debt_to_income: "Skuldkvot";
-    emergency_fund: "Bufferttäckning";
-    housing_cost: "Boendekostnadsgrad";
-    discretionary_income: "Disponibel inkomst";
-    recommendations: "Rekommendationer";
-    recommendation_reduce_dti: "Överväg att minska dina skulder eller öka din inkomst för att förbättra din skuldkvot.";
-    recommendation_emergency_fund: "Bygg upp din buffert så att den täcker minst 3 månaders utgifter.";
-    recommendation_housing_cost: "Dina boendekostnader är höga i förhållande till din inkomst. Fundera på sätt att minska boendekostnaderna.";
-    recommendation_discretionary_income: "Din disponibla inkomst är låg. Se över möjligheter att minska fasta utgifter.";
-    tooltips: {
-      debt_to_income: "Skuldkvot = Totala lån / Årlig bruttoinkomst (före skatt). Visar hur stor andel av din årsinkomst före skatt som skulle krävas för att betala av alla dina skulder. Lägre är bättre.";
-      emergency_fund: "Bufferttäckning = Buffert / Månadskostnader. Visar hur många månaders utgifter din buffert täcker. 300% betyder att du har tillräckligt för tre månader. Sikta på minst 300%.";
-      housing_cost: "Boendekostnadsgrad = Boendekostnader / Nettoinkomst. Visar hur stor andel av din inkomst som går till boende. Sikta på under 30%.";
-      discretionary_income: "Disponibel inkomst = (Nettoinkomst - Utgifter) / Nettoinkomst. Visar hur stor andel av din inkomst som är kvar efter alla utgifter.";
-      overall_score: "Totalpoängen sammanfattar din ekonomiska hälsa från 0 (svag) till 100 (utmärkt). Över 80 är starkt, 60-79 är okej, under 60 behöver förbättras. Använd rekommendationerna nedan för att förbättra din poäng.";
-    };
-    current_buffer_label: "Buffertsparande";
-    current_buffer_aria: "Hur mycket har du på ditt buffertkonto just nu?";
-  };
-  wizard: {
-    back: "Tillbaka";
-    next: "Nästa";
-    income: "Inkomst";
-    loans: "Lån";
-    expenses: "Utgifter";
-    summary: "Sammanfattning";
-    results: "Resultat";
-    hushallskalkylTitle: "Hushållskalkyl & Hushållsbudget";
-    hushallskalkylDesc: "Skapa din hushållsbudget och hushållskalkyl enkelt med Budgetkollen. Få full kontroll över din ekonomi och planera för framtiden.";
-    hushallskalkylCta: "Läs mer";
-    validation: {
-      income_required: "Vänligen ange minst en inkomstkälla för att fortsätta";
-      income_required_two_adults: "För två vuxna krävs minst en huvudinkomst";
-      loan_amount_required: "Vänligen ange ett lånebelopp större än 0 eller välj 'Jag har inga lån'";
-      loan_details_required: "När du anger ett lånebelopp, vänligen ange räntor och amorteringsräntor";
-      loan_interest_rate_required: "Vänligen välj minst en ränta innan du fortsätter";
-      loan_amortization_rate_required: "Vänligen välj minst en amorteringsränta innan du fortsätter";
-      loan_both_rates_required: "Vänligen välj både räntor och amorteringsräntor innan du fortsätter";
-      expenses_required: "Vänligen ange dina månatliga utgifter för att fortsätta";
-      expenses_required_simple: "Vänligen ange totala månatliga utgifter större än 0";
-      step_not_accessible: "Vänligen slutför de föregående stegen först";
-      complete_previous_steps: "Slutför föregående steg för att fortsätta";
-    };
-    step_descriptions: {
-      income: {
-        description: "Ange alla månatliga inkomster för hushållet. Vi beräknar automatiskt nettoinkomsten efter skatt baserat på din kommun.";
-      };
-      loans: {
-        description: "Ange lånebelopp och välj flera ränte- och amorteringssatser för att jämföra olika scenarier och se hur de påverkar din månadsbudget.";
-      };
-      expenses: {
-        description: "Fyll i dina månatliga utgifter kategori för kategori. Var noggrann för att få en realistisk bild av din ekonomi.";
-      };
-      summary: {
-        description: "Kontrollera att all information stämmer innan du går vidare till resultaten. Du kan redigera varje sektion om något behöver justeras.";
-      };
-      results: {
-        description: "Se olika lånescenarion och hur mycket du har kvar att spara varje månad baserat på din ekonomiska situation.";
-      };
-    };
-  };
-  summary: {
-    title: "Sammanfattning";
-    aria: {
-      title: "Sammanfattning sektion";
-      net_income_card: "Nettoinkomst är {amount} per månad";
-      loan_payment_card: "Lånebetalning är {amount} per månad";
-      total_expenses_card: "Totala utgifter är {amount} per månad";
-      income_section: "Inkomstsektion, {state}. Tryck Enter eller mellanslag för att {action}";
-      loans_section: "Lånsektion, {state}. Tryck Enter eller mellanslag för att {action}";
-      expenses_section: "Utgiftssektion, {state}. Tryck Enter eller mellanslag för att {action}";
-      monthly_surplus_summary: "Beräknat månadsöverskott är {amount}";
-      monthly_deficit_summary: "Beräknat månadsunderskott är {amount}";
-      expanded: "expanderad";
-      collapsed: "kollapsad";
-      expand: "expandera";
-      collapse: "kollapsa";
-      edit_income: "Redigera inkomster";
-      edit_loans: "Redigera lån";
-      edit_expenses: "Redigera utgifter";
-    };
-    incomeTitle: "Inkomster";
-    loansTitle: "Lån";
-    expensesTitle: "Utgifter";
-    income1: "Huvudinkomst 1";
-    income2: "Huvudinkomst 2";
-    secondaryIncome1: "Sidoinkomst 1";
-    secondaryIncome2: "Sidoinkomst 2";
-    childBenefits: "Barnbidrag";
-    otherBenefits: "Övriga bidrag";
-    otherIncomes: "Övriga inkomster";
-    currentBuffer: "Buffertsparande";
-    loanAmount: "Lånebelopp";
-    interestRates: "Räntesatser";
-    amortizationRates: "Amorteringssatser";
-    edit: "Redigera";
-    showAll: "Visa alla kategorier";
-    showLess: "Visa färre";
-    totalExpenses: "Totala utgifter";
-    review_before_calculating: "Granska din ekonomiska information innan du beräknar";
-    net_income: "Nettoinkomst";
-    loan_payment: "Lånebetalning";
-    per_month: "/ per månad";
-    net: "Netto";
-    adults: "vuxna";
-    adult: "vuxen";
-    adults_count: "{count, plural, =1 {# vuxen} other {# vuxna}}";
-    estimated_monthly_surplus: "Beräknat månadsöverskott";
-    estimated_monthly_deficit: "Beräknat månadsunderskott";
-    no_loan: "Inga lån";
-  };
-  hushallskalkyl: {
-    title: "Hushållskalkyl & Hushållsbudget";
-    intro: "Att skapa en hushållsbudget är ett av de smartaste stegen du kan ta för att få kontroll över din ekonomi. Med en tydlig översikt över inkomster och utgifter blir det enklare att nå dina mål – oavsett om du vill spara till en resa, bygga en buffert eller få pengarna att räcka längre varje månad. Budgetkollen finns här för att göra det enkelt att komma igång.";
-    tips_title: "Tips för en smartare budget";
-    tips: [
+  "navbar": {
+    "income": "Inkomst",
+    "features": "Funktioner",
+    "articles": "Artiklar",
+    "pricing": "Prissättning",
+    "household_budget_label": "Budgetkalkylator",
+    "household_budget_desc": "Få koll på din ekonomi på 3 minuter",
+    "main_article_label": "Hushållskalkyl",
+    "main_article_desc": "Hushållskalkylen hjälper dig att förstå din ekonomi bättre",
+    "guides": "Guider",
+    "budget_tools": "Budgetverktyg",
+    "compound_interest": "Ränta-på-Ränta",
+    "compound_interest_label": "Ränta-på-ränta kalkylator",
+    "compound_interest_desc": "Se hur dina investeringar växer genom sammansatt avkastning"
+  },
+  "loan_parameters": {
+    "title": "Låneparametrar",
+    "add_loans": "Lägg till lån",
+    "hide_loans": "Dölj lån",
+    "loan_amount": "Lånebelopp",
+    "interest_rates": "Räntesatser (%)",
+    "amortization_rates": "Amorteringssatser (%)",
+    "title_aria": "Avsnitt för låneparametrar",
+    "loan_amount_aria": "Lånebelopp i SEK",
+    "interest_rates_aria": "Välj en eller flera räntesatser",
+    "amortization_rates_aria": "Välj en eller flera amorteringssatser",
+    "estimated_monthly_payment": "Beräknad månadskostnad",
+    "monthly": "Månadskostnad",
+    "total_interest": "Total ränta",
+    "no_loan": "{count, plural, =1 {Jag har inga lån} other {Vi har inga lån}}",
+    "has_loan": "{count, plural, =1 {Jag har lån} other {Vi har lån}}",
+    "validation_rates_required": "Välj minst en räntesats och en amorteringssats när du anger ett lånebelopp",
+    "validation_loan_amount_required": "Ange ett lånebelopp när du väljer räntor",
+    "custom_interest_rate": "Anpassad räntesats",
+    "custom_interest_rate_placeholder": "t.ex. 2,74",
+    "add_custom_rate": "Lägg till anpassad ränta",
+    "remove_custom_rate": "Ta bort anpassad ränta {rate}%",
+    "multiple_rates_info": "Du kan välja flera ränte- och amorteringssatser för att jämföra olika scenarier i sista steget",
+    "interest_rate": "Ränta (%)",
+    "interest_rate_aria": "Räntesats för lånet",
+    "interest_rate_help": "Årlig räntesats för lånet",
+    "amortization_rate": "Amortering (%)",
+    "amortization_rate_aria": "Amorteringssats för lånet",
+    "amortization_rate_help": "Årlig amorteringssats för lånet"
+  },
+  "dialog_hushallskalkyl": {
+    "close": "Stäng",
+    "title": "Hushållskalkyl & Hushållsbudget",
+    "description": "Skapa din hushållsbudget och hushållskalkyl enkelt med Budgetkollen. Få full kontroll över din ekonomi och planera för framtiden.",
+    "cta": "Läs mer"
+  },
+  "expense_categories": {
+    "title": "Utgiftskategorier",
+    "add_expenses": "Lägg till utgifter",
+    "hide_expenses": "Dölj utgifter",
+    "total_expenses": "Totala utgifter",
+    "home": {
+      "name": "Hem"
+    },
+    "carTransportation": {
+      "name": "Bil och transport"
+    },
+    "leisure": {
+      "name": "Fritid"
+    },
+    "shoppingServices": {
+      "name": "Shopping och tjänster"
+    },
+    "loansTaxFees": {
+      "name": "Lån, skatt och avgifter"
+    },
+    "healthBeauty": {
+      "name": "Hälsa och skönhet"
+    },
+    "children": {
+      "name": "Barn"
+    },
+    "uncategorized": {
+      "name": "Okategoriserade utgifter"
+    },
+    "insurance": {
+      "name": "Försäkring"
+    },
+    "savingsInvestments": {
+      "name": "Sparande och investeringar"
+    },
+    "vacationTraveling": {
+      "name": "Semester och resor"
+    },
+    "education": {
+      "name": "Utbildning"
+    },
+    "food": {
+      "name": "Mat"
+    },
+    "aria": {
+      "title": "Utgiftskategorier sektion",
+      "category": "Utgiftskategori: {{category}}",
+      "subcategory_input": "Inmatning för {{subcategory}} i {{category}}"
+    },
+    "track_expenses": "Följ dina månatliga utgifter per kategori",
+    "view_toggle": {
+      "detailed": "Detaljerad vy",
+      "simple": "Enkel vy",
+      "simple_description": "Ange dina totala månatliga utgifter"
+    },
+    "simple_helper": "Ange dina månatliga utgifter",
+    "monthly_expenses": "Månatliga utgifter"
+  },
+  "expense_breakdown": {
+    "title": "Utgiftsfördelning",
+    "aria": {
+      "title": "Utgiftsfördelning sektion"
+    },
+    "no_expenses": "Inga utgifter att visa",
+    "total": "Totalt: {amount}",
+    "legend_amount": "{amount}",
+    "legend_percentage": "{percentage}%",
+    "legend_label": "{name}: {amount} ({percentage}%)"
+  },
+  "results": {
+    "title": "Beräkningsresultat",
+    "page_title": "Beräkningsresultat",
+    "page_title_aria": "Beräkningsresultat sektion",
+    "aria": {
+      "title": "Beräkningsresultat sektion"
+    },
+    "interest_rate": "Ränta",
+    "amortization": "Amortering",
+    "housing_cost": "Boendekostnad",
+    "total_expenses": "Totala utgifter",
+    "total_income": "Total inkomst",
+    "remaining_savings": "Kvar att spara",
+    "interest_rate_tooltip": "Räntesatsen som används för låneberäkningen.",
+    "amortization_tooltip": "Amorteringssatsen som används för låneberäkningen.",
+    "housing_cost_tooltip": "Summa av amorteringar, räntebetalningar, hyra/månadsavgift, el/värme, bolån och vatten/sopor.",
+    "total_expenses_tooltip": "Alla månatliga utgifter, inklusive boende och övriga kategorier.",
+    "total_income_tooltip": "Total nettoinkomst efter skatt för alla inkomsttagare.",
+    "remaining_savings_tooltip": "Överskott eller underskott efter alla kostnader och skatter.",
+    "show_financial_health_score_details": "Visa ekonomiskt hälsotillstånd",
+    "hide_financial_health_score_details": "Dölj ekonomiskt hälsotillstånd",
+    "financial_health_score_description": "Klicka för att se din ekonomiska hälsouppdelning",
+    "financial_health_score_title": "Ekonomisk hälsoanalys",
+    "comparing_scenarios": "Jämför {count} lånescenarion",
+    "best_scenario": "Bästa scenariot",
+    "worst_scenario": "Sämsta scenariot",
+    "at_interest_amortization": "@ {interest} / {amortization}",
+    "best_option": "Bästa scenariot",
+    "worst_option": "Sämsta scenariot",
+    "compound_interest_cta": {
+      "title": "Maximera ditt sparande med ränta på ränta",
+      "description": "Du kan spara {savings} kr varje månad! Se hur mycket det kan växa över tid.",
+      "button": "Beräkna ränta på ränta"
+    },
+    "current_scenario": "Nuvarande scenario",
+    "adjust_rates_title": "Justera låneräntor",
+    "adjust_rates_description": "Ändra ränte- och amorteringssatserna för att se hur de påverkar din månadsbudget"
+  },
+  "export_import": {
+    "export_csv": "Exportera CSV",
+    "import_csv": "Importera CSV"
+  },
+  "app": {
+    "title": "Budgetkollen"
+  },
+  "forecast": {
+    "title": "Låneprognos",
+    "aria": {
+      "title": "Låneprognos sektion",
+      "graph": "Lånebelopp över tid graf"
+    },
+    "tooltip": {
+      "remaining_loan": "Återstående lånebelopp",
+      "yearly_cost": "Årlig lånekostnad",
+      "monthly_cost": "Månatlig lånekostnad",
+      "monthly_income": "Månadsinkomst",
+      "monthly_savings": "Kvar att spara"
+    },
+    "no_loan": "Ange ett lånebelopp för att se prognosen",
+    "year": "År {year}",
+    "loan_payoff_in_years": "Lånet betalt om {years} år"
+  },
+  "not_found": {
+    "title": "Sidan kunde inte hittas",
+    "description": "Sidan du letar efter finns inte.",
+    "back_home": "Tillbaka till startsidan"
+  },
+  "income": {
+    "title": "Inkomster",
+    "income1": "Inkomst 1",
+    "income2": "Inkomst 2",
+    "secondaryIncome1": "Sidoinkomst 1",
+    "secondaryIncome2": "Sidoinkomst 2",
+    "child_benefits": "Barnbidrag",
+    "other_benefits": "Övriga bidrag",
+    "other_incomes": "Övriga inkomster",
+    "add_extra_incomes": "Lägg till sidoinkomster",
+    "title_aria": "Inkomstsektion",
+    "income1_aria": "Månatlig bruttoinkomst för sökande 1 i SEK",
+    "income2_aria": "Månatlig bruttoinkomst för sökande 2 i SEK",
+    "secondaryIncome1_aria": "Månatlig brutto sidoinkomst för sökande 1 i SEK (utan avdrag)",
+    "secondaryIncome2_aria": "Månatlig brutto sidoinkomst för sökande 2 i SEK (utan avdrag)",
+    "child_benefits_aria": "Månatligt barnbidrag i SEK",
+    "other_benefits_aria": "Månatliga övriga bidrag i SEK",
+    "other_incomes_aria": "Månatliga övriga inkomster i SEK",
+    "save": "Spara",
+    "number_of_adults": "Antal vuxna i hushållet",
+    "one_adult": "1 vuxen",
+    "two_adults": "2 vuxna",
+    "number_of_adults_full": "Välj antal vuxna i hushållet",
+    "current_buffer_label": "Buffertsparande",
+    "current_buffer_aria": "Hur mycket har du på ditt buffertkonto just nu?",
+    "total_monthly_income": "Total månatlig inkomst",
+    "optional": "Valfritt",
+    "select_municipality": "Välj kommun",
+    "search_municipality": "Sök kommun...",
+    "include_church_tax": "Räkna med kyrkoavgift",
+    "showing_municipalities": "Visar {shown} av {total} kommuner"
+  },
+  "financial_health": {
+    "title": "Ekonomiskt hälsotillstånd",
+    "aria": {
+      "title": "Ekonomiskt hälsotillstånd sektion"
+    },
+    "overall_score": "Totalpoäng",
+    "metrics": "Nyckeltal",
+    "debt_to_income": "Skuldkvot",
+    "emergency_fund": "Bufferttäckning",
+    "housing_cost": "Boendekostnadsgrad",
+    "discretionary_income": "Disponibel inkomst",
+    "recommendations": "Rekommendationer",
+    "recommendation_reduce_dti": "Överväg att minska dina skulder eller öka din inkomst för att förbättra din skuldkvot.",
+    "recommendation_emergency_fund": "Bygg upp din buffert så att den täcker minst 3 månaders utgifter.",
+    "recommendation_housing_cost": "Dina boendekostnader är höga i förhållande till din inkomst. Fundera på sätt att minska boendekostnaderna.",
+    "recommendation_discretionary_income": "Din disponibla inkomst är låg. Se över möjligheter att minska fasta utgifter.",
+    "tooltips": {
+      "debt_to_income": "Skuldkvot = Totala lån / Årlig bruttoinkomst (före skatt). Visar hur stor andel av din årsinkomst före skatt som skulle krävas för att betala av alla dina skulder. Lägre är bättre.",
+      "emergency_fund": "Bufferttäckning = Buffert / Månadskostnader. Visar hur många månaders utgifter din buffert täcker. 300% betyder att du har tillräckligt för tre månader. Sikta på minst 300%.",
+      "housing_cost": "Boendekostnadsgrad = Boendekostnader / Nettoinkomst. Visar hur stor andel av din inkomst som går till boende. Sikta på under 30%.",
+      "discretionary_income": "Disponibel inkomst = (Nettoinkomst - Utgifter) / Nettoinkomst. Visar hur stor andel av din inkomst som är kvar efter alla utgifter.",
+      "overall_score": "Totalpoängen sammanfattar din ekonomiska hälsa från 0 (svag) till 100 (utmärkt). Över 80 är starkt, 60-79 är okej, under 60 behöver förbättras. Använd rekommendationerna nedan för att förbättra din poäng."
+    },
+    "current_buffer_label": "Buffertsparande",
+    "current_buffer_aria": "Hur mycket har du på ditt buffertkonto just nu?"
+  },
+  "wizard": {
+    "back": "Tillbaka",
+    "next": "Nästa",
+    "income": "Inkomst",
+    "loans": "Lån",
+    "expenses": "Utgifter",
+    "summary": "Summering",
+    "summary_short": "Summering",
+    "results": "Resultat",
+    "hushallskalkylTitle": "Hushållskalkyl & Hushållsbudget",
+    "hushallskalkylDesc": "Skapa din hushållsbudget och hushållskalkyl enkelt med Budgetkollen. Få full kontroll över din ekonomi och planera för framtiden.",
+    "hushallskalkylCta": "Läs mer",
+    "validation": {
+      "income_required": "Vänligen ange minst en inkomstkälla för att fortsätta",
+      "income_required_two_adults": "För två vuxna krävs minst en huvudinkomst",
+      "loan_amount_required": "Vänligen ange ett lånebelopp större än 0 eller välj 'Jag har inga lån'",
+      "loan_details_required": "När du anger ett lånebelopp, vänligen ange räntor och amorteringsräntor",
+      "loan_interest_rate_required": "Vänligen välj minst en ränta innan du fortsätter",
+      "loan_amortization_rate_required": "Vänligen välj minst en amorteringsränta innan du fortsätter",
+      "loan_both_rates_required": "Vänligen välj både räntor och amorteringsräntor innan du fortsätter",
+      "expenses_required": "Vänligen ange dina månatliga utgifter för att fortsätta",
+      "expenses_required_simple": "Vänligen ange totala månatliga utgifter större än 0",
+      "step_not_accessible": "Vänligen slutför de föregående stegen först",
+      "complete_previous_steps": "Slutför föregående steg för att fortsätta"
+    },
+    "step_descriptions": {
+      "income": {
+        "description": "Ange alla månatliga inkomster för hushållet. Vi beräknar automatiskt nettoinkomsten efter skatt baserat på din kommun."
+      },
+      "loans": {
+        "description": "Ange lånebelopp och välj flera ränte- och amorteringssatser för att jämföra olika scenarier och se hur de påverkar din månadsbudget."
+      },
+      "expenses": {
+        "description": "Fyll i dina månatliga utgifter kategori för kategori. Var noggrann för att få en realistisk bild av din ekonomi."
+      },
+      "summary": {
+        "description": "Kontrollera att all information stämmer innan du går vidare till resultaten. Du kan redigera varje sektion om något behöver justeras."
+      },
+      "results": {
+        "description": "Se olika lånescenarion och hur mycket du har kvar att spara varje månad baserat på din ekonomiska situation."
+      }
+    }
+  },
+  "summary": {
+    "title": "Summering",
+    "aria": {
+      "title": "Summering sektion",
+      "net_income_card": "Nettoinkomst är {amount} per månad",
+      "loan_payment_card": "Lånebetalning är {amount} per månad",
+      "total_expenses_card": "Totala utgifter är {amount} per månad",
+      "income_section": "Inkomstsektion, {state}. Tryck Enter eller mellanslag för att {action}",
+      "loans_section": "Lånsektion, {state}. Tryck Enter eller mellanslag för att {action}",
+      "expenses_section": "Utgiftssektion, {state}. Tryck Enter eller mellanslag för att {action}",
+      "monthly_surplus_summary": "Beräknat månadsöverskott är {amount}",
+      "monthly_deficit_summary": "Beräknat månadsunderskott är {amount}",
+      "expanded": "expanderad",
+      "collapsed": "kollapsad",
+      "expand": "expandera",
+      "collapse": "kollapsa",
+      "edit_income": "Redigera inkomster",
+      "edit_loans": "Redigera lån",
+      "edit_expenses": "Redigera utgifter"
+    },
+    "incomeTitle": "Inkomster",
+    "loansTitle": "Lån",
+    "expensesTitle": "Utgifter",
+    "income1": "Huvudinkomst 1",
+    "income2": "Huvudinkomst 2",
+    "secondaryIncome1": "Sidoinkomst 1",
+    "secondaryIncome2": "Sidoinkomst 2",
+    "childBenefits": "Barnbidrag",
+    "otherBenefits": "Övriga bidrag",
+    "otherIncomes": "Övriga inkomster",
+    "currentBuffer": "Buffertsparande",
+    "loanAmount": "Lånebelopp",
+    "interestRates": "Räntesatser",
+    "amortizationRates": "Amorteringssatser",
+    "edit": "Redigera",
+    "showAll": "Visa alla kategorier",
+    "showLess": "Visa färre",
+    "totalExpenses": "Totala utgifter",
+    "review_before_calculating": "Granska din ekonomiska information innan du beräknar",
+    "net_income": "Nettoinkomst",
+    "loan_payment": "Lånebetalning",
+    "per_month": "/ per månad",
+    "net": "Netto",
+    "adults": "vuxna",
+    "adult": "vuxen",
+    "adults_count": "{count, plural, =1 {# vuxen} other {# vuxna}}",
+    "estimated_monthly_surplus": "Beräknat månadsöverskott",
+    "estimated_monthly_deficit": "Beräknat månadsunderskott",
+    "no_loan": "Inga lån"
+  },
+  "hushallskalkyl": {
+    "title": "Hushållskalkyl & Hushållsbudget",
+    "intro": "Att skapa en hushållsbudget är ett av de smartaste stegen du kan ta för att få kontroll över din ekonomi. Med en tydlig översikt över inkomster och utgifter blir det enklare att nå dina mål – oavsett om du vill spara till en resa, bygga en buffert eller få pengarna att räcka längre varje månad. Budgetkollen finns här för att göra det enkelt att komma igång.",
+    "tips_title": "Tips för en smartare budget",
+    "tips": [
       "Sätt upp tydliga sparmål – både på kort och lång sikt.",
       "Gör en realistisk översikt över alla inkomster och utgifter.",
       "Prioritera buffertsparande för oförutsedda utgifter.",
       "Jämför priser och förhandla om abonnemang och försäkringar.",
       "Automatisera ditt sparande varje månad.",
-      "Undvik impulsköp – vänta 24 timmar innan större inköp.",
-    ];
-    mistakes_title: "Vanliga misstag att undvika";
-    mistakes: [
+      "Undvik impulsköp – vänta 24 timmar innan större inköp."
+    ],
+    "mistakes_title": "Vanliga misstag att undvika",
+    "mistakes": [
       "Att underskatta småutgifter – de blir stora över tid.",
       "Att inte budgetera för nöjen och oförutsedda utgifter.",
       "Att glömma bort årsavgifter och sällanköp.",
-      "Att inte följa upp och justera budgeten regelbundet.",
-    ];
-    facts_title: "Visste du att…";
-    facts: [
+      "Att inte följa upp och justera budgeten regelbundet."
+    ],
+    "facts_title": "Visste du att…",
+    "facts": [
       "Visste du att svenskar i snitt sparar 10% av sin inkomst?",
       "En buffert på tre månadslöner rekommenderas av experter.",
       "Matkostnader är ofta hushållets näst största utgift efter boende.",
-      "Att laga mat hemma kan spara över 1 000 kr/mån för en familj.",
-    ];
-    faq_title: "Vanliga frågor";
-    faq: [
+      "Att laga mat hemma kan spara över 1 000 kr/mån för en familj."
+    ],
+    "faq_title": "Vanliga frågor",
+    "faq": [
       {
-        question: "Vad är en hushållskalkyl?";
-        answer: "En hushållskalkyl hjälper dig att få överblick över inkomster och utgifter, så att du kan planera din ekonomi smartare.";
+        "question": "Vad är en hushållskalkyl?",
+        "answer": "En hushållskalkyl hjälper dig att få överblick över inkomster och utgifter, så att du kan planera din ekonomi smartare."
       },
       {
-        question: "Varför är en hushållsbudget viktig?";
-        answer: "Med en hushållsbudget kan du undvika oväntade utgifter och spara till dina mål.";
+        "question": "Varför är en hushållsbudget viktig?",
+        "answer": "Med en hushållsbudget kan du undvika oväntade utgifter och spara till dina mål."
       },
       {
-        question: "Hur ofta bör jag se över min budget?";
-        answer: "Minst en gång per kvartal, eller när din ekonomi förändras.";
+        "question": "Hur ofta bör jag se över min budget?",
+        "answer": "Minst en gång per kvartal, eller när din ekonomi förändras."
       },
       {
-        question: "Hur mycket bör jag spara varje månad?";
-        answer: "Sikta på minst 10% av din inkomst, men allt sparande är positivt.";
+        "question": "Hur mycket bör jag spara varje månad?",
+        "answer": "Sikta på minst 10% av din inkomst, men allt sparande är positivt."
+      }
+    ],
+    "footer": "Redo att ta kontroll över din ekonomi? Prova Budgetkollen gratis och skapa din egen hushållsbudget redan idag!",
+    "back_to_home": "← Tillbaka till startsidan"
+  },
+  "hushallsbudget": {
+    "title": "Hushållsbudget - få koll på din familjs ekonomi",
+    "subtitle": "Skapa din hushållsbudget med Sveriges mest använda gratis budgetverktyg. Över 50,000 svenska familjer använder redan Budgetkollen.",
+    "cta_button": "Kom igång",
+    "meta": {
+      "title": "Hushållsbudget Gratis - Skapa Din Familjebudget | Budgetkollen",
+      "description": "Skapa din hushållsbudget gratis med Budgetkollen. Få full kontroll över familjebudgeten, månadsbudgeten och planera din privatekonomi smart. Sveriges bästa budgetverktyg.",
+      "keywords": "hushållsbudget, familjebudget, månadsbudget, gratis budgetverktyg, privatekonomi, budgetplanering, ekonomisk planering, sparande, budgetkollen, sverige"
+    },
+    "features": {
+      "title": "Varför välja Budgetkollen för din hushållsbudget?",
+      "calculator": {
+        "title": "Enkel budgetkalkylator",
+        "description": "Beräkna din hushållsbudget på minuter"
       },
-    ];
-    footer: "Redo att ta kontroll över din ekonomi? Prova Budgetkollen gratis och skapa din egen hushållsbudget redan idag!";
-    back_to_home: "← Tillbaka till startsidan";
-  };
-  hushallsbudget: {
-    title: "Hushållsbudget - få koll på din familjs ekonomi";
-    subtitle: "Skapa din hushållsbudget med Sveriges mest använda gratis budgetverktyg. Över 50,000 svenska familjer använder redan Budgetkollen.";
-    cta_button: "Kom igång";
-    meta: {
-      title: "Hushållsbudget Gratis - Skapa Din Familjebudget | Budgetkollen";
-      description: "Skapa din hushållsbudget gratis med Budgetkollen. Få full kontroll över familjebudgeten, månadsbudgeten och planera din privatekonomi smart. Sveriges bästa budgetverktyg.";
-      keywords: "hushållsbudget, familjebudget, månadsbudget, gratis budgetverktyg, privatekonomi, budgetplanering, ekonomisk planering, sparande, budgetkollen, sverige";
-    };
-    features: {
-      title: "Varför välja Budgetkollen för din hushållsbudget?";
-      calculator: {
-        title: "Enkel budgetkalkylator";
-        description: "Beräkna din hushållsbudget på minuter";
-      };
-      analysis: {
-        title: "Utgiftsanalys";
-        description: "Se exakt var dina pengar går";
-      };
-      planning: {
-        title: "Sparplanering";
-        description: "Planera ditt sparande och se hur det växer";
-      };
-      goals: {
-        title: "Ekonomiska mål";
-        description: "Sätt upp och följ dina ekonomiska mål enkelt";
-      };
-    };
-    guide: {
-      title: "Så skapar du din hushållsbudget";
-      step1: {
-        title: "Samla alla inkomster";
-        description: "Lista alla månadsinkomster för familjen inklusive löner, barnbidrag och andra inkomster.";
-      };
-      step2: {
-        title: "Kartlägg alla utgifter";
-        description: "Gå igenom alla dina utgifter från boende och mat till fritid och sparande.";
-      };
-      step3: {
-        title: "Analysera och optimera";
-        description: "Se var du kan spara pengar och förbättra din ekonomi.";
-      };
-      step4: {
-        title: "Följ upp regelbundet";
-        description: "Uppdatera din hushållsbudget månadsvis för att hålla den aktuell och relevant.";
-      };
-    };
-    tips: {
-      title: "Råd för din hushållsbudget";
-      working_tips: {
-        title: "Budgettips som fungerar";
-        tip1: "Använd 50/30/20-regeln för balanserad budget";
-        tip2: "Sätt upp automatiska sparanden";
-        tip3: "Granska abonnemang och prenumerationer";
-        tip4: "Planera för oförutsedda utgifter";
-      };
-      mistakes: {
-        title: "Vanliga budgetfel att undvika";
-        mistake1: "Glömma bort årsutgifter som försäkringar";
-        mistake2: "Sätta orealistiska sparmål";
-        mistake3: "Inte ha buffert för nöjen";
-        mistake4: "Inte följa upp budgeten regelbundet";
-      };
-    };
-    faq: {
-      title: "Vanliga frågor om hushållsbudget";
-      q1: {
-        question: "Vad är en hushållsbudget?";
-        answer: "En hushållsbudget är en plan över hur familjen ska använda sina pengar varje månad. Den inkluderar alla inkomster och utgifter för att ge en komplett bild av familjens ekonomi.";
-      };
-      q2: {
-        question: "Hur mycket ska jag spara varje månad?";
-        answer: "Experter rekommenderar att spara minst 20% av din månadsinkomst. Men börja med det du kan - även 5-10% är bra för att komma igång med sparandet.";
-      };
-      q3: {
-        question: "Vad är skillnaden mellan familjebudget och hushållsbudget?";
-        answer: "Termerna används ofta synonymt. En hushållsbudget inkluderar alla som bor i hemmet, medan familjebudget fokuserar på kärnfamiljen. Båda hjälper dig att planera din ekonomi.";
-      };
-      q4: {
-        question: "Hur ofta bör jag uppdatera min hushållsbudget?";
-        answer: "Uppdatera din hushållsbudget månadsvis för bästa resultat. Gör större förändringar kvartalsvis eller när din ekonomiska situation förändras betydligt.";
-      };
-    };
-    cta: {
-      title: "Börja skapa din hushållsbudget idag";
-      subtitle: "Gå med i över 50,000 svenska familjer som redan använder Budgetkollen";
-      button: "Kom igång";
-    };
-  };
-  landing: {
-    hero: {
-      title: {
-        start: "Få koll på";
-        highlight: "din ekonomi";
-      };
-      subtitle: "Skapa din kompletta hushållsbudget på 3 minuter – gratis och utan registrering";
-      cta: "Kom igång";
-    };
-    howItWorks: {
-      title: "Så fungerar det";
-    };
-    steps: {
-      income: {
-        title: "Lägg till inkomster";
-        description: "Registrera alla inkomster och vi räknar ut skatten automatiskt";
-      };
-      loans: {
-        title: "Lägg till lån";
-        description: "Jämför olika räntor och amorteringsalternativ";
-      };
-      expenses: {
-        title: "Registrera utgifter";
-        description: "Dela upp dina utgifter i tydliga kategorier";
-      };
-      summary: {
-        title: "Se översikt";
-        description: "Kontrollera att allt stämmer och få en komplett överblick";
-      };
-      results: {
-        title: "Se resultat";
-        description: "Få en tydlig analys av din ekonomi och smarta tips";
-      };
-    };
-    features: {
-      title: "Smarta funktioner för din ekonomi";
-      tax: {
-        title: "Automatisk skatt";
-        description: "Vi räknar ut din skatt efter lön och kommun";
-      };
-      loan: {
-        title: "Jämför lån";
-        description: "Se hur olika räntor påverkar din ekonomi";
-      };
-      expense: {
-        title: "Håll koll på utgifter";
-        description: "Organisera dina utgifter och se vart pengarna går";
-      };
-      insights: {
-        title: "Smarta tips";
-        description: "Få tips som passar just din ekonomi";
-      };
-    };
-    finalCta: {
-      title: "Redo att få koll på ekonomin?";
-      subtitle: "Börja redan idag – det är enkelt och gratis";
-      button: "Kom igång";
-    };
-    footer: {
-      copyright: "© 2024 BudgetKollen. Alla rättigheter förbehållna.";
-      follow_x: "Följ oss på X (Twitter)";
-    };
-    scrollIndicator: "Scrolla för mer";
-    other_calculators: {
-      title: "Fler verktyg för din ekonomi";
-      compound_interest: {
-        title: "Ränta på ränta kalkylator";
-        description: "Räkna ut ränta på ränta och se hur ditt sparande växer över tid. Perfekt för ränta på ränta uträkning av ditt månadssparande.";
-      };
-      budget_calculator: {
-        title: "Budgetkalkylator";
-        description: "Ta kontroll över din hushållsbudget steg för steg. Jämför lånescenarion och ta smartare ekonomiska beslut.";
-      };
-    };
-    previews: {
-      title: "Se vad du får";
-      subtitle: "Kraftfulla insikter och analyser för att hjälpa dig fatta bättre ekonomiska beslut";
-      budget_results_title: "Omfattande budgetanalys";
-      budget_results_description: "Få detaljerad uppdelning av din ekonomi med flera lånescenarier och personliga rekommendationer";
-      budget_results_alt: "Budgetkalkylatorns resultat som visar ekonomisk analys och rekommendationer";
-      compound_interest_title: "Visualisera din förmögenhetstillväxt";
-      compound_interest_description: "Se hur ränta på ränta får ditt sparande att växa över tid med interaktiva diagram och prognoser";
-      compound_interest_alt: "Ränta på ränta-kalkylator som visar avkastning över tid";
-      budget_wizard_title: "Enkel steg-för-steg-process";
-      budget_wizard_description: "Enkelt och intuitivt gränssnitt guidar dig genom att ange din ekonomiska information";
-      budget_wizard_alt: "Budgetkalkylatorns guidegränssnitt som visar utgiftskategorier";
-      click_to_enlarge: "Klicka för att förstora";
-      fullsize_view: "Fullstorleksvisning av bild";
-    };
-  };
-  compound_interest: {
-    page_title: "Ränta på ränta kalkylator";
-    page_subtitle: "Beräkna enkelt hur ränta på ränta får dina pengar att växa. Perfekt för ränta på ränta uträkning av sparande och investeringar.";
-    title: "Ränta på ränta kalkylator - månadssparande och långsiktigt sparande";
-    subtitle: "Beräkna ränta på ränta för ditt månadssparande. Se hur regelbundet sparande kan bygga förmögenhet över tid.";
-    meta: {
-      title: "Ränta på ränta kalkylator - Räkna ut ränta på ränta enkelt | Budgetkollen";
-      description: "Räkna ut ränta på ränta med vår tydliga kalkylator. Ränta på ränta uträkning för ditt månadssparande. Se hur dina pengar växer med ränta på ränta effekten.";
-      keywords: "ränta på ränta, ränta på ränta kalkylator, ränta på ränta uträkning, ränta på ränta kalkyl, räkna ränta på ränta, ränta på ränta formel, ränta på ränta exempel, hur fungerar ränta på ränta, vad är ränta på ränta, ränta på ränta månadssparande";
-    };
-    schema: {
-      app_name: "Ränta på ränta kalkylator";
-      app_description: "Ränta på ränta kalkylator för att beräkna ränta på ränta. Gör din ränta på ränta uträkning enkelt. Se hur ränta på ränta effekten gör att dina pengar växer exponentiellt.";
-    };
-    intro: {
-      title: "Magin med ränta på ränta och månadssparande";
-      description: "Ränta på ränta kallas ofta världens åttonde underverk. När du sparar varje månad tjänar du avkastning på både dina pengar och på all tidigare avkastning. Det skapar en snöbollseffekt som ökar din förmögenhet över tid.";
-      einstein_quote: "Ränta-på-ränta är världens åttonde underverk. Den som förstår den, tjänar på den; den som inte gör det, betalar för den.";
-      einstein_attribution: "Ofta tillskrivet Albert Einstein";
-      why_important: "Nyckeln är tid och regelbundet sparande. Genom månadssparande i fonder, även med små belopp, kan du bygga förmögenhet. Den här kalkylatorn visar hur ditt sparande kan växa.";
-      connection_to_budget: "Efter att ha skapat din budget kan du använda denna kalkylator för att se hur ditt månadssparande kan växa. Perfekt för pensionssparande, barnsparande eller andra sparmål.";
-    };
-    calculator: {
-      title: "Beräkna ränta på ränta och månadssparande";
-      description: "Justera värdena för att se hur ditt månadssparande kan växa över tid";
-    };
-    inputs: {
-      start_sum_label: "Startbelopp";
-      start_sum_description: "Det initiala beloppet du har att investera";
-      monthly_savings_label: "Månatligt sparande";
-      monthly_savings_description: "Hur mycket du planerar att spara varje månad";
-      yearly_return_label: "Förväntad årlig avkastning (%)";
-      yearly_return_description: "Den genomsnittliga årliga avkastningen du förväntar dig på dina investeringar";
-      investment_horizon_label: "Investeringsperiod (år)";
-      investment_horizon_description: "Hur länge du planerar att hålla dina pengar investerade";
-      age_label: "Din ålder";
-      age_description: "Din nuvarande ålder för att visa din ålder vid varje år";
-    };
-    results: {
-      title: "Din avkastning";
-      description: "Här är hur dina pengar kan växa över {years} år";
-      total_value: "Total portföljvärde";
-      start_sum: "Initial investering";
-      total_savings: "Totalt sparat tillagt";
-      compound_returns: "Avkastning";
-      growth_summary: "Börjar med {startSum} och sparar {totalSavings} över {years} år, kan dina investeringar växa med {returns} för att nå ett totalt värde på {total}.";
-      theoretical_total_value: "Totalt portföljvärde (utan uttag)";
-      total_value_after_withdrawals: "Total portföljvärde (efter uttag)";
-      total_withdrawn: "Totalt uttaget";
-    };
-    chart: {
-      title: "Avkastning över tid";
-      description: "Se hur din portfölj växer genom sparande och sammansatt avkastning";
-      aria_title: "Avkastning visualisering som visar fördelningen av portföljvärde över tid";
-    };
-    legend: {
-      start_sum: "Initial investering";
-      accumulated_savings: "Månatligt sparande";
-      compound_returns: "Avkastning";
-    };
-    tooltip: {
-      year: "År {year}";
-      start_sum: "Initial investering";
-      accumulated_savings: "Totalt sparat tillagt";
-      compound_returns: "Avkastning";
-      total_value: "Total portföljvärde";
-    };
-    tips: {
-      title: "Smarta investeringstips";
-      tip1: "Börja investera så tidigt som möjligt - tid är din största tillgång";
-      tip2: "Investera regelbundet och konsekvent, oavsett marknadsförhållanden";
-      tip3: "Diversifiera dina investeringar för att minska risken";
-      tip4: "Håll dina investeringskostnader låga för att maximera avkastningen";
-      tip5: "Håll dig investerad på lång sikt - panikera inte under marknadsnedgångar";
-      tip6: "Återinvestera all utdelning och avkastning för att maximera sammansättningen";
-    };
-    disclaimer: {
-      title: "Viktig ansvarsfriskrivning";
-      text: "Denna kalkylator ger uppskattningar baserade på de värden du anger. Faktisk avkastning kan variera och tidigare resultat garanterar inte framtida resultat. Rådfråga alltid en ekonomisk rådgivare innan du fattar investeringsbeslut.";
-    };
-    cta: {
-      title: "Redo att börja bygga förmögenhet?";
-      subtitle: "Använd vår budgetkalkylator för att hitta pengar du kan investera varje månad";
-      button: "Skapa din budget";
-    };
-    faq: {
-      title: "Vanliga frågor om ränta på ränta";
-      q1: {
-        question: "Hur gör jag en ränta på ränta uträkning?";
-        answer: "Använd vår ränta på ränta kalkylator ovan. Ange startkapital, månadssparande, förväntad avkastning och tidsperiod. Kalkylatorn gör automatiskt din ränta på ränta uträkning och visar hur dina pengar växer.";
-      };
-      q2: {
-        question: "Vad är ränta på ränta kalkyl?";
-        answer: "En ränta på ränta kalkyl beräknar hur din investering växer när du får avkastning på både ditt ursprungliga kapital och tidigare intjänad ränta. Detta skapar exponentiell tillväxt över tid.";
-      };
-      q3: {
-        question: "Hur använder jag en ränta på ränta kalkylator?";
-        answer: "Vår ränta på ränta kalkylator är enkel att använda. Fyll i ditt startbelopp, hur mycket du vill spara varje månad, förväntad årlig avkastning och antal år. Klicka sedan på 'Beräkna' för att se resultatet.";
-      };
-    };
-    advanced_settings: {
-      title: "Avancerade inställningar";
-      description: "Årlig ökning, uttag och mer";
-      active_badge: "Aktiv";
-      annual_savings_increase: {
-        label: "Årlig ökning av sparande";
-        description: "Hur mycket ditt månadssparande ökar varje år";
-      };
-      planned_withdrawal: {
-        title: "Planerat uttag";
-        description: "Gör ett uttag från ditt sparande efter ett antal år";
-        withdrawal_type_question: "Hur vill du göra ditt uttag?";
-        percentage_option: "Procent av totalt värde";
-        amount_option: "Specifik summa";
-        withdrawal_year_question: "När ska uttaget ske?";
-        withdrawal_percentage_label: "Uttag per år (%)";
-        withdrawal_amount_label: "Uttag per år i kronor";
-        year_prefix: "År";
-      };
-    };
-  };
+      "analysis": {
+        "title": "Utgiftsanalys",
+        "description": "Se exakt var dina pengar går"
+      },
+      "planning": {
+        "title": "Sparplanering",
+        "description": "Planera ditt sparande och se hur det växer"
+      },
+      "goals": {
+        "title": "Ekonomiska mål",
+        "description": "Sätt upp och följ dina ekonomiska mål enkelt"
+      }
+    },
+    "guide": {
+      "title": "Så skapar du din hushållsbudget",
+      "step1": {
+        "title": "Samla alla inkomster",
+        "description": "Lista alla månadsinkomster för familjen inklusive löner, barnbidrag och andra inkomster."
+      },
+      "step2": {
+        "title": "Kartlägg alla utgifter",
+        "description": "Gå igenom alla dina utgifter från boende och mat till fritid och sparande."
+      },
+      "step3": {
+        "title": "Analysera och optimera",
+        "description": "Se var du kan spara pengar och förbättra din ekonomi."
+      },
+      "step4": {
+        "title": "Följ upp regelbundet",
+        "description": "Uppdatera din hushållsbudget månadsvis för att hålla den aktuell och relevant."
+      }
+    },
+    "tips": {
+      "title": "Råd för din hushållsbudget",
+      "working_tips": {
+        "title": "Budgettips som fungerar",
+        "tip1": "Använd 50/30/20-regeln för balanserad budget",
+        "tip2": "Sätt upp automatiska sparanden",
+        "tip3": "Granska abonnemang och prenumerationer",
+        "tip4": "Planera för oförutsedda utgifter"
+      },
+      "mistakes": {
+        "title": "Vanliga budgetfel att undvika",
+        "mistake1": "Glömma bort årsutgifter som försäkringar",
+        "mistake2": "Sätta orealistiska sparmål",
+        "mistake3": "Inte ha buffert för nöjen",
+        "mistake4": "Inte följa upp budgeten regelbundet"
+      }
+    },
+    "faq": {
+      "title": "Vanliga frågor om hushållsbudget",
+      "q1": {
+        "question": "Vad är en hushållsbudget?",
+        "answer": "En hushållsbudget är en plan över hur familjen ska använda sina pengar varje månad. Den inkluderar alla inkomster och utgifter för att ge en komplett bild av familjens ekonomi."
+      },
+      "q2": {
+        "question": "Hur mycket ska jag spara varje månad?",
+        "answer": "Experter rekommenderar att spara minst 20% av din månadsinkomst. Men börja med det du kan - även 5-10% är bra för att komma igång med sparandet."
+      },
+      "q3": {
+        "question": "Vad är skillnaden mellan familjebudget och hushållsbudget?",
+        "answer": "Termerna används ofta synonymt. En hushållsbudget inkluderar alla som bor i hemmet, medan familjebudget fokuserar på kärnfamiljen. Båda hjälper dig att planera din ekonomi."
+      },
+      "q4": {
+        "question": "Hur ofta bör jag uppdatera min hushållsbudget?",
+        "answer": "Uppdatera din hushållsbudget månadsvis för bästa resultat. Gör större förändringar kvartalsvis eller när din ekonomiska situation förändras betydligt."
+      }
+    },
+    "cta": {
+      "title": "Börja skapa din hushållsbudget idag",
+      "subtitle": "Gå med i över 50,000 svenska familjer som redan använder Budgetkollen",
+      "button": "Kom igång"
+    }
+  },
+  "landing": {
+    "hero": {
+      "title": {
+        "start": "Få koll på",
+        "highlight": "din ekonomi"
+      },
+      "subtitle": "Skapa din kompletta hushållsbudget på 3 minuter – gratis och utan registrering",
+      "cta": "Kom igång"
+    },
+    "howItWorks": {
+      "title": "Så fungerar det"
+    },
+    "steps": {
+      "income": {
+        "title": "Lägg till inkomster",
+        "description": "Registrera alla inkomster och vi räknar ut skatten automatiskt"
+      },
+      "loans": {
+        "title": "Lägg till lån",
+        "description": "Jämför olika räntor och amorteringsalternativ"
+      },
+      "expenses": {
+        "title": "Registrera utgifter",
+        "description": "Dela upp dina utgifter i tydliga kategorier"
+      },
+      "summary": {
+        "title": "Se översikt",
+        "description": "Kontrollera att allt stämmer och få en komplett överblick"
+      },
+      "results": {
+        "title": "Se resultat",
+        "description": "Få en tydlig analys av din ekonomi och smarta tips"
+      }
+    },
+    "features": {
+      "title": "Smarta funktioner för din ekonomi",
+      "tax": {
+        "title": "Automatisk skatt",
+        "description": "Vi räknar ut din skatt efter lön och kommun"
+      },
+      "loan": {
+        "title": "Jämför lån",
+        "description": "Se hur olika räntor påverkar din ekonomi"
+      },
+      "expense": {
+        "title": "Håll koll på utgifter",
+        "description": "Organisera dina utgifter och se vart pengarna går"
+      },
+      "insights": {
+        "title": "Smarta tips",
+        "description": "Få tips som passar just din ekonomi"
+      }
+    },
+    "finalCta": {
+      "title": "Redo att få koll på ekonomin?",
+      "subtitle": "Börja redan idag – det är enkelt och gratis",
+      "button": "Kom igång"
+    },
+    "footer": {
+      "copyright": "© 2024 BudgetKollen. Alla rättigheter förbehållna.",
+      "follow_x": "Följ oss på X (Twitter)"
+    },
+    "scrollIndicator": "Scrolla för mer",
+    "other_calculators": {
+      "title": "Fler verktyg för din ekonomi",
+      "compound_interest": {
+        "title": "Ränta på ränta kalkylator",
+        "description": "Räkna ut ränta på ränta och se hur ditt sparande växer över tid. Perfekt för ränta på ränta uträkning av ditt månadssparande."
+      },
+      "budget_calculator": {
+        "title": "Budgetkalkylator",
+        "description": "Ta kontroll över din hushållsbudget steg för steg. Jämför lånescenarion och ta smartare ekonomiska beslut."
+      }
+    },
+    "previews": {
+      "title": "Se vad du får",
+      "subtitle": "Kraftfulla insikter och analyser för att hjälpa dig fatta bättre ekonomiska beslut",
+      "budget_results_title": "Omfattande budgetanalys",
+      "budget_results_description": "Få detaljerad uppdelning av din ekonomi med flera lånescenarier och personliga rekommendationer",
+      "budget_results_alt": "Budgetkalkylatorns resultat som visar ekonomisk analys och rekommendationer",
+      "compound_interest_title": "Visualisera din förmögenhetstillväxt",
+      "compound_interest_description": "Se hur ränta på ränta får ditt sparande att växa över tid med interaktiva diagram och prognoser",
+      "compound_interest_alt": "Ränta på ränta-kalkylator som visar avkastning över tid",
+      "budget_wizard_title": "Enkel steg-för-steg-process",
+      "budget_wizard_description": "Enkelt och intuitivt gränssnitt guidar dig genom att ange din ekonomiska information",
+      "budget_wizard_alt": "Budgetkalkylatorns guidegränssnitt som visar utgiftskategorier",
+      "click_to_enlarge": "Klicka för att förstora",
+      "fullsize_view": "Fullstorleksvisning av bild"
+    }
+  },
+  "compound_interest": {
+    "page_title": "Ränta på ränta kalkylator",
+    "page_subtitle": "Beräkna enkelt hur ränta på ränta får dina pengar att växa. Perfekt för ränta på ränta uträkning av sparande och investeringar.",
+    "title": "Ränta på ränta kalkylator - månadssparande och långsiktigt sparande",
+    "subtitle": "Beräkna ränta på ränta för ditt månadssparande. Se hur regelbundet sparande kan bygga förmögenhet över tid.",
+    "meta": {
+      "title": "Ränta på ränta kalkylator - Räkna ut ränta på ränta enkelt | Budgetkollen",
+      "description": "Räkna ut ränta på ränta med vår tydliga kalkylator. Ränta på ränta uträkning för ditt månadssparande. Se hur dina pengar växer med ränta på ränta effekten.",
+      "keywords": "ränta på ränta, ränta på ränta kalkylator, ränta på ränta uträkning, ränta på ränta kalkyl, räkna ränta på ränta, ränta på ränta formel, ränta på ränta exempel, hur fungerar ränta på ränta, vad är ränta på ränta, ränta på ränta månadssparande"
+    },
+    "schema": {
+      "app_name": "Ränta på ränta kalkylator",
+      "app_description": "Ränta på ränta kalkylator för att beräkna ränta på ränta. Gör din ränta på ränta uträkning enkelt. Se hur ränta på ränta effekten gör att dina pengar växer exponentiellt."
+    },
+    "intro": {
+      "title": "Magin med ränta på ränta och månadssparande",
+      "description": "Ränta på ränta kallas ofta världens åttonde underverk. När du sparar varje månad tjänar du avkastning på både dina pengar och på all tidigare avkastning. Det skapar en snöbollseffekt som ökar din förmögenhet över tid.",
+      "einstein_quote": "Ränta-på-ränta är världens åttonde underverk. Den som förstår den, tjänar på den; den som inte gör det, betalar för den.",
+      "einstein_attribution": "Ofta tillskrivet Albert Einstein",
+      "why_important": "Nyckeln är tid och regelbundet sparande. Genom månadssparande i fonder, även med små belopp, kan du bygga förmögenhet. Den här kalkylatorn visar hur ditt sparande kan växa.",
+      "connection_to_budget": "Efter att ha skapat din budget kan du använda denna kalkylator för att se hur ditt månadssparande kan växa. Perfekt för pensionssparande, barnsparande eller andra sparmål."
+    },
+    "calculator": {
+      "title": "Beräkna ränta på ränta och månadssparande",
+      "description": "Justera värdena för att se hur ditt månadssparande kan växa över tid"
+    },
+    "inputs": {
+      "start_sum_label": "Startbelopp",
+      "start_sum_description": "Det initiala beloppet du har att investera",
+      "monthly_savings_label": "Månatligt sparande",
+      "monthly_savings_description": "Hur mycket du planerar att spara varje månad",
+      "yearly_return_label": "Förväntad årlig avkastning (%)",
+      "yearly_return_description": "Den genomsnittliga årliga avkastningen du förväntar dig på dina investeringar",
+      "investment_horizon_label": "Investeringsperiod (år)",
+      "investment_horizon_description": "Hur länge du planerar att hålla dina pengar investerade",
+      "age_label": "Din ålder",
+      "age_description": "Din nuvarande ålder för att visa din ålder vid varje år"
+    },
+    "results": {
+      "title": "Din avkastning",
+      "description": "Här är hur dina pengar kan växa över {years} år",
+      "total_value": "Total portföljvärde",
+      "start_sum": "Initial investering",
+      "total_savings": "Totalt sparat tillagt",
+      "compound_returns": "Avkastning",
+      "growth_summary": "Börjar med {startSum} och sparar {totalSavings} över {years} år, kan dina investeringar växa med {returns} för att nå ett totalt värde på {total}.",
+      "theoretical_total_value": "Totalt portföljvärde (utan uttag)",
+      "total_value_after_withdrawals": "Total portföljvärde (efter uttag)",
+      "total_withdrawn": "Totalt uttaget"
+    },
+    "chart": {
+      "title": "Avkastning över tid",
+      "description": "Se hur din portfölj växer genom sparande och sammansatt avkastning",
+      "aria_title": "Avkastning visualisering som visar fördelningen av portföljvärde över tid"
+    },
+    "legend": {
+      "start_sum": "Initial investering",
+      "accumulated_savings": "Månatligt sparande",
+      "compound_returns": "Avkastning"
+    },
+    "tooltip": {
+      "year": "År {year}",
+      "start_sum": "Initial investering",
+      "accumulated_savings": "Totalt sparat tillagt",
+      "compound_returns": "Avkastning",
+      "total_value": "Total portföljvärde"
+    },
+    "tips": {
+      "title": "Smarta investeringstips",
+      "tip1": "Börja investera så tidigt som möjligt - tid är din största tillgång",
+      "tip2": "Investera regelbundet och konsekvent, oavsett marknadsförhållanden",
+      "tip3": "Diversifiera dina investeringar för att minska risken",
+      "tip4": "Håll dina investeringskostnader låga för att maximera avkastningen",
+      "tip5": "Håll dig investerad på lång sikt - panikera inte under marknadsnedgångar",
+      "tip6": "Återinvestera all utdelning och avkastning för att maximera sammansättningen"
+    },
+    "disclaimer": {
+      "title": "Viktig ansvarsfriskrivning",
+      "text": "Denna kalkylator ger uppskattningar baserade på de värden du anger. Faktisk avkastning kan variera och tidigare resultat garanterar inte framtida resultat. Rådfråga alltid en ekonomisk rådgivare innan du fattar investeringsbeslut."
+    },
+    "cta": {
+      "title": "Redo att börja bygga förmögenhet?",
+      "subtitle": "Använd vår budgetkalkylator för att hitta pengar du kan investera varje månad",
+      "button": "Skapa din budget"
+    },
+    "faq": {
+      "title": "Vanliga frågor om ränta på ränta",
+      "q1": {
+        "question": "Hur gör jag en ränta på ränta uträkning?",
+        "answer": "Använd vår ränta på ränta kalkylator ovan. Ange startkapital, månadssparande, förväntad avkastning och tidsperiod. Kalkylatorn gör automatiskt din ränta på ränta uträkning och visar hur dina pengar växer."
+      },
+      "q2": {
+        "question": "Vad är ränta på ränta kalkyl?",
+        "answer": "En ränta på ränta kalkyl beräknar hur din investering växer när du får avkastning på både ditt ursprungliga kapital och tidigare intjänad ränta. Detta skapar exponentiell tillväxt över tid."
+      },
+      "q3": {
+        "question": "Hur använder jag en ränta på ränta kalkylator?",
+        "answer": "Vår ränta på ränta kalkylator är enkel att använda. Fyll i ditt startbelopp, hur mycket du vill spara varje månad, förväntad årlig avkastning och antal år. Klicka sedan på 'Beräkna' för att se resultatet."
+      }
+    },
+    "advanced_settings": {
+      "title": "Avancerade inställningar",
+      "description": "Årlig ökning, uttag och mer",
+      "active_badge": "Aktiv",
+      "annual_savings_increase": {
+        "label": "Årlig ökning av sparande",
+        "description": "Hur mycket ditt månadssparande ökar varje år"
+      },
+      "planned_withdrawal": {
+        "title": "Planerat uttag",
+        "description": "Gör ett uttag från ditt sparande efter ett antal år",
+        "withdrawal_type_question": "Hur vill du göra ditt uttag?",
+        "percentage_option": "Procent av totalt värde",
+        "amount_option": "Specifik summa",
+        "withdrawal_year_question": "När ska uttaget ske?",
+        "withdrawal_percentage_label": "Uttag per år (%)",
+        "withdrawal_amount_label": "Uttag per år i kronor",
+        "year_prefix": "År"
+      }
+    }
+  }
 };
 export default messages;

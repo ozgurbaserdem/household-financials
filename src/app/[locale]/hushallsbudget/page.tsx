@@ -35,8 +35,7 @@ const generateMetadata = async ({
           inkomst: "Steg 1: Inkomster - Hushållsbudget | Budgetkollen",
           lan: "Steg 2: Lån - Hushållsbudget | Budgetkollen",
           utgifter: "Steg 3: Utgifter - Hushållsbudget | Budgetkollen",
-          sammanfattning:
-            "Steg 4: Sammanfattning - Hushållsbudget | Budgetkollen",
+          summering: "Steg 4: Summering - Hushållsbudget | Budgetkollen",
           resultat: "Resultat - Hushållsbudget | Budgetkollen",
         },
         en: {
@@ -169,20 +168,13 @@ const HushallsbudgetPage = async ({
         type="application/ld+json"
       />
 
-      <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
+      <Main className="min-h-screen bg-background flex flex-col items-center relative pt-20 lg:pt-24">
         {/* SEO-friendly H1 - visually hidden but accessible to screen readers and search engines */}
         <h1 className="sr-only">
           {locale === "sv"
             ? "Hushållsbudget Kalkylator - Skapa Din Budget"
             : "Household Budget Calculator - Create Your Budget"}
         </h1>
-
-        {/* Animated gradient mesh background */}
-        <div className="gradient-mesh" />
-
-        {/* Static gradient orbs for depth - no animation for better performance */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
 
         <WizardClient />
       </Main>

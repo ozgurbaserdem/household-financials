@@ -7,7 +7,6 @@ import React from "react";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 
 import { Box } from "@/components/ui/Box";
-import { FinancialCard } from "@/components/ui/FinancialCard";
 import { Text } from "@/components/ui/Text";
 import { expenseCategories } from "@/data/expenseCategories";
 import { formatCurrencyNoDecimals } from "@/lib/formatting";
@@ -66,21 +65,30 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
 
   if (chartData.length === 0) {
     return (
-      <FinancialCard
-        animate={!isMobile}
-        ariaLabel={expenseBreakdownT("aria.title")}
-        delay={0.3}
-        icon={PieChartIcon}
-        iconColor="text-indigo-400"
-        title={expenseBreakdownT("title")}
-      >
+      <div className="space-y-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 rounded-lg bg-primary/10">
+            <PieChartIcon className="w-6 h-6 text-primary" />
+          </div>
+          <Box className="flex-1">
+            <h3
+              aria-label={expenseBreakdownT("aria.title")}
+              className="text-xl font-semibold text-foreground"
+              tabIndex={0}
+            >
+              {expenseBreakdownT("title")}
+            </h3>
+          </Box>
+        </div>
         <Box className="flex h-[300px] items-center justify-center">
           <div className="text-center">
-            <TrendingDown className="w-12 h-12 text-gray-600 mx-auto mb-3" />
-            <p className="text-gray-400">{expenseBreakdownT("no_expenses")}</p>
+            <TrendingDown className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+            <p className="text-muted-foreground">
+              {expenseBreakdownT("no_expenses")}
+            </p>
           </div>
         </Box>
-      </FinancialCard>
+      </div>
     );
   }
 
@@ -141,17 +149,26 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
   };
 
   return (
-    <FinancialCard
-      animate={!isMobile}
-      ariaLabel={expenseBreakdownT("aria.title")}
-      delay={0.3}
-      description={expenseBreakdownT("total", {
-        amount: formatCurrencyNoDecimals(total),
-      })}
-      icon={PieChartIcon}
-      iconColor="text-indigo-400"
-      title={expenseBreakdownT("title")}
-    >
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <div className="p-3 rounded-lg bg-primary/10">
+          <PieChartIcon className="w-6 h-6 text-primary" />
+        </div>
+        <Box className="flex-1">
+          <h3
+            aria-label={expenseBreakdownT("aria.title")}
+            className="text-xl font-semibold text-foreground"
+            tabIndex={0}
+          >
+            {expenseBreakdownT("title")}
+          </h3>
+          <Text className="text-sm text-muted-foreground mt-1">
+            {expenseBreakdownT("total", {
+              amount: formatCurrencyNoDecimals(total),
+            })}
+          </Text>
+        </Box>
+      </div>
       <Box className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Chart */}
         <Box className="flex items-center justify-center h-[300px]">
@@ -188,9 +205,9 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
                   className="w-4 h-4 rounded"
                   style={{ backgroundColor: item.color }}
                 />
-                <Text className="text-sm text-gray-200">{item.name}</Text>
+                <Text className="text-sm text-foreground">{item.name}</Text>
               </Box>
-              <Text className="text-sm font-medium text-gray-200">
+              <Text className="text-sm font-medium text-foreground">
                 {expenseBreakdownT("legend_amount", {
                   amount: formatCurrencyNoDecimals(item.value),
                 })}
@@ -199,6 +216,6 @@ export const ExpenseBreakdown = ({ expenses }: ExpenseBreakdownProps) => {
           ))}
         </Box>
       </Box>
-    </FinancialCard>
+    </div>
   );
 };

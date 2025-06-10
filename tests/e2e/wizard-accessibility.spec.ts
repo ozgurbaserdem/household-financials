@@ -83,12 +83,10 @@ test.describe("Wizard Accessibility Tests", () => {
 
     // Step 3 -> 4
     await nextButton.click();
-    await expect(page).toHaveURL(/steg=sammanfattning/);
+    await expect(page).toHaveURL(/steg=summering/);
 
     // Check that summary heading is focused
-    const summaryTitle = page
-      .locator("h3")
-      .filter({ hasText: "Sammanfattning" });
+    const summaryTitle = page.locator("h3").filter({ hasText: "summering" });
     await expect(summaryTitle).toBeVisible();
     await expect(summaryTitle).toBeFocused();
   });

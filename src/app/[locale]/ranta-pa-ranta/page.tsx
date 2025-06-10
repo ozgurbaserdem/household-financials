@@ -6,14 +6,14 @@ import React from "react";
 
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import { CardContent } from "@/components/ui/Card";
-import { Main } from "@/components/ui/Main";
 import {
   Card,
+  CardContent,
   CardHeader,
   CardIcon,
   CardTitle,
-} from "@/components/ui/ModernCard";
+} from "@/components/ui/Card";
+import { Main } from "@/components/ui/Main";
 import { Text } from "@/components/ui/Text";
 import { CompoundInterestClient } from "@/features/compound-interest/CompoundInterestClient";
 import { Link } from "@/i18n/navigation";
@@ -129,33 +129,26 @@ const RantaPaRantaPage = async ({ params }: Props) => {
         type="application/ld+json"
       />
 
-      <Main className="min-h-screen bg-gray-950 flex flex-col items-center relative overflow-hidden">
-        {/* Animated gradient mesh background */}
-        <div className="gradient-mesh" />
-
-        {/* Static gradient orbs for depth - no animation for better performance */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-
-        <Box className="w-full max-w-5xl px-4 sm:px-6 xl:px-0 py-6 sm:py-10 relative z-10 space-y-6">
+      <Main className="min-h-screen bg-background flex flex-col items-center relative pt-20 lg:pt-24">
+        <Box className="w-full max-w-5xl container-padding py-6 sm:py-10 relative z-10 space-y-6">
           {/* Hero Section */}
           <header className="text-center space-y-6 py-4">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent leading-tight">
+            <h1 className="heading-1 text-foreground">
               {locale === "sv"
                 ? "Ränta på Ränta Kalkylator"
                 : "Compound Interest Calculator"}
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="body-lg text-muted-foreground max-w-3xl mx-auto">
               {locale === "sv"
                 ? "Se hur ditt sparande växer exponentiellt med kraften av sammansatt ränta"
                 : "See how your savings grow exponentially with the power of compound interest"}
             </p>
           </header>
           {/* Introduction Section */}
-          <Card glass gradient>
+          <Card className="card-base" variant="elevated">
             <CardHeader>
               <CardIcon>
-                <TrendingUp className="w-6 h-6 text-purple-400" />
+                <TrendingUp className="w-6 h-6 text-foreground" />
               </CardIcon>
               <Box className="flex-1">
                 <CardTitle>
@@ -166,7 +159,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
               </Box>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Text className="text-gray-300 leading-relaxed">
+              <Text className="text-muted-foreground leading-relaxed">
                 {locale === "sv"
                   ? "Ränta på ränta är en av de mest kraftfulla finansiella koncepten som kan hjälpa dig bygga långsiktig förmögenhet. När du sparar regelbundet och låter din avkastning växa över tid, skapar du en snöbollseffekt där dina pengar arbetar för dig."
                   : "Compound interest is one of the most powerful financial concepts that can help you build long-term wealth. When you save regularly and let your returns grow over time, you create a snowball effect where your money works for you."}
@@ -175,18 +168,18 @@ const RantaPaRantaPage = async ({ params }: Props) => {
               <div className="relative py-6 px-4">
                 <div className="flex flex-col md:flex-row md:items-start gap-6">
                   <div className="flex-1 relative md:order-2">
-                    <div className="text-6xl text-purple-400/30 font-serif absolute -top-4 -left-2">
+                    <div className="text-6xl text-muted-foreground/30 font-serif absolute -top-4 -left-2">
                       &ldquo;
                     </div>
-                    <Text className="text-gray-300 italic text-lg leading-relaxed pl-8 pt-2">
+                    <Text className="text-muted-foreground italic text-lg leading-relaxed pl-8 pt-2">
                       {locale === "sv"
                         ? "Ränta på ränta är världens åttonde underverk. Den som förstår det, tjänar på det - den som inte gör det, betalar för det."
                         : "Compound interest is the eighth wonder of the world. He who understands it, earns it - he who doesn't, pays it."}
                     </Text>
-                    <div className="text-6xl text-purple-400/30 font-serif absolute -bottom-6 right-0">
+                    <div className="text-6xl text-muted-foreground/30 font-serif absolute -bottom-6 right-0">
                       &rdquo;
                     </div>
-                    <Text className="text-gray-400 text-sm mt-4 pl-8">
+                    <Text className="text-muted-foreground text-sm mt-4 pl-8">
                       —{" "}
                       {locale === "sv" ? "Albert Einstein" : "Albert Einstein"}
                     </Text>
@@ -195,7 +188,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                     <Image
                       priority
                       alt="Albert Einstein"
-                      className="rounded-full object-cover grayscale opacity-70 flex-shrink-0 ring-2 ring-purple-500/20"
+                      className="rounded-full object-cover grayscale opacity-70 flex-shrink-0 ring-2 ring-border"
                       height={80}
                       src="/einstein-optimized.png"
                       width={80}
@@ -204,13 +197,13 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                 </div>
               </div>
 
-              <Text className="text-gray-300 leading-relaxed">
+              <Text className="text-muted-foreground leading-relaxed">
                 {locale === "sv"
                   ? "Genom att förstå och utnyttja ränta på ränta kan du förvandla små månadsbelopp till betydande förmögenhet över tid. Vårt verktyg hjälper dig visualisera denna kraftfulla effekt."
                   : "By understanding and leveraging compound interest, you can transform small monthly amounts into significant wealth over time. Our tool helps you visualize this powerful effect."}
               </Text>
 
-              <Text className="text-gray-300 leading-relaxed">
+              <Text className="text-muted-foreground leading-relaxed">
                 {locale === "sv"
                   ? "Kombinera denna sparkalkylator med vår hushållsbudget för att hitta mer pengar att spara varje månad."
                   : "Combine this savings calculator with our household budget to find more money to save each month."}
@@ -222,10 +215,10 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           <CompoundInterestClient />
 
           {/* Tips Section */}
-          <Card glass gradient>
+          <Card variant="elevated">
             <CardHeader>
               <CardIcon>
-                <Lightbulb className="w-6 h-6 text-yellow-400" />
+                <Lightbulb className="w-6 h-6 text-foreground" />
               </CardIcon>
               <Box className="flex-1">
                 <CardTitle>
@@ -265,12 +258,12 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                 ].map((tip, tipIndex) => (
                   <div
                     key={tip.en}
-                    className="flex items-center gap-4 p-6 glass rounded-lg"
+                    className="flex items-center gap-4 p-6 bg-muted rounded-lg border border-border"
                   >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-medium flex-shrink-0">
                       {tipIndex + 1}
                     </div>
-                    <Text className="text-gray-300 text-sm leading-relaxed">
+                    <Text className="text-muted-foreground text-sm leading-relaxed">
                       {locale === "sv" ? tip.sv : tip.en}
                     </Text>
                   </div>
@@ -281,20 +274,20 @@ const RantaPaRantaPage = async ({ params }: Props) => {
 
           {/* FAQ Section for SEO */}
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-white text-center mb-8">
+            <h2 className="text-2xl font-bold text-foreground text-center mb-8">
               {locale === "sv"
                 ? "Vanliga frågor"
                 : "Frequently Asked Questions"}
             </h2>
             <div className="grid gap-4">
-              <Card glass gradient>
+              <Card variant="elevated">
                 <CardContent className="pt-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">
                     {locale === "sv"
                       ? "Vad är ränta på ränta?"
                       : "What is compound interest?"}
                   </h3>
-                  <Text className="text-gray-300">
+                  <Text className="text-muted-foreground">
                     {locale === "sv"
                       ? "Ränta på ränta innebär att du får avkastning inte bara på ditt ursprungliga kapital, utan även på tidigare års avkastning. Detta skapar en exponentiell tillväxt över tid."
                       : "Compound interest means you earn returns not only on your original capital, but also on previous years' returns. This creates exponential growth over time."}
@@ -302,14 +295,14 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                 </CardContent>
               </Card>
 
-              <Card glass gradient>
+              <Card variant="elevated">
                 <CardContent className="pt-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">
                     {locale === "sv"
                       ? "Hur mycket kan jag tjäna på ränta på ränta?"
                       : "How much can I earn with compound interest?"}
                   </h3>
-                  <Text className="text-gray-300">
+                  <Text className="text-muted-foreground">
                     {locale === "sv"
                       ? "Det beror på startkapital, månadssparande, avkastning och tid. Med 7% årlig avkastning kan 1000 kr per månad växa till över 1 miljon kr på 25 år."
                       : "It depends on starting capital, monthly savings, returns, and time. With 7% annual returns, 1000 SEK per month can grow to over 1 million SEK in 25 years."}
@@ -317,14 +310,14 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                 </CardContent>
               </Card>
 
-              <Card glass gradient>
+              <Card variant="elevated">
                 <CardContent className="pt-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">
                     {locale === "sv"
                       ? "Är kalkylatorn gratis att använda?"
                       : "Is the calculator free to use?"}
                   </h3>
-                  <Text className="text-gray-300">
+                  <Text className="text-muted-foreground">
                     {locale === "sv"
                       ? "Ja, vår ränta på ränta kalkylator är helt gratis att använda. Inga registreringar eller nedladdningar krävs."
                       : "Yes, our compound interest calculator is completely free to use. No registrations or downloads required."}
@@ -335,10 +328,10 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           </section>
 
           {/* Disclaimer */}
-          <Card glass gradient>
+          <Card variant="elevated">
             <CardHeader>
               <CardIcon>
-                <AlertTriangle className="w-6 h-6 text-yellow-500" />
+                <AlertTriangle className="w-6 h-6 text-foreground" />
               </CardIcon>
               <Box className="flex-1">
                 <CardTitle>
@@ -349,7 +342,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
               </Box>
             </CardHeader>
             <CardContent>
-              <Text className="text-gray-300 leading-relaxed">
+              <Text className="text-muted-foreground leading-relaxed">
                 {locale === "sv"
                   ? "Denna kalkylator är endast för illustrativa syften. Faktisk avkastning kan variera beroende på marknadsförhållanden. All investering innebär risk och du kan förlora pengar. Konsultera alltid en finansiell rådgivare för personlig rådgivning."
                   : "This calculator is for illustrative purposes only. Actual returns may vary depending on market conditions. All investments involve risk and you may lose money. Always consult a financial advisor for personal advice."}
@@ -358,15 +351,15 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           </Card>
 
           {/* CTA Section */}
-          <Card glass gradient>
+          <Card variant="elevated">
             <CardContent className="text-center space-y-6">
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-bold text-foreground">
                   {locale === "sv"
                     ? "Redo att optimera din ekonomi?"
                     : "Ready to optimize your finances?"}
                 </h2>
-                <Text className="text-gray-300 max-w-2xl mx-auto">
+                <Text className="text-muted-foreground max-w-2xl mx-auto">
                   {locale === "sv"
                     ? "Använd vår hushållsbudget för att hitta mer pengar att spara varje månad."
                     : "Use our household budget to find more money to save each month."}
@@ -374,10 +367,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
               </div>
               <div className="flex justify-center">
                 <Link href="/hushallsbudget">
-                  <Button
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500"
-                    size="lg"
-                  >
+                  <Button size="lg">
                     {locale === "sv"
                       ? "Skapa hushållsbudget"
                       : "Create household budget"}
