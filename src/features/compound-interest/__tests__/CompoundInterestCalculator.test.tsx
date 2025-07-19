@@ -179,6 +179,7 @@ describe("CompoundInterestCalculator", () => {
         button.textContent.includes("kr")
     );
     expect(startSumButton).toBeInTheDocument();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await user.click(startSumButton!);
 
     // Should show input field
