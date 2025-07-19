@@ -350,8 +350,7 @@ export const ExpenseCategories = ({
               data-testid="grand-total"
               showDecimals={false}
               size="xl"
-              style={{ color: "rgb(239 68 68)" }}
-              variant={getCurrentTotal() > 0 ? "neutral" : "neutral"}
+              variant={getCurrentTotal() > 0 ? "destructive" : "neutral"}
             />
           </Box>
         </div>
