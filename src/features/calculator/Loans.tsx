@@ -173,8 +173,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                 amount={monthlyPayment}
                 className="text-foreground font-semibold"
                 showDecimals={false}
-                style={{ color: "rgb(234 179 8)" }}
-                variant="neutral"
+                variant="warning"
               />
             </>
           ) : (

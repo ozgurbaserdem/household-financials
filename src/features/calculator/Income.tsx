@@ -173,8 +173,7 @@ export const Income = ({
               className="font-semibold"
               showDecimals={false}
               size="md"
-              style={{ color: "rgb(34 197 94)" }}
-              variant="neutral"
+              variant="success"
             />
           </span>
         </div>
