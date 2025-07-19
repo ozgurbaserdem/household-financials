@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TrendingUp, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -173,10 +173,10 @@ export const Income = ({
               className="font-semibold"
               showDecimals={false}
               size="md"
+              style={{ color: "rgb(34 197 94)" }}
               variant="neutral"
             />
           </span>
-          <TrendingUp className="w-8 h-8 text-foreground" />
         </div>
       </StepHeader>
 

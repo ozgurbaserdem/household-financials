@@ -1,6 +1,6 @@
 "use client";
 
-import { Wallet, List, HandCoins, FileText, Target } from "lucide-react";
+import { Wallet, List, HandCoins, FileText, BarChart3 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, { type ReactNode } from "react";
 
@@ -21,23 +21,23 @@ interface StepHeaderProps {
 
 const stepConfig = {
   income: {
-    icon: <Wallet className="w-6 h-6 text-foreground" />,
+    icon: <Wallet className="w-6 h-6" style={{ color: "rgb(34 197 94)" }} />,
     translationKey: "income",
   },
   expenses: {
-    icon: <List className="w-6 h-6 text-foreground" />,
+    icon: <List className="w-6 h-6" style={{ color: "rgb(239 68 68)" }} />,
     translationKey: "expense_categories",
   },
   loans: {
-    icon: <HandCoins className="w-6 h-6 text-foreground" />,
+    icon: <HandCoins className="w-6 h-6" style={{ color: "rgb(234 179 8)" }} />,
     translationKey: "loan_parameters",
   },
   summary: {
-    icon: <FileText className="w-6 h-6 text-foreground" />,
+    icon: <FileText className="w-6 h-6" style={{ color: "rgb(147 51 234)" }} />,
     translationKey: "summary",
   },
   results: {
-    icon: <Target className="w-6 h-6 text-foreground" />,
+    icon: <BarChart3 className="w-6 h-6" style={{ color: "rgb(37 99 235)" }} />,
     translationKey: "results",
   },
 };

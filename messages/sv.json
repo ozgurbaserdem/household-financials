@@ -120,11 +120,20 @@
     "legend_label": "{name}: {amount} ({percentage}%)"
   },
   "results": {
-    "title": "Beräkningsresultat",
-    "page_title": "Beräkningsresultat",
-    "page_title_aria": "Beräkningsresultat sektion",
+    "title": "Resultat",
+    "calculation_results": {
+      "title": "Resultat"
+    },
+    "expense_breakdown": {
+      "title": "Utgiftsfördelning"
+    },
+    "loan_forecast": {
+      "title": "Låneprognos"
+    },
+    "page_title": "Resultat",
+    "page_title_aria": "Resultat sektion",
     "aria": {
-      "title": "Beräkningsresultat sektion"
+      "title": "Resultat sektion"
     },
     "interest_rate": "Ränta",
     "amortization": "Amortering",
@@ -683,6 +692,10 @@
         "withdrawal_amount_label": "Uttag per år i kronor",
         "year_prefix": "År"
       }
+    },
+    "progress_label": {
+      "reference_value": "Referensvärde (100%)",
+      "percent_of_total": "% av totalt möjligt"
     }
   }
 }

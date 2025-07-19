@@ -113,11 +113,20 @@
     "legend_label": "{name}: {amount} ({percentage}%)"
   },
   "results": {
-    "title": "Your results",
-    "page_title": "Your results",
-    "page_title_aria": "Your results section",
+    "title": "Results",
+    "calculation_results": {
+      "title": "Results"
+    },
+    "expense_breakdown": {
+      "title": "Expense Breakdown"
+    },
+    "loan_forecast": {
+      "title": "Loan Forecast"
+    },
+    "page_title": "Results",
+    "page_title_aria": "Results section",
     "aria": {
-      "title": "Your results section"
+      "title": "Results section"
     },
     "interest_rate": "Interest rate",
     "amortization": "Amortization",
@@ -691,6 +700,10 @@
         "withdrawal_amount_label": "Withdrawal per year in SEK",
         "year_prefix": "Year"
       }
+    },
+    "progress_label": {
+      "reference_value": "Reference value (100%)",
+      "percent_of_total": "% of total possible"
     }
   }
 }

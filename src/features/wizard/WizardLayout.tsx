@@ -266,7 +266,9 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
             onStepClick={handleStepClick}
           />
           {/* Step content area with card wrapper */}
-          <Box className="mt-4 md:mt-6 card-base shadow-sm p-4 md:p-6 relative overflow-hidden">
+          <Box
+            className={`mt-4 md:mt-6 relative overflow-hidden ${stepIndex === 4 ? "" : "card-base shadow-sm p-4 md:p-6"}`}
+          >
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={stepIndex}

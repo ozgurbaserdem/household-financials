@@ -92,7 +92,7 @@ export const SliderInput = ({
         {isEditing ? (
           <input
             autoFocus
-            className={`px-2 py-1 rounded-lg bg-muted border border-border hover:border-border transition-all duration-200 hover:bg-muted ${width} text-center text-sm font-semibold text-foreground outline-none focus:ring-2 focus:ring-border`}
+            className={`px-2 py-1 rounded-lg bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-200 ${width} text-center text-sm font-semibold text-foreground outline-none focus:ring-2 focus:ring-primary/50`}
             type="text"
             value={tempValue}
             onBlur={handleEditEnd}
@@ -101,7 +101,7 @@ export const SliderInput = ({
           />
         ) : (
           <button
-            className={`px-2 py-1 rounded-lg bg-muted border border-border hover:border-border transition-all duration-200 hover:bg-muted ${width} text-center cursor-text`}
+            className={`px-2 py-1 rounded-lg bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-200 ${width} text-center cursor-text`}
             onClick={handleEditStart}
           >
             <Text className="text-sm font-semibold text-foreground">

@@ -6,7 +6,6 @@ import {
   HandCoins,
   Home,
   List,
-  ListChecks,
   MoreHorizontal,
   PiggyBank,
   Receipt,
@@ -33,7 +32,6 @@ import { Text } from "@/components/ui/Text";
 import { expenseCategories } from "@/data/expenseCategories";
 import { getNetIncome } from "@/lib/calculations";
 import { formatCurrencyNoDecimals, formatPercentage } from "@/lib/formatting";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { hasValidLoan } from "@/lib/types";
 import { cn } from "@/lib/utils/general";
 import { useAppSelector } from "@/store/hooks";
@@ -58,7 +56,6 @@ export const SummaryStep = () => {
   const tCategories = useTranslations("expense_categories");
   const [showAllExpenses, setShowAllExpenses] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
-  const isMobile = useIsTouchDevice();
 
   const incomeIcons: Record<string, React.ReactNode> = {
     income1: <Briefcase className="w-4 h-4" />,
@@ -204,7 +201,16 @@ export const SummaryStep = () => {
             tabIndex={0}
           >
             <Box className="flex items-center gap-3 mb-2">
-              <Wallet className="w-5 h-5 text-foreground" />
+              <div
+                className="p-2 rounded-lg"
+                style={{
+                  backgroundColor: "rgb(34 197 94 / 0.1)",
+                  color: "rgb(34 197 94)",
+                  border: "1px solid rgb(34 197 94 / 0.2)",
+                }}
+              >
+                <Wallet className="w-5 h-5" />
+              </div>
               <Text
                 className="text-sm text-muted-foreground"
                 id="net-income-label"
@@ -217,7 +223,7 @@ export const SummaryStep = () => {
               className="text-lg font-bold"
               showDecimals={false}
               size="xl"
-              variant="neutral"
+              variant="success"
             />
             <Text className="text-base text-foreground font-medium mt-1">
               {tSummary("per_month")}
@@ -237,7 +243,16 @@ export const SummaryStep = () => {
             tabIndex={0}
           >
             <Box className="flex items-center gap-3 mb-2">
-              <HandCoins className="w-5 h-5 text-foreground" />
+              <div
+                className="p-2 rounded-lg"
+                style={{
+                  backgroundColor: "rgb(234 179 8 / 0.1)",
+                  color: "rgb(234 179 8)",
+                  border: "1px solid rgb(234 179 8 / 0.2)",
+                }}
+              >
+                <HandCoins className="w-5 h-5" />
+              </div>
               <Text
                 className="text-sm text-muted-foreground"
                 id="loan-payment-label"
@@ -252,7 +267,7 @@ export const SummaryStep = () => {
                   className="text-lg font-bold text-foreground"
                   showDecimals={false}
                   size="xl"
-                  variant="neutral"
+                  variant="warning"
                 />
                 <Text className="text-base text-foreground font-medium mt-1">
                   {tSummary("per_month")}
@@ -280,7 +295,16 @@ export const SummaryStep = () => {
             tabIndex={0}
           >
             <Box className="flex items-center gap-3 mb-2">
-              <Receipt className="w-5 h-5 text-foreground" />
+              <div
+                className="p-2 rounded-lg"
+                style={{
+                  backgroundColor: "rgb(239 68 68 / 0.1)",
+                  color: "rgb(239 68 68)",
+                  border: "1px solid rgb(239 68 68 / 0.2)",
+                }}
+              >
+                <Receipt className="w-5 h-5" />
+              </div>
               <Text
                 className="text-sm text-muted-foreground"
                 id="total-expenses-label"
@@ -293,7 +317,7 @@ export const SummaryStep = () => {
               className="text-lg font-bold"
               showDecimals={false}
               size="xl"
-              variant="neutral"
+              variant="destructive"
             />
             <Text className="text-base text-foreground font-medium mt-1">
               {tSummary("per_month")}
@@ -326,8 +350,14 @@ export const SummaryStep = () => {
             >
               <Box className="flex items-center justify-between w-full">
                 <Box className="flex items-center gap-3">
-                  <Box className="p-2 rounded-lg bg-primary/10">
-                    <BadgeDollarSign className="w-5 h-5 text-primary" />
+                  <Box
+                    className="p-2 rounded-lg"
+                    style={{ backgroundColor: "rgb(34 197 94 / 0.1)" }}
+                  >
+                    <BadgeDollarSign
+                      className="w-5 h-5"
+                      style={{ color: "rgb(34 197 94)" }}
+                    />
                   </Box>
                   <Box>
                     <Text className="font-semibold text-foreground">
@@ -353,7 +383,7 @@ export const SummaryStep = () => {
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4">
               <Box className="space-y-3 pt-2" data-testid="income-content">
-                {incomeRows.map((row, i) => (
+                {incomeRows.map((row, _i) => (
                   <div
                     key={row.label}
                     className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
@@ -419,8 +449,14 @@ export const SummaryStep = () => {
             >
               <Box className="flex items-center justify-between w-full">
                 <Box className="flex items-center gap-3">
-                  <Box className="p-2 rounded-lg bg-primary/10">
-                    <HandCoins className="w-5 h-5 text-primary" />
+                  <Box
+                    className="p-2 rounded-lg"
+                    style={{ backgroundColor: "rgb(234 179 8 / 0.1)" }}
+                  >
+                    <HandCoins
+                      className="w-5 h-5"
+                      style={{ color: "rgb(234 179 8)" }}
+                    />
                   </Box>
                   <Box>
                     <Text className="font-semibold text-foreground">
@@ -435,7 +471,7 @@ export const SummaryStep = () => {
                 {hasLoan ? (
                   <>
                     {/* Loan Amount */}
-                    {loanRows.map((row, i) => (
+                    {loanRows.map((row, _i) => (
                       <div
                         key={row.label}
                         className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
@@ -524,8 +560,14 @@ export const SummaryStep = () => {
             >
               <Box className="flex items-center justify-between w-full">
                 <Box className="flex items-center gap-3">
-                  <Box className="p-2 rounded-lg bg-primary/10">
-                    <List className="w-5 h-5 text-primary" />
+                  <Box
+                    className="p-2 rounded-lg"
+                    style={{ backgroundColor: "rgb(239 68 68 / 0.1)" }}
+                  >
+                    <List
+                      className="w-5 h-5"
+                      style={{ color: "rgb(239 68 68)" }}
+                    />
                   </Box>
                   <Box>
                     <Text className="font-semibold text-foreground">
@@ -538,7 +580,7 @@ export const SummaryStep = () => {
             <AccordionContent className="px-4 pb-4">
               <Box className="space-y-3 pt-2">
                 {(showAllExpenses ? nonZeroExpenses : topExpenses).map(
-                  (row, i) => (
+                  (row, _i) => (
                     <div
                       key={row.id}
                       className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
@@ -630,14 +672,14 @@ export const SummaryStep = () => {
               className={cn(
                 "p-2 rounded-lg flex-shrink-0",
                 totalIncome - monthlyPayment - currentExpensesTotal >= 0
-                  ? "bg-muted"
-                  : "bg-muted"
+                  ? "bg-green-500/10"
+                  : "bg-red-500/10"
               )}
             >
               {totalIncome - monthlyPayment - currentExpensesTotal >= 0 ? (
-                <TrendingUp className="w-5 h-5 text-foreground" />
+                <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />
               ) : (
-                <TrendingDown className="w-5 h-5 text-foreground" />
+                <TrendingDown className="w-5 h-5 text-red-600 dark:text-red-400" />
               )}
             </Box>
             <Box className="flex-1 text-left">
@@ -654,8 +696,8 @@ export const SummaryStep = () => {
                 showDecimals={false}
                 variant={
                   totalIncome - monthlyPayment - currentExpensesTotal >= 0
-                    ? "neutral"
-                    : "neutral"
+                    ? "success"
+                    : "destructive"
                 }
               />
             </Box>

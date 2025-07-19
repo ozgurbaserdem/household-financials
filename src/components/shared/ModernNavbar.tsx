@@ -105,8 +105,8 @@ export const ModernNavbar = () => {
     const baseClasses = "backdrop-blur-[8px]";
     const scrolledClasses = isScrolled ? "shadow-2xl" : "";
     const bgClasses = isScrolled
-      ? "bg-white/90 dark:bg-black/80"
-      : "bg-white/80 dark:bg-black/60";
+      ? "bg-white/90 dark:bg-black/30"
+      : "bg-white/80 dark:bg-black/20";
 
     return `${baseClasses} ${bgClasses} ${scrolledClasses}`;
   };

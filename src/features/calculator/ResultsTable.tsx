@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Percent, Calendar, Settings2 } from "lucide-react";
+import { Percent, Calendar, Settings2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, {
   useMemo,
@@ -13,7 +13,6 @@ import React, {
 import { Box } from "@/components/ui/Box";
 import { FormLabel } from "@/components/ui/Form";
 import { SliderInput } from "@/components/ui/SliderInput";
-import { StepHeader } from "@/components/ui/StepHeader";
 import { Text } from "@/components/ui/Text";
 import {
   formatCurrency,
@@ -182,22 +181,14 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <StepHeader step="results">
-        <div className="text-sm text-muted-foreground">
-          {t("current_scenario")}
-        </div>
-      </StepHeader>
-      {/* Single Result Card */}
-      <div>
-        <ResultCard
-          HEAD_CELLS={HEAD_CELLS}
-          isBest={false}
-          isWorst={false}
-          result={result}
-          showTooltips={true}
-        />
-      </div>
+    <>
+      <ResultCard
+        HEAD_CELLS={HEAD_CELLS}
+        isBest={false}
+        isWorst={false}
+        result={result}
+        showTooltips={true}
+      />
 
       {/* Loan Rate Adjustment Section - Only show if user has loan */}
       {calculatorState.loanParameters.hasLoan &&
@@ -205,8 +196,8 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
           <div className="mt-0 pt-6">
             <Box className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Settings2 className="w-5 h-5 text-primary" />
+                <div className="p-2 rounded-lg bg-amber-500/10">
+                  <Settings2 className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-foreground">
                   {t("adjust_rates_title")}
@@ -252,6 +243,6 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
             </Box>
           </div>
         )}
-    </div>
+    </>
   );
 };

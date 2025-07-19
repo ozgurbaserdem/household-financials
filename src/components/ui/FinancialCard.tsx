@@ -2,13 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Box } from "@/components/ui/Box";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-  CardContent,
-} from "@/components/ui/Card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Text } from "@/components/ui/Text";
 
 interface FinancialCardProps {
@@ -29,11 +23,18 @@ const FinancialCard = ({
   ariaLabel,
 }: FinancialCardProps) => {
   return (
-    <Card variant="elevated" className={className}>
+    <Card className={className} variant="elevated">
       <CardHeader>
-        <CardIcon>
-          <Icon className="w-6 h-6 text-foreground" />
-        </CardIcon>
+        <div
+          className="p-2 rounded-lg"
+          style={{
+            backgroundColor: "rgb(34 197 94 / 0.1)",
+            color: "rgb(34 197 94)",
+            border: "1px solid rgb(34 197 94 / 0.2)",
+          }}
+        >
+          <Icon className="w-6 h-6" />
+        </div>
         <Box className="flex-1">
           <CardTitle aria-label={ariaLabel || title} tabIndex={0}>
             {title}

@@ -25,12 +25,12 @@ const stepIndicatorVariants = cva(
       },
       state: {
         pending:
-          "bg-background border-border text-muted-foreground hover:border-foreground/50",
+          "bg-background border-gray-200/50 dark:border-gray-700/50 text-muted-foreground hover:border-foreground/50",
         active:
-          "bg-primary text-primary-foreground border-primary borde-border scale-105 relative z-10",
-        completed: "bg-success text-success-foreground border-success",
+          "bg-primary text-primary-foreground border-primary scale-105 relative z-10",
+        completed: "bg-success text-green-500 border-success",
         disabled:
-          "bg-muted text-muted-foreground border-border cursor-not-allowed opacity-50",
+          "bg-muted text-muted-foreground border-gray-200/50 dark:border-gray-700/50 cursor-not-allowed opacity-50",
       },
     },
     defaultVariants: {

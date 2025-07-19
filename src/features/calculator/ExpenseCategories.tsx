@@ -29,7 +29,6 @@ import { StepHeader } from "@/components/ui/StepHeader";
 import { Switch } from "@/components/ui/Switch";
 import { Text } from "@/components/ui/Text";
 import { expenseCategories } from "@/data/expenseCategories";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import type { ExpensesByCategory } from "@/lib/types";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -63,7 +62,6 @@ export const ExpenseCategories = ({
   onChange,
 }: ExpenseCategoriesProps) => {
   const t = useTranslations("expense_categories");
-  const isMobile = useIsTouchDevice();
   const dispatch = useAppDispatch();
   const expenseViewMode = useAppSelector((state) => state.expenseViewMode);
   const totalExpenses = useAppSelector((state) => state.totalExpenses);
@@ -352,6 +350,7 @@ export const ExpenseCategories = ({
               data-testid="grand-total"
               showDecimals={false}
               size="xl"
+              style={{ color: "rgb(239 68 68)" }}
               variant={getCurrentTotal() > 0 ? "neutral" : "neutral"}
             />
           </Box>

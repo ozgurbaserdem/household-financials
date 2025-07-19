@@ -2,7 +2,14 @@ import { cn } from "@/lib/utils/general";
 
 interface CurrencyDisplayProps {
   amount: number;
-  variant?: "default" | "positive" | "negative" | "neutral";
+  variant?:
+    | "default"
+    | "positive"
+    | "negative"
+    | "neutral"
+    | "success"
+    | "warning"
+    | "destructive";
   size?: "sm" | "md" | "lg" | "xl";
   showDecimals?: boolean;
   locale?: string;
@@ -47,6 +54,9 @@ const CurrencyDisplay = ({
     positive: "text-green-600 dark:text-green-400",
     negative: "text-red-600 dark:text-red-400",
     neutral: "", // Empty string so className can override
+    success: "text-success",
+    warning: "text-warning",
+    destructive: "text-destructive",
   };
 
   const sizeClasses = {
@@ -56,14 +66,32 @@ const CurrencyDisplay = ({
     xl: "text-xl",
   };
 
+  const getInlineStyle = () => {
+    switch (variant) {
+      case "success":
+        return { color: "rgb(34 197 94)" };
+      case "warning":
+        return { color: "rgb(234 179 8)" };
+      case "destructive":
+        return { color: "rgb(239 68 68)" };
+      default:
+        return undefined;
+    }
+  };
+
   return (
     <span
       className={cn(
         "font-medium tabular-nums",
-        variantClasses[variant],
+        variant === "success" ||
+          variant === "warning" ||
+          variant === "destructive"
+          ? ""
+          : variantClasses[variant],
         sizeClasses[size],
         className
       )}
+      style={getInlineStyle()}
       {...props}
     >
       {formatCurrencyDisplay(amount, showDecimals, locale, currency)}

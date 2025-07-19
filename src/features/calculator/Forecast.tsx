@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { HandCoins, TrendingUp } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -14,7 +13,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { Box } from "@/components/ui/Box";
 import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import {
   calculateForecast,
@@ -23,7 +21,6 @@ import {
   type ForecastData,
 } from "@/lib/forecast";
 import { formatCompactCurrency } from "@/lib/formatting";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { useMediaQuery } from "@/lib/hooks/use-media-query";
 import type { CalculatorState } from "@/lib/types";
 
@@ -38,7 +35,6 @@ interface ForecastProps {
 export const Forecast = ({ calculatorState }: ForecastProps) => {
   const t = useTranslations("forecast");
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const isTouchDevice = useIsTouchDevice();
 
   const forecastData = useMemo(() => {
     return calculateForecast(calculatorState);
@@ -64,7 +60,7 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
       return (
         <motion.div
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-background/90 backdrop-blur-md p-4 rounded-lg border border-border shadow-lg space-y-2"
+          className="bg-gray-200/60 dark:bg-gray-800/60 border border-gray-200/50 dark:border-gray-700/50 shadow-lg rounded-lg p-4 space-y-2"
           initial={{ opacity: 0, scale: 0.9 }}
         >
           <p className="font-semibold mb-2 text-foreground">
@@ -135,29 +131,14 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <div className="p-3 rounded-lg bg-primary/10">
-          <HandCoins className="w-6 h-6 text-primary" />
-        </div>
-        <Box className="flex-1">
-          <h3
-            aria-label={t("aria.title")}
-            className="text-xl font-semibold text-foreground"
-            tabIndex={0}
-          >
-            {t("title")}
-          </h3>
-          <motion.p
-            animate={{ opacity: 1 }}
-            className="text-sm text-muted-foreground mt-1"
-            initial={{ opacity: 0 }}
-            transition={{ delay: 0.6 }}
-          >
-            {t("loan_payoff_in_years", { years: payoffYears })}
-          </motion.p>
-        </Box>
-        <TrendingUp className="w-8 h-8 text-primary" />
-      </div>
+      <motion.p
+        animate={{ opacity: 1 }}
+        className="text-sm text-muted-foreground"
+        initial={{ opacity: 0 }}
+        transition={{ delay: 0.6 }}
+      >
+        {t("loan_payoff_in_years", { years: payoffYears })}
+      </motion.p>
       <motion.div
         animate={{ opacity: 1, scale: 1 }}
         aria-label={t("aria.graph")}
@@ -178,13 +159,13 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
               <linearGradient id="loanGradient" x1="0" x2="0" y1="0" y2="1">
                 <stop
                   offset={off}
-                  stopColor="hsl(var(--primary))"
+                  stopColor="rgb(59 130 246)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset={off}
-                  stopColor="hsl(var(--accent))"
-                  stopOpacity={0.8}
+                  stopColor="rgb(147 197 253)"
+                  stopOpacity={0.4}
                 />
               </linearGradient>
               <linearGradient id="gridGradient">
@@ -203,23 +184,23 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
 
             <CartesianGrid
               opacity={0.3}
-              stroke="#374151"
+              stroke="rgb(148 163 184)"
               strokeDasharray="3 3"
             />
 
             <XAxis
+              axisLine={{ stroke: "rgb(148 163 184)" }}
               dataKey="year"
               interval={isMobile ? "preserveStartEnd" : 5}
-              axisLine={{ stroke: "#6B7280" }}
-              tick={{ fill: "#9CA3AF", fontSize: 12 }}
-              tickLine={{ stroke: "#6B7280" }}
+              tick={{ fill: "rgb(100 116 139)", fontSize: 12 }}
+              tickLine={{ stroke: "rgb(148 163 184)" }}
             />
 
             <YAxis
-              axisLine={{ stroke: "#6B7280" }}
-              tick={{ fill: "#9CA3AF", fontSize: 12 }}
+              axisLine={{ stroke: "rgb(148 163 184)" }}
+              tick={{ fill: "rgb(100 116 139)", fontSize: 12 }}
               tickFormatter={formatCompactCurrency}
-              tickLine={{ stroke: "#6B7280" }}
+              tickLine={{ stroke: "rgb(148 163 184)" }}
               width={35}
             />
 
@@ -230,7 +211,7 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
               animationEasing="ease-out"
               dataKey="remainingLoan"
               fill="url(#loanGradient)"
-              stroke="hsl(var(--primary))"
+              stroke="rgb(59 130 246)"
               strokeWidth={2}
               type="monotone"
             />

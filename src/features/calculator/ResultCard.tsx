@@ -64,14 +64,10 @@ const ResultCard = ({
     if (typeof rawValue !== "number" || Number.isNaN(rawValue))
       return cell.render(result);
     if (showAnimation) {
+      // No style prop, so just render
       return (
         <AnimatedScramble
-          className={cn(
-            cell.key === "remaining_savings" && {
-              "text-success": result.remainingSavings >= 0,
-              "text-destructive": result.remainingSavings < 0,
-            }
-          )}
+          className=""
           format={cell.format}
           maxDuration={0.3}
           smoothMode={true}
@@ -80,6 +76,12 @@ const ResultCard = ({
       );
     }
     return cell.format(rawValue);
+  };
+
+  // Use function expression for linter compliance
+  const getRemainingSavingsColor = (remaining: number) => {
+    if (remaining >= 0) return { color: "rgb(34 197 94)" };
+    return { color: "rgb(239 68 68)" };
   };
 
   return (
@@ -118,7 +120,7 @@ const ResultCard = ({
             <Box key={cell.key} className="flex flex-col relative">
               {showTooltips ? (
                 <Box className="flex items-center gap-2 relative">
-                  <Text className="text-xs text-muted-foreground" tabIndex={0}>
+                  <Text className="text-s text-muted-foreground" tabIndex={0}>
                     {t(cell.key)}
                   </Text>
                   <Tooltip delayDuration={100}>
@@ -149,13 +151,13 @@ const ResultCard = ({
               <Text
                 className={cn(
                   "font-medium text-foreground",
-                  cell.key === "remaining_savings" && {
-                    "text-success font-bold text-lg":
-                      result.remainingSavings >= 0,
-                    "text-destructive font-bold text-lg":
-                      result.remainingSavings < 0,
-                  }
+                  cell.key === "remaining_savings" && "font-bold text-lg"
                 )}
+                style={
+                  cell.key === "remaining_savings"
+                    ? getRemainingSavingsColor(result.remainingSavings)
+                    : undefined
+                }
               >
                 {renderValue(cell, result)}
               </Text>

@@ -6,13 +6,7 @@ import React from "react";
 
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardIcon,
-  CardTitle,
-} from "@/components/ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Main } from "@/components/ui/Main";
 import { Text } from "@/components/ui/Text";
 import { CompoundInterestClient } from "@/features/compound-interest/CompoundInterestClient";
@@ -130,7 +124,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
       />
 
       <Main className="min-h-screen bg-background flex flex-col items-center relative pt-20 lg:pt-24">
-        <Box className="w-full max-w-5xl container-padding py-6 sm:py-10 relative z-10 space-y-6">
+        <Box className="w-full max-w-6xl container-padding py-6 sm:py-10 relative z-10 space-y-6">
           {/* Hero Section */}
           <header className="text-center space-y-6 py-4">
             <h1 className="heading-1 text-foreground">
@@ -147,9 +141,16 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           {/* Introduction Section */}
           <Card className="card-base" variant="elevated">
             <CardHeader>
-              <CardIcon>
-                <TrendingUp className="w-6 h-6 text-foreground" />
-              </CardIcon>
+              <div
+                className="p-2 rounded-lg"
+                style={{
+                  backgroundColor: "rgb(34 197 94 / 0.1)",
+                  color: "rgb(34 197 94)",
+                  border: "1px solid rgb(34 197 94 / 0.2)",
+                }}
+              >
+                <TrendingUp className="w-6 h-6" />
+              </div>
               <Box className="flex-1">
                 <CardTitle>
                   {locale === "sv"
@@ -217,9 +218,16 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           {/* Tips Section */}
           <Card variant="elevated">
             <CardHeader>
-              <CardIcon>
-                <Lightbulb className="w-6 h-6 text-foreground" />
-              </CardIcon>
+              <div
+                className="p-2 rounded-lg"
+                style={{
+                  backgroundColor: "rgb(234 179 8 / 0.1)",
+                  color: "rgb(234 179 8)",
+                  border: "1px solid rgb(234 179 8 / 0.2)",
+                }}
+              >
+                <Lightbulb className="w-6 h-6" />
+              </div>
               <Box className="flex-1">
                 <CardTitle>
                   {locale === "sv"
@@ -258,7 +266,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                 ].map((tip, tipIndex) => (
                   <div
                     key={tip.en}
-                    className="flex items-center gap-4 p-6 bg-muted rounded-lg border border-border"
+                    className="flex items-center gap-4 p-6 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
                   >
                     <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-medium flex-shrink-0">
                       {tipIndex + 1}
@@ -330,9 +338,16 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           {/* Disclaimer */}
           <Card variant="elevated">
             <CardHeader>
-              <CardIcon>
-                <AlertTriangle className="w-6 h-6 text-foreground" />
-              </CardIcon>
+              <div
+                className="p-2 rounded-lg"
+                style={{
+                  backgroundColor: "rgb(239 68 68 / 0.1)",
+                  color: "rgb(239 68 68)",
+                  border: "1px solid rgb(239 68 68 / 0.2)",
+                }}
+              >
+                <AlertTriangle className="w-6 h-6" />
+              </div>
               <Box className="flex-1">
                 <CardTitle>
                   {locale === "sv"

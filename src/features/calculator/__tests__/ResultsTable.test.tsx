@@ -253,12 +253,10 @@ describe("ResultsTable", () => {
         </Provider>
       );
 
-      // Since ResultsTable now only shows single scenarios, check for current_scenario
-      expect(screen.getByText("current_scenario")).toBeInTheDocument();
-
-      // Should display a single result card with the basic structure
+      // Since ResultsTable now only shows single scenarios, check for basic structure
       expect(screen.getAllByText("interest_rate")).toHaveLength(2); // One in result card, one in slider
-      expect(screen.getByText("remaining_savings")).toBeInTheDocument();
+      expect(screen.getAllByText("remaining_savings")).toHaveLength(1); // Only in result card
+      expect(screen.getAllByText("housing_cost")).toHaveLength(2); // In result card and somewhere else
     });
 
     it("should show badges on best and worst scenario cards", () => {
@@ -321,8 +319,9 @@ describe("ResultsTable", () => {
         </Provider>
       );
 
-      // Since ResultsTable now only shows single scenarios, check for current_scenario
-      expect(screen.getByText("current_scenario")).toBeInTheDocument();
+      // Since ResultsTable now only shows single scenarios, check for basic structure
+      expect(screen.getAllByText("interest_rate")).toHaveLength(2); // One in result card, one in slider
+      expect(screen.getAllByText("remaining_savings")).toHaveLength(1); // Only in result card
 
       // Should not show any badges since only one scenario is displayed
       expect(screen.queryByText("best_option")).not.toBeInTheDocument();
@@ -369,11 +368,9 @@ describe("ResultsTable", () => {
         </Provider>
       );
 
-      // Should render without errors - use aria-label to target the specific title
-      expect(screen.getByLabelText("aria.title")).toBeInTheDocument();
-      // Check that we have a result card (no need to check specific values due to AnimatedScramble)
-      const interestRateLabels = screen.getAllByText("interest_rate");
-      expect(interestRateLabels.length).toBeGreaterThan(0);
+      // Should render without errors - check basic structure exists
+      expect(screen.getAllByText("interest_rate")).toHaveLength(1); // Only in result card, no sliders when no loan
+      expect(screen.getByText("remaining_savings")).toBeInTheDocument();
     });
 
     it("should handle negative remaining savings", () => {
@@ -452,12 +449,10 @@ describe("ResultsTable", () => {
         </Provider>
       );
 
-      // Since ResultsTable now only shows single scenarios, check for current_scenario
-      expect(screen.getByText("current_scenario")).toBeInTheDocument();
-
-      // Should show a single result card regardless of how many scenarios we provide
-      expect(screen.getAllByText("housing_cost").length).toBeGreaterThan(0);
+      // Since ResultsTable now only shows single scenarios, check for basic structure
       expect(screen.getAllByText("interest_rate")).toHaveLength(2); // One in result card, one in slider
+      expect(screen.getAllByText("housing_cost")).toHaveLength(2); // In result card and somewhere else
+      expect(screen.getByText("remaining_savings")).toBeInTheDocument();
     });
   });
 
@@ -493,8 +488,9 @@ describe("ResultsTable", () => {
         </Provider>
       );
 
-      // Since ResultsTable now only shows single scenarios, check for current_scenario
-      expect(screen.getByText("current_scenario")).toBeInTheDocument();
+      // Since ResultsTable now only shows single scenarios, check for basic structure
+      expect(screen.getAllByText("interest_rate")).toHaveLength(2); // One in result card, one in slider
+      expect(screen.getByText("remaining_savings")).toBeInTheDocument();
 
       // Should not show any badges or multiple scenarios even when given identical data
       expect(screen.queryByText("best_option")).not.toBeInTheDocument();
@@ -534,8 +530,9 @@ describe("ResultsTable", () => {
         </Provider>
       );
 
-      // Since ResultsTable now only shows single scenarios, check for current_scenario
-      expect(screen.getByText("current_scenario")).toBeInTheDocument();
+      // Since ResultsTable now only shows single scenarios, check for basic structure
+      expect(screen.getAllByText("interest_rate")).toHaveLength(2); // One in result card, one in slider
+      expect(screen.getByText("remaining_savings")).toBeInTheDocument();
     });
   });
 });

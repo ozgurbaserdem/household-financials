@@ -14,13 +14,7 @@ import { useState, useMemo, useEffect } from "react";
 
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-  CardContent,
-} from "@/components/ui/Card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import { Label } from "@/components/ui/Label";
 import { SliderInput } from "@/components/ui/SliderInput";
@@ -153,9 +147,16 @@ export const CompoundInterestCalculator = () => {
       {/* Input Controls */}
       <Card variant="elevated">
         <CardHeader>
-          <CardIcon>
-            <Calculator className="w-6 h-6 text-foreground" />
-          </CardIcon>
+          <div
+            className="p-2 rounded-lg"
+            style={{
+              backgroundColor: "rgb(59 130 246 / 0.1)",
+              color: "rgb(59 130 246)",
+              border: "1px solid rgb(59 130 246 / 0.2)",
+            }}
+          >
+            <Calculator className="w-6 h-6" />
+          </div>
           <Box className="flex-1">
             <CardTitle>{t("calculator.title")}</CardTitle>
             <Text className="text-sm text-muted-foreground mt-1">
@@ -208,14 +209,14 @@ export const CompoundInterestCalculator = () => {
           </div>
 
           {/* Advanced Settings Toggle */}
-          <div className="mt-6 border-t border-border pt-6">
+          <div className="mt-6 border-t border-gray-200/50 dark:border-gray-700/50 pt-6">
             <button
-              className="flex items-center justify-between w-full p-2 rounded-xl bg-muted/50 border border-border hover:border-primary/50 transition-all duration-300 hover:bg-muted/70 group"
+              className="flex items-center justify-between w-full p-4 rounded-lg bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-300 group"
               onClick={() => setShowAdvanced(!showAdvanced)}
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-primary/20 group-hover:bg-primary/30 transition-colors">
-                  <Settings2 className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
+                <div className="p-2 rounded-lg bg-amber-500/10 group-hover:bg-amber-500/20 transition-colors">
+                  <Settings2 className="w-5 h-5 text-amber-600 dark:text-amber-400 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors" />
                 </div>
                 <div className="text-left">
                   <Text className="text-base font-semibold text-foreground group-hover:text-primary transition-colors block">
@@ -258,10 +259,10 @@ export const CompoundInterestCalculator = () => {
               >
                 {/* Annual Savings Increase */}
                 <div className="space-y-2 lg:flex-1">
-                  <Label className="text-sm font-medium text-gray-200 block">
+                  <Label className="text-sm font-medium text-foreground block">
                     {t("advanced_settings.annual_savings_increase.label")}
                   </Label>
-                  <Text className="text-xs text-gray-400 block">
+                  <Text className="text-xs text-muted-foreground block">
                     {t("advanced_settings.annual_savings_increase.description")}
                   </Text>
                   <SliderInput
@@ -321,7 +322,7 @@ export const CompoundInterestCalculator = () => {
                             "advanced_settings.planned_withdrawal.withdrawal_type_question"
                           )}
                         </Label>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2 w-full">
                           <Button
                             className="flex-1"
                             type="button"
@@ -438,9 +439,16 @@ export const CompoundInterestCalculator = () => {
       {/* Results Summary */}
       <Card variant="elevated">
         <CardHeader>
-          <CardIcon>
-            <TrendingUp className="w-6 h-6 text-foreground" />
-          </CardIcon>
+          <div
+            className="p-2 rounded-lg"
+            style={{
+              backgroundColor: "rgb(34 197 94 / 0.1)",
+              color: "rgb(34 197 94)",
+              border: "1px solid rgb(34 197 94 / 0.2)",
+            }}
+          >
+            <TrendingUp className="w-6 h-6" />
+          </div>
           <Box className="flex-1">
             <CardTitle>{t("results.title")}</CardTitle>
             <Text className="text-sm text-muted-foreground mt-1">
@@ -450,111 +458,147 @@ export const CompoundInterestCalculator = () => {
         </CardHeader>
         <CardContent>
           <div
-            className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${finalValues.totalWithdrawn > 0 ? "lg:grid-cols-6" : "lg:grid-cols-4"}`}
+            className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${finalValues.totalWithdrawn > 0 ? "md:grid-cols-3 xl:grid-cols-6" : "lg:grid-cols-4"}`}
           >
             {/* Theoretical Total Value (without withdrawals) */}
             <motion.div
               animate={{ opacity: 1, scale: 1 }}
-              className="p-3 rounded-xl border border-border bg-card/50 hover:bg-card/80 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+              className="p-4 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
               initial={{ opacity: 0, scale: 0.9 }}
               transition={{ delay: 0.1 }}
             >
-              <div className="space-y-2 lg:flex-1">
-                <Text className="text-xs text-muted-foreground font-medium break-words hyphens-auto block">
-                  {t("results.theoretical_total_value")}
-                </Text>
-                <CurrencyDisplay
-                  amount={finalValues.theoreticalTotalValue}
-                  className="text-lg lg:text-xl font-bold text-foreground leading-relaxed break-words whitespace-nowrap block"
-                  showDecimals={false}
-                  size="lg"
-                  variant="neutral"
-                />
+              <div className="space-y-2 lg:flex-1 lg:flex lg:flex-col lg:justify-between">
+                <div className="lg:h-10 lg:flex lg:items-start">
+                  <Text className="text-xs text-muted-foreground font-medium break-words hyphens-auto block">
+                    {t("results.theoretical_total_value")}
+                  </Text>
+                </div>
+                <div className="lg:flex lg:items-center lg:h-8 lg:leading-none">
+                  <CurrencyDisplay
+                    amount={finalValues.theoreticalTotalValue}
+                    className="text-lg lg:text-xl font-bold text-foreground leading-relaxed break-words whitespace-nowrap block"
+                    showDecimals={false}
+                    size="lg"
+                    variant="neutral"
+                  />
+                </div>
               </div>
-              <div className="w-full h-1 bg-muted rounded-full mt-1">
+              <div className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full mt-1">
                 <div
-                  className="h-full bg-primary rounded-full"
+                  className="h-full bg-blue-500 rounded-full"
                   style={{ width: "100%" }}
                 />
               </div>
+              <Text className="text-xs text-muted-foreground mt-1 text-center">
+                {t("progress_label.reference_value")}
+              </Text>
             </motion.div>
 
-            {/* Current Total Value (after withdrawals) */}
-            <motion.div
-              animate={{ opacity: 1, scale: 1 }}
-              className="p-3 rounded-xl border border-border bg-card/50 hover:bg-card/80 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
-              initial={{ opacity: 0, scale: 0.9 }}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="space-y-2 lg:flex-1">
-                <Text className="text-xs text-muted-foreground font-medium break-words hyphens-auto block">
-                  {t("results.total_value_after_withdrawals")}
+            {/* Current Total Value (after withdrawals) - Only show if there are withdrawals */}
+            {finalValues.totalWithdrawn > 0 && (
+              <motion.div
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-4 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+                initial={{ opacity: 0, scale: 0.9 }}
+                transition={{ delay: 0.2 }}
+              >
+                <div className="space-y-2 lg:flex-1 lg:flex lg:flex-col lg:justify-between">
+                  <div className="lg:h-10 lg:flex lg:items-start">
+                    <Text className="text-xs text-muted-foreground font-medium break-words hyphens-auto block">
+                      {t("results.total_value_after_withdrawals")}
+                    </Text>
+                  </div>
+                  <div className="lg:flex lg:items-center lg:h-8 lg:leading-none">
+                    <CurrencyDisplay
+                      amount={finalValues.totalValue}
+                      className="text-lg lg:text-xl font-bold text-foreground leading-relaxed break-words whitespace-nowrap block"
+                      showDecimals={false}
+                      size="lg"
+                      variant="neutral"
+                    />
+                  </div>
+                </div>
+                <div className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full mt-1">
+                  <div
+                    className="h-full bg-blue-500 rounded-full"
+                    style={{
+                      width: `${(finalValues.totalValue / finalValues.theoreticalTotalValue) * 100}%`,
+                    }}
+                  />
+                </div>
+                <Text className="text-xs text-muted-foreground mt-1 text-center">
+                  {Math.round(
+                    (finalValues.totalValue /
+                      finalValues.theoreticalTotalValue) *
+                      100
+                  )}
+                  {t("progress_label.percent_of_total")}
                 </Text>
-                <CurrencyDisplay
-                  amount={finalValues.totalValue}
-                  className="text-lg lg:text-xl font-bold text-foreground leading-relaxed break-words whitespace-nowrap block"
-                  showDecimals={false}
-                  size="lg"
-                  variant="neutral"
-                />
-              </div>
-              <div className="w-full h-1 bg-muted rounded-full mt-1">
-                <div
-                  className="h-full bg-primary rounded-full"
-                  style={{
-                    width: `${(finalValues.totalValue / finalValues.theoreticalTotalValue) * 100}%`,
-                  }}
-                />
-              </div>
-            </motion.div>
+              </motion.div>
+            )}
 
             <motion.div
               animate={{ opacity: 1, scale: 1 }}
-              className="p-3 rounded-xl border border-border bg-blue-500/5 hover:bg-blue-500/10 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+              className="p-4 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
               initial={{ opacity: 0, scale: 0.9 }}
               transition={{ delay: 0.3 }}
             >
-              <div className="space-y-2 lg:flex-1">
-                <Text className="text-sm text-muted-foreground font-medium break-words hyphens-auto block">
-                  {t("results.start_sum")}
-                </Text>
-                <CurrencyDisplay
-                  amount={finalValues.startSum}
-                  className="text-lg lg:text-xl font-semibold text-blue-500 leading-relaxed break-words whitespace-nowrap block"
-                  showDecimals={false}
-                  size="lg"
-                  variant="neutral"
-                />
+              <div className="space-y-2 lg:flex-1 lg:flex lg:flex-col lg:justify-between">
+                <div className="lg:h-10 lg:flex lg:items-start">
+                  <Text className="text-xs text-muted-foreground font-medium break-words hyphens-auto block">
+                    {t("results.start_sum")}
+                  </Text>
+                </div>
+                <div className="lg:flex lg:items-center lg:h-8 lg:leading-none">
+                  <CurrencyDisplay
+                    amount={finalValues.startSum}
+                    className="text-lg lg:text-xl font-semibold text-blue-500 leading-relaxed break-words whitespace-nowrap block"
+                    showDecimals={false}
+                    size="lg"
+                    variant="neutral"
+                  />
+                </div>
               </div>
-              <div className="w-full h-1 bg-muted rounded-full mt-1">
+              <div className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full mt-1">
                 <div
                   className="h-full bg-blue-500 rounded-full"
                   style={{
-                    width: `${(finalValues.startSum / finalValues.totalValue) * 100}%`,
+                    width: `${(finalValues.startSum / finalValues.theoreticalTotalValue) * 100}%`,
                   }}
                 />
               </div>
+              <Text className="text-xs text-muted-foreground mt-1 text-center">
+                {Math.round(
+                  (finalValues.startSum / finalValues.theoreticalTotalValue) *
+                    100
+                )}
+                {t("progress_label.percent_of_total")}
+              </Text>
             </motion.div>
 
             <motion.div
               animate={{ opacity: 1, scale: 1 }}
-              className="p-3 rounded-xl border border-border bg-green-500/5 hover:bg-green-500/10 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+              className="p-4 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
               initial={{ opacity: 0, scale: 0.9 }}
               transition={{ delay: 0.4 }}
             >
-              <div className="space-y-2 lg:flex-1">
-                <Text className="text-sm text-muted-foreground font-medium break-words hyphens-auto block">
-                  {t("results.total_savings")}
-                </Text>
-                <CurrencyDisplay
-                  amount={finalValues.totalSavings}
-                  className="text-lg lg:text-xl font-semibold text-green-500 leading-relaxed break-words whitespace-nowrap block"
-                  showDecimals={false}
-                  size="lg"
-                  variant="neutral"
-                />
+              <div className="space-y-2 lg:flex-1 lg:flex lg:flex-col lg:justify-between">
+                <div className="lg:h-10 lg:flex lg:items-start">
+                  <Text className="text-xs text-muted-foreground font-medium break-words hyphens-auto block">
+                    {t("results.total_savings")}
+                  </Text>
+                </div>
+                <div className="lg:flex lg:items-center lg:h-8 lg:leading-none">
+                  <CurrencyDisplay
+                    amount={finalValues.totalSavings}
+                    className="text-lg lg:text-xl font-semibold text-green-500 leading-relaxed break-words whitespace-nowrap block"
+                    showDecimals={false}
+                    size="lg"
+                    variant="neutral"
+                  />
+                </div>
               </div>
-              <div className="w-full h-1 bg-muted rounded-full mt-1">
+              <div className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full mt-1">
                 <div
                   className="h-full bg-green-500 rounded-full"
                   style={{
@@ -562,27 +606,39 @@ export const CompoundInterestCalculator = () => {
                   }}
                 />
               </div>
+              <Text className="text-xs text-muted-foreground mt-1 text-center">
+                {Math.round(
+                  (finalValues.totalSavings /
+                    finalValues.theoreticalTotalValue) *
+                    100
+                )}
+                {t("progress_label.percent_of_total")}
+              </Text>
             </motion.div>
 
             <motion.div
               animate={{ opacity: 1, scale: 1 }}
-              className="p-3 rounded-xl border border-border bg-purple-500/5 hover:bg-purple-500/10 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+              className="p-4 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
               initial={{ opacity: 0, scale: 0.9 }}
               transition={{ delay: 0.5 }}
             >
-              <div className="space-y-2 lg:flex-1">
-                <Text className="text-sm text-muted-foreground font-medium break-words hyphens-auto block">
-                  {t("results.compound_returns")}
-                </Text>
-                <CurrencyDisplay
-                  amount={finalValues.totalReturns}
-                  className="text-lg lg:text-xl font-semibold text-purple-500 leading-relaxed break-words whitespace-nowrap block"
-                  showDecimals={false}
-                  size="lg"
-                  variant="neutral"
-                />
+              <div className="space-y-2 lg:flex-1 lg:flex lg:flex-col lg:justify-between">
+                <div className="lg:h-10 lg:flex lg:items-start">
+                  <Text className="text-xs text-muted-foreground font-medium break-words hyphens-auto block">
+                    {t("results.compound_returns")}
+                  </Text>
+                </div>
+                <div className="lg:flex lg:items-center lg:h-8 lg:leading-none">
+                  <CurrencyDisplay
+                    amount={finalValues.totalReturns}
+                    className="text-lg lg:text-xl font-semibold text-purple-500 leading-relaxed break-words whitespace-nowrap block"
+                    showDecimals={false}
+                    size="lg"
+                    variant="neutral"
+                  />
+                </div>
               </div>
-              <div className="w-full h-1 bg-muted rounded-full mt-1">
+              <div className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full mt-1">
                 <div
                   className="h-full bg-purple-500 rounded-full"
                   style={{
@@ -590,36 +646,56 @@ export const CompoundInterestCalculator = () => {
                   }}
                 />
               </div>
+              <Text className="text-xs text-muted-foreground mt-1 text-center">
+                {Math.round(
+                  (finalValues.totalReturns /
+                    finalValues.theoreticalTotalValue) *
+                    100
+                )}
+                {t("progress_label.percent_of_total")}
+              </Text>
             </motion.div>
 
             {/* Total Withdrawn (show only if there have been withdrawals) */}
             {finalValues.totalWithdrawn > 0 && (
               <motion.div
                 animate={{ opacity: 1, scale: 1 }}
-                className="p-3 rounded-xl border border-border bg-red-500/5 hover:bg-red-500/10 transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
+                className="p-4 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-300 lg:flex lg:flex-col lg:min-h-[140px]"
                 initial={{ opacity: 0, scale: 0.9 }}
                 transition={{ delay: 0.6 }}
               >
-                <div className="space-y-2 lg:flex-1">
-                  <Text className="text-sm text-muted-foreground font-medium break-words hyphens-auto block">
-                    {t("results.total_withdrawn")}
-                  </Text>
-                  <CurrencyDisplay
-                    amount={finalValues.totalWithdrawn}
-                    className="text-lg lg:text-xl font-semibold text-red-500 leading-relaxed break-words whitespace-nowrap block"
-                    showDecimals={false}
-                    size="lg"
-                    variant="neutral"
-                  />
+                <div className="space-y-2 lg:flex-1 lg:flex lg:flex-col lg:justify-between">
+                  <div className="lg:h-10 lg:flex lg:items-start">
+                    <Text className="text-xs text-muted-foreground font-medium break-words hyphens-auto block">
+                      {t("results.total_withdrawn")}
+                    </Text>
+                  </div>
+                  <div className="lg:flex lg:items-center lg:h-8 lg:leading-none">
+                    <CurrencyDisplay
+                      amount={finalValues.totalWithdrawn}
+                      className="text-lg lg:text-xl font-semibold text-red-500 leading-relaxed break-words whitespace-nowrap block"
+                      showDecimals={false}
+                      size="lg"
+                      variant="neutral"
+                    />
+                  </div>
                 </div>
-                <div className="w-full h-1 bg-muted rounded-full mt-1">
+                <div className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full mt-1">
                   <div
                     className="h-full bg-red-500 rounded-full"
                     style={{
-                      width: `${Math.min(100, (finalValues.totalWithdrawn / (finalValues.totalValue + finalValues.totalWithdrawn)) * 100)}%`,
+                      width: `${(finalValues.totalWithdrawn / finalValues.theoreticalTotalValue) * 100}%`,
                     }}
                   />
                 </div>
+                <Text className="text-xs text-muted-foreground mt-1 text-center">
+                  {Math.round(
+                    (finalValues.totalWithdrawn /
+                      finalValues.theoreticalTotalValue) *
+                      100
+                  )}
+                  {t("progress_label.percent_of_total")}
+                </Text>
               </motion.div>
             )}
           </div>

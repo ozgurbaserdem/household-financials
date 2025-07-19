@@ -177,7 +177,7 @@ export const LandingPage = () => {
                   key={step.title}
                   className="flex flex-col items-center text-center"
                 >
-                  <div className="w-16 h-16 rounded-full bg-muted border border-border flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm flex items-center justify-center mb-4">
                     <step.icon className="w-8 h-8 text-foreground" />
                   </div>
                   <div className="w-8 h-8 rounded-full bg-foreground text-background text-sm font-semibold flex items-center justify-center mb-4">
@@ -209,9 +209,13 @@ export const LandingPage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {features.map((feature) => (
               <div key={feature.title}>
-                <Card className="h-full text-center">
+                <Card className="h-full text-center border-gray-200/50 dark:border-gray-700/50 shadow-sm">
                   <CardHeader className="items-center" layout="vertical">
-                    <CardIcon className="bg-muted" size="lg" variant="default">
+                    <CardIcon
+                      className="bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                      size="lg"
+                      variant="default"
+                    >
                       <feature.icon className="w-8 h-8 text-foreground" />
                     </CardIcon>
                     <CardTitle className="text-center">
@@ -237,11 +241,15 @@ export const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div>
               <Card
-                className="h-full cursor-pointer"
+                className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
                 onClick={() => router.push("/ranta-pa-ranta")}
               >
                 <CardHeader>
-                  <CardIcon className="bg-muted" size="lg" variant="default">
+                  <CardIcon
+                    className="bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                    size="lg"
+                    variant="default"
+                  >
                     <TrendingUp className="w-8 h-8 text-foreground" />
                   </CardIcon>
                   <Box className="flex-1">
@@ -258,11 +266,15 @@ export const LandingPage = () => {
 
             <div>
               <Card
-                className="h-full cursor-pointer"
+                className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
                 onClick={() => router.push("/hushallsbudget")}
               >
                 <CardHeader>
-                  <CardIcon className="bg-muted" size="lg" variant="default">
+                  <CardIcon
+                    className="bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                    size="lg"
+                    variant="default"
+                  >
                     <CalculatorIcon className="w-8 h-8 text-foreground" />
                   </CardIcon>
                   <Box className="flex-1">

@@ -66,18 +66,18 @@ body {
 }
 
 .dark {
-  --background: 0 0 0;
+  --background: 16 16 16;
   --foreground: 255 255 255;
-  --muted: 20 20 20;
+  --muted: 26 26 26;
   --muted-foreground: 140 140 140;
   --border: 40 40 40;
-  --input: 20 20 20;
+  --input: 26 26 26;
   --primary: 255 255 255;
-  --primary-foreground: 0 0 0;
-  --secondary: 30 30 30;
+  --primary-foreground: 13 13 13;
+  --secondary: 35 35 35;
   --secondary-foreground: 255 255 255;
   --accent: 255 255 255;
-  --accent-foreground: 0 0 0;
+  --accent-foreground: 13 13 13;
 }
 
 /* Scrollbar gutter to prevent layout shift */
@@ -431,7 +431,6 @@ input[type="number"].no-spinner {
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
-
 
 /* Utility Classes for Common Patterns - TEMPORARILY DISABLED */
 

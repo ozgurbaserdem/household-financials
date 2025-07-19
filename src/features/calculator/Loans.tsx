@@ -22,7 +22,6 @@ import { Input } from "@/components/ui/Input";
 import { SliderInput } from "@/components/ui/SliderInput";
 import { StepHeader } from "@/components/ui/StepHeader";
 import { Text } from "@/components/ui/Text";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
 const formSchema = z
   .object({
@@ -85,7 +84,6 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
   });
 
   const t = useTranslations("loan_parameters");
-  const isMobile = useIsTouchDevice();
 
   useEffect(() => {
     // Initialize the form once with props values
@@ -175,6 +173,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                 amount={monthlyPayment}
                 className="text-foreground font-semibold"
                 showDecimals={false}
+                style={{ color: "rgb(234 179 8)" }}
                 variant="neutral"
               />
             </>

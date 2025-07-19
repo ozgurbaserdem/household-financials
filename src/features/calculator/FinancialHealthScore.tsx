@@ -67,7 +67,7 @@ export const FinancialHealthScore = ({
     <Box className="space-y-6">
       {/* Section heading, smaller and subtle */}
       <Box className="flex items-center gap-2 mb-2">
-        <HeartPulse className="w-5 h-5 text-muted-foreground" />
+        <HeartPulse className="w-5 h-5 text-blue-600 dark:text-blue-400" />
         <Text className="text-base font-semibold text-foreground">
           {t("title")}
         </Text>
@@ -75,7 +75,7 @@ export const FinancialHealthScore = ({
       {/* Overall Score */}
       <Box className="space-y-2">
         <Box className="flex items-center gap-2">
-          <Text className="text-xs text-muted-foreground">
+          <Text className="text-s text-muted-foreground">
             {t("overall_score")}
           </Text>
           {showTooltips && (
@@ -119,8 +119,8 @@ export const FinancialHealthScore = ({
 
       {/* Metrics */}
       <Box className="space-y-4">
-        <Text className="text-xs text-muted-foreground">{t("metrics")}</Text>
-        <Box className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Text className="text-s text-muted-foreground">{t("metrics")}</Text>
+        <Box className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2">
           <MetricCard
             format={formatDTIRatio}
             showTooltip={showTooltips}
@@ -155,16 +155,16 @@ export const FinancialHealthScore = ({
       {/* Recommendations */}
       {score.recommendations.length > 0 && (
         <Box className="space-y-2">
-          <Text className="text-xs text-muted-foreground">
+          <Text className="text-s text-muted-foreground ">
             {t("recommendations")}
           </Text>
-          <Box className="space-y-2">
+          <Box className="space-y-3 mt-2">
             {score.recommendations.map((recommendation) => (
               <Box
                 key={recommendation}
-                className="flex items-start gap-2 p-3 bg-muted/50 rounded-lg border border-border"
+                className="p-4 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-950/30 dark:to-blue-900/20 rounded-xl border border-blue-200/60 dark:border-blue-800/40 shadow-sm hover:shadow-md transition-all duration-200"
               >
-                <Text className="text-sm text-muted-foreground">
+                <Text className="text-sm text-blue-900 dark:text-blue-100 leading-relaxed">
                   {t(recommendation)}
                 </Text>
               </Box>

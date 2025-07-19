@@ -1,12 +1,10 @@
-import { TrendingUp, Calculator } from "lucide-react";
+import { TrendingUp, Calculator, PieChart } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import React from "react";
 
-import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import { CardContent } from "@/components/ui/Card";
 import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
-import { Card } from "@/components/ui/ModernCard";
+import { StepHeader } from "@/components/ui/StepHeader";
 import { Text } from "@/components/ui/Text";
 import { Forecast } from "@/features/calculator/Forecast";
 import { ResultsTable } from "@/features/calculator/ResultsTable";
@@ -14,7 +12,6 @@ import { ExpenseBreakdown } from "@/features/charts/ExpenseBreakdown";
 import { Link } from "@/i18n/navigation";
 import { calculateLoanScenarios } from "@/lib/calculations";
 import { formatCurrencyNoDecimals } from "@/lib/formatting";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { useAppSelector } from "@/store/hooks";
 
 export const ResultsStep = () => {
@@ -32,8 +29,8 @@ export const ResultsStep = () => {
     totalExpenses,
   };
   const t = useTranslations("results");
+  const tWizard = useTranslations("wizard");
   const locale = useLocale();
-  const isMobile = useIsTouchDevice();
 
   // Calculate loan scenario with current rates
   const loanScenarios = calculateLoanScenarios(calculatorState);
@@ -41,88 +38,120 @@ export const ResultsStep = () => {
   const monthlySavings = scenario ? scenario.remainingSavings : 0;
 
   return (
-    <Box className="space-y-4 md:space-y-6">
-      <ResultsTable calculatorState={calculatorState} />
-      <ExpenseBreakdown expenses={expenses} />
-      <Forecast calculatorState={calculatorState} />
+    <div className="space-y-4 md:space-y-6">
+      {/* Main Results Header with Calculation Results */}
+      <div className="card-base shadow-sm p-4 md:p-6">
+        <StepHeader step="results">
+          <div className="text-sm text-muted-foreground">
+            {tWizard("step_descriptions.results.description")}
+          </div>
+        </StepHeader>
+        <div className="mt-6">
+          <ResultsTable calculatorState={calculatorState} />
+        </div>
+      </div>
+
+      {/* Expense Breakdown Card */}
+      <div className="p-6 card-base shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 rounded-lg bg-red-500/10">
+            <PieChart className="w-6 h-6 text-red-600 dark:text-red-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-foreground">
+            {t("expense_breakdown.title")}
+          </h2>
+        </div>
+        <ExpenseBreakdown expenses={expenses} />
+      </div>
+
+      {/* Loan Forecast Card - Only show if user has loans */}
+      {loanParameters.hasLoan && (
+        <div className="p-6 card-base shadow-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-blue-500/10">
+              <TrendingUp className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            </div>
+            <h2 className="text-2xl font-bold text-foreground">
+              {t("loan_forecast.title")}
+            </h2>
+          </div>
+          <Forecast calculatorState={calculatorState} />
+        </div>
+      )}
 
       {/* Compound Interest CTA */}
       {monthlySavings > 0 && (
-        <div>
-          <Card className="overflow-hidden relative">
-            <CardContent className="relative z-10">
-              <div className="flex flex-col lg:flex-row items-center gap-6">
-                <div className="flex-1 text-center lg:text-left space-y-4">
-                  <div className="flex items-center justify-center lg:justify-start gap-3">
-                    <div className="p-2 rounded-lg bg-muted">
-                      <TrendingUp className="w-6 h-6 text-foreground" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-foreground">
-                      {t("compound_interest_cta.title")}
-                    </h3>
-                  </div>
-                  <div className="space-y-2">
-                    <Text className="text-muted-foreground leading-relaxed">
-                      {t("compound_interest_cta.description", {
-                        savings: formatCurrencyNoDecimals(monthlySavings),
-                      })}
-                    </Text>
-                    <div className="flex items-center justify-center lg:justify-start gap-2 text-sm">
-                      <div className="px-3 py-1 rounded-full bg-muted text-foreground font-medium border border-border">
-                        <CurrencyDisplay
-                          amount={monthlySavings}
-                          className="inline"
-                          showDecimals={false}
-                          variant="positive"
-                        />{" "}
-                        / {locale === "sv" ? "månad" : "month"}
-                      </div>
-                      <span className="text-muted-foreground">→</span>
-                      <div className="px-3 py-1 rounded-full bg-muted text-foreground font-medium border border-border">
-                        {locale === "sv"
-                          ? "Potentiell förmögenhet"
-                          : "Potential wealth"}
-                      </div>
-                    </div>
-                  </div>
+        <div className="p-6 card-base shadow-sm">
+          <div className="flex flex-col lg:flex-row items-center gap-6">
+            <div className="flex-1 text-center lg:text-left space-y-4">
+              <div className="flex items-center justify-center lg:justify-start gap-3">
+                <div className="p-2 rounded-lg bg-green-500/10">
+                  <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
-                <div className="flex-shrink-0">
-                  <Link
-                    href={{
-                      pathname: "/ranta-pa-ranta",
-                      query: { monthlySavings: Math.round(monthlySavings) },
-                    }}
-                  >
-                    <Button
-                      className="group relative overflow-hidden"
-                      size="lg"
-                      variant="default"
-                    >
-                      <span className="relative z-10 flex items-center gap-2 px-2">
-                        <Calculator className="w-5 h-5 transition-transform group-hover:rotate-12" />
-                        {t("compound_interest_cta.button")}
-                        <svg
-                          className="w-4 h-4 transition-transform group-hover:translate-x-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M9 5l7 7-7 7"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                          />
-                        </svg>
-                      </span>
-                    </Button>
-                  </Link>
+                <h3 className="text-2xl font-bold text-foreground">
+                  {t("compound_interest_cta.title")}
+                </h3>
+              </div>
+              <div className="space-y-2">
+                <Text className="text-muted-foreground leading-relaxed">
+                  {t("compound_interest_cta.description", {
+                    savings: formatCurrencyNoDecimals(monthlySavings),
+                  })}
+                </Text>
+                <div className="flex items-center justify-center lg:justify-start gap-2 text-sm">
+                  <div className="px-3 py-1 rounded-full bg-gradient-to-r from-green-50 to-emerald-100/70 dark:from-green-950/40 dark:to-emerald-900/30 text-green-800 dark:text-green-100 font-medium border border-green-200/60 dark:border-green-800/40 shadow-sm">
+                    <CurrencyDisplay
+                      amount={monthlySavings}
+                      className="inline text-green-800 dark:text-green-100"
+                      showDecimals={false}
+                      variant="positive"
+                    />{" "}
+                    / {locale === "sv" ? "månad" : "month"}
+                  </div>
+                  <span className="text-muted-foreground">→</span>
+                  <div className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-50 to-violet-100/70 dark:from-purple-950/40 dark:to-violet-900/30 text-purple-800 dark:text-purple-100 font-medium border border-purple-200/60 dark:border-purple-800/40 shadow-sm">
+                    {locale === "sv"
+                      ? "Potentiell förmögenhet"
+                      : "Potential wealth"}
+                  </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                href={{
+                  pathname: "/ranta-pa-ranta",
+                  query: { monthlySavings: Math.round(monthlySavings) },
+                }}
+              >
+                <Button
+                  className="group relative overflow-hidden"
+                  size="lg"
+                  variant="default"
+                >
+                  <span className="relative z-10 flex items-center gap-2 px-2">
+                    <Calculator className="w-5 h-5 transition-transform group-hover:rotate-12" />
+                    {t("compound_interest_cta.button")}
+                    <svg
+                      className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M9 5l7 7-7 7"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                      />
+                    </svg>
+                  </span>
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       )}
-    </Box>
+    </div>
   );
 };
