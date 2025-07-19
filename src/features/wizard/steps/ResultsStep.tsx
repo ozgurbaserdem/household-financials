@@ -30,7 +30,7 @@ export const ResultsStep = () => {
   };
   const t = useTranslations("results");
   const tWizard = useTranslations("wizard");
-  const tCompoundInterestCta = useTranslations("compound_interest_cta");
+  const tCompoundInterestCta = useTranslations("results.compound_interest_cta");
 
   // Calculate loan scenario with current rates
   const loanScenarios = calculateLoanScenarios(calculatorState);
