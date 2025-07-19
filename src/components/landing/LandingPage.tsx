@@ -73,26 +73,31 @@ export const LandingPage = () => {
       icon: Wallet,
       title: t("steps.income.title"),
       description: t("steps.income.description"),
+      colorClass: "text-green-500 dark:text-green-400",
     },
     {
       icon: HandCoins,
       title: t("steps.loans.title"),
       description: t("steps.loans.description"),
+      colorClass: "text-yellow-500 dark:text-yellow-400",
     },
     {
       icon: List,
       title: t("steps.expenses.title"),
       description: t("steps.expenses.description"),
+      colorClass: "text-red-500 dark:text-red-400",
     },
     {
       icon: ListChecks,
       title: t("steps.summary.title"),
       description: t("steps.summary.description"),
+      colorClass: "text-purple-500 dark:text-purple-400",
     },
     {
       icon: BarChart3,
       title: t("steps.results.title"),
       description: t("steps.results.description"),
+      colorClass: "text-blue-500 dark:text-blue-400",
     },
   ];
 
@@ -178,7 +183,7 @@ export const LandingPage = () => {
                   className="flex flex-col items-center text-center"
                 >
                   <div className="w-16 h-16 rounded-full bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm flex items-center justify-center mb-4">
-                    <step.icon className="w-8 h-8 text-foreground" />
+                    <step.icon className={`w-8 h-8 ${step.colorClass}`} />
                   </div>
                   <div className="w-8 h-8 rounded-full bg-foreground text-background text-sm font-semibold flex items-center justify-center mb-4">
                     {index + 1}

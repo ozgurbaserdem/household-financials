@@ -17,21 +17,21 @@ export const CalculatorPreviews = () => {
   const previews = [
     {
       id: "budget-wizard",
-      src: "/screenshots/budget-wizard.png",
+      src: "/screenshots/budget-wizard2.png",
       alt: t("previews.budget_wizard_alt"),
       title: t("previews.budget_wizard_title"),
       description: t("previews.budget_wizard_description"),
     },
     {
       id: "budget-results",
-      src: "/screenshots/budget-results.png",
+      src: "/screenshots/budget-results2.png",
       alt: t("previews.budget_results_alt"),
       title: t("previews.budget_results_title"),
       description: t("previews.budget_results_description"),
     },
     {
       id: "compound-interest",
-      src: "/screenshots/compound-interest.png",
+      src: "/screenshots/compound-interest2.png",
       alt: t("previews.compound_interest_alt"),
       title: t("previews.compound_interest_title"),
       description: t("previews.compound_interest_description"),
@@ -128,10 +128,10 @@ export const CalculatorPreviews = () => {
                 priority
                 alt="Full size preview"
                 className="w-full h-full object-contain"
-                height={1600}
+                height={2000}
                 quality={100}
                 src={selectedImage}
-                width={2400}
+                width={2800}
               />
             )}
           </div>
