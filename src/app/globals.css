@@ -294,11 +294,13 @@ body {
 .card-interactive:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  background-color: rgb(var(--muted));
 }
 
 .dark .card-interactive:hover {
   box-shadow: none;
   border-color: rgb(var(--muted-foreground));
+  background-color: rgb(var(--muted-foreground) / 0.1);
 }
 
 /* Button base styles */

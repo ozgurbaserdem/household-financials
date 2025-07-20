@@ -247,6 +247,7 @@ export const LandingPage = () => {
             <div>
               <Card
                 className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                variant="interactive"
                 onClick={() => router.push("/ranta-pa-ranta")}
               >
                 <CardHeader>
@@ -272,6 +273,7 @@ export const LandingPage = () => {
             <div>
               <Card
                 className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                variant="interactive"
                 onClick={() => router.push("/hushallsbudget")}
               >
                 <CardHeader>
