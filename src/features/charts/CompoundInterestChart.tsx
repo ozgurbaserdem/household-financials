@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { ChartColumnIncreasing } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 import type { TooltipProps } from "recharts";
@@ -51,51 +51,53 @@ export const CompoundInterestChart = ({
       const data = payload[0].payload;
 
       return (
-        <div className="bg-gray-800/30 backdrop-blur-md p-4 rounded-lg border border-gray-600 shadow-lg space-y-2">
-          <p className="text-white font-medium">
+        <div className="bg-gray-200/60 dark:bg-gray-800/60 border border-gray-200/50 dark:border-gray-700/50 shadow-lg rounded-lg p-4 space-y-2">
+          <p className="text-foreground font-medium">
             {t("tooltip.year", { year: label || data.year })}
             {data.userAge && (
-              <span className="text-gray-300 text-sm ml-2">
+              <span className="text-muted-foreground text-sm ml-2">
                 (Ålder: {data.userAge} år)
               </span>
             )}
           </p>
           <div className="space-y-1 text-sm">
             <div className="flex justify-between items-center gap-4">
-              <span className="text-gray-300">{t("tooltip.start_sum")}:</span>
-              <span className="text-blue-400 font-medium">
+              <span className="text-muted-foreground">
+                {t("tooltip.start_sum")}:
+              </span>
+              <span className="text-blue-600 dark:text-blue-400 font-medium">
                 {formatCurrencyNoDecimals(data.startSum)}
               </span>
             </div>
             <div className="flex justify-between items-center gap-4">
-              <span className="text-gray-300">
+              <span className="text-muted-foreground">
                 {t("tooltip.accumulated_savings")}:
               </span>
-              <span className="text-green-400 font-medium">
+              <span className="text-green-600 dark:text-green-400 font-medium">
                 {formatCurrencyNoDecimals(data.accumulatedSavings)}
               </span>
             </div>
             <div className="flex justify-between items-center gap-4">
-              <span className="text-gray-300">
+              <span className="text-muted-foreground">
                 {t("tooltip.compound_returns")}:
               </span>
-              <span className="text-purple-400 font-medium">
+              <span className="text-purple-600 dark:text-purple-400 font-medium">
                 {formatCurrencyNoDecimals(data.compoundReturns)}
               </span>
             </div>
             {data.withdrawal && data.withdrawal > 0 && (
               <div className="flex justify-between items-center gap-4">
-                <span className="text-gray-300">Uttag:</span>
-                <span className="text-red-400 font-medium">
+                <span className="text-muted-foreground">Uttag:</span>
+                <span className="text-red-600 dark:text-red-400 font-medium">
                   -{formatCurrencyNoDecimals(data.withdrawal)}
                 </span>
               </div>
             )}
             {data.currentMonthlySavings !== undefined && (
               <div className="flex justify-between items-center gap-4">
-                <span className="text-gray-300">Månadssparande:</span>
+                <span className="text-muted-foreground">Månadssparande:</span>
                 <span
-                  className={`font-medium ${data.currentMonthlySavings === 0 ? "text-red-400" : "text-gray-400"}`}
+                  className={`font-medium ${data.currentMonthlySavings === 0 ? "text-red-600 dark:text-red-400" : "text-muted-foreground"}`}
                 >
                   {data.currentMonthlySavings === 0
                     ? "Inga nya sparanden (uttag pågår)"
@@ -103,12 +105,12 @@ export const CompoundInterestChart = ({
                 </span>
               </div>
             )}
-            <div className="border-t border-gray-600 pt-1 mt-2">
+            <div className="border-t border-gray-200/50 dark:border-gray-700/50 pt-1 mt-2">
               <div className="flex justify-between items-center gap-4">
-                <span className="text-white font-medium">
+                <span className="text-foreground font-medium">
                   {t("tooltip.total_value")}:
                 </span>
-                <span className="text-white font-bold">
+                <span className="text-foreground font-bold">
                   {formatCurrencyNoDecimals(data.totalValue)}
                 </span>
               </div>
@@ -148,13 +150,14 @@ export const CompoundInterestChart = ({
       delay={0.3}
       description={t("chart.description")}
       height={400}
-      icon={TrendingUp}
+      icon={ChartColumnIncreasing}
       iconColor="text-purple-400"
       legend={<ChartLegend items={legendItems} />}
       testId="compound-interest-chart"
       title={t("chart.title")}
     >
       <BarChart
+        barCategoryGap={4}
         data={data}
         margin={{
           top: 20,
@@ -212,12 +215,13 @@ export const CompoundInterestChart = ({
           radius={[4, 4, 0, 0]}
           stackId="portfolio"
         />
-        {/* Single bar for withdrawal phase - overlays the stacked bars */}
+        {/* Single bar for withdrawal phase - uses same stackId for consistent spacing */}
         <Bar
           dataKey="withdrawalPhaseValue"
           fill={chartColors.red}
           name="Portföljvärde"
           radius={[4, 4, 0, 0]}
+          stackId="portfolio"
         />
 
         {/* Reference line for withdrawal year */}

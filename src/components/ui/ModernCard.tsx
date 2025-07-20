@@ -49,7 +49,7 @@ const ModernCard = React.forwardRef<HTMLDivElement, ModernCardProps>(
             className={cn(
               "relative z-10 flex flex-col gap-4 md:gap-6 rounded-2xl p-4 md:p-4",
               !glass &&
-                "bg-gray-900/80 backdrop-blur-xl border border-gray-800/50",
+                "bg-background/80 backdrop-blur-xl border border-border/50",
               "shadow-xl"
             )}
           >
@@ -75,7 +75,7 @@ const ModernCard = React.forwardRef<HTMLDivElement, ModernCardProps>(
           className={cn(
             "relative z-10 flex flex-col gap-4 md:gap-6 rounded-2xl p-4 md:p-4",
             !glass &&
-              "bg-gray-900/80 backdrop-blur-xl border border-gray-800/50",
+              "bg-background/80 backdrop-blur-xl border border-border/50",
             "shadow-xl"
           )}
         >
@@ -112,10 +112,7 @@ const CardTitle = React.forwardRef<
   return (
     <h3
       ref={ref}
-      className={cn(
-        "text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent",
-        className
-      )}
+      className={cn("text-2xl font-bold text-foreground", className)}
       {...props}
     />
   );
@@ -128,11 +125,7 @@ const CardIcon = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
     return (
       <Box
         ref={ref}
-        className={cn(
-          "p-2 rounded-xl bg-gradient-to-br from-blue-600/20 to-purple-600/20",
-          "border border-blue-500/20 backdrop-blur-xl",
-          className
-        )}
+        className={cn("p-3 rounded-lg bg-primary/10", className)}
         {...props}
       >
         {children}

@@ -9,7 +9,8 @@ import { store, persistor } from "@/store";
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     /* Disable until we have solved the issue with Light Theme then switch back to this <ThemeProvider attribute="class" defaultTheme="system" enableSystem>*/
-    <ThemeProvider attribute="class" enableSystem={false} forcedTheme="dark">
+    <ThemeProvider enableSystem attribute="class" defaultTheme="system">
+      {" "}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           {children}

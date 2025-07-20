@@ -67,15 +67,15 @@ export const FinancialHealthScore = ({
     <Box className="space-y-6">
       {/* Section heading, smaller and subtle */}
       <Box className="flex items-center gap-2 mb-2">
-        <HeartPulse className="w-5 h-5 text-blue-500 dark:text-blue-400" />
-        <Text className="text-base font-semibold text-gray-700 dark:text-gray-200">
+        <HeartPulse className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+        <Text className="text-base font-semibold text-foreground">
           {t("title")}
         </Text>
       </Box>
       {/* Overall Score */}
       <Box className="space-y-2">
         <Box className="flex items-center gap-2">
-          <Text className="text-xs text-gray-600 dark:text-gray-300">
+          <Text className="text-s text-muted-foreground">
             {t("overall_score")}
           </Text>
           {showTooltips && (
@@ -83,11 +83,11 @@ export const FinancialHealthScore = ({
               <TooltipTrigger asChild>
                 <button
                   aria-label={`Info: ${t("overall_score")}`}
-                  className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-blue-500 transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
+                  className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-accent transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
                   tabIndex={0}
                   type="button"
                 >
-                  <Info className="w-4 h-4 text-gray-300" />
+                  <Info className="w-4 h-4 text-muted-foreground" />
                 </button>
               </TooltipTrigger>
               <TooltipContent
@@ -119,10 +119,8 @@ export const FinancialHealthScore = ({
 
       {/* Metrics */}
       <Box className="space-y-4">
-        <Text className="text-xs text-gray-600 dark:text-gray-300">
-          {t("metrics")}
-        </Text>
-        <Box className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Text className="text-s text-muted-foreground">{t("metrics")}</Text>
+        <Box className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2">
           <MetricCard
             format={formatDTIRatio}
             showTooltip={showTooltips}
@@ -157,16 +155,16 @@ export const FinancialHealthScore = ({
       {/* Recommendations */}
       {score.recommendations.length > 0 && (
         <Box className="space-y-2">
-          <Text className="text-xs text-gray-600 dark:text-gray-300">
+          <Text className="text-s text-muted-foreground ">
             {t("recommendations")}
           </Text>
-          <Box className="space-y-2">
+          <Box className="space-y-3 mt-2">
             {score.recommendations.map((recommendation) => (
               <Box
                 key={recommendation}
-                className="flex items-start gap-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg"
+                className="p-4 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-950/30 dark:to-blue-900/20 rounded-xl border border-blue-200/60 dark:border-blue-800/40 shadow-sm hover:shadow-md transition-all duration-200"
               >
-                <Text className="text-sm text-blue-600 dark:text-blue-400">
+                <Text className="text-sm text-blue-900 dark:text-blue-100 leading-relaxed">
                   {t(recommendation)}
                 </Text>
               </Box>
@@ -215,9 +213,7 @@ const MetricCard = ({
   return (
     <Box className="p-0 bg-transparent rounded-none">
       <Box className="flex items-center gap-2 mb-1">
-        <Text className="text-sm text-gray-600 dark:text-gray-300">
-          {title}
-        </Text>
+        <Text className="text-sm text-muted-foreground">{title}</Text>
         {showTooltip && (
           <Tooltip
             delayDuration={100}
@@ -227,7 +223,7 @@ const MetricCard = ({
             <TooltipTrigger asChild>
               <button
                 aria-label={`Info: ${title}`}
-                className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-blue-500 transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
+                className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-accent transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
                 tabIndex={0}
                 type="button"
                 onClick={
@@ -239,7 +235,7 @@ const MetricCard = ({
                     : undefined
                 }
               >
-                <Info className="w-4 h-4 text-gray-300" />
+                <Info className="w-4 h-4 text-muted-foreground" />
               </button>
             </TooltipTrigger>
             <TooltipContent

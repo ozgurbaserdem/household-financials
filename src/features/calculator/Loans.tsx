@@ -1,8 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
-import { Calendar, HandCoins, Percent } from "lucide-react";
+import { Calendar, Percent } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -10,7 +9,6 @@ import * as z from "zod";
 
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import { CardContent } from "@/components/ui/Card";
 import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import {
   Form,
@@ -21,15 +19,9 @@ import {
   FormMessage as BaseFormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
-import {
-  Card,
-  CardHeader,
-  CardIcon,
-  CardTitle,
-} from "@/components/ui/ModernCard";
+import { SliderInput } from "@/components/ui/SliderInput";
+import { StepHeader } from "@/components/ui/StepHeader";
 import { Text } from "@/components/ui/Text";
-import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 
 const formSchema = z
   .object({
@@ -79,10 +71,6 @@ interface LoansFormProps {
 export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
   const [isUserToggling, setIsUserToggling] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [editingField, setEditingField] = useState<
-    "interestRate" | "amortizationRate" | null
-  >(null);
-  const [temporaryValue, setTemporaryValue] = useState<string>("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -96,8 +84,6 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
   });
 
   const t = useTranslations("loan_parameters");
-  const titleReference = useFocusOnMount();
-  const isMobile = useIsTouchDevice();
 
   useEffect(() => {
     // Initialize the form once with props values
@@ -176,92 +162,31 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
 
   const monthlyPayment = calculateMonthlyPayment();
 
-  // Handle input field editing
-  const handleEditStart = (field: "interestRate" | "amortizationRate") => {
-    setEditingField(field);
-    const currentValue =
-      field === "interestRate" ? interestRate : amortizationRate;
-    setTemporaryValue(currentValue.toString());
-  };
-
-  const handleEditEnd = (field: "interestRate" | "amortizationRate") => {
-    const numValue = parseFloat(temporaryValue.replace(/[^\d.-]/g, ""));
-    if (!Number.isNaN(numValue)) {
-      if (field === "interestRate" && numValue > 0 && numValue <= 20) {
-        form.setValue("interestRate", numValue);
-        handleFieldChange();
-      } else if (
-        field === "amortizationRate" &&
-        numValue > 0 &&
-        numValue <= 10
-      ) {
-        form.setValue("amortizationRate", numValue);
-        handleFieldChange();
-      }
-    }
-    setEditingField(null);
-    setTemporaryValue("");
-  };
-
-  const handleKeyDown = (
-    e: React.KeyboardEvent,
-    field: "interestRate" | "amortizationRate"
-  ) => {
-    if (e.key === "Enter") {
-      handleEditEnd(field);
-    } else if (e.key === "Escape") {
-      setEditingField(null);
-      setTemporaryValue("");
-    }
-  };
-
   return (
-    <Card glass gradient animate={!isMobile} delay={0.1} hover={false}>
-      <CardHeader>
-        <CardIcon>
-          <HandCoins className="w-6 h-6 text-orange-400" />
-        </CardIcon>
-        <Box className="flex-1">
-          <CardTitle
-            ref={titleReference}
-            aria-label={t("title_aria")}
-            className="focus:outline-none"
-            tabIndex={0}
-          >
-            {t("title")}
-          </CardTitle>
-          <motion.p
-            animate={{ opacity: 1 }}
-            className="text-sm text-gray-300 mt-1"
-            initial={{ opacity: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            {hasLoan && monthlyPayment > 0 ? (
-              <>
-                {t("estimated_monthly_payment")}:{" "}
-                <CurrencyDisplay
-                  amount={monthlyPayment}
-                  className="text-orange-400 font-semibold"
-                  showDecimals={false}
-                  variant="neutral"
-                />
-              </>
-            ) : (
-              t("no_loan", { count: Number.parseInt(numberOfAdults) })
-            )}
-          </motion.p>
-        </Box>
-      </CardHeader>
+    <div>
+      <StepHeader step="loans">
+        <div className="text-sm text-muted-foreground">
+          {hasLoan && monthlyPayment > 0 ? (
+            <>
+              {t("estimated_monthly_payment")}:{" "}
+              <CurrencyDisplay
+                amount={monthlyPayment}
+                className="text-foreground font-semibold"
+                showDecimals={false}
+                variant="warning"
+              />
+            </>
+          ) : (
+            t("no_loan", { count: Number.parseInt(numberOfAdults) })
+          )}
+        </div>
+      </StepHeader>
 
-      <CardContent className="pb-6">
+      <div>
         <Form {...form}>
           <form className="space-y-4" data-testid="loan-form">
             {/* Has Loan Toggle */}
-            <motion.div
-              animate={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 20 }}
-              transition={{ delay: 0.15 }}
-            >
+            <div>
               <FormField
                 control={form.control}
                 name="hasLoan"
@@ -306,15 +231,11 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                   </FormItem>
                 )}
               />
-            </motion.div>
+            </div>
 
             {hasLoan && (
               <>
-                <motion.div
-                  animate={{ opacity: 1, y: 0 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  transition={{ delay: 0.2 }}
-                >
+                <div>
                   <FormField
                     control={form.control}
                     name="loanAmount"
@@ -344,79 +265,33 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                       </FormItem>
                     )}
                   />
-                </motion.div>
+                </div>
 
-                <motion.div
-                  animate={{ opacity: 1, y: 0 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  transition={{ delay: 0.3 }}
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="interestRate"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="flex items-center gap-2">
-                          <Percent className="w-4 h-4 text-blue-400" />
+                          <Percent className="w-4 h-4 text-foreground" />
                           {t("interest_rate")}
                         </FormLabel>
                         <FormControl>
-                          <div className="space-y-3">
-                            <div className="relative flex items-center gap-4">
-                              <input
-                                aria-label={t("interest_rate_aria")}
-                                className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
-                                max={20}
-                                min={0.05}
-                                step={0.05}
-                                style={{
-                                  background: `linear-gradient(to right, 
-                                    rgb(59 130 246) 0%, 
-                                    rgb(147 51 234) ${(((field.value || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
-                                    rgb(55 65 81) ${(((field.value || 3.5) - 0.01) / (20 - 0.01)) * 100}%, 
-                                    rgb(55 65 81) 100%)`,
-                                }}
-                                type="range"
-                                value={field.value || 3.5}
-                                onChange={(e) => {
-                                  const value = Number(e.target.value);
-                                  field.onChange(value);
-                                  handleFieldChange();
-                                }}
-                              />
-                              <div className="flex-shrink-0">
-                                {editingField === "interestRate" ? (
-                                  <input
-                                    autoFocus
-                                    className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                                    type="text"
-                                    value={temporaryValue}
-                                    onBlur={() => handleEditEnd("interestRate")}
-                                    onChange={(e) =>
-                                      setTemporaryValue(e.target.value)
-                                    }
-                                    onKeyDown={(e) =>
-                                      handleKeyDown(e, "interestRate")
-                                    }
-                                  />
-                                ) : (
-                                  <button
-                                    className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
-                                    onClick={() =>
-                                      handleEditStart("interestRate")
-                                    }
-                                  >
-                                    <Text className="text-sm font-semibold text-white">
-                                      {(field.value || 3.5).toFixed(2)}%
-                                    </Text>
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-                          </div>
+                          <SliderInput
+                            ariaLabel={t("interest_rate_aria")}
+                            max={20}
+                            min={0.05}
+                            step={0.05}
+                            suffix="%"
+                            value={field.value || 3.5}
+                            onChange={(value) => {
+                              field.onChange(value);
+                              handleFieldChange();
+                            }}
+                          />
                         </FormControl>
-                        <Text className="text-xs text-gray-400 mt-1">
+                        <Text className="text-xs text-muted-foreground mt-1">
                           {t("interest_rate_help")}
                         </Text>
                         <BaseFormMessage />
@@ -430,92 +305,45 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-purple-400" />
+                          <Calendar className="w-4 h-4 text-foreground" />
                           {t("amortization_rate")}
                         </FormLabel>
                         <FormControl>
-                          <div className="space-y-3">
-                            <div className="relative flex items-center gap-4">
-                              <input
-                                aria-label={t("amortization_rate_aria")}
-                                className="flex-1 h-2 bg-gray-700/50 rounded-lg appearance-none cursor-pointer slider-custom"
-                                max={10}
-                                min={0.05}
-                                step={0.05}
-                                style={{
-                                  background: `linear-gradient(to right, 
-                                    rgb(59 130 246) 0%, 
-                                    rgb(147 51 234) ${(((field.value || 2) - 0.01) / (10 - 0.01)) * 100}%, 
-                                    rgb(55 65 81) ${(((field.value || 2) - 0.01) / (10 - 0.01)) * 100}%, 
-                                    rgb(55 65 81) 100%)`,
-                                }}
-                                type="range"
-                                value={field.value || 2}
-                                onChange={(e) => {
-                                  const value = Number(e.target.value);
-                                  field.onChange(value);
-                                  handleFieldChange();
-                                }}
-                              />
-                              <div className="flex-shrink-0">
-                                {editingField === "amortizationRate" ? (
-                                  <input
-                                    autoFocus
-                                    className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-blue-400 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-blue-400/50"
-                                    type="text"
-                                    value={temporaryValue}
-                                    onBlur={() =>
-                                      handleEditEnd("amortizationRate")
-                                    }
-                                    onChange={(e) =>
-                                      setTemporaryValue(e.target.value)
-                                    }
-                                    onKeyDown={(e) =>
-                                      handleKeyDown(e, "amortizationRate")
-                                    }
-                                  />
-                                ) : (
-                                  <button
-                                    className="glass px-2 py-1 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-blue-400/50 transition-all duration-200 hover:bg-gray-900/90 w-20 text-center cursor-text"
-                                    onClick={() =>
-                                      handleEditStart("amortizationRate")
-                                    }
-                                  >
-                                    <Text className="text-sm font-semibold text-white">
-                                      {(field.value || 2).toFixed(2)}%
-                                    </Text>
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-                          </div>
+                          <SliderInput
+                            ariaLabel={t("amortization_rate_aria")}
+                            max={10}
+                            min={0.05}
+                            step={0.05}
+                            suffix="%"
+                            value={field.value || 2}
+                            onChange={(value) => {
+                              field.onChange(value);
+                              handleFieldChange();
+                            }}
+                          />
                         </FormControl>
-                        <Text className="text-xs text-gray-400 mt-1">
+                        <Text className="text-xs text-muted-foreground mt-1">
                           {t("amortization_rate_help")}
                         </Text>
                         <BaseFormMessage />
                       </FormItem>
                     )}
                   />
-                </motion.div>
+                </div>
               </>
             )}
 
             {/* Show any form-level validation errors */}
             {form.formState.errors.root && (
-              <motion.div
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4"
-                initial={{ opacity: 0, y: 10 }}
-              >
-                <BaseFormMessage className="text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+              <div className="mt-4">
+                <BaseFormMessage className="text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
                   {form.formState.errors.root.message}
                 </BaseFormMessage>
-              </motion.div>
+              </div>
             )}
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

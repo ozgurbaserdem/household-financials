@@ -24,23 +24,17 @@ const ChartContainer = ({
   title,
   description,
   icon,
-  iconColor = "text-purple-400",
   height = 400,
   children,
   legend,
   testId,
   ariaLabel,
-  delay = 0.3,
-  animate = true,
 }: ChartContainerProps) => {
   return (
     <FinancialCard
-      animate={animate}
       ariaLabel={ariaLabel}
-      delay={delay}
       description={description}
       icon={icon}
-      iconColor={iconColor}
       title={title}
     >
       <div className={`h-[${height}px] w-full`} data-testid={testId}>
@@ -50,7 +44,9 @@ const ChartContainer = ({
       </div>
 
       {legend && (
-        <Box className="mt-4 pt-4 border-t border-gray-700">{legend}</Box>
+        <Box className="mt-6 border-t border-gray-200/50 dark:border-gray-700/50 pt-6">
+          {legend}
+        </Box>
       )}
     </FinancialCard>
   );
@@ -73,7 +69,7 @@ const ChartLegend = ({ items, className }: ChartLegendProps) => {
             className="w-4 h-4 rounded"
             style={{ backgroundColor: item.color }}
           />
-          <Text className="text-sm text-gray-300">{item.label}</Text>
+          <Text className="text-sm text-foreground">{item.label}</Text>
         </div>
       ))}
     </Box>

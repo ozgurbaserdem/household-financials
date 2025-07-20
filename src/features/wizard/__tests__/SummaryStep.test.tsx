@@ -136,10 +136,6 @@ describe("SummaryStep", () => {
 
     // Click on the loans section to expand it
     const loansSection = screen.getByText("loansTitle");
-    const loansSectionContainer = loansSection.closest(".glass");
-    expect(loansSectionContainer).toBeTruthy();
-
-    // Click the accordion trigger to expand
     const accordionTrigger = loansSection.closest("button");
     expect(accordionTrigger).toBeTruthy();
     if (accordionTrigger) {
@@ -222,10 +218,6 @@ describe("SummaryStep", () => {
 
     // Click on the loans section to expand it
     const loansSection = screen.getByText("loansTitle");
-    const loansSectionContainer = loansSection.closest(".glass");
-    expect(loansSectionContainer).toBeTruthy();
-
-    // Click the accordion trigger to expand
     const accordionTrigger = loansSection.closest("button");
     expect(accordionTrigger).toBeTruthy();
     if (accordionTrigger) {
@@ -346,10 +338,6 @@ describe("SummaryStep", () => {
 
     // Click on the income section to expand it
     const incomeSection = screen.getByText("incomeTitle");
-    const incomeSectionContainer = incomeSection.closest(".glass");
-    expect(incomeSectionContainer).toBeTruthy();
-
-    // Click the accordion trigger to expand
     const accordionTrigger = incomeSection.closest("button");
     expect(accordionTrigger).toBeTruthy();
     if (accordionTrigger) {
@@ -398,10 +386,6 @@ describe("SummaryStep", () => {
 
     // Click on the income section header to expand it
     const incomeSection = screen.getByText("incomeTitle");
-    const incomeSectionContainer = incomeSection.closest(".glass");
-    expect(incomeSectionContainer).toBeTruthy();
-
-    // Click the accordion trigger to expand
     const accordionTrigger = incomeSection.closest("button");
     expect(accordionTrigger).toBeTruthy();
     if (accordionTrigger) {

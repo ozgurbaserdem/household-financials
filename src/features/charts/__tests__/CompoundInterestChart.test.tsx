@@ -539,7 +539,7 @@ describe("CompoundInterestChart", () => {
       render(<CompoundInterestChart data={mockData} />);
 
       // Chart title should have accessibility attributes
-      const chartTitle = screen.getByRole("heading", { level: 3 });
+      const chartTitle = screen.getByLabelText("chart.aria_title");
       expect(chartTitle).toHaveAttribute("tabindex", "0");
       expect(chartTitle).toHaveAttribute("aria-label", "chart.aria_title");
     });

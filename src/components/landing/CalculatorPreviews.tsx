@@ -17,21 +17,21 @@ export const CalculatorPreviews = () => {
   const previews = [
     {
       id: "budget-wizard",
-      src: "/screenshots/budget-wizard.png",
+      src: "/screenshots/budget-wizard2.png",
       alt: t("previews.budget_wizard_alt"),
       title: t("previews.budget_wizard_title"),
       description: t("previews.budget_wizard_description"),
     },
     {
       id: "budget-results",
-      src: "/screenshots/budget-results.png",
+      src: "/screenshots/budget-results2.png",
       alt: t("previews.budget_results_alt"),
       title: t("previews.budget_results_title"),
       description: t("previews.budget_results_description"),
     },
     {
       id: "compound-interest",
-      src: "/screenshots/compound-interest.png",
+      src: "/screenshots/compound-interest2.png",
       alt: t("previews.compound_interest_alt"),
       title: t("previews.compound_interest_title"),
       description: t("previews.compound_interest_description"),
@@ -53,10 +53,10 @@ export const CalculatorPreviews = () => {
         viewport={{ once: true }}
         whileInView={{ opacity: 1, y: 0 }}
       >
-        <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+        <h2 className="heading-2 text-gradient-subtle mb-6">
           {t("previews.title")}
         </h2>
-        <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
           {t("previews.subtitle")}
         </p>
       </motion.div>
@@ -71,17 +71,14 @@ export const CalculatorPreviews = () => {
             whileInView={{ opacity: 1, y: 0 }}
           >
             <Card
-              className="overflow-hidden group h-full cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 transition-shadow duration-500 flex flex-col"
-              hover="glow"
-              variant="modern"
+              className="overflow-hidden h-full cursor-pointer flex flex-col"
+              variant="elevated"
             >
               <Box className="p-6 space-y-4 flex-shrink-0">
-                <h3 className="text-xl font-semibold text-white group-hover:text-blue-300 transition-colors">
+                <h3 className="text-xl font-semibold text-foreground">
                   {preview.title}
                 </h3>
-                <p className="text-gray-400 line-clamp-2">
-                  {preview.description}
-                </p>
+                <p className="text-muted-foreground">{preview.description}</p>
               </Box>
 
               <Box
@@ -92,7 +89,7 @@ export const CalculatorPreviews = () => {
                   fill
                   alt={preview.alt}
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                  className="object-contain object-center group-hover:scale-110 transition-transform duration-700 ease-out bg-gray-950"
+                  className="object-contain object-center bg-gray-950"
                   placeholder="blur"
                   quality={100}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -100,14 +97,14 @@ export const CalculatorPreviews = () => {
                 />
 
                 {/* Magnifying glass icon overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gray-900/60">
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-gray-900/60">
                   <div className="bg-white/10 backdrop-blur-sm rounded-full p-4">
                     <MagnifyingGlassIcon className="w-8 h-8 text-white" />
                   </div>
                 </div>
 
                 {/* Click hint */}
-                <div className="absolute bottom-2 right-2 bg-gray-900/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-2 right-2 bg-gray-900/80 text-white text-xs px-2 py-1 rounded opacity-0 hover:opacity-100 transition-opacity duration-300">
                   {t("previews.click_to_enlarge")}
                 </div>
               </Box>
@@ -131,10 +128,10 @@ export const CalculatorPreviews = () => {
                 priority
                 alt="Full size preview"
                 className="w-full h-full object-contain"
-                height={1600}
+                height={2000}
                 quality={100}
                 src={selectedImage}
-                width={2400}
+                width={2800}
               />
             )}
           </div>
