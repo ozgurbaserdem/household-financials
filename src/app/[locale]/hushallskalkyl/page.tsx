@@ -91,21 +91,16 @@ const HushallskalkylPage = async ({ params }: Props) => {
           <div className="grid gap-4">
             {t
               .raw("page.faq")
-              .map(
-                (
-                  faqItem: { question: string; answer: string },
-                  index: number
-                ) => (
-                  <Card key={index} variant="elevated">
-                    <CardContent>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">
-                        {faqItem.question}
-                      </h3>
-                      <p className="text-muted-foreground">{faqItem.answer}</p>
-                    </CardContent>
-                  </Card>
-                )
-              )}
+              .map((faqItem: { question: string; answer: string }) => (
+                <Card key={faqItem.question.slice(0, 20)} variant="elevated">
+                  <CardContent>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">
+                      {faqItem.question}
+                    </h3>
+                    <p className="text-muted-foreground">{faqItem.answer}</p>
+                  </CardContent>
+                </Card>
+              ))}
           </div>
         </section>
       </Box>

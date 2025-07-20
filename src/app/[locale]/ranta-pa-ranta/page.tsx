@@ -217,22 +217,22 @@ const RantaPaRantaPage = async ({ params }: Props) => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[
-                  t("tips_section.tip1"),
-                  t("tips_section.tip2"),
-                  t("tips_section.tip3"),
-                  t("tips_section.tip4"),
-                  t("tips_section.tip5"),
-                  t("tips_section.tip6"),
+                  { key: "tip1", content: t("tips_section.tip1") },
+                  { key: "tip2", content: t("tips_section.tip2") },
+                  { key: "tip3", content: t("tips_section.tip3") },
+                  { key: "tip4", content: t("tips_section.tip4") },
+                  { key: "tip5", content: t("tips_section.tip5") },
+                  { key: "tip6", content: t("tips_section.tip6") },
                 ].map((tip, tipIndex) => (
                   <div
-                    key={tipIndex}
+                    key={tip.key}
                     className="flex items-center gap-4 p-6 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
                   >
                     <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-medium flex-shrink-0">
                       {tipIndex + 1}
                     </div>
                     <Text className="text-muted-foreground text-sm leading-relaxed">
-                      {tip}
+                      {tip.content}
                     </Text>
                   </div>
                 ))}
