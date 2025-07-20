@@ -67,7 +67,7 @@ vi.mock("@/lib/utils/navigation", () => ({
       Income: "inkomst",
       Loans: "lan",
       Expenses: "utgifter",
-      Summary: "sammanfattning",
+      Summary: "summering",
       Results: "resultat",
     };
     return mapping[step.label] || step.label.toLowerCase();
@@ -78,7 +78,7 @@ vi.mock("@/lib/utils/navigation", () => ({
         inkomst: "Income",
         lan: "Loans",
         utgifter: "Expenses",
-        sammanfattning: "Summary",
+        summering: "Summary",
         resultat: "Results",
       };
       const label = nameToLabel[name];

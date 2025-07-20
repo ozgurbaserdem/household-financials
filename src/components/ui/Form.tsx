@@ -95,7 +95,7 @@ const FormLabel = ({
   return (
     <Label
       className={cn(
-        "text-muted-foreground text-gray-600 dark:text-gray-300 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+        "text-foreground font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
         className
       )}
       data-error={!!error}
@@ -133,10 +133,7 @@ const FormDescription = ({
 
   return (
     <p
-      className={cn(
-        "text-muted-foreground dark:text-gray-400 text-sm",
-        className
-      )}
+      className={cn("text-muted-foreground text-sm", className)}
       data-slot="form-description"
       id={formDescriptionId}
       {...props}

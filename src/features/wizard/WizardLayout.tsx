@@ -265,7 +265,10 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
             steps={steps}
             onStepClick={handleStepClick}
           />
-          <Box className="mt-4 md:mt-6 relative overflow-hidden">
+          {/* Step content area with card wrapper */}
+          <Box
+            className={`mt-4 md:mt-6 relative overflow-hidden ${stepIndex === 4 ? "" : "card-base shadow-sm p-4 md:p-6"}`}
+          >
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={stepIndex}
@@ -325,7 +328,7 @@ export const WizardLayout = ({ steps }: WizardLayoutProps) => {
                 </Button>
               )}
               {stepIndex < steps.length - 1 && (
-                <Button variant="gradient" onClick={goNext}>
+                <Button variant="default" onClick={goNext}>
                   {t("next")}
                   <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>

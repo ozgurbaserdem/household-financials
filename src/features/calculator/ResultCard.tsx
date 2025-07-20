@@ -64,14 +64,10 @@ const ResultCard = ({
     if (typeof rawValue !== "number" || Number.isNaN(rawValue))
       return cell.render(result);
     if (showAnimation) {
+      // No style prop, so just render
       return (
         <AnimatedScramble
-          className={cn(
-            cell.key === "remaining_savings" && {
-              "text-green-400": result.remainingSavings >= 0,
-              "text-red-400": result.remainingSavings < 0,
-            }
-          )}
+          className=""
           format={cell.format}
           maxDuration={0.3}
           smoothMode={true}
@@ -82,12 +78,18 @@ const ResultCard = ({
     return cell.format(rawValue);
   };
 
+  // Use function expression for linter compliance
+  const getRemainingSavingsColor = (remaining: number) => {
+    if (remaining >= 0) return { color: "rgb(34 197 94)" };
+    return { color: "rgb(239 68 68)" };
+  };
+
   return (
-    <Box
+    <div
       className={cn(
         "transition-all duration-300",
-        isBest && "border-l-4 border-green-500/50 pl-4",
-        isWorst && "border-l-4 border-red-500/50 pl-4"
+        isBest && "border-l-4 border-success/50 pl-4",
+        isWorst && "border-l-4 border-destructive/50 pl-4"
       )}
     >
       {/* Header Badge */}
@@ -96,8 +98,8 @@ const ResultCard = ({
           animate={{ opacity: 1, y: 0 }}
           className={cn(
             "mb-3 px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1",
-            isBest && "bg-green-500/20 text-green-400",
-            isWorst && "bg-red-500/20 text-red-400"
+            isBest && "bg-success/20 text-success",
+            isWorst && "bg-destructive/20 text-destructive"
           )}
           initial={{ opacity: 0, y: -10 }}
         >
@@ -118,18 +120,18 @@ const ResultCard = ({
             <Box key={cell.key} className="flex flex-col relative">
               {showTooltips ? (
                 <Box className="flex items-center gap-2 relative">
-                  <Text className="text-xs text-gray-300" tabIndex={0}>
+                  <Text className="text-s text-muted-foreground" tabIndex={0}>
                     {t(cell.key)}
                   </Text>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <button
                         aria-label={t(cell.tooltipKey)}
-                        className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-blue-400 transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
+                        className="focus:outline-none relative bg-transparent flex items-center justify-center hover:text-accent transition-colors min-w-[44px] min-h-[44px] -m-[20px] p-[20px]"
                         tabIndex={0}
                         type="button"
                       >
-                        <Info className="w-4 h-4 text-gray-300" />
+                        <Info className="w-4 h-4 text-muted-foreground" />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent
@@ -142,18 +144,20 @@ const ResultCard = ({
                   </Tooltip>
                 </Box>
               ) : (
-                <Text className="text-xs text-gray-300">{t(cell.key)}</Text>
+                <Text className="text-xs text-muted-foreground">
+                  {t(cell.key)}
+                </Text>
               )}
               <Text
                 className={cn(
-                  "font-medium text-white",
-                  cell.key === "remaining_savings" && {
-                    "text-green-400 font-bold text-lg":
-                      result.remainingSavings >= 0,
-                    "text-red-400 font-bold text-lg":
-                      result.remainingSavings < 0,
-                  }
+                  "font-medium text-foreground",
+                  cell.key === "remaining_savings" && "font-bold text-lg"
                 )}
+                style={
+                  cell.key === "remaining_savings"
+                    ? getRemainingSavingsColor(result.remainingSavings)
+                    : undefined
+                }
               >
                 {renderValue(cell, result)}
               </Text>
@@ -163,13 +167,13 @@ const ResultCard = ({
       </Box>
 
       {/* Financial Health Score */}
-      <Box className="mt-4 pt-4 border-t border-gray-700/30">
+      <Box className="mt-4 pt-4 border-t border-border/30">
         <FinancialHealthScore
           score={calculateFinancialHealthScoreForResult(result)}
           showTooltips={showTooltips}
         />
       </Box>
-    </Box>
+    </div>
   );
 };
 

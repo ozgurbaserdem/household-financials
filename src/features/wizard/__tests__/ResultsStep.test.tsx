@@ -356,13 +356,14 @@ describe("ResultsStep", () => {
     renderWithProviders(<ResultsStep />);
 
     // Should show CTA section
-    expect(screen.getByText("compound_interest_cta.title")).toBeInTheDocument();
-    // Check for the translation key with interpolation
     expect(
-      screen.getByText("compound_interest_cta.description")
+      screen.getByTestId("compound-interest-cta-title")
     ).toBeInTheDocument();
     expect(
-      screen.getByText("compound_interest_cta.button")
+      screen.getByTestId("compound-interest-cta-description")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("compound-interest-cta-button")
     ).toBeInTheDocument();
   });
 
@@ -433,10 +434,12 @@ describe("ResultsStep", () => {
     renderWithProviders(<ResultsStep />);
 
     // The default mock has 3000 as the highest remaining savings
-    // Just check that the CTA is shown and contains the description text
-    expect(screen.getByText("compound_interest_cta.title")).toBeInTheDocument();
+    // Check that the CTA is shown and contains the correct elements
     expect(
-      screen.getByText("compound_interest_cta.description")
+      screen.getByTestId("compound-interest-cta-title")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("compound-interest-cta-description")
     ).toBeInTheDocument();
 
     const link = screen.getByTestId("compound-interest-link");
@@ -499,7 +502,7 @@ describe("ResultsStep", () => {
   it("should show potential wealth badge for English", () => {
     renderWithProviders(<ResultsStep />);
 
-    expect(screen.getByText("Potential wealth")).toBeInTheDocument();
+    expect(screen.getByText("potential_wealth")).toBeInTheDocument();
   });
 
   it("should show potential wealth badge for Swedish", () => {
@@ -508,6 +511,6 @@ describe("ResultsStep", () => {
     renderWithProviders(<ResultsStep />);
 
     // Check for Swedish potential wealth badge text
-    expect(screen.getByText("Potentiell förmögenhet")).toBeInTheDocument();
+    expect(screen.getByText("potential_wealth")).toBeInTheDocument();
   });
 });

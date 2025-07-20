@@ -1,13 +1,10 @@
-import { motion } from "framer-motion";
-import { TrendingUp, Calculator } from "lucide-react";
-import { useTranslations, useLocale } from "next-intl";
+import { TrendingUp, Calculator, PieChart } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 
-import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import { CardContent } from "@/components/ui/Card";
 import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
-import { Card } from "@/components/ui/ModernCard";
+import { StepHeader } from "@/components/ui/StepHeader";
 import { Text } from "@/components/ui/Text";
 import { Forecast } from "@/features/calculator/Forecast";
 import { ResultsTable } from "@/features/calculator/ResultsTable";
@@ -15,7 +12,6 @@ import { ExpenseBreakdown } from "@/features/charts/ExpenseBreakdown";
 import { Link } from "@/i18n/navigation";
 import { calculateLoanScenarios } from "@/lib/calculations";
 import { formatCurrencyNoDecimals } from "@/lib/formatting";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
 import { useAppSelector } from "@/store/hooks";
 
 export const ResultsStep = () => {
@@ -33,8 +29,8 @@ export const ResultsStep = () => {
     totalExpenses,
   };
   const t = useTranslations("results");
-  const locale = useLocale();
-  const isMobile = useIsTouchDevice();
+  const tWizard = useTranslations("wizard");
+  const tCompoundInterestCta = useTranslations("results.compound_interest_cta");
 
   // Calculate loan scenario with current rates
   const loanScenarios = calculateLoanScenarios(calculatorState);
@@ -42,99 +38,125 @@ export const ResultsStep = () => {
   const monthlySavings = scenario ? scenario.remainingSavings : 0;
 
   return (
-    <Box className="space-y-4 md:space-y-6">
-      <ResultsTable calculatorState={calculatorState} />
-      <ExpenseBreakdown expenses={expenses} />
-      <Forecast calculatorState={calculatorState} />
+    <div className="space-y-4 md:space-y-6">
+      {/* Main Results Header with Calculation Results */}
+      <div className="card-base shadow-sm p-4 md:p-6">
+        <StepHeader step="results">
+          <div className="text-sm text-muted-foreground">
+            {tWizard("step_descriptions.results.description")}
+          </div>
+        </StepHeader>
+        <div className="mt-6">
+          <ResultsTable calculatorState={calculatorState} />
+        </div>
+      </div>
+
+      {/* Expense Breakdown Card */}
+      <div className="p-6 card-base shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 rounded-lg bg-red-500/10">
+            <PieChart className="w-6 h-6 text-red-600 dark:text-red-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-foreground">
+            {t("expense_breakdown.title")}
+          </h2>
+        </div>
+        <ExpenseBreakdown expenses={expenses} />
+      </div>
+
+      {/* Loan Forecast Card - Only show if user has loans */}
+      {loanParameters.hasLoan && (
+        <div className="p-6 card-base shadow-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-blue-500/10">
+              <TrendingUp className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            </div>
+            <h2 className="text-2xl font-bold text-foreground">
+              {t("loan_forecast.title")}
+            </h2>
+          </div>
+          <Forecast calculatorState={calculatorState} />
+        </div>
+      )}
 
       {/* Compound Interest CTA */}
       {monthlySavings > 0 && (
-        <motion.div
-          animate={{ opacity: 1 }}
-          initial={{ opacity: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          <Card
-            glass
-            gradient
-            animate={!isMobile}
-            className="overflow-hidden relative"
-            hover={false}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10" />
-            <CardContent className="relative z-10">
-              <div className="flex flex-col lg:flex-row items-center gap-6">
-                <div className="flex-1 text-center lg:text-left space-y-4">
-                  <div className="flex items-center justify-center lg:justify-start gap-3">
-                    <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-sm">
-                      <TrendingUp className="w-6 h-6 text-purple-400" />
-                    </div>
-                    <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                      {t("compound_interest_cta.title")}
-                    </h3>
-                  </div>
-                  <div className="space-y-2">
-                    <Text className="text-gray-300 leading-relaxed">
-                      {t("compound_interest_cta.description", {
-                        savings: formatCurrencyNoDecimals(monthlySavings),
-                      })}
-                    </Text>
-                    <div className="flex items-center justify-center lg:justify-start gap-2 text-sm">
-                      <div className="px-3 py-1 rounded-full bg-green-500/20 text-green-400 font-medium">
-                        <CurrencyDisplay
-                          amount={monthlySavings}
-                          className="inline"
-                          showDecimals={false}
-                          variant="positive"
-                        />{" "}
-                        / {locale === "sv" ? "månad" : "month"}
-                      </div>
-                      <span className="text-gray-400">→</span>
-                      <div className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 font-medium">
-                        {locale === "sv"
-                          ? "Potentiell förmögenhet"
-                          : "Potential wealth"}
-                      </div>
-                    </div>
-                  </div>
+        <div className="p-6 card-base shadow-sm">
+          <div className="flex flex-col lg:flex-row items-center gap-6">
+            <div className="flex-1 text-center lg:text-left space-y-4">
+              <div className="flex items-center justify-center lg:justify-start gap-3">
+                <div className="p-2 rounded-lg bg-green-500/10">
+                  <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
-                <div className="flex-shrink-0">
-                  <Link
-                    href={{
-                      pathname: "/ranta-pa-ranta",
-                      query: { monthlySavings: Math.round(monthlySavings) },
-                    }}
-                  >
-                    <Button
-                      className="group relative overflow-hidden"
-                      size="lg"
-                      variant="gradient"
-                    >
-                      <span className="relative z-10 flex items-center gap-2 px-2">
-                        <Calculator className="w-5 h-5 transition-transform group-hover:rotate-12" />
-                        {t("compound_interest_cta.button")}
-                        <svg
-                          className="w-4 h-4 transition-transform group-hover:translate-x-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M9 5l7 7-7 7"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                          />
-                        </svg>
-                      </span>
-                    </Button>
-                  </Link>
+                <h3
+                  className="text-2xl font-bold text-foreground"
+                  data-testid="compound-interest-cta-title"
+                >
+                  {tCompoundInterestCta("title")}
+                </h3>
+              </div>
+              <div className="space-y-2">
+                <Text
+                  className="text-muted-foreground leading-relaxed"
+                  data-testid="compound-interest-cta-description"
+                >
+                  {tCompoundInterestCta("description", {
+                    savings: formatCurrencyNoDecimals(monthlySavings),
+                  })}
+                </Text>
+                <div className="flex items-center justify-center lg:justify-start gap-2 text-sm">
+                  <div className="px-3 py-1 rounded-full bg-gradient-to-r from-green-50 to-emerald-100/70 dark:from-green-950/40 dark:to-emerald-900/30 text-green-800 dark:text-green-100 font-medium border border-green-200/60 dark:border-green-800/40 shadow-sm">
+                    <CurrencyDisplay
+                      amount={monthlySavings}
+                      className="inline text-green-800 dark:text-green-100"
+                      showDecimals={false}
+                      variant="positive"
+                    />{" "}
+                    / {tCompoundInterestCta("per_month")}
+                  </div>
+                  <span className="text-muted-foreground">→</span>
+                  <div className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-50 to-violet-100/70 dark:from-purple-950/40 dark:to-violet-900/30 text-purple-800 dark:text-purple-100 font-medium border border-purple-200/60 dark:border-purple-800/40 shadow-sm">
+                    {tCompoundInterestCta("potential_wealth")}
+                  </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                href={{
+                  pathname: "/ranta-pa-ranta",
+                  query: { monthlySavings: Math.round(monthlySavings) },
+                }}
+              >
+                <Button
+                  className="group relative overflow-hidden"
+                  data-testid="compound-interest-cta-button"
+                  size="lg"
+                  variant="default"
+                >
+                  <span className="relative z-10 flex items-center gap-2 px-2">
+                    <Calculator className="w-5 h-5 transition-transform group-hover:rotate-12" />
+                    {tCompoundInterestCta("button")}
+                    <svg
+                      className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M9 5l7 7-7 7"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                      />
+                    </svg>
+                  </span>
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };

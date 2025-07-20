@@ -6,7 +6,7 @@ declare const messages: {
     title: "Loan details";
     add_loans: "Add your loans";
     hide_loans: "Hide loans";
-    loan_amount: "Loan amount (SEK)";
+    loan_amount: "Loan amount";
     interest_rates: "Interest rates (%)";
     amortization_rates: "Amortization rates (%)";
     title_aria: "Loan details section";
@@ -109,18 +109,27 @@ declare const messages: {
     aria: {
       title: "Expense breakdown section";
     };
-    no_expenses: "No expenses to display";
+    no_expenses: "Switch to the Detailed view in step 3 if you want to see a breakdown of your expenses by category";
     total: "Total: {amount}";
     legend_amount: "{amount}";
     legend_percentage: "{percentage}%";
     legend_label: "{name}: {amount} ({percentage}%)";
   };
   results: {
-    title: "Your results";
-    page_title: "Your results";
-    page_title_aria: "Your results section";
+    title: "Results";
+    calculation_results: {
+      title: "Results";
+    };
+    expense_breakdown: {
+      title: "Expense Breakdown";
+    };
+    loan_forecast: {
+      title: "Loan Forecast";
+    };
+    page_title: "Results";
+    page_title_aria: "Results section";
     aria: {
-      title: "Your results section";
+      title: "Results section";
     };
     interest_rate: "Interest rate";
     amortization: "Amortization";
@@ -148,6 +157,8 @@ declare const messages: {
       title: "Grow your savings with compound interest";
       description: "You can save {savings} kr every month! See how much this amount can grow with compound interest over time.";
       button: "Calculate compound interest";
+      per_month: "month";
+      potential_wealth: "Potential wealth";
     };
     current_scenario: "Current scenario";
     adjust_rates_title: "Adjust loan rates";
@@ -184,13 +195,13 @@ declare const messages: {
   };
   income: {
     title: "Your income";
-    income1: "Income 1 (SEK)";
-    income2: "Income 2 (SEK)";
-    secondaryIncome1: "Secondary income 1 (SEK, secondary)";
-    secondaryIncome2: "Secondary income 2 (SEK, secondary)";
-    child_benefits: "Child benefits (SEK)";
-    other_benefits: "Other benefits (SEK)";
-    other_incomes: "Other income (SEK)";
+    income1: "Income 1";
+    income2: "Income 2";
+    secondaryIncome1: "Secondary income 1";
+    secondaryIncome2: "Secondary income 2";
+    child_benefits: "Child benefits";
+    other_benefits: "Other benefits";
+    other_incomes: "Other income";
     add_extra_incomes: "Add secondary income";
     title_aria: "Income section";
     income1_aria: "Monthly gross income for applicant 1 in SEK";
@@ -205,7 +216,7 @@ declare const messages: {
     number_of_adults_full: "Select number of adults in the household";
     secondaryIncome1_aria: "Monthly gross secondary income for applicant 1 in SEK (no deductions)";
     secondaryIncome2_aria: "Monthly gross secondary income for applicant 2 in SEK (no deductions)";
-    current_buffer_label: "Current buffer (SEK)";
+    current_buffer_label: "Current buffer";
     current_buffer_aria: "How much do you have in your buffer account right now?";
     total_monthly_income: "Total monthly income";
     optional: "Optional";
@@ -237,7 +248,7 @@ declare const messages: {
       discretionary_income: "Discretionary Income Ratio = (Net Income - Expenses) / Net Income. Shows what percent of your income is left after all expenses.";
       overall_score: "The overall score summarizes your financial health from 0 (poor) to 100 (excellent). Above 80 is strong, 60-79 is fair, below 60 needs improvement. Use the tips below to improve your score.";
     };
-    current_buffer_label: "Current buffer (SEK)";
+    current_buffer_label: "Current buffer";
     current_buffer_aria: "How much do you have in your buffer account right now?";
   };
   wizard: {
@@ -247,6 +258,7 @@ declare const messages: {
     loans: "Loans";
     expenses: "Expenses";
     summary: "Summary";
+    summary_short: "Summary";
     results: "Results";
     hushallskalkylTitle: "Household budget & calculator";
     hushallskalkylDesc: "Easily create your household budget and calculator with Budgetkollen. Get full control of your finances and plan for the future.";
@@ -335,6 +347,25 @@ declare const messages: {
   hushallskalkyl: {
     title: "Household budget & calculator";
     intro: "Creating a household budget is one of the smartest steps you can take to gain control of your finances. With a clear overview of your income and expenses, it's easier to reach your goals—whether you're saving for a trip, building an emergency fund, or making your money last each month. Budgetkollen is here to help you get started easily.";
+    page: {
+      hero_title: "Household Budget & Calculator - Take control of your finances";
+      hero_subtitle: "Create your personal household budget with Sweden's most useful budget calculator. Free tool to plan your family's finances and savings goals.";
+      faq_title: "Frequently Asked Questions about Household Budget";
+      faq: [
+        {
+          question: "What's the difference between a household calculator and household budget?";
+          answer: "A household calculator helps you calculate specific financial scenarios, while a household budget is an overall plan for your income and expenses over time.";
+        },
+        {
+          question: "How often should I update my household budget?";
+          answer: "We recommend reviewing your household budget monthly and making major adjustments quarterly or when your financial situation changes.";
+        },
+        {
+          question: "What should I include in my family budget?";
+          answer: "Your family budget should include all income, fixed expenses like rent and loans, variable expenses like food and transport, plus savings and emergency fund.";
+        },
+      ];
+    };
     tips_title: "Tips for a smarter budget";
     tips: [
       "Set clear savings goals – both short and long term.",
@@ -377,12 +408,15 @@ declare const messages: {
         answer: "Aim for at least 10% of your income, but any saving is good.";
       },
     ];
-    footer: "Ready to take control of your finances? Try Budgetkollen for free and create your own household budget today!";
+    cta_text: "Ready to take control of your finances? Try Budgetkollen for free and create your own household budget today!";
+    cta_button: "Create household budget";
     back_to_home: "← Back to home";
   };
   navbar: {
     income: "Income";
+    features: "Features";
     articles: "Articles";
+    pricing: "Pricing";
     household_budget_label: "Budget Calculator";
     household_budget_desc: "Take control of your finances in 3 minutes";
     main_article_label: "Household budget";
@@ -458,7 +492,7 @@ declare const messages: {
       };
     };
     faq: {
-      title: "Frequently asked questions about household budget";
+      title: "Frequently asked questions";
       q1: {
         question: "What is a household budget?";
         answer: "A household budget is a plan for how the family should use their money each month. It includes all income and expenses to give a complete picture of the family's finances.";
@@ -575,6 +609,8 @@ declare const messages: {
   compound_interest: {
     page_title: "Compound Interest Calculator";
     page_subtitle: "Calculate easily how compound interest makes your money grow. Perfect for compound interest calculation of savings and investments.";
+    hero_title: "Compound Interest Calculator";
+    hero_subtitle: "See how your savings grow exponentially with the power of compound interest";
     title: "Compound interest calculator - The power of long-term investing";
     subtitle: "Discover how consistent saving and compound interest can build substantial wealth over time. See the magic of compounding returns in action.";
     meta: {
@@ -594,14 +630,55 @@ declare const messages: {
       why_important: "The key to maximizing compound interest is time and consistency. Starting early and investing regularly, even small amounts, can lead to substantial wealth accumulation. This calculator helps you visualize exactly how your money can grow through the power of compounding.";
       connection_to_budget: "After creating your household budget with Budgetkollen, you can use this compound interest calculator to see how your monthly savings surplus can grow into significant wealth over time.";
     };
+    wonder_section: {
+      title: "The Eighth Wonder of the World";
+      description: "Compound interest is one of the most powerful financial concepts that can help you build long-term wealth. When you save regularly and let your returns grow over time, you create a snowball effect where your money works for you.";
+      einstein_quote: "Compound interest is the eighth wonder of the world. He who understands it, earns it - he who doesn't, pays it.";
+      einstein_attribution: "Albert Einstein";
+      understanding_text: "By understanding and leveraging compound interest, you can transform small monthly amounts into significant wealth over time. Our tool helps you visualize this powerful effect.";
+      budget_connection: "Combine this savings calculator with our household budget to find more money to save each month.";
+    };
+    tips_section: {
+      title: "Tips for Better Saving";
+      tip1: "Start early - time is your best friend when it comes to compound interest";
+      tip2: "Save regularly - even small monthly amounts make a big difference";
+      tip3: "Increase savings annually - grow with salary increases to accelerate growth";
+      tip4: "Choose the right investment - 7% annual return is realistic for broad index funds";
+      tip5: "Avoid touching savings - let it grow undisturbed for maximum effect";
+      tip6: "Automate savings - make it easy with automatic transfers";
+    };
+    faq_section: {
+      title: "Frequently Asked Questions";
+      q1: {
+        question: "What is compound interest?";
+        answer: "Compound interest means you earn returns not only on your original capital, but also on previous years' returns. This creates exponential growth over time.";
+      };
+      q2: {
+        question: "How much can I earn with compound interest?";
+        answer: "It depends on starting capital, monthly savings, returns, and time. With 7% annual returns, 1000 SEK per month can grow to over 1 million SEK in 25 years.";
+      };
+      q3: {
+        question: "Is the calculator free to use?";
+        answer: "Yes, our compound interest calculator is completely free to use. No registrations or downloads required.";
+      };
+    };
+    disclaimer_section: {
+      title: "Important Information";
+      text: "This calculator is for illustrative purposes only. Actual returns may vary depending on market conditions. All investments involve risk and you may lose money. Always consult a financial advisor for personal advice.";
+    };
+    cta_section: {
+      title: "Ready to optimize your finances?";
+      description: "Use our household budget to find more money to save each month.";
+      button: "Create household budget";
+    };
     calculator: {
       title: "Compound interest calculator";
       description: "Adjust the values below to see how your investments can grow over time";
     };
     inputs: {
-      start_sum_label: "Starting amount (SEK)";
+      start_sum_label: "Starting amount";
       start_sum_description: "The initial amount you have to invest";
-      monthly_savings_label: "Monthly savings (SEK)";
+      monthly_savings_label: "Monthly savings";
       monthly_savings_description: "How much you plan to save and invest each month";
       yearly_return_label: "Expected annual return (%)";
       yearly_return_description: "The average yearly return you expect on your investments";
@@ -691,6 +768,10 @@ declare const messages: {
         withdrawal_amount_label: "Withdrawal per year in SEK";
         year_prefix: "Year";
       };
+    };
+    progress_label: {
+      reference_value: "Reference value (100%)";
+      percent_of_total: "% of total possible";
     };
   };
 };

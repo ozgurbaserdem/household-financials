@@ -2,27 +2,14 @@ import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Box } from "@/components/ui/Box";
-import { CardContent } from "@/components/ui/Card";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardIcon,
-} from "@/components/ui/ModernCard";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Text } from "@/components/ui/Text";
-import { cn } from "@/lib/utils/general";
 
 interface FinancialCardProps {
   title: string;
   description?: string;
   icon: LucideIcon;
-  iconColor?: string;
   children: ReactNode;
-  gradient?: boolean;
-  glass?: boolean;
-  animate?: boolean;
-  hover?: boolean;
-  delay?: number;
   className?: string;
   ariaLabel?: string;
 }
@@ -31,35 +18,31 @@ const FinancialCard = ({
   title,
   description,
   icon: Icon,
-  iconColor = "text-blue-400",
   children,
-  gradient = true,
-  glass = true,
-  animate = true,
-  hover = false,
-  delay = 0,
   className,
   ariaLabel,
 }: FinancialCardProps) => {
   return (
-    <Card
-      animate={animate}
-      className={className}
-      delay={delay}
-      glass={glass}
-      gradient={gradient}
-      hover={hover}
-    >
+    <Card className={className} variant="elevated">
       <CardHeader>
-        <CardIcon>
-          <Icon className={cn("w-6 h-6", iconColor)} />
-        </CardIcon>
+        <div
+          className="p-2 rounded-lg"
+          style={{
+            backgroundColor: "rgb(34 197 94 / 0.1)",
+            color: "rgb(34 197 94)",
+            border: "1px solid rgb(34 197 94 / 0.2)",
+          }}
+        >
+          <Icon className="w-6 h-6" />
+        </div>
         <Box className="flex-1">
           <CardTitle aria-label={ariaLabel || title} tabIndex={0}>
             {title}
           </CardTitle>
           {description && (
-            <Text className="text-sm text-gray-300 mt-1">{description}</Text>
+            <Text className="text-sm text-muted-foreground mt-1">
+              {description}
+            </Text>
           )}
         </Box>
       </CardHeader>

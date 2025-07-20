@@ -51,7 +51,7 @@ export const ProgressStepper = ({
   return (
     <Stepper
       animate={true}
-      className="mb-8"
+      className="mb-8 w-full"
       currentStep={currentStep}
       showGlow={true}
       steps={stepsWithDisabled}

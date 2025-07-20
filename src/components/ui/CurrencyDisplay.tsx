@@ -2,7 +2,14 @@ import { cn } from "@/lib/utils/general";
 
 interface CurrencyDisplayProps {
   amount: number;
-  variant?: "default" | "positive" | "negative" | "neutral";
+  variant?:
+    | "default"
+    | "positive"
+    | "negative"
+    | "neutral"
+    | "success"
+    | "warning"
+    | "destructive";
   size?: "sm" | "md" | "lg" | "xl";
   showDecimals?: boolean;
   locale?: string;
@@ -47,6 +54,9 @@ const CurrencyDisplay = ({
     positive: "text-green-600 dark:text-green-400",
     negative: "text-red-600 dark:text-red-400",
     neutral: "", // Empty string so className can override
+    success: "text-green-500 dark:text-green-400",
+    warning: "text-yellow-500 dark:text-yellow-400",
+    destructive: "text-red-500 dark:text-red-400",
   };
 
   const sizeClasses = {

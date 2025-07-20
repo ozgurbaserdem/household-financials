@@ -28,36 +28,34 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-      <Button
-        aria-label={locale === "sv" ? "Switch to English" : "Byt till svenska"}
-        className="relative h-9 px-3 glass border-gray-700/50 hover:bg-white/10 overflow-hidden group"
-        variant="outline"
-        onClick={toggleLanguage}
-      >
-        <Box className="flex items-center justify-center gap-2">
-          <Text className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
-            {locale === "sv" ? "SV" : "EN"}
-          </Text>
-          <motion.div
-            animate={{ rotate: locale === "sv" ? 0 : 180 }}
-            className="text-lg"
-            initial={{ rotate: 0 }}
-            transition={{ type: "spring", stiffness: 200 }}
-          >
-            {locale === "sv" ? "🇸🇪" : "🇬🇧"}
-          </motion.div>
-        </Box>
-
-        {/* Hover effect */}
+    <Button
+      aria-label={locale === "sv" ? "Switch to English" : "Byt till svenska"}
+      className="relative h-9 px-3 border-gray-400/50 dark:border-gray-600/50 shadow-xs hover:bg-white/10 overflow-hidden group"
+      variant="outline"
+      onClick={toggleLanguage}
+    >
+      <Box className="flex items-center justify-center gap-2">
+        <Text className="text-sm font-medium text-foreground transition-colors">
+          {locale === "sv" ? "SV" : "EN"}
+        </Text>
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"
-          initial={{ x: "-100%" }}
-          transition={{ type: "tween", duration: 0.3 }}
-          whileHover={{ x: 0 }}
-        />
-      </Button>
-    </motion.div>
+          animate={{ rotate: locale === "sv" ? 0 : 180 }}
+          className="text-lg"
+          initial={{ rotate: 0 }}
+          transition={{ type: "spring", stiffness: 200 }}
+        >
+          {locale === "sv" ? "🇸🇪" : "🇬🇧"}
+        </motion.div>
+      </Box>
+
+      {/* Hover effect */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"
+        initial={{ x: "-100%" }}
+        transition={{ type: "tween", duration: 0.3 }}
+        whileHover={{ x: 0 }}
+      />
+    </Button>
   );
 };
 

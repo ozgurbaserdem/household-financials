@@ -9,7 +9,6 @@ import {
   ChevronDownIcon,
   CalculatorIcon,
 } from "@heroicons/react/24/outline";
-import { motion } from "framer-motion";
 import {
   BarChart3,
   HandCoins,
@@ -35,58 +34,6 @@ import { useRouter } from "@/i18n/navigation";
 import { getStepParameter } from "@/lib/utils/navigation";
 
 import { CalculatorPreviews } from "./CalculatorPreviews";
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-};
-
-interface StepIconProps {
-  step: number;
-  Icon: React.ComponentType<{ className?: string }>;
-}
-
-const StepIcon = ({ step, Icon }: StepIconProps) => {
-  return (
-    <div className="relative flex flex-col items-center">
-      {/* Step number and icon container */}
-      <div className="relative">
-        <motion.div
-          className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-500/20 backdrop-blur-xl flex items-center justify-center relative"
-          transition={{ type: "spring", stiffness: 300 }}
-          whileHover={{ scale: 1.05 }}
-        >
-          {/* Animated gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-
-          <Icon className="w-10 h-10 text-blue-400 relative z-10" />
-
-          {/* Step number badge - positioned outside the overflow area */}
-        </motion.div>
-
-        {/* Step number badge - moved outside the motion.div */}
-        <div className="absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-sm font-bold text-white border-2 border-white shadow-lg z-30">
-          {step}
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export const LandingPage = () => {
   const t = useTranslations("landing");
@@ -126,26 +73,31 @@ export const LandingPage = () => {
       icon: Wallet,
       title: t("steps.income.title"),
       description: t("steps.income.description"),
+      colorClass: "text-green-500 dark:text-green-400",
     },
     {
       icon: HandCoins,
       title: t("steps.loans.title"),
       description: t("steps.loans.description"),
+      colorClass: "text-yellow-500 dark:text-yellow-400",
     },
     {
       icon: List,
       title: t("steps.expenses.title"),
       description: t("steps.expenses.description"),
+      colorClass: "text-red-500 dark:text-red-400",
     },
     {
       icon: ListChecks,
       title: t("steps.summary.title"),
       description: t("steps.summary.description"),
+      colorClass: "text-purple-500 dark:text-purple-400",
     },
     {
       icon: BarChart3,
       title: t("steps.results.title"),
       description: t("steps.results.description"),
+      colorClass: "text-blue-500 dark:text-blue-400",
     },
   ];
 
@@ -154,311 +106,239 @@ export const LandingPage = () => {
       icon: PiggyBankIcon,
       title: t("features.tax.title"),
       description: t("features.tax.description"),
-      gradient: "from-green-600/20 to-emerald-600/20",
-      iconColor: "text-green-400",
     },
     {
       icon: ChartBarIcon,
       title: t("features.loan.title"),
       description: t("features.loan.description"),
-      gradient: "from-blue-600/20 to-purple-600/20",
-      iconColor: "text-blue-400",
     },
     {
       icon: TargetIcon,
       title: t("features.expense.title"),
       description: t("features.expense.description"),
-      gradient: "from-purple-600/20 to-pink-600/20",
-      iconColor: "text-purple-400",
     },
     {
       icon: LightBulbIcon,
       title: t("features.insights.title"),
       description: t("features.insights.description"),
-      gradient: "from-amber-600/20 to-orange-600/20",
-      iconColor: "text-amber-400",
     },
   ];
 
   return (
-    <Box className="min-h-screen bg-gray-950 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="gradient-mesh" />
-      <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
-
-      {/* Scroll Indicator - Fixed Position */}
-      <motion.div
-        animate={{
-          opacity: showScrollIndicator ? 1 : 0,
-          y: showScrollIndicator ? [0, 8, 0] : 20,
-          pointerEvents: showScrollIndicator ? "auto" : "none",
-        }}
-        className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
-        initial={{ opacity: 0, y: 20 }}
-        transition={{
-          opacity: { duration: 0.3 },
-          y: showScrollIndicator
-            ? { duration: 2, repeat: Infinity, repeatType: "reverse" }
-            : { duration: 0.3 },
-        }}
-      >
+    <Box className="min-h-screen bg-background relative pt-20 lg:pt-24">
+      {/* Scroll Indicator - Clean and minimal */}
+      {showScrollIndicator && (
         <div
-          className="flex flex-col items-center text-gray-300 hover:text-white transition-colors cursor-pointer group"
+          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 cursor-pointer"
           onClick={handleScrollDown}
         >
-          <span className="text-sm mb-3 font-medium opacity-80 group-hover:opacity-100">
-            {t("scrollIndicator")}
-          </span>
-          <div className="w-12 h-12 rounded-full border-2 border-current flex items-center justify-center group-hover:scale-110 transition-transform duration-200 bg-gray-900/50 backdrop-blur-sm">
-            <ChevronDownIcon className="w-6 h-6" />
+          <div className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors group">
+            <span className="text-sm mb-2 font-medium">
+              {t("scrollIndicator")}
+            </span>
+            <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center group-hover:border-foreground transition-colors">
+              <ChevronDownIcon className="w-4 h-4" />
+            </div>
           </div>
         </div>
-      </motion.div>
+      )}
 
-      <motion.div
-        animate="visible"
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-        initial="hidden"
-        variants={containerVariants}
-      >
+      <div className="relative z-10 max-w-7xl mx-auto container-padding">
         {/* Hero Section */}
-        <motion.section
-          className="min-h-screen flex flex-col justify-center items-center text-center py-20"
-          variants={itemVariants}
-        >
-          <motion.h1
-            className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6"
-            variants={itemVariants}
-          >
-            <span className="text-white">{t("hero.title.start")} </span>
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <section className="min-h-screen flex flex-col justify-center items-center text-center py-20">
+          <h1 className="heading-1 mb-6 max-w-4xl text-gradient-subtle">
+            <span>{t("hero.title.start")} </span>
+            <span className="font-serif italic">
               {t("hero.title.highlight")}
             </span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-3xl leading-relaxed"
-            variants={itemVariants}
-          >
+          <p className="body-lg text-muted-foreground mb-12 max-w-2xl">
             {t("hero.subtitle")}
-          </motion.p>
+          </p>
 
-          <motion.div variants={itemVariants}>
-            <Button
-              className="text-lg px-8 py-4 rounded-xl group"
-              size="lg"
-              variant="gradient"
-              onClick={handleStartAnalysis}
-            >
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button size="lg" variant="default" onClick={handleStartAnalysis}>
               {t("hero.cta")}
-              <ArrowRightIcon className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              <ArrowRightIcon className="w-4 h-4" />
             </Button>
-          </motion.div>
-        </motion.section>
+          </div>
+        </section>
 
         {/* How It Works Section */}
-        <motion.section
-          className="py-24"
-          data-section="how-it-works"
-          variants={itemVariants}
-        >
-          <motion.div className="text-center mb-16" variants={itemVariants}>
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+        <section className="py-24" data-section="how-it-works">
+          <div className="text-center mb-16">
+            <h2 className="heading-2 text-gradient-subtle mb-6">
               {t("howItWorks.title")}
             </h2>
-          </motion.div>
+          </div>
 
           {/* Horizontal Step Flow */}
           <div className="relative">
             {/* Steps container */}
             <div className="flex flex-col md:flex-row justify-center items-center md:items-start max-w-6xl mx-auto relative space-y-16 md:space-y-0 md:space-x-8 lg:space-x-16 px-4">
               {steps.map((step, index) => (
-                <motion.div
+                <div
                   key={step.title}
-                  className="flex flex-col items-center max-w-xs text-center relative"
-                  transition={{ type: "spring", stiffness: 300 }}
-                  variants={itemVariants}
-                  whileHover={{ y: -10 }}
+                  className="flex flex-col items-center text-center"
                 >
-                  <StepIcon Icon={step.icon} step={index + 1} />
-
-                  <div className="mt-6">
-                    <h3 className="text-xl font-semibold text-white mb-3">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-400 leading-relaxed">
-                      {step.description}
-                    </p>
+                  <div className="w-16 h-16 rounded-full bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm flex items-center justify-center mb-4">
+                    <step.icon className={`w-8 h-8 ${step.colorClass}`} />
                   </div>
-                </motion.div>
+                  <div className="w-8 h-8 rounded-full bg-foreground text-background text-sm font-semibold flex items-center justify-center mb-4">
+                    {index + 1}
+                  </div>
+                  <h3 className="heading-3 text-foreground mb-2 text-lg">
+                    {step.title}
+                  </h3>
+                  <p className="body-base text-muted-foreground">
+                    {step.description}
+                  </p>
+                </div>
               ))}
             </div>
           </div>
-        </motion.section>
+        </section>
 
         {/* Calculator Previews Section */}
         <CalculatorPreviews />
 
         {/* Features Section */}
-        <motion.section className="py-24" variants={itemVariants}>
-          <motion.div className="text-center mb-16" variants={itemVariants}>
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+        <section className="py-24">
+          <div className="text-center mb-16">
+            <h2 className="heading-2 text-gradient-subtle mb-6">
               {t("features.title")}
             </h2>
-          </motion.div>
+          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {features.map((feature) => (
-              <motion.div
-                key={feature.title}
-                transition={{ type: "spring", stiffness: 300 }}
-                variants={itemVariants}
-                whileHover={{ y: -5 }}
-              >
-                <Card
-                  className="h-full text-center group"
-                  hover="glow"
-                  variant="modern"
-                >
+              <div key={feature.title}>
+                <Card className="h-full text-center border-gray-200/50 dark:border-gray-700/50 shadow-sm">
                   <CardHeader className="items-center" layout="vertical">
                     <CardIcon
-                      className={`bg-gradient-to-br ${feature.gradient} group-hover:scale-110 transition-transform duration-300`}
+                      className="bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
                       size="lg"
-                      variant="gradient"
+                      variant="default"
                     >
-                      <feature.icon
-                        className={`w-8 h-8 ${feature.iconColor}`}
-                      />
+                      <feature.icon className="w-8 h-8 text-foreground" />
                     </CardIcon>
-                    <CardTitle className="text-center group-hover:text-blue-300 transition-colors">
+                    <CardTitle className="text-center">
                       {feature.title}
                     </CardTitle>
                   </CardHeader>
-                  <CardDescription className="text-center text-gray-400 leading-relaxed">
+                  <CardDescription className="text-center text-muted-foreground leading-relaxed">
                     {feature.description}
                   </CardDescription>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
         {/* Other Calculators Section */}
-        <motion.section className="py-24" variants={itemVariants}>
-          <motion.h2
-            className="text-3xl sm:text-4xl font-bold text-center text-white mb-12"
-            variants={itemVariants}
-          >
-            {t("other_calculators.title")}
-          </motion.h2>
+        <section className="py-24">
+          <div className="text-center mb-16">
+            <h2 className="heading-2 text-gradient-subtle mb-6">
+              {t("other_calculators.title")}
+            </h2>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <motion.div
-              transition={{ type: "spring", stiffness: 300 }}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-            >
+            <div>
               <Card
-                className="h-full group cursor-pointer"
-                hover="glow"
-                variant="modern"
+                className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                variant="interactive"
                 onClick={() => router.push("/ranta-pa-ranta")}
               >
                 <CardHeader>
                   <CardIcon
-                    className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 group-hover:scale-110 transition-transform duration-300"
+                    className="bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
                     size="lg"
-                    variant="gradient"
+                    variant="default"
                   >
-                    <TrendingUp className="w-8 h-8 text-purple-400" />
+                    <TrendingUp className="w-8 h-8 text-foreground" />
                   </CardIcon>
                   <Box className="flex-1">
-                    <CardTitle className="group-hover:text-purple-300 transition-colors">
+                    <CardTitle>
                       {t("other_calculators.compound_interest.title")}
                     </CardTitle>
                   </Box>
                 </CardHeader>
-                <CardDescription className="text-gray-400 leading-relaxed">
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   {t("other_calculators.compound_interest.description")}
                 </CardDescription>
               </Card>
-            </motion.div>
+            </div>
 
-            <motion.div
-              transition={{ type: "spring", stiffness: 300 }}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-            >
+            <div>
               <Card
-                className="h-full group cursor-pointer"
-                hover="glow"
-                variant="modern"
+                className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                variant="interactive"
                 onClick={() => router.push("/hushallsbudget")}
               >
                 <CardHeader>
                   <CardIcon
-                    className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 group-hover:scale-110 transition-transform duration-300"
+                    className="bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
                     size="lg"
-                    variant="gradient"
+                    variant="default"
                   >
-                    <CalculatorIcon className="w-8 h-8 text-blue-400" />
+                    <CalculatorIcon className="w-8 h-8 text-foreground" />
                   </CardIcon>
                   <Box className="flex-1">
-                    <CardTitle className="group-hover:text-blue-300 transition-colors">
+                    <CardTitle>
                       {t("other_calculators.budget_calculator.title")}
                     </CardTitle>
                   </Box>
                 </CardHeader>
-                <CardDescription className="text-gray-400 leading-relaxed">
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   {t("other_calculators.budget_calculator.description")}
                 </CardDescription>
               </Card>
-            </motion.div>
+            </div>
           </div>
-        </motion.section>
+        </section>
 
         {/* Final CTA Section */}
-        <motion.section className="py-24 text-center" variants={itemVariants}>
-          <motion.div className="max-w-4xl mx-auto" variants={itemVariants}>
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+        <section className="py-24">
+          <div className="text-center max-w-4xl mx-auto">
+            <h2 className="heading-2 text-gradient-subtle mb-6">
               {t("finalCta.title")}
             </h2>
-            <p className="text-xl text-gray-300 mb-12 leading-relaxed">
+            <p className="body-lg text-muted-foreground mb-12 leading-relaxed">
               {t("finalCta.subtitle")}
             </p>
             <Button
               className="text-lg px-8 py-4 rounded-xl group"
               size="lg"
-              variant="gradient"
+              variant="default"
               onClick={handleStartAnalysis}
             >
               {t("finalCta.button")}
-              <ArrowRightIcon className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              <ArrowRightIcon className="w-5 h-5 ml-2" />
             </Button>
-          </motion.div>
+          </div>
 
           {/* Footer */}
-          <motion.div
-            className="mt-20 pt-12 border-t border-gray-800/50"
-            variants={itemVariants}
-          >
+          <div className="mt-20 pt-12 border-t border-border">
             <div className="flex flex-col items-center space-y-4">
               <div className="flex items-center space-x-6">
                 <a
                   aria-label={t("footer.follow_x")}
-                  className="text-gray-400 hover:text-white transition-colors duration-200 group"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-200 group"
                   href="https://x.com/budgetkollen"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <XIcon className="w-6 h-6 group-hover:scale-110 transition-transform duration-200" />
+                  <XIcon className="w-6 h-6" />
                 </a>
               </div>
-              <p className="text-gray-500 text-sm">{t("footer.copyright")}</p>
+              <p className="text-muted-foreground text-sm">
+                {t("footer.copyright")}
+              </p>
             </div>
-          </motion.div>
-        </motion.section>
-      </motion.div>
+          </div>
+        </section>
+      </div>
     </Box>
   );
 };
