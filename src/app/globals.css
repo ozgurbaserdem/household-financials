@@ -166,6 +166,51 @@ body {
   ); */
 }
 
+/* Golden gradient text for the highlighted phrase */
+.text-gradient-golden {
+  background: linear-gradient(
+    135deg,
+    #d4af37 0%,
+    #f4e07b 25%,
+    #d4af37 50%,
+    #b8941f 75%,
+    #d4af37 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(212, 175, 55, 0.1);
+  animation: golden-shimmer 6s ease-in-out infinite;
+}
+
+.dark .text-gradient-golden {
+  background: linear-gradient(
+    135deg,
+    #fff176 0%,
+    #fff59d 25%,
+    #ffeb3b 50%,
+    #ffd700 75%,
+    #b8860b 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(255, 215, 0, 0.2);
+  animation: golden-shimmer 6s ease-in-out infinite;
+}
+
+@keyframes golden-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 .heading-1 {
   font-size: var(--text-4xl);
   font-weight: 700;

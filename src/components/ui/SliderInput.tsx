@@ -18,6 +18,7 @@ interface SliderInputProps {
   ariaLabel?: string;
   className?: string;
   decimals?: number;
+  allowInputBeyondMax?: boolean; // New prop to allow input beyond slider max
 }
 
 export const SliderInput = ({
@@ -34,6 +35,7 @@ export const SliderInput = ({
   ariaLabel,
   className = "",
   decimals = 2,
+  allowInputBeyondMax = false,
 }: SliderInputProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [tempValue, setTemporaryValue] = useState("");
@@ -46,8 +48,11 @@ export const SliderInput = ({
 
   const handleEditEnd = () => {
     const numValue = parseFloat(tempValue.replace(/[^\d.-]/g, ""));
-    if (!Number.isNaN(numValue) && numValue >= min && numValue <= max) {
-      onChange(numValue);
+    if (!Number.isNaN(numValue) && numValue >= min) {
+      // Allow input beyond max if allowInputBeyondMax is true
+      if (allowInputBeyondMax || numValue <= max) {
+        onChange(numValue);
+      }
     }
     setIsEditing(false);
     setTemporaryValue("");
@@ -65,7 +70,9 @@ export const SliderInput = ({
   };
 
   const getSliderBackground = () => {
-    const percentage = ((value - min) / (max - min)) * 100;
+    // Cap the percentage calculation at 100% for slider visual
+    const cappedValue = Math.min(value, max);
+    const percentage = ((cappedValue - min) / (max - min)) * 100;
     return `linear-gradient(to right, 
       rgb(255 255 255) 0%, 
       rgb(107 114 128) ${percentage}%, 
@@ -85,7 +92,7 @@ export const SliderInput = ({
           background: getSliderBackground(),
         }}
         type="range"
-        value={value}
+        value={Math.min(value, max)} // Cap slider value to max
         onChange={(e) => onChange(Number(e.target.value))}
       />
       <div className="flex-shrink-0">

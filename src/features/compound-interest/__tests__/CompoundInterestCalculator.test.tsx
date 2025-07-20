@@ -198,11 +198,11 @@ describe("CompoundInterestCalculator", () => {
     });
   });
 
-  it("should constrain manual input to slider bounds", async () => {
+  it("should constrain manual input to slider bounds for capped sliders only", async () => {
     const user = userEvent.setup();
     render(<CompoundInterestCalculator />);
 
-    // Click on monthly savings value
+    // Click on monthly savings value (this is capped)
     const monthlyValue = screen.getByText(/5000.*kr\/mån/);
     await user.click(monthlyValue);
 
@@ -213,9 +213,40 @@ describe("CompoundInterestCalculator", () => {
     await user.type(input, "15000000");
     await user.keyboard("{Enter}");
 
-    // Input fields ARE constrained by min/max, so should revert to previous value
+    // Input fields ARE constrained by min/max for capped sliders, so should revert to previous value
     await waitFor(() => {
       expect(screen.getByText(/5000.*kr\/mån/)).toBeInTheDocument();
+    });
+  });
+
+  it("should allow uncapped input for startSum and yearlyReturn", async () => {
+    const user = userEvent.setup();
+    render(<CompoundInterestCalculator />);
+
+    // Test startSum can go beyond 2M limit
+    const startSumValue = screen.getAllByText("0 kr")[0];
+    await user.click(startSumValue);
+
+    let input = screen.getByRole("textbox");
+    await user.clear(input);
+    await user.type(input, "5000000"); // 5M, well above 2M slider limit
+    await user.keyboard("{Enter}");
+
+    await waitFor(() => {
+      expect(screen.getByText(/5000000.*kr/)).toBeInTheDocument();
+    });
+
+    // Test yearlyReturn can go beyond 200% limit
+    const returnValue = screen.getByText("7%");
+    await user.click(returnValue);
+
+    input = screen.getByRole("textbox");
+    await user.clear(input);
+    await user.type(input, "500"); // 500%, well above 200% slider limit
+    await user.keyboard("{Enter}");
+
+    await waitFor(() => {
+      expect(screen.getByText("500%")).toBeInTheDocument();
     });
   });
 
@@ -1071,11 +1102,11 @@ describe("CompoundInterestCalculator", () => {
   });
 
   describe("Enhanced Input Fields", () => {
-    it("should constrain input values to slider limits", async () => {
+    it("should allow uncapped input values for startSum and yearlyReturn", async () => {
       const user = userEvent.setup();
       render(<CompoundInterestCalculator />);
 
-      // Test start sum beyond 2M limit - should be rejected and revert
+      // Test start sum beyond 2M limit - should be accepted because startSum is uncapped
       const valueButton = screen
         .getAllByRole("button")
         .find(
@@ -1095,9 +1126,8 @@ describe("CompoundInterestCalculator", () => {
       await user.keyboard("{Enter}");
 
       await waitFor(() => {
-        // Should revert to 0 because 50M is outside bounds - check slider value instead
-        const sliders = screen.getAllByRole("slider");
-        expect(sliders[0]).toHaveValue("0");
+        // Should accept the value because startSum is uncapped
+        expect(screen.getByText(/50000000.*kr/)).toBeInTheDocument();
       });
     });
 
@@ -1120,11 +1150,11 @@ describe("CompoundInterestCalculator", () => {
       });
     });
 
-    it("should constrain yearly return to slider limits", async () => {
+    it("should allow uncapped yearly return input", async () => {
       const user = userEvent.setup();
       render(<CompoundInterestCalculator />);
 
-      // Test yearly return beyond 200% limit - should revert to original value
+      // Test yearly return beyond 200% limit - should be accepted because yearlyReturn is uncapped
       const returnValue = screen.getByText("7%");
       await user.click(returnValue);
 
@@ -1134,8 +1164,8 @@ describe("CompoundInterestCalculator", () => {
       await user.keyboard("{Enter}");
 
       await waitFor(() => {
-        // Should revert to 7% because 500% is outside bounds
-        expect(screen.getByText("7%")).toBeInTheDocument();
+        // Should accept the value because yearlyReturn is uncapped
+        expect(screen.getByText("500%")).toBeInTheDocument();
       });
     });
 
@@ -1314,7 +1344,7 @@ describe("CompoundInterestCalculator", () => {
       const user = userEvent.setup();
       render(<CompoundInterestCalculator />);
 
-      // Test extremely high values
+      // Test extremely high values for startSum (now uncapped)
       const startSumValue = screen.getAllByText("0 kr")[0];
       await user.click(startSumValue);
 
@@ -1324,9 +1354,8 @@ describe("CompoundInterestCalculator", () => {
       await user.keyboard("{Enter}");
 
       await waitFor(() => {
-        // Should revert to 0 because value is outside bounds - check slider value
-        const sliders = screen.getAllByRole("slider");
-        expect(sliders[0]).toHaveValue("0");
+        // Should accept the value because startSum is uncapped
+        expect(screen.getByText(/999999999999.*kr/)).toBeInTheDocument();
       });
     });
 

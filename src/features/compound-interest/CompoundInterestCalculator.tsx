@@ -193,6 +193,9 @@ export const CompoundInterestCalculator = () => {
                 </div>
                 <div className="space-y-3">
                   <SliderInput
+                    allowInputBeyondMax={
+                      config.key === "startSum" || config.key === "yearlyReturn"
+                    }
                     decimals={config.key === "yearlyReturn" ? 0 : 0}
                     max={config.max}
                     min={config.min}

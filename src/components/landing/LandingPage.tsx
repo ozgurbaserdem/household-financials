@@ -148,7 +148,7 @@ export const LandingPage = () => {
         <section className="min-h-screen flex flex-col justify-center items-center text-center py-20">
           <h1 className="heading-1 mb-6 max-w-4xl text-gradient-subtle">
             <span>{t("hero.title.start")} </span>
-            <span className="font-serif italic">
+            <span className="font-serif italic text-gradient-golden">
               {t("hero.title.highlight")}
             </span>
           </h1>
