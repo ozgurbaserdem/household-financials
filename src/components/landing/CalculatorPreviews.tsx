@@ -4,7 +4,8 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import { useTheme } from "next-themes";
+import React, { useState, useEffect } from "react";
 
 import { Box } from "@/components/ui/Box";
 import { Card } from "@/components/ui/Card";
@@ -12,26 +13,38 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 
 export const CalculatorPreviews = () => {
   const t = useTranslations("landing");
+  const { resolvedTheme } = useTheme();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const getImageSource = (baseId: string) => {
+    if (!mounted) return `/screenshots/${baseId}-light.png`;
+    const theme = resolvedTheme === "dark" ? "dark" : "light";
+    return `/screenshots/${baseId}-${theme}.png`;
+  };
 
   const previews = [
     {
       id: "budget-wizard",
-      src: "/screenshots/budget-wizard2.png",
+      src: getImageSource("budget-wizard"),
       alt: t("previews.budget_wizard_alt"),
       title: t("previews.budget_wizard_title"),
       description: t("previews.budget_wizard_description"),
     },
     {
       id: "budget-results",
-      src: "/screenshots/budget-results2.png",
+      src: getImageSource("budget-results"),
       alt: t("previews.budget_results_alt"),
       title: t("previews.budget_results_title"),
       description: t("previews.budget_results_description"),
     },
     {
       id: "compound-interest",
-      src: "/screenshots/compound-interest2.png",
+      src: getImageSource("compound-interest"),
       alt: t("previews.compound_interest_alt"),
       title: t("previews.compound_interest_title"),
       description: t("previews.compound_interest_description"),
@@ -82,14 +95,14 @@ export const CalculatorPreviews = () => {
               </Box>
 
               <Box
-                className="relative aspect-[16/10] overflow-hidden bg-gray-900 mt-auto cursor-pointer"
+                className="relative aspect-[16/10] overflow-hidden bg-background mt-auto cursor-pointer"
                 onClick={() => setSelectedImage(preview.src)}
               >
                 <Image
                   fill
                   alt={preview.alt}
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                  className="object-contain object-center bg-gray-950"
+                  className="object-cover object-center"
                   placeholder="blur"
                   quality={100}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
