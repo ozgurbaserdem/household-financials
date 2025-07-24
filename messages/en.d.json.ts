@@ -426,6 +426,7 @@ declare const messages: {
     compound_interest: "Compound interest";
     compound_interest_label: "Compound interest calculator";
     compound_interest_desc: "See how your investments grow through the power of compounding";
+    back: "Back";
   };
   hushallsbudget: {
     title: "Household budget - Take control of your family's finances";

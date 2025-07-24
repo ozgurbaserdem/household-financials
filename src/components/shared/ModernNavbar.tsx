@@ -327,7 +327,7 @@ export const ModernNavbar = () => {
                         onClick={() => setMobileSubmenu(null)}
                       >
                         <ArrowLeft className="w-5 h-5" />
-                        <span className="text-lg font-medium">Back</span>
+                        <span className="text-lg font-medium">{t("back")}</span>
                       </button>
 
                       <div className="space-y-2">

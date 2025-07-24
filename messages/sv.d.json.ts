@@ -16,6 +16,7 @@ declare const messages: {
     compound_interest: "Ränta-på-Ränta";
     compound_interest_label: "Ränta-på-ränta kalkylator";
     compound_interest_desc: "Se hur dina investeringar växer genom sammansatt avkastning";
+    back: "Tillbaka";
   };
   loan_parameters: {
     title: "Låneparametrar";
