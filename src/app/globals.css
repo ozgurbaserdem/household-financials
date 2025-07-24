@@ -432,42 +432,87 @@ input[type="number"].no-spinner {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(
+    135deg,
+    #d4af37 0%,
+    #f4e07b 25%,
+    #d4af37 50%,
+    #b8941f 75%,
+    #d4af37 100%
+  );
   cursor: pointer;
   border: 2px solid white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
 }
 
+.dark .slider-custom::-webkit-slider-thumb {
+  background: linear-gradient(135deg, #ffd700 75%, #b8860b 100%);
+}
+
 .slider-custom::-webkit-slider-thumb:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.dark .slider-custom::-webkit-slider-thumb:hover {
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
 }
 
 .slider-custom::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(
+    135deg,
+    #d4af37 0%,
+    #f4e07b 25%,
+    #d4af37 50%,
+    #b8941f 75%,
+    #d4af37 100%
+  );
   cursor: pointer;
   border: 2px solid white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
 }
 
+.dark .slider-custom::-moz-range-thumb {
+  background: linear-gradient(
+    135deg,
+    #fff176 0%,
+    #fff59d 25%,
+    #ffeb3b 50%,
+    #ffd700 75%,
+    #b8860b 100%
+  );
+}
+
 .slider-custom::-moz-range-thumb:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.dark .slider-custom::-moz-range-thumb:hover {
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
 }
 
 .slider-custom:focus::-webkit-slider-thumb {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+}
+
+.dark .slider-custom:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
 }
 
 .slider-custom:focus::-moz-range-thumb {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+}
+
+.dark .slider-custom:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
 }
 
 /* Legacy chip styles - use Button component with chip variants instead */

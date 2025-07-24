@@ -328,11 +328,12 @@ export const CompoundInterestCalculator = () => {
                         <div className="flex flex-col sm:flex-row gap-2 w-full">
                           <Button
                             className="flex-1"
+                            size="budgetkollen-selection"
                             type="button"
                             variant={
                               inputs.withdrawalType === "percentage"
-                                ? "gradient"
-                                : "secondary"
+                                ? "budgetkollen-selection-active"
+                                : "budgetkollen-selection"
                             }
                             onClick={() =>
                               setInputs((prev) => ({
@@ -347,11 +348,12 @@ export const CompoundInterestCalculator = () => {
                           </Button>
                           <Button
                             className="flex-1"
+                            size="budgetkollen-selection"
                             type="button"
                             variant={
                               inputs.withdrawalType === "amount"
-                                ? "gradient"
-                                : "secondary"
+                                ? "budgetkollen-selection-active"
+                                : "budgetkollen-selection"
                             }
                             onClick={() =>
                               setInputs((prev) => ({

@@ -224,6 +224,6 @@ describe("Loans", () => {
 
     // Should show the "no loan" button as active
     const noLoanButton = screen.getByRole("button", { name: "no_loan" });
-    expect(noLoanButton).toHaveClass("bg-gradient-to-r");
+    expect(noLoanButton).toHaveClass("border-yellow-400");
   });
 });

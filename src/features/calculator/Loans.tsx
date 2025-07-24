@@ -196,8 +196,13 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                       <Box className="flex items-center gap-3">
                         <Button
                           className="flex-1"
+                          size="budgetkollen-selection"
                           type="button"
-                          variant={field.value ? "gradient" : "secondary"}
+                          variant={
+                            field.value
+                              ? "budgetkollen-selection-active"
+                              : "budgetkollen-selection"
+                          }
                           onClick={() => {
                             setIsUserToggling(true);
                             field.onChange(true);
@@ -212,8 +217,13 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                         </Button>
                         <Button
                           className="flex-1"
+                          size="budgetkollen-selection"
                           type="button"
-                          variant={!field.value ? "gradient" : "secondary"}
+                          variant={
+                            !field.value
+                              ? "budgetkollen-selection-active"
+                              : "budgetkollen-selection"
+                          }
                           onClick={() => {
                             setIsUserToggling(true);
                             field.onChange(false);

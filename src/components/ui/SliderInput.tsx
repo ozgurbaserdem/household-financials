@@ -73,11 +73,31 @@ export const SliderInput = ({
     // Cap the percentage calculation at 100% for slider visual
     const cappedValue = Math.min(value, max);
     const percentage = ((cappedValue - min) / (max - min)) * 100;
-    return `linear-gradient(to right, 
-      rgb(255 255 255) 0%, 
-      rgb(107 114 128) ${percentage}%, 
-      rgb(55 65 81) ${percentage}%, 
-      rgb(55 65 81) 100%)`;
+
+    // Check if dark mode is active
+    const isDark = document.documentElement.classList.contains("dark");
+
+    if (isDark) {
+      // Dark mode: Create a golden gradient for the filled portion
+      return `linear-gradient(to right, 
+        #fff176 0%, 
+        #fff59d ${percentage * 0.25}%, 
+        #ffeb3b ${percentage * 0.5}%, 
+        #ffd700 ${percentage * 0.75}%, 
+        #b8860b ${percentage}%, 
+        rgb(40 40 40) ${percentage}%, 
+        rgb(40 40 40) 100%)`;
+    } else {
+      // Light mode: Create a golden gradient for the filled portion
+      return `linear-gradient(to right, 
+        #d4af37 0%, 
+        #f4e07b ${percentage * 0.25}%, 
+        #d4af37 ${percentage * 0.5}%, 
+        #b8941f ${percentage * 0.75}%, 
+        #d4af37 ${percentage}%, 
+        rgb(230 230 230) ${percentage}%, 
+        rgb(230 230 230) 100%)`;
+    }
   };
 
   return (
