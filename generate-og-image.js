@@ -1,7 +1,8 @@
-import puppeteer from "puppeteer";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+
+import puppeteer from "puppeteer";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,7 +36,7 @@ const generateOGImage = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Take PNG screenshot
-    const pngPath = path.join(__dirname, "public", "compound-interest-og.png");
+    const pngPath = path.join(__dirname, "public", "og-image.png");
     await page.screenshot({
       path: pngPath,
       width: 1200,
@@ -49,21 +50,8 @@ const generateOGImage = async () => {
       },
     });
 
-    // Generate SVG version by getting the HTML content and wrapping it in SVG
-    const svgContent = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-      <foreignObject width="1200" height="630">
-        <div xmlns="http://www.w3.org/1999/xhtml">
-          ${htmlContent.replace(/<html[^>]*>|<\/html>|<head[^>]*>.*?<\/head>|<body[^>]*>|<\/body>/gs, "")}
-        </div>
-      </foreignObject>
-    </svg>`;
-
-    const svgPath = path.join(__dirname, "public", "compound-interest-og.svg");
-    fs.writeFileSync(svgPath, svgContent);
-
-    console.log(`✅ OpenGraph images generated:`);
+    console.log(`✅ OpenGraph image generated:`);
     console.log(`   PNG: ${pngPath}`);
-    console.log(`   SVG: ${svgPath}`);
   } catch (error) {
     console.error("❌ Error generating image:", error);
   } finally {
