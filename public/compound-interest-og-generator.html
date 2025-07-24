@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Interest OG Image Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        #container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #svgContainer {
+            border: 1px solid #ccc;
+            background: white;
+            margin: 20px 0;
+        }
+        button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #005a87;
+        }
+        #canvas {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Compound Interest OG Image Generator</h1>
+        <p>This tool converts the compound interest SVG to PNG at 1200x630 resolution.</p>
+        
+        <button onclick="loadSVG()">Load SVG</button>
+        <button onclick="generatePNG()">Generate PNG</button>
+        <button onclick="downloadPNG()">Download PNG</button>
+        
+        <div id="svgContainer"></div>
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        async function loadSVG() {
+            try {
+                // Try to fetch the SVG file
+                const response = await fetch('./compound-interest-og.svg');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const svgText = await response.text();
+                document.getElementById('svgContainer').innerHTML = svgText;
+                console.log('SVG loaded successfully');
+            } catch (error) {
+                console.error('Error loading SVG:', error);
+                // Fallback: embed the SVG directly
+                embedSVGDirectly();
+            }
+        }
+
+        function embedSVGDirectly() {
+            // Direct SVG content as fallback
+            const svgContent = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .og-container {
+        width: 1200px;
+        height: 630px;
+        background: #0a0a0a;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        display: flex;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .content {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        padding: 60px;
+        gap: 60px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .left-side {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 32px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .logo-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .logo-check {
+        width: 16px;
+        height: 16px;
+        background: #22c55e;
+        border-radius: 50%;
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        border: 2px solid #0a0a0a;
+      }
+
+      .logo-check::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 4px;
+        width: 4px;
+        height: 6px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+
+      .logo-text {
+        font-size: 28px;
+        font-weight: 600;
+        color: white;
+        font-style: italic;
+      }
+
+      .heading {
+        font-size: 56px;
+        font-weight: 700;
+        color: white;
+        line-height: 1.1;
+        margin: 0;
+      }
+
+      .subheading {
+        font-size: 24px;
+        color: #a3a3a3;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      .right-side {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 480px;
+      }
+
+      .withdrawal-indicator {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ef4444;
+        font-size: 16px;
+        font-weight: 600;
+        white-space: nowrap;
+        z-index: 10;
+      }
+
+      .chart {
+        display: flex;
+        align-items: end;
+        gap: 8px;
+        height: 320px;
+        padding: 20px 0;
+      }
+
+      .bar {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        width: 16px;
+        gap: 0;
+      }
+
+      .bar-segment {
+        width: 100%;
+        border-radius: 2px;
+      }
+
+      .bar-segment.initial {
+        background: #3b82f6;
+      }
+
+      .bar-segment.monthly {
+        background: #22c55e;
+      }
+
+      .bar-segment.growth {
+        background: #8b5cf6;
+      }
+
+      .bar-segment.withdrawal {
+        background: #ef4444;
+      }
+
+      .legend {
+        display: flex;
+        gap: 24px;
+        margin-top: 24px;
+        justify-content: center;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: #a3a3a3;
+      }
+
+      .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 2px;
+      }
+
+      .legend-color.initial {
+        background: #3b82f6;
+      }
+
+      .legend-color.monthly {
+        background: #22c55e;
+      }
+
+      .legend-color.growth {
+        background: #8b5cf6;
+      }
+    </style>
+  </defs>
+  
+  <foreignObject width="1200" height="630">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <div class="og-container">
+        <div class="content">
+          <!-- Left side - Text and Logo -->
+          <div class="left-side">
+            <div class="logo">
+              <div class="logo-icon">
+                <div class="logo-check"></div>
+              </div>
+              <div class="logo-text">Budgetkollen</div>
+            </div>
+
+            <h1 class="heading">Ränta på ränta<br />kalkylator</h1>
+            <p class="subheading">Se hur ditt sparande växer exponentiellt</p>
+          </div>
+
+          <!-- Right side - Chart -->
+          <div class="right-side">
+            <div class="chart-container">
+              <div class="withdrawal-indicator">Uttag påbörjas</div>
+              <div class="chart">
+                <!-- Year 1-10 (building/accumulation phase) -->
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 35px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 48px"></div>
+                  <div class="bar-segment growth" style="height: 6px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 62px"></div>
+                  <div class="bar-segment growth" style="height: 16px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 75px"></div>
+                  <div class="bar-segment growth" style="height: 28px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 88px"></div>
+                  <div class="bar-segment growth" style="height: 42px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 100px"></div>
+                  <div class="bar-segment growth" style="height: 58px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 112px"></div>
+                  <div class="bar-segment growth" style="height: 76px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 125px"></div>
+                  <div class="bar-segment growth" style="height: 96px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 138px"></div>
+                  <div class="bar-segment growth" style="height: 118px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment initial" style="height: 12px"></div>
+                  <div class="bar-segment monthly" style="height: 150px"></div>
+                  <div class="bar-segment growth" style="height: 142px"></div>
+                </div>
+
+                <!-- Red divider line (withdrawal phase indicator) -->
+                <div style="position: relative; width: 3px; height: 100%; margin: 0 8px; display: flex; align-items: start; justify-content: center;">
+                  <div style="width: 2px; height: 100%; background: repeating-linear-gradient(to bottom, #ef4444 0, #ef4444 8px, transparent 8px, transparent 16px); opacity: 0.8;"></div>
+                </div>
+
+                <!-- Year 11-20 (withdrawal/decumulation phase) -->
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 280px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 260px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 240px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 220px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 200px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 180px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 160px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 140px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 120px"></div>
+                </div>
+                <div class="bar">
+                  <div class="bar-segment withdrawal" style="height: 100px"></div>
+                </div>
+              </div>
+
+              <div class="legend">
+                <div class="legend-item">
+                  <div class="legend-color initial"></div>
+                  <span>Initial investering</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color monthly"></div>
+                  <span>Månatligt sparande</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color growth"></div>
+                  <span>Avkastning</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>`;
+            
+            document.getElementById('svgContainer').innerHTML = svgContent;
+            console.log('SVG embedded directly');
+        }
+
+        function generatePNG() {
+            const svgElement = document.querySelector('#svgContainer svg');
+            if (!svgElement) {
+                alert('Please load SVG first');
+                return;
+            }
+
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Create a new image
+            const img = new Image();
+            
+            img.onload = function() {
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw the image
+                ctx.drawImage(img, 0, 0, 1200, 630);
+                console.log('PNG generated successfully');
+            };
+            
+            img.onerror = function() {
+                console.error('Error loading SVG as image');
+                alert('Error generating PNG');
+            };
+            
+            // Convert SVG to data URL
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const svgUrl = URL.createObjectURL(svgBlob);
+            
+            img.src = svgUrl;
+        }
+
+        function downloadPNG() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Check if canvas has content
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const hasContent = imageData.data.some(channel => channel !== 0);
+            
+            if (!hasContent) {
+                alert('Please generate PNG first');
+                return;
+            }
+            
+            // Create download link
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'compound-interest-og.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        }
+
+        // Auto-load SVG on page load
+        window.addEventListener('load', loadSVG);
+    </script>
+</body>
+</html>

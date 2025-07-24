@@ -1,4 +1,77 @@
-<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Image Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        #container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #svgContainer {
+            border: 1px solid #ccc;
+            background: white;
+            margin: 20px 0;
+        }
+        button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #005a87;
+        }
+        #canvas {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>OG Image Generator</h1>
+        <p>This tool converts the SVG to PNG at 1200x630 resolution.</p>
+        
+        <button onclick="loadSVG()">Load SVG</button>
+        <button onclick="generatePNG()">Generate PNG</button>
+        <button onclick="downloadPNG()">Download PNG</button>
+        
+        <div id="svgContainer"></div>
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        async function loadSVG() {
+            try {
+                // Try to fetch the SVG file
+                const response = await fetch('./household-budget-og.svg');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const svgText = await response.text();
+                document.getElementById('svgContainer').innerHTML = svgText;
+                console.log('SVG loaded successfully');
+            } catch (error) {
+                console.error('Error loading SVG:', error);
+                // Fallback: embed the SVG directly
+                embedSVGDirectly();
+            }
+        }
+
+        function embedSVGDirectly() {
+            // Direct SVG content as fallback
+            const svgContent = `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <!-- Golden gradient for highlighted text -->
     <linearGradient id="golden-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -151,4 +224,75 @@
       Fundera på sätt att minska boendekostnaderna.
     </text>
   </g>
-</svg>
+</svg>`;
+            
+            document.getElementById('svgContainer').innerHTML = svgContent;
+            console.log('SVG embedded directly');
+        }
+
+        function generatePNG() {
+            const svgElement = document.querySelector('#svgContainer svg');
+            if (!svgElement) {
+                alert('Please load SVG first');
+                return;
+            }
+
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Create a new image
+            const img = new Image();
+            
+            img.onload = function() {
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw the image
+                ctx.drawImage(img, 0, 0, 1200, 630);
+                console.log('PNG generated successfully');
+            };
+            
+            img.onerror = function() {
+                console.error('Error loading SVG as image');
+                alert('Error generating PNG');
+            };
+            
+            // Convert SVG to data URL
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const svgUrl = URL.createObjectURL(svgBlob);
+            
+            img.src = svgUrl;
+        }
+
+        function downloadPNG() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Check if canvas has content
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const hasContent = imageData.data.some(channel => channel !== 0);
+            
+            if (!hasContent) {
+                alert('Please generate PNG first');
+                return;
+            }
+            
+            // Create download link
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'household-budget-og.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        }
+
+        // Auto-load SVG on page load
+        window.addEventListener('load', loadSVG);
+    </script>
+</body>
+</html>
