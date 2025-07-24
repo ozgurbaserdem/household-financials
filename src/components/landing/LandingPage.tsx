@@ -182,11 +182,14 @@ export const LandingPage = () => {
                   key={step.title}
                   className="flex flex-col items-center text-center"
                 >
-                  <div className="w-16 h-16 rounded-full bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm flex items-center justify-center mb-4 relative">
                     <step.icon className={`w-8 h-8 ${step.colorClass}`} />
-                  </div>
-                  <div className="w-8 h-8 rounded-full bg-foreground text-background text-sm font-semibold flex items-center justify-center mb-4">
-                    {index + 1}
+                    {/* Badge with step number in top-right corner */}
+                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-gray-50 dark:bg-black border border-gray-200 dark:border-gray-800 flex items-center justify-center">
+                      <span className="text-xs font-bold text-gradient-golden">
+                        {index + 1}
+                      </span>
+                    </div>
                   </div>
                   <h3 className="heading-3 text-foreground mb-2 text-lg">
                     {step.title}

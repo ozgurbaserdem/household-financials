@@ -199,7 +199,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
 
           {/* Tips Section */}
           <Card variant="elevated">
-            <CardHeader>
+            <CardHeader className="mb-2">
               <div
                 className="p-2 rounded-lg"
                 style={{
@@ -226,10 +226,13 @@ const RantaPaRantaPage = async ({ params }: Props) => {
                 ].map((tip, tipIndex) => (
                   <div
                     key={tip.key}
-                    className="flex items-center gap-4 p-6 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                    className="relative p-6 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
                   >
-                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-medium flex-shrink-0">
-                      {tipIndex + 1}
+                    {/* Badge positioned on the top-left corner */}
+                    <div className="absolute -left-4 -top-4 w-8 h-8 rounded-full bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-800 flex items-center justify-center">
+                      <span className="text-sm font-bold text-gradient-golden">
+                        {tipIndex + 1}
+                      </span>
                     </div>
                     <Text className="text-muted-foreground text-sm leading-relaxed">
                       {tip.content}
@@ -247,7 +250,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
             </h2>
             <div className="grid gap-4">
               <Card variant="elevated">
-                <CardContent className="pt-6">
+                <CardContent>
                   <h3 className="text-lg font-semibold text-foreground mb-2">
                     {t("faq_section.q1.question")}
                   </h3>
@@ -258,7 +261,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
               </Card>
 
               <Card variant="elevated">
-                <CardContent className="pt-6">
+                <CardContent>
                   <h3 className="text-lg font-semibold text-foreground mb-2">
                     {t("faq_section.q2.question")}
                   </h3>
@@ -269,7 +272,7 @@ const RantaPaRantaPage = async ({ params }: Props) => {
               </Card>
 
               <Card variant="elevated">
-                <CardContent className="pt-6">
+                <CardContent>
                   <h3 className="text-lg font-semibold text-foreground mb-2">
                     {t("faq_section.q3.question")}
                   </h3>

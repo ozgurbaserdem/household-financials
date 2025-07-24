@@ -201,6 +201,29 @@ body {
   animation: golden-shimmer 6s ease-in-out infinite;
 }
 
+/* Golden gradient background for badges */
+.bg-gradient-golden {
+  background: linear-gradient(
+    135deg,
+    #d4af37 0%,
+    #f4e07b 25%,
+    #d4af37 50%,
+    #b8941f 75%,
+    #d4af37 100%
+  );
+}
+
+.dark .bg-gradient-golden {
+  background: linear-gradient(
+    135deg,
+    #fff176 0%,
+    #fff59d 25%,
+    #ffeb3b 50%,
+    #ffd700 75%,
+    #b8860b 100%
+  );
+}
+
 @keyframes golden-shimmer {
   0%,
   100% {
