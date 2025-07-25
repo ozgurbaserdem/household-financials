@@ -42,7 +42,7 @@ export const SliderInput = ({
 
   const handleEditStart = () => {
     setIsEditing(true);
-    setTemporaryValue(value.toString());
+    setTemporaryValue((value ?? 0).toString());
     onEditStart?.();
   };
 
@@ -71,7 +71,7 @@ export const SliderInput = ({
 
   const getSliderBackground = () => {
     // Cap the percentage calculation at 100% for slider visual
-    const cappedValue = Math.min(value, max);
+    const cappedValue = Math.min(value ?? 0, max);
     const percentage = ((cappedValue - min) / (max - min)) * 100;
 
     // Check if dark mode is active
@@ -112,7 +112,7 @@ export const SliderInput = ({
           background: getSliderBackground(),
         }}
         type="range"
-        value={Math.min(value, max)} // Cap slider value to max
+        value={Math.min(value ?? 0, max)} // Cap slider value to max
         onChange={(e) => onChange(Number(e.target.value))}
       />
       <div className="flex-shrink-0">
@@ -133,7 +133,7 @@ export const SliderInput = ({
           >
             <Text className="text-sm font-semibold text-foreground">
               {prefix}
-              {value.toFixed(decimals)}
+              {(value ?? 0).toFixed(decimals)}
               {suffix}
             </Text>
           </button>

@@ -224,6 +224,9 @@ declare const messages: {
     search_municipality: "Search municipality...";
     include_church_tax: "Include church tax";
     showing_municipalities: "Showing {shown} of {total} municipalities";
+    secondary_income_tax_rate: "Secondary income tax rate (%)";
+    secondary_income_tax_rate_help: "Tax rate applied to secondary income (25-40%)";
+    secondary_income_tax_rate_aria: "Tax rate slider for secondary income";
   };
   financial_health: {
     title: "Financial health score";

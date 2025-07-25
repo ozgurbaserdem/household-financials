@@ -33,6 +33,7 @@ describe("Financial Calculations", () => {
           numberOfAdults: "1",
           selectedKommun: "STOCKHOLM",
           includeChurchTax: false,
+          secondaryIncomeTaxRate: 34,
         },
         expenses: {},
         expenseViewMode: "detailed",
@@ -90,6 +91,7 @@ describe("Financial Calculations", () => {
           numberOfAdults: "1",
           selectedKommun: "STOCKHOLM",
           includeChurchTax: false,
+          secondaryIncomeTaxRate: 34,
         },
         expenses: {},
         expenseViewMode: "detailed",
@@ -331,6 +333,7 @@ describe("Financial Calculations", () => {
           numberOfAdults: "2",
           selectedKommun: "STOCKHOLM",
           includeChurchTax: false,
+          secondaryIncomeTaxRate: 34,
         },
         expenses: {},
         expenseViewMode: "detailed",
@@ -438,6 +441,7 @@ describe("Financial Calculations", () => {
           numberOfAdults: "2",
           selectedKommun: "DOROTEA",
           includeChurchTax: true,
+          secondaryIncomeTaxRate: 34,
         },
         expenses: {
           home: 2800,
@@ -490,6 +494,7 @@ describe("Financial Calculations", () => {
           numberOfAdults: "1",
           selectedKommun: "STOCKHOLM",
           includeChurchTax: false,
+          secondaryIncomeTaxRate: 34,
         },
         expenses: {},
         expenseViewMode: "detailed",
@@ -534,6 +539,7 @@ describe("Financial Calculations", () => {
           numberOfAdults: "1",
           selectedKommun: "STOCKHOLM",
           includeChurchTax: false,
+          secondaryIncomeTaxRate: 34,
         },
         expenses: {
           home: 10000,
@@ -586,6 +592,7 @@ describe("Financial Calculations", () => {
           numberOfAdults: "1",
           selectedKommun: "STOCKHOLM",
           includeChurchTax: false,
+          secondaryIncomeTaxRate: 34,
         },
         expenses: {},
         expenseViewMode: "detailed",
@@ -624,6 +631,7 @@ describe("Financial Calculations", () => {
           numberOfAdults: "1",
           selectedKommun: "STOCKHOLM",
           includeChurchTax: false,
+          secondaryIncomeTaxRate: 34,
         },
         expenses: {},
         expenseViewMode: "detailed",
@@ -666,6 +674,7 @@ describe("Financial Calculations", () => {
           numberOfAdults: "1",
           selectedKommun: "STOCKHOLM",
           includeChurchTax: false,
+          secondaryIncomeTaxRate: 34,
         },
         expenses: {},
         expenseViewMode: "detailed",
@@ -680,6 +689,155 @@ describe("Financial Calculations", () => {
       expect(results[0].amortizationRate).toBe(0);
       expect(results[0].monthlyInterest).toBe(0);
       expect(results[0].monthlyAmortization).toBe(0);
+    });
+  });
+
+  describe("getNetIncome with secondary income tax rates", () => {
+    it("should calculate secondary income with default rate when no custom rate provided", () => {
+      const gross = 10000;
+      const net = getNetIncome(gross, true);
+
+      // With default 34% rate, net should be approximately 6600
+      expect(net).toBeCloseTo(6600, -2);
+    });
+
+    it("should calculate secondary income with custom tax rate", () => {
+      const gross = 10000;
+      const netLowRate = getNetIncome(gross, true, undefined, undefined, 25);
+      const netHighRate = getNetIncome(gross, true, undefined, undefined, 40);
+
+      // 25% rate should result in 7500 net
+      expect(netLowRate).toBeCloseTo(7500, -2);
+      // 40% rate should result in 6000 net
+      expect(netHighRate).toBeCloseTo(6000, -2);
+
+      // Lower rate should give higher net income
+      expect(netLowRate).toBeGreaterThan(netHighRate);
+    });
+
+    it("should handle edge cases for secondary income tax rates", () => {
+      const gross = 15000;
+
+      // Minimum rate (25%)
+      const minRate = getNetIncome(gross, true, undefined, undefined, 25);
+      expect(minRate).toBeCloseTo(11250, -2);
+
+      // Maximum rate (40%)
+      const maxRate = getNetIncome(gross, true, undefined, undefined, 40);
+      expect(maxRate).toBeCloseTo(9000, -2);
+
+      // Default rate (34%)
+      const defaultRate = getNetIncome(gross, true);
+      const explicitDefault = getNetIncome(
+        gross,
+        true,
+        undefined,
+        undefined,
+        34
+      );
+      expect(defaultRate).toBeCloseTo(explicitDefault, 2);
+    });
+
+    it("should not use custom rate for primary income", () => {
+      const gross = 20000;
+      const primaryWithoutRate = getNetIncome(gross, false, "Stockholm");
+      const primaryWithRate = getNetIncome(
+        gross,
+        false,
+        "Stockholm",
+        false,
+        25
+      );
+
+      // Custom rate should be ignored for primary income
+      expect(primaryWithoutRate).toBeCloseTo(primaryWithRate, 2);
+    });
+  });
+
+  describe("calculateTotalNetIncome with secondary tax rates", () => {
+    it("should use custom secondary tax rate in total calculations", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 0,
+          interestRate: 0,
+          amortizationRate: 0,
+          hasLoan: false,
+        },
+        income: {
+          income1: 30000,
+          income2: 0,
+          secondaryIncome1: 15000,
+          secondaryIncome2: 10000,
+          childBenefits: 1200,
+          otherBenefits: 0,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "1",
+          selectedKommun: "Stockholm",
+          includeChurchTax: false,
+          secondaryIncomeTaxRate: 28, // Lower than default 34%
+        },
+        expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
+      };
+
+      const totalNet = calculateTotalNetIncome(state);
+
+      // Compare with default rate
+      const stateWithDefaultRate = {
+        ...state,
+        income: {
+          ...state.income,
+          secondaryIncomeTaxRate: 34,
+        },
+      };
+      const totalNetDefault = calculateTotalNetIncome(stateWithDefaultRate);
+
+      // Lower tax rate should result in higher total net income
+      expect(totalNet).toBeGreaterThan(totalNetDefault);
+    });
+
+    it("should handle zero secondary income correctly", () => {
+      const state: CalculatorState = {
+        loanParameters: {
+          amount: 0,
+          interestRate: 0,
+          amortizationRate: 0,
+          hasLoan: false,
+        },
+        income: {
+          income1: 40000,
+          income2: 30000,
+          secondaryIncome1: 0,
+          secondaryIncome2: 0,
+          childBenefits: 1500,
+          otherBenefits: 500,
+          otherIncomes: 0,
+          currentBuffer: 0,
+          numberOfAdults: "2",
+          selectedKommun: "Stockholm",
+          includeChurchTax: false,
+          secondaryIncomeTaxRate: 40, // High rate shouldn't matter
+        },
+        expenses: {},
+        expenseViewMode: "detailed",
+        totalExpenses: 0,
+      };
+
+      const totalNet = calculateTotalNetIncome(state);
+
+      // Should be same as with any other rate since no secondary income
+      const stateWithLowRate = {
+        ...state,
+        income: {
+          ...state.income,
+          secondaryIncomeTaxRate: 25,
+        },
+      };
+      const totalNetLowRate = calculateTotalNetIncome(stateWithLowRate);
+
+      expect(totalNet).toBeCloseTo(totalNetLowRate, 2);
     });
   });
 });

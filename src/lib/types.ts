@@ -44,6 +44,7 @@ export interface IncomeState {
   numberOfAdults: "1" | "2";
   selectedKommun?: string;
   includeChurchTax?: boolean;
+  secondaryIncomeTaxRate: number;
 }
 
 export interface CalculationResult {

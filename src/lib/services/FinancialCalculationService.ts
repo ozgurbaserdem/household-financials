@@ -70,6 +70,7 @@ export class FinancialCalculationService {
       childBenefits,
       otherBenefits,
       otherIncomes,
+      secondaryIncomeTaxRate,
     } = incomeState;
 
     // Calculate primary incomes (subject to kommun tax)
@@ -90,12 +91,18 @@ export class FinancialCalculationService {
     // Calculate secondary incomes (different tax rules)
     const secondaryIncome1Result = this.taxService.calculateNetIncome(
       secondaryIncome1,
-      true
+      true,
+      undefined,
+      undefined,
+      secondaryIncomeTaxRate
     );
 
     const secondaryIncome2Result = this.taxService.calculateNetIncome(
       secondaryIncome2,
-      true
+      true,
+      undefined,
+      undefined,
+      secondaryIncomeTaxRate
     );
 
     // Non-taxable incomes
@@ -212,12 +219,18 @@ export class FinancialCalculationService {
 
       const secondaryIncome1Net = this.taxService.calculateNetIncome(
         income.secondaryIncome1,
-        true
+        true,
+        undefined,
+        undefined,
+        income.secondaryIncomeTaxRate
       ).net;
 
       const secondaryIncome2Net = this.taxService.calculateNetIncome(
         income.secondaryIncome2,
-        true
+        true,
+        undefined,
+        undefined,
+        income.secondaryIncomeTaxRate
       ).net;
 
       return {

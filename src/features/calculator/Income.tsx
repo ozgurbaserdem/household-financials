@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
+import { SliderInput } from "@/components/ui/SliderInput";
 import { StepHeader } from "@/components/ui/StepHeader";
 import { kommunalskattData } from "@/data/kommunalskatt_2025";
 import type { KommunData } from "@/lib/types";
@@ -43,6 +44,7 @@ const formSchema = z.object({
   currentBuffer: z.number().min(0),
   selectedKommun: z.string().optional(),
   includeChurchTax: z.boolean().optional(),
+  secondaryIncomeTaxRate: z.number().min(25).max(40),
 });
 
 interface IncomeFormValues {
@@ -56,6 +58,7 @@ interface IncomeFormValues {
   currentBuffer: number;
   selectedKommun?: string;
   includeChurchTax?: boolean;
+  secondaryIncomeTaxRate: number;
 }
 
 interface IncomeFormProps {
@@ -158,7 +161,8 @@ export const Income = ({
       ([key]) =>
         key !== "currentBuffer" &&
         key !== "selectedKommun" &&
-        key !== "includeChurchTax"
+        key !== "includeChurchTax" &&
+        key !== "secondaryIncomeTaxRate"
     )
     .reduce((sum, [, val]) => sum + (typeof val === "number" ? val : 0), 0);
 
@@ -354,6 +358,44 @@ export const Income = ({
                             />
                           )}
                         </Box>
+
+                        {/* Secondary Income Tax Rate Slider */}
+                        {(form.watch("secondaryIncome1") > 0 ||
+                          form.watch("secondaryIncome2") > 0) && (
+                          <div className="mt-4 space-y-2">
+                            <Label className="text-sm font-medium text-foreground">
+                              {t("secondary_income_tax_rate")}
+                            </Label>
+                            <div className="text-xs text-muted-foreground mb-2">
+                              {t("secondary_income_tax_rate_help")}
+                            </div>
+                            <FormField
+                              control={form.control}
+                              name="secondaryIncomeTaxRate"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <SliderInput
+                                      ariaLabel={t(
+                                        "secondary_income_tax_rate_aria"
+                                      )}
+                                      decimals={0}
+                                      max={40}
+                                      min={25}
+                                      step={1}
+                                      suffix="%"
+                                      value={field.value}
+                                      onChange={(value) => {
+                                        field.onChange(value);
+                                        handleFieldChange();
+                                      }}
+                                    />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                        )}
                       </Box>
                     </AccordionContent>
                   </AccordionItem>

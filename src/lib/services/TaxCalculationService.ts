@@ -63,6 +63,7 @@ export class TaxCalculationService {
    * @param isSecondary - If true, applies secondary income tax rules (higher rate, no deductions)
    * @param selectedKommun - Kommun name for municipal tax rate lookup
    * @param includeChurchTax - Whether to include church tax in calculations
+   * @param secondaryIncomeTaxRate - Custom tax rate for secondary income (25-40%), defaults to 34%
    * @returns Complete tax calculation result with breakdown
    *
    * @example
@@ -76,7 +77,8 @@ export class TaxCalculationService {
     gross: number,
     isSecondary = false,
     selectedKommun?: string,
-    includeChurchTax?: boolean
+    includeChurchTax?: boolean,
+    secondaryIncomeTaxRate?: number
   ): TaxCalculationResult => {
     if (gross <= 0) {
       return {
@@ -91,7 +93,8 @@ export class TaxCalculationService {
     const config = this.getTaxConfig(
       isSecondary,
       selectedKommun,
-      includeChurchTax
+      includeChurchTax,
+      secondaryIncomeTaxRate
     );
     return this.calculateTaxes(gross, config);
   };
@@ -105,6 +108,7 @@ export class TaxCalculationService {
    * @param isSecondary - Whether this is secondary income
    * @param selectedKommun - Kommun name for tax rate lookup
    * @param includeChurchTax - Whether to include church tax
+   * @param secondaryIncomeTaxRate - Custom tax rate for secondary income (25-40%)
    * @returns Tax configuration object for calculations
    *
    * @private
@@ -112,10 +116,15 @@ export class TaxCalculationService {
   private getTaxConfig = (
     isSecondary: boolean,
     selectedKommun?: string,
-    includeChurchTax?: boolean
+    includeChurchTax?: boolean,
+    secondaryIncomeTaxRate?: number
   ): TaxCalculationConfig => {
     if (isSecondary) {
-      return this.secondaryIncomeConfig;
+      const config = { ...this.secondaryIncomeConfig };
+      if (secondaryIncomeTaxRate !== undefined) {
+        config.kommunalskatt = secondaryIncomeTaxRate / 100;
+      }
+      return config;
     }
 
     const baseConfig = { ...this.defaultConfig };
@@ -240,15 +249,23 @@ export class TaxCalculationService {
       isSecondary?: boolean;
       selectedKommun?: string;
       includeChurchTax?: boolean;
+      secondaryIncomeTaxRate?: number;
     }>
   ): TaxCalculationResult[] => {
     return incomes.map(
-      ({ amount, isSecondary, selectedKommun, includeChurchTax }) =>
+      ({
+        amount,
+        isSecondary,
+        selectedKommun,
+        includeChurchTax,
+        secondaryIncomeTaxRate,
+      }) =>
         this.calculateNetIncome(
           amount,
           isSecondary,
           selectedKommun,
-          includeChurchTax
+          includeChurchTax,
+          secondaryIncomeTaxRate
         )
     );
   };

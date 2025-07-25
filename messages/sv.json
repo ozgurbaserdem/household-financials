@@ -228,7 +228,10 @@
     "select_municipality": "Välj kommun",
     "search_municipality": "Sök kommun...",
     "include_church_tax": "Räkna med kyrkoavgift",
-    "showing_municipalities": "Visar {shown} av {total} kommuner"
+    "showing_municipalities": "Visar {shown} av {total} kommuner",
+    "secondary_income_tax_rate": "Skattesats för sidoinkomst (%)",
+    "secondary_income_tax_rate_help": "Skattesats som tillämpas på sidoinkomster (25-40%)",
+    "secondary_income_tax_rate_aria": "Skattesats reglage för sidoinkomst"
   },
   "financial_health": {
     "title": "Ekonomiskt hälsotillstånd",

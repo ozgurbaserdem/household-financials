@@ -22,6 +22,7 @@ export const IncomeStep = () => {
         currentBuffer: income.currentBuffer,
         selectedKommun: income.selectedKommun,
         includeChurchTax: income.includeChurchTax,
+        secondaryIncomeTaxRate: income.secondaryIncomeTaxRate,
       }}
       onChange={(values) => dispatch(updateIncome(values))}
       onNumberOfAdultsChange={(value) =>

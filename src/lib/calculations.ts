@@ -13,6 +13,7 @@ import type {
  * @param isSecondary - Whether this is secondary income (different tax rules)
  * @param selectedKommun - The kommun for municipal tax calculation
  * @param includeChurchTax - Whether to include church tax in calculations
+ * @param secondaryIncomeTaxRate - Custom tax rate for secondary income (25-40%), defaults to 34%
  * @returns The net income after all applicable taxes
  *
  * @example
@@ -25,13 +26,15 @@ export const getNetIncome = (
   gross: number,
   isSecondary = false,
   selectedKommun?: string,
-  includeChurchTax?: boolean
+  includeChurchTax?: boolean,
+  secondaryIncomeTaxRate?: number
 ): number => {
   const result = taxCalculationService.calculateNetIncome(
     gross,
     isSecondary,
     selectedKommun,
-    includeChurchTax
+    includeChurchTax,
+    secondaryIncomeTaxRate
   );
   return result.net;
 };
@@ -43,6 +46,7 @@ export const getNetIncome = (
  * @param isSecondary - Whether this is secondary income (different tax rules)
  * @param selectedKommun - The kommun for municipal tax calculation
  * @param includeChurchTax - Whether to include church tax in calculations
+ * @param secondaryIncomeTaxRate - Custom tax rate for secondary income (25-40%), defaults to 34%
  * @returns Object with gross and net income values
  *
  * @example
@@ -55,11 +59,18 @@ export const getIncomeWithNet = (
   gross: number,
   isSecondary = false,
   selectedKommun?: string,
-  includeChurchTax?: boolean
+  includeChurchTax?: boolean,
+  secondaryIncomeTaxRate?: number
 ) => {
   return {
     gross,
-    net: getNetIncome(gross, isSecondary, selectedKommun, includeChurchTax),
+    net: getNetIncome(
+      gross,
+      isSecondary,
+      selectedKommun,
+      includeChurchTax,
+      secondaryIncomeTaxRate
+    ),
   };
 };
 

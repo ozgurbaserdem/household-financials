@@ -97,7 +97,13 @@ export const SummaryStep = () => {
       ? {
           label: tSummary("secondaryIncome1"),
           value: income.secondaryIncome1,
-          net: getNetIncome(income.secondaryIncome1, true),
+          net: getNetIncome(
+            income.secondaryIncome1,
+            true,
+            undefined,
+            undefined,
+            income.secondaryIncomeTaxRate
+          ),
           icon: incomeIcons.secondaryIncome1,
         }
       : undefined,
@@ -105,7 +111,13 @@ export const SummaryStep = () => {
       ? {
           label: tSummary("secondaryIncome2"),
           value: income.secondaryIncome2,
-          net: getNetIncome(income.secondaryIncome2, true),
+          net: getNetIncome(
+            income.secondaryIncome2,
+            true,
+            undefined,
+            undefined,
+            income.secondaryIncomeTaxRate
+          ),
           icon: incomeIcons.secondaryIncome2,
         }
       : undefined,

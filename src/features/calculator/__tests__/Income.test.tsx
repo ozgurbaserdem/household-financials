@@ -25,6 +25,7 @@ describe("Income", () => {
           otherBenefits: 0,
           otherIncomes: 0,
           currentBuffer: 0,
+          secondaryIncomeTaxRate: 34,
         }}
         onChange={mockOnChange}
         onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
@@ -60,6 +61,7 @@ describe("Income", () => {
           otherBenefits: 0,
           otherIncomes: 0,
           currentBuffer: 0,
+          secondaryIncomeTaxRate: 34,
         }}
         onChange={mockOnChange}
         onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
@@ -125,6 +127,7 @@ describe("Income", () => {
           otherBenefits: 0,
           otherIncomes: 0,
           currentBuffer: 0,
+          secondaryIncomeTaxRate: 34,
         }}
         onChange={mockOnChange}
         onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
@@ -158,6 +161,7 @@ describe("Income", () => {
             otherBenefits: 0,
             otherIncomes: 0,
             currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
           }}
           onChange={mockOnChange}
           onNumberOfAdultsChange={setAdults}
@@ -271,6 +275,7 @@ describe("Income", () => {
       otherBenefits: 500,
       otherIncomes: 2000,
       currentBuffer: 0,
+      secondaryIncomeTaxRate: 34,
     };
 
     render(
@@ -306,6 +311,7 @@ describe("Income", () => {
           otherBenefits: 0,
           otherIncomes: 0,
           currentBuffer: 0,
+          secondaryIncomeTaxRate: 34,
         }}
         onChange={mockOnChange}
         onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
@@ -368,6 +374,7 @@ describe("Income", () => {
         otherBenefits: 500,
         otherIncomes: 2000,
         currentBuffer: 0,
+        secondaryIncomeTaxRate: 34,
       });
     });
   });
@@ -385,6 +392,7 @@ describe("Income", () => {
           otherBenefits: 0,
           otherIncomes: 0,
           currentBuffer: 0,
+          secondaryIncomeTaxRate: 34,
         }}
         onChange={mockOnChange}
         onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
@@ -396,5 +404,413 @@ describe("Income", () => {
     expect(toggleButton).toHaveAttribute("aria-expanded", "true");
     fireEvent.click(toggleButton);
     expect(toggleButton).toHaveAttribute("aria-expanded", "false");
+  });
+
+  describe("Secondary Income Tax Rate Slider", () => {
+    it("should not show tax rate slider when no secondary income is entered", () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 30000,
+            income2: 0,
+            secondaryIncome1: 0,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Expand secondary income section
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+
+      // Tax rate slider should not be visible
+      expect(
+        screen.queryByLabelText(/secondary_income_tax_rate_aria/i)
+      ).not.toBeInTheDocument();
+    });
+
+    it("should show tax rate slider when secondary income 1 is entered", async () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 30000,
+            income2: 0,
+            secondaryIncome1: 0,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Expand secondary income section
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+
+      // Enter secondary income 1
+      const secondaryIncome1Field = screen.getByLabelText(
+        /secondaryIncome1_aria/i
+      );
+      fireEvent.change(secondaryIncome1Field, { target: { value: "15000" } });
+
+      // Tax rate slider should now be visible
+      await waitFor(() => {
+        expect(
+          screen.getByLabelText(/secondary_income_tax_rate_aria/i)
+        ).toBeInTheDocument();
+      });
+    });
+
+    it("should show tax rate slider when secondary income 2 is entered", async () => {
+      render(
+        <Income
+          numberOfAdults={"2"}
+          values={{
+            income1: 30000,
+            income2: 25000,
+            secondaryIncome1: 0,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Expand secondary income section
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+
+      // Enter secondary income 2
+      const secondaryIncome2Field = screen.getByLabelText(
+        /secondaryIncome2_aria/i
+      );
+      fireEvent.change(secondaryIncome2Field, { target: { value: "10000" } });
+
+      // Tax rate slider should now be visible
+      await waitFor(() => {
+        expect(
+          screen.getByLabelText(/secondary_income_tax_rate_aria/i)
+        ).toBeInTheDocument();
+      });
+    });
+
+    it("should display default tax rate value in slider", async () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 30000,
+            income2: 0,
+            secondaryIncome1: 12000,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Expand secondary income section
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+
+      // Check that slider shows correct default value
+      await waitFor(() => {
+        const slider = screen.getByLabelText(/secondary_income_tax_rate_aria/i);
+        expect(slider).toHaveValue("34");
+      });
+
+      // Check that text display shows 34%
+      expect(screen.getByText("34%")).toBeInTheDocument();
+    });
+
+    it("should allow changing tax rate via slider", async () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 30000,
+            income2: 0,
+            secondaryIncome1: 15000,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Expand secondary income section
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+
+      await waitFor(() => {
+        const slider = screen.getByLabelText(/secondary_income_tax_rate_aria/i);
+
+        // Change slider value to 28%
+        fireEvent.change(slider, { target: { value: "28" } });
+
+        expect(mockOnChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            secondaryIncomeTaxRate: 28,
+          })
+        );
+      });
+    });
+
+    it("should allow changing tax rate via text input", async () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 30000,
+            income2: 0,
+            secondaryIncome1: 8000,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Expand secondary income section
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+
+      await waitFor(() => {
+        // Click on the percentage display to enter edit mode
+        const percentageDisplay = screen.getByText("34%");
+        fireEvent.click(percentageDisplay);
+      });
+
+      await waitFor(() => {
+        // Enter new value and blur to trigger save
+        const textInput = screen.getByDisplayValue("34");
+        fireEvent.change(textInput, { target: { value: "30" } });
+        fireEvent.blur(textInput);
+
+        expect(mockOnChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            secondaryIncomeTaxRate: 30,
+          })
+        );
+      });
+    });
+
+    it("should enforce minimum and maximum tax rate bounds", async () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 30000,
+            income2: 0,
+            secondaryIncome1: 10000,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Expand secondary income section
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+
+      await waitFor(() => {
+        const slider = screen.getByLabelText(/secondary_income_tax_rate_aria/i);
+
+        // Test minimum bound
+        expect(slider).toHaveAttribute("min", "25");
+
+        // Test maximum bound
+        expect(slider).toHaveAttribute("max", "40");
+
+        // Test step
+        expect(slider).toHaveAttribute("step", "1");
+      });
+    });
+
+    it("should hide slider when secondary income is cleared", async () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 30000,
+            income2: 0,
+            secondaryIncome1: 10000,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Expand secondary income section
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+
+      // Slider should be visible initially
+      await waitFor(() => {
+        expect(
+          screen.getByLabelText(/secondary_income_tax_rate_aria/i)
+        ).toBeInTheDocument();
+      });
+
+      // Clear secondary income
+      const secondaryIncome1Field = screen.getByLabelText(
+        /secondaryIncome1_aria/i
+      );
+      fireEvent.change(secondaryIncome1Field, { target: { value: "0" } });
+
+      // Slider should be hidden
+      await waitFor(() => {
+        expect(
+          screen.queryByLabelText(/secondary_income_tax_rate_aria/i)
+        ).not.toBeInTheDocument();
+      });
+    });
+
+    it("should show appropriate labels and help text", async () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 30000,
+            income2: 0,
+            secondaryIncome1: 5000,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Expand secondary income section
+      fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
+
+      await waitFor(() => {
+        // Check for slider label and help text by looking for the specific elements
+        const labels = screen.getAllByText(/secondary_income_tax_rate/i);
+        expect(labels.length).toBeGreaterThanOrEqual(1);
+
+        const helpTexts = screen.getAllByText(
+          /secondary_income_tax_rate_help/i
+        );
+        expect(helpTexts.length).toBeGreaterThanOrEqual(1);
+      });
+    });
+  });
+
+  describe("Total Income Display", () => {
+    it("should calculate total income correctly excluding tax rate field", () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 25000,
+            income2: 0,
+            secondaryIncome1: 5000,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 10000, // Should be excluded
+            secondaryIncomeTaxRate: 34, // Should be excluded
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Total should be 25000 + 5000 = 30000, not including tax rate or buffer
+      expect(screen.getByText("30 000 kr")).toBeInTheDocument();
+    });
+
+    it("should not include secondary income tax rate in total regardless of value", () => {
+      render(
+        <Income
+          numberOfAdults={"1"}
+          values={{
+            income1: 25000,
+            income2: 0,
+            secondaryIncome1: 5000,
+            secondaryIncome2: 0,
+            childBenefits: 0,
+            otherBenefits: 0,
+            otherIncomes: 0,
+            currentBuffer: 0,
+            secondaryIncomeTaxRate: 40, // Different tax rate
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Total should still be 30000, regardless of tax rate
+      expect(screen.getByText("30 000 kr")).toBeInTheDocument();
+    });
+
+    it("should exclude currentBuffer from total income calculation", () => {
+      render(
+        <Income
+          numberOfAdults={"2"}
+          values={{
+            income1: 20000,
+            income2: 15000,
+            secondaryIncome1: 0,
+            secondaryIncome2: 0,
+            childBenefits: 2000,
+            otherBenefits: 1000,
+            otherIncomes: 500,
+            currentBuffer: 50000, // Should not be included in total
+            secondaryIncomeTaxRate: 34,
+          }}
+          onChange={mockOnChange}
+          onNumberOfAdultsChange={mockOnNumberOfAdultsChange}
+        />
+      );
+
+      // Total should be 20000 + 15000 + 2000 + 1000 + 500 = 38500
+      expect(screen.getByText("38 500 kr")).toBeInTheDocument();
+    });
   });
 });

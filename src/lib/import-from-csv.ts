@@ -111,6 +111,7 @@ export const importFromCsv = (
           otherIncomes,
           currentBuffer: 0,
           numberOfAdults: "1",
+          secondaryIncomeTaxRate: 34,
         },
         expenses: unflattenExpenses(flat),
       };

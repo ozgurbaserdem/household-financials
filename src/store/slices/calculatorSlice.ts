@@ -25,6 +25,7 @@ const initialState: CalculatorState = {
     otherIncomes: 0,
     currentBuffer: 0,
     numberOfAdults: "1",
+    secondaryIncomeTaxRate: 34,
   },
   expenses: DEFAULT_EXPENSES,
   expenseViewMode: "detailed",
