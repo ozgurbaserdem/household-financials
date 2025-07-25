@@ -234,6 +234,26 @@ body {
   }
 }
 
+/* Golden color for SVG icons - matches the golden gradient theme */
+.text-golden {
+  color: #d4af37;
+}
+
+.dark .text-golden {
+  color: #d4af37;
+}
+
+/* Icon background and border styles for special cases */
+.icon-bg-golden {
+  background-color: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.dark .icon-bg-golden {
+  background-color: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
 .heading-1 {
   font-size: var(--text-4xl);
   font-weight: 700;

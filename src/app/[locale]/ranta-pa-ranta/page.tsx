@@ -136,15 +136,8 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           {/* Introduction Section */}
           <Card className="card-base" variant="elevated">
             <CardHeader>
-              <div
-                className="p-2 rounded-lg"
-                style={{
-                  backgroundColor: "rgb(34 197 94 / 0.1)",
-                  color: "rgb(34 197 94)",
-                  border: "1px solid rgb(34 197 94 / 0.2)",
-                }}
-              >
-                <TrendingUp className="w-6 h-6" />
+              <div className="p-2 rounded-lg icon-bg-golden">
+                <TrendingUp className="w-6 h-6 text-golden" />
               </div>
               <Box className="flex-1">
                 <CardTitle>{t("wonder_section.title")}</CardTitle>
@@ -200,15 +193,8 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           {/* Tips Section */}
           <Card variant="elevated">
             <CardHeader className="mb-2">
-              <div
-                className="p-2 rounded-lg"
-                style={{
-                  backgroundColor: "rgb(234 179 8 / 0.1)",
-                  color: "rgb(234 179 8)",
-                  border: "1px solid rgb(234 179 8 / 0.2)",
-                }}
-              >
-                <Lightbulb className="w-6 h-6" />
+              <div className="p-2 rounded-lg icon-bg-golden">
+                <Lightbulb className="w-6 h-6 text-golden" />
               </div>
               <Box className="flex-1">
                 <CardTitle>{t("tips_section.title")}</CardTitle>
@@ -287,15 +273,8 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           {/* Disclaimer */}
           <Card variant="elevated">
             <CardHeader>
-              <div
-                className="p-2 rounded-lg"
-                style={{
-                  backgroundColor: "rgb(239 68 68 / 0.1)",
-                  color: "rgb(239 68 68)",
-                  border: "1px solid rgb(239 68 68 / 0.2)",
-                }}
-              >
-                <AlertTriangle className="w-6 h-6" />
+              <div className="p-2 rounded-lg icon-bg-golden">
+                <AlertTriangle className="w-6 h-6 text-golden" />
               </div>
               <Box className="flex-1">
                 <CardTitle>{t("disclaimer_section.title")}</CardTitle>

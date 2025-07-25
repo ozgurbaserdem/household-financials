@@ -21,27 +21,23 @@ interface StepHeaderProps {
 
 const stepConfig = {
   income: {
-    icon: <Wallet className="w-6 h-6 text-green-500 dark:text-green-400" />,
+    icon: <Wallet className="w-6 h-6 text-golden" />,
     translationKey: "income",
   },
   expenses: {
-    icon: <List className="w-6 h-6 text-red-500 dark:text-red-400" />,
+    icon: <List className="w-6 h-6 text-golden" />,
     translationKey: "expense_categories",
   },
   loans: {
-    icon: (
-      <HandCoins className="w-6 h-6 text-yellow-500 dark:text-yellow-400" />
-    ),
+    icon: <HandCoins className="w-6 h-6 text-golden" />,
     translationKey: "loan_parameters",
   },
   summary: {
-    icon: (
-      <ListChecks className="w-6 h-6 text-purple-500 dark:text-purple-400" />
-    ),
+    icon: <ListChecks className="w-6 h-6 text-golden" />,
     translationKey: "summary",
   },
   results: {
-    icon: <BarChart3 className="w-6 h-6 text-blue-500 dark:text-blue-400" />,
+    icon: <BarChart3 className="w-6 h-6 text-golden" />,
     translationKey: "results",
   },
 };

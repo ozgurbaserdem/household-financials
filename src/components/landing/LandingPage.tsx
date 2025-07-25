@@ -73,31 +73,31 @@ export const LandingPage = () => {
       icon: Wallet,
       title: t("steps.income.title"),
       description: t("steps.income.description"),
-      colorClass: "text-green-500 dark:text-green-400",
+      colorClass: "text-golden",
     },
     {
       icon: HandCoins,
       title: t("steps.loans.title"),
       description: t("steps.loans.description"),
-      colorClass: "text-yellow-500 dark:text-yellow-400",
+      colorClass: "text-golden",
     },
     {
       icon: List,
       title: t("steps.expenses.title"),
       description: t("steps.expenses.description"),
-      colorClass: "text-red-500 dark:text-red-400",
+      colorClass: "text-golden",
     },
     {
       icon: ListChecks,
       title: t("steps.summary.title"),
       description: t("steps.summary.description"),
-      colorClass: "text-purple-500 dark:text-purple-400",
+      colorClass: "text-golden",
     },
     {
       icon: BarChart3,
       title: t("steps.results.title"),
       description: t("steps.results.description"),
-      colorClass: "text-blue-500 dark:text-blue-400",
+      colorClass: "text-golden",
     },
   ];
 
@@ -224,7 +224,7 @@ export const LandingPage = () => {
                       size="lg"
                       variant="default"
                     >
-                      <feature.icon className="w-8 h-8 text-foreground" />
+                      <feature.icon className="w-8 h-8 text-golden" />
                     </CardIcon>
                     <CardTitle className="text-center">
                       {feature.title}
@@ -259,7 +259,7 @@ export const LandingPage = () => {
                     size="lg"
                     variant="default"
                   >
-                    <TrendingUp className="w-8 h-8 text-foreground" />
+                    <TrendingUp className="w-8 h-8 text-golden" />
                   </CardIcon>
                   <Box className="flex-1">
                     <CardTitle>
@@ -285,7 +285,7 @@ export const LandingPage = () => {
                     size="lg"
                     variant="default"
                   >
-                    <CalculatorIcon className="w-8 h-8 text-foreground" />
+                    <CalculatorIcon className="w-8 h-8 text-golden" />
                   </CardIcon>
                   <Box className="flex-1">
                     <CardTitle>

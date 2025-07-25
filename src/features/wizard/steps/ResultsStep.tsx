@@ -54,8 +54,8 @@ export const ResultsStep = () => {
       {/* Expense Breakdown Card */}
       <div className="p-6 card-base shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 rounded-lg bg-red-500/10">
-            <PieChart className="w-6 h-6 text-red-600 dark:text-red-400" />
+          <div className="p-2 rounded-lg icon-bg-golden">
+            <PieChart className="w-6 h-6 text-golden" />
           </div>
           <h2 className="text-2xl font-bold text-foreground">
             {t("expense_breakdown.title")}
@@ -68,8 +68,8 @@ export const ResultsStep = () => {
       {loanParameters.hasLoan && (
         <div className="p-6 card-base shadow-sm">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 rounded-lg bg-blue-500/10">
-              <TrendingUp className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <div className="p-2 rounded-lg icon-bg-golden">
+              <TrendingUp className="w-6 h-6 text-golden" />
             </div>
             <h2 className="text-2xl font-bold text-foreground">
               {t("loan_forecast.title")}
@@ -85,8 +85,8 @@ export const ResultsStep = () => {
           <div className="flex flex-col lg:flex-row items-center gap-6">
             <div className="flex-1 text-center lg:text-left space-y-4">
               <div className="flex items-center justify-center lg:justify-start gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10">
-                  <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
+                <div className="p-2 rounded-lg icon-bg-golden">
+                  <TrendingUp className="w-6 h-6 text-golden" />
                 </div>
                 <h3
                   className="text-2xl font-bold text-foreground"

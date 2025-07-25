@@ -147,15 +147,8 @@ export const CompoundInterestCalculator = () => {
       {/* Input Controls */}
       <Card variant="elevated">
         <CardHeader>
-          <div
-            className="p-2 rounded-lg"
-            style={{
-              backgroundColor: "rgb(59 130 246 / 0.1)",
-              color: "rgb(59 130 246)",
-              border: "1px solid rgb(59 130 246 / 0.2)",
-            }}
-          >
-            <Calculator className="w-6 h-6" />
+          <div className="p-2 rounded-lg icon-bg-golden">
+            <Calculator className="w-6 h-6 text-golden" />
           </div>
           <Box className="flex-1">
             <CardTitle>{t("calculator.title")}</CardTitle>
@@ -218,8 +211,8 @@ export const CompoundInterestCalculator = () => {
               onClick={() => setShowAdvanced(!showAdvanced)}
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-amber-500/10 group-hover:bg-amber-500/20 transition-colors">
-                  <Settings2 className="w-5 h-5 text-amber-600 dark:text-amber-400 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors" />
+                <div className="p-2 rounded-lg icon-bg-golden">
+                  <Settings2 className="w-5 h-5 text-golden" />
                 </div>
                 <div className="text-left">
                   <Text className="text-base font-semibold text-foreground group-hover:text-primary transition-colors block">
@@ -233,7 +226,7 @@ export const CompoundInterestCalculator = () => {
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2">
                   {!showAdvanced && inputs.withdrawalType !== "none" && (
-                    <span className="px-2 py-1 text-xs font-medium bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
+                    <span className="px-2 py-1 text-xs font-medium icon-bg-golden text-golden rounded-full">
                       {t("advanced_settings.active_badge")}
                     </span>
                   )}
@@ -444,15 +437,8 @@ export const CompoundInterestCalculator = () => {
       {/* Results Summary */}
       <Card variant="elevated">
         <CardHeader>
-          <div
-            className="p-2 rounded-lg"
-            style={{
-              backgroundColor: "rgb(34 197 94 / 0.1)",
-              color: "rgb(34 197 94)",
-              border: "1px solid rgb(34 197 94 / 0.2)",
-            }}
-          >
-            <TrendingUp className="w-6 h-6" />
+          <div className="p-2 rounded-lg icon-bg-golden">
+            <TrendingUp className="w-6 h-6 text-golden" />
           </div>
           <Box className="flex-1">
             <CardTitle>{t("results.title")}</CardTitle>

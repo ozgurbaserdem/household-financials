@@ -25,15 +25,8 @@ const FinancialCard = ({
   return (
     <Card className={className} variant="elevated">
       <CardHeader>
-        <div
-          className="p-2 rounded-lg"
-          style={{
-            backgroundColor: "rgb(34 197 94 / 0.1)",
-            color: "rgb(34 197 94)",
-            border: "1px solid rgb(34 197 94 / 0.2)",
-          }}
-        >
-          <Icon className="w-6 h-6" />
+        <div className="p-2 rounded-lg icon-bg-golden">
+          <Icon className="w-6 h-6 text-golden" />
         </div>
         <Box className="flex-1">
           <CardTitle aria-label={ariaLabel || title} tabIndex={0}>
