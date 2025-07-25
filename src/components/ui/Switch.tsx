@@ -43,11 +43,11 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         ref={ref}
         aria-checked={checked}
         className={cn(
-          "relative inline-flex items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900",
+          "relative inline-flex items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2",
           currentSize.switch,
           checked
-            ? "bg-gradient-to-r from-gray-300 to-gray-900"
-            : "bg-gray-300",
+            ? "bg-gradient-golden focus:ring-amber-500/50"
+            : "bg-gray-300 dark:bg-gray-600 focus:ring-gray-500/50",
           disabled && "opacity-50 cursor-not-allowed",
           className
         )}

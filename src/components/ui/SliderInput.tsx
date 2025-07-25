@@ -80,11 +80,11 @@ export const SliderInput = ({
     if (isDark) {
       // Dark mode: Create a golden gradient for the filled portion
       return `linear-gradient(to right, 
-        #fff176 0%, 
-        #fff59d ${percentage * 0.25}%, 
-        #ffeb3b ${percentage * 0.5}%, 
-        #ffd700 ${percentage * 0.75}%, 
-        #b8860b ${percentage}%, 
+        #d4af37 0%, 
+        #b8941f ${percentage * 0.25}%, 
+        #daa520 ${percentage * 0.5}%, 
+        #b8860b ${percentage * 0.75}%, 
+        #8b6914 ${percentage}%, 
         rgb(40 40 40) ${percentage}%, 
         rgb(40 40 40) 100%)`;
     } else {

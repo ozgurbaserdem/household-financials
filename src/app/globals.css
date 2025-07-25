@@ -187,17 +187,17 @@ body {
 .dark .text-gradient-golden {
   background: linear-gradient(
     135deg,
-    #fff176 0%,
-    #fff59d 25%,
-    #ffeb3b 50%,
-    #ffd700 75%,
-    #b8860b 100%
+    #f4d03f 0%,
+    #e6b800 25%,
+    #daa520 50%,
+    #b8860b 75%,
+    #8b6914 100%
   );
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 2px 4px rgba(255, 215, 0, 0.2);
+  text-shadow: 0 2px 4px rgba(212, 175, 55, 0.2);
   animation: golden-shimmer 6s ease-in-out infinite;
 }
 
@@ -216,11 +216,11 @@ body {
 .dark .bg-gradient-golden {
   background: linear-gradient(
     135deg,
-    #fff176 0%,
-    #fff59d 25%,
-    #ffeb3b 50%,
-    #ffd700 75%,
-    #b8860b 100%
+    #d4af37 0%,
+    #b8941f 25%,
+    #daa520 50%,
+    #b8860b 75%,
+    #8b6914 100%
   );
 }
 
@@ -447,7 +447,14 @@ input[type="number"].no-spinner {
 }
 
 .dark .slider-custom::-webkit-slider-thumb {
-  background: linear-gradient(135deg, #ffd700 75%, #b8860b 100%);
+  background: linear-gradient(
+    135deg,
+    #d4af37 0%,
+    #b8941f 25%,
+    #daa520 50%,
+    #b8860b 75%,
+    #8b6914 100%
+  );
 }
 
 .slider-custom::-webkit-slider-thumb:hover {
@@ -480,11 +487,11 @@ input[type="number"].no-spinner {
 .dark .slider-custom::-moz-range-thumb {
   background: linear-gradient(
     135deg,
-    #fff176 0%,
-    #fff59d 25%,
-    #ffeb3b 50%,
-    #ffd700 75%,
-    #b8860b 100%
+    #d4af37 0%,
+    #b8941f 25%,
+    #daa520 50%,
+    #b8860b 75%,
+    #8b6914 100%
   );
 }
 
