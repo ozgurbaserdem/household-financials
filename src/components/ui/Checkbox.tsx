@@ -13,19 +13,21 @@ const Checkbox = ({
   return (
     <CheckboxPrimitive.Root
       className={cn(
-        // Light mode - black/white theme
-        "border-[rgb(var(--border))] bg-[rgb(var(--background))] data-[state=checked]:bg-[rgb(var(--foreground))] data-[state=checked]:border-[rgb(var(--foreground))] data-[state=unchecked]:bg-[rgb(var(--background))] data-[state=unchecked]:border-[rgb(var(--border))] hover:border-[rgb(var(--foreground))]",
-        // Dark mode - inverted black/white theme
-        "dark:border-[rgb(var(--border))] dark:bg-[rgb(var(--background))] dark:data-[state=checked]:bg-[rgb(var(--foreground))] dark:data-[state=checked]:border-[rgb(var(--foreground))] dark:data-[state=unchecked]:bg-[rgb(var(--background))] dark:data-[state=unchecked]:border-[rgb(var(--border))] dark:hover:border-[rgb(var(--foreground))]",
-        // Shared
-        "peer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-all duration-150 ease-in-out outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--foreground))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--background))] disabled:cursor-not-allowed disabled:opacity-50",
+        // Base styles
+        "peer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-all duration-200 ease-in-out outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--background))] disabled:cursor-not-allowed disabled:opacity-50",
+        // Unchecked state
+        "border-[rgb(var(--border))] bg-[rgb(var(--background))] hover:border-[rgb(var(--foreground))]",
+        // Checked state - golden gradient with explicit styles
+        "data-[state=checked]:border-[#d4af37] data-[state=checked]:bg-gradient-to-br data-[state=checked]:from-[#d4af37] data-[state=checked]:via-[#f4e07b] data-[state=checked]:to-[#b8941f]",
+        // Dark mode checked state
+        "dark:data-[state=checked]:border-[#d4af37] dark:data-[state=checked]:from-[#d4af37] dark:data-[state=checked]:via-[#b8941f] dark:data-[state=checked]:to-[#8b6914]",
         className
       )}
       data-slot="checkbox"
       {...props}
     >
       <CheckboxPrimitive.Indicator
-        className="flex h-full w-full items-center justify-center text-[rgb(var(--background))]"
+        className="flex h-full w-full items-center justify-center text-white drop-shadow-sm"
         data-slot="checkbox-indicator"
       >
         <CheckIcon className="h-3.5 w-3.5 stroke-[4]" />
