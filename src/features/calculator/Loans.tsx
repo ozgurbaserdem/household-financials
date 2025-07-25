@@ -193,7 +193,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Box className="flex items-center gap-3">
+                      <Box className="flex flex-col sm:flex-row items-stretch gap-3">
                         <Button
                           className="flex-1"
                           size="budgetkollen-selection"
