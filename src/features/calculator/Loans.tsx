@@ -195,7 +195,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                     <FormControl>
                       <Box className="flex flex-col sm:flex-row items-stretch gap-3">
                         <Button
-                          className="flex-1"
+                          className="flex-1 py-2 px-3 text-md"
                           size="budgetkollen-selection"
                           type="button"
                           variant={
@@ -216,7 +216,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                           })}
                         </Button>
                         <Button
-                          className="flex-1"
+                          className="flex-1 py-2 px-3 text-md"
                           size="budgetkollen-selection"
                           type="button"
                           variant={
