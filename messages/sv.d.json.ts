@@ -4,7 +4,7 @@
 declare const messages: {
   navbar: {
     income: "Inkomst";
-    features: "Funktioner";
+    features: "Verktyg";
     articles: "Artiklar";
     pricing: "Prissättning";
     household_budget_label: "Budgetkalkylator";
@@ -277,6 +277,7 @@ declare const messages: {
     validation: {
       income_required: "Vänligen ange minst en inkomstkälla för att fortsätta";
       income_required_two_adults: "För två vuxna krävs minst en huvudinkomst";
+      kommun_required: "Du måste välja en kommun";
       loan_amount_required: "Vänligen ange ett lånebelopp större än 0 eller välj 'Jag har inga lån'";
       loan_details_required: "När du anger ett lånebelopp, vänligen ange räntor och amorteringsräntor";
       loan_interest_rate_required: "Vänligen välj minst en ränta innan du fortsätter";

@@ -480,9 +480,6 @@ export const CompoundInterestCalculator = () => {
                   style={{ width: "100%" }}
                 />
               </div>
-              <Text className="text-xs text-muted-foreground mt-1 text-center">
-                {t("progress_label.reference_value")}
-              </Text>
             </motion.div>
 
             {/* Current Total Value (after withdrawals) - Only show if there are withdrawals */}
@@ -517,14 +514,6 @@ export const CompoundInterestCalculator = () => {
                     }}
                   />
                 </div>
-                <Text className="text-xs text-muted-foreground mt-1 text-center">
-                  {Math.round(
-                    (finalValues.totalValue /
-                      finalValues.theoreticalTotalValue) *
-                      100
-                  )}
-                  {t("progress_label.percent_of_total")}
-                </Text>
               </motion.div>
             )}
 
@@ -558,13 +547,6 @@ export const CompoundInterestCalculator = () => {
                   }}
                 />
               </div>
-              <Text className="text-xs text-muted-foreground mt-1 text-center">
-                {Math.round(
-                  (finalValues.startSum / finalValues.theoreticalTotalValue) *
-                    100
-                )}
-                {t("progress_label.percent_of_total")}
-              </Text>
             </motion.div>
 
             <motion.div
@@ -597,14 +579,6 @@ export const CompoundInterestCalculator = () => {
                   }}
                 />
               </div>
-              <Text className="text-xs text-muted-foreground mt-1 text-center">
-                {Math.round(
-                  (finalValues.totalSavings /
-                    finalValues.theoreticalTotalValue) *
-                    100
-                )}
-                {t("progress_label.percent_of_total")}
-              </Text>
             </motion.div>
 
             <motion.div
@@ -637,14 +611,6 @@ export const CompoundInterestCalculator = () => {
                   }}
                 />
               </div>
-              <Text className="text-xs text-muted-foreground mt-1 text-center">
-                {Math.round(
-                  (finalValues.totalReturns /
-                    finalValues.theoreticalTotalValue) *
-                    100
-                )}
-                {t("progress_label.percent_of_total")}
-              </Text>
             </motion.div>
 
             {/* Total Withdrawn (show only if there have been withdrawals) */}
@@ -679,14 +645,6 @@ export const CompoundInterestCalculator = () => {
                     }}
                   />
                 </div>
-                <Text className="text-xs text-muted-foreground mt-1 text-center">
-                  {Math.round(
-                    (finalValues.totalWithdrawn /
-                      finalValues.theoreticalTotalValue) *
-                      100
-                  )}
-                  {t("progress_label.percent_of_total")}
-                </Text>
               </motion.div>
             )}
           </div>

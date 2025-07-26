@@ -269,6 +269,7 @@ declare const messages: {
     validation: {
       income_required: "Please enter at least one income source to continue";
       income_required_two_adults: "For two adults, at least one primary income is required";
+      kommun_required: "You must select a municipality";
       loan_amount_required: "Please enter a loan amount greater than 0 or select 'I have no loans'";
       loan_details_required: "When entering a loan amount, please provide interest rates and amortization rates";
       loan_interest_rate_required: "Please select at least one interest rate before proceeding";
@@ -417,7 +418,7 @@ declare const messages: {
   };
   navbar: {
     income: "Income";
-    features: "Features";
+    features: "Tools";
     articles: "Articles";
     pricing: "Pricing";
     household_budget_label: "Budget Calculator";

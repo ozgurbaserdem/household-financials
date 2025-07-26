@@ -9,6 +9,7 @@ export interface StepValidationResult {
 export const VALIDATION_KEYS = {
   INCOME_REQUIRED: "wizard.validation.income_required",
   INCOME_REQUIRED_TWO_ADULTS: "wizard.validation.income_required_two_adults",
+  KOMMUN_REQUIRED: "wizard.validation.kommun_required",
   LOAN_AMOUNT_REQUIRED: "wizard.validation.loan_amount_required",
   LOAN_DETAILS_REQUIRED: "wizard.validation.loan_details_required",
   LOAN_INTEREST_RATE_REQUIRED: "wizard.validation.loan_interest_rate_required",
@@ -53,6 +54,14 @@ export const validateIncomeStep = (
     return {
       isValid: false,
       errorKey: VALIDATION_KEYS.INCOME_REQUIRED_TWO_ADULTS,
+    };
+  }
+
+  // A kommun must be selected for tax calculations
+  if (!income.selectedKommun || income.selectedKommun.trim() === "") {
+    return {
+      isValid: false,
+      errorKey: VALIDATION_KEYS.KOMMUN_REQUIRED,
     };
   }
 

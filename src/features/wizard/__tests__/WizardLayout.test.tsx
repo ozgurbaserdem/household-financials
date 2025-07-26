@@ -121,6 +121,8 @@ describe("WizardLayout", () => {
         otherIncomes: 0,
         currentBuffer: 0,
         numberOfAdults: "1",
+        selectedKommun: "Stockholm",
+        secondaryIncomeTaxRate: 30,
       },
       loanParameters: {
         amount: 1000000, // Has loan amount
@@ -176,6 +178,8 @@ describe("WizardLayout", () => {
         otherIncomes: 0,
         currentBuffer: 0,
         numberOfAdults: "1",
+        selectedKommun: "Stockholm",
+        secondaryIncomeTaxRate: 30,
       },
       loanParameters: {
         amount: 0,
@@ -234,6 +238,8 @@ describe("WizardLayout", () => {
         otherIncomes: 0,
         currentBuffer: 0,
         numberOfAdults: "1",
+        selectedKommun: "Stockholm",
+        secondaryIncomeTaxRate: 30,
       },
       loanParameters: {
         amount: 1000000,
@@ -292,6 +298,7 @@ describe("WizardLayout", () => {
         otherIncomes: 0,
         currentBuffer: 0,
         numberOfAdults: "1",
+        secondaryIncomeTaxRate: 30,
       },
       loanParameters: {
         amount: 0,
@@ -336,7 +343,69 @@ describe("WizardLayout", () => {
       );
     });
 
-    // Should show validation error
+    // Should show validation error for income
     expect(screen.getByText("validation.income_required")).toBeInTheDocument();
+  });
+
+  it("prevents navigation from income step when no kommun is selected", async () => {
+    const store = createTestStore({
+      income: {
+        income1: 30000, // Has income
+        income2: 0,
+        secondaryIncome1: 0,
+        secondaryIncome2: 0,
+        childBenefits: 0,
+        otherBenefits: 0,
+        otherIncomes: 0,
+        currentBuffer: 0,
+        numberOfAdults: "1",
+        secondaryIncomeTaxRate: 30,
+        // No selectedKommun - this should prevent navigation
+      },
+      loanParameters: {
+        amount: 0,
+        interestRate: 0,
+        amortizationRate: 0,
+        hasLoan: false,
+      },
+      expenses: {},
+      expenseViewMode: "detailed" as const,
+      totalExpenses: 0,
+    });
+
+    // Mock being on the income step
+    const testSearchParameters = new URLSearchParams();
+    testSearchParameters.set("steg", "inkomst");
+    (useSearchParams as Mock).mockReturnValue(testSearchParameters);
+
+    render(
+      <Provider store={store}>
+        <WizardLayout
+          steps={[
+            { label: "Income", component: <div>Income Step</div> },
+            { label: "Loans", component: <div>Loans Step</div> },
+            { label: "Expenses", component: <div>Expenses Step</div> },
+          ]}
+        />
+      </Provider>
+    );
+
+    // Try to navigate to next step
+    const nextButton = screen.getByText("next");
+    fireEvent.click(nextButton);
+
+    // Should not navigate - kommun validation should prevent navigation
+    await waitFor(() => {
+      expect(mockReplace).not.toHaveBeenCalledWith(
+        expect.objectContaining({
+          query: expect.objectContaining({
+            steg: "lan",
+          }),
+        })
+      );
+    });
+
+    // Should show validation error for kommun
+    expect(screen.getByText("validation.kommun_required")).toBeInTheDocument();
   });
 });
