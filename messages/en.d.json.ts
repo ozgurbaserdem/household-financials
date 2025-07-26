@@ -688,14 +688,24 @@ declare const messages: {
     inputs: {
       start_sum_label: "Starting amount";
       start_sum_description: "The initial amount you have to invest";
+      start_sum_aria: "Starting amount for investment";
       monthly_savings_label: "Monthly savings";
       monthly_savings_description: "How much you plan to save and invest each month";
+      monthly_savings_aria: "Monthly savings amount";
       yearly_return_label: "Expected annual return (%)";
       yearly_return_description: "The average yearly return you expect on your investments";
+      yearly_return_aria: "Expected annual return percentage";
       investment_horizon_label: "Investment period (years)";
       investment_horizon_description: "How long you plan to keep your money invested";
+      investment_horizon_aria: "Investment period in years";
       age_label: "Your age";
       age_description: "Your current age to show your age at each year";
+      age_aria: "Your current age";
+      startSum_aria: "Starting amount for investment";
+      monthlySavings_aria: "Monthly savings amount";
+      yearlyReturn_aria: "Expected annual return percentage";
+      investmentHorizon_aria: "Investment period in years";
+      age_aria: "Your current age";
     };
     results: {
       title: "Your investment growth";

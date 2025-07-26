@@ -119,6 +119,7 @@ export const SliderInput = ({
         {isEditing ? (
           <input
             autoFocus
+            aria-label={ariaLabel}
             className={`px-2 py-1 rounded-lg bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-200 ${width} text-center text-sm font-semibold text-foreground outline-none focus:ring-2 focus:ring-primary/50`}
             type="text"
             value={tempValue}
@@ -128,6 +129,7 @@ export const SliderInput = ({
           />
         ) : (
           <button
+            aria-label={ariaLabel}
             className={`px-2 py-1 rounded-lg bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-200 ${width} text-center cursor-text`}
             onClick={handleEditStart}
           >

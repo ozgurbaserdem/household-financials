@@ -189,6 +189,7 @@ export const CompoundInterestCalculator = () => {
                     allowInputBeyondMax={
                       config.key === "startSum" || config.key === "yearlyReturn"
                     }
+                    ariaLabel={t(`inputs.${config.key}_aria`)}
                     decimals={config.key === "yearlyReturn" ? 0 : 0}
                     max={config.max}
                     min={config.min}
@@ -262,6 +263,9 @@ export const CompoundInterestCalculator = () => {
                     {t("advanced_settings.annual_savings_increase.description")}
                   </Text>
                   <SliderInput
+                    ariaLabel={t(
+                      "advanced_settings.annual_savings_increase.label"
+                    )}
                     decimals={1}
                     max={50}
                     min={0}
@@ -370,6 +374,9 @@ export const CompoundInterestCalculator = () => {
                           )}
                         </Label>
                         <SliderInput
+                          ariaLabel={t(
+                            "advanced_settings.planned_withdrawal.withdrawal_year_question"
+                          )}
                           decimals={0}
                           max={inputs.investmentHorizon}
                           min={1}
@@ -392,6 +399,9 @@ export const CompoundInterestCalculator = () => {
                             )}
                           </Label>
                           <SliderInput
+                            ariaLabel={t(
+                              "advanced_settings.planned_withdrawal.withdrawal_percentage_label"
+                            )}
                             decimals={0}
                             max={100}
                             min={0}
@@ -412,6 +422,9 @@ export const CompoundInterestCalculator = () => {
                             )}
                           </Label>
                           <SliderInput
+                            ariaLabel={t(
+                              "advanced_settings.planned_withdrawal.withdrawal_amount_label"
+                            )}
                             decimals={0}
                             max={10000000}
                             min={0}

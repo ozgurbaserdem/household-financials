@@ -102,8 +102,8 @@ describe("Loans", () => {
     );
 
     expect(screen.getByLabelText("loan_amount")).toBeInTheDocument();
-    expect(screen.getByLabelText("interest_rate_aria")).toBeInTheDocument();
-    expect(screen.getByLabelText("amortization_rate_aria")).toBeInTheDocument();
+    expect(screen.getAllByLabelText("interest_rate_aria")).toHaveLength(2);
+    expect(screen.getAllByLabelText("amortization_rate_aria")).toHaveLength(2);
   });
 
   it("updates loan amount correctly", async () => {
@@ -147,8 +147,11 @@ describe("Loans", () => {
       />
     );
 
-    const interestRateInput = screen.getByLabelText("interest_rate_aria");
-    fireEvent.change(interestRateInput, { target: { value: "4.5" } });
+    const interestRateInputs = screen.getAllByLabelText("interest_rate_aria");
+    const interestRateSlider = interestRateInputs.find(
+      (input) => input.getAttribute("type") === "range"
+    );
+    fireEvent.change(interestRateSlider!, { target: { value: "4.5" } });
 
     await waitFor(() => {
       expect(mockOnChange).toHaveBeenCalledWith({
@@ -174,10 +177,13 @@ describe("Loans", () => {
       />
     );
 
-    const amortizationRateInput = screen.getByLabelText(
+    const amortizationRateInputs = screen.getAllByLabelText(
       "amortization_rate_aria"
     );
-    fireEvent.change(amortizationRateInput, { target: { value: "3" } });
+    const amortizationRateSlider = amortizationRateInputs.find(
+      (input) => input.getAttribute("type") === "range"
+    );
+    fireEvent.change(amortizationRateSlider!, { target: { value: "3" } });
 
     await waitFor(() => {
       expect(mockOnChange).toHaveBeenCalledWith({

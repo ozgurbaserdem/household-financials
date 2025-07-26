@@ -677,14 +677,24 @@
     "inputs": {
       "start_sum_label": "Startbelopp",
       "start_sum_description": "Det initiala beloppet du har att investera",
+      "start_sum_aria": "Startbelopp för investering",
       "monthly_savings_label": "Månatligt sparande",
       "monthly_savings_description": "Hur mycket du planerar att spara varje månad",
+      "monthly_savings_aria": "Månatligt sparande belopp",
       "yearly_return_label": "Förväntad årlig avkastning (%)",
       "yearly_return_description": "Den genomsnittliga årliga avkastningen du förväntar dig på dina investeringar",
+      "yearly_return_aria": "Förväntad årlig avkastning i procent",
       "investment_horizon_label": "Investeringsperiod (år)",
       "investment_horizon_description": "Hur länge du planerar att hålla dina pengar investerade",
+      "investment_horizon_aria": "Investeringsperiod i år",
       "age_label": "Din ålder",
-      "age_description": "Din nuvarande ålder för att visa din ålder vid varje år"
+      "age_description": "Din nuvarande ålder för att visa din ålder vid varje år",
+      "age_aria": "Din nuvarande ålder",
+      "startSum_aria": "Startbelopp för investering",
+      "monthlySavings_aria": "Månatligt sparande belopp",
+      "yearlyReturn_aria": "Förväntad årlig avkastning i procent",
+      "investmentHorizon_aria": "Investeringsperiod i år",
+      "age_aria": "Din nuvarande ålder"
     },
     "results": {
       "title": "Din avkastning",

@@ -214,6 +214,7 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
                   </FormLabel>
                   <div className="space-y-3">
                     <SliderInput
+                      ariaLabel={tLoan("interest_rate_aria")}
                       max={20}
                       min={0.01}
                       step={0.01}
@@ -230,6 +231,7 @@ export const ResultsTable = ({ calculatorState }: ResultsTableProps) => {
                   </FormLabel>
                   <div className="space-y-3">
                     <SliderInput
+                      ariaLabel={tLoan("amortization_rate_aria")}
                       max={10}
                       min={0.01}
                       step={0.01}

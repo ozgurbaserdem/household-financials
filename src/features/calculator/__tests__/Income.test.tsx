@@ -465,11 +465,11 @@ describe("Income", () => {
       );
       fireEvent.change(secondaryIncome1Field, { target: { value: "15000" } });
 
-      // Tax rate slider should now be visible
+      // Tax rate slider should now be visible (expect 2 elements: slider + button)
       await waitFor(() => {
         expect(
-          screen.getByLabelText(/secondary_income_tax_rate_aria/i)
-        ).toBeInTheDocument();
+          screen.getAllByLabelText(/secondary_income_tax_rate_aria/i)
+        ).toHaveLength(2);
       });
     });
 
@@ -502,11 +502,11 @@ describe("Income", () => {
       );
       fireEvent.change(secondaryIncome2Field, { target: { value: "10000" } });
 
-      // Tax rate slider should now be visible
+      // Tax rate slider should now be visible (expect 2 elements: slider + button)
       await waitFor(() => {
         expect(
-          screen.getByLabelText(/secondary_income_tax_rate_aria/i)
-        ).toBeInTheDocument();
+          screen.getAllByLabelText(/secondary_income_tax_rate_aria/i)
+        ).toHaveLength(2);
       });
     });
 
@@ -533,9 +533,14 @@ describe("Income", () => {
       // Expand secondary income section
       fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
 
-      // Check that slider shows correct default value
+      // Check that slider shows correct default value (get the range input specifically)
       await waitFor(() => {
-        const slider = screen.getByLabelText(/secondary_income_tax_rate_aria/i);
+        const sliders = screen.getAllByLabelText(
+          /secondary_income_tax_rate_aria/i
+        );
+        const slider = sliders.find(
+          (input) => input.getAttribute("type") === "range"
+        );
         expect(slider).toHaveValue("34");
       });
 
@@ -567,10 +572,15 @@ describe("Income", () => {
       fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
 
       await waitFor(() => {
-        const slider = screen.getByLabelText(/secondary_income_tax_rate_aria/i);
+        const sliders = screen.getAllByLabelText(
+          /secondary_income_tax_rate_aria/i
+        );
+        const slider = sliders.find(
+          (input) => input.getAttribute("type") === "range"
+        );
 
         // Change slider value to 28%
-        fireEvent.change(slider, { target: { value: "28" } });
+        fireEvent.change(slider!, { target: { value: "28" } });
 
         expect(mockOnChange).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -647,7 +657,12 @@ describe("Income", () => {
       fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
 
       await waitFor(() => {
-        const slider = screen.getByLabelText(/secondary_income_tax_rate_aria/i);
+        const sliders = screen.getAllByLabelText(
+          /secondary_income_tax_rate_aria/i
+        );
+        const slider = sliders.find(
+          (input) => input.getAttribute("type") === "range"
+        );
 
         // Test minimum bound
         expect(slider).toHaveAttribute("min", "25");
@@ -683,11 +698,11 @@ describe("Income", () => {
       // Expand secondary income section
       fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
 
-      // Slider should be visible initially
+      // Slider should be visible initially (expect 2 elements: slider + button)
       await waitFor(() => {
         expect(
-          screen.getByLabelText(/secondary_income_tax_rate_aria/i)
-        ).toBeInTheDocument();
+          screen.getAllByLabelText(/secondary_income_tax_rate_aria/i)
+        ).toHaveLength(2);
       });
 
       // Clear secondary income
@@ -699,8 +714,8 @@ describe("Income", () => {
       // Slider should be hidden
       await waitFor(() => {
         expect(
-          screen.queryByLabelText(/secondary_income_tax_rate_aria/i)
-        ).not.toBeInTheDocument();
+          screen.queryAllByLabelText(/secondary_income_tax_rate_aria/i)
+        ).toHaveLength(0);
       });
     });
 
