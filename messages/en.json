@@ -581,6 +581,11 @@
       "follow_x": "Follow us on X (Twitter)"
     },
     "scrollIndicator": "Scroll for more",
+    "accessibility": {
+      "start_budget_button": "Start creating your household budget - step-by-step guide that takes 3 minutes",
+      "step_description": "Step {stepNumber} of 5: {stepTitle}",
+      "navigate_to_calculator": "Navigate to {calculatorTitle}"
+    },
     "other_calculators": {
       "title": "More tools for your finances",
       "compound_interest": {

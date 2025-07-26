@@ -17,6 +17,16 @@ export const CalculatorPreviews = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
+  const handleImageKeyDown = (
+    event: React.KeyboardEvent,
+    action: () => void
+  ) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      action();
+    }
+  };
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -95,8 +105,14 @@ export const CalculatorPreviews = () => {
               </Box>
 
               <Box
+                aria-label={`${t("previews.click_to_enlarge")} - ${preview.title}`}
                 className="relative aspect-[16/10] overflow-hidden bg-background mt-auto cursor-pointer"
+                role="button"
+                tabIndex={0}
                 onClick={() => setSelectedImage(preview.src)}
+                onKeyDown={(e) =>
+                  handleImageKeyDown(e, () => setSelectedImage(preview.src))
+                }
               >
                 <Image
                   fill

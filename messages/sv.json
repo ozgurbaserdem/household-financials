@@ -573,6 +573,11 @@
       "follow_x": "Följ oss på X (Twitter)"
     },
     "scrollIndicator": "Scrolla för mer",
+    "accessibility": {
+      "start_budget_button": "Börja skapa din hushållsbudget - steg för steg guide som tar 3 minuter",
+      "step_description": "Steg {stepNumber} av 5: {stepTitle}",
+      "navigate_to_calculator": "Navigera till {calculatorTitle}"
+    },
     "other_calculators": {
       "title": "Fler verktyg för din ekonomi",
       "compound_interest": {

@@ -68,6 +68,16 @@ export const LandingPage = () => {
     }
   };
 
+  const handleCardKeyDown = (
+    event: React.KeyboardEvent,
+    action: () => void
+  ) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      action();
+    }
+  };
+
   const steps = [
     {
       icon: Wallet,
@@ -158,7 +168,12 @@ export const LandingPage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" variant="default" onClick={handleStartAnalysis}>
+            <Button
+              aria-label={t("accessibility.start_budget_button")}
+              size="lg"
+              variant="default"
+              onClick={handleStartAnalysis}
+            >
               {t("hero.cta")}
               <ArrowRightIcon className="w-4 h-4" />
             </Button>
@@ -180,12 +195,19 @@ export const LandingPage = () => {
               {steps.map((step, index) => (
                 <div
                   key={step.title}
+                  aria-label={t("accessibility.step_description", {
+                    stepNumber: index + 1,
+                    stepTitle: step.title,
+                  })}
                   className="flex flex-col items-center text-center"
                 >
                   <div className="w-16 h-16 rounded-full bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm flex items-center justify-center mb-4 relative">
                     <step.icon className={`w-8 h-8 ${step.colorClass}`} />
                     {/* Badge with step number in top-right corner */}
-                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-gray-50 dark:bg-black border border-gray-200 dark:border-gray-800 flex items-center justify-center">
+                    <div
+                      aria-hidden="true"
+                      className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-gray-50 dark:bg-black border border-gray-200 dark:border-gray-800 flex items-center justify-center"
+                    >
                       <span className="text-xs font-bold text-gradient-golden">
                         {index + 1}
                       </span>
@@ -249,9 +271,19 @@ export const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div>
               <Card
+                aria-label={t("accessibility.navigate_to_calculator", {
+                  calculatorTitle: t(
+                    "other_calculators.compound_interest.title"
+                  ),
+                })}
                 className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                role="button"
+                tabIndex={0}
                 variant="interactive"
                 onClick={() => router.push("/ranta-pa-ranta")}
+                onKeyDown={(e) =>
+                  handleCardKeyDown(e, () => router.push("/ranta-pa-ranta"))
+                }
               >
                 <CardHeader>
                   <CardIcon
@@ -275,9 +307,19 @@ export const LandingPage = () => {
 
             <div>
               <Card
+                aria-label={t("accessibility.navigate_to_calculator", {
+                  calculatorTitle: t(
+                    "other_calculators.budget_calculator.title"
+                  ),
+                })}
                 className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+                role="button"
+                tabIndex={0}
                 variant="interactive"
                 onClick={() => router.push("/hushallsbudget")}
+                onKeyDown={(e) =>
+                  handleCardKeyDown(e, () => router.push("/hushallsbudget"))
+                }
               >
                 <CardHeader>
                   <CardIcon
@@ -311,6 +353,7 @@ export const LandingPage = () => {
               {t("finalCta.subtitle")}
             </p>
             <Button
+              aria-label={t("accessibility.start_budget_button")}
               className="text-lg px-8 py-4 rounded-xl group"
               size="lg"
               variant="default"
