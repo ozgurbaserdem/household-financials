@@ -282,7 +282,25 @@ body {
   }
 }
 
-/* Icon background and border styles for special cases */
+/* Icon background and border styles */
+.icon-bg-success {
+  background-color: rgb(var(--success) / 0.1);
+  color: rgb(var(--success));
+  border: 1px solid rgb(var(--success) / 0.2);
+}
+
+.icon-bg-warning {
+  background-color: rgb(var(--warning) / 0.1);
+  color: rgb(var(--warning));
+  border: 1px solid rgb(var(--warning) / 0.2);
+}
+
+.icon-bg-destructive {
+  background-color: rgb(var(--destructive) / 0.1);
+  color: rgb(var(--destructive));
+  border: 1px solid rgb(var(--destructive) / 0.2);
+}
+
 .icon-bg-golden {
   background-color: rgba(212, 175, 55, 0.1);
   border: 1px solid rgba(212, 175, 55, 0.2);
