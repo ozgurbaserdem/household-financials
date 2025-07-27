@@ -516,7 +516,12 @@ describe("CompoundInterestCalculator", () => {
         name: /advanced_settings\.title/i,
       });
       expect(advancedToggle).toBeInTheDocument();
-      expect(advancedToggle).toHaveClass("p-4", "rounded-lg");
+      expect(advancedToggle).toHaveClass(
+        "py-4",
+        "text-left",
+        "hover:no-underline",
+        "transition-colors"
+      );
 
       // Should show description
       expect(

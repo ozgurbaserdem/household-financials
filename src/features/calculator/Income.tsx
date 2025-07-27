@@ -315,13 +315,9 @@ export const Income = ({
               {/* Secondary Income Accordion */}
               <div className="mt-6">
                 <Accordion collapsible className="w-full" type="single">
-                  <AccordionItem
-                    className="border-none"
-                    value="secondary-income"
-                  >
+                  <AccordionItem value="secondary-income">
                     <AccordionTrigger
-                      className="input-base group transition-all duration-300
-                                 hover:no-underline [&[data-state=open]]:rounded-b-none"
+                      className="py-4 text-left hover:no-underline transition-colors"
                       data-testid="extra-incomes-toggle"
                     >
                       <span className="flex items-center justify-between w-full">
@@ -333,11 +329,8 @@ export const Income = ({
                         </span>
                       </span>
                     </AccordionTrigger>
-                    <AccordionContent className="pt-0 pb-0">
-                      <Box
-                        className="p-4 bg-muted/20 rounded-b-xl border border-t-0 border-[rgb(var(--border))]"
-                        id="extra-incomes-section"
-                      >
+                    <AccordionContent className="pt-0 pb-4">
+                      <div className="space-y-4" id="extra-incomes-section">
                         <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <IncomeInputField
                             ariaLabel={t("secondaryIncome1_aria")}
@@ -396,10 +389,11 @@ export const Income = ({
                             />
                           </div>
                         )}
-                      </Box>
+                      </div>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
+                {/* <div className="border-b -border" /> */}
               </div>
 
               {/* Additional Income Fields with Icons */}

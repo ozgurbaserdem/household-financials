@@ -1,17 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Calculator,
-  TrendingUp,
-  Settings2,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
+import { Calculator, TrendingUp, Settings2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState, useMemo, useEffect } from "react";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/Accordion";
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
@@ -48,8 +48,6 @@ export const CompoundInterestCalculator = () => {
     withdrawalPercentage: 10,
     annualSavingsIncrease: 0,
   });
-
-  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const [highlightedField, setHighlightedField] = useState<string | null>(null);
 
@@ -205,244 +203,237 @@ export const CompoundInterestCalculator = () => {
             ))}
           </div>
 
-          {/* Advanced Settings Toggle */}
-          <div className="mt-6 border-t border-gray-200/50 dark:border-gray-700/50 pt-6">
-            <button
-              className="flex items-center justify-between w-full p-4 rounded-lg bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all duration-300 group"
-              onClick={() => setShowAdvanced(!showAdvanced)}
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg icon-bg-golden">
-                  <Settings2 className="w-5 h-5 text-golden" />
-                </div>
-                <div className="text-left">
-                  <Text className="text-base font-semibold text-foreground group-hover:text-primary transition-colors block">
-                    {t("advanced_settings.title")}
-                  </Text>
-                  <Text className="text-xs text-muted-foreground group-hover:text-muted-foreground/80 transition-colors block">
-                    {t("advanced_settings.description")}
-                  </Text>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2">
-                  {!showAdvanced && inputs.withdrawalType !== "none" && (
-                    <span className="px-2 py-1 text-xs font-medium icon-bg-golden text-golden rounded-full">
-                      {t("advanced_settings.active_badge")}
-                    </span>
-                  )}
-                  {!showAdvanced && (inputs.annualSavingsIncrease || 0) > 0 && (
-                    <span className="px-2 py-1 text-xs font-medium bg-primary/20 text-primary rounded-full border border-primary/30">
-                      +{inputs.annualSavingsIncrease}%
-                    </span>
-                  )}
-                </div>
-                {showAdvanced ? (
-                  <ChevronUp className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
-                )}
-              </div>
-            </button>
-
-            {/* Advanced Settings Content */}
-            {showAdvanced && (
-              <motion.div
-                animate={{ opacity: 1, height: "auto" }}
-                className="mt-6 space-y-6"
-                exit={{ opacity: 0, height: 0 }}
-                initial={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* Annual Savings Increase */}
-                <div className="space-y-2 lg:flex-1">
-                  <Label className="text-sm font-medium text-foreground block">
-                    {t("advanced_settings.annual_savings_increase.label")}
-                  </Label>
-                  <Text className="text-xs text-muted-foreground block">
-                    {t("advanced_settings.annual_savings_increase.description")}
-                  </Text>
-                  <SliderInput
-                    ariaLabel={t(
-                      "advanced_settings.annual_savings_increase.label"
-                    )}
-                    decimals={1}
-                    max={50}
-                    min={0}
-                    step={0.5}
-                    suffix="%/år"
-                    value={inputs.annualSavingsIncrease || 0}
-                    width="w-20"
-                    onChange={(value) =>
-                      handleInputChange("annualSavingsIncrease", value)
-                    }
-                  />
-                </div>
-
-                {/* Withdrawal Settings */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <Label className="text-sm font-medium text-foreground block">
-                        {t("advanced_settings.planned_withdrawal.title")}
-                      </Label>
-                      <Text className="text-xs text-muted-foreground block mt-1">
-                        {t("advanced_settings.planned_withdrawal.description")}
+          {/* Advanced Settings Accordion */}
+          <div className="mt-6">
+            <Accordion collapsible className="w-full" type="single">
+              <AccordionItem value="advanced-settings">
+                <AccordionTrigger className="py-4 text-left hover:no-underline transition-colors">
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="p-2 rounded-lg icon-bg-golden">
+                      <Settings2 className="w-5 h-5 text-golden" />
+                    </div>
+                    <div className="text-left flex-1">
+                      <Text className="text-base font-semibold text-foreground block">
+                        {t("advanced_settings.title")}
+                      </Text>
+                      <Text className="text-xs text-muted-foreground block">
+                        {t("advanced_settings.description")}
                       </Text>
                     </div>
-                    <Switch
-                      checked={inputs.withdrawalType !== "none"}
-                      className="data-[state=checked]:bg-primary"
-                      onCheckedChange={(checked) => {
-                        if (!checked) {
-                          setInputs((prev) => ({
-                            ...prev,
-                            withdrawalType: "none",
-                          }));
-                        } else {
-                          setInputs((prev) => ({
-                            ...prev,
-                            withdrawalType: "percentage",
-                          }));
-                        }
-                      }}
-                    />
+                    <div className="flex items-center gap-2 mr-2">
+                      {inputs.withdrawalType !== "none" && (
+                        <span className="px-2 py-1 text-xs font-medium icon-bg-golden text-golden rounded-full">
+                          {t("advanced_settings.active_badge")}
+                        </span>
+                      )}
+                      {(inputs.annualSavingsIncrease || 0) > 0 && (
+                        <span className="px-2 py-1 text-xs font-medium icon-bg-golden text-golden rounded-full">
+                          +{inputs.annualSavingsIncrease}%
+                        </span>
+                      )}
+                    </div>
                   </div>
+                </AccordionTrigger>
+                <AccordionContent className="pt-0 pb-4">
+                  <div className="space-y-6">
+                    {/* Annual Savings Increase */}
+                    <div className="space-y-2 lg:flex-1">
+                      <Label className="text-sm font-medium text-foreground block">
+                        {t("advanced_settings.annual_savings_increase.label")}
+                      </Label>
+                      <Text className="text-xs text-muted-foreground block">
+                        {t(
+                          "advanced_settings.annual_savings_increase.description"
+                        )}
+                      </Text>
+                      <SliderInput
+                        ariaLabel={t(
+                          "advanced_settings.annual_savings_increase.label"
+                        )}
+                        decimals={1}
+                        max={50}
+                        min={0}
+                        step={0.5}
+                        suffix="%/år"
+                        value={inputs.annualSavingsIncrease || 0}
+                        width="w-20"
+                        onChange={(value) =>
+                          handleInputChange("annualSavingsIncrease", value)
+                        }
+                      />
+                    </div>
 
-                  {inputs.withdrawalType !== "none" && (
-                    <motion.div
-                      animate={{ opacity: 1, y: 0 }}
-                      className="space-y-4 pl-2"
-                      initial={{ opacity: 0, y: -10 }}
-                    >
-                      {/* Withdrawal Type Selector */}
-                      <div className="space-y-2 lg:flex-1">
-                        <Label className="text-xs font-medium text-foreground">
-                          {t(
-                            "advanced_settings.planned_withdrawal.withdrawal_type_question"
-                          )}
-                        </Label>
-                        <div className="flex flex-col sm:flex-row gap-2 w-full mt-2">
-                          <Button
-                            className="flex-1 py-2 px-3 text-md"
-                            size="budgetkollen-selection"
-                            type="button"
-                            variant={
-                              inputs.withdrawalType === "percentage"
-                                ? "budgetkollen-selection-active"
-                                : "budgetkollen-selection"
-                            }
-                            onClick={() =>
+                    {/* Withdrawal Settings */}
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-sm font-medium text-foreground block">
+                            {t("advanced_settings.planned_withdrawal.title")}
+                          </Label>
+                          <Text className="text-xs text-muted-foreground block mt-1">
+                            {t(
+                              "advanced_settings.planned_withdrawal.description"
+                            )}
+                          </Text>
+                        </div>
+                        <Switch
+                          checked={inputs.withdrawalType !== "none"}
+                          className="data-[state=checked]:bg-primary"
+                          onCheckedChange={(checked) => {
+                            if (!checked) {
+                              setInputs((prev) => ({
+                                ...prev,
+                                withdrawalType: "none",
+                              }));
+                            } else {
                               setInputs((prev) => ({
                                 ...prev,
                                 withdrawalType: "percentage",
-                              }))
+                              }));
                             }
-                          >
-                            {t(
-                              "advanced_settings.planned_withdrawal.percentage_option"
-                            )}
-                          </Button>
-                          <Button
-                            className="flex-1 py-2 px-3 text-md"
-                            size="budgetkollen-selection"
-                            type="button"
-                            variant={
-                              inputs.withdrawalType === "amount"
-                                ? "budgetkollen-selection-active"
-                                : "budgetkollen-selection"
-                            }
-                            onClick={() =>
-                              setInputs((prev) => ({
-                                ...prev,
-                                withdrawalType: "amount",
-                              }))
-                            }
-                          >
-                            {t(
-                              "advanced_settings.planned_withdrawal.amount_option"
-                            )}
-                          </Button>
-                        </div>
-                      </div>
-
-                      {/* Withdrawal Year */}
-                      <div className="space-y-2 lg:flex-1">
-                        <Label className="text-xs font-medium text-foreground">
-                          {t(
-                            "advanced_settings.planned_withdrawal.withdrawal_year_question"
-                          )}
-                        </Label>
-                        <SliderInput
-                          ariaLabel={t(
-                            "advanced_settings.planned_withdrawal.withdrawal_year_question"
-                          )}
-                          decimals={0}
-                          max={inputs.investmentHorizon}
-                          min={1}
-                          prefix={`${t("advanced_settings.planned_withdrawal.year_prefix")} `}
-                          step={1}
-                          value={inputs.withdrawalYear || 10}
-                          width="w-20"
-                          onChange={(value) =>
-                            handleInputChange("withdrawalYear", value)
-                          }
+                          }}
                         />
                       </div>
 
-                      {/* Withdrawal Amount/Percentage */}
-                      {inputs.withdrawalType === "percentage" ? (
-                        <div className="space-y-2 lg:flex-1">
-                          <Label className="text-xs font-medium text-foreground">
-                            {t(
-                              "advanced_settings.planned_withdrawal.withdrawal_percentage_label"
-                            )}
-                          </Label>
-                          <SliderInput
-                            ariaLabel={t(
-                              "advanced_settings.planned_withdrawal.withdrawal_percentage_label"
-                            )}
-                            decimals={0}
-                            max={100}
-                            min={0}
-                            step={1}
-                            suffix="%"
-                            value={inputs.withdrawalPercentage || 10}
-                            width="w-16"
-                            onChange={(value) =>
-                              handleInputChange("withdrawalPercentage", value)
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <div className="space-y-2 lg:flex-1">
-                          <Label className="text-xs font-medium text-foreground">
-                            {t(
-                              "advanced_settings.planned_withdrawal.withdrawal_amount_label"
-                            )}
-                          </Label>
-                          <SliderInput
-                            ariaLabel={t(
-                              "advanced_settings.planned_withdrawal.withdrawal_amount_label"
-                            )}
-                            decimals={0}
-                            max={10000000}
-                            min={0}
-                            step={10000}
-                            suffix=" kr"
-                            value={inputs.withdrawalAmount || 100000}
-                            width="w-32"
-                            onChange={(value) =>
-                              handleInputChange("withdrawalAmount", value)
-                            }
-                          />
-                        </div>
+                      {inputs.withdrawalType !== "none" && (
+                        <motion.div
+                          animate={{ opacity: 1, y: 0 }}
+                          className="space-y-4 pl-2"
+                          initial={{ opacity: 0, y: -10 }}
+                        >
+                          {/* Withdrawal Type Selector */}
+                          <div className="space-y-2 lg:flex-1">
+                            <Label className="text-xs font-medium text-foreground">
+                              {t(
+                                "advanced_settings.planned_withdrawal.withdrawal_type_question"
+                              )}
+                            </Label>
+                            <div className="flex flex-col sm:flex-row gap-2 w-full mt-2">
+                              <Button
+                                className="flex-1 py-2 px-3 text-md"
+                                size="budgetkollen-selection"
+                                type="button"
+                                variant={
+                                  inputs.withdrawalType === "percentage"
+                                    ? "budgetkollen-selection-active"
+                                    : "budgetkollen-selection"
+                                }
+                                onClick={() =>
+                                  setInputs((prev) => ({
+                                    ...prev,
+                                    withdrawalType: "percentage",
+                                  }))
+                                }
+                              >
+                                {t(
+                                  "advanced_settings.planned_withdrawal.percentage_option"
+                                )}
+                              </Button>
+                              <Button
+                                className="flex-1 py-2 px-3 text-md"
+                                size="budgetkollen-selection"
+                                type="button"
+                                variant={
+                                  inputs.withdrawalType === "amount"
+                                    ? "budgetkollen-selection-active"
+                                    : "budgetkollen-selection"
+                                }
+                                onClick={() =>
+                                  setInputs((prev) => ({
+                                    ...prev,
+                                    withdrawalType: "amount",
+                                  }))
+                                }
+                              >
+                                {t(
+                                  "advanced_settings.planned_withdrawal.amount_option"
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+
+                          {/* Withdrawal Year */}
+                          <div className="space-y-2 lg:flex-1">
+                            <Label className="text-xs font-medium text-foreground">
+                              {t(
+                                "advanced_settings.planned_withdrawal.withdrawal_year_question"
+                              )}
+                            </Label>
+                            <SliderInput
+                              ariaLabel={t(
+                                "advanced_settings.planned_withdrawal.withdrawal_year_question"
+                              )}
+                              decimals={0}
+                              max={inputs.investmentHorizon}
+                              min={1}
+                              prefix={`${t("advanced_settings.planned_withdrawal.year_prefix")} `}
+                              step={1}
+                              value={inputs.withdrawalYear || 10}
+                              width="w-20"
+                              onChange={(value) =>
+                                handleInputChange("withdrawalYear", value)
+                              }
+                            />
+                          </div>
+
+                          {/* Withdrawal Amount/Percentage */}
+                          {inputs.withdrawalType === "percentage" ? (
+                            <div className="space-y-2 lg:flex-1">
+                              <Label className="text-xs font-medium text-foreground">
+                                {t(
+                                  "advanced_settings.planned_withdrawal.withdrawal_percentage_label"
+                                )}
+                              </Label>
+                              <SliderInput
+                                ariaLabel={t(
+                                  "advanced_settings.planned_withdrawal.withdrawal_percentage_label"
+                                )}
+                                decimals={0}
+                                max={100}
+                                min={0}
+                                step={1}
+                                suffix="%"
+                                value={inputs.withdrawalPercentage || 10}
+                                width="w-16"
+                                onChange={(value) =>
+                                  handleInputChange(
+                                    "withdrawalPercentage",
+                                    value
+                                  )
+                                }
+                              />
+                            </div>
+                          ) : (
+                            <div className="space-y-2 lg:flex-1">
+                              <Label className="text-xs font-medium text-foreground">
+                                {t(
+                                  "advanced_settings.planned_withdrawal.withdrawal_amount_label"
+                                )}
+                              </Label>
+                              <SliderInput
+                                ariaLabel={t(
+                                  "advanced_settings.planned_withdrawal.withdrawal_amount_label"
+                                )}
+                                decimals={0}
+                                max={10000000}
+                                min={0}
+                                step={10000}
+                                suffix=" kr"
+                                value={inputs.withdrawalAmount || 100000}
+                                width="w-32"
+                                onChange={(value) =>
+                                  handleInputChange("withdrawalAmount", value)
+                                }
+                              />
+                            </div>
+                          )}
+                        </motion.div>
                       )}
-                    </motion.div>
-                  )}
-                </div>
-              </motion.div>
-            )}
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </CardContent>
       </Card>
