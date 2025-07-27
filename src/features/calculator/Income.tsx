@@ -1,9 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -23,15 +22,15 @@ import {
   FormLabel,
   FormControl,
 } from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
-import { SliderInput } from "@/components/ui/SliderInput";
 import { StepHeader } from "@/components/ui/StepHeader";
 import { kommunalskattData } from "@/data/kommunalskatt_2025";
 import type { KommunData } from "@/lib/types";
 
-import { IncomeInputField } from "./IncomeInputField";
+import { IncomeFieldGrid } from "./IncomeFieldGrid";
+import { IncomeSection } from "./IncomeSection";
+import { KommunSearchDropdown } from "./KommunSearchDropdown";
 import { NumberOfAdultsRadioGroup } from "./NumberOfAdultsRadioGroup";
+import { SecondaryIncomeTaxSlider } from "./SecondaryIncomeTaxSlider";
 
 const formSchema = z.object({
   income1: z.number().min(0),
@@ -74,8 +73,6 @@ export const Income = ({
   numberOfAdults,
   onNumberOfAdultsChange,
 }: IncomeFormProps) => {
-  const [kommunSearch, setKommunSearch] = useState("");
-  const [showKommunDropdown, setShowKommunDropdown] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
@@ -88,27 +85,8 @@ export const Income = ({
   useEffect(() => {
     if (values) {
       form.reset(values);
-      if (values.selectedKommun) {
-        setKommunSearch(values.selectedKommun);
-      }
     }
   }, [values, form]);
-
-  // Handle click outside to close dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (
-        !target.closest("#kommun-search") &&
-        !target.closest(".kommun-dropdown")
-      ) {
-        setShowKommunDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const handleAdultsChange = (value: "1" | "2") => {
     onNumberOfAdultsChange(value);
@@ -127,28 +105,6 @@ export const Income = ({
     const currentValues = form.getValues();
     onChange(currentValues);
   };
-
-  // Filter and sort kommun list based on search
-  const filteredKommuner = useMemo(() => {
-    if (!kommunSearch) return kommunList;
-
-    const searchLower = kommunSearch.toLowerCase();
-    const filtered = kommunList.filter((kommun) =>
-      kommun.kommunNamn.toLowerCase().includes(searchLower)
-    );
-
-    // Sort: prioritize names that start with the search term
-    return filtered.sort((a, b) => {
-      const aStarts = a.kommunNamn.toLowerCase().startsWith(searchLower);
-      const bStarts = b.kommunNamn.toLowerCase().startsWith(searchLower);
-
-      if (aStarts && !bStarts) return -1;
-      if (!aStarts && bStarts) return 1;
-
-      // If both start or both don't start with search term, sort alphabetically
-      return a.kommunNamn.localeCompare(b.kommunNamn, "sv");
-    });
-  }, [kommunSearch, kommunList]);
 
   const selectedKommun = form.watch("selectedKommun");
   const selectedKommunData = useMemo(() => {
@@ -196,67 +152,10 @@ export const Income = ({
 
               {/* Kommun Selection and Church Tax */}
               <div className="space-y-4">
-                {/* Kommun Select */}
-                <div className="relative">
-                  <Label
-                    className="text-sm font-medium text-foreground mb-2 block"
-                    htmlFor="kommun-search"
-                  >
-                    {t("select_municipality")}
-                  </Label>
-                  <div className="relative">
-                    <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none z-10" />
-                    <Input
-                      className="!pl-10"
-                      id="kommun-search"
-                      placeholder={t("search_municipality")}
-                      type="text"
-                      value={kommunSearch}
-                      onChange={(e) => {
-                        setKommunSearch(e.target.value);
-                        setShowKommunDropdown(true);
-                      }}
-                      onFocus={() => setShowKommunDropdown(true)}
-                    />
-                    {selectedKommunData && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                        {selectedKommunData.kommunalSkatt}%
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Dropdown */}
-                  {showKommunDropdown && filteredKommuner.length > 0 && (
-                    <div className="kommun-dropdown absolute z-50 w-full mt-1 max-h-60 overflow-y-auto bg-background/70 backdrop-blur-md rounded-lg border border-border shadow-xl">
-                      {filteredKommuner.slice(0, 10).map((kommun) => (
-                        <button
-                          key={kommun.kommunNamn}
-                          className="w-full px-4 py-2 text-left hover:bg-muted text-foreground text-sm transition-colors flex justify-between items-center"
-                          type="button"
-                          onClick={() => {
-                            form.setValue("selectedKommun", kommun.kommunNamn);
-                            setKommunSearch(kommun.kommunNamn);
-                            setShowKommunDropdown(false);
-                            handleFieldChange();
-                          }}
-                        >
-                          <span>{kommun.kommunNamn}</span>
-                          <span className="text-muted-foreground">
-                            {kommun.kommunalSkatt}%
-                          </span>
-                        </button>
-                      ))}
-                      {filteredKommuner.length > 10 && (
-                        <div className="px-4 py-2 text-xs text-muted-foreground border-t border-border">
-                          {t("showing_municipalities", {
-                            shown: 10,
-                            total: filteredKommuner.length,
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
+                <KommunSearchDropdown
+                  form={form}
+                  onFieldChange={handleFieldChange}
+                />
 
                 {/* Church Tax Checkbox */}
                 <FormField
@@ -287,29 +186,21 @@ export const Income = ({
               </div>
 
               <div className="space-y-4">
-                <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <IncomeInputField
-                    ariaLabel={t("income1_aria")}
-                    className="modern-input"
-                    form={form}
-                    label={t("income1")}
-                    name="income1"
-                    onBlur={handleFieldChange}
-                  />
-
-                  {numberOfAdults === "2" && (
-                    <div>
-                      <IncomeInputField
-                        ariaLabel={t("income2_aria")}
-                        className="modern-input"
-                        form={form}
-                        label={t("income2")}
-                        name="income2"
-                        onBlur={handleFieldChange}
-                      />
-                    </div>
-                  )}
-                </Box>
+                <IncomeFieldGrid
+                  form={form}
+                  numberOfAdults={numberOfAdults}
+                  primaryField={{
+                    name: "income1",
+                    label: t("income1"),
+                    ariaLabel: t("income1_aria"),
+                  }}
+                  secondaryField={{
+                    name: "income2",
+                    label: t("income2"),
+                    ariaLabel: t("income2_aria"),
+                  }}
+                  onFieldChange={handleFieldChange}
+                />
               </div>
 
               {/* Secondary Income Accordion */}
@@ -331,64 +222,30 @@ export const Income = ({
                     </AccordionTrigger>
                     <AccordionContent className="pt-0 pb-4">
                       <div className="space-y-4" id="extra-incomes-section">
-                        <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <IncomeInputField
-                            ariaLabel={t("secondaryIncome1_aria")}
-                            className="modern-input"
-                            form={form}
-                            label={t("secondaryIncome1")}
-                            name="secondaryIncome1"
-                            onBlur={handleFieldChange}
-                          />
-                          {numberOfAdults === "2" && (
-                            <IncomeInputField
-                              ariaLabel={t("secondaryIncome2_aria")}
-                              className="modern-input"
-                              form={form}
-                              label={t("secondaryIncome2")}
-                              name="secondaryIncome2"
-                              onBlur={handleFieldChange}
-                            />
-                          )}
-                        </Box>
+                        <IncomeFieldGrid
+                          form={form}
+                          numberOfAdults={numberOfAdults}
+                          primaryField={{
+                            name: "secondaryIncome1",
+                            label: t("secondaryIncome1"),
+                            ariaLabel: t("secondaryIncome1_aria"),
+                          }}
+                          secondaryField={{
+                            name: "secondaryIncome2",
+                            label: t("secondaryIncome2"),
+                            ariaLabel: t("secondaryIncome2_aria"),
+                          }}
+                          onFieldChange={handleFieldChange}
+                        />
 
-                        {/* Secondary Income Tax Rate Slider */}
-                        {(form.watch("secondaryIncome1") > 0 ||
-                          form.watch("secondaryIncome2") > 0) && (
-                          <div className="mt-4 space-y-2">
-                            <Label className="text-sm font-medium text-foreground">
-                              {t("secondary_income_tax_rate")}
-                            </Label>
-                            <div className="text-xs text-muted-foreground mb-2">
-                              {t("secondary_income_tax_rate_help")}
-                            </div>
-                            <FormField
-                              control={form.control}
-                              name="secondaryIncomeTaxRate"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <SliderInput
-                                      ariaLabel={t(
-                                        "secondary_income_tax_rate_aria"
-                                      )}
-                                      decimals={0}
-                                      max={40}
-                                      min={25}
-                                      step={1}
-                                      suffix="%"
-                                      value={field.value}
-                                      onChange={(value) => {
-                                        field.onChange(value);
-                                        handleFieldChange();
-                                      }}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          </div>
-                        )}
+                        <SecondaryIncomeTaxSlider
+                          form={form}
+                          isVisible={
+                            form.watch("secondaryIncome1") > 0 ||
+                            form.watch("secondaryIncome2") > 0
+                          }
+                          onFieldChange={handleFieldChange}
+                        />
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -396,56 +253,33 @@ export const Income = ({
                 {/* <div className="border-b -border" /> */}
               </div>
 
-              {/* Additional Income Fields with Icons */}
-              <div className="space-y-4">
-                <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Box className="space-y-2">
-                    <IncomeInputField
-                      ariaLabel={t("child_benefits_aria")}
-                      className="modern-input"
-                      form={form}
-                      label={t("child_benefits")}
-                      name="childBenefits"
-                      onBlur={handleFieldChange}
-                    />
-                  </Box>
-
-                  <Box className="space-y-2">
-                    <IncomeInputField
-                      ariaLabel={t("other_benefits_aria")}
-                      className="modern-input"
-                      form={form}
-                      label={t("other_benefits")}
-                      name="otherBenefits"
-                      onBlur={handleFieldChange}
-                    />
-                  </Box>
-                </Box>
-
-                <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Box className="space-y-2">
-                    <IncomeInputField
-                      ariaLabel={t("other_incomes_aria")}
-                      className="modern-input"
-                      form={form}
-                      label={t("other_incomes")}
-                      name="otherIncomes"
-                      onBlur={handleFieldChange}
-                    />
-                  </Box>
-
-                  <Box className="space-y-2">
-                    <IncomeInputField
-                      ariaLabel={t("current_buffer_aria")}
-                      className="modern-input"
-                      form={form}
-                      label={t("current_buffer_label")}
-                      name="currentBuffer"
-                      onBlur={handleFieldChange}
-                    />
-                  </Box>
-                </Box>
-              </div>
+              {/* Additional Income Fields */}
+              <IncomeSection
+                fields={[
+                  {
+                    name: "childBenefits",
+                    label: t("child_benefits"),
+                    ariaLabel: t("child_benefits_aria"),
+                  },
+                  {
+                    name: "otherBenefits",
+                    label: t("other_benefits"),
+                    ariaLabel: t("other_benefits_aria"),
+                  },
+                  {
+                    name: "otherIncomes",
+                    label: t("other_incomes"),
+                    ariaLabel: t("other_incomes_aria"),
+                  },
+                  {
+                    name: "currentBuffer",
+                    label: t("current_buffer_label"),
+                    ariaLabel: t("current_buffer_aria"),
+                  },
+                ]}
+                form={form}
+                onFieldChange={handleFieldChange}
+              />
             </Box>
           </form>
         </Form>
