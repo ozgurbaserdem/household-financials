@@ -159,12 +159,12 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
               <linearGradient id="loanGradient" x1="0" x2="0" y1="0" y2="1">
                 <stop
                   offset={off}
-                  stopColor="rgb(59 130 246)"
+                  stopColor="rgba(212, 175, 55, 0.15)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset={off}
-                  stopColor="rgb(147 197 253)"
+                  stopColor="rgba(212, 175, 55, 0.1)"
                   stopOpacity={0.4}
                 />
               </linearGradient>
@@ -211,7 +211,7 @@ export const Forecast = ({ calculatorState }: ForecastProps) => {
               animationEasing="ease-out"
               dataKey="remainingLoan"
               fill="url(#loanGradient)"
-              stroke="rgb(59 130 246)"
+              stroke="#d4af37"
               strokeWidth={2}
               type="monotone"
             />

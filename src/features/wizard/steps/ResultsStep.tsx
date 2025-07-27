@@ -1,4 +1,4 @@
-import { TrendingUp, Calculator, PieChart } from "lucide-react";
+import { TrendingDown, TrendingUp, Calculator, PieChart } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
@@ -76,7 +76,7 @@ export const ResultsStep = () => {
         <div className="p-6 card-base shadow-sm">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 rounded-lg icon-bg-golden">
-              <TrendingUp className="w-6 h-6 text-golden" />
+              <TrendingDown className="w-6 h-6 text-golden" />
             </div>
             <h2 className="text-2xl font-bold text-foreground">
               {t("loan_forecast.title")}
@@ -90,7 +90,7 @@ export const ResultsStep = () => {
       {monthlySavings > 0 && (
         <div className="p-6 card-base shadow-sm">
           <div className="space-y-6">
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg icon-bg-golden">
                 <TrendingUp className="w-6 h-6 text-golden" />
               </div>
