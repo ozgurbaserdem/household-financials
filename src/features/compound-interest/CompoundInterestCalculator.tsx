@@ -207,7 +207,7 @@ export const CompoundInterestCalculator = () => {
           <div className="mt-6">
             <Accordion collapsible className="w-full" type="single">
               <AccordionItem value="advanced-settings">
-                <AccordionTrigger className="py-4 text-left hover:no-underline transition-colors">
+                <AccordionTrigger>
                   <div className="flex items-center gap-3 w-full">
                     <div className="p-2 rounded-lg icon-bg-golden">
                       <Settings2 className="w-5 h-5 text-golden" />
