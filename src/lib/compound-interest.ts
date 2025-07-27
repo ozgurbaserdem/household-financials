@@ -274,3 +274,19 @@ export const calculateFinalValues = (
     totalWithdrawn, // Add total withdrawals
   };
 };
+
+// Helper function to calculate 20-year wealth projection for CTA
+export const calculateWealthProjection = (
+  monthlySavings: number,
+  currentBuffer: number = 0
+): number => {
+  const inputs: CompoundInterestInputs = {
+    startSum: currentBuffer,
+    monthlySavings,
+    yearlyReturn: 0.07, // 7% annual return
+    investmentHorizon: 20, // 20 years
+  };
+
+  const finalValues = calculateFinalValues(inputs);
+  return finalValues.totalValue;
+};

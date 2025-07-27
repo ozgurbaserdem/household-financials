@@ -33,9 +33,10 @@ export const CompoundInterestCalculator = () => {
 
   // Get initial values from URL parameters
   const initialMonthlySavings = searchParameters.get("monthlySavings");
+  const initialStartSum = searchParameters.get("startSum");
 
   const [inputs, setInputs] = useState<CompoundInterestInputs>({
-    startSum: 0,
+    startSum: initialStartSum ? Number.parseInt(initialStartSum) : 0,
     monthlySavings: initialMonthlySavings
       ? Number.parseInt(initialMonthlySavings)
       : 5000,
@@ -51,17 +52,18 @@ export const CompoundInterestCalculator = () => {
 
   const [highlightedField, setHighlightedField] = useState<string | null>(null);
 
-  // Highlight the monthly savings field if it came from URL
+  // Highlight fields if they came from URL
   useEffect(() => {
-    if (initialMonthlySavings) {
-      setHighlightedField("monthlySavings");
+    if (initialMonthlySavings || initialStartSum) {
+      // Prioritize startSum if both are present
+      setHighlightedField(initialStartSum ? "startSum" : "monthlySavings");
       // Remove highlight after 3 seconds
       const timer = setTimeout(() => {
         setHighlightedField(null);
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [initialMonthlySavings]);
+  }, [initialMonthlySavings, initialStartSum]);
 
   const inputConfigs = [
     {

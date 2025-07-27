@@ -163,8 +163,8 @@ declare const messages: {
     worst_option: "Sämsta scenariot";
     compound_interest_cta: {
       title: "Maximera ditt sparande med ränta på ränta";
-      description: "Du kan spara {savings} kr varje månad! Se hur mycket det kan växa över tid.";
-      button: "Beräkna ränta på ränta";
+      description: "Om du sparar {savings} i månaden och har ett startkapital på {currentBuffer}, kan ditt sparande växa till följande belopp på 20 år med 7% årlig avkastning:";
+      button: "Se hur din förmögenhet växer";
       per_month: "månad";
       potential_wealth: "Potentiell förmögenhet";
     };

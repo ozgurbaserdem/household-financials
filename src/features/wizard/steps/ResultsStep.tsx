@@ -3,7 +3,6 @@ import { useTranslations } from "next-intl";
 import React from "react";
 
 import { Button } from "@/components/ui/Button";
-import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import { StepHeader } from "@/components/ui/StepHeader";
 import { Text } from "@/components/ui/Text";
 import { Forecast } from "@/features/calculator/Forecast";
@@ -11,6 +10,7 @@ import { ResultsTable } from "@/features/calculator/ResultsTable";
 import { ExpenseBreakdown } from "@/features/charts/ExpenseBreakdown";
 import { Link } from "@/i18n/navigation";
 import { calculateLoanScenarios } from "@/lib/calculations";
+import { calculateWealthProjection } from "@/lib/compound-interest";
 import { formatCurrencyNoDecimals } from "@/lib/formatting";
 import { useAppSelector } from "@/store/hooks";
 
@@ -36,6 +36,13 @@ export const ResultsStep = () => {
   const loanScenarios = calculateLoanScenarios(calculatorState);
   const scenario = loanScenarios[0]; // Now we only have one scenario
   const monthlySavings = scenario ? scenario.remainingSavings : 0;
+
+  // Calculate 20-year wealth projection
+  const currentBuffer = income.currentBuffer || 0;
+  const projectedWealth = calculateWealthProjection(
+    monthlySavings,
+    currentBuffer
+  );
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -82,50 +89,49 @@ export const ResultsStep = () => {
       {/* Compound Interest CTA */}
       {monthlySavings > 0 && (
         <div className="p-6 card-base shadow-sm">
-          <div className="flex flex-col lg:flex-row items-center gap-6">
-            <div className="flex-1 text-center lg:text-left space-y-4">
-              <div className="flex items-center justify-center lg:justify-start gap-3">
-                <div className="p-2 rounded-lg icon-bg-golden">
-                  <TrendingUp className="w-6 h-6 text-golden" />
-                </div>
-                <h3
-                  className="text-2xl font-bold text-foreground"
-                  data-testid="compound-interest-cta-title"
-                >
-                  {tCompoundInterestCta("title")}
-                </h3>
+          <div className="space-y-6">
+            <div className="flex items-center justify-center gap-3">
+              <div className="p-2 rounded-lg icon-bg-golden">
+                <TrendingUp className="w-6 h-6 text-golden" />
               </div>
-              <div className="space-y-2">
+              <h3
+                className="text-2xl font-bold text-foreground"
+                data-testid="compound-interest-cta-title"
+              >
+                {tCompoundInterestCta("title")}
+              </h3>
+            </div>
+            <div className="space-y-6">
+              <div className="max-w-3xl mx-auto">
                 <Text
-                  className="text-muted-foreground leading-relaxed"
+                  className="text-muted-foreground leading-relaxed text-center text-lg"
                   data-testid="compound-interest-cta-description"
                 >
                   {tCompoundInterestCta("description", {
                     savings: formatCurrencyNoDecimals(monthlySavings),
+                    currentBuffer: formatCurrencyNoDecimals(currentBuffer),
                   })}
                 </Text>
-                <div className="flex items-center justify-center lg:justify-start gap-2 text-sm">
-                  <div className="px-3 py-1 rounded-full bg-gradient-to-r from-green-50 to-emerald-100/70 dark:from-green-950/40 dark:to-emerald-900/30 text-green-800 dark:text-green-100 font-medium border border-green-200/60 dark:border-green-800/40 shadow-sm">
-                    <CurrencyDisplay
-                      amount={monthlySavings}
-                      className="inline text-green-800 dark:text-green-100"
-                      showDecimals={false}
-                      variant="positive"
-                    />{" "}
-                    / {tCompoundInterestCta("per_month")}
-                  </div>
-                  <span className="text-muted-foreground">→</span>
-                  <div className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-50 to-violet-100/70 dark:from-purple-950/40 dark:to-violet-900/30 text-purple-800 dark:text-purple-100 font-medium border border-purple-200/60 dark:border-purple-800/40 shadow-sm">
-                    {tCompoundInterestCta("potential_wealth")}
-                  </div>
+              </div>
+              <div className="text-center">
+                <div
+                  className="wealth-display"
+                  data-testid="projected-wealth-amount"
+                >
+                  {formatCurrencyNoDecimals(projectedWealth)}
                 </div>
               </div>
             </div>
-            <div className="flex-shrink-0">
+            <div className="flex justify-center">
               <Link
                 href={{
                   pathname: "/ranta-pa-ranta",
-                  query: { monthlySavings: Math.round(monthlySavings) },
+                  query: {
+                    monthlySavings: Math.round(monthlySavings),
+                    ...(currentBuffer > 0 && {
+                      startSum: Math.round(currentBuffer),
+                    }),
+                  },
                 }}
               >
                 <Button

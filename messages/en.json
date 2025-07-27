@@ -152,8 +152,8 @@
     "worst_option": "Worst option",
     "compound_interest_cta": {
       "title": "Grow your savings with compound interest",
-      "description": "You can save {savings} kr every month! See how much this amount can grow with compound interest over time.",
-      "button": "Calculate compound interest",
+      "description": "If you save {savings} per month and start with {currentBuffer}, your savings could grow to the following amount over 20 years at a 7% annual return:",
+      "button": "See how your wealth grows",
       "per_month": "month",
       "potential_wealth": "Potential wealth"
     },

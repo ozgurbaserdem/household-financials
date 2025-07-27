@@ -136,6 +136,15 @@ vi.mock("@/components/ui/form", () => ({
 
 // Mock calculation functions
 
+vi.mock("@/lib/compound-interest", () => ({
+  calculateWealthProjection: vi.fn(
+    (monthlySavings: number, currentBuffer: number = 0) => {
+      // Mock calculation: simple formula for testing
+      return monthlySavings * 12 * 20 + currentBuffer * 1.5; // 20 years with some growth
+    }
+  ),
+}));
+
 vi.mock("@/lib/calculations", () => ({
   formatCurrency: (value: number) => `${value.toLocaleString("en-US")} kr`,
   calculateLoanScenarios: vi.fn(() => [
@@ -404,12 +413,10 @@ describe("ResultsStep", () => {
     const link = screen.getByTestId("compound-interest-link");
     const storeState = createMockStore().getState();
     const scenarios = vi.mocked(calculateLoanScenarios)(storeState);
-    const highestSavings = Math.round(
-      Math.max(...scenarios.map((s) => s.remainingSavings))
-    );
+    const monthlySavings = Math.round(scenarios[0]?.remainingSavings || 0);
     expect(link).toHaveAttribute(
       "href",
-      `/ranta-pa-ranta?monthlySavings=${highestSavings}`
+      `/ranta-pa-ranta?monthlySavings=${monthlySavings}`
     );
   });
 
@@ -421,19 +428,17 @@ describe("ResultsStep", () => {
     const link = screen.getByTestId("compound-interest-link");
     const storeState = createMockStore().getState();
     const scenarios = vi.mocked(calculateLoanScenarios)(storeState);
-    const highestSavings = Math.round(
-      Math.max(...scenarios.map((s) => s.remainingSavings))
-    );
+    const monthlySavings = Math.round(scenarios[0]?.remainingSavings || 0);
     expect(link).toHaveAttribute(
       "href",
-      `/ranta-pa-ranta?monthlySavings=${highestSavings}`
+      `/ranta-pa-ranta?monthlySavings=${monthlySavings}`
     );
   });
 
-  it("should display the highest remaining savings from all scenarios", () => {
+  it("should display the first scenario's remaining savings", () => {
     renderWithProviders(<ResultsStep />);
 
-    // The default mock has 3000 as the highest remaining savings
+    // The default mock has 3000 as the first scenario's remaining savings
     // Check that the CTA is shown and contains the correct elements
     expect(
       screen.getByTestId("compound-interest-cta-title")
@@ -492,25 +497,45 @@ describe("ResultsStep", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("should display formatted currency correctly", () => {
+  it("should display projected wealth amount", () => {
     renderWithProviders(<ResultsStep />);
 
-    // Check for formatted currency display - the test should find the mocked CurrencyDisplay output
-    expect(screen.getByText("3 000 kr")).toBeInTheDocument();
+    // Check that the projected wealth amount is displayed
+    expect(screen.getByTestId("projected-wealth-amount")).toBeInTheDocument();
   });
 
-  it("should show potential wealth badge for English", () => {
-    renderWithProviders(<ResultsStep />);
+  it("should calculate and display projected wealth correctly", () => {
+    const store = createMockStore({
+      income: { currentBuffer: 50000 },
+    });
+    renderWithProviders(<ResultsStep />, store);
 
-    expect(screen.getByText("potential_wealth")).toBeInTheDocument();
+    // With monthlySavings=3000 and currentBuffer=50000, our mock should return:
+    // 3000 * 12 * 20 + 50000 * 1.5 = 720000 + 75000 = 795000
+    const projectedWealth = screen.getByTestId("projected-wealth-amount");
+    expect(projectedWealth).toHaveTextContent("795 000 kr");
   });
 
-  it("should show potential wealth badge for Swedish", () => {
-    mockUseLocale.mockReturnValue("sv");
+  it("should include startSum in URL when buffer savings exist", () => {
+    const store = createMockStore({
+      income: { currentBuffer: 50000 },
+    });
+    renderWithProviders(<ResultsStep />, store);
 
-    renderWithProviders(<ResultsStep />);
+    const link = screen.getByTestId("compound-interest-link");
+    expect(link).toHaveAttribute(
+      "href",
+      `/ranta-pa-ranta?monthlySavings=3000&startSum=50000`
+    );
+  });
 
-    // Check for Swedish potential wealth badge text
-    expect(screen.getByText("potential_wealth")).toBeInTheDocument();
+  it("should not include startSum in URL when no buffer savings", () => {
+    const store = createMockStore({
+      income: { currentBuffer: 0 },
+    });
+    renderWithProviders(<ResultsStep />, store);
+
+    const link = screen.getByTestId("compound-interest-link");
+    expect(link).toHaveAttribute("href", `/ranta-pa-ranta?monthlySavings=3000`);
   });
 });

@@ -160,6 +160,43 @@ describe("CompoundInterestCalculator", () => {
     expect(screen.getByText(/8000.*kr\/mån/)).toBeInTheDocument();
   });
 
+  it("should handle URL parameter for start sum", () => {
+    const searchParameters = new URLSearchParams({ startSum: "500000" });
+    (nextNavigation.useSearchParams as any).mockReturnValue(searchParameters);
+
+    render(<CompoundInterestCalculator />);
+
+    // Check the slider has the correct value
+    const sliders = screen.getAllByRole("slider");
+    const startSumSlider = sliders[0]; // Start sum is the first slider
+    expect(startSumSlider).toHaveValue("500000");
+
+    // Check the value is displayed
+    expect(screen.getByText(/500000.*kr/)).toBeInTheDocument();
+  });
+
+  it("should handle both monthlySavings and startSum URL parameters", () => {
+    const searchParameters = new URLSearchParams({
+      monthlySavings: "7500",
+      startSum: "250000",
+    });
+    (nextNavigation.useSearchParams as any).mockReturnValue(searchParameters);
+
+    render(<CompoundInterestCalculator />);
+
+    // Check both sliders have correct values
+    const sliders = screen.getAllByRole("slider");
+    const startSumSlider = sliders[0];
+    const monthlySavingsSlider = sliders[1];
+
+    expect(startSumSlider).toHaveValue("250000");
+    expect(monthlySavingsSlider).toHaveValue("7500");
+
+    // Check both values are displayed
+    expect(screen.getByText(/250000.*kr/)).toBeInTheDocument();
+    expect(screen.getByText(/7500.*kr\/mån/)).toBeInTheDocument();
+  });
+
   it("should allow manual input when clicking on values", async () => {
     const user = userEvent.setup();
     render(<CompoundInterestCalculator />);
@@ -328,10 +365,9 @@ describe("CompoundInterestCalculator", () => {
       expect(screen.getByText("0 kr/mån")).toBeInTheDocument(); // Monthly savings
 
       // Debug: print all text content to see what's actually rendered
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const allTextContent = screen
-        .getAllByText(/%/)
-        .map((el) => el.textContent);
+      // const allTextContent = screen
+      //   .getAllByText(/%/)
+      //   .map((el) => el.textContent);
       // console.log("Percentage values found:", allTextContent); // Commented out to remove console output
 
       expect(screen.getByText("0%")).toBeInTheDocument(); // Minimum is 0%
