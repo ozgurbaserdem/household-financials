@@ -31,6 +31,9 @@ declare const messages: {
     amortization_rate: "Amortization rate (%)";
     amortization_rate_aria: "Amortization rate for the loan";
     amortization_rate_help: "Annual amortization rate for the loan";
+    loan_toggle_aria: "{count, plural, =1 {Do you have any loans?} other {Do you have any loans?}}";
+    monthly_payment_updated: "Monthly payment updated to {amount} {currency}";
+    currency_sek: "SEK";
   };
   dialog: {
     close: "Close";

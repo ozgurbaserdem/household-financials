@@ -207,9 +207,9 @@ describe("ExpenseCategories", () => {
     );
 
     // Should have progress bars for non-zero categories
-    // Progress bars use bg-primary class and are within progress containers
+    // Progress bars use bg-gradient-golden class and are within progress containers
     const progressBars = document.querySelectorAll(
-      ".bg-primary.rounded-full.transition-all.duration-500"
+      ".bg-gradient-golden.rounded-full.transition-all.duration-500"
     );
     expect(progressBars.length).toBeGreaterThan(0);
   });

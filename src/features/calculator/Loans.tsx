@@ -3,13 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Calendar, Percent } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { Box } from "@/components/ui/Box";
-import { Button } from "@/components/ui/Button";
-import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import {
   Form,
   FormControl,
@@ -19,9 +16,13 @@ import {
   FormMessage as BaseFormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
-import { SliderInput } from "@/components/ui/SliderInput";
+import { MonthlyPaymentDisplay } from "@/components/ui/MonthlyPaymentDisplay";
+import { RateSliderField } from "@/components/ui/RateSliderField";
 import { StepHeader } from "@/components/ui/StepHeader";
-import { Text } from "@/components/ui/Text";
+import {
+  ToggleButtonGroup,
+  type ToggleOption,
+} from "@/components/ui/ToggleButtonGroup";
 
 const formSchema = z
   .object({
@@ -70,116 +71,99 @@ interface LoansFormProps {
 
 export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
   const [isUserToggling, setIsUserToggling] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const timeoutReference = useRef<NodeJS.Timeout | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
-    defaultValues: {
-      hasLoan: values.hasLoan,
-      loanAmount: values.loanAmount,
-      interestRate: values.interestRate,
-      amortizationRate: values.amortizationRate,
-    },
+    defaultValues: values,
   });
 
   const t = useTranslations("loan_parameters");
+  const adultsCount = Number.parseInt(numberOfAdults);
 
+  // Simplified form synchronization
   useEffect(() => {
-    // Initialize the form once with props values
-    if (!isInitialized) {
-      form.setValue("hasLoan", values.hasLoan);
-      form.setValue("loanAmount", values.loanAmount);
-      form.setValue("interestRate", values.interestRate);
-      form.setValue("amortizationRate", values.amortizationRate);
-      setIsInitialized(true);
+    if (!isUserToggling) {
+      form.reset(values);
     }
-    // After initialization, only sync non-hasLoan values when not toggling
-    else if (isInitialized && !isUserToggling) {
-      form.setValue("loanAmount", values.loanAmount);
-      form.setValue("interestRate", values.interestRate);
-      form.setValue("amortizationRate", values.amortizationRate);
-    }
-  }, [values, form, isUserToggling, isInitialized]);
-  const handleFieldChange = (forceHasLoan?: boolean): void => {
+  }, [values, form, isUserToggling]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutReference.current) {
+        clearTimeout(timeoutReference.current);
+      }
+    };
+  }, []);
+
+  const handleFieldChange = useCallback((): void => {
     const currentValues = form.getValues();
-    const hasLoan =
-      forceHasLoan !== undefined ? forceHasLoan : currentValues.hasLoan;
+    onChange(currentValues);
+  }, [form, onChange]);
 
-    // If no loan, reset values
-    if (!hasLoan) {
-      onChange({
-        loanAmount: 0,
-        interestRate: 3.5, // Default interest rate
-        amortizationRate: 2, // Default amortization rate
-        hasLoan: false,
-      });
-    } else {
-      // When switching to "has loan", use previous values or defaults
-      const prevLoanAmount = values.loanAmount || 0;
-      const prevInterestRate = values.interestRate || 3.5;
-      const prevAmortizationRate = values.amortizationRate || 2;
+  const handleLoanToggle = useCallback(
+    (hasLoan: boolean): void => {
+      setIsUserToggling(true);
 
-      // If we're just updating (not toggling), keep the current values
-      // If toggling to "has loan", start with previous values or defaults
-      const loanAmountToUse =
-        forceHasLoan === undefined ? currentValues.loanAmount : prevLoanAmount;
-      const interestRateToUse =
-        forceHasLoan === undefined
-          ? currentValues.interestRate
-          : prevInterestRate;
-      const amortizationRateToUse =
-        forceHasLoan === undefined
-          ? currentValues.amortizationRate
-          : prevAmortizationRate;
+      // Clear any existing timeout
+      if (timeoutReference.current) {
+        clearTimeout(timeoutReference.current);
+      }
 
-      onChange({
-        loanAmount: loanAmountToUse,
-        interestRate: interestRateToUse,
-        amortizationRate: amortizationRateToUse,
-        hasLoan: true,
-      });
-    }
-  };
+      const newValues: LoansFormValues = hasLoan
+        ? {
+            hasLoan: true,
+            loanAmount: values.loanAmount || 0,
+            interestRate: values.interestRate || 3.5,
+            amortizationRate: values.amortizationRate || 2,
+          }
+        : {
+            hasLoan: false,
+            loanAmount: 0,
+            interestRate: 3.5,
+            amortizationRate: 2,
+          };
 
-  // Calculate monthly payment for display
-  const hasLoan = form.watch("hasLoan");
-  const loanAmount = form.watch("loanAmount");
-  const interestRate = form.watch("interestRate");
-  const amortizationRate = form.watch("amortizationRate");
+      form.reset(newValues);
+      onChange(newValues);
 
-  // Calculate monthly payment based on current rates
-  const calculateMonthlyPayment = (): number => {
-    if (!hasLoan || loanAmount <= 0) {
-      return 0;
-    }
+      // Reset toggling flag after a delay
+      timeoutReference.current = setTimeout(() => {
+        setIsUserToggling(false);
+      }, 100);
+    },
+    [form, onChange, values]
+  );
 
-    const monthlyPayment =
-      loanAmount * ((interestRate + amortizationRate) / 100 / 12);
+  // Watch form values efficiently
+  const formValues = form.watch();
+  const { hasLoan, loanAmount, interestRate, amortizationRate } = formValues;
 
-    return monthlyPayment;
-  };
-
-  const monthlyPayment = calculateMonthlyPayment();
+  // Create toggle options
+  const toggleOptions: ToggleOption<boolean>[] = [
+    {
+      value: true,
+      label: t("has_loan", { count: adultsCount }),
+    },
+    {
+      value: false,
+      label: t("no_loan", { count: adultsCount }),
+    },
+  ];
 
   return (
     <div>
       <StepHeader step="loans">
-        <div className="text-sm text-muted-foreground">
-          {hasLoan && monthlyPayment > 0 ? (
-            <>
-              {t("estimated_monthly_payment")}:{" "}
-              <CurrencyDisplay
-                amount={monthlyPayment}
-                className="text-foreground font-semibold"
-                showDecimals={false}
-                variant="warning"
-              />
-            </>
-          ) : (
-            t("no_loan", { count: Number.parseInt(numberOfAdults) })
-          )}
-        </div>
+        <MonthlyPaymentDisplay
+          amortizationRate={amortizationRate}
+          estimatedPaymentText={t("estimated_monthly_payment")}
+          hasLoan={hasLoan}
+          interestRate={interestRate}
+          loanAmount={loanAmount}
+          numberOfAdults={numberOfAdults}
+        />
       </StepHeader>
 
       <div>
@@ -193,51 +177,20 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Box className="flex flex-col sm:flex-row items-stretch gap-3">
-                        <Button
-                          className="flex-1 py-2 px-3 text-md"
-                          size="budgetkollen-selection"
-                          type="button"
-                          variant={
-                            field.value
-                              ? "budgetkollen-selection-active"
-                              : "budgetkollen-selection"
-                          }
-                          onClick={() => {
-                            setIsUserToggling(true);
-                            field.onChange(true);
-                            handleFieldChange(true);
-                            // Reset the flag after a short delay
-                            setTimeout(() => setIsUserToggling(false), 300);
-                          }}
-                        >
-                          {t("has_loan", {
-                            count: Number.parseInt(numberOfAdults),
-                          })}
-                        </Button>
-                        <Button
-                          className="flex-1 py-2 px-3 text-md"
-                          size="budgetkollen-selection"
-                          type="button"
-                          variant={
-                            !field.value
-                              ? "budgetkollen-selection-active"
-                              : "budgetkollen-selection"
-                          }
-                          onClick={() => {
-                            setIsUserToggling(true);
-                            field.onChange(false);
-                            handleFieldChange(false);
-                            // Reset the flag after a short delay
-                            setTimeout(() => setIsUserToggling(false), 300);
-                          }}
-                        >
-                          {t("no_loan", {
-                            count: Number.parseInt(numberOfAdults),
-                          })}
-                        </Button>
-                      </Box>
+                      <ToggleButtonGroup
+                        ariaLabel={t("loan_toggle_aria", {
+                          count: adultsCount,
+                        })}
+                        name="hasLoan"
+                        options={toggleOptions}
+                        value={field.value}
+                        onChange={(value) => {
+                          field.onChange(value);
+                          handleLoanToggle(value as boolean);
+                        }}
+                      />
                     </FormControl>
+                    <BaseFormMessage />
                   </FormItem>
                 )}
               />
@@ -260,7 +213,7 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                             aria-label={t("loan_amount_aria")}
                             className="modern-input text-lg"
                             placeholder="0"
-                            value={field.value || ""}
+                            value={field.value ?? ""}
                             onChange={(e) => {
                               const value =
                                 e.target.value === ""
@@ -278,66 +231,28 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
+                  <RateSliderField
+                    ariaLabel={t("interest_rate_aria")}
                     control={form.control}
+                    defaultValue={3.5}
+                    helpText={t("interest_rate_help")}
+                    icon={Percent}
+                    label={t("interest_rate")}
+                    max={20}
                     name="interestRate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2">
-                          <Percent className="w-4 h-4 text-foreground" />
-                          {t("interest_rate")}
-                        </FormLabel>
-                        <FormControl>
-                          <SliderInput
-                            ariaLabel={t("interest_rate_aria")}
-                            max={20}
-                            min={0.05}
-                            step={0.05}
-                            suffix="%"
-                            value={field.value || 3.5}
-                            onChange={(value) => {
-                              field.onChange(value);
-                              handleFieldChange();
-                            }}
-                          />
-                        </FormControl>
-                        <Text className="text-xs text-muted-foreground mt-1">
-                          {t("interest_rate_help")}
-                        </Text>
-                        <BaseFormMessage />
-                      </FormItem>
-                    )}
+                    onChange={handleFieldChange}
                   />
 
-                  <FormField
+                  <RateSliderField
+                    ariaLabel={t("amortization_rate_aria")}
                     control={form.control}
+                    defaultValue={2}
+                    helpText={t("amortization_rate_help")}
+                    icon={Calendar}
+                    label={t("amortization_rate")}
+                    max={10}
                     name="amortizationRate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-foreground" />
-                          {t("amortization_rate")}
-                        </FormLabel>
-                        <FormControl>
-                          <SliderInput
-                            ariaLabel={t("amortization_rate_aria")}
-                            max={10}
-                            min={0.05}
-                            step={0.05}
-                            suffix="%"
-                            value={field.value || 2}
-                            onChange={(value) => {
-                              field.onChange(value);
-                              handleFieldChange();
-                            }}
-                          />
-                        </FormControl>
-                        <Text className="text-xs text-muted-foreground mt-1">
-                          {t("amortization_rate_help")}
-                        </Text>
-                        <BaseFormMessage />
-                      </FormItem>
-                    )}
+                    onChange={handleFieldChange}
                   />
                 </div>
               </>

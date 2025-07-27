@@ -27,10 +27,8 @@ describe("Loans", () => {
       />
     );
 
-    expect(
-      screen.getByRole("button", { name: "has_loan" })
-    ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "no_loan" })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "has_loan" })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "no_loan" })).toBeInTheDocument();
   });
 
   it("toggles from no loan to has loan correctly", async () => {
@@ -47,7 +45,7 @@ describe("Loans", () => {
       />
     );
 
-    const hasLoanButton = screen.getByRole("button", { name: "has_loan" });
+    const hasLoanButton = screen.getByRole("radio", { name: "has_loan" });
     fireEvent.click(hasLoanButton);
 
     await waitFor(() => {
@@ -74,7 +72,7 @@ describe("Loans", () => {
       />
     );
 
-    const noLoanButton = screen.getByRole("button", { name: "no_loan" });
+    const noLoanButton = screen.getByRole("radio", { name: "no_loan" });
     fireEvent.click(noLoanButton);
 
     await waitFor(() => {
@@ -235,7 +233,7 @@ describe("Loans", () => {
     );
 
     // Should show the "no loan" button as active
-    const noLoanButton = screen.getByRole("button", { name: "no_loan" });
+    const noLoanButton = screen.getByRole("radio", { name: "no_loan" });
     expect(noLoanButton).toHaveClass("border-yellow-400");
   });
 });

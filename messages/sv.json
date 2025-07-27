@@ -54,7 +54,10 @@
     "interest_rate_help": "Årlig räntesats för lånet",
     "amortization_rate": "Amortering (%)",
     "amortization_rate_aria": "Amorteringssats för lånet",
-    "amortization_rate_help": "Årlig amorteringssats för lånet"
+    "amortization_rate_help": "Årlig amorteringssats för lånet",
+    "loan_toggle_aria": "{count, plural, =1 {Har du några lån?} other {Har ni några lån?}}",
+    "monthly_payment_updated": "Månadskostnad uppdaterad till {amount} {currency}",
+    "currency_sek": "kronor"
   },
   "dialog_hushallskalkyl": {
     "close": "Stäng",
