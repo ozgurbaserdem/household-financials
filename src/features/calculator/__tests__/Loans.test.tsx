@@ -151,7 +151,10 @@ describe("Loans", () => {
     const interestRateSlider = interestRateInputs.find(
       (input) => input.getAttribute("type") === "range"
     );
-    fireEvent.change(interestRateSlider!, { target: { value: "4.5" } });
+    expect(interestRateSlider).toBeTruthy();
+    fireEvent.change(interestRateSlider as HTMLElement, {
+      target: { value: "4.5" },
+    });
 
     await waitFor(() => {
       expect(mockOnChange).toHaveBeenCalledWith({
@@ -183,7 +186,10 @@ describe("Loans", () => {
     const amortizationRateSlider = amortizationRateInputs.find(
       (input) => input.getAttribute("type") === "range"
     );
-    fireEvent.change(amortizationRateSlider!, { target: { value: "3" } });
+    expect(amortizationRateSlider).toBeTruthy();
+    fireEvent.change(amortizationRateSlider as HTMLElement, {
+      target: { value: "3" },
+    });
 
     await waitFor(() => {
       expect(mockOnChange).toHaveBeenCalledWith({

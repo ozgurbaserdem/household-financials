@@ -100,6 +100,7 @@ describe("Income", () => {
             otherBenefits: 0,
             otherIncomes: 0,
             currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
           }}
           onChange={mockOnChange}
           onNumberOfAdultsChange={setAdults}
@@ -218,6 +219,7 @@ describe("Income", () => {
             otherBenefits: 0,
             otherIncomes: 0,
             currentBuffer: 0,
+            secondaryIncomeTaxRate: 34,
           }}
           onChange={mockOnChange}
           onNumberOfAdultsChange={setAdults}
@@ -580,7 +582,8 @@ describe("Income", () => {
         );
 
         // Change slider value to 28%
-        fireEvent.change(slider!, { target: { value: "28" } });
+        expect(slider).toBeTruthy();
+        fireEvent.change(slider as HTMLElement, { target: { value: "28" } });
 
         expect(mockOnChange).toHaveBeenCalledWith(
           expect.objectContaining({
