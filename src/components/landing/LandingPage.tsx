@@ -6,7 +6,6 @@ import {
   ChartBarIcon,
   LightBulbIcon,
   ArrowRightIcon,
-  ChevronDownIcon,
   CalculatorIcon,
 } from "@heroicons/react/24/outline";
 import {
@@ -22,18 +21,16 @@ import React from "react";
 
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardIcon,
-} from "@/components/ui/Card";
 import { XIcon } from "@/components/ui/XIcon";
 import { useRouter } from "@/i18n/navigation";
 import { getStepParameter } from "@/lib/utils/navigation";
 
 import { CalculatorPreviews } from "./CalculatorPreviews";
+import { FeatureCard } from "./FeatureCard";
+import { NavigableCard } from "./NavigableCard";
+import { ScrollIndicator } from "./ScrollIndicator";
+import { SectionHeader } from "./SectionHeader";
+import { StepCard } from "./StepCard";
 
 export const LandingPage = () => {
   const t = useTranslations("landing");
@@ -65,16 +62,6 @@ export const LandingPage = () => {
     const nextSection = document.querySelector('[data-section="how-it-works"]');
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleCardKeyDown = (
-    event: React.KeyboardEvent,
-    action: () => void
-  ) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      action();
     }
   };
 
@@ -136,22 +123,11 @@ export const LandingPage = () => {
 
   return (
     <Box className="min-h-screen bg-background relative pt-20 lg:pt-24">
-      {/* Scroll Indicator - Clean and minimal */}
-      {showScrollIndicator && (
-        <div
-          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 cursor-pointer"
-          onClick={handleScrollDown}
-        >
-          <div className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors group">
-            <span className="text-sm mb-2 font-medium">
-              {t("scrollIndicator")}
-            </span>
-            <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center group-hover:border-foreground transition-colors">
-              <ChevronDownIcon className="w-4 h-4" />
-            </div>
-          </div>
-        </div>
-      )}
+      <ScrollIndicator
+        isVisible={showScrollIndicator}
+        text={t("scrollIndicator")}
+        onScroll={handleScrollDown}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto container-padding">
         {/* Hero Section */}
@@ -182,44 +158,21 @@ export const LandingPage = () => {
 
         {/* How It Works Section */}
         <section className="py-24" data-section="how-it-works">
-          <div className="text-center mb-16">
-            <h2 className="heading-2 text-gradient-subtle mb-6">
-              {t("howItWorks.title")}
-            </h2>
-          </div>
+          <SectionHeader title={t("howItWorks.title")} />
 
           {/* Horizontal Step Flow */}
           <div className="relative">
             {/* Steps container */}
             <div className="flex flex-col md:flex-row justify-center items-center md:items-start max-w-6xl mx-auto relative space-y-16 md:space-y-0 md:space-x-8 lg:space-x-16 px-4">
               {steps.map((step, index) => (
-                <div
+                <StepCard
                   key={step.title}
-                  aria-label={t("accessibility.step_description", {
-                    stepNumber: index + 1,
-                    stepTitle: step.title,
-                  })}
-                  className="flex flex-col items-center text-center"
-                >
-                  <div className="w-16 h-16 rounded-full bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm flex items-center justify-center mb-4 relative">
-                    <step.icon className={`w-8 h-8 ${step.colorClass}`} />
-                    {/* Badge with step number in top-right corner */}
-                    <div
-                      aria-hidden="true"
-                      className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-gray-50 dark:bg-black border border-gray-200 dark:border-gray-800 flex items-center justify-center"
-                    >
-                      <span className="text-xs font-bold text-gradient-golden">
-                        {index + 1}
-                      </span>
-                    </div>
-                  </div>
-                  <h3 className="heading-3 text-foreground mb-2 text-lg">
-                    {step.title}
-                  </h3>
-                  <p className="body-base text-muted-foreground">
-                    {step.description}
-                  </p>
-                </div>
+                  colorClass={step.colorClass}
+                  description={step.description}
+                  icon={step.icon}
+                  stepNumber={index + 1}
+                  title={step.title}
+                />
               ))}
             </div>
           </div>
@@ -230,32 +183,16 @@ export const LandingPage = () => {
 
         {/* Features Section */}
         <section className="py-24">
-          <div className="text-center mb-16">
-            <h2 className="heading-2 text-gradient-subtle mb-6">
-              {t("features.title")}
-            </h2>
-          </div>
+          <SectionHeader title={t("features.title")} />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {features.map((feature) => (
               <div key={feature.title}>
-                <Card className="h-full text-center border-gray-200/50 dark:border-gray-700/50 shadow-sm">
-                  <CardHeader className="items-center" layout="vertical">
-                    <CardIcon
-                      className="bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
-                      size="lg"
-                      variant="default"
-                    >
-                      <feature.icon className="w-8 h-8 text-golden" />
-                    </CardIcon>
-                    <CardTitle className="text-center">
-                      {feature.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardDescription className="text-center text-muted-foreground leading-relaxed">
-                    {feature.description}
-                  </CardDescription>
-                </Card>
+                <FeatureCard
+                  description={feature.description}
+                  icon={feature.icon}
+                  title={feature.title}
+                />
               </div>
             ))}
           </div>
@@ -263,83 +200,28 @@ export const LandingPage = () => {
 
         {/* Other Calculators Section */}
         <section className="py-24">
-          <div className="text-center mb-16">
-            <h2 className="heading-2 text-gradient-subtle mb-6">
-              {t("other_calculators.title")}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div>
-              <Card
-                aria-label={t("accessibility.navigate_to_calculator", {
-                  calculatorTitle: t(
-                    "other_calculators.compound_interest.title"
-                  ),
-                })}
-                className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
-                role="button"
-                tabIndex={0}
-                variant="interactive"
-                onClick={() => router.push("/ranta-pa-ranta")}
-                onKeyDown={(e) =>
-                  handleCardKeyDown(e, () => router.push("/ranta-pa-ranta"))
-                }
-              >
-                <CardHeader>
-                  <CardIcon
-                    className="bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
-                    size="lg"
-                    variant="default"
-                  >
-                    <TrendingUp className="w-8 h-8 text-golden" />
-                  </CardIcon>
-                  <Box className="flex-1">
-                    <CardTitle>
-                      {t("other_calculators.compound_interest.title")}
-                    </CardTitle>
-                  </Box>
-                </CardHeader>
-                <CardDescription className="text-muted-foreground leading-relaxed">
-                  {t("other_calculators.compound_interest.description")}
-                </CardDescription>
-              </Card>
-            </div>
+          <SectionHeader title={t("other_calculators.title")} />
 
-            <div>
-              <Card
-                aria-label={t("accessibility.navigate_to_calculator", {
-                  calculatorTitle: t(
-                    "other_calculators.budget_calculator.title"
-                  ),
-                })}
-                className="h-full cursor-pointer border-gray-200/50 dark:border-gray-700/50 shadow-sm"
-                role="button"
-                tabIndex={0}
-                variant="interactive"
-                onClick={() => router.push("/hushallsbudget")}
-                onKeyDown={(e) =>
-                  handleCardKeyDown(e, () => router.push("/hushallsbudget"))
-                }
-              >
-                <CardHeader>
-                  <CardIcon
-                    className="bg-card border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
-                    size="lg"
-                    variant="default"
-                  >
-                    <CalculatorIcon className="w-8 h-8 text-golden" />
-                  </CardIcon>
-                  <Box className="flex-1">
-                    <CardTitle>
-                      {t("other_calculators.budget_calculator.title")}
-                    </CardTitle>
-                  </Box>
-                </CardHeader>
-                <CardDescription className="text-muted-foreground leading-relaxed">
-                  {t("other_calculators.budget_calculator.description")}
-                </CardDescription>
-              </Card>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <NavigableCard
+              ariaLabel={t("accessibility.navigate_to_calculator", {
+                calculatorTitle: t("other_calculators.compound_interest.title"),
+              })}
+              description={t("other_calculators.compound_interest.description")}
+              icon={TrendingUp}
+              title={t("other_calculators.compound_interest.title")}
+              onClick={() => router.push("/ranta-pa-ranta")}
+            />
+
+            <NavigableCard
+              ariaLabel={t("accessibility.navigate_to_calculator", {
+                calculatorTitle: t("other_calculators.budget_calculator.title"),
+              })}
+              description={t("other_calculators.budget_calculator.description")}
+              icon={CalculatorIcon}
+              title={t("other_calculators.budget_calculator.title")}
+              onClick={() => router.push("/hushallsbudget")}
+            />
           </div>
         </section>
 
