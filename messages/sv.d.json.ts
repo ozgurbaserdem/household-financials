@@ -17,6 +17,17 @@ declare const messages: {
     compound_interest_label: "Ränta-på-ränta kalkylator";
     compound_interest_desc: "Se hur dina investeringar växer genom sammansatt avkastning";
     back: "Tillbaka";
+    toggle_menu_aria: "Växla meny";
+    open_menu_aria: "Öppna huvudmeny";
+    close_menu_aria: "Stäng huvudmeny";
+    toggle_theme_aria: "Växla tema";
+    aria: {
+      toggle_menu: "Växla meny";
+      toggle_theme: "Växla tema";
+      navigation_menu: "Huvudnavigering";
+      articles_menu: "Artiklar meny, tryck för att visa artiklar";
+      articles_submenu: "Artiklar undermeny";
+    };
   };
   loan_parameters: {
     title: "Låneparametrar";

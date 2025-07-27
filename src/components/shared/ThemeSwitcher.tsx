@@ -1,5 +1,6 @@
 "use client";
 import { SunIcon, MoonIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -7,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 
 const ThemeSwitcher = () => {
   const { setTheme, resolvedTheme } = useTheme();
+  const t = useTranslations("navbar");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -19,16 +21,17 @@ const ThemeSwitcher = () => {
 
   return (
     <Button
-      aria-label="Toggle theme"
+      aria-label={t("toggle_theme_aria")}
       className="relative overflow-hidden border border-gray-400/50 dark:border-gray-600/50 rounded-full shadow-xs hover:bg-white/10 "
       size="icon"
+      title={t("toggle_theme_aria")}
       variant="ghost"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
     >
       {resolvedTheme === "dark" ? (
-        <MoonIcon className="w-4 h-4 text-foreground" />
+        <MoonIcon aria-hidden="true" className="w-4 h-4 text-foreground" />
       ) : (
-        <SunIcon className="w-4 h-4 text-foreground" />
+        <SunIcon aria-hidden="true" className="w-4 h-4 text-foreground" />
       )}
     </Button>
   );

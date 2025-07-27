@@ -28,7 +28,7 @@ const stepIndicatorVariants = cva(
           "bg-background border-gray-200/50 dark:border-gray-700/50 text-muted-foreground hover:border-foreground/50",
         active:
           "bg-primary text-primary-foreground border-primary scale-105 relative z-10",
-        completed: "bg-success text-green-500 border-success",
+        completed: "bg-gradient-golden text-white border-none",
         disabled:
           "bg-muted text-muted-foreground border-gray-200/50 dark:border-gray-700/50 cursor-not-allowed opacity-50",
       },
@@ -51,7 +51,7 @@ const stepLabelVariants = cva("text-center transition-colors duration-300", {
     state: {
       pending: "text-muted-foreground",
       active: "font-bold text-foreground",
-      completed: "text-success font-medium",
+      completed: "text-golden font-medium",
       disabled: "text-muted-foreground opacity-50",
     },
   },
@@ -212,7 +212,7 @@ const StepConnector = React.forwardRef<HTMLDivElement, StepConnectorProps>(
         {animate ? (
           <motion.div
             animate={{ scaleX: completed ? 1 : 0 }}
-            className="absolute inset-0 bg-green-500 rounded-full"
+            className="absolute inset-0 bg-gradient-golden rounded-full"
             initial={{ scaleX: 0 }}
             style={{ transformOrigin: "left" }}
             transition={{ duration: 0.5, delay }}
@@ -220,7 +220,7 @@ const StepConnector = React.forwardRef<HTMLDivElement, StepConnectorProps>(
         ) : (
           <div
             className={cn(
-              "absolute inset-0 bg-green-500 rounded-full transition-transform duration-500",
+              "absolute inset-0 bg-gradient-golden rounded-full transition-transform duration-500",
               completed ? "scale-x-100" : "scale-x-0"
             )}
             style={{ transformOrigin: "left" }}

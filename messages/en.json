@@ -427,7 +427,18 @@
     "compound_interest": "Compound interest",
     "compound_interest_label": "Compound interest calculator",
     "compound_interest_desc": "See how your investments grow through the power of compounding",
-    "back": "Back"
+    "back": "Back",
+    "toggle_menu_aria": "Toggle menu",
+    "open_menu_aria": "Open main menu",
+    "close_menu_aria": "Close main menu",
+    "toggle_theme_aria": "Toggle theme",
+    "aria": {
+      "toggle_menu": "Toggle menu",
+      "toggle_theme": "Toggle theme",
+      "navigation_menu": "Main navigation",
+      "articles_menu": "Articles menu, press to show articles",
+      "articles_submenu": "Articles submenu"
+    }
   },
   "hushallsbudget": {
     "title": "Household budget - Take control of your family's finances",

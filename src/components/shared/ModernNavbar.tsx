@@ -116,7 +116,9 @@ export const ModernNavbar = () => {
       {/* Desktop Docked Navbar */}
       <nav
         ref={dropdownReference}
+        aria-label={t("aria.navigation_menu")}
         className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 hidden lg:block ${getNavBgClasses()} border border-black/10 dark:border-white/10`}
+        role="navigation"
         style={{
           borderRadius: "16px",
         }}
@@ -135,6 +137,8 @@ export const ModernNavbar = () => {
                   <div key={item.id} className="relative">
                     {item.items ? (
                       <button
+                        aria-expanded={activeDropdown === item.id}
+                        aria-label={`${item.label} menu, press to show items`}
                         className="flex items-center space-x-1 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 text-sm font-medium"
                         onClick={() => toggleDropdown(item.id)}
                       >
@@ -147,9 +151,9 @@ export const ModernNavbar = () => {
                           transition={{ duration: 0.2 }}
                         >
                           {activeDropdown === item.id ? (
-                            <Minus className="w-3 h-3" />
+                            <Minus aria-hidden="true" className="w-3 h-3" />
                           ) : (
-                            <Plus className="w-3 h-3" />
+                            <Plus aria-hidden="true" className="w-3 h-3" />
                           )}
                         </motion.span>
                       </button>
@@ -175,6 +179,7 @@ export const ModernNavbar = () => {
                           className="absolute left-1/2 transform -translate-x-1/2 mt-7 w-80 bg-white/95 dark:bg-black/90 backdrop-blur-[8px] border border-black/10 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden"
                           exit={{ opacity: 0, y: -10 }}
                           initial={{ opacity: 0, y: -10 }}
+                          role="menu"
                           transition={{ duration: 0.2 }}
                         >
                           <div className="p-3">
@@ -188,6 +193,7 @@ export const ModernNavbar = () => {
                                     | "/ranta-pa-ranta"
                                     | "/hushallskalkyl"
                                 }
+                                role="menuitem"
                                 onClick={() => setActiveDropdown(null)}
                               >
                                 <div className="flex-1">
@@ -219,12 +225,24 @@ export const ModernNavbar = () => {
       </nav>
 
       {/* Mobile Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur-[8px] lg:hidden">
+      <nav
+        aria-label={t("aria.navigation_menu")}
+        className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur-[8px] lg:hidden"
+        role="navigation"
+      >
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             <Logo onLogoClick={() => setMobileMenuOpen(false)} />
             <button
+              aria-controls="mobile-menu"
+              aria-expanded={mobileMenuOpen}
+              aria-label={
+                mobileMenuOpen ? t("close_menu_aria") : t("open_menu_aria")
+              }
               className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+              title={
+                mobileMenuOpen ? t("close_menu_aria") : t("open_menu_aria")
+              }
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <AnimatePresence mode="wait">
@@ -236,7 +254,7 @@ export const ModernNavbar = () => {
                     initial={{ rotate: -90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <X className="w-6 h-6" />
+                    <X aria-hidden="true" className="w-6 h-6" />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -246,7 +264,7 @@ export const ModernNavbar = () => {
                     initial={{ rotate: 90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Menu className="w-6 h-6" />
+                    <Menu aria-hidden="true" className="w-6 h-6" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -262,7 +280,9 @@ export const ModernNavbar = () => {
             animate={{ opacity: 1 }}
             className="fixed inset-0 z-40 bg-white/95 dark:bg-black/95 backdrop-blur-[8px] lg:hidden"
             exit={{ opacity: 0 }}
+            id="mobile-menu"
             initial={{ opacity: 0 }}
+            role="menu"
             transition={{ duration: 0.3 }}
           >
             <div className="flex flex-col h-full pt-16">
@@ -281,13 +301,15 @@ export const ModernNavbar = () => {
                         <div key={item.id}>
                           {item.items ? (
                             <button
+                              aria-expanded={false}
+                              aria-label={`${item.label} menu, press to show items`}
                               className="w-full flex items-center justify-between px-4 py-4 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 rounded-lg hover:bg-black/5 dark:hover:bg-white/5"
                               onClick={() => setMobileSubmenu(item.id)}
                             >
                               <span className="text-lg font-medium">
                                 {item.label}
                               </span>
-                              <Plus className="w-5 h-5" />
+                              <Plus aria-hidden="true" className="w-5 h-5" />
                             </button>
                           ) : (
                             <Link
@@ -323,10 +345,11 @@ export const ModernNavbar = () => {
                       transition={{ duration: 0.2 }}
                     >
                       <button
+                        aria-label={t("back")}
                         className="flex items-center space-x-2 px-4 py-4 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 w-full rounded-lg hover:bg-black/5 dark:hover:bg-white/5 mb-4"
                         onClick={() => setMobileSubmenu(null)}
                       >
-                        <ArrowLeft className="w-5 h-5" />
+                        <ArrowLeft aria-hidden="true" className="w-5 h-5" />
                         <span className="text-lg font-medium">{t("back")}</span>
                       </button>
 
@@ -343,6 +366,7 @@ export const ModernNavbar = () => {
                                   | "/ranta-pa-ranta"
                                   | "/hushallskalkyl"
                               }
+                              role="menuitem"
                               onClick={() => {
                                 setMobileMenuOpen(false);
                                 setMobileSubmenu(null);
