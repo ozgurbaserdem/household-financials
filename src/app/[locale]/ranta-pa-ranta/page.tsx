@@ -1,16 +1,24 @@
 import { AlertTriangle, Lightbulb, TrendingUp } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import React from "react";
 
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Card, CardContent } from "@/components/ui/Card";
+import { EinsteinQuote } from "@/components/ui/EinsteinQuote";
+import { FAQCard } from "@/components/ui/FAQCard";
 import { Main } from "@/components/ui/Main";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Text } from "@/components/ui/Text";
+import { TipCard } from "@/components/ui/TipCard";
+import { TIPS_DATA, FAQ_DATA } from "@/data/compoundInterestData";
 import { CompoundInterestClient } from "@/features/compound-interest/CompoundInterestClient";
 import { Link } from "@/i18n/navigation";
+import {
+  getLocaleConfig,
+  generateWebApplicationSchema,
+} from "@/lib/localeConfig";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -18,64 +26,41 @@ interface Props {
 
 const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { locale } = await params;
-
-  const title =
-    locale === "sv"
-      ? "Ränta på Ränta Kalkylator - Sparkalkylator Gratis | Budgetkollen"
-      : "Compound Interest Calculator - Free Savings Calculator | Budgetkollen";
-
-  const description =
-    locale === "sv"
-      ? "Gratis ränta på ränta kalkylator som visar hur ditt sparande växer över tid. Beräkna framtida förmögenhet med månatligt sparande och visualiserade resultat."
-      : "Free compound interest calculator showing how your savings grow over time. Calculate future wealth with monthly savings and visual results.";
-
-  const keywords =
-    locale === "sv"
-      ? "ränta på ränta, sparkalkylator, investeringskalkylator, sparande, privatekonomi, budgetkollen"
-      : "compound interest, savings calculator, investment calculator, personal finance, budgetkollen";
-
-  // For "as-needed" routing: Swedish (default) has no locale prefix, English has /en prefix
-  const canonicalUrl =
-    locale === "sv"
-      ? `https://www.budgetkollen.se/ranta-pa-ranta`
-      : `https://www.budgetkollen.se/en/compound-interest`;
+  const config = getLocaleConfig(locale);
 
   return {
-    title,
-    description,
-    keywords,
+    title: config.title,
+    description: config.description,
+    keywords: config.keywords,
     metadataBase: new URL("https://www.budgetkollen.se"),
     alternates: {
-      canonical: canonicalUrl,
+      canonical: config.canonicalUrl,
       languages: {
         sv: "/ranta-pa-ranta", // No prefix for default locale
         en: "/en/compound-interest",
       },
     },
     openGraph: {
-      title,
-      description,
-      url: canonicalUrl,
+      title: config.title,
+      description: config.description,
+      url: config.canonicalUrl,
       siteName: "Budgetkollen",
-      locale: locale === "sv" ? "sv_SE" : "en_US",
+      locale: config.locale,
       type: "website",
       images: [
         {
           url: "/compound-interest-og.png",
           width: 1200,
           height: 630,
-          alt:
-            locale === "sv"
-              ? "Ränta på Ränta Kalkylator - Budgetkollen"
-              : "Compound Interest Calculator - Budgetkollen",
+          alt: config.openGraphImageAlt,
           type: "image/png",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
+      title: config.title,
+      description: config.description,
       images: ["/compound-interest-og.png"],
       creator: "@budgetkollen",
       site: "@budgetkollen",
@@ -89,30 +74,18 @@ const RantaPaRantaPage = async ({ params }: Props) => {
   const t = await getTranslations("compound_interest");
 
   // Essential structured data for 2025 SEO
-  const webApplicationSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "@id":
-      locale === "sv"
-        ? "https://www.budgetkollen.se/ranta-pa-ranta"
-        : "https://www.budgetkollen.se/en/compound-interest",
-    name:
-      locale === "sv"
-        ? "Budgetkollen Ränta på Ränta"
-        : "Budgetkollen Compound Interest",
-    applicationCategory: "FinanceApplication",
-    operatingSystem: "Any",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "SEK",
-    },
-    provider: {
-      "@type": "Organization",
-      name: "Budgetkollen",
-      url: "https://www.budgetkollen.se",
-    },
-  };
+  const webApplicationSchema = generateWebApplicationSchema(locale);
+
+  // Static data with translations
+  const tipsWithContent = TIPS_DATA.map((tip) => ({
+    ...tip,
+    content: t(tip.translationKey),
+  }));
+
+  const faqsWithContent = FAQ_DATA.map((faq) => ({
+    question: t(faq.questionKey),
+    answer: t(faq.answerKey),
+  }));
 
   return (
     <>
@@ -135,47 +108,21 @@ const RantaPaRantaPage = async ({ params }: Props) => {
           </header>
           {/* Introduction Section */}
           <Card className="card-base" variant="elevated">
-            <CardHeader>
-              <div className="p-2 rounded-lg icon-bg-golden">
-                <TrendingUp className="w-6 h-6 text-golden" />
-              </div>
-              <Box className="flex-1">
-                <CardTitle>{t("wonder_section.title")}</CardTitle>
-              </Box>
-            </CardHeader>
+            <SectionHeader
+              icon={TrendingUp}
+              title={t("wonder_section.title")}
+              variant="card"
+            />
             <CardContent className="space-y-4">
               <Text className="text-muted-foreground leading-relaxed">
                 {t("wonder_section.description")}
               </Text>
 
-              <div className="relative py-6 px-4">
-                <div className="flex flex-col md:flex-row md:items-start gap-6">
-                  <div className="flex-1 relative md:order-2">
-                    <div className="text-6xl text-muted-foreground/30 font-serif absolute -top-4 -left-2">
-                      &ldquo;
-                    </div>
-                    <Text className="text-muted-foreground italic text-lg leading-relaxed pl-8 pt-2">
-                      {t("wonder_section.einstein_quote")}
-                    </Text>
-                    <div className="text-6xl text-muted-foreground/30 font-serif absolute -bottom-6 right-0">
-                      &rdquo;
-                    </div>
-                    <Text className="text-muted-foreground text-sm mt-4 pl-8">
-                      — {t("wonder_section.einstein_attribution")}
-                    </Text>
-                  </div>
-                  <div className="flex justify-center md:justify-start md:order-1">
-                    <Image
-                      priority
-                      alt="Albert Einstein"
-                      className="rounded-full object-cover grayscale opacity-70 flex-shrink-0 ring-2 ring-border"
-                      height={80}
-                      src="/einstein-optimized.png"
-                      width={80}
-                    />
-                  </div>
-                </div>
-              </div>
+              <EinsteinQuote
+                attribution={t("wonder_section.einstein_attribution")}
+                imageAlt={t("wonder_section.einstein_image_alt")}
+                quote={t("wonder_section.einstein_quote")}
+              />
 
               <Text className="text-muted-foreground leading-relaxed">
                 {t("wonder_section.understanding_text")}
@@ -192,94 +139,55 @@ const RantaPaRantaPage = async ({ params }: Props) => {
 
           {/* Tips Section */}
           <Card variant="elevated">
-            <CardHeader className="mb-2">
-              <div className="p-2 rounded-lg icon-bg-golden">
-                <Lightbulb className="w-6 h-6 text-golden" />
-              </div>
-              <Box className="flex-1">
-                <CardTitle>{t("tips_section.title")}</CardTitle>
-              </Box>
-            </CardHeader>
+            <SectionHeader
+              className="mb-2"
+              icon={Lightbulb}
+              title={t("tips_section.title")}
+              variant="card"
+            />
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  { key: "tip1", content: t("tips_section.tip1") },
-                  { key: "tip2", content: t("tips_section.tip2") },
-                  { key: "tip3", content: t("tips_section.tip3") },
-                  { key: "tip4", content: t("tips_section.tip4") },
-                  { key: "tip5", content: t("tips_section.tip5") },
-                  { key: "tip6", content: t("tips_section.tip6") },
-                ].map((tip, tipIndex) => (
-                  <div
+                {tipsWithContent.map((tip, tipIndex) => (
+                  <TipCard
                     key={tip.key}
-                    className="relative p-6 bg-card rounded-lg border border-gray-200/50 dark:border-gray-700/50 shadow-sm"
-                  >
-                    {/* Badge positioned on the top-left corner */}
-                    <div className="absolute -left-4 -top-4 w-8 h-8 rounded-full bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-800 flex items-center justify-center">
-                      <span className="text-sm font-bold text-gradient-golden">
-                        {tipIndex + 1}
-                      </span>
-                    </div>
-                    <Text className="text-muted-foreground text-sm leading-relaxed">
-                      {tip.content}
-                    </Text>
-                  </div>
+                    content={tip.content}
+                    index={tipIndex + 1}
+                  />
                 ))}
               </div>
             </CardContent>
           </Card>
 
           {/* FAQ Section for SEO */}
-          <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-foreground text-center mb-8">
+          <section
+            aria-labelledby="faq-heading"
+            className="space-y-4"
+            role="region"
+          >
+            <h2
+              className="text-2xl font-bold text-foreground text-center mb-8"
+              id="faq-heading"
+            >
               {t("faq_section.title")}
             </h2>
             <div className="grid gap-4">
-              <Card variant="elevated">
-                <CardContent>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    {t("faq_section.q1.question")}
-                  </h3>
-                  <Text className="text-muted-foreground">
-                    {t("faq_section.q1.answer")}
-                  </Text>
-                </CardContent>
-              </Card>
-
-              <Card variant="elevated">
-                <CardContent>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    {t("faq_section.q2.question")}
-                  </h3>
-                  <Text className="text-muted-foreground">
-                    {t("faq_section.q2.answer")}
-                  </Text>
-                </CardContent>
-              </Card>
-
-              <Card variant="elevated">
-                <CardContent>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    {t("faq_section.q3.question")}
-                  </h3>
-                  <Text className="text-muted-foreground">
-                    {t("faq_section.q3.answer")}
-                  </Text>
-                </CardContent>
-              </Card>
+              {faqsWithContent.map((faq) => (
+                <FAQCard
+                  key={faq.question}
+                  answer={faq.answer}
+                  question={faq.question}
+                />
+              ))}
             </div>
           </section>
 
           {/* Disclaimer */}
           <Card variant="elevated">
-            <CardHeader>
-              <div className="p-2 rounded-lg icon-bg-golden">
-                <AlertTriangle className="w-6 h-6 text-golden" />
-              </div>
-              <Box className="flex-1">
-                <CardTitle>{t("disclaimer_section.title")}</CardTitle>
-              </Box>
-            </CardHeader>
+            <SectionHeader
+              icon={AlertTriangle}
+              title={t("disclaimer_section.title")}
+              variant="card"
+            />
             <CardContent>
               <Text className="text-muted-foreground leading-relaxed">
                 {t("disclaimer_section.text")}

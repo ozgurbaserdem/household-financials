@@ -659,6 +659,7 @@ declare const messages: {
       description: "Compound interest is one of the most powerful financial concepts that can help you build long-term wealth. When you save regularly and let your returns grow over time, you create a snowball effect where your money works for you.";
       einstein_quote: "Compound interest is the eighth wonder of the world. He who understands it, earns it - he who doesn't, pays it.";
       einstein_attribution: "Albert Einstein";
+      einstein_image_alt: "Portrait of Albert Einstein, physicist known for his contributions to science and the famous quote about compound interest";
       understanding_text: "By understanding and leveraging compound interest, you can transform small monthly amounts into significant wealth over time. Our tool helps you visualize this powerful effect.";
       budget_connection: "Combine this savings calculator with our household budget to find more money to save each month.";
     };
