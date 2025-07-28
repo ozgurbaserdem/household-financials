@@ -1,91 +1,59 @@
 import type { MetadataRoute } from "next";
 
-const sitemap = (): MetadataRoute.Sitemap => {
+export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.budgetkollen.se";
   const currentDate = new Date();
 
   return [
+    // Swedish (default) pages
     {
       url: baseUrl,
       lastModified: currentDate,
-      alternates: {
-        languages: {
-          sv: baseUrl,
-          en: `${baseUrl}/en`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/en`,
-      lastModified: currentDate,
-      alternates: {
-        languages: {
-          sv: baseUrl,
-          en: `${baseUrl}/en`,
-        },
-      },
+      changeFrequency: "weekly",
+      priority: 1,
     },
     {
       url: `${baseUrl}/hushallsbudget`,
       lastModified: currentDate,
-      alternates: {
-        languages: {
-          sv: `${baseUrl}/hushallsbudget`,
-          en: `${baseUrl}/en/household-budget`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/en/household-budget`,
-      lastModified: currentDate,
-      alternates: {
-        languages: {
-          sv: `${baseUrl}/hushallsbudget`,
-          en: `${baseUrl}/en/household-budget`,
-        },
-      },
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/hushallskalkyl`,
       lastModified: currentDate,
-      alternates: {
-        languages: {
-          sv: `${baseUrl}/hushallskalkyl`,
-          en: `${baseUrl}/en/householdbudget`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/en/householdbudget`,
-      lastModified: currentDate,
-      alternates: {
-        languages: {
-          sv: `${baseUrl}/hushallskalkyl`,
-          en: `${baseUrl}/en/householdbudget`,
-        },
-      },
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/ranta-pa-ranta`,
       lastModified: currentDate,
-      alternates: {
-        languages: {
-          sv: `${baseUrl}/ranta-pa-ranta`,
-          en: `${baseUrl}/en/compound-interest`,
-        },
-      },
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    // English pages
+    {
+      url: `${baseUrl}/en`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/en/household-budget`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/en/householdbudget`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/en/compound-interest`,
       lastModified: currentDate,
-      alternates: {
-        languages: {
-          sv: `${baseUrl}/ranta-pa-ranta`,
-          en: `${baseUrl}/en/compound-interest`,
-        },
-      },
+      changeFrequency: "weekly",
+      priority: 0.7,
     },
   ];
-};
-
-export default sitemap;
+}
