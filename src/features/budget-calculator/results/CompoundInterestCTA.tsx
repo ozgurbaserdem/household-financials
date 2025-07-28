@@ -45,7 +45,7 @@ export const CompoundInterestCTA = React.memo(
       <ResultCard
         aria-describedby="compound-interest-cta-description"
         aria-labelledby="compound-interest-cta-title"
-        padding="lg"
+        padding="md"
       >
         <div className="space-y-6">
           <div className="flex items-center gap-3 mb-6">
@@ -104,7 +104,7 @@ export const CompoundInterestCTA = React.memo(
                 size="lg"
                 variant="default"
               >
-                <span className="relative z-10 flex items-center gap-2 px-2">
+                <span className="relative z-10 flex items-center gap-1">
                   <Calculator
                     aria-hidden="true"
                     className="w-5 h-5 transition-transform group-hover:rotate-12"

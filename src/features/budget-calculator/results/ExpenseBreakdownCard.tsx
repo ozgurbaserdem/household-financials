@@ -16,7 +16,7 @@ export const ExpenseBreakdownCard = React.memo(
     const t = useTranslations("results");
 
     return (
-      <ResultCard aria-labelledby="expense-breakdown-title" padding="lg">
+      <ResultCard aria-labelledby="expense-breakdown-title" padding="md">
         <SectionHeader
           headerId="expense-breakdown-title"
           icon={PieChart}

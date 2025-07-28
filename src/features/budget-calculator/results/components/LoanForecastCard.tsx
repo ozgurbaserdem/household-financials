@@ -23,7 +23,7 @@ export const LoanForecastCard = React.memo(
     }
 
     return (
-      <ResultCard aria-labelledby="loan-forecast-title" padding="lg">
+      <ResultCard aria-labelledby="loan-forecast-title" padding="md">
         <SectionHeader
           headerId="loan-forecast-title"
           icon={TrendingDown}
