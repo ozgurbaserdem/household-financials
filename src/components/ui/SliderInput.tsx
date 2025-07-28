@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 
+import { formatNumber } from "@/lib/formatting";
+
 import { Text } from "./Text";
 
 interface SliderInputProps {
@@ -47,7 +49,8 @@ export const SliderInput = ({
   };
 
   const handleEditEnd = () => {
-    const numValue = parseFloat(tempValue.replace(/[^\d.-]/g, ""));
+    const cleanedValue = tempValue.replace(/[^\d.-]/g, "");
+    const numValue = parseFloat(cleanedValue);
     if (!Number.isNaN(numValue) && numValue >= min) {
       // Allow input beyond max if allowInputBeyondMax is true
       if (allowInputBeyondMax || numValue <= max) {
@@ -135,7 +138,9 @@ export const SliderInput = ({
           >
             <Text className="text-sm font-semibold text-foreground">
               {prefix}
-              {(value ?? 0).toFixed(decimals)}
+              {decimals === 0 && suffix !== "%"
+                ? formatNumber(value ?? 0)
+                : (value ?? 0).toFixed(decimals)}
               {suffix}
             </Text>
           </button>

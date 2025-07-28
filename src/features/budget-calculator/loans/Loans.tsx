@@ -12,12 +12,11 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage as BaseFormMessage,
 } from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
 import { StepHeader } from "@/components/ui/StepHeader";
 
+import { LoanInputField } from "./LoanInputField";
 import { MonthlyPaymentDisplay } from "./MonthlyPaymentDisplay";
 import { RateSliderField } from "./RateSliderField";
 import { ToggleButtonGroup, type ToggleOption } from "./ToggleButtonGroup";
@@ -197,34 +196,13 @@ export const Loans = ({ onChange, values, numberOfAdults }: LoansFormProps) => {
             {hasLoan && (
               <>
                 <div>
-                  <FormField
-                    control={form.control}
+                  <LoanInputField
+                    ariaLabel={t("loan_amount_aria")}
+                    className="modern-input text-lg"
+                    form={form}
+                    label={t("loan_amount")}
                     name="loanAmount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("loan_amount")}</FormLabel>
-                        <FormControl>
-                          <Input
-                            min={0}
-                            type="number"
-                            {...field}
-                            aria-label={t("loan_amount_aria")}
-                            className="modern-input text-lg"
-                            placeholder="0"
-                            value={field.value ?? ""}
-                            onChange={(e) => {
-                              const value =
-                                e.target.value === ""
-                                  ? 0
-                                  : Number(e.target.value);
-                              field.onChange(value);
-                              handleFieldChange();
-                            }}
-                          />
-                        </FormControl>
-                        <BaseFormMessage />
-                      </FormItem>
-                    )}
+                    onBlur={handleFieldChange}
                   />
                 </div>
 

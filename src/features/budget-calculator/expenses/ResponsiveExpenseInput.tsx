@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 import { Box } from "@/components/ui/Box";
 import { Input } from "@/components/ui/Input";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { formatNumber } from "@/lib/formatting";
 
 interface ResponsiveExpenseInputProps {
   id: string;
@@ -27,21 +28,55 @@ export const ResponsiveExpenseInput = ({
   showProgressBar = false,
   progressPercentage = 0,
 }: ResponsiveExpenseInputProps) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const [displayValue, setDisplayValue] = useState("");
+
+  const isValidNumber =
+    typeof value === "number" && !Number.isNaN(value) && value !== 0;
+
+  // Update display value when value changes and not focused
+  useEffect(() => {
+    if (!isFocused) {
+      if (isValidNumber) {
+        setDisplayValue(formatNumber(value));
+      } else {
+        setDisplayValue("");
+      }
+    }
+  }, [value, isFocused, isValidNumber]);
+
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.value);
-    },
-    [onChange]
-  );
-
-  const handleInputFocus = useCallback(
-    (e: React.FocusEvent<HTMLInputElement>) => {
-      e.target.select();
+      setDisplayValue(e.target.value);
     },
     []
   );
 
-  const displayValue = value && value !== 0 ? value.toString() : "";
+  const handleInputFocus = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      // Set raw number value for editing
+      const rawValue = isValidNumber ? value.toString() : "";
+      setDisplayValue(rawValue);
+      e.target.select();
+    },
+    [value, isValidNumber]
+  );
+
+  const handleInputBlur = useCallback(() => {
+    setIsFocused(false);
+    // Parse the entered value
+    const cleanedValue = displayValue.replace(/[^\d]/g, "");
+    const numericValue = cleanedValue === "" ? "0" : cleanedValue;
+    onChange(numericValue);
+    // Update display with formatted value
+    const parsedValue = Number(numericValue);
+    if (parsedValue === 0) {
+      setDisplayValue("");
+    } else {
+      setDisplayValue(formatNumber(parsedValue));
+    }
+  }, [displayValue, onChange]);
 
   return (
     <div className="p-4 transition-all duration-300 hover:bg-muted card-base">
@@ -66,8 +101,9 @@ export const ResponsiveExpenseInput = ({
           id={`${id}-input`}
           min={0}
           placeholder="0"
-          type="number"
+          type="text"
           value={displayValue}
+          onBlur={handleInputBlur}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
         />
@@ -99,8 +135,9 @@ export const ResponsiveExpenseInput = ({
             id={`${id}-input-desktop`}
             min={0}
             placeholder="0"
-            type="number"
+            type="text"
             value={displayValue}
+            onBlur={handleInputBlur}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
           />

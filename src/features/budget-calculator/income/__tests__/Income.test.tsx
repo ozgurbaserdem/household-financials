@@ -3,6 +3,7 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { Income } from "@/features/budget-calculator/income/Income";
+import { formatNumber } from "@/lib/formatting";
 
 describe("Income", () => {
   const mockOnChange = vi.fn();
@@ -256,14 +257,14 @@ describe("Income", () => {
     // Wait for the state to update and check values
     await waitFor(() => {
       const income2Field = screen.getAllByLabelText(/income2_aria/i)[0];
-      expect(income2Field).toHaveValue(null);
+      expect(income2Field).toHaveValue("");
 
       // Expand extra incomes again to check secondaryIncome2
       fireEvent.click(screen.getByTestId("extra-incomes-toggle"));
       const secondaryIncome2Field = screen.getAllByLabelText(
         /secondaryIncome2_aria/i
       )[0];
-      expect(secondaryIncome2Field).toHaveValue(null);
+      expect(secondaryIncome2Field).toHaveValue("");
     });
   });
 
@@ -289,15 +290,27 @@ describe("Income", () => {
       />
     );
 
-    expect(screen.getAllByLabelText(/income1_aria/i)[0]).toHaveValue(30000);
-    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(25000);
+    expect(screen.getAllByLabelText(/income1_aria/i)[0]).toHaveValue(
+      formatNumber(30000)
+    );
+    expect(screen.getAllByLabelText(/income2_aria/i)[0]).toHaveValue(
+      formatNumber(25000)
+    );
     // Expand extra incomes
     fireEvent.click(screen.getByText(/add_extra_incomes/i));
-    expect(screen.getByLabelText(/secondaryIncome1_aria/i)).toHaveValue(20000);
-    expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toHaveValue(15000);
-    expect(screen.getByLabelText(/child_benefits_aria/i)).toHaveValue(1000);
-    expect(screen.getByLabelText(/other_benefits_aria/i)).toHaveValue(500);
-    expect(screen.getByLabelText(/other_incomes_aria/i)).toHaveValue(2000);
+    expect(screen.getByLabelText(/secondaryIncome1_aria/i)).toHaveValue(
+      formatNumber(20000)
+    );
+    expect(screen.getByLabelText(/secondaryIncome2_aria/i)).toHaveValue(
+      formatNumber(15000)
+    );
+    expect(screen.getByLabelText(/child_benefits_aria/i)).toHaveValue(
+      formatNumber(1000)
+    );
+    expect(screen.getByLabelText(/other_benefits_aria/i)).toHaveValue("500");
+    expect(screen.getByLabelText(/other_incomes_aria/i)).toHaveValue(
+      formatNumber(2000)
+    );
   });
 
   it("handles field changes with valid data", async () => {
@@ -466,6 +479,7 @@ describe("Income", () => {
         /secondaryIncome1_aria/i
       );
       fireEvent.change(secondaryIncome1Field, { target: { value: "15000" } });
+      fireEvent.blur(secondaryIncome1Field);
 
       // Tax rate slider should now be visible (expect 2 elements: slider + button)
       await waitFor(() => {
@@ -503,6 +517,7 @@ describe("Income", () => {
         /secondaryIncome2_aria/i
       );
       fireEvent.change(secondaryIncome2Field, { target: { value: "10000" } });
+      fireEvent.blur(secondaryIncome2Field);
 
       // Tax rate slider should now be visible (expect 2 elements: slider + button)
       await waitFor(() => {
@@ -713,6 +728,7 @@ describe("Income", () => {
         /secondaryIncome1_aria/i
       );
       fireEvent.change(secondaryIncome1Field, { target: { value: "0" } });
+      fireEvent.blur(secondaryIncome1Field);
 
       // Slider should be hidden
       await waitFor(() => {

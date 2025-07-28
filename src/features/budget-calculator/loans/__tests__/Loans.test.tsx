@@ -99,7 +99,7 @@ describe("Loans", () => {
       />
     );
 
-    expect(screen.getByLabelText("loan_amount")).toBeInTheDocument();
+    expect(screen.getByLabelText("loan_amount_aria")).toBeInTheDocument();
     expect(screen.getAllByLabelText("interest_rate_aria")).toHaveLength(2);
     expect(screen.getAllByLabelText("amortization_rate_aria")).toHaveLength(2);
   });
@@ -118,8 +118,9 @@ describe("Loans", () => {
       />
     );
 
-    const loanAmountInput = screen.getByLabelText("loan_amount");
+    const loanAmountInput = screen.getByLabelText("loan_amount_aria");
     fireEvent.change(loanAmountInput, { target: { value: "500000" } });
+    fireEvent.blur(loanAmountInput);
 
     await waitFor(() => {
       expect(mockOnChange).toHaveBeenCalledWith({
