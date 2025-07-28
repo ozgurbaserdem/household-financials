@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ExpenseCategories } from "@/features/calculator/ExpenseCategories";
+import { ExpenseCategories } from "@/features/budget-calculator/expenses/ExpenseCategories";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { updateExpenses } from "@/store/slices/calculatorSlice";
 

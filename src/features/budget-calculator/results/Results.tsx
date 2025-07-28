@@ -4,14 +4,13 @@ import { calculateLoanScenarios } from "@/lib/calculations";
 import { calculateWealthProjection } from "@/lib/compound-interest";
 import type { CalculatorState, CalculationResult } from "@/lib/types";
 
-import { CompoundInterestCTA } from "./components/CompoundInterestCTA";
-import { ExpenseBreakdownCard } from "./components/ExpenseBreakdownCard";
+import { CALCULATION_CONSTANTS } from "../shared/constants";
+import { getSafeArrayElement } from "../shared/utilities";
+
 import { LoanForecastCard } from "./components/LoanForecastCard";
 import { ResultsHeader } from "./components/ResultsHeader";
-import {
-  getSafeArrayElement,
-  CALCULATION_CONSTANTS,
-} from "./constants/calculations";
+import { CompoundInterestCTA } from "./CompoundInterestCTA";
+import { ExpenseBreakdownCard } from "./ExpenseBreakdownCard";
 
 interface ResultsProps {
   calculatorState: CalculatorState;

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { Loans } from "@/features/calculator/Loans";
+import { Loans } from "@/features/budget-calculator/loans/Loans";
 
 // Mock window.scrollTo
 window.scrollTo = vi.fn();

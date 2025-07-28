@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { Form } from "@/components/ui/Form";
-import { ResultsTable } from "@/features/calculator/ResultsTable";
+import { ResultsTable } from "@/features/budget-calculator/results/ResultsTable";
 import { calculateLoanScenarios } from "@/lib/calculations";
 import type { CalculatorState } from "@/lib/types";
 import calculatorReducer from "@/store/slices/calculatorSlice";
@@ -90,6 +90,9 @@ const createMockState = (
     otherIncomes: 0,
     currentBuffer: 50000,
     numberOfAdults: "2",
+    selectedKommun: "Stockholm",
+    includeChurchTax: false,
+    secondaryIncomeTaxRate: 30,
   },
   expenses: {
     // ExpensesByCategory format - flat key-value pairs

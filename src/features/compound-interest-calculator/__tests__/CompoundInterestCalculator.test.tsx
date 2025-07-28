@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import * as nextNavigation from "next/navigation";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { CompoundInterestCalculator } from "@/features/compound-interest/CompoundInterestCalculator";
+import { CompoundInterestCalculator } from "@/features/compound-interest-calculator/CompoundInterestCalculator";
 
 // Mock recharts to avoid rendering issues in tests
 vi.mock("recharts", () => ({

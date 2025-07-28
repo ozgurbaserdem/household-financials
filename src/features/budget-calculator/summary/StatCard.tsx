@@ -4,7 +4,7 @@ import { Box } from "@/components/ui/Box";
 import { CurrencyDisplay } from "@/components/ui/CurrencyDisplay";
 import { Text } from "@/components/ui/Text";
 
-import { ICON_BG_CLASSES, type ColorScheme } from "./constants";
+import { ICON_BG_CLASSES, type ColorScheme } from "../shared/constants";
 
 interface StatCardProps {
   icon: React.ReactNode;

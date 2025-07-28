@@ -9,7 +9,7 @@ import { Text } from "@/components/ui/Text";
 import { Link } from "@/i18n/navigation";
 import { formatCurrencyNoDecimals } from "@/lib/formatting";
 
-import { CALCULATION_CONSTANTS } from "../constants/calculations";
+import { CALCULATION_CONSTANTS } from "../shared/constants";
 
 interface CompoundInterestCTAProps {
   monthlySavings: number;

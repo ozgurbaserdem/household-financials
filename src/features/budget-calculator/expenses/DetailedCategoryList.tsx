@@ -4,8 +4,9 @@ import { List } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo } from "react";
 
-import { ResponsiveExpenseInput } from "@/components/ui/ResponsiveExpenseInput";
 import type { ExpensesByCategory } from "@/lib/types";
+
+import { ResponsiveExpenseInput } from "./ResponsiveExpenseInput";
 
 interface CategoryData {
   id: string;

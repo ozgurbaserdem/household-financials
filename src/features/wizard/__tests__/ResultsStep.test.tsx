@@ -49,7 +49,7 @@ interface LinkProps {
 }
 
 // Mock components
-vi.mock("@/features/calculator/ResultsTable", () => ({
+vi.mock("@/features/budget-calculator/results/ResultsTable", () => ({
   ResultsTable: ({ calculatorState }: ResultsTableProps) => (
     <div
       data-state={JSON.stringify(calculatorState)}
@@ -71,7 +71,7 @@ vi.mock("@/features/charts/ExpenseBreakdown", () => ({
   ),
 }));
 
-vi.mock("@/features/calculator/Forecast", () => ({
+vi.mock("@/features/budget-calculator/results/Forecast", () => ({
   Forecast: ({ calculatorState }: ForecastProps) => (
     <div data-state={JSON.stringify(calculatorState)} data-testid="forecast">
       Forecast
@@ -147,6 +147,13 @@ vi.mock("@/lib/compound-interest", () => ({
 
 vi.mock("@/lib/calculations", () => ({
   formatCurrency: (value: number) => `${value.toLocaleString("en-US")} kr`,
+  formatPercentage: (value: number) => `${value.toFixed(2)}%`,
+  calculateFinancialHealthScoreForResult: vi.fn(() => ({
+    score: 75,
+    level: "good" as const,
+    description: "Your financial health is good",
+    color: "#22c55e",
+  })),
   calculateLoanScenarios: vi.fn(() => [
     {
       interestRate: 3,
@@ -233,6 +240,9 @@ describe("ResultsStep", () => {
         otherIncomes: 0,
         currentBuffer: 0,
         numberOfAdults: "1",
+        selectedKommun: "Stockholm",
+        includeChurchTax: false,
+        secondaryIncomeTaxRate: 30,
       },
       expenses: {
         // Conforms to ExpensesByCategory - key-value pairs of expense IDs and amounts

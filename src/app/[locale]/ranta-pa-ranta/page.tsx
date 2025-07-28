@@ -13,7 +13,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Text } from "@/components/ui/Text";
 import { TipCard } from "@/components/ui/TipCard";
 import { TIPS_DATA, FAQ_DATA } from "@/data/compoundInterestData";
-import { CompoundInterestClient } from "@/features/compound-interest/CompoundInterestClient";
+import { CompoundInterestClient } from "@/features/compound-interest-calculator/CompoundInterestClient";
 import { Link } from "@/i18n/navigation";
 import {
   getLocaleConfig,

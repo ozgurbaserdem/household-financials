@@ -16,13 +16,11 @@ import {
   FormMessage as BaseFormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
-import { MonthlyPaymentDisplay } from "@/components/ui/MonthlyPaymentDisplay";
-import { RateSliderField } from "@/components/ui/RateSliderField";
 import { StepHeader } from "@/components/ui/StepHeader";
-import {
-  ToggleButtonGroup,
-  type ToggleOption,
-} from "@/components/ui/ToggleButtonGroup";
+
+import { MonthlyPaymentDisplay } from "./MonthlyPaymentDisplay";
+import { RateSliderField } from "./RateSliderField";
+import { ToggleButtonGroup, type ToggleOption } from "./ToggleButtonGroup";
 
 const formSchema = z
   .object({

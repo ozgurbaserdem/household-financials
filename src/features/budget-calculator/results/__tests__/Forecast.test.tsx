@@ -1,7 +1,7 @@
 import { render, waitFor, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { Forecast } from "@/features/calculator/Forecast";
+import { Forecast } from "@/features/budget-calculator/results/Forecast";
 import type { CalculatorState } from "@/lib/types";
 
 interface ForecastData {
@@ -72,6 +72,9 @@ const mockCalculatorState: CalculatorState = {
     otherIncomes: 0,
     currentBuffer: 0,
     numberOfAdults: "1",
+    selectedKommun: "Stockholm",
+    includeChurchTax: false,
+    secondaryIncomeTaxRate: 30,
   },
   expenses: {},
   expenseViewMode: "detailed" as const,

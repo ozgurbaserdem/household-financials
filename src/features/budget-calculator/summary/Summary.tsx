@@ -14,12 +14,13 @@ import type { CalculatorState, ExpensesByCategory } from "@/lib/types";
 import { hasValidLoan } from "@/lib/types";
 import { cn } from "@/lib/utils/general";
 
-import { AccordionSection } from "./AccordionSection";
+import { AccordionSection } from "../shared/AccordionSection";
 import {
   safeCalculation,
   withCalculationErrorBoundary,
-} from "./CalculationErrorBoundary";
-import { INCOME_ICONS, SECTION_ICONS } from "./constants";
+} from "../shared/CalculationErrorBoundary";
+import { INCOME_ICONS, SECTION_ICONS } from "../shared/constants";
+
 import { DataRow } from "./DataRow";
 import { StatCard } from "./StatCard";
 

@@ -18,11 +18,7 @@ import {
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo } from "react";
 
-import { DetailedCategoryList } from "@/components/ui/DetailedCategoryList";
-import { SimpleTotalInput } from "@/components/ui/SimpleTotalInput";
 import { StepHeader } from "@/components/ui/StepHeader";
-import { TotalSummary } from "@/components/ui/TotalSummary";
-import { ViewModeToggle } from "@/components/ui/ViewModeToggle";
 import { expenseCategories } from "@/data/expenseCategories";
 import type { ExpensesByCategory } from "@/lib/types";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -30,6 +26,11 @@ import {
   updateExpenseViewMode,
   updateTotalExpenses,
 } from "@/store/slices/calculatorSlice";
+
+import { DetailedCategoryList } from "./DetailedCategoryList";
+import { SimpleTotalInput } from "./SimpleTotalInput";
+import { TotalSummary } from "./TotalSummary";
+import { ViewModeToggle } from "./ViewModeToggle";
 
 interface ExpenseCategoriesProps {
   expenses: ExpensesByCategory;

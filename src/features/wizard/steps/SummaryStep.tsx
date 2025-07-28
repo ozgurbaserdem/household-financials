@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Summary } from "@/features/calculator/Summary";
+import { Summary } from "@/features/budget-calculator/summary/Summary";
 import { useAppSelector } from "@/store/hooks";
 
 import { useWizard } from "../WizardLayout";

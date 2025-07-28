@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { ExpenseCategories } from "@/features/calculator/ExpenseCategories";
+import { ExpenseCategories } from "@/features/budget-calculator/expenses/ExpenseCategories";
 import type { CalculatorState, ExpensesByCategory } from "@/lib/types";
 import calculatorReducer from "@/store/slices/calculatorSlice";
 
@@ -48,6 +48,9 @@ describe("ExpenseCategories", () => {
         otherIncomes: 0,
         currentBuffer: 0,
         numberOfAdults: "1",
+        selectedKommun: "Stockholm",
+        includeChurchTax: false,
+        secondaryIncomeTaxRate: 30,
       },
       expenses: {},
       expenseViewMode: "detailed",

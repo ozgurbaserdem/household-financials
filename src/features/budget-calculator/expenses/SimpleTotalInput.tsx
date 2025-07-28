@@ -4,7 +4,7 @@ import { Sigma } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
 
-import { ResponsiveExpenseInput } from "@/components/ui/ResponsiveExpenseInput";
+import { ResponsiveExpenseInput } from "./ResponsiveExpenseInput";
 
 interface SimpleTotalInputProps {
   value: number;
