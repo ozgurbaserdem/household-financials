@@ -803,7 +803,24 @@
     },
     "progress_label": {
       "reference_value": "Reference value (100%)",
-      "percent_of_total": "% of total possible"
+      "percent_of_total": "% of total possible value"
+    },
+    "accessibility": {
+      "result_card_aria": "Result for {title}",
+      "progress_bar_aria": "{percent}% of total possible value",
+      "withdrawal_type_help": "Choose how you want to make your withdrawal from savings"
+    },
+    "error_boundary": {
+      "title": "An error occurred",
+      "message": "Something went wrong calculating compound interest. Try refreshing the page.",
+      "technical_details": "Technical details"
+    },
+    "suffixes": {
+      "currency": " SEK",
+      "currency_per_month": " SEK/month",
+      "percent": "%",
+      "years": " years",
+      "percent_per_year": "%/year"
     }
   }
 }

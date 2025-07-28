@@ -6,6 +6,67 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { CompoundInterestCalculator } from "@/features/compound-interest-calculator/CompoundInterestCalculator";
 
+// Mock next-intl
+vi.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      "calculator.title": "Compound Interest Calculator",
+      "calculator.description": "See how your investments grow over time",
+      "inputs.start_sum_label": "Starting amount",
+      "inputs.start_sum_description": "The initial amount you have to invest",
+      "inputs.start_sum_aria": "Starting amount for investment",
+      "inputs.monthly_savings_label": "Monthly savings",
+      "inputs.monthly_savings_description":
+        "How much you plan to save each month",
+      "inputs.monthly_savings_aria": "Monthly savings amount",
+      "inputs.yearly_return_label": "Expected annual return (%)",
+      "inputs.yearly_return_description":
+        "The average yearly return you expect",
+      "inputs.yearly_return_aria": "Expected annual return percentage",
+      "inputs.investment_horizon_label": "Investment period (years)",
+      "inputs.investment_horizon_description": "How long you plan to invest",
+      "inputs.investment_horizon_aria": "Investment period in years",
+      "inputs.age_label": "Your age",
+      "inputs.age_description": "Your current age",
+      "inputs.age_aria": "Your current age",
+      "results.description":
+        "Here's how your money could grow over {years} years",
+      "results.theoretical_total_value": "Total portfolio value",
+      "results.total_value_after_withdrawals": "Total value after withdrawals",
+      "results.compound_returns": "Investment growth",
+      "results.total_withdrawn": "Total withdrawn",
+      "advanced_settings.title": "Advanced settings",
+      "advanced_settings.description": "Annual increase, withdrawals and more",
+      "advanced_settings.active_badge": "Active",
+      "advanced_settings.annual_savings_increase.label":
+        "Annual savings increase",
+      "advanced_settings.annual_savings_increase.description":
+        "How much your monthly savings increases each year",
+      "advanced_settings.planned_withdrawal.title": "Planned withdrawal",
+      "advanced_settings.planned_withdrawal.description":
+        "Make a withdrawal from your savings",
+      "advanced_settings.planned_withdrawal.withdrawal_type_question":
+        "How do you want to make your withdrawal?",
+      "advanced_settings.planned_withdrawal.percentage_option":
+        "Percentage of total value",
+      "advanced_settings.planned_withdrawal.amount_option": "Specific amount",
+      "advanced_settings.planned_withdrawal.withdrawal_year_question":
+        "When should the withdrawal occur?",
+      "advanced_settings.planned_withdrawal.withdrawal_percentage_label":
+        "Withdrawal per year (%)",
+      "advanced_settings.planned_withdrawal.withdrawal_amount_label":
+        "Withdrawal per year in SEK",
+      "advanced_settings.planned_withdrawal.year_prefix": "Year",
+      "suffixes.currency": " kr",
+      "suffixes.currency_per_month": " kr/mån",
+      "suffixes.percent": "%",
+      "suffixes.years": " år",
+      "suffixes.percent_per_year": "%/år",
+    };
+    return translations[key] || key;
+  },
+}));
+
 // Mock recharts to avoid rendering issues in tests
 vi.mock("recharts", () => ({
   ResponsiveContainer: ({ children }: { children: React.ReactNode }) => (
@@ -104,16 +165,12 @@ describe("CompoundInterestCalculator", () => {
     const sliders = screen.getAllByRole("slider");
     expect(sliders).toHaveLength(5);
 
-    // Check that the labels exist
-    expect(screen.getByText("inputs.start_sum_label")).toBeInTheDocument();
-    expect(
-      screen.getByText("inputs.monthly_savings_label")
-    ).toBeInTheDocument();
-    expect(screen.getByText("inputs.yearly_return_label")).toBeInTheDocument();
-    expect(
-      screen.getByText("inputs.investment_horizon_label")
-    ).toBeInTheDocument();
-    expect(screen.getByText("inputs.age_label")).toBeInTheDocument();
+    // Check that the labels exist (using actual translated text)
+    expect(screen.getByText("Starting amount")).toBeInTheDocument();
+    expect(screen.getByText("Monthly savings")).toBeInTheDocument();
+    expect(screen.getByText("Expected annual return (%)")).toBeInTheDocument();
+    expect(screen.getByText("Investment period (years)")).toBeInTheDocument();
+    expect(screen.getByText("Your age")).toBeInTheDocument();
 
     // Check default values by checking slider values directly
     expect(sliders[0]).toHaveValue("0"); // Start sum
@@ -311,14 +368,14 @@ describe("CompoundInterestCalculator", () => {
   it("should display calculation results", () => {
     render(<CompoundInterestCalculator />);
 
-    // Check for results section (translation keys)
-    expect(screen.getByText(/results\.description/i)).toBeInTheDocument();
-
-    // Check for key result values (translation keys)
+    // Check for results section (actual translated text)
     expect(
-      screen.getByText("results.theoretical_total_value")
+      screen.getByText(/Here's how your money could grow/i)
     ).toBeInTheDocument();
-    expect(screen.getByText("results.compound_returns")).toBeInTheDocument();
+
+    // Check for key result values (actual translated text)
+    expect(screen.getByText("Total portfolio value")).toBeInTheDocument();
+    expect(screen.getByText("Investment growth")).toBeInTheDocument();
   });
 
   it("should render the compound interest chart", () => {
@@ -430,7 +487,7 @@ describe("CompoundInterestCalculator", () => {
     await waitFor(() => {
       // With 7% annual return, the total should be reasonable (not astronomical)
       // This test would have failed with the old bug since 7% was treated as 700%
-      const totalElements = screen.getAllByText(/kr/);
+      const totalElements = screen.getAllByText(/(?:kr|SEK)/);
       const hasReasonableValues = totalElements.some((el) => {
         const text = el.textContent || "";
         const numbers = text.replace(/[^\d]/g, "");
@@ -457,7 +514,7 @@ describe("CompoundInterestCalculator", () => {
 
     await waitFor(() => {
       // Even with maximum 100% return, values should never exceed reasonable bounds
-      const totalElements = screen.getAllByText(/kr/);
+      const totalElements = screen.getAllByText(/(?:kr|SEK)/);
       const hasAstronomicalValues = totalElements.some((el) => {
         const text = el.textContent || "";
         const numbers = text.replace(/[^\d]/g, "");
@@ -500,7 +557,7 @@ describe("CompoundInterestCalculator", () => {
 
     await waitFor(() => {
       // Should still show finite, reasonable values (not Infinity or astronomical numbers)
-      const totalElements = screen.getAllByText(/kr/);
+      const totalElements = screen.getAllByText(/(?:kr|SEK)/);
       const hasValidValues = totalElements.some((el) => {
         const text = el.textContent || "";
         return (
@@ -526,7 +583,7 @@ describe("CompoundInterestCalculator", () => {
     await waitFor(() => {
       // With proper percentage conversion (10% = 0.10), the total should be around 100k-200k
       // If the bug existed (10% = 10.0), the value would be astronomical
-      const totalElements = screen.getAllByText(/kr/);
+      const totalElements = screen.getAllByText(/(?:kr|SEK)/);
       const hasReasonableGrowth = totalElements.some((el) => {
         const text = el.textContent || "";
         const numbers = text.replace(/[^\d]/g, "");
@@ -549,14 +606,14 @@ describe("CompoundInterestCalculator", () => {
       render(<CompoundInterestCalculator />);
 
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       expect(advancedToggle).toBeInTheDocument();
       expect(advancedToggle).toHaveClass("group", "py-4", "cursor-pointer");
 
       // Should show description
       expect(
-        screen.getByText("advanced_settings.description")
+        screen.getByText("Annual increase, withdrawals and more")
       ).toBeInTheDocument();
     });
 
@@ -565,12 +622,12 @@ describe("CompoundInterestCalculator", () => {
       render(<CompoundInterestCalculator />);
 
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
 
       // Advanced settings should be hidden initially
       expect(
-        screen.queryByText("advanced_settings.annual_savings_increase.label")
+        screen.queryByText("Annual savings increase")
       ).not.toBeInTheDocument();
 
       // Click to expand
@@ -578,12 +635,8 @@ describe("CompoundInterestCalculator", () => {
 
       // Should show advanced settings
       await waitFor(() => {
-        expect(
-          screen.getByText("advanced_settings.annual_savings_increase.label")
-        ).toBeInTheDocument();
-        expect(
-          screen.getByText("advanced_settings.planned_withdrawal.title")
-        ).toBeInTheDocument();
+        expect(screen.getByText("Annual savings increase")).toBeInTheDocument();
+        expect(screen.getByText("Planned withdrawal")).toBeInTheDocument();
       });
 
       // Click to collapse
@@ -592,7 +645,7 @@ describe("CompoundInterestCalculator", () => {
       // Should hide advanced settings
       await waitFor(() => {
         expect(
-          screen.queryByText("advanced_settings.annual_savings_increase.label")
+          screen.queryByText("Annual savings increase")
         ).not.toBeInTheDocument();
       });
     });
@@ -603,7 +656,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
@@ -614,11 +667,9 @@ describe("CompoundInterestCalculator", () => {
       // Close advanced settings
       await user.click(advancedToggle);
 
-      // Should show "Aktiv" badge when withdrawal is enabled
+      // Should show "Active" badge when withdrawal is enabled
       await waitFor(() => {
-        expect(
-          screen.getByText("advanced_settings.active_badge")
-        ).toBeInTheDocument();
+        expect(screen.getByText("Active")).toBeInTheDocument();
       });
     });
 
@@ -628,15 +679,13 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
       // Wait for advanced settings to appear
       await waitFor(() => {
-        expect(
-          screen.getByText("advanced_settings.annual_savings_increase.label")
-        ).toBeInTheDocument();
+        expect(screen.getByText("Annual savings increase")).toBeInTheDocument();
       });
 
       // Find the annual increase slider by its unique attributes
@@ -669,15 +718,13 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
       // Wait for advanced settings to appear
       await waitFor(() => {
-        expect(
-          screen.getByText("advanced_settings.annual_savings_increase.label")
-        ).toBeInTheDocument();
+        expect(screen.getByText("Annual savings increase")).toBeInTheDocument();
       });
 
       // Find annual savings increase slider by its unique attributes
@@ -699,7 +746,7 @@ describe("CompoundInterestCalculator", () => {
       }
 
       await waitFor(() => {
-        expect(screen.getByText(/10.*%\/år/)).toBeInTheDocument();
+        expect(screen.getByText(/10.*%\/(?:år|year)/)).toBeInTheDocument();
       });
     });
 
@@ -715,15 +762,13 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings first
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await userEvent.setup().click(advancedToggle);
 
       // Wait for advanced settings to appear and get the annual increase slider
       await waitFor(() => {
-        expect(
-          screen.getByText("advanced_settings.annual_savings_increase.label")
-        ).toBeInTheDocument();
+        expect(screen.getByText("Annual savings increase")).toBeInTheDocument();
       });
 
       // Find the annual increase slider by its unique attributes
@@ -742,7 +787,7 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         // With 5% annual increase, total should be higher
-        const newResults = screen.getAllByText(/kr/);
+        const newResults = screen.getAllByText(/(?:kr|SEK)/);
         const hasHigherValue = newResults.some((el) => {
           const text = el.textContent || "";
           const value = Number.parseInt(text.replace(/[^\d]/g, ""));
@@ -760,15 +805,13 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
       // Withdrawal settings should be hidden initially
       expect(
-        screen.queryByText(
-          "advanced_settings.planned_withdrawal.withdrawal_type_question"
-        )
+        screen.queryByText("How do you want to make your withdrawal?")
       ).not.toBeInTheDocument();
 
       // Enable withdrawals
@@ -778,18 +821,12 @@ describe("CompoundInterestCalculator", () => {
       // Should show withdrawal options
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_type_question"
-          )
+          screen.getByText("How do you want to make your withdrawal?")
         ).toBeInTheDocument();
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.percentage_option"
-          )
+          screen.getByText("Percentage of total value")
         ).toBeInTheDocument();
-        expect(
-          screen.getByText("advanced_settings.planned_withdrawal.amount_option")
-        ).toBeInTheDocument();
+        expect(screen.getByText("Specific amount")).toBeInTheDocument();
       });
     });
 
@@ -799,7 +836,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings and enable withdrawals
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
@@ -808,45 +845,29 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.percentage_option"
-          )
+          screen.getByText("Percentage of total value")
         ).toBeInTheDocument();
       });
 
       // Should default to percentage mode
-      expect(
-        screen.getByText(
-          "advanced_settings.planned_withdrawal.withdrawal_percentage_label"
-        )
-      ).toBeInTheDocument();
+      expect(screen.getByText("Withdrawal per year (%)")).toBeInTheDocument();
 
       // Switch to amount mode
-      const amountButton = screen.getByText(
-        "advanced_settings.planned_withdrawal.amount_option"
-      );
+      const amountButton = screen.getByText("Specific amount");
       await user.click(amountButton);
 
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_amount_label"
-          )
+          screen.getByText("Withdrawal per year in SEK")
         ).toBeInTheDocument();
       });
 
       // Switch back to percentage mode
-      const percentageButton = screen.getByText(
-        "advanced_settings.planned_withdrawal.percentage_option"
-      );
+      const percentageButton = screen.getByText("Percentage of total value");
       await user.click(percentageButton);
 
       await waitFor(() => {
-        expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_percentage_label"
-          )
-        ).toBeInTheDocument();
+        expect(screen.getByText("Withdrawal per year (%)")).toBeInTheDocument();
       });
     });
 
@@ -860,7 +881,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings and enable withdrawals
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
@@ -869,9 +890,7 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_year_question"
-          )
+          screen.getByText("When should the withdrawal occur?")
         ).toBeInTheDocument();
       });
 
@@ -892,11 +911,7 @@ describe("CompoundInterestCalculator", () => {
       }
 
       await waitFor(() => {
-        expect(
-          screen.getByText(
-            /advanced_settings\.planned_withdrawal\.year_prefix.*15/
-          )
-        ).toBeInTheDocument();
+        expect(screen.getByText(/Year.*15/)).toBeInTheDocument();
       });
     });
 
@@ -906,7 +921,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings and enable withdrawals
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
@@ -914,11 +929,7 @@ describe("CompoundInterestCalculator", () => {
       await user.click(withdrawalSwitch);
 
       await waitFor(() => {
-        expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_percentage_label"
-          )
-        ).toBeInTheDocument();
+        expect(screen.getByText("Withdrawal per year (%)")).toBeInTheDocument();
       });
 
       // Find percentage withdrawal slider by its unique attributes (min=0, max=100, step=1)
@@ -950,7 +961,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings and enable withdrawals
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
@@ -959,24 +970,18 @@ describe("CompoundInterestCalculator", () => {
 
       // Switch to amount mode
       // Switch to amount mode
-      const amountButton = screen.getByText(
-        "advanced_settings.planned_withdrawal.amount_option"
-      );
+      const amountButton = screen.getByText("Specific amount");
       await user.click(amountButton);
 
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_amount_label"
-          )
+          screen.getByText("Withdrawal per year in SEK")
         ).toBeInTheDocument();
       });
 
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_amount_label"
-          )
+          screen.getByText("Withdrawal per year in SEK")
         ).toBeInTheDocument();
       });
 
@@ -999,7 +1004,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Should update display
       await waitFor(() => {
-        expect(screen.getByText(/200000.*kr/)).toBeInTheDocument();
+        expect(screen.getByText(/200000.*(?:kr|SEK)/)).toBeInTheDocument();
       });
     });
 
@@ -1009,7 +1014,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings and enable withdrawals
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
@@ -1018,9 +1023,7 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_type_question"
-          )
+          screen.getByText("How do you want to make your withdrawal?")
         ).toBeInTheDocument();
       });
 
@@ -1029,9 +1032,7 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         expect(
-          screen.queryByText(
-            "advanced_settings.planned_withdrawal.withdrawal_type_question"
-          )
+          screen.queryByText("How do you want to make your withdrawal?")
         ).not.toBeInTheDocument();
       });
     });
@@ -1049,7 +1050,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Enable withdrawals
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
@@ -1059,9 +1060,7 @@ describe("CompoundInterestCalculator", () => {
       // Set withdrawal year to 10 and percentage to 4%
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_year_question"
-          )
+          screen.getByText("When should the withdrawal occur?")
         ).toBeInTheDocument();
       });
 
@@ -1090,7 +1089,7 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         // Should show withdrawal column in results
-        expect(screen.getByText("results.total_withdrawn")).toBeInTheDocument();
+        expect(screen.getByText("Total withdrawn")).toBeInTheDocument();
       });
     });
   });
@@ -1101,10 +1100,10 @@ describe("CompoundInterestCalculator", () => {
       render(<CompoundInterestCalculator />);
 
       // Should show age input with default value
-      expect(screen.getByText("30 år")).toBeInTheDocument();
+      expect(screen.getByText(/30.*(?:år|years)/)).toBeInTheDocument();
 
       // Click to edit age
-      const ageValue = screen.getByText("30 år");
+      const ageValue = screen.getByText(/30.*(?:år|years)/);
       await user.click(ageValue);
 
       // Should show input field
@@ -1117,7 +1116,7 @@ describe("CompoundInterestCalculator", () => {
       await user.keyboard("{Enter}");
 
       await waitFor(() => {
-        expect(screen.getByText("25 år")).toBeInTheDocument();
+        expect(screen.getByText(/25.*(?:år|years)/)).toBeInTheDocument();
       });
     });
 
@@ -1133,7 +1132,7 @@ describe("CompoundInterestCalculator", () => {
       // Change age via slider
       fireEvent.change(ageSlider, { target: { value: "45" } });
 
-      expect(screen.getByText("45 år")).toBeInTheDocument();
+      expect(screen.getByText(/45.*(?:år|years)/)).toBeInTheDocument();
     });
   });
 
@@ -1258,7 +1257,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Enable withdrawals
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
@@ -1267,11 +1266,9 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         // Should show both theoretical and actual total values
+        expect(screen.getByText("Total portfolio value")).toBeInTheDocument();
         expect(
-          screen.getByText("results.theoretical_total_value")
-        ).toBeInTheDocument();
-        expect(
-          screen.getByText(/results\.total_value_after_withdrawals/)
+          screen.getByText(/Total value after withdrawals/)
         ).toBeInTheDocument();
       });
     });
@@ -1289,15 +1286,13 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
       // Wait for advanced settings to appear
       await waitFor(() => {
-        expect(
-          screen.getByText("advanced_settings.annual_savings_increase.label")
-        ).toBeInTheDocument();
+        expect(screen.getByText("Annual savings increase")).toBeInTheDocument();
       });
 
       // Set annual savings increase
@@ -1319,9 +1314,7 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_year_question"
-          )
+          screen.getByText("When should the withdrawal occur?")
         ).toBeInTheDocument();
       });
 
@@ -1351,16 +1344,14 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         // Should show all result components
+        expect(screen.getByText("Total portfolio value")).toBeInTheDocument();
         expect(
-          screen.getByText("results.theoretical_total_value")
+          screen.getByText(/Total value after withdrawals/)
         ).toBeInTheDocument();
-        expect(
-          screen.getByText(/results\.total_value_after_withdrawals/)
-        ).toBeInTheDocument();
-        expect(screen.getByText("results.total_withdrawn")).toBeInTheDocument();
+        expect(screen.getByText("Total withdrawn")).toBeInTheDocument();
 
         // Should have realistic values (not astronomical)
-        const totalElements = screen.getAllByText(/kr/);
+        const totalElements = screen.getAllByText(/(?:kr|SEK)/);
         const hasReasonableValues = totalElements.some((el) => {
           const text = el.textContent || "";
           const numbers = text.replace(/[^\d]/g, "");
@@ -1405,7 +1396,7 @@ describe("CompoundInterestCalculator", () => {
 
       // Open advanced settings and enable withdrawals
       const advancedToggle = screen.getByRole("button", {
-        name: /advanced_settings\.title/i,
+        name: /Advanced settings/i,
       });
       await user.click(advancedToggle);
 
@@ -1414,9 +1405,7 @@ describe("CompoundInterestCalculator", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "advanced_settings.planned_withdrawal.withdrawal_year_question"
-          )
+          screen.getByText("When should the withdrawal occur?")
         ).toBeInTheDocument();
       });
 

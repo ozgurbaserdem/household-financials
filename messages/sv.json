@@ -795,7 +795,24 @@
     },
     "progress_label": {
       "reference_value": "Referensvärde (100%)",
-      "percent_of_total": "% av totalt möjligt"
+      "percent_of_total": "% av totalt möjligt värde"
+    },
+    "accessibility": {
+      "result_card_aria": "Resultat för {title}",
+      "progress_bar_aria": "{percent}% av totalt möjligt värde",
+      "withdrawal_type_help": "Välj hur du vill göra ditt uttag från sparandet"
+    },
+    "error_boundary": {
+      "title": "Ett fel uppstod",
+      "message": "Något gick fel vid beräkning av ränta på ränta. Försök ladda om sidan.",
+      "technical_details": "Tekniska detaljer"
+    },
+    "suffixes": {
+      "currency": " kr",
+      "currency_per_month": " kr/mån",
+      "percent": "%",
+      "years": " år",
+      "percent_per_year": "%/år"
     }
   }
 }
