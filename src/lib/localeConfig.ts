@@ -15,11 +15,12 @@ interface LocaleConfigs {
 
 const localeConfigs: LocaleConfigs = {
   sv: {
-    title: "Ränta på Ränta Kalkylator - Sparkalkylator Gratis | Budgetkollen",
+    title:
+      "Ränta på Ränta Kalkylator - Räkna ut Ränta på Ränta Gratis | Budgetkollen",
     description:
-      "Gratis ränta på ränta kalkylator som visar hur ditt sparande växer över tid. Beräkna framtida förmögenhet med månatligt sparande och visualiserade resultat.",
+      "Gratis ränta på ränta kalkylator - se hur ditt sparande växer över tid. Beräkna framtida förmögenhet med månatligt sparande och visualiserade resultat.",
     keywords:
-      "ränta på ränta, sparkalkylator, investeringskalkylator, sparande, privatekonomi, budgetkollen",
+      "ränta på ränta kalkylator, räkna ut ränta på ränta, sammansatt ränta, sparkalkylator, investeringskalkylator, månadssparande, privatekonomi, budgetkollen",
     canonicalUrl: "https://www.budgetkollen.se/ranta-pa-ranta",
     openGraphImageAlt: "Ränta på Ränta Kalkylator - Budgetkollen",
     webApplicationName: "Budgetkollen Ränta på Ränta",

@@ -1,20 +1,19 @@
-import { AlertTriangle, Lightbulb, TrendingUp } from "lucide-react";
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import React from "react";
 
+import { BenefitsSection } from "@/components/compound-interest/BenefitsSection";
+import { CalculatorSection } from "@/components/compound-interest/CalculatorSection";
+import { CTASection } from "@/components/compound-interest/CTASection";
+import { DisclaimerSection } from "@/components/compound-interest/DisclaimerSection";
+import { FAQSection } from "@/components/compound-interest/FAQSection";
+import { HeroSection } from "@/components/compound-interest/HeroSection";
+import { HowToCalculateSection } from "@/components/compound-interest/HowToCalculateSection";
+import { TipsSection } from "@/components/compound-interest/TipsSection";
+import { WhatIsSection } from "@/components/compound-interest/WhatIsSection";
 import { Box } from "@/components/ui/Box";
-import { Button } from "@/components/ui/Button";
-import { Card, CardContent } from "@/components/ui/Card";
-import { EinsteinQuote } from "@/components/ui/EinsteinQuote";
-import { FAQCard } from "@/components/ui/FAQCard";
 import { Main } from "@/components/ui/Main";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Text } from "@/components/ui/Text";
-import { TipCard } from "@/components/ui/TipCard";
-import { TIPS_DATA, FAQ_DATA } from "@/data/compoundInterestData";
-import { CompoundInterestClient } from "@/features/compound-interest-calculator/CompoundInterestClient";
-import { Link } from "@/i18n/navigation";
+import { prepareContentData } from "@/lib/compound-interest-utilities";
 import {
   getLocaleConfig,
   generateWebApplicationSchema,
@@ -76,16 +75,9 @@ const RantaPaRantaPage = async ({ params }: Props) => {
   // Essential structured data for 2025 SEO
   const webApplicationSchema = generateWebApplicationSchema(locale);
 
-  // Static data with translations
-  const tipsWithContent = TIPS_DATA.map((tip) => ({
-    ...tip,
-    content: t(tip.translationKey),
-  }));
-
-  const faqsWithContent = FAQ_DATA.map((faq) => ({
-    question: t(faq.questionKey),
-    answer: t(faq.answerKey),
-  }));
+  // Prepare content data using utility function
+  const { tips: tipsWithContent, faqs: faqsWithContent } =
+    prepareContentData(t);
 
   return (
     <>
@@ -98,121 +90,73 @@ const RantaPaRantaPage = async ({ params }: Props) => {
       />
 
       <Main className="min-h-screen bg-background flex flex-col items-center relative pt-20 lg:pt-24">
-        <Box className="w-full max-w-6xl container-padding py-6 sm:py-10 relative z-10 space-y-6">
-          {/* Hero Section */}
-          <header className="text-center space-y-6 py-4">
-            <h1 className="heading-1 text-foreground">{t("hero_title")}</h1>
-            <p className="body-lg text-muted-foreground max-w-3xl mx-auto">
-              {t("hero_subtitle")}
-            </p>
-          </header>
-          {/* Introduction Section */}
-          <Card className="card-base" variant="elevated">
-            <SectionHeader
-              icon={TrendingUp}
-              title={t("wonder_section.title")}
-              variant="card"
-            />
-            <CardContent className="space-y-4">
-              <Text className="text-muted-foreground leading-relaxed">
-                {t("wonder_section.description")}
-              </Text>
+        <Box className="w-full max-w-6xl container-padding py-6 sm:py-10 relative z-10 space-y-8">
+          <HeroSection subtitle={t("hero_subtitle")} title={t("hero_title")} />
 
-              <EinsteinQuote
-                attribution={t("wonder_section.einstein_attribution")}
-                imageAlt={t("wonder_section.einstein_image_alt")}
-                quote={t("wonder_section.einstein_quote")}
-              />
+          <WhatIsSection
+            description={t("what_is_section.description")}
+            einsteinAttribution={t("what_is_section.einstein_attribution")}
+            einsteinImageAlt={t("what_is_section.einstein_image_alt")}
+            einsteinQuote={t("what_is_section.einstein_quote")}
+            exampleDescription={t("what_is_section.example.description")}
+            exampleTitle={t("what_is_section.example.title")}
+            explanation={t("what_is_section.explanation")}
+            title={t("what_is_section.title")}
+          />
 
-              <Text className="text-muted-foreground leading-relaxed">
-                {t("wonder_section.understanding_text")}
-              </Text>
+          <CalculatorSection
+            description={t("calculator_section.description")}
+            title={t("calculator_section.title")}
+          />
 
-              <Text className="text-muted-foreground leading-relaxed">
-                {t("wonder_section.budget_connection")}
-              </Text>
-            </CardContent>
-          </Card>
+          <HowToCalculateSection
+            description={t("how_to_calculate_section.description")}
+            formulaExplanation={t(
+              "how_to_calculate_section.formula.explanation"
+            )}
+            formulaText={t("how_to_calculate_section.formula.text")}
+            formulaTitle={t("how_to_calculate_section.formula.title")}
+            t={t}
+            title={t("how_to_calculate_section.title")}
+          />
 
-          {/* Calculator */}
-          <CompoundInterestClient />
+          <BenefitsSection
+            description={t("benefits_section.description")}
+            growthLabel={t("benefits_section.real_example.result.growth")}
+            investedLabel={t("benefits_section.real_example.result.invested")}
+            monthlyLabel={t("benefits_section.real_example.scenario.monthly")}
+            realExampleTitle={t("benefits_section.real_example.title")}
+            resultTitle={t("benefits_section.real_example.result.title")}
+            returnLabel={t("benefits_section.real_example.scenario.return")}
+            scenarioTitle={t("benefits_section.real_example.scenario.title")}
+            t={t}
+            title={t("benefits_section.title")}
+            totalLabel={t("benefits_section.real_example.result.total")}
+            yearsLabel={t("benefits_section.real_example.scenario.years")}
+          />
 
-          {/* Tips Section */}
-          <Card variant="elevated">
-            <SectionHeader
-              className="mb-2"
-              icon={Lightbulb}
-              title={t("tips_section.title")}
-              variant="card"
-            />
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {tipsWithContent.map((tip, tipIndex) => (
-                  <TipCard
-                    key={tip.key}
-                    content={tip.content}
-                    index={tipIndex + 1}
-                  />
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <TipsSection
+            description={t("tips_section.description")}
+            tips={tipsWithContent}
+            title={t("tips_section.title")}
+          />
 
-          {/* FAQ Section for SEO */}
-          <section
-            aria-labelledby="faq-heading"
-            className="space-y-4"
-            role="region"
-          >
-            <h2
-              className="text-2xl font-bold text-foreground text-center mb-8"
-              id="faq-heading"
-            >
-              {t("faq_section.title")}
-            </h2>
-            <div className="grid gap-4">
-              {faqsWithContent.map((faq) => (
-                <FAQCard
-                  key={faq.question}
-                  answer={faq.answer}
-                  question={faq.question}
-                />
-              ))}
-            </div>
-          </section>
+          <FAQSection
+            description={t("faq_section.description")}
+            faqs={faqsWithContent}
+            title={t("faq_section.title")}
+          />
 
-          {/* Disclaimer */}
-          <Card variant="elevated">
-            <SectionHeader
-              icon={AlertTriangle}
-              title={t("disclaimer_section.title")}
-              variant="card"
-            />
-            <CardContent>
-              <Text className="text-muted-foreground leading-relaxed">
-                {t("disclaimer_section.text")}
-              </Text>
-            </CardContent>
-          </Card>
+          <DisclaimerSection
+            text={t("disclaimer_section.text")}
+            title={t("disclaimer_section.title")}
+          />
 
-          {/* CTA Section */}
-          <Card variant="elevated">
-            <CardContent className="text-center space-y-6">
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">
-                  {t("cta_section.title")}
-                </h2>
-                <Text className="text-muted-foreground max-w-2xl mx-auto">
-                  {t("cta_section.description")}
-                </Text>
-              </div>
-              <div className="flex justify-center">
-                <Link href="/hushallsbudget">
-                  <Button size="lg">{t("cta_section.button")}</Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+          <CTASection
+            buttonText={t("cta_section.button")}
+            description={t("cta_section.description")}
+            title={t("cta_section.title")}
+          />
         </Box>
       </Main>
     </>

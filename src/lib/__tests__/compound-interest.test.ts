@@ -326,4 +326,20 @@ describe("calculateCompoundInterest", () => {
     expect(result[2].withdrawal).toBe(100000);
     expect(result[2].totalValue).toBeCloseTo(881049, 0); // More precise value
   });
+
+  it("should calculate the example scenario correctly: 1000kr/month for 25 years at 7%", () => {
+    const inputs: CompoundInterestInputs = {
+      startSum: 0,
+      monthlySavings: 1000,
+      yearlyReturn: 0.07, // 7% annual return
+      investmentHorizon: 25,
+    };
+
+    const result = calculateCompoundInterest(inputs);
+
+    const finalYear = result[24]; // Index 24 for year 25
+    expect(finalYear.accumulatedSavings).toBe(300000); // 1000 * 12 * 25
+    expect(finalYear.totalValue).toBeCloseTo(783042, 0); // Should be ~783k
+    expect(finalYear.compoundReturns).toBeCloseTo(483042, 0); // Returns should be ~483k
+  });
 });

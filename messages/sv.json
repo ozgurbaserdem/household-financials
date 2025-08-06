@@ -622,8 +622,8 @@
   "compound_interest": {
     "page_title": "Ränta på ränta kalkylator",
     "page_subtitle": "Beräkna enkelt hur ränta på ränta får dina pengar att växa. Perfekt för ränta på ränta uträkning av sparande och investeringar.",
-    "hero_title": "Ränta på Ränta Kalkylator",
-    "hero_subtitle": "Se hur ditt sparande växer exponentiellt med kraften av sammansatt ränta",
+    "hero_title": "Ränta på Ränta Kalkylator - Räkna ut Ränta på Ränta",
+    "hero_subtitle": "Räkna på ränta på ränta och se hur ditt sparande växer exponentiellt. Perfekt för att räkna ut avkastning på ditt månadssparande.",
     "title": "Ränta på ränta kalkylator - månadssparande och långsiktigt sparande",
     "subtitle": "Beräkna ränta på ränta för ditt månadssparande. Se hur regelbundet sparande kan bygga förmögenhet över tid.",
     "meta": {
@@ -643,35 +643,119 @@
       "why_important": "Nyckeln är tid och regelbundet sparande. Genom månadssparande i fonder, även med små belopp, kan du bygga förmögenhet. Den här kalkylatorn visar hur ditt sparande kan växa.",
       "connection_to_budget": "Efter att ha skapat din budget kan du använda denna kalkylator för att se hur ditt månadssparande kan växa. Perfekt för pensionssparande, barnsparande eller andra sparmål."
     },
-    "wonder_section": {
-      "title": "Världens åttonde underverk",
-      "description": "Ränta på ränta är en av de mest kraftfulla finansiella koncepten som kan hjälpa dig bygga långsiktig förmögenhet. När du sparar regelbundet och låter din avkastning växa över tid, skapar du en snöbollseffekt där dina pengar arbetar för dig.",
+    "what_is_section": {
+      "title": "Vad är ränta på ränta?",
+      "description": "Ränta på ränta är när du får avkastning på både ditt ursprungliga kapital och på all tidigare avkastning. Det skapar en exponentiell tillväxt som är grunden för att bygga långsiktig förmögenhet.",
       "einstein_quote": "Ränta på ränta är världens åttonde underverk. Den som förstår det, tjänar på det - den som inte gör det, betalar för det.",
       "einstein_attribution": "Albert Einstein",
       "einstein_image_alt": "Porträtt av Albert Einstein, fysiker känd för sina bidrag till vetenskapen och det berömda citatet om ränta på ränta",
-      "understanding_text": "Genom att förstå och utnyttja ränta på ränta kan du förvandla små månadsbelopp till betydande förmögenhet över tid. Vårt verktyg hjälper dig visualisera denna kraftfulla effekt.",
-      "budget_connection": "Kombinera denna sparkalkylator med vår hushållsbudget för att hitta mer pengar att spara varje månad."
+      "explanation": "Skillnaden mellan vanligt sparande och ränta-på-ränta-sparande är enorm över tid. Med månadssparande och långsiktigt tänk kan små belopp växa till ansenliga summor.",
+      "example": {
+        "title": "Enkelt exempel",
+        "description": "Om du sparar 1 000 kr per månad i 25 år med 7% årlig avkastning får du inte bara 300 000 kr (ditt sparande) utan hela 783 000 kr tack vare ränta på ränta-effekten!"
+      }
+    },
+    "calculator_section": {
+      "title": "Testa din egen ränta på ränta-kalkyl",
+      "description": "Justera värdena nedan för att se hur ditt månadssparande kan växa över tid."
     },
     "tips_section": {
-      "title": "Tips för bättre sparande",
-      "tip1": "Börja tidigt - tid är din bästa vän när det gäller ränta på ränta",
-      "tip2": "Spara regelbundet - även små belopp månadsvis gör stor skillnad",
-      "tip3": "Höj sparandet årligen - öka med löneökningen för att accelerera tillväxten",
-      "tip4": "Välj rätt placering - 7% årlig avkastning är realistiskt för breda indexfonder",
-      "tip5": "Undvik att röra sparandet - låt det växa ostört för maximal effekt",
-      "tip6": "Automatisera sparandet - gör det enkelt genom automatiska överföringar"
+      "title": "Smarta tips för att maximera ränta på ränta",
+      "description": "Följ dessa beprövade strategier för att få mest ut av ditt långsiktiga sparande och investeringar:",
+      "tip1": "Börja idag, inte imorgon - varje månad du väntar kostar dig tusentals kronor i framtida avkastning",
+      "tip2": "Automatisera allt - sätt upp automatiska överföringar så du aldrig glömmer att spara",
+      "tip3": "Höj sparandet med lönen - när du får lönehöjning, öka också ditt månadssparande",
+      "tip4": "Välj låga avgifter - höga fondavgifter äter upp din avkastning över tid",
+      "tip5": "Rida ut börsoro - paniksälj aldrig under marknedsgångar, det förstör ränta-på-ränta-effekten",
+      "tip6": "Diversifiera klokt - sprid riskerna med breda indexfonder istället för enskilda aktier"
+    },
+    "how_to_calculate_section": {
+      "title": "Så fungerar ränta på ränta-beräkningen",
+      "description": "Ränta på ränta kan verka komplicerat, men principen är enkel. Här är steg-för-steg-guiden för att förstå hur din förmögenhet växer:",
+      "step1": {
+        "title": "Startkapital",
+        "description": "Det initiala beloppet du investerar direkt. Även 0 kr fungerar - månadssparande räcker!"
+      },
+      "step2": {
+        "title": "Månadssparande",
+        "description": "Hur mycket du sparar varje månad. Regelbundet sparande är nyckeln till framgång."
+      },
+      "step3": {
+        "title": "Avkastning",
+        "description": "Förväntad årlig avkastning. 6-8% är realistiskt för långsiktiga aktiefonder."
+      },
+      "step4": {
+        "title": "Tid",
+        "description": "Tid är din bästa vän. Ju längre investeringshorisont, desto kraftfullare blir effekten."
+      },
+      "formula": {
+        "title": "Matematiken bakom ränta på ränta",
+        "text": "Slutvärde = Startkapital × (1 + avkastning)^år + Månadssparande × formelfaktor",
+        "explanation": "Vår kalkylator hanterar den komplexa matematiken åt dig och visar resultatet tydligt."
+      }
+    },
+    "benefits_section": {
+      "title": "Varför är ränta på ränta så kraftfullt?",
+      "description": "Ränta på ränta gör att dina pengar arbetar hårdare för dig över tid. Här är varför det är så effektivt för att bygga förmögenhet:",
+      "benefit1": {
+        "title": "Exponentiell tillväxt",
+        "description": "Till skillnad från linjär tillväxt accelererar ränta på ränta över tid och skapar en snöbollseffekt."
+      },
+      "benefit2": {
+        "title": "Tid är avgörande",
+        "description": "Ju tidigare du börjar, desto mer tid har din avkastning att växa. Varje år räknas!"
+      },
+      "benefit3": {
+        "title": "Automatisk förmögenhetsbyggande",
+        "description": "När du reinvesterar din avkastning arbetar allt ditt kapital för att generera mer avkastning."
+      },
+      "real_example": {
+        "title": "Verkligt exempel: Från månadssparande till miljon",
+        "scenario": {
+          "title": "Scenariot:",
+          "monthly": "1 000 kr per månad",
+          "years": "25 års sparande",
+          "return": "7% årlig avkastning"
+        },
+        "result": {
+          "title": "Resultatet:",
+          "invested": "Totalt sparat:",
+          "growth": "Ränta på ränta:",
+          "total": "Slutsumma:"
+        }
+      }
+    },
+    "monthly_savings_section": {
+      "title": "Räkna ut ränta på ränta för månadssparande",
+      "description": "Månadssparande är ett av de bästa sätten att dra nytta av ränta på ränta. Genom att spara ett fast belopp varje månad bygger du systematiskt upp din förmögenhet över tid.",
+      "benefits": {
+        "title": "Fördelar med månadssparande:",
+        "benefit1": "Jämnar ut marknadsvolatilitet genom dollar-cost averaging",
+        "benefit2": "Skapar disciplin i ditt sparande",
+        "benefit3": "Maximerar ränta på ränta-effekten över tid",
+        "benefit4": "Gör sparandet hanterbart med mindre månatliga belopp"
+      }
     },
     "faq_section": {
-      "title": "Vanliga frågor",
+      "title": "Vanliga frågor om ränta på ränta",
+      "description": "Svar på de vanligaste frågorna om ränta på ränta och hur du använder vår kalkylator.",
       "q1": {
         "question": "Vad är ränta på ränta?",
-        "answer": "Ränta på ränta innebär att du får avkastning inte bara på ditt ursprungliga kapital, utan även på tidigare års avkastning. Detta skapar en exponentiell tillväxt över tid."
+        "answer": "Ränta på ränta innebär att du får avkastning inte bara på ditt ursprungliga kapital, utan även på tidigare års avkastning. Detta skapar en exponentiell tillväxt över tid. Med vår ränta på ränta kalkylator kan du enkelt räkna ut hur ditt sparande växer."
       },
       "q2": {
+        "question": "Hur räknar man ut ränta på ränta?",
+        "answer": "För att räkna ut ränta på ränta använder man formeln: Slutvärde = Startvärde × (1 + räntesats)^antal år. Vår kalkylator gör denna beräkning automatiskt och visar även effekten av månatligt sparande."
+      },
+      "q3": {
+        "question": "Varför är ränta på ränta så kraftfullt?",
+        "answer": "Ränta på ränta är kraftfullt eftersom avkastningen växer exponentiellt över tid. Ju längre tid du har, desto större blir effekten. Det är därför det är viktigt att börja spara tidigt."
+      },
+      "q4": {
         "question": "Hur mycket kan jag tjäna på ränta på ränta?",
         "answer": "Det beror på startkapital, månadssparande, avkastning och tid. Med 7% årlig avkastning kan 1000 kr per månad växa till över 1 miljon kr på 25 år."
       },
-      "q3": {
+      "q5": {
         "question": "Är kalkylatorn gratis att använda?",
         "answer": "Ja, vår ränta på ränta kalkylator är helt gratis att använda. Inga registreringar eller nedladdningar krävs."
       }
@@ -708,8 +792,7 @@
       "startSum_aria": "Startbelopp för investering",
       "monthlySavings_aria": "Månatligt sparande belopp",
       "yearlyReturn_aria": "Förväntad årlig avkastning i procent",
-      "investmentHorizon_aria": "Investeringsperiod i år",
-      "age_aria": "Din nuvarande ålder"
+      "investmentHorizon_aria": "Investeringsperiod i år"
     },
     "results": {
       "title": "Din avkastning",
@@ -813,6 +896,11 @@
       "percent": "%",
       "years": " år",
       "percent_per_year": "%/år"
+    }
+  },
+  "ui": {
+    "step_card": {
+      "step_number_aria_label": "Stegnummer {stepNumber}"
     }
   }
 }

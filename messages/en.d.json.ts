@@ -654,26 +654,91 @@ declare const messages: {
       why_important: "The key to maximizing compound interest is time and consistency. Starting early and investing regularly, even small amounts, can lead to substantial wealth accumulation. This calculator helps you visualize exactly how your money can grow through the power of compounding.";
       connection_to_budget: "After creating your household budget with Budgetkollen, you can use this compound interest calculator to see how your monthly savings surplus can grow into significant wealth over time.";
     };
-    wonder_section: {
-      title: "The Eighth Wonder of the World";
-      description: "Compound interest is one of the most powerful financial concepts that can help you build long-term wealth. When you save regularly and let your returns grow over time, you create a snowball effect where your money works for you.";
+    what_is_section: {
+      title: "What is compound interest?";
+      description: "Compound interest is when you earn returns on both your original capital and all previous returns. It creates exponential growth that forms the foundation for building long-term wealth.";
       einstein_quote: "Compound interest is the eighth wonder of the world. He who understands it, earns it - he who doesn't, pays it.";
       einstein_attribution: "Albert Einstein";
       einstein_image_alt: "Portrait of Albert Einstein, physicist known for his contributions to science and the famous quote about compound interest";
-      understanding_text: "By understanding and leveraging compound interest, you can transform small monthly amounts into significant wealth over time. Our tool helps you visualize this powerful effect.";
-      budget_connection: "Combine this savings calculator with our household budget to find more money to save each month.";
+      explanation: "The difference between regular saving and compound interest saving is enormous over time. With monthly saving and long-term thinking, small amounts can grow into substantial sums.";
+      example: {
+        title: "Simple example";
+        description: "If you save 1,000 SEK per month for 25 years with 7% annual return, you don't just get 300,000 SEK (your savings) but a full 783,000 SEK thanks to the compound interest effect!";
+      };
+    };
+    calculator_section: {
+      title: "Try your own compound interest calculation";
+      description: "Adjust the values below to see how your monthly savings can grow over time.";
+    };
+    how_to_calculate_section: {
+      title: "How compound interest calculation works";
+      description: "Compound interest may seem complicated, but the principle is simple. Here's the step-by-step guide to understanding how your wealth grows:";
+      step1: {
+        title: "Starting capital";
+        description: "The initial amount you invest directly. Even 0 SEK works - monthly savings is enough!";
+      };
+      step2: {
+        title: "Monthly savings";
+        description: "How much you save each month. Regular saving is the key to success.";
+      };
+      step3: {
+        title: "Return";
+        description: "Expected annual return. 6-8% is realistic for long-term equity funds.";
+      };
+      step4: {
+        title: "Time";
+        description: "Time is your best friend. The longer the investment horizon, the more powerful the effect.";
+      };
+      formula: {
+        title: "The math behind compound interest";
+        text: "Final value = Starting capital × (1 + return)^years + Monthly savings × formula factor";
+        explanation: "Our calculator handles the complex math for you and shows the result clearly.";
+      };
+    };
+    benefits_section: {
+      title: "Why is compound interest so powerful?";
+      description: "Compound interest makes your money work harder for you over time. Here's why it's so effective for building wealth:";
+      benefit1: {
+        title: "Exponential growth";
+        description: "Unlike linear growth, compound interest accelerates over time and creates a snowball effect.";
+      };
+      benefit2: {
+        title: "Time is crucial";
+        description: "The earlier you start, the more time your returns have to grow. Every year counts!";
+      };
+      benefit3: {
+        title: "Automatic wealth building";
+        description: "When you reinvest your returns, all your capital works to generate more returns.";
+      };
+      real_example: {
+        title: "Real example: From monthly savings to millions";
+        scenario: {
+          title: "The scenario:";
+          monthly: "1,000 SEK per month";
+          years: "25 years of saving";
+          return: "7% annual return";
+        };
+        result: {
+          title: "The result:";
+          invested: "Total saved:";
+          growth: "Compound interest:";
+          total: "Final amount:";
+        };
+      };
     };
     tips_section: {
-      title: "Tips for Better Saving";
-      tip1: "Start early - time is your best friend when it comes to compound interest";
-      tip2: "Save regularly - even small monthly amounts make a big difference";
-      tip3: "Increase savings annually - grow with salary increases to accelerate growth";
-      tip4: "Choose the right investment - 7% annual return is realistic for broad index funds";
-      tip5: "Avoid touching savings - let it grow undisturbed for maximum effect";
-      tip6: "Automate savings - make it easy with automatic transfers";
+      title: "Smart tips to maximize compound interest";
+      description: "Follow these proven strategies to get the most out of your long-term savings and investments:";
+      tip1: "Start today, not tomorrow - every month you wait costs you thousands in future returns";
+      tip2: "Automate everything - set up automatic transfers so you never forget to save";
+      tip3: "Increase savings with salary - when you get a raise, also increase your monthly savings";
+      tip4: "Choose low fees - high fund fees eat up your returns over time";
+      tip5: "Ride out market turbulence - never panic sell during downturns, it destroys the compound effect";
+      tip6: "Diversify wisely - spread risks with broad index funds instead of individual stocks";
     };
     faq_section: {
-      title: "Frequently Asked Questions";
+      title: "Frequently asked questions about compound interest";
+      description: "Answers to the most common questions about compound interest and how to use our calculator.";
       q1: {
         question: "What is compound interest?";
         answer: "Compound interest means you earn returns not only on your original capital, but also on previous years' returns. This creates exponential growth over time.";
@@ -824,6 +889,11 @@ declare const messages: {
       percent: "%";
       years: " years";
       percent_per_year: "%/year";
+    };
+  };
+  ui: {
+    step_card: {
+      step_number_aria_label: "Step number {stepNumber}";
     };
   };
 };

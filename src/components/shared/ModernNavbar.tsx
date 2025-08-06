@@ -145,15 +145,28 @@ export const ModernNavbar = () => {
                         <span>{item.label}</span>
                         <motion.span
                           animate={{
-                            rotate: activeDropdown === item.id ? 45 : 0,
+                            rotate: activeDropdown === item.id ? 0 : 0,
                           }}
                           className="text-xs"
                           transition={{ duration: 0.2 }}
                         >
                           {activeDropdown === item.id ? (
-                            <Minus aria-hidden="true" className="w-3 h-3" />
+                            <motion.div
+                              animate={{ rotate: 0 }}
+                              initial={{ rotate: -90 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <Minus aria-hidden="true" className="w-3 h-3" />
+                            </motion.div>
                           ) : (
-                            <Plus aria-hidden="true" className="w-3 h-3" />
+                            <motion.div
+                              animate={{ rotate: -90 }}
+                              exit={{ rotate: -90 }}
+                              initial={{ rotate: 0 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <Plus aria-hidden="true" className="w-3 h-3" />
+                            </motion.div>
                           )}
                         </motion.span>
                       </button>

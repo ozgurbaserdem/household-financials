@@ -15,7 +15,7 @@ export const EinsteinQuote: React.FC<EinsteinQuoteProps> = ({
   imageAlt,
 }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6 items-start py-6 px-4">
+    <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6 items-start py-6 px-4 mb-2">
       <div className="flex justify-center md:justify-start order-2 md:order-1">
         <Image
           priority
