@@ -615,16 +615,20 @@
       "title": "See what you will get",
       "subtitle": "Powerful insights and analysis to help you make better financial decisions",
       "budget_results_title": "Comprehensive budget analysis",
-      "budget_results_description": "Get detailed breakdown of your finances with multiple loan scenarios and personalized recommendations",
+      "budget_results_description": "Comprehensive financial analysis with scoring system (0-100) for financial health, comparison of 9 loan scenarios with different interest/amortization rates, visual expense breakdown with percentages and monthly budgets. Shows remaining capital after expenses and personalized recommendations based on your financial situation.",
       "budget_results_alt": "Budget calculator results showing financial analysis and recommendations",
       "compound_interest_title": "Visualize your wealth growth",
-      "compound_interest_description": "See how compound interest grows your savings over time with interactive charts and projections",
+      "compound_interest_description": "Sophisticated calculator with advanced settings for annual savings increases (0-50%), planned withdrawals (percentage or fixed amount), and interactive projections up to 50 years. Displays detailed growth charts, compares different return rates and calculates optimal withdrawal timing. Perfect for retirement planning and long-term wealth building.",
       "compound_interest_alt": "Compound interest calculator showing investment growth over time",
       "budget_wizard_title": "Easy step-by-step process",
-      "budget_wizard_description": "Simple and intuitive interface guides you through entering your financial information",
+      "budget_wizard_description": "Intuitive 5-step process guiding you through income registration with automatic municipal tax calculation, loan parameters with interest/amortization rates, and detailed expense analysis across 13 categories from housing to leisure. Features intelligent municipality search and customizable tax settings for precise calculations.",
       "budget_wizard_alt": "Budget calculator wizard interface showing expense categories",
       "click_to_enlarge": "Click to enlarge",
-      "fullsize_view": "Full size image view"
+      "fullsize_view": "Full size image view",
+      "go_to_slide": "Go to slide {number}: {title}",
+      "fullsize_alt": "Full size view of {title}",
+      "navigation_previous": "Previous preview",
+      "navigation_next": "Next preview"
     }
   },
   "compound_interest": {

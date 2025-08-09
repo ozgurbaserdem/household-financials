@@ -1,65 +1,104 @@
 "use client";
 
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 
-import { Box } from "@/components/ui/Box";
-import { Card } from "@/components/ui/Card";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
+import { CarouselNavigation } from "@/components/landing/CarouselNavigation";
+import { ImageModal } from "@/components/landing/ImageModal";
+import { PreviewCard } from "@/components/landing/PreviewCard";
+import { ProgressIndicators } from "@/components/landing/ProgressIndicators";
+import { useCarouselNavigation } from "@/hooks/useCarouselNavigation";
+
+interface Preview {
+  id: string;
+  src: string;
+  alt: string;
+  title: string;
+  description: string;
+}
 
 export const CalculatorPreviews = () => {
   const t = useTranslations("landing");
   const { resolvedTheme } = useTheme();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageTitle, setSelectedImageTitle] = useState<string | null>(
+    null
+  );
   const [mounted, setMounted] = useState(false);
-
-  const handleImageKeyDown = (
-    event: React.KeyboardEvent,
-    action: () => void
-  ) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      action();
-    }
-  };
+  const carouselReference = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const getImageSource = (baseId: string) => {
-    if (!mounted) return `/screenshots/${baseId}-light.png`;
-    const theme = resolvedTheme === "dark" ? "dark" : "light";
-    return `/screenshots/${baseId}-${theme}.png`;
+  const previews: Preview[] = useMemo(() => {
+    const getImageSource = (baseId: string) => {
+      if (!mounted) return `/screenshots/${baseId}-light.png`;
+      const theme = resolvedTheme === "dark" ? "dark" : "light";
+      return `/screenshots/${baseId}-${theme}.png`;
+    };
+
+    return [
+      {
+        id: "budget-wizard",
+        src: getImageSource("budget-wizard"),
+        alt: t("previews.budget_wizard_alt"),
+        title: t("previews.budget_wizard_title"),
+        description: t("previews.budget_wizard_description"),
+      },
+      {
+        id: "budget-results",
+        src: getImageSource("budget-results"),
+        alt: t("previews.budget_results_alt"),
+        title: t("previews.budget_results_title"),
+        description: t("previews.budget_results_description"),
+      },
+      {
+        id: "compound-interest",
+        src: getImageSource("compound-interest"),
+        alt: t("previews.compound_interest_alt"),
+        title: t("previews.compound_interest_title"),
+        description: t("previews.compound_interest_description"),
+      },
+    ];
+  }, [mounted, resolvedTheme, t]);
+
+  const {
+    currentIndex,
+    isTransitioning,
+    nextSlide,
+    prevSlide,
+    goToSlide,
+    handleWheel,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+  } = useCarouselNavigation({ itemsCount: previews.length });
+
+  const handleImageClick = (src: string, title: string) => {
+    setSelectedImage(src);
+    setSelectedImageTitle(title);
   };
 
-  const previews = [
-    {
-      id: "budget-wizard",
-      src: getImageSource("budget-wizard"),
-      alt: t("previews.budget_wizard_alt"),
-      title: t("previews.budget_wizard_title"),
-      description: t("previews.budget_wizard_description"),
-    },
-    {
-      id: "budget-results",
-      src: getImageSource("budget-results"),
-      alt: t("previews.budget_results_alt"),
-      title: t("previews.budget_results_title"),
-      description: t("previews.budget_results_description"),
-    },
-    {
-      id: "compound-interest",
-      src: getImageSource("compound-interest"),
-      alt: t("previews.compound_interest_alt"),
-      title: t("previews.compound_interest_title"),
-      description: t("previews.compound_interest_description"),
-    },
-  ];
+  const handleCloseModal = () => {
+    setSelectedImage(null);
+    setSelectedImageTitle(null);
+  };
+
+  useEffect(() => {
+    const wheelHandler = (event: Event) => {
+      const wheelEvent = event as WheelEvent;
+      handleWheel(wheelEvent, carouselReference);
+    };
+
+    document.addEventListener("wheel", wheelHandler);
+
+    return () => {
+      document.removeEventListener("wheel", wheelHandler);
+    };
+  }, [handleWheel]);
 
   return (
     <motion.section
@@ -84,88 +123,96 @@ export const CalculatorPreviews = () => {
         </p>
       </motion.div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        {previews.map((preview, index) => (
-          <motion.div
-            key={preview.id}
-            initial={{ opacity: 0, y: 30 }}
-            transition={{ delay: index * 0.2 + 0.3 }}
-            viewport={{ once: true }}
-            whileInView={{ opacity: 1, y: 0 }}
-          >
-            <Card
-              className="overflow-hidden h-full cursor-pointer flex flex-col"
-              variant="elevated"
-            >
-              <Box className="p-6 space-y-4 flex-shrink-0">
-                <h3 className="text-xl font-semibold text-foreground">
-                  {preview.title}
-                </h3>
-                <p className="text-muted-foreground">{preview.description}</p>
-              </Box>
-
-              <Box
-                aria-label={`${t("previews.click_to_enlarge")} - ${preview.title}`}
-                className="relative aspect-[16/10] overflow-hidden bg-background mt-auto cursor-pointer"
-                role="button"
-                tabIndex={0}
-                onClick={() => setSelectedImage(preview.src)}
-                onKeyDown={(e) =>
-                  handleImageKeyDown(e, () => setSelectedImage(preview.src))
-                }
-              >
-                <Image
-                  fill
-                  alt={preview.alt}
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                  className="object-cover object-center"
-                  placeholder="blur"
-                  quality={100}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  src={preview.src}
+      {/* Calculator Preview Carousel */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          ref={carouselReference}
+          className="relative overflow-hidden"
+          onTouchEnd={handleTouchEnd}
+          onTouchMove={handleTouchMove}
+          onTouchStart={handleTouchStart}
+        >
+          <div className="flex items-center justify-center">
+            {/* Previous card peek */}
+            {currentIndex > 0 && previews[currentIndex - 1] && (
+              <div className="hidden lg:block w-48 flex-shrink-0 opacity-25 hover:opacity-60 transition-opacity duration-200 overflow-hidden">
+                <PreviewCard
+                  isPeek
+                  ariaLabel={t("previews.go_to_slide", {
+                    number: currentIndex,
+                    title: previews[currentIndex - 1].title,
+                  })}
+                  className="translate-x-24"
+                  preview={previews[currentIndex - 1]}
+                  onClick={prevSlide}
                 />
+              </div>
+            )}
 
-                {/* Magnifying glass icon overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-gray-900/60">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-full p-4">
-                    <MagnifyingGlassIcon className="w-8 h-8 text-white" />
-                  </div>
-                </div>
+            {/* Current card */}
+            <div className="flex-1 lg:w-[896px] lg:min-w-[896px] lg:max-w-[896px] lg:flex-shrink-0 max-w-5xl z-10 relative">
+              {previews[currentIndex] && (
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentIndex}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="w-full"
+                    exit={{ opacity: 0, x: -100 }}
+                    initial={{ opacity: 0, x: 100 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  >
+                    <PreviewCard
+                      preview={previews[currentIndex]}
+                      onImageClick={(src) =>
+                        handleImageClick(src, previews[currentIndex].title)
+                      }
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              )}
+            </div>
 
-                {/* Click hint */}
-                <div className="absolute bottom-2 right-2 bg-gray-900/80 text-white text-xs px-2 py-1 rounded opacity-0 hover:opacity-100 transition-opacity duration-300">
-                  {t("previews.click_to_enlarge")}
+            {/* Next card peek */}
+            {currentIndex < previews.length - 1 &&
+              previews[currentIndex + 1] && (
+                <div className="hidden lg:block w-48 flex-shrink-0 opacity-25 hover:opacity-60 transition-opacity duration-200 overflow-hidden">
+                  <PreviewCard
+                    isPeek
+                    ariaLabel={t("previews.go_to_slide", {
+                      number: currentIndex + 2,
+                      title: previews[currentIndex + 1].title,
+                    })}
+                    className="-translate-x-24"
+                    preview={previews[currentIndex + 1]}
+                    onClick={nextSlide}
+                  />
                 </div>
-              </Box>
-            </Card>
-          </motion.div>
-        ))}
+              )}
+          </div>
+        </div>
+
+        <CarouselNavigation
+          currentIndex={currentIndex}
+          isTransitioning={isTransitioning}
+          totalItems={previews.length}
+          onNext={nextSlide}
+          onPrev={prevSlide}
+        />
+
+        <ProgressIndicators
+          currentIndex={currentIndex}
+          isTransitioning={isTransitioning}
+          previews={previews}
+          onGoToSlide={goToSlide}
+        />
       </div>
 
-      {/* Image Modal */}
-      <Dialog
-        open={!!selectedImage}
-        onOpenChange={() => setSelectedImage(null)}
-      >
-        <DialogContent className="max-w-[90vw] max-h-[90vh] p-0 overflow-hidden bg-gray-900 border-gray-800">
-          <DialogTitle className="sr-only">
-            {t("previews.fullsize_view")}
-          </DialogTitle>
-          <div className="relative w-full h-full">
-            {selectedImage && (
-              <Image
-                priority
-                alt="Full size preview"
-                className="w-full h-full object-contain"
-                height={2000}
-                quality={100}
-                src={selectedImage}
-                width={2800}
-              />
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+      <ImageModal
+        imageSrc={selectedImage}
+        imageTitle={selectedImageTitle || undefined}
+        isOpen={!!selectedImage}
+        onClose={handleCloseModal}
+      />
     </motion.section>
   );
 };

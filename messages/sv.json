@@ -607,16 +607,20 @@
       "title": "Se vad du får",
       "subtitle": "Kraftfulla insikter och analyser för att hjälpa dig fatta bättre ekonomiska beslut",
       "budget_results_title": "Omfattande budgetanalys",
-      "budget_results_description": "Få detaljerad uppdelning av din ekonomi med flera lånescenarier och personliga rekommendationer",
+      "budget_results_description": "Omfattande ekonomisk analys med poängsystem (0-100) för finansiell hälsa, jämförelse av 9 lånescenarier med olika räntor/amorteringar, visuell utgiftsfördelning med procentsatser och månadsbudget. Visa återstående kapital efter utgifter och personliga rekommendationer baserat på din ekonomiska situation.",
       "budget_results_alt": "Budgetkalkylatorns resultat som visar ekonomisk analys och rekommendationer",
       "compound_interest_title": "Visualisera din förmögenhetstillväxt",
-      "compound_interest_description": "Se hur ränta på ränta får ditt sparande att växa över tid med interaktiva diagram och prognoser",
+      "compound_interest_description": "Sofistikerad kalkylator med avancerade inställningar för årlig sparökning (0-50%), planerade uttag (procent eller fast belopp), och interaktiva prognoser upp till 50 år. Visar detaljerade diagram över tillväxt, jämför olika avkastningsnivåer och beräknar optimal timing för uttag. Perfekt för pensionsplanering och långsiktig förmögenhetsbyggande.",
       "compound_interest_alt": "Ränta på ränta-kalkylator som visar avkastning över tid",
       "budget_wizard_title": "Enkel steg-för-steg-process",
-      "budget_wizard_description": "Enkelt och intuitivt gränssnitt guidar dig genom att ange din ekonomiska information",
+      "budget_wizard_description": "Intuitiv 5-stegs process som guidar dig genom inkomstregistrering med automatisk kommunalskatt, låneparametrar med ränta/amortering, och detaljerad utgiftsanalys i 13 kategorier från boende till fritid. Inkluderar intelligent kommunsökning och anpassningsbara skatteinställningar för exakt beräkning.",
       "budget_wizard_alt": "Budgetkalkylatorns guidegränssnitt som visar utgiftskategorier",
       "click_to_enlarge": "Klicka för att förstora",
-      "fullsize_view": "Fullstorleksvisning av bild"
+      "fullsize_view": "Fullstorleksvisning av bild",
+      "go_to_slide": "Gå till bild {number}: {title}",
+      "fullsize_alt": "Fullstorleksvisning av {title}",
+      "navigation_previous": "Föregående förhandsgranskning",
+      "navigation_next": "Nästa förhandsgranskning"
     }
   },
   "compound_interest": {
