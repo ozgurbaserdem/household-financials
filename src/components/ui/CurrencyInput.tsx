@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
-import { formatNumber } from "@/lib/formatting";
+import { formatNumber } from "@/lib/formatting/";
 
 interface CurrencyInputProps<T extends FieldValues> {
   form: UseFormReturn<T>;

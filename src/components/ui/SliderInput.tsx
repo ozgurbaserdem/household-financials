@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { formatNumber } from "@/lib/formatting";
+import { formatNumber } from "@/lib/formatting/";
 
 import { Text } from "./Text";
 

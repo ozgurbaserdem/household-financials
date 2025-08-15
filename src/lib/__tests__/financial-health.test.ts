@@ -5,7 +5,7 @@ import {
   isValidScore,
   getSafeDisplayValues,
   FINANCIAL_HEALTH_THRESHOLDS,
-} from "../financial-health";
+} from "../calculations/financial-health";
 import type { FinancialHealthScore } from "../types";
 
 describe("financial-health utilities", () => {

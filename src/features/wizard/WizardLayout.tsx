@@ -18,18 +18,18 @@ import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/Button";
 import { Form, FormMessage } from "@/components/ui/Form";
 import { useRouter, usePathname } from "@/i18n/navigation";
-import { useIsTouchDevice } from "@/lib/hooks/use-is-touch-device";
-import {
-  getStepParameter,
-  getStepName,
-  getStepIndexFromName,
-} from "@/lib/utils/navigation";
 import {
   getMaxAllowedStep,
   canAccessStep,
   getStepValidationErrorKey,
   getCurrentStepValidationError,
 } from "@/lib/validation/stepValidation";
+import { useIsTouchDevice } from "@/shared/hooks/use-is-touch-device";
+import {
+  getStepParameter,
+  getStepName,
+  getStepIndexFromName,
+} from "@/shared/utils/navigation";
 import { useAppSelector } from "@/store/hooks";
 import type { WizardContextProps, WizardStepConfig } from "@/types/wizard";
 

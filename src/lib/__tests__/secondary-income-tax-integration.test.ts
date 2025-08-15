@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { getNetIncome } from "@/lib/calculations";
+import { getNetIncome } from "@/lib/calculations/";
 import { financialCalculationService } from "@/lib/services";
 import type { CalculatorState, IncomeState } from "@/lib/types";
 

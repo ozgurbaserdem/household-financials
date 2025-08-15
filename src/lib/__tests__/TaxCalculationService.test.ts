@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { TaxCalculationService } from "@/lib/services/TaxCalculationService";
+import { TaxCalculationService } from "@/shared/services/TaxCalculationService";
 
 describe("TaxCalculationService", () => {
   const service = new TaxCalculationService();

@@ -9,7 +9,7 @@ import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { Box } from "@/components/ui/Box";
 import { Text } from "@/components/ui/Text";
 import { expenseCategories } from "@/data/expenseCategories";
-import { formatCurrencyNoDecimals } from "@/lib/formatting";
+import { formatCurrencyNoDecimals } from "@/lib/formatting/";
 import type { ExpensesByCategory, ChartDataPoint } from "@/lib/types";
 
 interface ExpenseBreakdownProps {

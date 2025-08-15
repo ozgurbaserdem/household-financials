@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { calculateCompoundInterest } from "@/lib/compound-interest";
-import type { CompoundInterestInputs } from "@/lib/compound-interest";
+import { calculateCompoundInterest } from "@/lib/calculations/compound-interest";
+import type { CompoundInterestInputs } from "@/lib/calculations/compound-interest";
 
 describe("calculateCompoundInterest", () => {
   it("should calculate correct values for basic scenario", () => {

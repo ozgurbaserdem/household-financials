@@ -4,7 +4,7 @@ import {
   calculateCompoundInterest,
   calculateFinalValues,
   type CompoundInterestInputs,
-} from "@/lib/compound-interest";
+} from "@/lib/calculations/compound-interest";
 
 describe("Compound Interest Calculations - Integration Tests", () => {
   describe("calculateCompoundInterest", () => {
