@@ -15,8 +15,8 @@ import {
 } from "recharts";
 
 import { ChartContainer, ChartLegend } from "@/components/ui/ChartContainer";
-import type { CompoundInterestData } from "@/lib/compound-interest";
-import { formatCurrencyNoDecimals } from "@/lib/formatting";
+import type { CompoundInterestData } from "@/lib/calculations/compound-interest";
+import { formatCurrencyNoDecimals } from "@/lib/formatting/";
 
 interface CompoundInterestChartProps {
   data: CompoundInterestData[];

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils/general";
+import { cn } from "@/shared/utils/general";
 
 interface CurrencyDisplayProps {
   amount: number;

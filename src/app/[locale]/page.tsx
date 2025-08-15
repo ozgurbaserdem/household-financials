@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import React from "react";
 
-import { LandingPage } from "@/components/landing/LandingPage";
+import { LandingPage } from "@/features/landing/components/LandingPage";
 
 interface Props {
   params: Promise<{ locale: string }>;

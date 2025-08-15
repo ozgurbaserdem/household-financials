@@ -4,7 +4,7 @@ import { Wallet, List, HandCoins, BarChart3, ListChecks } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, { type ReactNode } from "react";
 
-import { useFocusOnMount } from "@/lib/hooks/use-focus-management";
+import { useFocusOnMount } from "@/shared/hooks/use-focus-management";
 
 import { Box } from "./Box";
 

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import * as React from "react";
 
-import { cn } from "@/lib/utils/general";
+import { cn } from "@/shared/utils/general";
 
 import { Box } from "./Box";
 

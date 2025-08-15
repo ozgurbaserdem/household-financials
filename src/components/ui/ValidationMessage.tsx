@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle } from "lucide-react";
 import React from "react";
 
-import { cn } from "@/lib/utils/general";
+import { cn } from "@/shared/utils/general";
 
 import { Text } from "./Text";
 

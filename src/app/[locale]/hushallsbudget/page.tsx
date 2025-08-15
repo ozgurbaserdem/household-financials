@@ -3,7 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import React from "react";
 
 import { Main } from "@/components/ui/Main";
-import { WizardClient } from "@/components/WizardClient";
+import { WizardClient } from "@/features/wizard/WizardClient";
 
 interface Props {
   params: Promise<{ locale: string }>;

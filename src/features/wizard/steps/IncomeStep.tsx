@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Income } from "@/features/budget-calculator/income/Income";
+import { Income } from "@/features/budget-calculator/components/income/Income";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { updateIncome } from "@/store/slices/calculatorSlice";
 

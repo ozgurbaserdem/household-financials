@@ -8,7 +8,7 @@ import {
   getNetIncome,
   calculateSelectedHousingExpenses,
   calculateTotalNetIncome,
-} from "@/lib/calculations";
+} from "@/lib/calculations/";
 import type { CalculatorState, ExpensesByCategory } from "@/lib/types";
 
 describe("Financial Calculations", () => {

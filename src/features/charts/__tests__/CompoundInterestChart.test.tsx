@@ -3,7 +3,7 @@ import React from "react";
 import { describe, it, expect, vi } from "vitest";
 
 import { CompoundInterestChart } from "@/features/charts/CompoundInterestChart";
-import type { CompoundInterestData } from "@/lib/compound-interest";
+import type { CompoundInterestData } from "@/lib/calculations/compound-interest";
 
 // Mock recharts to avoid rendering issues in tests
 vi.mock("recharts", () => ({

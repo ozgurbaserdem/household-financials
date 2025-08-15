@@ -60,7 +60,7 @@ vi.mock("lucide-react", () => ({
 }));
 
 // Mock navigation utils
-vi.mock("@/lib/utils/navigation", () => ({
+vi.mock("@/shared/utils/navigation", () => ({
   getStepParameter: vi.fn(() => "steg"),
   getStepName: vi.fn((step: { label: string }) => {
     const mapping: Record<string, string> = {

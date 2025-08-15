@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Loans } from "@/features/budget-calculator/loans/Loans";
+import { Loans } from "@/features/budget-calculator/components/loans/Loans";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { updateLoanParameters } from "@/store/slices/calculatorSlice";
 

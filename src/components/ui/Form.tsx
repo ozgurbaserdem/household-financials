@@ -13,7 +13,7 @@ import {
 
 import { Box } from "@/components/ui/Box";
 import { Label } from "@/components/ui/Label";
-import { cn } from "@/lib/utils/general";
+import { cn } from "@/shared/utils/general";
 
 const Form = FormProvider;
 

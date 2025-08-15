@@ -6,9 +6,9 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
-import { ModernNavbar } from "@/components/shared/ModernNavbar";
-import { Providers } from "@/components/shared/Providers";
 import { routing } from "@/i18n/routing";
+import { ModernNavbar } from "@/shared/components/ModernNavbar";
+import { Providers } from "@/shared/components/Providers";
 
 import "../globals.css";
 

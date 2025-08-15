@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Results } from "@/features/budget-calculator/results/Results";
+import { Results } from "@/features/budget-calculator/components/results/Results";
 import { useAppSelector } from "@/store/hooks";
 
 export const ResultsStep = () => {

@@ -2,18 +2,18 @@ import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import React from "react";
 
-import { BenefitsSection } from "@/components/compound-interest/BenefitsSection";
-import { CalculatorSection } from "@/components/compound-interest/CalculatorSection";
-import { CTASection } from "@/components/compound-interest/CTASection";
-import { DisclaimerSection } from "@/components/compound-interest/DisclaimerSection";
-import { FAQSection } from "@/components/compound-interest/FAQSection";
-import { HeroSection } from "@/components/compound-interest/HeroSection";
-import { HowToCalculateSection } from "@/components/compound-interest/HowToCalculateSection";
-import { TipsSection } from "@/components/compound-interest/TipsSection";
-import { WhatIsSection } from "@/components/compound-interest/WhatIsSection";
 import { Box } from "@/components/ui/Box";
 import { Main } from "@/components/ui/Main";
-import { prepareContentData } from "@/lib/compound-interest-utilities";
+import { BenefitsSection } from "@/features/compound-interest/sections/BenefitsSection";
+import { CalculatorSection } from "@/features/compound-interest/sections/CalculatorSection";
+import { CTASection } from "@/features/compound-interest/sections/CTASection";
+import { DisclaimerSection } from "@/features/compound-interest/sections/DisclaimerSection";
+import { FAQSection } from "@/features/compound-interest/sections/FAQSection";
+import { HeroSection } from "@/features/compound-interest/sections/HeroSection";
+import { HowToCalculateSection } from "@/features/compound-interest/sections/HowToCalculateSection";
+import { TipsSection } from "@/features/compound-interest/sections/TipsSection";
+import { WhatIsSection } from "@/features/compound-interest/sections/WhatIsSection";
+import { prepareContentData } from "@/lib/calculations/compound-interest-utilities";
 import {
   getLocaleConfig,
   generateWebApplicationSchema,

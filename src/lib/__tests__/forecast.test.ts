@@ -5,7 +5,7 @@ import {
   calculateAverageMonthlySavings,
   validateForecastInputs,
   FORECAST_DEFAULTS,
-} from "../forecast";
+} from "../calculations/forecast";
 import type { CalculatorState } from "../types";
 
 describe("forecast utilities", () => {

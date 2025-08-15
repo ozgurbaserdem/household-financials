@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import * as React from "react";
 
-import { cn } from "@/lib/utils/general";
+import { cn } from "@/shared/utils/general";
 
 export interface SwitchProps {
   checked: boolean;

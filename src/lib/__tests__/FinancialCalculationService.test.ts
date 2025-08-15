@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { FinancialCalculationService } from "@/lib/services/FinancialCalculationService";
 import type { CalculatorState, IncomeState } from "@/lib/types";
+import { FinancialCalculationService } from "@/shared/services/FinancialCalculationService";
 
 describe("FinancialCalculationService", () => {
   const service = new FinancialCalculationService();
