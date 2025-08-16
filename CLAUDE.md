@@ -9,31 +9,44 @@ Financial Calculator - A Next.js 15 application for Swedish household budget cal
 ```bash
 # Development
 npm run dev          # Start development server with Turbopack
-npm run build        # Create production build (static export)
+npm run build        # Create production build (Vercel optimized)
 npm run start        # Start production server
 
 # Code Quality
-npm run lint         # Run ESLint
+npm run lint         # Run ESLint (functional programming enforced)
 npm run format       # Format code with Prettier
+npm run prepare      # Setup Husky git hooks
+
+# Testing
 npm run test         # Run tests with Vitest
 npm run test:watch   # Run tests in watch mode
 npm run test:coverage # Generate test coverage report
+npm run test:e2e     # Run Playwright E2E tests
+npm run test:e2e:ui  # Run Playwright tests with UI
+npm run test:e2e:debug # Debug Playwright tests
 
 # Analysis
 npm run analyze      # Analyze bundle size
+npm run analyze:server  # Server bundle analysis
+npm run analyze:browser # Browser bundle analysis
 ```
 
 ## Architecture Overview
 
 ### Tech Stack
-- **Next.js 15.3.1** with App Router and static export
+- **Next.js 15.3.1** with App Router (Vercel deployment optimized)
 - **React 19** with TypeScript (strict mode)
 - **Redux Toolkit** for state management with Redux Persist
-- **Tailwind CSS v4** for styling
+- **Tailwind CSS v4** for styling with custom design tokens
 - **next-intl** for i18n (Swedish default, English secondary)
 - **React Hook Form + Zod** for form validation
 - **Radix UI** primitives for accessible components
 - **Recharts** for data visualization
+- **Playwright** for E2E testing with accessibility checks
+- **Vitest** for unit testing with jsdom environment
+- **next-themes** for dark/light theme management
+- **Framer Motion** for animations
+- **Vercel Analytics** for performance monitoring
 
 ### Core Architecture Patterns
 
@@ -56,6 +69,12 @@ npm run analyze      # Analyze bundle size
    - Complex tax calculations in `src/lib/calculations.ts`
    - Handles kommunalskatt, statlig skatt, jobbskatteavdrag
    - Multiple loan scenarios with different interest/amortization rates
+   - Comprehensive business logic documented in `/src/lib/BUSINESS_LOGIC.md`
+
+5. **Service Layer Architecture**
+   - Business logic separated in `/src/lib/services/`
+   - Feature-based organization in `/src/features/`
+   - Shared utilities in `/src/shared/` for cross-cutting concerns
 
 ### Key Business Logic
 
@@ -94,10 +113,11 @@ npm run analyze      # Analyze bundle size
    - Bilingual error messages required
    - Validation schemas in component files
 
-3. **Static Export Configuration**
-   - `output: 'export'` in next.config.ts
-   - Trailing slashes enabled for static hosting
-   - Optimized for GitHub Pages deployment
+3. **Deployment Configuration**
+   - **Vercel deployment** with optimized configuration
+   - Vercel Analytics and Speed Insights for performance monitoring
+   - Theme switching with next-themes (dark/light mode)
+   - Static export available but commented out for Vercel
 
 ### Development Workflow
 
@@ -108,11 +128,16 @@ npm run analyze      # Analyze bundle size
    - Ensure mobile-first responsive design
 
 2. **Testing Requirements**
-   - Unit tests for calculations and utilities
-   - Component tests for user interactions
-   - Coverage maintained above 80%
+   - **Unit Testing**: Vitest with @testing-library/react
+   - **E2E Testing**: Playwright with accessibility testing (axe-playwright)
+   - **Test Environment**: jsdom with comprehensive Next.js mocking
+   - **Coverage**: Maintained above 80% with detailed reporting
 
-3. **Code Style**
+3. **Code Quality & Style**
+   - **ESLint**: Functional programming patterns enforced (no for loops, prefer array methods)
+   - **Prettier**: Automated code formatting
+   - **Husky**: Git hooks for quality gates
+   - **lint-staged**: Pre-commit file processing
    - Components: PascalCase with kebab-case files
    - Hooks: camelCase prefixed with 'use'
    - Event handlers: prefixed with 'handle'
@@ -141,3 +166,49 @@ npm run analyze      # Analyze bundle size
 - Implement `useMemo` for calculation results
 - Avoid inline functions in JSX
 - Dynamic imports for heavy components (charts)
+
+## MCP Tools Integration
+
+### Available MCP Servers
+
+1. **Context7** - Up-to-date Documentation Provider
+   - **Purpose**: Fetches real-time, version-specific documentation directly into prompts
+   - **Installation**: `claude mcp add --transport http context7 https://mcp.context7.com/mcp`
+   - **Usage**: Include "use context7" in prompts when needing current documentation
+
+### Context7 Usage Guidelines
+
+**When to Use Context7:**
+- Working with **Next.js 15** features (App Router, Server Components, Server Actions)
+- Implementing **React 19** patterns (new hooks, Suspense boundaries, concurrent features)
+- Using **Tailwind CSS v4** syntax (new color system, CSS variables, modern utilities)
+- Configuring **TypeScript 5.x** strict mode features
+- Setting up **Playwright** testing with latest accessibility features
+- Working with **Vitest** configuration and modern testing patterns
+- Implementing **Vercel** deployment optimizations
+- Using **next-intl** for internationalization
+- Configuring **next-themes** for theme management
+- Working with **Framer Motion** animations
+- Setting up **Radix UI** primitives with latest patterns
+
+**Example Usage Patterns:**
+```
+"use context7 for Next.js 15 - help me implement Server Actions for form submission"
+"use context7 for React 19 - show me the new useActionState hook pattern"
+"use context7 for Tailwind CSS v4 - help me configure custom design tokens"
+"use context7 for Playwright - set up accessibility testing with axe"
+"use context7 for TypeScript 5.x - configure strict mode for React components"
+```
+
+**When NOT to Use Context7:**
+- Basic JavaScript/TypeScript syntax questions
+- Well-established patterns already documented in this CLAUDE.md
+- Simple HTML/CSS styling
+- General programming concepts
+- Business logic specific to this financial calculator
+
+**Best Practices:**
+- Be specific about versions when using Context7 (e.g., "Next.js 15", "React 19")
+- Combine Context7 with specific implementation requests
+- Use when encountering deprecated patterns or outdated examples
+- Essential for staying current with rapidly evolving frameworks
