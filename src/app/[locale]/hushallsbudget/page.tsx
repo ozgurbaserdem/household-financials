@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import React from "react";
 
+// Force static generation for optimal SEO
+export const dynamic = "force-static";
+export const revalidate = 3600; // Revalidate every hour
+
 import { Main } from "@/components/ui/Main";
 import { WizardClient } from "@/features/wizard/WizardClient";
 

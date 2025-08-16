@@ -1,9 +1,14 @@
-import React, { lazy, Suspense } from "react";
+import dynamic from "next/dynamic";
+import React from "react";
 
-const CompoundInterestClient = lazy(() =>
-  import("@/features/compound-interest/calculator/CompoundInterestClient").then(
-    (module) => ({ default: module.CompoundInterestClient })
-  )
+const CompoundInterestCalculator = dynamic(
+  () =>
+    import(
+      "@/features/compound-interest/calculator/CompoundInterestCalculator"
+    ).then((module) => ({ default: module.CompoundInterestCalculator })),
+  {
+    ssr: true, // Enable SSR for better SEO
+  }
 );
 
 interface CalculatorSectionProps {
@@ -26,11 +31,7 @@ export const CalculatorSection: React.FC<CalculatorSectionProps> = ({
         </h2>
         <p className="text-muted-foreground">{description}</p>
       </div>
-      <Suspense
-        fallback={<div className="h-96 bg-muted rounded-lg animate-pulse" />}
-      >
-        <CompoundInterestClient />
-      </Suspense>
+      <CompoundInterestCalculator />
     </div>
   </section>
 );
