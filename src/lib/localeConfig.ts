@@ -49,20 +49,53 @@ export const generateWebApplicationSchema = (locale: string) => {
 
   return {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "@id": config.canonicalUrl,
-    name: config.webApplicationName,
-    applicationCategory: "FinanceApplication",
-    operatingSystem: "Any",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "SEK",
-    },
-    provider: {
-      "@type": "Organization",
-      name: "Budgetkollen",
-      url: "https://www.budgetkollen.se",
-    },
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": config.canonicalUrl + "#webapp",
+        name: config.webApplicationName,
+        description: config.description,
+        url: config.canonicalUrl,
+        applicationCategory: "FinanceApplication",
+        operatingSystem: "Any",
+        browserRequirements: "Requires HTML5 support",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "SEK",
+        },
+        provider: {
+          "@type": "Organization",
+          name: "Budgetkollen",
+          url: "https://www.budgetkollen.se",
+        },
+        featureList: [
+          locale === "sv" ? "Ränteberäkning" : "Compound interest calculation",
+          locale === "sv" ? "Månatligt sparande" : "Monthly savings input",
+          locale === "sv"
+            ? "Tidsvisualisering"
+            : "Investment timeline visualization",
+        ],
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": config.canonicalUrl + "#breadcrumb",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: locale === "sv" ? "Hem" : "Home",
+            item:
+              "https://www.budgetkollen.se" + (locale === "en" ? "/en" : ""),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: locale === "sv" ? "Ränta på ränta" : "Compound Interest",
+            item: config.canonicalUrl,
+          },
+        ],
+      },
+    ],
   };
 };
